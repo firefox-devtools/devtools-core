@@ -1,0 +1,9 @@
+.rep-row {
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  margin-top: 20px;
+}
+
+.rep-element {
+  margin-left: 10px;
+}

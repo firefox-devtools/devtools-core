@@ -1,0 +1,16 @@
+{
+  "name": "devtools-reps",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "",
+  "license": "ISC",
+  "packages": {
+    "devtools-config": "^0.0.9",
+    "devtools-local-toolbox": "^0.0.10",
+    "react": "=0.14.7",
+    "react-dom": "=0.14.7"
+  }
+}
