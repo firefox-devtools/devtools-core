@@ -1,6 +1,6 @@
 const Rep = require("./src/reps/rep").Rep;
 const Grip = require("./src/reps/grip").Grip;
-const ObjectInspector = require("./src/reps/grip").ObjectInspector;
+const ObjectInspector = require("./src/ObjectInspector");
 
 module.exports = {
   Rep,

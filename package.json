@@ -1,16 +1,17 @@
 {
   "name": "devtools-reps",
   "version": "0.0.1",
-  "description": "",
+  "description": "Devtools Reps",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
-  "packages": {
-    "devtools-config": "^0.0.9",
-    "devtools-local-toolbox": "^0.0.10",
-    "react": "=0.14.7",
-    "react-dom": "=0.14.7"
+  "repository": {
+    "url": "git://github.com/jasonlaster/devtools-reps.git",
+    "type": "git"
+  },
+  "dependencies": {
+    "devtools-config": "0.0.10",
+    "devtools-local-toolbox": "0.0.11"
   }
 }
