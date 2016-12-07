@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "Devtools Reps",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node bin/dev-server.js"
+  },
   "author": "",
   "license": "ISC",
   "repository": {
