@@ -1,4 +1,4 @@
-const React = require("devtools/client/shared/vendor/react");
+const React = require("react");
 
 // Reps
 const { createFactories, isGrip } = require("./rep-utils");

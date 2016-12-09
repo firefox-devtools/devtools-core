@@ -1,5 +1,5 @@
 
-const React = require("devtools/client/shared/vendor/react");
+const React = require("react");
 
 // Reps
 const { isGrip } = require("./rep-utils");

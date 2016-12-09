@@ -1,4 +1,4 @@
-const React = require("devtools/client/shared/vendor/react");
+const React = require("react");
 
 /**
  * Create React factories for given arguments.

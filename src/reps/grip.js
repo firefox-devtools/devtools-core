@@ -1,5 +1,5 @@
 
-const React = require("devtools/client/shared/vendor/react");
+const React = require("react");
 // Dependencies
 const { createFactories, isGrip } = require("./rep-utils");
 const { Caption } = createFactories(require("./caption"));

@@ -1,5 +1,5 @@
 
-const React = require("devtools/client/shared/vendor/react");
+const React = require("react");
 const { createFactories } = require("./rep-utils");
 const { Caption } = createFactories(require("./caption"));
 const { PropRep } = createFactories(require("./prop-rep"));
