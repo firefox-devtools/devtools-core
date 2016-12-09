@@ -1,6 +1,5 @@
 
 const React = require("react");
-const { createFactories } = require("./rep-utils");
 const { span } = React.DOM;
 
 /**
@@ -25,8 +24,8 @@ let PropRep = React.createFactory(React.createClass({
   },
 
   render: function () {
-    const { Grip } = require("./grip");
-    let { Rep } = createFactories(require("./rep"));
+    const Grip = require("./grip");
+    let Rep = React.createFactory(require("./rep"));
 
     let key;
     // The key can be a simple string, for plain objects,

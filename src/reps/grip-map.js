@@ -1,8 +1,8 @@
 
 const React = require("react");
-const { createFactories, isGrip } = require("./rep-utils");
-const { Caption } = createFactories(require("./caption"));
-const { PropRep } = createFactories(require("./prop-rep"));
+const { isGrip } = require("./rep-utils");
+const Caption = React.createFactory(require("./caption"));
+const PropRep = React.createFactory(require("./prop-rep"));
 
 // Shortcuts
 const { span } = React.DOM;
