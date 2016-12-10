@@ -4,29 +4,29 @@ const React = require("react");
 const { isGrip } = require("./rep-utils");
 
 // Load all existing rep templates
-const { Undefined } = require("./undefined");
-const { Null } = require("./null");
-const { StringRep } = require("./string");
-const { Number } = require("./number");
-const { ArrayRep } = require("./array");
-const { Obj } = require("./object");
-const { SymbolRep } = require("./symbol");
+const Undefined = require("./undefined");
+const Null = require("./null");
+const StringRep = require("./string");
+const Number = require("./number");
+const ArrayRep = require("./array");
+const Obj = require("./object");
+const SymbolRep = require("./symbol");
 
 // DOM types (grips)
-const { Attribute } = require("./attribute");
-const { DateTime } = require("./date-time");
-const { Document } = require("./document");
-const { Event } = require("./event");
-const { Func } = require("./function");
-const { RegExp } = require("./regexp");
-const { StyleSheet } = require("./stylesheet");
-const { TextNode } = require("./text-node");
-const { Window } = require("./window");
-const { ObjectWithText } = require("./object-with-text");
-const { ObjectWithURL } = require("./object-with-url");
-const { GripArray } = require("./grip-array");
-const { GripMap } = require("./grip-map");
-const { Grip } = require("./grip");
+const Attribute = require("./attribute");
+const DateTime = require("./date-time");
+const Document = require("./document");
+const Event = require("./event");
+const Func = require("./function");
+const RegExp = require("./regexp");
+const StyleSheet = require("./stylesheet");
+const TextNode = require("./text-node");
+const Window = require("./window");
+const ObjectWithText = require("./object-with-text");
+const ObjectWithURL = require("./object-with-url");
+const GripArray = require("./grip-array");
+const GripMap = require("./grip-map");
+const Grip = require("./grip");
 
 // List of all registered template.
 // XXX there should be a way for extensions to register a new

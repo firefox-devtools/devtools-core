@@ -1,12 +1,12 @@
 const React = require("react");
 
 // Reps
-const { createFactories, isGrip } = require("./rep-utils");
-const { StringRep } = require("./string");
+const { isGrip } = require("./rep-utils");
+const StringRep = require("./string");
 
 // Shortcuts
 const { span } = React.DOM;
-const { rep: StringRepFactory } = createFactories(StringRep);
+const { rep: StringRepFactory } = React.createFactory(StringRep);
 
 /**
  * Renders DOM attribute

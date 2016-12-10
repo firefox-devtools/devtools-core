@@ -4,7 +4,7 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { bindActionCreators, combineReducers } = require("redux");
 const ReactDOM = require("react-dom");
 
-const Rep = createFactory(require("./reps/rep").Rep);
+const Rep = createFactory(require("./reps/rep"));
 const Grip = require("./reps/grip");
 
 

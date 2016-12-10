@@ -1,7 +1,6 @@
 
 const React = require("react");
-const { createFactories } = require("./rep-utils");
-const { Caption } = createFactories(require("./caption"));
+const Caption = React.createFactory(require("./caption"));
 
 // Shortcuts
 const DOM = React.DOM;
@@ -152,7 +151,7 @@ let ItemRep = React.createFactory(React.createClass({
   displayName: "ItemRep",
 
   render: function () {
-    const { Rep } = createFactories(require("./rep"));
+    const { Rep } = React.createFactory(require("./rep"));
 
     let object = this.props.object;
     let delim = this.props.delim;

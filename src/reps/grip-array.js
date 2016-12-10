@@ -1,7 +1,7 @@
 
 const React = require("react");
-const { createFactories, isGrip } = require("./rep-utils");
-const { Caption } = createFactories(require("./caption"));
+const { isGrip } = require("./rep-utils");
+const Caption = React.createFactory(require("./caption"));
 
 // Shortcuts
 const { span } = React.DOM;
@@ -145,7 +145,7 @@ let GripArrayItem = React.createFactory(React.createClass({
   },
 
   render: function () {
-    let { Rep } = createFactories(require("./rep"));
+    let Rep = React.createFactory(require("./rep"));
 
     return (
       span({},
