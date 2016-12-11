@@ -4,7 +4,8 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { bindActionCreators, combineReducers } = require("redux");
 const ReactDOM = require("react-dom");
 
-const Rep = createFactory(require("./reps/rep"));
+const { MODE } = require("./reps/constants");
+const Rep = React.createFactory(require("./reps/rep"));
 const Grip = require("./reps/grip");
 
 
@@ -35,8 +36,8 @@ function onConnect({client} = {}) {
           results.map(result =>
             dom.div(
               {className: "rep-row", key:  JSON.stringify(result)},
-              ["long", "tiny", "short"].map(mode =>
-               renderRep({ object: result.result, mode })
+              Object.keys(MODE).map(modeKey =>
+               renderRep({ object: result.result, modeKey })
              )
            )
          )
@@ -46,33 +47,31 @@ function onConnect({client} = {}) {
   })
 }
 
-function renderRep({ object, mode }) {
+function renderRep({ object, modeKey }) {
   return dom.div(
     {
-      className: `rep-element ${mode}`,
-      key: JSON.stringify(object) + mode
+      className: `rep-element ${modeKey}`,
+      key: JSON.stringify(object) + modeKey
     },
-    Rep({ object, defaultRep: Grip, mode })
+    Rep({ object, defaultRep: Grip, mode: MODE[modeKey] })
   )
 }
-
-
-window.eval = function(input) {
-  client.evaluate(input, {}).then(r => {
-    ReactDOM.render(
-      renderRep({ object: r.result, mode: "long" }),
-      root
-    );
-  })
-}
-
-
 
 const exps = [
   "x = {a: 2}",
   "() => (a,b) => { console.log('hi')}",
   "y = function foo() { console.log('ive got stamina') }",
-  "z = [1, 'foo']"
+  "z = [1, 'foo']",
+  "Promise.resolve(42)",
+  "new Error('Ooops')",
+  "new Event()",
+  '"a - ".repeat(10000)',
+  "new Map()",
+  "Infinity",
+  "-0",
+  "NaN",
+  "new RegExp()",
+  "window"
 ]
 
 

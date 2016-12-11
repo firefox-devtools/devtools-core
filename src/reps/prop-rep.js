@@ -1,5 +1,6 @@
-
 const React = require("react");
+const { MODE } = require("./constants");
+// Shortcuts
 const { span } = React.DOM;
 
 /**
@@ -20,7 +21,8 @@ let PropRep = React.createFactory(React.createClass({
     equal: React.PropTypes.string,
     // Delimiter character used to separate individual properties.
     delim: React.PropTypes.string,
-    mode: React.PropTypes.string,
+    // @TODO Change this to Object.values once it's supported in Node's version of V8
+    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   },
 
   render: function () {
@@ -35,7 +37,7 @@ let PropRep = React.createFactory(React.createClass({
     } else {
       key = Rep({
         object: this.props.name,
-        mode: this.props.mode || "tiny",
+        mode: this.props.mode || MODE.TINY,
         defaultRep: Grip,
         objectLink: this.props.objectLink,
       });

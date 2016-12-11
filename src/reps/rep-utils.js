@@ -33,15 +33,8 @@ function cropString(text, limit, alternativeText) {
     alternativeText = "\u2026";
   }
 
-  // Make sure it's a string.
-  text = text + "";
-
-  // Replace all non-printable characters, except of
-  // (horizontal) tab (HT: \x09) and newline (LF: \x0A, CR: \x0D),
-  // with unicode replacement character (u+fffd).
-  // eslint-disable-next-line no-control-regex
-  let re = new RegExp("[\x00-\x08\x0B\x0C\x0E-\x1F\x80-\x9F]", "g");
-  text = text.replace(re, "\ufffd");
+  // Make sure it's a string and sanitize it.
+  text = sanitizeString(text + "");
 
   // Crop the string only if a limit is actually specified.
   if (!limit || limit <= 0) {
@@ -62,6 +55,15 @@ function cropString(text, limit, alternativeText) {
   }
 
   return text;
+}
+
+function sanitizeString(text) {
+  // Replace all non-printable characters, except of
+  // (horizontal) tab (HT: \x09) and newline (LF: \x0A, CR: \x0D),
+  // with unicode replacement character (u+fffd).
+  // eslint-disable-next-line no-control-regex
+  let re = new RegExp("[\x00-\x08\x0B\x0C\x0E-\x1F\x80-\x9F]", "g");
+  return text.replace(re, "\ufffd");
 }
 
 function parseURLParams(url) {
@@ -137,6 +139,7 @@ module.exports = {
   createFactories,
   isGrip,
   cropString,
+  sanitizeString,
   cropMultipleLines,
   parseURLParams,
   parseURLEncodedText,

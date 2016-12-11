@@ -1,6 +1,5 @@
-
 const React = require("react");
-const { cropMultipleLines } = require("./rep-utils");
+const { cropString } = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -13,6 +12,7 @@ const StringRep = React.createClass({
 
   propTypes: {
     useQuotes: React.PropTypes.bool,
+    style: React.PropTypes.object,
   },
 
   getDefaultProps: function () {
@@ -24,24 +24,24 @@ const StringRep = React.createClass({
   render: function () {
     let text = this.props.object;
     let member = this.props.member;
+    let style = this.props.style;
+
+    let config = {className: "objectBox objectBox-string"};
+    if (style) {
+      config.style = style;
+    }
+
     if (member && member.open) {
-      return (
-        span({className: "objectBox objectBox-string"},
-          "\"" + text + "\""
-        )
-      );
+      return span(config, "\"" + text + "\"");
     }
 
     let croppedString = this.props.cropLimit ?
-      cropMultipleLines(text, this.props.cropLimit) : cropMultipleLines(text);
+      cropString(text, this.props.cropLimit) : cropString(text);
 
     let formattedString = this.props.useQuotes ?
       "\"" + croppedString + "\"" : croppedString;
 
-    return (
-      span({className: "objectBox objectBox-string"}, formattedString
-      )
-    );
+    return span(config, formattedString);
   },
 });
 

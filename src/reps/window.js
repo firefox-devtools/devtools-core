@@ -1,4 +1,3 @@
-
 const React = require("react");
 
 // Reps
@@ -15,7 +14,6 @@ let Window = React.createClass({
 
   propTypes: {
     object: React.PropTypes.object.isRequired,
-    mode: React.PropTypes.string
   },
 
   getTitle: function (grip) {
@@ -33,14 +31,6 @@ let Window = React.createClass({
     return getURLDisplayString(grip.preview.url);
   },
 
-  getDisplayValue: function (grip) {
-    if (this.props.mode === "tiny") {
-      return grip.isGlobal ? "Global" : "Window";
-    } else {
-      return this.getLocation(grip);
-    }
-  },
-
   render: function () {
     let grip = this.props.object;
 
@@ -48,7 +38,7 @@ let Window = React.createClass({
       DOM.span({className: "objectBox objectBox-Window"},
         this.getTitle(grip),
         DOM.span({className: "objectPropValue"},
-          this.getDisplayValue(grip)
+          this.getLocation(grip)
         )
       )
     );
