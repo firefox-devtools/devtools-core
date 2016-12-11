@@ -30,34 +30,64 @@ function onConnect({client} = {}) {
     return;
   }
 
-  render({
-    client,
-    expressions: []
-  });
-}
-
-function onSubmitForm(e, state) {
-  e.preventDefault();
-  let data = new FormData(e.target);
-  let expression = data.get("expression");
-  state.client.clientCommands.evaluate(expression, {})
-    .then(result => {
-      state.expressions.unshift({
-        input: expression,
-        packet: result,
-      });
-      render(state);
-    })
-    .catch(e => {
-      console.warn("Error when evaluating", e);
-    });
-}
-
-function render(state) {
   ReactDOM.render(
-    dom.main({},
+    (React.createFactory(RepsConsole))({client}),
+    root
+  );
+}
+
+RepsConsole = React.createClass({
+  getInitialState: function() {
+    return {
+      expressions: []
+    };
+  },
+
+  propTypes: {
+    client: React.PropTypes.object.isRequired
+  },
+
+  onSubmitForm: function(e) {
+    e.preventDefault();
+    let data = new FormData(e.target);
+    let expression = data.get("expression");
+    this.props.client.clientCommands.evaluate(expression, {})
+      .then(result => {
+        this.setState(function(prevState, props) {
+          return {
+            expressions: [{
+              input: expression,
+              packet: result,
+            }, ...prevState.expressions]
+          };
+        });
+      })
+      .catch(e => {
+        console.warn("Error when evaluating", e);
+      });
+  },
+
+  renderRepInAllModes: function({object}) {
+    return Object.keys(MODE).map(modeKey =>
+       this.renderRep({ object, modeKey })
+     );
+  },
+
+  renderRep: function({ object, modeKey }) {
+    return dom.div(
+      {
+        className: `rep-element ${modeKey}`,
+        key: JSON.stringify(object) + modeKey,
+        "data-mode": modeKey,
+      },
+      Rep({ object, defaultRep: Grip, mode: MODE[modeKey] })
+    );
+  },
+
+  render: function() {
+    return dom.main({},
       dom.form({
-          onSubmit: e => onSubmitForm(e, state),
+          onSubmit: this.onSubmitForm,
         },
         dom.input({
           type: "text",
@@ -66,42 +96,23 @@ function render(state) {
         })
       ),
       dom.div({className: "results"},
-        state.expressions.map(expression =>
+        this.state.expressions.map(expression =>
           dom.div({
               className: "rep-row",
               key: JSON.stringify(expression)
             },
             dom.div({className: "rep-input"}, expression.input),
             dom.div({className: "reps"},
-              renderRepInAllModes({
+              this.renderRepInAllModes({
                 object: expression.packet.exception || expression.packet.result
               })
             )
           )
         )
       )
-    ),
-    // container
-    root
-  );
-}
-
-function renderRepInAllModes({object}) {
-  return Object.keys(MODE).map(modeKey =>
-     renderRep({ object, modeKey })
-   );
-}
-
-function renderRep({ object, modeKey }) {
-  return dom.div(
-    {
-      className: `rep-element ${modeKey}`,
-      key: JSON.stringify(object) + modeKey,
-      "data-mode": modeKey,
-    },
-    Rep({ object, defaultRep: Grip, mode: MODE[modeKey] })
-  );
-}
+    );
+  }
+});
 
 let root = document.createElement("div")
 root.innerText = "Waiting for connection";
