@@ -1,9 +1,58 @@
-.rep-row {
-  border-bottom: 1px solid #ccc;
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  width: 100vw;
+  padding: 1rem;
+}
+
+.results {
+  padding: 0 1em;
+}
+
+.rep-input {
+  font-family: monospace;
+  background-color: #222;
+  color: white;
+  padding: 0.5rem;
+}
+
+.rep-input:before {
+  content: "➜ ";
+}
+
+input {
+  display: block;
+  width: 100%;
+  font-size: 1.5rem;
+  padding: 0.25rem;
+}
+
+.reps {
   display: flex;
-  margin-top: 20px;
+  flex-wrap: wrap;
+  border: 1px solid #222;
+  padding: 1rem 0;
+  margin-bottom: 0.5rem;
 }
 
 .rep-element {
   margin-left: 10px;
+}
+
+.rep-element::before {
+  content: attr(data-mode) ":";
+  font-family: monospace;
+  display: inline-block;
+  background-color: var(--object-color);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.25rem;
+  margin-right: 0.25rem;
+  border-radius: 0.25rem;
 }

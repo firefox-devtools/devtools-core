@@ -5,7 +5,7 @@ const { bindActionCreators, combineReducers } = require("redux");
 const ReactDOM = require("react-dom");
 
 const { MODE } = require("./reps/constants");
-const Rep = React.createFactory(require("./reps/rep"));
+const Rep = createFactory(require("./reps/rep"));
 const Grip = require("./reps/grip");
 
 
@@ -30,53 +30,81 @@ function onConnect({client} = {}) {
     return;
   }
 
-  Promise.all(exps.map(ex => client.clientCommands.evaluate(ex, {}))).then(results => {
-      ReactDOM.render(
-        dom.div({},
-          results.map(result =>
-            dom.div(
-              {className: "rep-row", key:  JSON.stringify(result)},
-              Object.keys(MODE).map(modeKey =>
-               renderRep({ object: result.result, modeKey })
-             )
-           )
-         )
+  render({
+    client,
+    expressions: []
+  });
+}
+
+function onSubmitForm(e, state) {
+  e.preventDefault();
+  let data = new FormData(e.target);
+  let expression = data.get("expression");
+  state.client.clientCommands.evaluate(expression, {})
+    .then(result => {
+      state.expressions.unshift({
+        input: expression,
+        packet: result,
+      });
+      render(state);
+    })
+    .catch(e => {
+      console.warn("Error when evaluating", e);
+    });
+}
+
+function render(state) {
+  ReactDOM.render(
+    dom.main({},
+      dom.form({
+          onSubmit: e => onSubmitForm(e, state),
+        },
+        dom.input({
+          type: "text",
+          placeholder: "Enter an expression",
+          name: "expression"
+        })
       ),
-      root
-    )
-  })
+      dom.div({className: "results"},
+        state.expressions.map(expression =>
+          dom.div({
+              className: "rep-row",
+              key: JSON.stringify(expression)
+            },
+            dom.div({className: "rep-input"}, expression.input),
+            dom.div({className: "reps"},
+              renderRepInAllModes({
+                object: expression.packet.exception || expression.packet.result
+              })
+            )
+          )
+        )
+      )
+    ),
+    // container
+    root
+  );
+}
+
+function renderRepInAllModes({object}) {
+  return Object.keys(MODE).map(modeKey =>
+     renderRep({ object, modeKey })
+   );
 }
 
 function renderRep({ object, modeKey }) {
   return dom.div(
     {
       className: `rep-element ${modeKey}`,
-      key: JSON.stringify(object) + modeKey
+      key: JSON.stringify(object) + modeKey,
+      "data-mode": modeKey,
     },
     Rep({ object, defaultRep: Grip, mode: MODE[modeKey] })
-  )
+  );
 }
 
-const exps = [
-  "x = {a: 2}",
-  "() => (a,b) => { console.log('hi')}",
-  "y = function foo() { console.log('ive got stamina') }",
-  "z = [1, 'foo']",
-  "Promise.resolve(42)",
-  "new Error('Ooops')",
-  "new Event()",
-  '"a - ".repeat(10000)',
-  "new Map()",
-  "Infinity",
-  "-0",
-  "NaN",
-  "new RegExp()",
-  "window"
-]
-
-
 let root = document.createElement("div")
-root.innerText = "YO";
+root.innerText = "Waiting for connection";
 
 bootstrap(React, ReactDOM, root)
   .then(onConnect);
