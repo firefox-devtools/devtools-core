@@ -1,4 +1,3 @@
-
 const React = require("react");
 
 // Reps
@@ -28,14 +27,18 @@ let DateTime = React.createClass({
 
   render: function () {
     let grip = this.props.object;
-    return (
-      span({className: "objectBox"},
+    let date;
+    try {
+      date = span({className: "objectBox"},
         this.getTitle(grip),
         span({className: "Date"},
           new Date(grip.preview.timestamp).toISOString()
         )
-      )
-    );
+      );
+    } catch (e) {
+      date = span({className: "objectBox"}, "Invalid Date");
+    }
+    return date;
   },
 });
 

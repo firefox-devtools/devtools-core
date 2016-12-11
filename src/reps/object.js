@@ -1,7 +1,7 @@
-
 const React = require("react");
 const Caption = React.createFactory(require("./caption"));
 const PropRep = React.createFactory(require("./prop-rep"));
+const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
 /**
@@ -13,7 +13,8 @@ const Obj = React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
-    mode: React.PropTypes.string,
+    // @TODO Change this to Object.values once it's supported in Node's version of V8
+    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   },
 
   getTitle: function (object) {
@@ -65,7 +66,6 @@ const Obj = React.createClass({
       let objectLink = this.props.objectLink || span;
 
       props.push(Caption({
-        key: "more",
         object: objectLink({
           object: object
         }, (Object.keys(object).length - max) + " more…")
@@ -88,7 +88,7 @@ const Obj = React.createClass({
     }
 
     // Hardcode tiny mode to avoid recursive handling.
-    let mode = "tiny";
+    let mode = MODE.TINY;
 
     try {
       for (let name in object) {
@@ -106,7 +106,6 @@ const Obj = React.createClass({
         let t = typeof value;
         if (filter(t, value)) {
           props.push(PropRep({
-            key: name,
             mode: mode,
             name: name,
             object: value,
@@ -127,7 +126,7 @@ const Obj = React.createClass({
     let props = this.safePropIterator(object);
     let objectLink = this.props.objectLink || span;
 
-    if (this.props.mode == "tiny" || !props.length) {
+    if (this.props.mode === MODE.TINY || !props.length) {
       return (
         span({className: "objectBox objectBox-object"},
           objectLink({className: "objectTitle"}, this.getTitle(object))
@@ -142,7 +141,7 @@ const Obj = React.createClass({
           className: "objectLeftBrace",
           object: object
         }, " { "),
-        props,
+        ...props,
         objectLink({
           className: "objectRightBrace",
           object: object

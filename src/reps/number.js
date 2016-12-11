@@ -1,4 +1,3 @@
-
 const React = require("react");
 
 // Shortcuts
@@ -29,8 +28,7 @@ const Number = React.createClass({
 });
 
 function supportsObject(object, type) {
-  return type == "boolean" || type == "number" ||
-    (type == "object" && object.type == "-0");
+  return ["boolean", "number", "-0"].includes(type);
 }
 
 module.exports = {

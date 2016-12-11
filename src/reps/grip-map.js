@@ -1,9 +1,8 @@
-
 const React = require("react");
 const { isGrip } = require("./rep-utils");
 const Caption = React.createFactory(require("./caption"));
 const PropRep = React.createFactory(require("./prop-rep"));
-
+const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
 /**
@@ -15,7 +14,8 @@ const GripMap = React.createClass({
 
   propTypes: {
     object: React.PropTypes.object,
-    mode: React.PropTypes.string,
+    // @TODO Change this to Object.values once it's supported in Node's version of V8
+    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   },
 
   getTitle: function (object) {
@@ -102,7 +102,7 @@ const GripMap = React.createClass({
         // Do not add a trailing comma on the last entry
         // if there won't be a "more..." item.
         delim: (i < indexes.length - 1 || indexes.length < entries.length) ? ", " : "",
-        mode: "tiny",
+        mode: MODE.TINY,
         objectLink: this.props.objectLink,
       });
     });
@@ -137,10 +137,10 @@ const GripMap = React.createClass({
   render: function () {
     let object = this.props.object;
     let props = this.safeEntriesIterator(object,
-      (this.props.mode == "long") ? 100 : 3);
+      (this.props.mode === MODE.LONG) ? 10 : 3);
 
     let objectLink = this.props.objectLink || span;
-    if (this.props.mode == "tiny") {
+    if (this.props.mode === MODE.TINY) {
       return (
         span({className: "objectBox objectBox-object"},
           this.getTitle(object),

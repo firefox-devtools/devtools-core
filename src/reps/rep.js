@@ -1,16 +1,19 @@
-
 const React = require("react");
 
 const { isGrip } = require("./rep-utils");
+const { MODE } = require("./constants");
 
 // Load all existing rep templates
 const Undefined = require("./undefined");
 const Null = require("./null");
 const StringRep = require("./string");
+const LongStringRep = require("./long-string");
 const Number = require("./number");
 const ArrayRep = require("./array");
 const Obj = require("./object");
 const SymbolRep = require("./symbol");
+const InfinityRep = require("./infinity");
+const NaNRep = require("./nan");
 
 // DOM types (grips)
 const Attribute = require("./attribute");
@@ -18,9 +21,13 @@ const DateTime = require("./date-time");
 const Document = require("./document");
 const Event = require("./event");
 const Func = require("./function");
+const PromiseRep = require("./promise");
 const RegExp = require("./regexp");
 const StyleSheet = require("./stylesheet");
+const CommentNode = require("./comment-node");
+const ElementNode = require("./element-node");
 const TextNode = require("./text-node");
+const ErrorRep = require("./error");
 const Window = require("./window");
 const ObjectWithText = require("./object-with-text");
 const ObjectWithURL = require("./object-with-url");
@@ -36,14 +43,19 @@ let reps = [
   StyleSheet,
   Event,
   DateTime,
+  CommentNode,
+  ElementNode,
   TextNode,
   Attribute,
+  LongStringRep,
   Func,
+  PromiseRep,
   ArrayRep,
   Document,
   Window,
   ObjectWithText,
   ObjectWithURL,
+  ErrorRep,
   GripArray,
   GripMap,
   Grip,
@@ -52,6 +64,8 @@ let reps = [
   StringRep,
   Number,
   SymbolRep,
+  InfinityRep,
+  NaNRep,
 ];
 
 /**
@@ -66,7 +80,8 @@ const Rep = React.createClass({
   propTypes: {
     object: React.PropTypes.any,
     defaultRep: React.PropTypes.object,
-    mode: React.PropTypes.string
+    // @TODO Change this to Object.values once it's supported in Node's version of V8
+    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   },
 
   render: function () {
@@ -92,8 +107,8 @@ function getRep(object, defaultRep = Obj) {
   let type = typeof object;
   if (type == "object" && object instanceof String) {
     type = "string";
-  } else if (type == "object" && object.type === "symbol") {
-    type = "symbol";
+  } else if (object && type == "object" && object.type) {
+    type = object.type;
   }
 
   if (isGrip(object)) {
