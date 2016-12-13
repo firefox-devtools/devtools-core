@@ -1,7 +1,7 @@
 {
   "title": "Reps",
   "environment": "development",
-  "baseWorkerURL": "http://localhost:8000/public/build/",
+  "theme": "light",
   "firefox": {
     "proxyHost": "localhost:9000",
     "webSocketConnection": false,

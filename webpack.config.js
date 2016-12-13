@@ -22,13 +22,6 @@ webpackConfig.resolve = {
     "devtools/client/shared/vendor/react": "react",
     "devtools/client/shared/vendor/react-dom": "react-dom",
     "Services": path.join(__dirname, "node_modules/devtools-modules/client/shared/shim/Services"),
-
-    // these path aliases are incredibly stupid and WILL be replaced soon
-    "devtools/client/shared/redux/middleware/thunk": path.join(projectPath, "lib/thunk.js"),
-    "devtools/client/shared/components/reps/rep": path.join(projectPath, "lib/reps/rep.js"),
-    "devtools/client/shared/components/reps/rep-utils": path.join(projectPath, "lib/reps/rep-utils.js"),
-    "devtools/client/shared/components/reps/string": path.join(projectPath, "lib/reps/string.js"),
-    "devtools/client/shared/components/reps/grip": path.join(projectPath, "lib/reps/grip.js"),
   }
 };
 

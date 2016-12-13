@@ -12,14 +12,33 @@ form {
   padding: 1rem;
 }
 
+input {
+  background-color: var(--theme-toolbar-background);
+  border: 1px solid var(--theme-splitter-color);
+  color: var(--theme-body-color);
+  font-size: 1rem;
+  padding: 0.25rem;
+  line-height: 2rem;
+  padding-left: 1rem;
+  display: block;
+  width: 100%;
+}
+
+::-webkit-input-placeholder {
+  color: var(--theme-body-color);
+  font-size: 1rem;
+  line-height: 2rem;
+  margin: 0;
+}
+
 .results {
   padding: 0 1em;
 }
 
 .rep-input {
   font-family: monospace;
-  background-color: #222;
-  color: white;
+  background-color: var(--theme-toolbar-background-alt);
+  color: var(--theme-body-color);
   padding: 0.5rem;
 }
 
@@ -27,17 +46,10 @@ form {
   content: "➜ ";
 }
 
-input {
-  display: block;
-  width: 100%;
-  font-size: 1.5rem;
-  padding: 0.25rem;
-}
-
 .reps {
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid #222;
+  border: 1px solid var(--theme-splitter-color);
   padding: 1rem 0;
   margin-bottom: 0.5rem;
 }
@@ -48,9 +60,9 @@ input {
 
 .rep-element::before {
   content: attr(data-mode) ":";
+  background-color: var(--theme-toolbar-background);;
   font-family: monospace;
   display: inline-block;
-  background-color: var(--object-color);
   font-size: 0.75rem;
   padding: 0.1rem 0.25rem;
   margin-right: 0.25rem;

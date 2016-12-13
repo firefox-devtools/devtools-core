@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "devtools-config": "0.0.10",
-    "devtools-local-toolbox": "0.0.11"
+    "devtools-local-toolbox": "0.0.12",
+    "lodash": "^4.17.2"
   }
 }
