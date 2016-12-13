@@ -3,9 +3,8 @@ const Tree = React.createFactory(require("./Tree").Tree);
 require("./ManagedTree.css");
 
 let ManagedTree = React.createClass({
-  propTypes: Tree.propTypes,
-
   displayName: "ManagedTree",
+  propTypes: Tree.propTypes,
 
   getInitialState() {
     return {

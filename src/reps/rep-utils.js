@@ -145,4 +145,4 @@ module.exports = {
   parseURLEncodedText,
   getFileName,
   getURLDisplayString
-}
+};

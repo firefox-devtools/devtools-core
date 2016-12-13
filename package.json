@@ -4,7 +4,8 @@
   "description": "Devtools Reps",
   "main": "index.js",
   "scripts": {
-    "start": "node bin/dev-server.js"
+    "start": "node bin/dev-server.js",
+    "lint-js": "eslint src/**/*.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,9 +13,18 @@
     "url": "git://github.com/jasonlaster/devtools-reps.git",
     "type": "git"
   },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=6.9.0"
+  },
   "dependencies": {
     "devtools-config": "0.0.10",
     "devtools-local-toolbox": "0.0.12",
-    "lodash": "^4.17.2"
+    "lodash": "^4.17.2",
+    "eslint": "^3.10.0",
+    "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-flowtype": "^2.20.0",
+    "eslint-plugin-mozilla": "0.2.3",
+    "eslint-plugin-react": "^6.7.1"
   }
 }

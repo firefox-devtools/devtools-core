@@ -1,0 +1,16 @@
+machine:
+  node:
+    version: 7.0
+test:
+  override:
+    - echo "nothing yet"
+  post:
+    - npm run lint-js
+dependencies:
+  pre:
+  cache_directories:
+    - ~/.yarn-cache
+    - ~/.yarn
+  override:
+    - npm i -g yarn@0.16.1
+    - yarn install
