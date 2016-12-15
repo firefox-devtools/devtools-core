@@ -1035,6 +1035,10 @@ devtools-network-request@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.9.tgz#cdf51f4f21d7cb8cedba5b9d89e860ba531ddeb7"
 
+devtools-sham-modules@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.10.tgz#87d305f2098e8333eced2a7fd2e0fbfad02b828e"
+
 devtools-sham-modules@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.9.tgz#f02f6f9d715e57ac36aa1f8495e5003b9fbfe994"

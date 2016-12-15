@@ -1,6 +1,6 @@
 {
   "name": "devtools-sham-modules",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Shammed DevTools Modules from M-C",
   "main": "index.js",
   "scripts": {
