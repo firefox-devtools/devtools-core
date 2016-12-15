@@ -1411,6 +1411,17 @@ react-dom@=0.14.7:
   version "0.14.7"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-0.14.7.tgz#973c302110b3a680c9afe69d07c623b9c0952d82"
 
+react-hot-api@^0.4.5:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/react-hot-api/-/react-hot-api-0.4.7.tgz#a7e22a56d252e11abd9366b61264cf4492c58171"
+
+react-hot-loader@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-1.3.1.tgz#c95647ae78b73dfceff6ec71ffcb04182ff6daf9"
+  dependencies:
+    react-hot-api "^0.4.5"
+    source-map "^0.4.4"
+
 react@=0.14.7:
   version "0.14.7"
   resolved "https://registry.yarnpkg.com/react/-/react-0.14.7.tgz#76c4e5cfa204caa5aaf42b13008f0d3f6d58a133"
@@ -1609,7 +1620,7 @@ source-map-support@^0.4.2:
   dependencies:
     source-map "^0.5.3"
 
-source-map@^0.4.2:
+source-map@^0.4.2, source-map@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.4.4.tgz#eba4f5da9c0dc999de68032d8b4f76173652036b"
   dependencies:
