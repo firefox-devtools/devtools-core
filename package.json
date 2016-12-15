@@ -1,0 +1,20 @@
+{
+  "name": "devtools-core",
+  "version": "0.0.1",
+  "description": "Collection of devtools packages",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasonLaster/devtools-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jasonLaster/devtools-core/issues"
+  },
+  "homepage": "https://github.com/jasonLaster/devtools-core#readme",
+  "dependencies": {
+    "react": "=0.14.7",
+    "react-dom": "=0.14.7"
+  }
+}
