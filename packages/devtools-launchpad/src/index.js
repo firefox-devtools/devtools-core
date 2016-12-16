@@ -15,9 +15,7 @@ if (isEnabled("logging.client")) {
   DevToolsUtils.dumpn.wantLogging = true;
 }
 
-const client = require("devtools-client-adapters");
 const { getClient, firefox, chrome, startDebugging } = require("devtools-client-adapters");
-
 const Root = require("./components/Root");
 
 // Using this static variable allows webpack to know at compile-time
@@ -103,28 +101,29 @@ function bootstrap(React, ReactDOM, App, appActions, appStore) {
         renderRoot(React, ReactDOM, App, appStore);
         return { tab, connTarget, client };
       });
-  } else {
-    const { store, actions, LandingPage } = initApp();
-    renderRoot(React, ReactDOM, LandingPage, store);
-    chrome.connectClient().then(tabs => {
-      actions.newTabs(tabs);
-    }).catch(e => {
-      console.log("Connect to chrome:");
-      console.log("https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome");
-    });
-    chrome.connectNodeClient().then(tabs => {
-      actions.newTabs(tabs);
-    });
-    return firefox.connectClient().then(tabs => {
-      actions.newTabs(tabs);
-    });
   }
+
+  const { store, actions, LandingPage } = initApp();
+  renderRoot(React, ReactDOM, LandingPage, store);
+  chrome.connectClient().then(tabs => {
+    actions.newTabs(tabs);
+  }).catch(e => {
+    console.log("Connect to chrome:");
+    console.log("https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome");
+  });
+
+  chrome.connectNodeClient().then(tabs => {
+    actions.newTabs(tabs);
+  });
+
+  return firefox.connectClient().then(tabs => {
+    actions.newTabs(tabs);
+  });
 }
 
 module.exports = {
   bootstrap,
   renderRoot,
   debugGlobal,
-  client,
   L10N
 };
