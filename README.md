@@ -1,8 +1,8 @@
 ### DevTools Core
 
-* devtools-client-adapters  
-* devtools-local-toolbox  
-* devtools-network-request  
-* devtools-config  
-* devtools-modules  
-* devtools-sham-modules  
+* devtools-client-adapters
+* devtools-launchpad
+* devtools-network-request
+* devtools-config
+* devtools-modules
+* devtools-sham-modules

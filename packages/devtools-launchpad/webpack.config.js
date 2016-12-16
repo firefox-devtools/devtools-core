@@ -32,7 +32,7 @@ module.exports = (webpackConfig, envConfig) => {
         // If the tool defines an additional exclude regexp for Babel.
         excluded = excluded || request.match(webpackConfig.babelExcludes);
       }
-      return excluded && !request.match(/devtools-local-toolbox(\/|\\)src/)
+      return excluded && !request.match(/devtools-launchpad(\/|\\)src/)
               && !request.match(/devtools-client-adapters(\/|\\)src/);
     },
     loaders: [
