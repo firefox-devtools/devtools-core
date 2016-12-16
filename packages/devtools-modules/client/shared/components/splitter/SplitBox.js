@@ -21,12 +21,16 @@ const SplitBox = React.createClass({
     initialHeight: PropTypes.number,
     // Left/top panel
     startPanel: PropTypes.any,
+    // Left/top panel collapse state.
+    startPanelCollapsed: PropTypes.bool,
     // Min panel size.
     minSize: PropTypes.any,
     // Max panel size.
     maxSize: PropTypes.any,
     // Right/bottom panel
     endPanel: PropTypes.any,
+    // Right/bottom panel collapse state.
+    endPanelCollapsed: PropTypes.bool,
     // True if the right/bottom panel should be controlled.
     endPanelControl: PropTypes.bool,
     // Size of the splitter handle bar.
@@ -43,7 +47,9 @@ const SplitBox = React.createClass({
     return {
       splitterSize: 5,
       vert: true,
-      endPanelControl: false
+      endPanelControl: false,
+      endPanelCollapsed: false,
+      startPanelCollapsed: false
     };
   },
 
@@ -62,7 +68,7 @@ const SplitBox = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (this.props.vert !== nextProps.vert) {
-      this.setState({vert: nextProps.vert});
+      this.setState({ vert: nextProps.vert });
     }
   },
 
@@ -147,35 +153,27 @@ const SplitBox = React.createClass({
   },
 
   // Rendering
-
-  render() {
+  preparePanelStyles() {
     const vert = this.state.vert;
-    const { startPanel, endPanel, endPanelControl, minSize,
-      maxSize, splitterSize } = this.props;
-
-    let style = Object.assign({}, this.props.style);
-
-    // Calculate class names list.
-    let classNames = ["split-box"];
-    classNames.push(vert ? "vert" : "horz");
-    if (this.props.className) {
-      classNames = classNames.concat(this.props.className.split(" "));
-    }
-
-    let leftPanelStyle;
-    let rightPanelStyle;
+    const {
+      minSize, maxSize, startPanelCollapsed, endPanelControl,
+      endPanelCollapsed } = this.props;
+    let leftPanelStyle, rightPanelStyle;
 
     // Set proper size for panels depending on the current state.
     if (vert) {
+      let startWidth = endPanelControl ? null : this.state.width,
+        endWidth = endPanelControl ? this.state.width : null;
+
       leftPanelStyle = {
         maxWidth: endPanelControl ? null : maxSize,
         minWidth: endPanelControl ? null : minSize,
-        width: endPanelControl ? null : this.state.width
+        width: startPanelCollapsed ? 0 : startWidth
       };
       rightPanelStyle = {
         maxWidth: endPanelControl ? maxSize : null,
         minWidth: endPanelControl ? minSize : null,
-        width: endPanelControl ? this.state.width : null
+        width: endPanelCollapsed ? 0 : endWidth
       };
     } else {
       leftPanelStyle = {
@@ -190,9 +188,27 @@ const SplitBox = React.createClass({
       };
     }
 
+    return { leftPanelStyle, rightPanelStyle };
+  },
+
+  render() {
+    const vert = this.state.vert;
+    const { startPanel, endPanel, endPanelControl, splitterSize } = this.props;
+
+    let style = Object.assign({}, this.props.style);
+
+    // Calculate class names list.
+    let classNames = ["split-box"];
+    classNames.push(vert ? "vert" : "horz");
+    if (this.props.className) {
+      classNames = classNames.concat(this.props.className.split(" "));
+    }
+
+    const { leftPanelStyle, rightPanelStyle } = this.preparePanelStyles();
+
     // Calculate splitter size
     let splitterStyle = {
-      flex: "0 0 " + splitterSize + "px"
+      flex: `0 0 ${splitterSize}px`
     };
 
     return (
