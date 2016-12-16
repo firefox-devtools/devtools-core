@@ -1,6 +1,6 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "license": "MPL-2.0",
   "repository": {
     "url": "git://github.com/devtools-html/debugger.html.git",
@@ -68,7 +68,7 @@
     "react-inlinesvg": "^0.5.3",
     "react-redux": "4.4.5",
     "redux": "3.5.2",
-    "single-module-webpack-plugin": "^0.0.1",
+    "single-module-webpack-plugin": "^0.0.2",
     "style-loader": "^0.13.1",
     "svg-inline-loader": "^0.7.1",
     "tcomb": "^3.1.0",

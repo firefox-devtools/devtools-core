@@ -3252,9 +3252,9 @@ simple-html-tokenizer@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/simple-html-tokenizer/-/simple-html-tokenizer-0.1.1.tgz#05c2eec579ffffe145a030ac26cfea61b980fabe"
 
-single-module-instance-webpack-plugin@jasonlaster/single-module-instance-webpack-plugin:
-  version "0.0.4"
-  resolved "https://codeload.github.com/jasonlaster/single-module-instance-webpack-plugin/tar.gz/4b92c2e47777298c53c65cdbfbf7b070cc3b8b53"
+single-module-webpack-plugin@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/single-module-webpack-plugin/-/single-module-webpack-plugin-0.0.2.tgz#ac32408186e50d1759326679d8ca9146881bfe85"
 
 slash@^1.0.0:
   version "1.0.0"
