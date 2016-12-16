@@ -62,7 +62,7 @@
     "react-inlinesvg": "^0.5.3",
     "react-redux": "4.4.5",
     "redux": "3.5.2",
-    "single-module-instance-webpack-plugin": "jasonlaster/single-module-instance-webpack-plugin",
+    "single-module-webpack-plugin": "^0.0.1",
     "style-loader": "^0.13.1",
     "svg-inline-loader": "^0.7.1",
     "tcomb": "^3.1.0",
