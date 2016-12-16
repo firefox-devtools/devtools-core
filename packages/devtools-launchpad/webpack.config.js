@@ -3,7 +3,7 @@ require("babel-register");
 
 const path = require("path");
 const webpack = require("webpack");
-const SingleModulePlugin = require("single-module-instance-webpack-plugin");
+const SingleModulePlugin = require("single-module-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const { isDevelopment, isFirefoxPanel, getValue } = require("devtools-config");
 const NODE_ENV = process.env.NODE_ENV || "development";
