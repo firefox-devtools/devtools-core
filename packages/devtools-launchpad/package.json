@@ -10,7 +10,10 @@
     "url": "https://github.com/devtools-html/debugger.html/issues"
   },
   "homepage": "https://github.com/devtools-html/debugger.html#readme",
-  "scripts": {},
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
   "main": "src/index.js",
   "bin": {
     "start-dev-server": "./bin/development-server.js"
@@ -84,5 +87,8 @@
     "index.js",
     "webpack.config.js",
     "webpack.config.devtools.js"
-  ]
+  ],
+  "devDependencies": {
+    "@kadira/storybook": "^2.21.0"
+  }
 }
