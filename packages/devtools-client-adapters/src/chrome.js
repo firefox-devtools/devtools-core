@@ -1,14 +1,14 @@
 const CDP = require("chrome-remote-interface");
-const { isEnabled, getValue } = require("devtools-config");
+const { getValue } = require("devtools-config");
 const networkRequest = require("devtools-network-request");
 const { setupCommands, clientCommands } = require("./chrome/commands");
-const { setupEvents, clientEvents, pageEvents } = require("./chrome/events");
-const defer = require("./utils/defer");
+const { setupEvents, clientEvents } = require("./chrome/events");
 const { Tab } = require("./tcomb-types");
 
 // TODO: figure out a way to avoid patching native prototypes.
 // Unfortunately the Chrome client requires it to work.
-Array.prototype.peekLast = function() {
+
+Array.prototype.peekLast = function() { // eslint-disable-line
   return this[this.length - 1];
 };
 
@@ -69,12 +69,16 @@ function connectNodeClient() {
 
 function connectTab(tab) {
   return CDP({ tab: tab.webSocketDebuggerUrl })
-    .then(conn => { connection = conn; });
+    .then(conn => {
+      connection = conn;
+    });
 }
 
 function connectNode(tab) {
   return CDP({ tab: tab.webSocketDebuggerUrl })
-    .then(conn => { connection = conn; });
+    .then(conn => {
+      connection = conn;
+    });
 }
 
 function initPage(actions, { clientType }) {
