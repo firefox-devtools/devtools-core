@@ -94,7 +94,7 @@
 .landing-page .tab-group {
   position: absolute;
   margin: 40px;
-  height: calc(100% - 250px);
+  height: calc(100% - 100px);
   width: calc(100% - 80px);
   overflow: auto;
 }
@@ -128,7 +128,7 @@
 
 .landing-page .panel .center .footer-note {
   flex: 1;
-  padding: 50px;
+  padding: 20px 50px;
   font-size: 14px;
   color: var(--theme-comment);
   position: absolute;
