@@ -27,7 +27,7 @@ module.exports = (webpackConfig, envConfig) => {
   webpackConfig.module.loaders.push({
     test: /\.js$/,
     exclude: request => {
-      let excluded = request.match(/(node_modules|bower_components|fs)/);
+      let excluded = request.match(/(node_modules|bower_components|fs|devtools-config)/);
       if (webpackConfig.babelExcludes) {
         // If the tool defines an additional exclude regexp for Babel.
         excluded = excluded || request.match(webpackConfig.babelExcludes);
@@ -47,6 +47,11 @@ module.exports = (webpackConfig, envConfig) => {
     exclude: /lkdjlskdjslkdjsdlk/,
     loader: "svg-inline"
   });
+
+  // Add resolveLoader for ./node_modules to fix issues when synlinked.
+  webpackConfig.resolveLoader = webpackConfig.resolveLoader || {};
+  webpackConfig.resolveLoader.root = webpackConfig.resolveLoader.root || [];
+  webpackConfig.resolveLoader.root.push(path.resolve("./node_modules"));
 
   const ignoreRegexes = [/^fs$/];
   webpackConfig.externals = webpackConfig.externals || [];
