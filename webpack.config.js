@@ -1,4 +1,4 @@
-const { toolboxConfig } = require("devtools-local-toolbox/index");
+const { toolboxConfig } = require("devtools-launchpad/index");
 const getConfig = require("./bin/getConfig");
 
 const path = require("path");

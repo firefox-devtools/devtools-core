@@ -13,11 +13,7 @@ const Grip = require("./reps/grip");
 require("./reps.css")
 require("./toolbox.css")
 
-const {
-  client: { getClient, firefox },
-  renderRoot, bootstrap, L10N
-} = require("devtools-local-toolbox");
-
+const { renderRoot, bootstrap, L10N } = require("devtools-launchpad");
 const { getValue, isFirefoxPanel } = require("devtools-config");
 
 if (!isFirefoxPanel()) {

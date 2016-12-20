@@ -19,12 +19,7 @@
   },
   "dependencies": {
     "devtools-config": "0.0.10",
-    "devtools-local-toolbox": "0.0.12",
-    "lodash": "^4.17.2",
-    "eslint": "^3.10.0",
-    "eslint-plugin-babel": "^3.3.0",
-    "eslint-plugin-flowtype": "^2.20.0",
-    "eslint-plugin-mozilla": "0.2.3",
-    "eslint-plugin-react": "^6.7.1"
+    "devtools-launchpad": "0.0.17",
+    "lodash": "^4.17.2"
   }
 }
