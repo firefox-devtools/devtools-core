@@ -2,7 +2,7 @@ const path = require("path");
 const ps = require("child_process");
 const processHandler = require("../utils/process-handler");
 
-async function makeBundle({ outputPath, projectPath, watch = false }) {
+function makeBundle({ outputPath, projectPath, watch = false }) {
   const webpackConfigPath = path.resolve(projectPath, "webpack.config.js");
 
   let args = [`--config=${webpackConfigPath}`];
