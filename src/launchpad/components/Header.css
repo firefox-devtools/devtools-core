@@ -1,0 +1,55 @@
+.header {
+  background: var(--theme-highlight-pink);
+  margin: 0;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 14px;
+  font-weight: 100;
+  color: white;
+  display: inline;
+  margin-right: 20px;
+}
+
+form {
+  width: 70vw;
+  padding: 1rem;
+  display: inline;
+}
+
+input {
+  background-color: var(--theme-highlight-pink);
+  border: 1px solid white;
+  color: white;
+  font-size: 1rem;
+  padding: 0.25rem;
+  line-height: 2rem;
+  padding-left: 1rem;
+  display: inline;
+  width: 70vw;
+}
+
+::-webkit-input-placeholder {
+  color: white;
+  font-size: 1rem;
+  line-height: 2rem;
+  margin: 0;
+}
+
+
+.quick-links {
+  display: inline;
+  color: white;
+  float: right;
+  line-height: 3em;
+}
+
+.quick-links span {
+  margin-left: 1em;
+  display: inline-block;
+}
+
+.quick-links span:hover {
+  cursor: pointer;
+}

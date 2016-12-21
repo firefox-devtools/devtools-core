@@ -1,38 +1,6 @@
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
-form {
-  width: 100vw;
-  padding: 1rem;
-}
-
-input {
-  background-color: var(--theme-toolbar-background);
-  border: 1px solid var(--theme-splitter-color);
-  color: var(--theme-body-color);
-  font-size: 1rem;
-  padding: 0.25rem;
-  line-height: 2rem;
-  padding-left: 1rem;
-  display: block;
-  width: 100%;
-}
-
-::-webkit-input-placeholder {
-  color: var(--theme-body-color);
-  font-size: 1rem;
-  line-height: 2rem;
-  margin: 0;
-}
 
 .results {
-  padding: 0 1em;
+  padding: 2em 1em;
 }
 
 .rep-input {

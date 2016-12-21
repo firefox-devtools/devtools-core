@@ -1,5 +1,6 @@
 {
   "title": "Reps",
+  "hotReloading": true,
   "environment": "development",
   "theme": "light",
   "firefox": {

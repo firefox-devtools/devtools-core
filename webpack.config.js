@@ -4,10 +4,9 @@ const getConfig = require("./bin/getConfig");
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
 
-
 let webpackConfig = {
   entry: {
-    bundle: [path.join(projectPath, "toolbox.js")],
+    bundle: [path.join(projectPath, "launchpad/index.js")],
   },
 
   output: {
