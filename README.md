@@ -1,7 +1,6 @@
 ## Developer Tools Reps
 
-<img width="298" alt="reps" src="https://cloud.githubusercontent.com/assets/254562/21075610/5ddf12fc-bee4-11e6-9b20-e19ffe3bd59f.png">
-
+![](http://g.recordit.co/IxhfRP8pNf.gif)
 
 Reps is Firefox's remote object formatter. It stands for representation.
 
