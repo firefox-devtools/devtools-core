@@ -4,7 +4,7 @@ const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
 
 const { DevToolsUtils, AppConstants } = require("devtools-sham-modules");
-const { injectGlobals, debugGlobal } = require("./utils/debug");
+const { debugGlobal } = require("./utils/debug");
 const { setConfig, isEnabled, getValue, isDevelopment } = require("devtools-config");
 const L10N = require("./utils/L10N");
 
@@ -45,9 +45,10 @@ function initApp() {
   const store = createStore(combineReducers(reducers));
   const actions = bindActionCreators(require("./actions"), store.dispatch);
 
+  debugGlobal("launchpadStore", store);
+
   if (isDevelopment()) {
     AppConstants.DEBUG_JS_MODULES = true;
-    injectGlobals({ store });
   }
 
   return { store, actions, LandingPage };
