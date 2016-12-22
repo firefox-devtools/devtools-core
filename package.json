@@ -18,8 +18,7 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
-    "devtools-config": "0.0.10",
-    "devtools-launchpad": "0.0.17",
+    "devtools-launchpad": "0.0.19",
     "lodash": "^4.17.2"
   }
 }

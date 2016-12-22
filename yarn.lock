@@ -1019,22 +1019,24 @@ detective@^4.3.1:
     acorn "^3.1.0"
     defined "^1.0.0"
 
-devtools-client-adapters@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.4.tgz#2a4621aca2e996bb202c771403d54881d9359900"
+devtools-client-adapters@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.5.tgz#e2788e21eef2fc4774a9be04c59b61b00512e657"
   dependencies:
     chrome-remote-interface "0.17.0"
     devtools-config "^0.0.10"
-    devtools-modules "^0.0.9"
+    devtools-modules "^0.0.10"
+    devtools-network-request "^0.0.9"
     devtools-sham-modules "^0.0.10"
+    tcomb "^3.1.0"
 
-devtools-config@0.0.10, devtools-config@^0.0.10:
+devtools-config@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.10.tgz#955a5ec1790e9e06a40009fdb1eaf5f979d168dd"
 
-devtools-launchpad@0.0.17:
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.17.tgz#3d822d57b440fe86542e82eeb5c0aab2754b9741"
+devtools-launchpad@0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.19.tgz#d89bba28e0969304f10acf470fe23a1d544640bc"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
@@ -1057,7 +1059,7 @@ devtools-launchpad@0.0.17:
     classnames "^2.2.5"
     co "=4.6.0"
     css-loader "^0.25.0"
-    devtools-client-adapters "^0.0.4"
+    devtools-client-adapters "^0.0.5"
     devtools-config "^0.0.10"
     devtools-modules "^0.0.10"
     devtools-network-request "^0.0.9"
@@ -1087,7 +1089,6 @@ devtools-launchpad@0.0.17:
     single-module-webpack-plugin "^0.0.2"
     style-loader "^0.13.1"
     svg-inline-loader "^0.7.1"
-    tcomb "^3.1.0"
     webpack "1.14.0"
     webpack-dev-middleware "^1.6.1"
     webpack-env-loader-plugin "^0.1.4"
@@ -1097,10 +1098,6 @@ devtools-launchpad@0.0.17:
 devtools-modules@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.10.tgz#2f7721e5c76b7a92427800128ab2fb4d92bcea3a"
-
-devtools-modules@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.9.tgz#cfd75ebcf35b6e673d6eb3223deb1738fe8ff0d7"
 
 devtools-network-request@^0.0.9:
   version "0.0.9"
@@ -3012,7 +3009,7 @@ react@=0.14.7:
     envify "^3.0.0"
     fbjs "^0.6.1"
 
-"readable-stream@^2.0.0 || ^1.1.13", readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@^2.1.0:
+"readable-stream@^2.0.0 || ^1.1.13", readable-stream@^2.1.0:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.2.2.tgz#a9e6fec3c7dda85f8bb1b3ba7028604556fc825e"
   dependencies:
@@ -3024,7 +3021,7 @@ react@=0.14.7:
     string_decoder "~0.10.x"
     util-deprecate "~1.0.1"
 
-readable-stream@~2.0.0:
+readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@~2.0.0:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.0.6.tgz#8f90341e68a53ccc928788dacfcd11b36eb9b78e"
   dependencies:
