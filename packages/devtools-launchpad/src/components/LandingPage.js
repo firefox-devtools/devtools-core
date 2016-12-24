@@ -42,7 +42,7 @@ const LandingPage = React.createClass({
     };
   },
 
-  renderTabs(tabTitle, tabs, paramName) {
+  renderTabs(tabs, paramName) {
     if (!tabs || tabs.count() == 0) {
       return dom.div({}, "");
     }
@@ -65,49 +65,41 @@ const LandingPage = React.createClass({
     );
   },
 
-  renderFirefoxPanel() {
-    const targets = getTabsByClientType(this.props.tabs, "firefox");
-    return dom.div(
-      { className: "center" },
-      this.renderTabs("", targets, "firefox-tab"),
-      firstTimeMessage("Firefox", "firefox")
-    );
-  },
-
-  renderChromePanel() {
-    const targets = getTabsByClientType(this.props.tabs, "chrome");
-    return dom.div(
-      { className: "center" },
-      this.renderTabs("", targets, "chrome-tab"),
-      firstTimeMessage("Chrome", "chrome")
-    );
-  },
-
-  renderNodePanel() {
-    const targets = getTabsByClientType(this.props.tabs, "node");
-    return dom.div(
-      { className: "center" },
-      this.renderTabs("", targets, "node-tab"),
-      firstTimeMessage("Node", "node")
-    );
-  },
-
   renderPanel() {
-    const panels = {
-      Firefox: this.renderFirefoxPanel,
-      Chrome: this.renderChromePanel,
-      Node: this.renderNodePanel
+    const configMap = {
+      Firefox: {
+        name: "Firefox",
+        clientType: "firefox",
+        paramName: "firefox-tab",
+        docsUrlPart: "firefox"
+      },
+      Chrome: {
+        name: "Chrome",
+        clientType: "chrome",
+        paramName: "chrome-tab",
+        docsUrlPart: "chrome"
+      },
+      Node: {
+        name: "Node",
+        clientType: "node",
+        paramName: "node-tab",
+        docsUrlPart: "node"
+      }
     };
 
-    return dom.div(
-      {
-        className: "panel"
-      },
-      dom.div(
-        { className: "title" },
-        dom.h2({}, this.state.selectedPane)
-      ),
-      panels[this.state.selectedPane]()
+    let {
+      name,
+      clientType,
+      paramName,
+      docsUrlPart
+    } = configMap[this.state.selectedPane];
+
+    const targets = getTabsByClientType(this.props.tabs, clientType);
+
+    return dom.main({className: "panel"},
+      dom.h2({className: "title"}, name),
+      this.renderTabs(targets, paramName),
+      firstTimeMessage(name, docsUrlPart)
     );
   },
 
@@ -122,7 +114,7 @@ const LandingPage = React.createClass({
       connections.push("Chrome", "Node");
     }
 
-    return dom.div(
+    return dom.aside(
       {
         className: "sidebar"
       },
