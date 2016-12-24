@@ -1,24 +1,29 @@
 const React = require("react");
+const { PropTypes } = React;
 const { connect } = require("react-redux");
 const { getTabs } = require("../selectors");
 const { getValue } = require("devtools-config");
-const LandingPage = require("./LandingPage");
+const LandingPage = React.createFactory(require("./LandingPage"));
 
 const LaunchpadApp = React.createClass({
-  propTypes: {},
+  propTypes: {
+    tabs: PropTypes.array
+  },
 
   displayName: "LaunchpadApp",
 
   render() {
-    return React.createElement(connect(
-      state => ({
-        tabs: getTabs(state),
-        supportsFirefox: getValue("firefox"),
-        supportsChrome: getValue("chrome"),
-        title: getValue("title"),
-      })
-    )(LandingPage));
+    return LandingPage({
+      tabs: this.props.tabs,
+      supportsFirefox: !!getValue("firefox"),
+      supportsChrome: !!getValue("chrome"),
+      title: getValue("title")
+    });
   }
 });
 
-module.exports = LaunchpadApp;
+module.exports = connect(
+  state => ({
+    tabs: getTabs(state)
+  })
+)(LaunchpadApp);
