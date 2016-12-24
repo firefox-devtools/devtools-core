@@ -33,7 +33,7 @@ if (process.env.TARGET !== "firefox-panel") {
 function initApp() {
   const configureStore = require("./utils/create-store");
   const reducers = require("./reducers");
-  const LandingPage = require("./components/LandingPage");
+  const LaunchpadApp = require("./components/LaunchpadApp");
 
   const createStore = configureStore({
     log: getValue("logging.actions"),
@@ -51,7 +51,7 @@ function initApp() {
     AppConstants.DEBUG_JS_MODULES = true;
   }
 
-  return { store, actions, LandingPage };
+  return { store, actions, LaunchpadApp };
 }
 
 function renderRoot(_React, _ReactDOM, component, _store) {
@@ -104,8 +104,8 @@ function bootstrap(React, ReactDOM, App, appActions, appStore) {
       });
   }
 
-  const { store, actions, LandingPage } = initApp();
-  renderRoot(React, ReactDOM, LandingPage, store);
+  const { store, actions, LaunchpadApp } = initApp();
+  renderRoot(React, ReactDOM, LaunchpadApp, store);
   chrome.connectClient().then(tabs => {
     actions.newTabs(tabs);
   }).catch(e => {

@@ -1,8 +1,5 @@
 const React = require("react");
-const { connect } = require("react-redux");
 const classnames = require("classnames");
-const { getTabs } = require("../selectors");
-const { getValue } = require("devtools-config");
 
 require("./LandingPage.css");
 const { DOM: dom } = React;
@@ -149,11 +146,4 @@ const LandingPage = React.createClass({
   }
 });
 
-module.exports = connect(
-  state => ({
-    tabs: getTabs(state),
-    supportsFirefox: getValue("firefox"),
-    supportsChrome: getValue("chrome"),
-    title: getValue("title"),
-  })
-)(LandingPage);
+module.exports = LandingPage;

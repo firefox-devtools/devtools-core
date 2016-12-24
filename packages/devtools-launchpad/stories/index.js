@@ -1,6 +1,6 @@
 const React = require("react");
 const { storiesOf } = require("@kadira/storybook");
-const { WrappedComponent: LandingPage } = require("../src/components/LandingPage");
+const LandingPage = require("../src/components/LandingPage");
 const { Map } = require("immutable");
 
 // Add devtools theme styles
