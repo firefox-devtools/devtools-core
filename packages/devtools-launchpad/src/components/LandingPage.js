@@ -96,8 +96,8 @@ const LandingPage = React.createClass({
 
     const targets = getTabsByClientType(this.props.tabs, clientType);
 
-    return dom.main({className: "panel"},
-      dom.h2({className: "title"}, name),
+    return dom.main({ className: "panel" },
+      dom.h2({ className: "title" }, name),
       this.renderTabs(targets, paramName),
       firstTimeMessage(name, docsUrlPart)
     );
