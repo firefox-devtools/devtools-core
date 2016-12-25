@@ -19,7 +19,6 @@ const getTab = (id, title, clientType, url) => {
   })];
 };
 
-const containerStyle = { height: "500px" };
 storiesOf("LandingPage", module)
   .add("six firefox tabs", () => {
     let tabs = Map([
