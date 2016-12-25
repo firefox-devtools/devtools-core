@@ -1,8 +1,5 @@
 const React = require("react");
-const { connect } = require("react-redux");
 const classnames = require("classnames");
-const { getTabs } = require("../selectors");
-const { getValue } = require("devtools-config");
 
 require("./LandingPage.css");
 const { DOM: dom } = React;
@@ -31,7 +28,10 @@ function getTabURL(tab, paramName) {
 
 const LandingPage = React.createClass({
   propTypes: {
-    tabs: ImPropTypes.map.isRequired
+    tabs: ImPropTypes.map.isRequired,
+    supportsFirefox: React.PropTypes.bool.isRequired,
+    supportsChrome: React.PropTypes.bool.isRequired,
+    title: React.PropTypes.string.isRequired,
   },
 
   displayName: "LandingPage",
@@ -106,11 +106,11 @@ const LandingPage = React.createClass({
   renderSidebar() {
     let connections = [];
 
-    if (getValue("firefox")) {
+    if (this.props.supportsFirefox) {
       connections.push("Firefox");
     }
 
-    if (getValue("chrome")) {
+    if (this.props.supportsChrome) {
       connections.push("Chrome", "Node");
     }
 
@@ -118,7 +118,7 @@ const LandingPage = React.createClass({
       {
         className: "sidebar"
       },
-      dom.h1({}, getValue("title")),
+      dom.h1({}, this.props.title),
       dom.ul(
         {},
         connections.map(title => dom.li(
@@ -146,6 +146,4 @@ const LandingPage = React.createClass({
   }
 });
 
-module.exports = connect(
-  state => ({ tabs: getTabs(state) })
-)(LandingPage);
+module.exports = LandingPage;
