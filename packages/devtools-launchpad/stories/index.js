@@ -50,7 +50,7 @@ storiesOf("LandingPage", module)
     ]);
 
     return React.DOM.div(
-      { style: containerStyle },
+      { },
       React.createElement(LandingPage, {
         tabs,
         supportsFirefox: true,
