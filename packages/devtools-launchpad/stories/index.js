@@ -19,6 +19,10 @@ const getTab = (id, title, clientType, url) => {
   })];
 };
 
+const renderLandingPage = (props) => {
+  return React.DOM.div({}, React.createElement(LandingPage, props));
+};
+
 storiesOf("LandingPage", module)
   .add("six firefox tabs", () => {
     let tabs = Map([
@@ -30,16 +34,14 @@ storiesOf("LandingPage", module)
       getTab(6, "Page 6", "firefox"),
     ]);
 
-    return React.DOM.div(
-      {},
-      React.createElement(LandingPage, {
-        tabs,
-        supportsFirefox: true,
-        supportsChrome: true,
-        title: "Storybook test"
-      })
-    );
-  }).add("two of each", () => {
+    return renderLandingPage({
+      tabs,
+      supportsFirefox: true,
+      supportsChrome: true,
+      title: "Storybook test"
+    });
+  })
+  .add("two of each", () => {
     let tabs = Map([
       getTab(1, "Page 1", "firefox"),
       getTab(2, "Page 2", "firefox"),
@@ -49,15 +51,12 @@ storiesOf("LandingPage", module)
       getTab(6, "process 2", "node"),
     ]);
 
-    return React.DOM.div(
-      { },
-      React.createElement(LandingPage, {
-        tabs,
-        supportsFirefox: true,
-        supportsChrome: true,
-        title: "Storybook test"
-      })
-    );
+    return renderLandingPage({
+      tabs,
+      supportsFirefox: true,
+      supportsChrome: true,
+      title: "Storybook test"
+    });
   })
   .add("one hundred firefox tabs with long titles and URLs", () => {
     let tabs = Map(
@@ -66,20 +65,17 @@ storiesOf("LandingPage", module)
         .map((_, i) =>
           getTab(
             i + 1,
-            `My very long title ${("-" + i + 1).repeat(50)}`,
+            `My very long title ${(`${i + 1}-`).repeat(50)}`,
             "firefox",
-            `this/is/a/very/long/url/${("" + i + 1).repeat(100)}`
+            `this/is/a/very/long/url/${(`${i + 1}/`).repeat(50)}`,
           )
         )
     );
 
-    return React.DOM.div(
-      {},
-      React.createElement(LandingPage, {
-        tabs,
-        supportsFirefox: true,
-        supportsChrome: true,
-        title: "Storybook test"
-      })
-    );
+    return renderLandingPage({
+      tabs,
+      supportsFirefox: true,
+      supportsChrome: true,
+      title: "Storybook test"
+    });
   });
