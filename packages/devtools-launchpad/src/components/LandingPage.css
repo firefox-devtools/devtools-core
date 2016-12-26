@@ -63,6 +63,7 @@
   flex: 1;
   flex-direction: column;
   padding: 0 var(--base-spacing);
+  justify-content: space-between;
 }
 
 .landing-page .panel .title {
@@ -86,6 +87,7 @@
 }
 
 .landing-page .tab-group {
+  flex: 1;
   overflow-y: auto;
 }
 
@@ -110,6 +112,7 @@
   line-height: var(--secondary-line-height-line-height);
   font-size: var(--ui-element-font-size);
   color: var(--theme-highlight-bluegrey);
+  word-break: break-all;
 }
 
 .landing-page .tab-url {

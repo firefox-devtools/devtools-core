@@ -7,16 +7,18 @@ const { Map } = require("immutable");
 require("../src/lib/themes/light-theme.css");
 document.body.classList.add("theme-light");
 
-const getTab = (id, title, clientType) => {
+const getTab = (id, title, clientType, url) => {
+  if (!url) {
+    url = `/test/${id}`;
+  }
   return [id, Map({
-    url: `/test/${id}`,
+    url,
     clientType,
     id,
     title
   })];
 };
 
-const containerStyle = { height: "500px" };
 storiesOf("LandingPage", module)
   .add("six firefox tabs", () => {
     let tabs = Map([
@@ -29,7 +31,7 @@ storiesOf("LandingPage", module)
     ]);
 
     return React.DOM.div(
-      { style: containerStyle },
+      {},
       React.createElement(LandingPage, {
         tabs,
         supportsFirefox: true,
@@ -48,7 +50,31 @@ storiesOf("LandingPage", module)
     ]);
 
     return React.DOM.div(
-      { style: containerStyle },
+      { },
+      React.createElement(LandingPage, {
+        tabs,
+        supportsFirefox: true,
+        supportsChrome: true,
+        title: "Storybook test"
+      })
+    );
+  })
+  .add("one hundred firefox tabs with long titles and URLs", () => {
+    let tabs = Map(
+      Array(100)
+        .fill()
+        .map((_, i) =>
+          getTab(
+            i + 1,
+            `My very long title ${("-" + i + 1).repeat(50)}`,
+            "firefox",
+            `this/is/a/very/long/url/${("" + i + 1).repeat(100)}`
+          )
+        )
+    );
+
+    return React.DOM.div(
+      {},
       React.createElement(LandingPage, {
         tabs,
         supportsFirefox: true,
