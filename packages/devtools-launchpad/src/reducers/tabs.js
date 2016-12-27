@@ -9,6 +9,7 @@ const fromJS = require("../utils/fromJS");
 const initialState = fromJS({
   tabs: {},
   selectedTab: null,
+  filterString: "",
 });
 
 function update(state = initialState, action) {
@@ -26,9 +27,13 @@ function update(state = initialState, action) {
           return [tab.id, Immutable.Map(tab)];
         }))
       );
+
     case constants.SELECT_TAB:
-      const tab = state.getIn(["tabs", action.id]);
-      return state.setIn(["selectedTab"], tab);
+      const tabToSelect = state.getIn(["tabs", action.id]);
+      return state.setIn(["selectedTab"], tabToSelect);
+
+    case constants.FILTER_TABS:
+      return state.setIn(["filterString"], action.value);
   }
 
   return state;
