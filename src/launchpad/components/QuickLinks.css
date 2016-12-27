@@ -1,0 +1,24 @@
+.quick-links {
+  display: inline;
+  color: white;
+  float: right;
+  line-height: 3em;
+}
+
+.quick-links span {
+  margin-left: 1em;
+  display: inline-block;
+}
+
+.quick-links span:hover {
+  cursor: pointer;
+}
+
+.quick-links span[data-expressions-count]::after {
+  content: attr(data-expressions-count);
+  font-size: 0.75em;
+  background-color: rgba(0,0,0,0.25);
+  border-radius: 50%;
+  padding: 0 0.4em;
+  margin-left: 0.25rem;
+}
