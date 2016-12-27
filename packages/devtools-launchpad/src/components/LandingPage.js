@@ -115,7 +115,6 @@ const LandingPage = React.createClass({
     return dom.main({ className: "panel" },
       dom.header(
         {},
-        dom.h2({ className: "title" }, name),
         dom.input({
           placeholder: "Filter tabs",
           value: filterString,

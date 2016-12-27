@@ -18,6 +18,7 @@
   background-color: var(--theme-tab-toolbar-background);
   width: 200px;
   flex-direction: column;
+  border-right: 1px solid var(--theme-splitter-color);
 }
 
 .landing-page .sidebar h1 {
@@ -41,8 +42,13 @@
 }
 
 .landing-page .sidebar li.selected {
-  background: var(--theme-search-overlays-semitransparent);
+  background: var(--theme-highlight-bluegrey);
+  color: var(--theme-selection-color);
   transition: all 0.25s ease;
+}
+
+.landing-page .sidebar li.selected a {
+  color: inherit;
 }
 
 .landing-page .sidebar li:hover {
@@ -69,27 +75,16 @@
 .landing-page .panel header {
   display: flex;
   align-items: baseline;
-  font-size: var(--title-font-size);
   margin: calc(2 * var(--base-spacing)) 0 0;
   padding-bottom: var(--base-spacing);
-  border-bottom: 1px solid var(--theme-splitter-color);
-}
-
-.landing-page .panel header .title {
-  color: var(--theme-body-color);
-  font-weight: normal;
-  font-size: inherit;
-  padding: 0;
-  margin: 0;
 }
 
 .landing-page .panel header input {
   flex: 1;
   color: var(--theme-body-color);
-  font-size: inherit;
+  font-size: var(--ui-element-font-size);
   border: 1px solid var(--theme-splitter-color);
-  margin-left: var(--base-spacing);
-  padding: calc(var(--base-spacing) / 4);
+  padding: calc(var(--base-spacing) / 2);
 }
 
 .landing-page .panel .center-message {
