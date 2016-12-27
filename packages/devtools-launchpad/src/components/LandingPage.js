@@ -32,6 +32,8 @@ const LandingPage = React.createClass({
     supportsFirefox: React.PropTypes.bool.isRequired,
     supportsChrome: React.PropTypes.bool.isRequired,
     title: React.PropTypes.string.isRequired,
+    filterString: React.PropTypes.string,
+    onFilterChange: React.PropTypes.func.isRequired,
   },
 
   displayName: "LandingPage",
@@ -40,6 +42,15 @@ const LandingPage = React.createClass({
     return {
       selectedPane: "Firefox"
     };
+  },
+
+  onFilterChange(newFilterString) {
+    this.props.onFilterChange(newFilterString);
+  },
+
+  onSideBarItemClick(itemTitle) {
+    this.setState({ selectedPane: itemTitle });
+    this.onFilterChange("");
   },
 
   renderTabs(tabs, paramName) {
@@ -94,10 +105,22 @@ const LandingPage = React.createClass({
       docsUrlPart
     } = configMap[this.state.selectedPane];
 
-    const targets = getTabsByClientType(this.props.tabs, clientType);
+    let {
+      tabs,
+      filterString = ""
+    } = this.props;
+
+    const targets = getTabsByClientType(tabs, clientType);
 
     return dom.main({ className: "panel" },
-      dom.h2({ className: "title" }, name),
+      dom.header(
+        {},
+        dom.input({
+          placeholder: "Filter tabs",
+          value: filterString,
+          onChange: e => this.onFilterChange(e.target.value)
+        })
+      ),
       this.renderTabs(targets, paramName),
       firstTimeMessage(name, docsUrlPart)
     );
@@ -128,7 +151,7 @@ const LandingPage = React.createClass({
             }),
             key: title,
 
-            onClick: () => this.setState({ selectedPane: title })
+            onClick: () => this.onSideBarItemClick(title)
           },
           dom.a({}, title)
       )))

@@ -1,12 +1,29 @@
+const { score } = require("fuzzaldrin-plus");
+
 function getTabs(state) {
-  return state.tabs.get("tabs");
+  let tabs = state.tabs.get("tabs");
+  let filterString = getFilterString(state);
+
+  if (filterString === "") {
+    return tabs;
+  }
+
+  return tabs.filter(tab => (
+    score(tab.get("title"), filterString) +
+    score(tab.get("url"), filterString) > 0
+  ));
 }
 
 function getSelectedTab(state) {
   return state.tabs.get("selectedTab");
 }
 
+function getFilterString(state) {
+  return state.tabs.get("filterString");
+}
+
 module.exports = {
   getTabs,
-  getSelectedTab
+  getSelectedTab,
+  getFilterString
 };

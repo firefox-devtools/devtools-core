@@ -44,7 +44,22 @@ function selectTab({ id }) {
   };
 }
 
+/**
+ * @memberof actions/tabs
+ * @static
+ * @param {String} value String which should be used to filter tabs
+ * @returns {TabAction} with type constants.FILTER_TABS
+ *          and filter string as value
+ */
+function filterTabs(value) {
+  return {
+    type: constants.FILTER_TABS,
+    value
+  };
+}
+
 module.exports = {
   newTabs,
-  selectTab
+  selectTab,
+  filterTabs
 };
