@@ -25,7 +25,8 @@ const expressions = {
 const Header = React.createClass({
 
   propTypes: {
-    evaluate: PropTypes.function
+    evaluate: PropTypes.func.required,
+    clearResultsList: PropTypes.func.required,
   },
 
   displayName: "Header",
@@ -53,18 +54,27 @@ const Header = React.createClass({
     this.props.evaluate(expression);
   },
 
+  onClearButtonClick: function(e) {
+    this.props.clearResultsList();
+  },
+
   render() {
-    return dom.div(
-      { className: "header" },
-      dom.h1({}, "Reps"),
+    return dom.header(
+      { className: "console-header" },
       dom.form({
-        onSubmit: this.onSubmitForm,
-      },
+          onSubmit: this.onSubmitForm,
+        },
+        dom.h1({}, "Reps"),
         dom.input({
           type: "text",
           placeholder: "Enter an expression",
           name: "expression"
-        })
+        }),
+        dom.button({
+          className: "clear-button",
+          type: "button",
+          onClick: this.onClearButtonClick
+        }, "Clear"),
       ),
       dom.div(
         { className: "quick-links" },

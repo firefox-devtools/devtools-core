@@ -36,9 +36,18 @@ const Console = React.createClass({
     }));
   },
 
+  clearResultsList() {
+    this.setState(prevState => ({
+      expressions: []
+    }));
+  },
+
   render: function() {
     return dom.main({},
-      Header({ evaluate: this.evaluate }),
+      Header({
+        evaluate: this.evaluate,
+        clearResultsList: this.clearResultsList
+      }),
       ResultsList({expressions: this.state.expressions})
     );
   }
