@@ -113,7 +113,7 @@ module.exports = (webpackConfig, envConfig) => {
       loader: ExtractTextPlugin.extract("style-loader", "css-loader", "postcss-loader")
     });
 
-    webpackConfig.plugins.push(new ExtractTextPlugin("styles.css"));
+    webpackConfig.plugins.push(new ExtractTextPlugin("[name].css"));
   }
 
   webpackConfig.postcss = () => [require("postcss-bidirection")];
