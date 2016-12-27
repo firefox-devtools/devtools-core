@@ -1,5 +1,6 @@
 const React = require("react");
 const { PropTypes } = React;
+const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getTabs, getFilterString } = require("../selectors");
@@ -8,9 +9,9 @@ const LandingPage = React.createFactory(require("./LandingPage"));
 
 const LaunchpadApp = React.createClass({
   propTypes: {
-    tabs: PropTypes.array,
+    tabs: ImPropTypes.map.isRequired,
     filterString: PropTypes.string,
-    actions: PropTypes.array
+    actions: PropTypes.object
   },
 
   displayName: "LaunchpadApp",
