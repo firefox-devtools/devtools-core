@@ -2,11 +2,10 @@ const React = require("react");
 
 // Reps
 const { isGrip } = require("./rep-utils");
-const StringRep = require("./string");
+const StringRep = React.createFactory(require("./string").rep);
 
 // Shortcuts
 const { span } = React.DOM;
-const { rep: StringRepFactory } = React.createFactory(StringRep);
 
 /**
  * Renders DOM attribute
@@ -36,7 +35,7 @@ let Attribute = React.createClass({
           span({className: "attrEqual"},
             "="
           ),
-          StringRepFactory({object: value})
+          StringRep({object: value})
         )
       )
     );
