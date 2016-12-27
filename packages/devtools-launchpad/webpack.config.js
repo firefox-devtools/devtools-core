@@ -106,6 +106,10 @@ module.exports = (webpackConfig, envConfig) => {
   // Extract CSS into a single file
     webpackConfig.module.loaders.push({
       test: /\.css$/,
+      exclude: request => {
+        // If the tool defines an exclude regexp for CSS files.
+        return webpackConfig.cssExcludes && request.match(webpackConfig.cssExcludes);
+      },
       loader: ExtractTextPlugin.extract("style-loader", "css-loader", "postcss-loader")
     });
 
