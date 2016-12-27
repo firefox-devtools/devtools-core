@@ -1,24 +1,16 @@
 .quick-links {
-  display: inline;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: rgba(255,255,255,0.25);
+  padding: 0.5rem 1rem;
+}
+
+.quick-links button {
+  font-size: 1.2rem;
+  background: none;
+  border: none;
   color: white;
-  float: right;
-  line-height: 3em;
-}
-
-.quick-links span {
-  margin-left: 1em;
-  display: inline-block;
-}
-
-.quick-links span:hover {
+  margin: 0.5rem 0.25rem;
   cursor: pointer;
-}
-
-.quick-links span[data-expressions-count]::after {
-  content: attr(data-expressions-count);
-  font-size: 0.75em;
-  background-color: rgba(0,0,0,0.25);
-  border-radius: 50%;
-  padding: 0 0.4em;
-  margin-left: 0.25rem;
 }
