@@ -35,7 +35,10 @@ function httpGet(url, onResponse) {
 function serveRoot(req, res) {
   const tplPath = path.join(__dirname, "../index.html");
   const tplFile = fs.readFileSync(tplPath, "utf8");
-  res.send(Mustache.render(tplFile, { isDevelopment: isDevelopment() }));
+  res.send(Mustache.render(tplFile, {
+    isDevelopment: isDevelopment(),
+    dir: getValue("dir") || "ltr"
+  }));
 }
 
 function handleNetworkRequest(req, res) {
