@@ -36,7 +36,7 @@ const getTabs = (tabs, state) => {
 
 const renderLandingPage = (props) => {
   return React.DOM.div({}, React.createElement(LandingPage, Object.assign({
-    onFilterChange: action("FILTER_TABS"),
+    onFilterChange: action("onFilterChange"),
     onTabClick: action("onTabClick")
   }, props)));
 };
