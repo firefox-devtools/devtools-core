@@ -45,13 +45,19 @@ const LandingPage = React.createClass({
     };
   },
 
+  componentDidUpdate() {
+    this.refs.filterInput.focus();
+  },
+
   onFilterChange(newFilterString) {
     this.props.onFilterChange(newFilterString);
   },
 
   onSideBarItemClick(itemTitle) {
-    this.setState({ selectedPane: itemTitle });
-    this.onFilterChange("");
+    if (itemTitle !== this.state.selectedPane) {
+      this.setState({ selectedPane: itemTitle });
+      this.onFilterChange("");
+    }
   },
 
   onTabClick(tab, paramName) {
@@ -135,6 +141,7 @@ const LandingPage = React.createClass({
       dom.header(
         {},
         dom.input({
+          ref: "filterInput",
           placeholder: "Filter tabs",
           value: filterString,
           autoFocus: true,
