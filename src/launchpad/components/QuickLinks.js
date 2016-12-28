@@ -1,7 +1,7 @@
 const React = require("react");
 const { DOM: dom, PropTypes } = React;
 require("./QuickLinks.css");
-const samples = require("./Samples.js");
+const samples = require("../samples.js");
 
 const QuickLinks = React.createClass({
 

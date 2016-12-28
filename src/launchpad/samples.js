@@ -1,4 +1,4 @@
-let examples = {
+let samples = {
   array: [
     "x = [1, \"2\", {three: 3}, []]",
     "x = []"
@@ -71,8 +71,8 @@ let examples = {
   ]
 };
 
-examples.yolo = Object.keys(examples).reduce((res, key) => {
-  return [...res, ...examples[key]];
+samples.yolo = Object.keys(samples).reduce((res, key) => {
+  return [...res, ...samples[key]];
 }, []);
 
-module.exports = examples;
+module.exports = samples;
