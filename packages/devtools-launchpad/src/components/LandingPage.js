@@ -63,13 +63,20 @@ const LandingPage = React.createClass({
       return dom.div({}, "");
     }
 
+    let tabClassNames = ["tab"];
+    if (tabs.size === 1) {
+      tabClassNames.push("active");
+    }
+
     return dom.div(
       { className: "tab-group" },
       dom.ul(
         { className: "tab-list" },
         tabs.valueSeq().map(
           tab => dom.li({
-            className: "tab",
+            className: classnames("tab", {
+              active: tabs.size === 1
+            }),
             key: tab.get("id"),
             tabIndex: 0,
             role: "link",
@@ -132,7 +139,12 @@ const LandingPage = React.createClass({
           value: filterString,
           autoFocus: true,
           type: "search",
-          onChange: e => this.onFilterChange(e.target.value)
+          onChange: e => this.onFilterChange(e.target.value),
+          onKeyDown: e => {
+            if (targets.size === 1 && e.keyCode === 13) {
+              this.onTabClick(targets.first(), paramName);
+            }
+          }
         })
       ),
       this.renderTabs(targets, paramName),

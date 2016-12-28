@@ -118,4 +118,18 @@ storiesOf("LandingPage", module)
       supportsChrome: true,
       title: "Storybook test"
     });
+  })
+  .add("One of each", () => {
+    let tabs = [
+      getTab(1, "Page 1", "firefox"),
+      getTab(2, "Page 2", "chrome"),
+      getTab(3, "process 1", "node"),
+    ];
+
+    return renderLandingPage({
+      tabs: getTabs(tabs),
+      supportsFirefox: true,
+      supportsChrome: true,
+      title: "Storybook test"
+    });
   });

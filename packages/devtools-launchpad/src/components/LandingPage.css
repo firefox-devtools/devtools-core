@@ -136,18 +136,21 @@ color: inherit;
   word-break: break-all;
 }
 
-.landing-page .tab:focus {
+.landing-page .tab:focus,
+.landing-page .tab.active {
   background: var(--theme-selection-background);
   color: var(--theme-selection-color);
   cursor: pointer;
   transition: var(--base-transition);
 }
 
-.landing-page .tab:focus .tab-title {
+.landing-page .tab:focus .tab-title,
+.landing-page .tab.active .tab-title {
   color: inherit;
 }
 
-.landing-page .tab:focus .tab-url {
+.landing-page .tab:focus .tab-url,
+.landing-page .tab.active .tab-url {
   color: var(--theme-highlight-gray);
 }
 
