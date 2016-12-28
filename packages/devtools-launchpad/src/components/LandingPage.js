@@ -54,6 +54,10 @@ const LandingPage = React.createClass({
     this.onFilterChange("");
   },
 
+  onTabClick(tab, paramName) {
+    this.props.onTabClick(getTabURL(tab, paramName));
+  },
+
   renderTabs(tabs, paramName) {
     if (!tabs || tabs.count() == 0) {
       return dom.div({}, "");
@@ -63,14 +67,23 @@ const LandingPage = React.createClass({
       { className: "tab-group" },
       dom.ul(
         { className: "tab-list" },
-        tabs.valueSeq().map(tab => dom.li(
-          { "className": "tab",
-            "key": tab.get("id"),
-            "onClick": () => this.props.onTabClick(getTabURL(tab, paramName))
+        tabs.valueSeq().map(
+          tab => dom.li({
+            className: "tab",
+            key: tab.get("id"),
+            tabIndex: 0,
+            role: "link",
+            onClick: () => this.onTabClick(tab, paramName),
+            onKeyDown: e => {
+              if (e.keyCode === 13) {
+                this.onTabClick(tab, paramName);
+              }
+            }
           },
           dom.div({ className: "tab-title" }, tab.get("title")),
           dom.div({ className: "tab-url" }, tab.get("url"))
-        ))
+          )
+        )
       )
     );
   },
@@ -117,6 +130,8 @@ const LandingPage = React.createClass({
         dom.input({
           placeholder: "Filter tabs",
           value: filterString,
+          autoFocus: true,
+          type: "search",
           onChange: e => this.onFilterChange(e.target.value)
         })
       ),
@@ -149,8 +164,14 @@ const LandingPage = React.createClass({
               selected: title == this.state.selectedPane
             }),
             key: title,
-
-            onClick: () => this.onSideBarItemClick(title)
+            tabIndex: 0,
+            role: "button",
+            onClick: () => this.onSideBarItemClick(title),
+            onKeyDown: e => {
+              if (e.keyCode === 13) {
+                this.onSideBarItemClick(title);
+              }
+            }
           },
           dom.a({}, title)
       )))
