@@ -1,26 +1,8 @@
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const { createFactory, DOM: dom, PropTypes } = React;
 
+const QuickLinks = createFactory(require("./QuickLinks"));
 require("./Header.css");
-
-const expressions = {
-  array: [
-    "x = [1, \"2\", {three: 3}, []]",
-    "x = []"
-  ],
-
-  object: [
-    "x = {a: 2}"
-  ],
-
-  function: [
-    "x = () => { 2 }"
-  ],
-
-  yolo: [
-
-  ]
-};
 
 const Header = React.createClass({
 
@@ -30,22 +12,6 @@ const Header = React.createClass({
   },
 
   displayName: "Header",
-
-  evaluateExpressions(label) {
-    expressions[label].forEach(
-      expression => this.props.evaluate(expression)
-    );
-  },
-
-  renderLinks() {
-    return Object.keys(expressions).map(label => dom.span(
-      {
-        key: label,
-        onClick: () => this.evaluateExpressions(label)
-      },
-      label
-    ));
-  },
 
   onSubmitForm: function(e) {
     e.preventDefault();
@@ -76,10 +42,7 @@ const Header = React.createClass({
           onClick: this.onClearButtonClick
         }, "Clear"),
       ),
-      dom.div(
-        { className: "quick-links" },
-        this.renderLinks()
-      )
+      QuickLinks({evaluate: this.props.evaluate})
     );
   }
 });
