@@ -11,6 +11,7 @@
   --primary-line-height: 30px;
   --secondary-line-height: 25px;
   --base-spacing: 20px;
+  --base-transition: all 0.25s ease;
 }
 
 .landing-page .sidebar {
@@ -41,34 +42,36 @@
   padding: calc(var(--base-spacing) / 4) var(--base-spacing);
 }
 
+.landing-page .sidebar li a {
+  color: var(--theme-body-color);
+}
+
 .landing-page .sidebar li.selected {
   background: var(--theme-highlight-bluegrey);
   color: var(--theme-selection-color);
-  transition: all 0.25s ease;
+  transition: var(--base-transition);
 }
 
 .landing-page .sidebar li.selected a {
   color: inherit;
 }
 
-.landing-page .sidebar li:hover {
+.landing-page .sidebar li:hover,
+.landing-page .sidebar li:focus {
   background: var(--theme-selection-background);
+  color: var(--theme-selection-color);
   cursor: pointer;
 }
 
-.landing-page .sidebar li a {
-  color: var(--theme-body-color);
-}
-
-.landing-page .sidebar li:hover a {
-  color: var(--theme-selection-color);
+.landing-page .sidebar li:hover a,
+.landing-page .sidebar li:focus a {
+  color: inherit;
 }
 
 .landing-page .panel {
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 0 var(--base-spacing);
   justify-content: space-between;
 }
 
@@ -85,6 +88,12 @@
   font-size: var(--ui-element-font-size);
   border: 1px solid var(--theme-splitter-color);
   padding: calc(var(--base-spacing) / 2);
+  margin: 0 var(--base-spacing);
+  transition: var(--base-transition);
+}
+
+.landing-page .panel header input:focus {
+  border: 1px solid var(--theme-selection-background);
 }
 
 .landing-page .panel .center-message {
@@ -111,13 +120,8 @@
 
 .landing-page .tab {
   border-bottom: 1px solid var(--theme-splitter-color);
-  padding: calc(var(--base-spacing) / 2) 0;
+  padding: calc(var(--base-spacing) / 2) var(--base-spacing);
   font-family: sans-serif;
-}
-
-.landing-page .tab:hover {
-  background-color: var(--theme-toolbar-background);
-  cursor: pointer;
 }
 
 .landing-page .tab-title {
@@ -130,6 +134,24 @@
 .landing-page .tab-url {
   color: var(--theme-comment);
   word-break: break-all;
+}
+
+.landing-page .tab:focus,
+.landing-page .tab.active {
+  background: var(--theme-selection-background);
+  color: var(--theme-selection-color);
+  cursor: pointer;
+  transition: var(--base-transition);
+}
+
+.landing-page .tab:focus .tab-title,
+.landing-page .tab.active .tab-title {
+  color: inherit;
+}
+
+.landing-page .tab:focus .tab-url,
+.landing-page .tab.active .tab-url {
+  color: var(--theme-highlight-gray);
 }
 
 .landing-page .panel .footer-note {

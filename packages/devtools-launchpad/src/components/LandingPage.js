@@ -45,13 +45,23 @@ const LandingPage = React.createClass({
     };
   },
 
+  componentDidUpdate() {
+    this.refs.filterInput.focus();
+  },
+
   onFilterChange(newFilterString) {
     this.props.onFilterChange(newFilterString);
   },
 
   onSideBarItemClick(itemTitle) {
-    this.setState({ selectedPane: itemTitle });
-    this.onFilterChange("");
+    if (itemTitle !== this.state.selectedPane) {
+      this.setState({ selectedPane: itemTitle });
+      this.onFilterChange("");
+    }
+  },
+
+  onTabClick(tab, paramName) {
+    this.props.onTabClick(getTabURL(tab, paramName));
   },
 
   renderTabs(tabs, paramName) {
@@ -59,18 +69,34 @@ const LandingPage = React.createClass({
       return dom.div({}, "");
     }
 
+    let tabClassNames = ["tab"];
+    if (tabs.size === 1) {
+      tabClassNames.push("active");
+    }
+
     return dom.div(
       { className: "tab-group" },
       dom.ul(
         { className: "tab-list" },
-        tabs.valueSeq().map(tab => dom.li(
-          { "className": "tab",
-            "key": tab.get("id"),
-            "onClick": () => this.props.onTabClick(getTabURL(tab, paramName))
+        tabs.valueSeq().map(
+          tab => dom.li({
+            className: classnames("tab", {
+              active: tabs.size === 1
+            }),
+            key: tab.get("id"),
+            tabIndex: 0,
+            role: "link",
+            onClick: () => this.onTabClick(tab, paramName),
+            onKeyDown: e => {
+              if (e.keyCode === 13) {
+                this.onTabClick(tab, paramName);
+              }
+            }
           },
           dom.div({ className: "tab-title" }, tab.get("title")),
           dom.div({ className: "tab-url" }, tab.get("url"))
-        ))
+          )
+        )
       )
     );
   },
@@ -115,9 +141,17 @@ const LandingPage = React.createClass({
       dom.header(
         {},
         dom.input({
+          ref: "filterInput",
           placeholder: "Filter tabs",
           value: filterString,
-          onChange: e => this.onFilterChange(e.target.value)
+          autoFocus: true,
+          type: "search",
+          onChange: e => this.onFilterChange(e.target.value),
+          onKeyDown: e => {
+            if (targets.size === 1 && e.keyCode === 13) {
+              this.onTabClick(targets.first(), paramName);
+            }
+          }
         })
       ),
       this.renderTabs(targets, paramName),
@@ -149,8 +183,14 @@ const LandingPage = React.createClass({
               selected: title == this.state.selectedPane
             }),
             key: title,
-
-            onClick: () => this.onSideBarItemClick(title)
+            tabIndex: 0,
+            role: "button",
+            onClick: () => this.onSideBarItemClick(title),
+            onKeyDown: e => {
+              if (e.keyCode === 13) {
+                this.onSideBarItemClick(title);
+              }
+            }
           },
           dom.a({}, title)
       )))

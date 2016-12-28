@@ -36,7 +36,7 @@ const getTabs = (tabs, state) => {
 
 const renderLandingPage = (props) => {
   return React.DOM.div({}, React.createElement(LandingPage, Object.assign({
-    onFilterChange: action("FILTER_TABS"),
+    onFilterChange: action("onFilterChange"),
     onTabClick: action("onTabClick")
   }, props)));
 };
@@ -114,6 +114,20 @@ storiesOf("LandingPage", module)
     return renderLandingPage({
       tabs: getTabs(tabs, state),
       filterString: selectors.getFilterString(state),
+      supportsFirefox: true,
+      supportsChrome: true,
+      title: "Storybook test"
+    });
+  })
+  .add("One of each", () => {
+    let tabs = [
+      getTab(1, "Page 1", "firefox"),
+      getTab(2, "Page 2", "chrome"),
+      getTab(3, "process 1", "node"),
+    ];
+
+    return renderLandingPage({
+      tabs: getTabs(tabs),
       supportsFirefox: true,
       supportsChrome: true,
       title: "Storybook test"
