@@ -34,6 +34,7 @@ const LandingPage = React.createClass({
     title: React.PropTypes.string.isRequired,
     filterString: React.PropTypes.string,
     onFilterChange: React.PropTypes.func.isRequired,
+    onTabClick: React.PropTypes.func.isRequired,
   },
 
   displayName: "LandingPage",
@@ -65,9 +66,7 @@ const LandingPage = React.createClass({
         tabs.valueSeq().map(tab => dom.li(
           { "className": "tab",
             "key": tab.get("id"),
-            "onClick": () => {
-              window.location = getTabURL(tab, paramName);
-            }
+            "onClick": () => this.props.onTabClick(getTabURL(tab, paramName))
           },
           dom.div({ className: "tab-title" }, tab.get("title")),
           dom.div({ className: "tab-url" }, tab.get("url"))

@@ -23,7 +23,10 @@ const LaunchpadApp = React.createClass({
       supportsChrome: !!getValue("chrome"),
       title: getValue("title"),
       filterString: this.props.filterString,
-      onFilterChange: this.props.actions.filterTabs
+      onFilterChange: this.props.actions.filterTabs,
+      onTabClick: (url) => {
+        window.location = url;
+      }
     });
   }
 });
