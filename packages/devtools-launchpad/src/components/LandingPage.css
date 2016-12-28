@@ -65,7 +65,7 @@
 
 .landing-page .sidebar li:hover a,
 .landing-page .sidebar li:focus a {
-color: inherit;
+  color: inherit;
 }
 
 .landing-page .panel {
