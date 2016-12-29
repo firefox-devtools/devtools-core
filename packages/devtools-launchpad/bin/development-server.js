@@ -41,6 +41,10 @@ function serveRoot(req, res) {
   res.send(Mustache.render(tplFile, {
     isDevelopment: isDevelopment(),
     dir: getValue("dir") || "ltr"
+    pageTitle: getValue("pageTitle") || getValue("title"),
+    favicon: getValue("assets.favicon")
+      ? path.basename(getValue("assets.favicon"))
+      : "launchpad-favicon.png"
   }));
 }
 
@@ -97,6 +101,14 @@ function startDevServer(devConfig, webpackConfig) {
   const app = express();
   app.use(express.static("assets/build"));
   app.use(express.static(path.join(__dirname, '../assets')));
+
+  let assets = getValue("assets");
+  if (assets) {
+    Object.keys(assets).forEach(key => {
+      app.use(express.static(path.dirname( assets[key])));
+    });
+  }
+
   if (!getValue("development.customIndex")) {
     app.get("/", serveRoot);
   }
