@@ -1,6 +1,10 @@
 const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 
+const { connect } = require("react-redux");
+const { bindActionCreators } = require("redux");
+const selectors = require("../selectors");
+
 const Header = createFactory(require("./Header"));
 const ResultsList = createFactory(require("./ResultsList"));
 
@@ -13,44 +17,38 @@ const Console = React.createClass({
 
   displayName: "Console",
 
-  getInitialState: function() {
-    return {
-      expressions: []
-    };
-  },
-
-  evaluate(expression) {
-    this.props.client.clientCommands.evaluate(expression, {})
-      .then(
-        result => this.addExpression(expression, result),
-        err => console.warn("Error when evaluating expression", err)
-      );
-  },
-
-  addExpression(expression, result) {
-    this.setState(prevState => ({
-      expressions: [{
-        input: expression,
-        packet: result,
-      }, ...prevState.expressions]
-    }));
-  },
-
-  clearResultsList() {
-    this.setState(prevState => ({
-      expressions: []
-    }));
-  },
-
   render: function() {
+    let {
+      actions,
+      expressions,
+    } = this.props;
+
     return dom.main({},
       Header({
-        evaluate: this.evaluate,
-        clearResultsList: this.clearResultsList
+        evaluate: expression => actions.evaluateInput(
+          this.props.client.clientCommands.evaluate,
+          expression
+        ),
+        clearResultsList: actions.clearExpressions
       }),
-      ResultsList({expressions: this.state.expressions})
+      ResultsList({ expressions })
     );
   }
 });
 
-module.exports = Console;
+function mapStateToProps(state) {
+  return {
+    expressions: selectors.getExpressions(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(require("../actions"), dispatch)
+  };
+}
+
+module.exports = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Console);
