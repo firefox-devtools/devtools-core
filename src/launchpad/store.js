@@ -4,20 +4,17 @@ const {
     createStore
 } = require("redux");
 
-const { thunk } = require("./utils/redux/middleware/thunk");
+const {promise} = require("./utils/redux/middleware/promise");
+const {thunk} =   require("./utils/redux/middleware/thunk");
 const reducers = require("./reducers");
 
-console.log("reducers", reducers);
-
-function configureStore() {
-  const initialState = {
-    expressions: []
-  };
-
+function configureStore(options) {
   return createStore(
     combineReducers(reducers),
-    initialState,
-    applyMiddleware(thunk)
+    applyMiddleware(
+      thunk(options.makeThunkArgs),
+      promise
+    )
   );
 }
 

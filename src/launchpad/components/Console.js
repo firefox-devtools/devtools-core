@@ -25,10 +25,7 @@ const Console = React.createClass({
 
     return dom.main({},
       Header({
-        evaluate: expression => actions.evaluateInput(
-          this.props.client.clientCommands.evaluate,
-          expression
-        ),
+        evaluate: actions.evaluateInput,
         clearResultsList: actions.clearExpressions
       }),
       ResultsList({ expressions })

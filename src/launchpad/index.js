@@ -22,7 +22,11 @@ if (!isFirefoxPanel()) {
       return;
     }
 
-    let store = configureStore();
+    let store = configureStore({
+      makeThunkArgs: (args, state) => {
+        return Object.assign({}, args, { client });
+      }
+    });
 
     ReactDOM.render(
       React.createElement(

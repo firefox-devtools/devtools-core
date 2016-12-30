@@ -1,10 +1,18 @@
 const constants = require("../constants");
 
-function evaluateInput(evaluate, input) {
-  return (dispatch) => {
-    evaluate(input, {})
-      .then(packet => dispatch(addExpression(input, packet)))
-      .catch(err => console.warn("Error when evaluating expression", err));
+function evaluateInput(input) {
+  return async function ({dispatch, client}) {
+    if (!client) {
+      console.warn("No client");
+      return;
+    }
+
+    try {
+      const packet = await client.clientCommands.evaluate(input, {});
+      dispatch(addExpression(input, packet));
+    } catch (err) {
+      console.warn("Error when evaluating expression", err)
+    }
   };
 }
 
