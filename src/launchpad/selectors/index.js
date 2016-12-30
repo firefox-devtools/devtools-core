@@ -3,5 +3,5 @@ function getExpressions(state) {
 }
 
 module.exports = {
-  getExpressions
+  getExpressions,
 };
