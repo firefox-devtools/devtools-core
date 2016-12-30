@@ -9,7 +9,7 @@
 
 ### Local Development
 
-+ [Installing Locally](./#installing-locally)
++ [Installing Locally](#installing-locally)
 
 
 #### Installing Locally
@@ -25,8 +25,8 @@ devtools-core `devtools-client-adapters` package directory.
 
 * Once the debugger is linked then any change in the code will be reflected in the debugger.
 * Making changes does not require re-starting the dev-server.
-* ignores any pre-publish steps that might be important.
-* could create a bundling issue because `devtools-client-adapters` has its own set of node_modules, which are not shared with the debugger or other tools.
+* Ignores any pre-publish steps that might be important.
+* Could create a bundling issue because `devtools-client-adapters` has its own set of node_modules, which are not shared with the debugger or other tools.
 
 
 Steps:
