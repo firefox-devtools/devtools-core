@@ -28,7 +28,11 @@ const Console = React.createClass({
         evaluate: actions.evaluateInput,
         clearResultsList: actions.clearExpressions
       }),
-      ResultsList({ expressions })
+      ResultsList({
+        expressions: expressions.reverse(),
+        showResultPacket: actions.showResultPacket,
+        hideResultPacket: actions.hideResultPacket,
+      })
     );
   }
 });

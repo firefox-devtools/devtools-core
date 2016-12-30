@@ -45,8 +45,14 @@ function filterByKey(obj, predicate) {
     }, {});
 }
 
+let keyCounter = 0;
+function generateKey() {
+  return `${++keyCounter}`;
+}
+
 module.exports = {
   defer,
   executeSoon,
   filterByKey,
+  generateKey,
 };
