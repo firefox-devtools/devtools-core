@@ -7,8 +7,8 @@ require("./Header.css");
 const Header = React.createClass({
 
   propTypes: {
-    evaluate: PropTypes.func.required,
-    clearResultsList: PropTypes.func.required,
+    evaluate: PropTypes.func.isRequired,
+    clearResultsList: PropTypes.func.isRequired,
   },
 
   displayName: "Header",
