@@ -1,28 +1,37 @@
+// @flow
 const { DebuggerClient, DebuggerTransport,
         TargetFactory, WebsocketTransport } = require("devtools-sham-modules");
-const defer = require("./utils/defer");
 const { getValue } = require("devtools-config");
-const { Tab } = require("./tcomb-types");
 const { setupCommands, clientCommands } = require("./firefox/commands");
 const { setupEvents, clientEvents } = require("./firefox/events");
 
-let debuggerClient = null;
-let threadClient = null;
-let tabTarget = null;
+import type { Tab } from './types';
 
-function getThreadClient() {
+import type {
+  TabTarget,
+  TabPayload,
+  DebuggerClient as DebuggerClientType,
+  Actions,
+  ThreadClient
+} from './firefox/types';
+
+let debuggerClient: DebuggerClientType | null = null;
+let threadClient: ThreadClient | null = null;
+let tabTarget: TabTarget | null = null;
+
+function getThreadClient(): ThreadClient | null {
   return threadClient;
 }
 
-function setThreadClient(client) {
+function setThreadClient(client: ThreadClient | null) {
   threadClient = client;
 }
 
-function getTabTarget() {
+function getTabTarget(): TabTarget | null {
   return tabTarget;
 }
 
-function setTabTarget(target) {
+function setTabTarget(target: TabTarget | null) {
   tabTarget = target;
 }
 
@@ -31,20 +40,19 @@ function lookupTabTarget(tab) {
   return TargetFactory.forRemoteTab(options);
 }
 
-function createTabs(tabs) {
+function createTabs(tabs: TabPayload[]): Tab[] {
   return tabs.map(tab => {
-    return Tab({
+    return {
       title: tab.title,
       url: tab.url,
       id: tab.actor,
       tab,
       clientType: "firefox"
-    });
+    };
   });
 }
 
 function connectClient() {
-  const deferred = defer();
   const useProxy = !getValue("firefox.webSocketConnection");
   const firefoxHost = getValue(
     useProxy ? "firefox.proxyHost" : "firefox.webSocketHost"
@@ -53,24 +61,30 @@ function connectClient() {
   const socket = new WebSocket(`ws://${firefoxHost}`);
   const transport = useProxy ?
     new DebuggerTransport(socket) : new WebsocketTransport(socket);
-  debuggerClient = new DebuggerClient(transport);
 
-  debuggerClient.connect().then(() => {
-    return debuggerClient.listTabs().then(response => {
-      deferred.resolve(createTabs(response.tabs));
+  return new Promise((resolve, reject) => {
+    debuggerClient = new DebuggerClient(transport);
+    debuggerClient.connect().then(() => {
+      if (debuggerClient !== null) {
+        return debuggerClient.listTabs().then(response => {
+          resolve(createTabs(response.tabs));
+        });
+      }
+      return resolve([]);
+    }).catch(err => {
+      console.log(err);
+      resolve([]);
     });
-  }).catch(err => {
-    console.log(err);
-    deferred.resolve([]);
   });
-
-  return deferred.promise;
 }
 
-function connectTab(tab) {
+function connectTab(tab: Tab) {
   return new Promise((resolve, reject) => {
     window.addEventListener("beforeunload", () => {
-      getTabTarget() && getTabTarget().destroy();
+      const tt = getTabTarget();
+      if (tt !== null) {
+        tt.destroy();
+      }
     });
 
     lookupTabTarget(tab).then(target => {
@@ -84,16 +98,20 @@ function connectTab(tab) {
   });
 }
 
-function initPage(actions) {
+function initPage(actions: Actions) {
   tabTarget = getTabTarget();
   threadClient = getThreadClient();
-  setupCommands({ threadClient, tabTarget, debuggerClient });
+  if (threadClient !== null && tabTarget !== null && debuggerClient !== null) {
+    setupCommands({ threadClient, tabTarget, debuggerClient });
+  }
 
-  if (actions) {
+  if (actions && threadClient !== null) {
     // Listen to all the requested events.
     setupEvents({ threadClient, actions });
     Object.keys(clientEvents).forEach(eventName => {
-      threadClient.addListener(eventName, clientEvents[eventName]);
+      if (threadClient !== null) {
+        threadClient.addListener(eventName, clientEvents[eventName]);
+      }
     });
   }
 }

@@ -4,6 +4,7 @@
   "description": "Devtools Client Adapters",
   "main": "index.js",
   "scripts": {
+    "flow": "flow",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -19,5 +20,8 @@
     "src"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "flow-bin": "^0.37.4"
+  }
 }
