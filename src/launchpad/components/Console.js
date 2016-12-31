@@ -19,19 +19,22 @@ const Console = React.createClass({
 
   render: function() {
     let {
-      actions,
       expressions,
+      evaluateInput,
+      clearExpressions,
+      showResultPacket,
+      hideResultPacket,
     } = this.props;
 
     return dom.main({},
       Header({
-        evaluate: actions.evaluateInput,
-        clearResultsList: actions.clearExpressions
+        evaluate: evaluateInput,
+        clearResultsList: clearExpressions
       }),
       ResultsList({
         expressions: expressions.reverse(),
-        showResultPacket: actions.showResultPacket,
-        hideResultPacket: actions.hideResultPacket,
+        showResultPacket: showResultPacket,
+        hideResultPacket: hideResultPacket,
       })
     );
   }
@@ -44,9 +47,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(require("../actions"), dispatch)
-  };
+  return bindActionCreators(require("../actions"), dispatch);
 }
 
 module.exports = connect(

@@ -3,11 +3,6 @@ const { generateKey } = require("../utils/utils");
 
 function evaluateInput(input) {
   return async function ({dispatch, client}) {
-    if (!client) {
-      console.warn("No client");
-      return;
-    }
-
     try {
       const packet = await client.clientCommands.evaluate(input, {});
       dispatch(addExpression(input, packet));
