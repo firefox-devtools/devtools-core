@@ -7,16 +7,12 @@ const Grip = require("../../reps/grip");
 
 const Result = React.createClass({
   propTypes: {
-    expression: PropTypes.object.isRequired
+    expression: PropTypes.object.isRequired,
+    showResultPacket: PropTypes.func.isRequired,
+    hideResultPacket: PropTypes.func.isRequired,
   },
 
   displayName: "Result",
-
-  getInitialState: function() {
-    return {
-      showPacket: false
-    };
-  },
 
   copyPacketToClipboard: function(e, packet) {
     e.stopPropagation();
@@ -30,9 +26,12 @@ const Result = React.createClass({
   },
 
   onHeaderClick: function() {
-    this.setState(prevState => ({
-      showPacket: !prevState || !prevState.showPacket
-    }));
+    const {expression} = this.props;
+    if (expression.showPacket === true) {
+      this.props.hideResultPacket();
+    } else {
+      this.props.showResultPacket();
+    }
   },
 
   renderRepInAllModes: function({ object }) {
@@ -52,8 +51,8 @@ const Result = React.createClass({
     );
   },
 
-  renderPacket: function(packet) {
-    let showPacket = this.state && this.state.showPacket === true;
+  renderPacket: function(expression) {
+    let {packet, showPacket} = expression;
     let headerClassName = showPacket ? "packet-expanded" : "packet-collapsed";
     let headerLabel = showPacket ? "Hide expression packet" : "Show expression packet";
 
@@ -83,7 +82,7 @@ const Result = React.createClass({
       dom.div({ className: "reps" }, this.renderRepInAllModes({
         object: packet.exception || packet.result
       })),
-      this.renderPacket(packet)
+      this.renderPacket(expression)
     );
   }
 });

@@ -6,7 +6,7 @@ const samples = require("../samples.js");
 const QuickLinks = React.createClass({
 
   propTypes: {
-    evaluate: PropTypes.func.required
+    evaluate: PropTypes.func.isRequired
   },
 
   displayName: "QuickLinks",
