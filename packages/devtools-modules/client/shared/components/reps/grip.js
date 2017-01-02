@@ -104,6 +104,10 @@ define(function (require, exports, module) {
     getProps: function (ownProperties, indexes) {
       let props = [];
 
+      if (!ownProperties || ownProperties.length == 0) {
+        return props;
+      }
+
       // Make indexes ordered by ascending.
       indexes.sort(function (a, b) {
         return a - b;
