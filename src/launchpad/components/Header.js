@@ -1,14 +1,19 @@
 const React = require("react");
 const { createFactory, DOM: dom, PropTypes } = React;
 
+const constants = require("../constants");
 const QuickLinks = createFactory(require("./QuickLinks"));
 require("./Header.css");
 
 const Header = React.createClass({
 
   propTypes: {
-    evaluate: PropTypes.func.isRequired,
+    addInput: PropTypes.func.isRequired,
+    changeCurrentInput: PropTypes.func.isRequired,
     clearResultsList: PropTypes.func.isRequired,
+    currentInputValue: PropTypes.string,
+    evaluate: PropTypes.func.isRequired,
+    navigateInputHistory: PropTypes.func.isRequired,
   },
 
   displayName: "Header",
@@ -17,7 +22,20 @@ const Header = React.createClass({
     e.preventDefault();
     let data = new FormData(e.target);
     let expression = data.get("expression");
-    this.props.evaluate(expression);
+    this.props.addInput(expression);
+  },
+
+  onInputChange: function(e) {
+    this.props.changeCurrentInput(e.target.value);
+  },
+
+  onInputKeyDown: function(e) {
+    if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+      this.props.navigateInputHistory(e.key === "ArrowUp"
+        ? constants.DIR_BACKWARD
+        : constants.DIR_FORWARD
+      );
+    }
   },
 
   onClearButtonClick: function(e) {
@@ -25,6 +43,11 @@ const Header = React.createClass({
   },
 
   render() {
+    let {
+      currentInputValue,
+      evaluate,
+    } = this.props;
+
     return dom.header(
       { className: "console-header" },
       dom.form({
@@ -34,7 +57,11 @@ const Header = React.createClass({
         dom.input({
           type: "text",
           placeholder: "Enter an expression",
-          name: "expression"
+          name: "expression",
+          value: currentInputValue || "",
+          autoFocus: true,
+          onChange: this.onInputChange,
+          onKeyDown: this.onInputKeyDown,
         }),
         dom.button({
           className: "clear-button",
@@ -42,7 +69,7 @@ const Header = React.createClass({
           onClick: this.onClearButtonClick
         }, "Clear"),
       ),
-      QuickLinks({evaluate: this.props.evaluate})
+      QuickLinks({ evaluate })
     );
   }
 });

@@ -19,22 +19,30 @@ const Console = React.createClass({
 
   render: function() {
     let {
-      expressions,
-      evaluateInput,
+      addInput,
+      changeCurrentInput,
       clearExpressions,
-      showResultPacket,
+      currentInputValue,
+      evaluateInput,
+      expressions,
       hideResultPacket,
+      navigateInputHistory,
+      showResultPacket,
     } = this.props;
 
     return dom.main({},
       Header({
+        addInput,
+        changeCurrentInput,
+        clearResultsList: clearExpressions,
+        currentInputValue,
         evaluate: evaluateInput,
-        clearResultsList: clearExpressions
+        navigateInputHistory,
       }),
       ResultsList({
         expressions: expressions.reverse(),
-        showResultPacket: showResultPacket,
-        hideResultPacket: hideResultPacket,
+        hideResultPacket,
+        showResultPacket,
       })
     );
   }
@@ -42,7 +50,8 @@ const Console = React.createClass({
 
 function mapStateToProps(state) {
   return {
-    expressions: selectors.getExpressions(state)
+    expressions: selectors.getExpressions(state),
+    currentInputValue: selectors.getCurrentInputValue(state),
   };
 }
 
