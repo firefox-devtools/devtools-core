@@ -5,6 +5,7 @@ let bpClients;
 let threadClient;
 let tabTarget;
 let debuggerClient;
+let propertiesRequestCache = new Set();
 
 function setupCommands(dependencies) {
   threadClient = dependencies.threadClient;
@@ -122,8 +123,16 @@ function reload() {
 }
 
 function getProperties(grip) {
+  if (propertiesRequestCache.has(grip.actor)) {
+    return Promise.resolve();
+  }
+
+  propertiesRequestCache.add(grip.actor);
   const objClient = threadClient.pauseGrip(grip);
-  return objClient.getPrototypeAndProperties();
+
+  return objClient.getPrototypeAndProperties().then(resp => {
+    return resp;
+  });
 }
 
 function pauseOnExceptions(
