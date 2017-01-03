@@ -1,6 +1,15 @@
-const { Source, Frame, Location } = require("../tcomb-types");
+// @flow
+// This module converts Firefox specific types to the generic types
 
-function createFrame(frame) {
+import type { Frame, Source } from "../types";
+import type {
+  PausedPacket,
+  FramesResponse,
+  FramePacket,
+  SourcePayload
+} from "./types";
+
+function createFrame(frame: FramePacket): Frame {
   let title;
   if (frame.type == "call") {
     let c = frame.callee;
@@ -9,26 +18,33 @@ function createFrame(frame) {
     title = `(${ frame.type })`;
   }
 
-  return Frame({
+  return {
     id: frame.actor,
     displayName: title,
-    location: Location({
+    location: {
       sourceId: frame.where.source.actor,
       line: frame.where.line,
       column: frame.where.column
-    }),
+    },
     this: frame.this,
     scope: frame.environment
-  });
+  };
 }
 
-function createSource(source) {
-  return Source({
+function createSource(source: SourcePayload): Source {
+  return {
     id: source.actor,
     url: source.url,
     isPrettyPrinted: false,
     sourceMapURL: source.sourceMapURL
+  };
+}
+
+function createPause(packet: PausedPacket, response: FramesResponse): any {
+  return Object.assign({}, packet, {
+    frame: createFrame(packet.frame),
+    frames: response.frames.map(createFrame)
   });
 }
 
-module.exports = { createFrame, createSource };
+module.exports = { createFrame, createSource, createPause };
