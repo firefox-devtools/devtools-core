@@ -16,7 +16,9 @@
   },
   "main": "src/index.js",
   "bin": {
-    "start-dev-server": "./bin/development-server.js"
+    "start-dev-server": "./bin/development-server.js",
+    "start-firefox": "./bin/firefox-driver.js",
+    "start-chrome": "./bin/chrome-driver.js"
   },
   "engineStrict": true,
   "engines": {
@@ -56,6 +58,7 @@
     "eslint-plugin-react": "^6.7.1",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
+    "geckodriver": "^1.2.0",
     "fuzzaldrin-plus": "^0.4.0",
     "immutable": "^3.7.6",
     "json-loader": "^0.5.4",
@@ -72,6 +75,7 @@
     "react-inlinesvg": "^0.5.3",
     "react-redux": "4.4.5",
     "redux": "3.5.2",
+    "selenium-webdriver": "^3.0.1",
     "single-module-webpack-plugin": "^0.0.2",
     "style-loader": "^0.13.1",
     "svg-inline-loader": "^0.7.1",
