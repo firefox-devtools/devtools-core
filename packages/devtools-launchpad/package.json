@@ -12,7 +12,7 @@
   "homepage": "https://github.com/devtools-html/debugger.html#readme",
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "main": "src/index.js",
   "bin": {
@@ -23,6 +23,7 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
+    "@kadira/storybook-deployer": "^1.2.0",
     "amd-loader": "0.0.5",
     "babel-cli": "^6.7.5",
     "babel-core": "^6.17.0",
