@@ -1950,6 +1950,30 @@ ThreadClient.prototype = {
     telemetry: "CLIENTEVALUATE"
   }),
 
+   /**
+    * Send a clientEvaluate packet to the debuggee. Response
+    * will be a resume packet.
+    *
+    * @param string aFrame
+    *        The actor ID of the frame where the evaluation should take place.
+    * @param string aExpression
+    *        The expression that will be evaluated in the scope of the frame
+    *        above.
+    * @param function aOnResponse
+    *        Called with the response packet.
+    */
+  recordCoverage: DebuggerClient.requester({
+    type: "recordCoverage"
+  }, {
+    before: function(aPacket) {
+      return aPacket;
+    },
+    after: function(aResponse) {
+      return aResponse;
+    },
+    telemetry: "recordCoverage"
+  }),
+
   /**
    * Detach from the thread actor.
    *

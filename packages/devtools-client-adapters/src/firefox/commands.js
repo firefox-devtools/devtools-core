@@ -153,6 +153,12 @@ function disablePrettyPrint(sourceId) {
   return sourceClient.disablePrettyPrint();
 }
 
+function recordCoverage() {
+  return new Promise(resolve => {
+    threadClient.recordCoverage(resolve);
+  });
+}
+
 function interrupt() {
   return threadClient.interrupt();
 }
@@ -185,7 +191,8 @@ const clientCommands = {
   getProperties,
   pauseOnExceptions,
   prettyPrint,
-  disablePrettyPrint
+  disablePrettyPrint,
+  recordCoverage
 };
 
 module.exports = {
