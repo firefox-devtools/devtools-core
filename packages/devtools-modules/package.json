@@ -1,6 +1,6 @@
 {
   "name": "devtools-modules",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "DevTools Modules from M-C",
   "main": "index.js",
   "scripts": {
