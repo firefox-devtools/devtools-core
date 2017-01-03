@@ -2,12 +2,11 @@
 
 import type {
   SourcePacket,
-  ActualLocation,
   ResumedPacket,
   PausedPacket,
   ThreadClient,
   Actions
-} from './types';
+} from "./types";
 
 const { createPause, createSource } = require("./create");
 const { isEnabled } = require("devtools-config");

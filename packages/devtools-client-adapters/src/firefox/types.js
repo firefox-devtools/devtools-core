@@ -12,7 +12,7 @@ import type {
   Source,
   Pause,
   SourceId
-} from '../types';
+} from "../types";
 
 type URL = string;
 
@@ -72,13 +72,14 @@ export type FramePacket = {
 
 /**
  * Firefox Source File payload
+ * introductionType can be a "scriptElement"
  * @memberof firefox/payloads
  * @static
  */
 export type SourcePayload = {
   actor: ActorId,
   generatedUrl?: URL,
-  introductionType: string, // ex. "scriptElement"
+  introductionType: string,
   introductionUrl?: URL,
   isBlackBoxed: boolean,
   isPrettyPrinted: boolean,
@@ -215,7 +216,11 @@ export type Actions = {
  */
 export type TabTarget = {
   activeConsole: {
-    evaluateJS: (Script, Function, ?{ frameActor?: FrameId }) => void
+    evaluateJS: (
+      script: Script,
+      func: Function,
+      params?: { frameActor?: FrameId }
+    ) => void
   },
   form: { consoleActor: any },
   activeTab: {
@@ -262,7 +267,7 @@ export type DebuggerClient = {
  */
 // FIXME: need Grip definition
 export type Grip = {
-
+  actor: string
 }
 
 /**

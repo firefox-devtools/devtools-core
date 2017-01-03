@@ -1,8 +1,13 @@
 // @flow
 // This module converts Firefox specific types to the generic types
 
-import type { Frame, Source, Pause } from '../types';
-import type { PausedPacket, FramesResponse, FramePacket, SourcePayload } from './types';
+import type { Frame, Source } from "../types";
+import type {
+  PausedPacket,
+  FramesResponse,
+  FramePacket,
+  SourcePayload
+} from "./types";
 
 function createFrame(frame: FramePacket): Frame {
   let title;
@@ -35,15 +40,11 @@ function createSource(source: SourcePayload): Source {
   };
 }
 
-function createPause(packet: PausedPacket, response: FramesResponse): Pause {
-  const frames = response.frames.map(createFrame);
-  const { frame, ...pause } = packet;
-
-  return {
-    frame: createFrame(frame),
-    frames: frames,
-    ...pause
-  };
+function createPause(packet: PausedPacket, response: FramesResponse): any {
+  return Object.assign({}, packet, {
+    frame: createFrame(packet.frame),
+    frames: response.frames.map(createFrame)
+  });
 }
 
 module.exports = { createFrame, createSource, createPause };

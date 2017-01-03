@@ -14,7 +14,6 @@ import type {
 import type {
   TabTarget,
   DebuggerClient,
-  ActualLocation,
   Grip,
   ThreadClient,
   ObjectClient,
@@ -25,13 +24,13 @@ import type {
 let bpClients : {[id:ActorId]: BreakpointClient};
 let threadClient: ThreadClient;
 let tabTarget : TabTarget;
-let debuggerClient: DebuggerClient;
+let debuggerClient: DebuggerClient | null;
 let propertiesRequestCache = new Set();
 
 type Dependencies = {
   threadClient: ThreadClient,
   tabTarget: TabTarget,
-  debuggerClient: DebuggerClient
+  debuggerClient: DebuggerClient | null
 };
 
 function setupCommands(dependencies: Dependencies): void {
@@ -74,7 +73,8 @@ function sourceContents(sourceId: SourceId): Source {
   return sourceClient.source();
 }
 
-function setBreakpoint(location: Location, condition: boolean, noSliding: boolean): Promise<BreakpointResult> {
+function setBreakpoint(location: Location, condition: boolean,
+  noSliding: boolean): Promise<BreakpointResult> {
   const sourceClient = threadClient.source({ actor: location.sourceId });
 
   return sourceClient.setBreakpoint({
@@ -85,7 +85,8 @@ function setBreakpoint(location: Location, condition: boolean, noSliding: boolea
   }).then((res: BreakpointResponse) => onNewBreakpoint(location, res));
 }
 
-function onNewBreakpoint(location: Location, res: BreakpointResponse): BreakpointResult {
+function onNewBreakpoint(location: Location, res: BreakpointResponse)
+  : BreakpointResult {
   const bpClient = res[1];
   let actualLocation = res[0].actualLocation;
   bpClients[bpClient.actor] = bpClient;
@@ -127,12 +128,20 @@ type EvaluateParam = {
 function evaluate(script: Script, { frameId }: EvaluateParam) {
   const params = frameId ? { frameActor: frameId } : {};
   return new Promise(resolve => {
-    tabTarget.activeConsole.evaluateJS(script, (result) => resolve(result), params);
+    tabTarget.activeConsole.evaluateJS(
+      script,
+      (result) => resolve(result),
+      params
+    );
   });
 }
 
 function debuggeeCommand(script: Script) {
-  tabTarget.activeConsole.evaluateJS(script, () => {});
+  tabTarget.activeConsole.evaluateJS(script, () => {}, {});
+
+  if (!debuggerClient) {
+    return;
+  }
 
   const consoleActor = tabTarget.form.consoleActor;
   const request = debuggerClient._activeRequests.get(consoleActor);
@@ -164,7 +173,8 @@ function getProperties(grip: Grip): Promise<*> {
 }
 
 function pauseOnExceptions(
-  shouldPauseOnExceptions: boolean, shouldIgnoreCaughtExceptions: boolean): Promise<*> {
+  shouldPauseOnExceptions: boolean, shouldIgnoreCaughtExceptions: boolean)
+  : Promise<*> {
   return threadClient.pauseOnExceptions(
     shouldPauseOnExceptions,
     shouldIgnoreCaughtExceptions

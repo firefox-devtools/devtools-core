@@ -5,7 +5,7 @@ const { getValue } = require("devtools-config");
 const { setupCommands, clientCommands } = require("./firefox/commands");
 const { setupEvents, clientEvents } = require("./firefox/events");
 
-import type { Tab } from './types';
+import type { Tab } from "./types";
 
 import type {
   TabTarget,
@@ -13,7 +13,7 @@ import type {
   DebuggerClient as DebuggerClientType,
   Actions,
   ThreadClient
-} from './firefox/types';
+} from "./firefox/types";
 
 let debuggerClient: DebuggerClientType | null = null;
 let threadClient: ThreadClient | null = null;
@@ -101,15 +101,18 @@ function connectTab(tab: Tab) {
 function initPage(actions: Actions) {
   tabTarget = getTabTarget();
   threadClient = getThreadClient();
-  if (threadClient !== null && tabTarget !== null && debuggerClient !== null) {
-    setupCommands({ threadClient, tabTarget, debuggerClient });
+
+  if (!threadClient || !tabTarget || !actions) {
+    return;
   }
 
-  if (actions && threadClient !== null) {
+  setupCommands({ threadClient, tabTarget, debuggerClient });
+
+  if (actions) {
     // Listen to all the requested events.
     setupEvents({ threadClient, actions });
     Object.keys(clientEvents).forEach(eventName => {
-      if (threadClient !== null) {
+      if (threadClient) {
         threadClient.addListener(eventName, clientEvents[eventName]);
       }
     });
