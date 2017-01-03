@@ -16,7 +16,7 @@ function firstTimeMessage(title, urlPart) {
   return dom.div(
     { className: "footer-note" },
     `First time connecting to ${title}? Checkout out the `,
-    dom.a({ href: `${githubUrl}/CONTRIBUTING.md#${urlPart}` }, "docs"),
+    dom.a({ href: `${githubUrl}/docs/getting-setup.md#starting-${urlPart}` }, "docs"),
     "."
   );
 }
