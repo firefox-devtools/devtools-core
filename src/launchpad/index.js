@@ -1,5 +1,5 @@
 // require("./webconsole.css")
-require("../reps.css");
+require("../reps/reps.css");
 
 const { bootstrap, L10N } = require("devtools-launchpad");
 const { isFirefoxPanel } = require("devtools-config");
