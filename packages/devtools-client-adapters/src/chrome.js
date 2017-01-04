@@ -78,6 +78,10 @@ function connectNode(tab) {
   return CDP({ tab: tab.webSocketDebuggerUrl })
     .then(conn => {
       connection = conn;
+      window.addEventListener("beforeunload", () => {
+        connection.onclose = function disable() {};
+        connection.close();
+      });
     });
 }
 
