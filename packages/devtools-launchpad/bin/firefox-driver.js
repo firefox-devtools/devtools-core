@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 
-const webdriver = require("selenium-webdriver");
-const firefox = require("selenium-webdriver/firefox");
-const By = webdriver.By;
-const until = webdriver.until;
-const Key = webdriver.Key;
 const minimist = require("minimist");
 const url = require('url');
 var path = require('path');
+const webdriver = require("selenium-webdriver");
+const firefox = require("selenium-webdriver/firefox");
+const isWindows = /^win/.test(process.platform);
+
+addGeckoDriverToPath()
+
+const By = webdriver.By;
+const until = webdriver.until;
+const Key = webdriver.Key;
 
 const args = minimist(process.argv.slice(2),
 {
@@ -15,15 +19,16 @@ const args = minimist(process.argv.slice(2),
   string: ["location"],
 });
 
-const isWindows = /^win/.test(process.platform);
 const shouldStart = args.start;
 const isTests = args.tests;
 const useWebSocket = args.websocket;
 
-// https://github.com/devtools-html/debugger.html/pull/1309
-const delim = isWindows ? ";" : ":"
-const geckoDriverPath = path.resolve(__dirname, '../node_modules/geckodriver');
-process.env.PATH = `${geckoDriverPath}${delim}${process.env.PATH}`;
+function addGeckoDriverToPath() {
+  // https://github.com/devtools-html/debugger.html/pull/1309
+  const delim = isWindows ? ";" : ":"
+  const geckoDriverPath = path.resolve(__dirname, '../../geckodriver');
+  process.env.PATH = `${geckoDriverPath}${delim}${process.env.PATH}`;
+}
 
 function binaryArgs() {
   return [
