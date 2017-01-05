@@ -45,6 +45,10 @@ function connectClient() {
     return Promise.resolve(createTabs([]));
   }
 
+  return getTabs();
+}
+
+async function getTabs() {
   return CDP.List({
     port: getValue("chrome.port"),
     host: getValue("chrome.host")

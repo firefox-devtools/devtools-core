@@ -104,7 +104,27 @@ function getTargetFromQuery() {
   return null;
 }
 
-async function bootstrap(React, ReactDOM, App, appActions, appStore) {
+function getTabs(actions) {
+  chrome.connectClient().then(tabs => {
+    actions.newTabs(tabs);
+  }).catch(e => {
+    console.log("Connect to chrome:");
+    console.log("https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome");
+  });
+
+  chrome.connectNodeClient().then(tabs => {
+    actions.newTabs(tabs);
+  }).catch(e => {
+    console.log("Connect to Node:");
+    console.log("https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#node");
+  });
+
+  return firefox.connectClient().then(tabs => {
+    actions.newTabs(tabs);
+  });
+}
+
+function bootstrap(React, ReactDOM, App, appActions, appStore) {
   const connTarget = getTargetFromQuery();
   if (connTarget) {
     return startDebugging(connTarget, appActions)
@@ -115,21 +135,10 @@ async function bootstrap(React, ReactDOM, App, appActions, appStore) {
       });
   }
 
-  const { store, actions, LaunchpadApp } = await initApp();
-  renderRoot(React, ReactDOM, LaunchpadApp, store);
-  chrome.connectClient().then(tabs => {
-    actions.newTabs(tabs);
-  }).catch(e => {
-    console.log("Connect to chrome:");
-    console.log("https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome");
-  });
-
-  chrome.connectNodeClient().then(tabs => {
-    actions.newTabs(tabs);
-  });
-
-  return firefox.connectClient().then(tabs => {
-    actions.newTabs(tabs);
+  return initApp()
+  .then(({ store, actions, LaunchpadApp }) => {
+    renderRoot(React, ReactDOM, LaunchpadApp, store);
+    setInterval(() => getTabs(actions), 1000);
   });
 }
 
