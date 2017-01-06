@@ -12,13 +12,16 @@ const express = require("express");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const http = require("http");
+const https = require("https");
 const checkNode = require("check-node-version");
 const getValue = require("devtools-config").getValue;
 const setConfig = require("devtools-config").setConfig;
 const isDevelopment = require("devtools-config").isDevelopment;
 
-function httpGet(url, onResponse) {
-  return http.get(url, (response) => {
+function httpOrHttpsGet(url, onResponse) {
+  let protocol = url.startsWith("https:") ? https : http;
+
+  return protocol.get(url, (response) => {
     if (response.statusCode !== 200) {
       console.error(`error response: ${response.statusCode} to ${url}`);
       response.emit("statusCode", new Error(response.statusCode));
@@ -48,7 +51,7 @@ function handleNetworkRequest(req, res) {
     res.json(JSON.parse(fs.readFileSync(path, "utf8")));
   }
   else {
-    const httpReq = httpGet(
+    const httpReq = httpOrHttpsGet(
       req.query.url,
       body => {
         try {
