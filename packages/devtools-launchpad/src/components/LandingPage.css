@@ -84,12 +84,17 @@
 
 .landing-page .panel header input {
   flex: 1;
-  color: var(--theme-body-color);
+  background-color: var(--theme-tab-toolbar-background);
+  color: var(--theme-comment);
   font-size: var(--ui-element-font-size);
   border: 1px solid var(--theme-splitter-color);
   padding: calc(var(--base-spacing) / 2);
   margin: 0 var(--base-spacing);
   transition: var(--base-transition);
+}
+
+.landing-page .panel header input::placeholder {
+  color: var(--theme-body-color-inactive);
 }
 
 .landing-page .panel header input:focus {
