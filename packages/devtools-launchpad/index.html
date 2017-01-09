@@ -5,13 +5,13 @@
     <meta charset="utf8" />
     <link rel="shortcut icon" href="{{favicon}}" type="image/png" />
     {{^isDevelopment}}
-    <link rel="stylesheet" href="assets/build/styles.css" type="text/css" />
+    <link rel="stylesheet" href="assets/build/{{bundleName}}.css" type="text/css" />
     {{/isDevelopment}}
   </head>
 
   <body>
     <popupset></popupset>
     <div id="mount"></div>
-    <script src="assets/build/bundle.js"></script>
+    <script src="assets/build/{{bundleName}}.js"></script>
   </body>
 </html>

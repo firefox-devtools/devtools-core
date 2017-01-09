@@ -27,7 +27,9 @@ module.exports = (webpackConfig, envConfig) => {
   webpackConfig.module.loaders.push({
     test: /\.js$/,
     exclude: request => {
-      let excluded = request.match(/(node_modules|bower_components|fs|devtools-config)/);
+      let excluded = request.match(
+        /(node_modules|bower_components|fs|devtools-config)/
+      );
       if (webpackConfig.babelExcludes) {
         // If the tool defines an additional exclude regexp for Babel.
         excluded = excluded || request.match(webpackConfig.babelExcludes);
@@ -57,8 +59,6 @@ module.exports = (webpackConfig, envConfig) => {
   webpackConfig.externals = webpackConfig.externals || [];
 
   function externalsTest(context, request, callback) {
-    let mod = request;
-
     // Any matching paths here won't be included in the bundle.
     if (ignoreRegexes.some(r => r.test(request))) {
       return callback(null, "var {}");
@@ -84,12 +84,13 @@ module.exports = (webpackConfig, envConfig) => {
   if (isDevelopment()) {
     webpackConfig.module.loaders.push({
       test: /\.css$/,
-      exclude: /lkjsdflksdjlksdj/,
       loader: "style!css!postcss"
     });
 
     if (getValue("hotReloading")) {
-      webpackConfig.entry.bundle.push("webpack-hot-middleware/client");
+      Object.keys(webpackConfig.entry).forEach(key => {
+        webpackConfig.entry[key].push("webpack-hot-middleware/client");
+      });
 
       webpackConfig.plugins = webpackConfig.plugins.concat([
         new webpack.HotModuleReplacementPlugin(),
@@ -108,9 +109,12 @@ module.exports = (webpackConfig, envConfig) => {
       test: /\.css$/,
       exclude: request => {
         // If the tool defines an exclude regexp for CSS files.
-        return webpackConfig.cssExcludes && request.match(webpackConfig.cssExcludes);
+        return webpackConfig.cssExcludes
+          && request.match(webpackConfig.cssExcludes);
       },
-      loader: ExtractTextPlugin.extract("style-loader", "css-loader", "postcss-loader")
+      loader: ExtractTextPlugin.extract(
+        "style-loader", "css-loader", "postcss-loader"
+      )
     });
 
     webpackConfig.plugins.push(new ExtractTextPlugin("[name].css"));
