@@ -193,7 +193,14 @@ const SplitBox = React.createClass({
 
   render() {
     const vert = this.state.vert;
-    const { startPanel, endPanel, endPanelControl, splitterSize } = this.props;
+    const {
+      startPanelCollapsed,
+      startPanel,
+      endPanel,
+      endPanelControl,
+      splitterSize,
+      endPanelCollapsed
+    } = this.props;
 
     let style = Object.assign({}, this.props.style);
 
@@ -215,7 +222,7 @@ const SplitBox = React.createClass({
       dom.div({
         className: classNames.join(" "),
         style: style },
-        startPanel ?
+        ! startPanelCollapsed ?
           dom.div({
             className: endPanelControl ? "uncontrolled" : "controlled",
             style: leftPanelStyle },
@@ -228,7 +235,7 @@ const SplitBox = React.createClass({
           onStop: this.onStopMove,
           onMove: this.onMove
         }),
-        endPanel ?
+        ! endPanelCollapsed ?
           dom.div({
             className: endPanelControl ? "controlled" : "uncontrolled",
             style: rightPanelStyle },
