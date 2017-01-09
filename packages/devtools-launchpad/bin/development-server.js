@@ -38,9 +38,15 @@ function httpOrHttpsGet(url, onResponse) {
 function serveRoot(req, res) {
   const tplPath = path.join(__dirname, "../index.html");
   const tplFile = fs.readFileSync(tplPath, "utf8");
+
+  let favicon = getValue("favicon");
   res.send(Mustache.render(tplFile, {
     isDevelopment: isDevelopment(),
-    dir: getValue("dir") || "ltr"
+    dir: getValue("dir") || "ltr",
+    title: getValue("title") || "Launchpad",
+    favicon: favicon
+      ? path.basename(favicon)
+      : "launchpad-favicon.png"
   }));
 }
 
@@ -77,7 +83,7 @@ function onRequest(err, result) {
   }
 }
 
-function startDevServer(devConfig, webpackConfig) {
+function startDevServer(devConfig, webpackConfig, rootDir) {
   setConfig(devConfig);
   checkNode(">=6.9.0", function(_, opts) {
     if (!opts.nodeSatisfied) {
@@ -96,7 +102,13 @@ function startDevServer(devConfig, webpackConfig) {
   // setup app
   const app = express();
   app.use(express.static("assets/build"));
-  app.use(express.static(path.join(__dirname, '../assets')));
+
+  let favicon = getValue("favicon");
+  let faviconDir = favicon
+    ? path.dirname(path.join(rootDir, favicon))
+    : path.join(__dirname, '../assets')
+  app.use(express.static(faviconDir));
+
   if (!getValue("development.customIndex")) {
     app.get("/", serveRoot);
   }
