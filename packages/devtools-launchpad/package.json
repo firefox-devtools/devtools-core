@@ -1,6 +1,6 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "license": "MPL-2.0",
   "repository": {
     "url": "git://github.com/devtools-html/debugger.html.git",
@@ -48,7 +48,7 @@
     "css-loader": "^0.25.0",
     "devtools-client-adapters": "^0.0.6",
     "devtools-config": "^0.0.10",
-    "devtools-modules": "^0.0.11",
+    "devtools-modules": "^0.0.12",
     "devtools-network-request": "^0.0.9",
     "devtools-sham-modules": "^0.0.11",
     "eslint": "^3.12.0",
