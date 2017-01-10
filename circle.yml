@@ -1,0 +1,31 @@
+machine:
+  node:
+    version: 7.0
+  environment:
+    DOWNLOADS_PATH: "$HOME/downloads"
+    YARN_PATH: "$HOME/.yarn"
+    YARN_VERSION: 0.18.1
+    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+test:
+  post:
+    - yarn run lint-css
+    - yarn run lint-js
+
+dependencies:
+  pre:
+    - ./bin/install-yarn
+  cache_directories:
+    - ~/.cache/yarn
+    - ~/.yarn
+  override:
+    - yarn install
+
+general:
+  artifacts:
+    - "yarn-error.log"
+
+experimental:
+  notify:
+    branches:
+      only:
+        - master
