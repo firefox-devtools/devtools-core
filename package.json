@@ -1,13 +1,16 @@
 {
   "name": "devtools-reps",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Devtools Reps",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "node bin/dev-server.js",
     "lint-js": "eslint src/**/*.js",
     "firefox": "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
-    "chrome": "./node_modules/.bin/start-chrome"
+    "chrome": "./node_modules/.bin/start-chrome",
+    "copy-assets": "node bin/copy-assets",
+    "copy-assets-watch": "node bin/copy-assets --watch",
+    "prepublish": "node bin/publish-assets"
   },
   "author": "",
   "license": "ISC",

@@ -11,13 +11,7 @@ function start() {
   const projectPath = path.resolve(__dirname, "..");
   const mcModulePath = "devtools/client/shared/components";
   const mcPath = "./firefox";
-
-  // copyFile(
-  //   path.resolve(projectPath, "assets/locales/debugger.properties"),
-  //   path.resolve(projectPath, "firefox/devtools/client/locales/en-US/debugger.properties"),
-  //   {cwd: projectPath}
-  // );
-
+  
   symlinkTests({ projectPath, mcModulePath });
 
   makeBundle({
