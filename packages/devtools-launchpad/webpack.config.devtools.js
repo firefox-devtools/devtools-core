@@ -24,8 +24,6 @@ let packagesPath = path.join(__dirname, "../");
 const outputPath = process.env.OUTPUT_PATH;
 
 module.exports = (webpackConfig, envConfig) => {
-  webpackConfig.output.library = "Debugger";
-
   if (outputPath) {
     webpackConfig.output.path = outputPath;
   }
