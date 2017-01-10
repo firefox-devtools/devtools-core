@@ -35,18 +35,28 @@ function httpOrHttpsGet(url, onResponse) {
   });
 }
 
+function getFavicon() {
+  let favicon = getValue("favicon");
+
+  if (!favicon) {
+    return "launchpad-favicon.png";
+  }
+
+  return path.basename(favicon);
+}
+
 function serveRoot(req, res) {
   const tplPath = path.join(__dirname, "../index.html");
   const tplFile = fs.readFileSync(tplPath, "utf8");
+  const bundleName = getValue("title") ?
+    getValue("title").toLocaleLowerCase() : "bundle";
 
-  let favicon = getValue("favicon");
   res.send(Mustache.render(tplFile, {
     isDevelopment: isDevelopment(),
     dir: getValue("dir") || "ltr",
+    bundleName,
     title: getValue("title") || "Launchpad",
-    favicon: favicon
-      ? path.basename(favicon)
-      : "launchpad-favicon.png"
+    favicon: getFavicon()
   }));
 }
 
