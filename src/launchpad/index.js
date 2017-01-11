@@ -11,6 +11,7 @@ const { Provider } = require("react-redux");
 
 const RepsConsole = createFactory(require("./components/Console"));
 const { configureStore } = require("./store");
+const { KeyShortcuts } = require("devtools-sham-modules");
 
 require("./launchpad.css");
 L10N.setBundle(require("../strings.js"));
@@ -27,11 +28,13 @@ function onConnect({ client } = {}) {
     }
   });
 
+  let shortcuts = new KeyShortcuts({ window });
+
   ReactDOM.render(
     React.createElement(
       Provider,
       {store},
-      RepsConsole({ client })
+      RepsConsole({ client, shortcuts })
     ),
     root
   );

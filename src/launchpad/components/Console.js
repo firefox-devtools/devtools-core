@@ -12,10 +12,20 @@ require("./Console.css");
 
 const Console = React.createClass({
   propTypes: {
-    client: PropTypes.object.isRequired
+    client: PropTypes.object.isRequired,
+    shortcuts: PropTypes.object.isRequired,
+    clearExpressions: PropTypes.func.isRequired,
   },
 
   displayName: "Console",
+
+  componentDidMount: function() {
+    this.props.shortcuts.on("CmdOrCtrl+Shift+L", this.props.clearExpressions);
+  },
+
+  componentWillUnmount: function() {
+    this.props.shortcuts.off("CmdOrCtrl+Shift+L");
+  },
 
   render: function() {
     let {
