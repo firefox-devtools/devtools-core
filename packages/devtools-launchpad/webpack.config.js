@@ -28,7 +28,7 @@ module.exports = (webpackConfig, envConfig) => {
     test: /\.js$/,
     exclude: request => {
       let excluded = request.match(
-        /(node_modules|bower_components|fs|devtools-config)/
+        /(node_modules|bower_components|fs|devtools-)/
       );
       if (webpackConfig.babelExcludes) {
         // If the tool defines an additional exclude regexp for Babel.
