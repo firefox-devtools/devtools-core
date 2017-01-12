@@ -2,7 +2,7 @@ const React = require("react");
 
 // Reps
 const { isGrip } = require("./rep-utils");
-const { rep } = React.createFactory(require("./grip"));
+const rep = React.createFactory(require("./grip").rep);
 
 /**
  * Renders DOM event objects.
