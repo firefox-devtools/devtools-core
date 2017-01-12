@@ -209,7 +209,7 @@ KeyShortcuts.prototype = {
     // But for digits we also accept indirect match to please azerty keyboard,
     // which requires Shift to be pressed to get digits.
     return key.toLowerCase() == shortcut.key ||
-      (shortcut.key.match(/[0-9]/) &&
+      (shortcut.key.match(/^[0-9]$/) &&
        event.keyCode == shortcut.key.charCodeAt(0));
   },
 
