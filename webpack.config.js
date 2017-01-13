@@ -22,7 +22,7 @@ if (isFirefoxPanel()) {
   webpackConfig.entry.reps = path.join(projectPath, "index.js");
 
   // export via commonjs2 `module.exports`
-  webpackConfig.output.libraryTarget = "commonjs2";
+  webpackConfig.output.libraryTarget = "umd";
 }
 
 webpackConfig.resolve = {
