@@ -33,24 +33,6 @@ Supported types:
 Grip is client representation of remote JS object and is used as an input object for this rep component.
 
 
-### Object Inspector
-
-Object Inspector is component responsible for creating the property tree.
-
-In the scopes pane, it receives a set of scopes as the roots. But it is recursive, and subsequent levels it shows property nodes.
-
-* *getObjectProperties* - it expects a way to get loaded properties
-* *loadObjectProperties* - it expects a way to fetch new properties
-
-```js
-ObjectInspector({
-  roots: scopes,
-  getObjectProperties: id => loadedObjects.get(id),
-  loadObjectProperties
-});
-```
-
-
 ### Publishing to MC
 
 1. `node bin/publish-assets`
