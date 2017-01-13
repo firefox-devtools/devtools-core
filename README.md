@@ -49,3 +49,9 @@ ObjectInspector({
   loadObjectProperties
 });
 ```
+
+
+### Publishing to MC
+
+1. `node bin/publish-assets`
+2. copy files from `assets/build` to the correct location
