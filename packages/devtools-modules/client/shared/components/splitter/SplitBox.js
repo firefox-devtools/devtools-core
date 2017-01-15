@@ -175,15 +175,18 @@ const SplitBox = React.createClass({
         width: endPanelCollapsed ? 0 : endWidth
       };
     } else {
+      let startHeight = endPanelControl ? null : this.state.height,
+        endHeight = endPanelControl ? this.state.height : null;
+
       leftPanelStyle = {
         maxHeight: endPanelControl ? null : maxSize,
         minHeight: endPanelControl ? null : minSize,
-        height: endPanelControl ? null : this.state.height
+        height: endPanelCollapsed ? maxSize : startHeight
       };
       rightPanelStyle = {
         maxHeight: endPanelControl ? maxSize : null,
         minHeight: endPanelControl ? minSize : null,
-        height: endPanelControl ? this.state.height : null
+        height: startPanelCollapsed ? maxSize : endHeight
       };
     }
 
@@ -221,7 +224,7 @@ const SplitBox = React.createClass({
       dom.div({
         className: classNames.join(" "),
         style: style },
-        ! startPanelCollapsed ?
+        !startPanelCollapsed ?
           dom.div({
             className: endPanelControl ? "uncontrolled" : "controlled",
             style: leftPanelStyle },
@@ -234,7 +237,7 @@ const SplitBox = React.createClass({
           onStop: this.onStopMove,
           onMove: this.onMove
         }),
-        ! endPanelCollapsed ?
+        !endPanelCollapsed ?
           dom.div({
             className: endPanelControl ? "controlled" : "uncontrolled",
             style: rightPanelStyle },
