@@ -175,15 +175,18 @@ const SplitBox = React.createClass({
         width: endPanelCollapsed ? 0 : endWidth
       };
     } else {
+      let startHeight = endPanelControl ? null : this.state.height,
+        endHeight = endPanelControl ? this.state.height : null;
+
       leftPanelStyle = {
         maxHeight: endPanelControl ? null : maxSize,
         minHeight: endPanelControl ? null : minSize,
-        height: endPanelControl ? null : this.state.height
+        height: startPanelCollapsed ? 0 : startHeight,
       };
       rightPanelStyle = {
         maxHeight: endPanelControl ? maxSize : null,
         minHeight: endPanelControl ? minSize : null,
-        height: endPanelControl ? this.state.height : null
+        height: endPanelCollapsed ? 0 : endHeight,
       };
     }
 
