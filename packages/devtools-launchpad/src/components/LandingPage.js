@@ -48,7 +48,12 @@ const LandingPage = React.createClass({
   },
 
   componentDidUpdate() {
-    this.refs.filterInput.focus();
+    if (this.refs.filterInput) {
+      this.refs.filterInput.focus();
+    }
+    if (this.refs.launchButton) {
+      this.refs.launchButton.focus();
+    }
   },
 
   onFilterChange(newFilterString) {
@@ -137,25 +142,34 @@ const LandingPage = React.createClass({
       filterString = ""
     } = this.props;
 
+    let { selectedPane } = this.state;
+
     const targets = getTabsByClientType(tabs, clientType);
 
     return dom.main({ className: "panel" },
       dom.header(
         {},
-        dom.input({
-          ref: "filterInput",
-          placeholder: "Filter tabs",
-          value: filterString,
-          autoFocus: true,
-          type: "search",
-          onChange: e => this.onFilterChange(e.target.value),
-          onKeyDown: e => {
-            if (targets.size === 1 && e.keyCode === 13) {
-              this.onTabClick(targets.first(), paramName);
+        targets && targets.count() > 0
+          ? dom.input({
+            ref: "filterInput",
+            placeholder: "Filter tabs",
+            value: filterString,
+            autoFocus: true,
+            type: "search",
+            onChange: e => this.onFilterChange(e.target.value),
+            onKeyDown: e => {
+              if (targets.size === 1 && e.keyCode === 13) {
+                this.onTabClick(targets.first(), paramName);
+              }
             }
-          }
-        })
-      ),
+          }) : dom.input({
+            type: "button",
+            value: "Launch " + selectedPane,
+            ref: "launchButton",
+            onClick: e => {
+              
+            }
+        })),
       this.renderTabs(targets, paramName),
       firstTimeMessage(name, docsUrlPart)
     );
