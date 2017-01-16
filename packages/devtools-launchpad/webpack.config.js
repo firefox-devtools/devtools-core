@@ -27,9 +27,21 @@ module.exports = (webpackConfig, envConfig) => {
   webpackConfig.module.loaders.push({
     test: /\.js$/,
     exclude: request => {
-      let excluded = request.match(
-        /(node_modules|bower_components|fs|devtools-)/
-      );
+      let excludedPaths = [
+        "bower_components",
+        "fs",
+        "node_modules",
+        // All devtools-core packages should be excluded from babel translation,
+        // except devtools-client-adapters and devtools-launchpad.
+        "devtools-config",
+        "devtools-modules",
+        "devtools-network-request",
+        "devtools-sham-modules",
+      ];
+      // Create a regexp matching any of the paths in excludedPaths
+      let excludedRe = new RegExp(`(${ excludedPaths.join("|") })`);
+      let excluded = request.match(excludedRe);
+
       if (webpackConfig.babelExcludes) {
         // If the tool defines an additional exclude regexp for Babel.
         excluded = excluded || request.match(webpackConfig.babelExcludes);
