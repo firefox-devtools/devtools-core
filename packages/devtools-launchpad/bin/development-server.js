@@ -6,6 +6,7 @@ require("babel-register");
 
 const path = require("path");
 const fs = require("fs");
+const ps = require("child_process");
 const Mustache = require("mustache");
 const webpack = require("webpack");
 const express = require("express");
@@ -83,6 +84,19 @@ function handleNetworkRequest(req, res) {
   }
 }
 
+function handleLaunchRequest(req, res) {
+  const browser = req.query.browser;
+  const location = "https://devtools-html.github.io/debugger-examples/";
+
+  if (browser == "firefox") {
+    return ps.spawn(`./firefox-driver --start --location ${location}`);
+  }
+
+  if (browser == "chrome") {
+    return ps.spawn(`./chrome-driver --location ${location}`);
+  }
+}
+
 function onRequest(err, result) {
   const serverPort = getValue("development.serverPort");
 
@@ -122,7 +136,10 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   if (!getValue("development.customIndex")) {
     app.get("/", serveRoot);
   }
+
   app.get("/get", handleNetworkRequest);
+  app.get("/launch", handleLaunchRequest);
+
   const serverPort = getValue("development.serverPort");
   app.listen(serverPort, "0.0.0.0", onRequest);
 
