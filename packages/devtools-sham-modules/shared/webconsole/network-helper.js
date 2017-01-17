@@ -800,7 +800,7 @@ var NetworkHelper = {
       return aStore.get(aUrl);
     }
 
-    let uri = Services.io.newURI(aUrl, null, null).QueryInterface(Ci.nsIURL);
+    var uri = Services.io.newURI(aUrl).QueryInterface(Ci.nsIURL);
     aStore.set(aUrl, uri);
     return uri;
   }
