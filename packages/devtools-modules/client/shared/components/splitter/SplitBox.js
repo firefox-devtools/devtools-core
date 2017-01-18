@@ -101,13 +101,13 @@ const SplitBox = React.createClass({
   },
 
   screenX() {
-    const borderWidth = (window.outerWidth - window.innerWidth) / 2;
-    return window.screenX + borderWidth;
+    // NOTE: in practice the window might have a border which calls for comparing window.outerWidth and window.innerWidth
+    return window.screenX;
   },
 
   screenY() {
-    const borderHeignt = (window.outerHeight - window.innerHeight);
-    return window.screenY + borderHeignt;
+    // NOTE: in practice the window might have a border which calls for comparing window.outerHeight and window.innerHeight
+    return window.screenY;
   },
 
   /**
