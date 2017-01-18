@@ -1,8 +1,8 @@
-# Local Toolbox
+# Launchpad
 
 <img width="1271" alt="debugger-screenshot" src="https://cloud.githubusercontent.com/assets/2134/19079518/bdb69580-8a08-11e6-909c-bc74e49bc395.png">
 
-The local toolbox makes it easy to build a developer tool for Firefox, Chrome, and Node.
+The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.
 
 [Debugger.html](../../README.md) and [Console.html](https://github.com/jasonlaster/console.html) are a good examples of tools built on top of the toolbox.
 
@@ -29,7 +29,7 @@ toolbox.startDevServer(envConfig, webpackConfig);
 
 #### Webpack Config
 
-The webpack [base config](./webpack.config.js) makes it easy to use the toolbox out of the box.
+The webpack [base config](./webpack.config.js) makes it easy to use the launchpad out of the box.
 
 **Features**
 
@@ -58,7 +58,7 @@ The [Landing Page](./src/index.js)  shows the available Chrome, Firefox, and Nod
 
 #### Bootstrap function
 
-The bootstrap function starts the toolbox and provides a connection hook for doing post-connect setup with the debuggee connection.
+The bootstrap function starts the launchpad and provides a connection hook for doing post-connect setup with the debuggee connection.
 
 **Features**
 * checks for a connection id i.e. `firefox-tab=child1/tab1`
@@ -74,7 +74,7 @@ bootstrap(React, ReactDOM, App, actions, store)
 
 #### Configs
 
-The toolbox has a [config system](../devtools-config/README.md) for adding runtime configs.
+The launchpad has a [config system](../devtools-config/README.md) for adding runtime configs.
 
 **Features**
 * *target configs* - firefox, chrome, node configuration
