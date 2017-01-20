@@ -1654,36 +1654,32 @@ detective@^4.3.1:
     acorn "^3.1.0"
     defined "^1.0.0"
 
-devtools-client-adapters@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.6.tgz#33cccca91a2d468fe34bc1d9a25dd8afbff94df5"
+devtools-client-adapters@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.8.tgz#ec47b75ec77f7cfb9a7848a50eb9ea2ce4343836"
   dependencies:
     chrome-remote-interface "0.17.0"
     devtools-config "^0.0.10"
-    devtools-modules "^0.0.11"
+    devtools-modules "^0.0.14"
     devtools-network-request "^0.0.9"
-    devtools-sham-modules "^0.0.11"
+    devtools-sham-modules "^0.0.12"
     tcomb "^3.1.0"
 
 devtools-config@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.10.tgz#955a5ec1790e9e06a40009fdb1eaf5f979d168dd"
 
-devtools-modules@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.11.tgz#02d403a24778326e5b5330db508e29b536a9025a"
-
-devtools-modules@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.12.tgz#51786e463eadd842ec429a7df42adfdcd4643b32"
+devtools-modules@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.14.tgz#03edc685a8d03d39cff065d7e3acb12e9d381492"
 
 devtools-network-request@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.9.tgz#cdf51f4f21d7cb8cedba5b9d89e860ba531ddeb7"
 
-devtools-sham-modules@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.11.tgz#bd15ef2c5755b165ce795bb9ff65b7213c020c04"
+devtools-sham-modules@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.12.tgz#0fe0cb529e283e54207ef73bc2fed616cc501e8a"
 
 doctrine@^1.2.2:
   version "1.5.0"
@@ -2204,6 +2200,13 @@ fresh@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.3.0.tgz#651f838e22424e7566de161d8358caa199f83d4f"
 
+fs-extra@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-2.0.0.tgz#337352bded4a0b714f3eb84de8cea765e9d37600"
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^2.1.0"
+
 fs-readdir-recursive@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs-readdir-recursive/-/fs-readdir-recursive-1.0.0.tgz#8cd1745c8b4f8a29c8caec392476921ba195f560"
@@ -2361,7 +2364,7 @@ got@5.6.0:
     unzip-response "^1.0.0"
     url-parse-lax "^1.0.0"
 
-graceful-fs@^4.1.2, graceful-fs@^4.1.4:
+graceful-fs@^4.1.2, graceful-fs@^4.1.4, graceful-fs@^4.1.6:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -2784,6 +2787,12 @@ json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
 json5@^0.5.0:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
+
+jsonfile@^2.1.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-2.4.0.tgz#3736a2b428b87bbda0cc83b53fa3d633a35c2ae8"
+  optionalDependencies:
+    graceful-fs "^4.1.6"
 
 jsonify@~0.0.0:
   version "0.0.0"
