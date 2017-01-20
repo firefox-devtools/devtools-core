@@ -1,6 +1,6 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "license": "MPL-2.0",
   "repository": {
     "url": "git://github.com/devtools-html/debugger.html.git",
