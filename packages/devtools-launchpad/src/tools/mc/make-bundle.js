@@ -1,27 +1,30 @@
 const path = require("path");
-const ps = require("child_process");
-const processHandler = require("../utils/process-handler");
+const webpack = require("webpack");
+const process = require("process");
 
 function makeBundle({ outputPath, projectPath, watch = false }) {
-  const webpackConfigPath = path.resolve(projectPath, "webpack.config.js");
-
-  let args = [`--config=${webpackConfigPath}`];
-  if (watch) {
-    args.push("--watch");
-  }
-
-  const options = {
-    cwd: projectPath,
-    env: Object.assign({}, process.env, {
-      "TARGET": "firefox-panel",
-      "OUTPUT_PATH": outputPath,
-    })
-  };
+  const webpackConfig = require(path.resolve(projectPath, "webpack.config.js"));
 
   return new Promise((resolve, reject) => {
-    const webpack = ps.spawn("webpack", args, options);
-    processHandler({ name: "webpack", proc: webpack, resolve, reject });
+    const webpackCompiler = webpack(webpackConfig);
+    process.env.TARGET = "firefox-panel";
+    process.env.OUTPUT_PATH = outputPath;
+
+    const postRun = (error, stats) => {
+      if (stats.hasErrors()) {
+        reject();
+      }
+
+      resolve();
+    };
+
+    if (watch) {
+      return webpackCompiler.watch({}, postRun);
+    }
+
+    return webpackCompiler.run(postRun);
   });
 }
 
 module.exports = makeBundle;
+
