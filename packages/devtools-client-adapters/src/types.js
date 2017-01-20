@@ -105,6 +105,15 @@ export type Frame = {
 };
 
 /**
+ * why
+ * @memberof types
+ * @static
+ */
+export type Why = {
+  type: string
+}
+
+/**
  * Why is the Debugger Paused?
  * This is the generic state handling the reason the debugger is paused.
  * Reasons are usually related to "breakpoint" or "debuggerStatement"
@@ -123,9 +132,49 @@ export type WhyPaused = {
  * @static
  */
 export type Pause = {
-  frame: Frame,
   frames: Frame[],
-  why: WhyPaused
+  why: Why,
+  getIn: (string[]) => any
+}
+/**
+ * Expression
+ * @memberof types
+ * @static
+ */
+export type Expression = {
+   id: number,
+   input: string
+ };
+
+ /**
+  * Grip
+  * @memberof types
+  * @static
+  */
+export type Grip = {
+   actor: string,
+   class: string,
+   extensible: boolean,
+   frozen: boolean,
+   isGlobal: boolean,
+   ownPropertyLength: number,
+   preview: {
+     kind: string,
+     url: string
+   },
+   sealed: boolean,
+   type: string
+}
+
+/**
+ * SourceText
+ * @memberof types
+ * @static
+ */
+export type SourceText = {
+  id: string,
+  text: string,
+  contentType: string
 };
 
 /**
