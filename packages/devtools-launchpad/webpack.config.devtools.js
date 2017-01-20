@@ -48,7 +48,7 @@ module.exports = (webpackConfig, envConfig) => {
         // all require to external dependencies with a call to the tool's
         // externalRequire method.
         let reqMethod = webpackConfig.externalsRequire;
-        callback(null, `var ${reqMethod}("${mapping[0]}")`);
+        callback(null, `var ${reqMethod}("${mapping}")`);
       } else {
         callback(null, mapping);
       }
@@ -61,7 +61,9 @@ module.exports = (webpackConfig, envConfig) => {
   webpackConfig.externals.push(externalsTest);
 
   // Remove the existing DefinePlugin so we can override it.
-  const plugins = webpackConfig.plugins.filter(p => !(p instanceof DefinePlugin));
+  const plugins = webpackConfig.plugins.filter(
+    p => !(p instanceof DefinePlugin)
+  );
   webpackConfig.plugins = plugins.concat([
     new webpack.DefinePlugin({
       "process.env": {
