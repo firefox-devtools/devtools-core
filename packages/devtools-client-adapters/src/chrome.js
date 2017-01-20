@@ -6,13 +6,10 @@ const networkRequest = require("devtools-network-request");
 const { setupCommands, clientCommands } = require("./chrome/commands");
 const { setupEvents, clientEvents } = require("./chrome/events");
 
-// similar to Tab, but has webSocketDebuggerUrl
-type ChromeTab = {
+import type { Tab } from "./types";
+
+type ChromeTab = Tab & {
   webSocketDebuggerUrl: string,
-  title: string,
-  url: string,
-  id: string,
-  tab: any,
   type: string
 }
 

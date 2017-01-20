@@ -5,3 +5,9 @@ export type ServerLocation = {
   lineNumber: number,
   columnNumber?: number
 };
+
+export type Agents = {
+  Debugger: any,
+  Runtime: any,
+  Page: any
+}

@@ -3,10 +3,7 @@
 import type { Location } from "../types";
 import type { ServerLocation } from "./types";
 
-function fromServerLocation(
-  serverLocation: ServerLocation,
-  location: Location
-): Location {
+function fromServerLocation(serverLocation?: ServerLocation): ?Location {
   if (serverLocation) {
     return {
       sourceId: serverLocation.scriptId,
@@ -14,8 +11,6 @@ function fromServerLocation(
       column: serverLocation.columnNumber
     };
   }
-
-  return location;
 }
 
 function toServerLocation(location: Location): ServerLocation {
@@ -25,13 +20,13 @@ function toServerLocation(location: Location): ServerLocation {
   };
 }
 
-createFrame(frame: any) {
+function createFrame(frame: any) {
   return {
     id: frame.callFrameId,
     displayName: frame.functionName,
     scopeChain: frame.scopeChain,
     location: fromServerLocation(frame.location)
-  }
+  };
 }
 
 module.exports = {

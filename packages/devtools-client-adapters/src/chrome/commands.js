@@ -3,18 +3,18 @@
 const { toServerLocation, fromServerLocation } = require("./create");
 
 import type { Location } from "../types";
-import type { ServerLocation } from "./types";
+import type { ServerLocation, Agents } from "./types";
 
 type setBreakpointResponseType = {
   breakpointId: string,
-  serverLocation: ServerLocation
+  serverLocation?: ServerLocation
 }
 
 let debuggerAgent;
 let runtimeAgent;
 let pageAgent;
 
-function setupCommands({ Debugger, Runtime, Page }: any) {
+function setupCommands({ Debugger, Runtime, Page }: Agents) {
   debuggerAgent = Debugger;
   runtimeAgent = Runtime;
   pageAgent = Page;
@@ -62,7 +62,7 @@ async function setBreakpoint(location: Location, condition: string) {
     columnNumber: location.column
   });
 
-  const actualLocation = fromServerLocation(serverLocation, location);
+  const actualLocation = fromServerLocation(serverLocation) || location;
 
   return {
     id: breakpointId,
