@@ -6,7 +6,7 @@ import type {
   PausedPacket,
   FramesResponse,
   FramePacket,
-  SourcePayload
+  SourcePayload,
 } from "./types";
 
 function createFrame(frame: FramePacket): Frame {
@@ -47,4 +47,8 @@ function createPause(packet: PausedPacket, response: FramesResponse): any {
   });
 }
 
-module.exports = { createFrame, createSource, createPause };
+module.exports = {
+  createFrame,
+  createSource,
+  createPause
+};

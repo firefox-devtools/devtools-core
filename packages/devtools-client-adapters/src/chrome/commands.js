@@ -1,10 +1,20 @@
-const { BreakpointResult, Location } = require("../tcomb-types");
+// @flow
+
+const { toServerLocation, fromServerLocation } = require("./create");
+
+import type { Location } from "../types";
+import type { ServerLocation } from "./types";
+
+type setBreakpointResponseType = {
+  breakpointId: string,
+  serverLocation: ServerLocation
+}
 
 let debuggerAgent;
 let runtimeAgent;
 let pageAgent;
 
-function setupCommands({ Debugger, Runtime, Page }) {
+function setupCommands({ Debugger, Runtime, Page }: any) {
   debuggerAgent = Debugger;
   runtimeAgent = Runtime;
   pageAgent = Page;
@@ -26,7 +36,7 @@ function stepOut() {
   return debuggerAgent.stepOut();
 }
 
-function pauseOnExceptions(toggle) {
+function pauseOnExceptions(toggle: boolean) {
   const state = toggle ? "uncaught" : "none";
   return debuggerAgent.setPauseOnExceptions(state);
 }
@@ -35,7 +45,7 @@ function breakOnNext() {
   return debuggerAgent.pause();
 }
 
-function sourceContents(sourceId) {
+function sourceContents(sourceId: string) {
   return debuggerAgent.getScriptSource({ scriptId: sourceId })
     .then(({ scriptSource }) => ({
       source: scriptSource,
@@ -43,41 +53,37 @@ function sourceContents(sourceId) {
     }));
 }
 
-function setBreakpoint(location, condition) {
-  return debuggerAgent.setBreakpoint({
-    location: {
-      scriptId: location.sourceId,
-      lineNumber: location.line - 1
-    },
+async function setBreakpoint(location: Location, condition: string) {
+  let {
+    breakpointId,
+    serverLocation
+  }: setBreakpointResponseType = await debuggerAgent.setBreakpoint({
+    location: toServerLocation(location),
     columnNumber: location.column
-  }).then(({ breakpointId, actualLocation }) => {
-    actualLocation = actualLocation ? {
-      sourceId: actualLocation.scriptId,
-      line: actualLocation.lineNumber + 1,
-      column: actualLocation.columnNumber
-    } : location;
-
-    return BreakpointResult({
-      id: breakpointId,
-      actualLocation: Location(actualLocation)
-    });
   });
+
+  const actualLocation = fromServerLocation(serverLocation, location);
+
+  return {
+    id: breakpointId,
+    actualLocation: actualLocation
+  };
 }
 
-function removeBreakpoint(breakpointId) {
+function removeBreakpoint(breakpointId: string) {
   return debuggerAgent.removeBreakpoint({ breakpointId });
 }
 
-function evaluate(script) {
+function evaluate(script: string) {
   return runtimeAgent.evaluate({ expression: script });
 }
 
-function debuggeeCommand(script) {
+function debuggeeCommand(script: string) {
   evaluate(script);
   return Promise.resolve();
 }
 
-function navigate(url) {
+function navigate(url: string) {
   return pageAgent.navigate({ url });
 }
 
