@@ -102,7 +102,7 @@ function initPage(actions: Actions) {
   tabTarget = getTabTarget();
   threadClient = getThreadClient();
 
-  if (!threadClient || !tabTarget || !actions) {
+  if (!threadClient || !tabTarget) {
     return;
   }
 

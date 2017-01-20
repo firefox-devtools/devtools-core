@@ -42,11 +42,15 @@ module.exports = (webpackConfig, envConfig) => {
       return;
     } else if (nativeMapping[mod]) {
       const mapping = nativeMapping[mod];
-      if (Array.isArray(mapping)) {
-        callback(null, `var devtoolsRequire("${mapping[0]}")["${mapping[1]}"]`);
-      }
-      else {
-        callback(null, `var devtoolsRequire("${mapping}")`);
+
+      if (webpackConfig.externalsRequire) {
+        // If the tool defines "externalsRequire" in the webpack config, wrap
+        // all require to external dependencies with a call to the tool's
+        // externalRequire method.
+        let reqMethod = webpackConfig.externalsRequire;
+        callback(null, `var ${reqMethod}("${mapping[0]}")`);
+      } else {
+        callback(null, mapping);
       }
       return;
     }
