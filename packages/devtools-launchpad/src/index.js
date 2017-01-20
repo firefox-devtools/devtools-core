@@ -63,7 +63,7 @@ function renderRoot(_React, _ReactDOM, component, _store) {
     return;
   }
 
-  const root = Root();
+  const root = Root("launchpad-root");
   mount.appendChild(root);
 
   if (component.props || component.propTypes) {
@@ -74,6 +74,11 @@ function renderRoot(_React, _ReactDOM, component, _store) {
   } else {
     root.appendChild(component);
   }
+}
+
+function unmountRoot(_ReactDOM) {
+  const mount = document.querySelector("#mount .launchpad-root");
+  _ReactDOM.unmountComponentAtNode(mount);
 }
 
 function getTargetFromQuery() {
@@ -125,6 +130,7 @@ function bootstrap(React, ReactDOM, App, appActions, appStore) {
 module.exports = {
   bootstrap,
   renderRoot,
+  unmountRoot,
   debugGlobal,
   L10N
 };

@@ -10,9 +10,9 @@ function themeClass() {
 
 const rootClass = classnames("theme-body", { [themeClass()]: isDevelopment() });
 
-module.exports = function() {
+module.exports = function(className) {
   const root = document.createElement("div");
-  root.className = rootClass;
+  root.className = classnames(rootClass, className);
   root.style.setProperty("flex", 1);
   return root;
 };
