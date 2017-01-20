@@ -1,7 +1,7 @@
-const ps = require("child_process");
+const fs = require("fs-extra");
 
 function copyFile(src, dest, { cwd }) {
-  ps.execSync(`cp -r ${src} ${dest}`, { cwd });
+  fs.copySync(src, dest);
 }
 
 module.exports = copyFile;
