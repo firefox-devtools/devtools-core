@@ -25,7 +25,17 @@ function toServerLocation(location: Location): ServerLocation {
   };
 }
 
+createFrame(frame: any) {
+  return {
+    id: frame.callFrameId,
+    displayName: frame.functionName,
+    scopeChain: frame.scopeChain,
+    location: fromServerLocation(frame.location)
+  }
+}
+
 module.exports = {
   fromServerLocation,
-  toServerLocation
+  toServerLocation,
+  createFrame
 };
