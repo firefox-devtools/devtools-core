@@ -1,7 +1,11 @@
+// ReactJS
 const React = require("react");
 
 // Utils
-const { isGrip } = require("./rep-utils");
+const {
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
 const { MODE } = require("./constants");
 const nodeConstants = require("../shared/dom-node-constants");
 
@@ -18,6 +22,9 @@ const ElementNode = React.createClass({
     object: React.PropTypes.object.isRequired,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    onDOMNodeMouseOver: React.PropTypes.func,
+    onDOMNodeMouseOut: React.PropTypes.func,
+    objectLink: React.PropTypes.func,
   },
 
   getElements: function (grip, mode) {
@@ -78,7 +85,7 @@ const ElementNode = React.createClass({
     ];
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let {
       object,
       mode,
@@ -104,7 +111,7 @@ const ElementNode = React.createClass({
     return objectLink({object},
       span(baseConfig, ...elements)
     );
-  },
+  }),
 });
 
 // Registration
@@ -115,6 +122,7 @@ function supportsObject(object, type) {
   return object.preview && object.preview.nodeType === nodeConstants.ELEMENT_NODE;
 }
 
+// Exports from this module
 module.exports = {
   rep: ElementNode,
   supportsObject: supportsObject

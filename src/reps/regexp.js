@@ -1,7 +1,11 @@
+// ReactJS
 const React = require("react");
 
 // Reps
-const { isGrip } = require("./rep-utils");
+const {
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -14,13 +18,14 @@ let RegExp = React.createClass({
 
   propTypes: {
     object: React.PropTypes.object.isRequired,
+    objectLink: React.PropTypes.func,
   },
 
   getSource: function (grip) {
     return grip.displayString;
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let grip = this.props.object;
     let objectLink = this.props.objectLink || span;
 
@@ -32,7 +37,7 @@ let RegExp = React.createClass({
         }, this.getSource(grip))
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -45,6 +50,7 @@ function supportsObject(object, type) {
   return (type == "RegExp");
 }
 
+// Exports from this module
 module.exports = {
   rep: RegExp,
   supportsObject: supportsObject

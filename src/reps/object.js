@@ -1,6 +1,11 @@
+// Dependencies
 const React = require("react");
-const Caption = React.createFactory(require("./caption"));
-const PropRep = React.createFactory(require("./prop-rep"));
+const {
+  createFactories,
+  wrapRender,
+} = require("./rep-utils");
+const { Caption } = createFactories(require("./caption"));
+const { PropRep } = createFactories(require("./prop-rep"));
 const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
@@ -15,6 +20,7 @@ const Obj = React.createClass({
     object: React.PropTypes.object,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    objectLink: React.PropTypes.func,
   },
 
   getTitle: function (object) {
@@ -121,7 +127,7 @@ const Obj = React.createClass({
     return props;
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let object = this.props.object;
     let props = this.safePropIterator(object);
     let objectLink = this.props.objectLink || span;
@@ -148,12 +154,13 @@ const Obj = React.createClass({
         }, " }")
       )
     );
-  },
+  }),
 });
 function supportsObject(object, type) {
   return true;
 }
 
+// Exports from this module
 module.exports = {
   rep: Obj,
   supportsObject: supportsObject

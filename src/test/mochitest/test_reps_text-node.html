@@ -19,8 +19,8 @@ Test text-node rep
 "use strict";
 
 window.onload = Task.async(function* () {
-  let { Rep } = browserRequire("devtools/client/shared/components/reps/rep");
-  let { TextNode } = browserRequire("devtools/client/shared/components/reps/text-node");
+  const { REPS, MODE } = browserRequire("devtools/client/shared/components/reps/load-reps");
+  let { Rep, TextNode } = REPS;
 
   let gripStubs = new Map();
   gripStubs.set("testRendering", {
@@ -60,25 +60,24 @@ window.onload = Task.async(function* () {
 
   function testRendering() {
     const stub = gripStubs.get("testRendering");
-    const defaultShortOutput = `"hello world"`;
-    const defaultLongOutput = `<TextNode textContent="hello world">;`;
+    const defaultOutput = `#text "hello world"`;
 
     const modeTests = [
       {
         mode: undefined,
-        expectedOutput: defaultShortOutput,
+        expectedOutput: defaultOutput,
       },
       {
-        mode: "tiny",
-        expectedOutput: defaultShortOutput,
+        mode: MODE.TINY,
+        expectedOutput: "#text",
       },
       {
-        mode: "short",
-        expectedOutput: defaultShortOutput,
+        mode: MODE.SHORT,
+        expectedOutput: defaultOutput,
       },
       {
-        mode: "long",
-        expectedOutput: defaultLongOutput,
+        mode: MODE.LONG,
+        expectedOutput: defaultOutput,
       }
     ];
 
@@ -87,25 +86,24 @@ window.onload = Task.async(function* () {
 
   function testRenderingWithEOL() {
     const stub = gripStubs.get("testRenderingWithEOL");
-    const defaultShortOutput = `"hello\nworld"`;
-    const defaultLongOutput = `<TextNode textContent="hello\nworld">;`;
+    const defaultOutput = `#text "hello\nworld"`;
 
     const modeTests = [
       {
         mode: undefined,
-        expectedOutput: defaultShortOutput,
+        expectedOutput: defaultOutput,
       },
       {
-        mode: "tiny",
-        expectedOutput: defaultShortOutput,
+        mode: MODE.TINY,
+        expectedOutput: "#text",
       },
       {
-        mode: "short",
-        expectedOutput: defaultShortOutput,
+        mode: MODE.SHORT,
+        expectedOutput: defaultOutput,
       },
       {
-        mode: "long",
-        expectedOutput: defaultLongOutput,
+        mode: MODE.LONG,
+        expectedOutput: defaultOutput,
       }
     ];
 

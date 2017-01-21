@@ -1,4 +1,7 @@
+// Dependencies
 const React = require("react");
+
+const { wrapRender } = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -9,19 +12,20 @@ const { span } = React.DOM;
 const NaNRep = React.createClass({
   displayName: "NaN",
 
-  render: function () {
+  render: wrapRender(function () {
     return (
       span({className: "objectBox objectBox-nan"},
         "NaN"
       )
     );
-  }
+  })
 });
 
 function supportsObject(object, type) {
   return type == "NaN";
 }
 
+// Exports from this module
 module.exports = {
   rep: NaNRep,
   supportsObject: supportsObject

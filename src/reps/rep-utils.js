@@ -1,3 +1,4 @@
+// Dependencies
 const React = require("react");
 
 /**
@@ -135,11 +136,33 @@ function splitURLTrue(url) {
   };
 }
 
+/**
+ * Wrap the provided render() method of a rep in a try/catch block that will render a
+ * fallback rep if the render fails.
+ */
+function wrapRender(renderMethod) {
+  return function () {
+    try {
+      return renderMethod.call(this);
+    } catch (e) {
+      return React.DOM.span(
+        {
+          className: "objectBox objectBox-failure",
+          title: "This object could not be rendered, " +
+                 "please file a bug on bugzilla.mozilla.org"
+        },
+        /* Labels have to be hardcoded for reps, see Bug 1317038. */
+        "Invalid object");
+    }
+  };
+}
+
 module.exports = {
   createFactories,
   isGrip,
   cropString,
   sanitizeString,
+  wrapRender,
   cropMultipleLines,
   parseURLParams,
   parseURLEncodedText,

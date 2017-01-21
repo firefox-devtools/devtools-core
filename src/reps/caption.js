@@ -1,5 +1,8 @@
+// Dependencies
 const React = require("react");
 const DOM = React.DOM;
+
+const { wrapRender } = require("./rep-utils");
 
 /**
  * Renders a caption. This template is used by other components
@@ -8,11 +11,16 @@ const DOM = React.DOM;
 const Caption = React.createClass({
   displayName: "Caption",
 
-  render: function () {
+  propTypes: {
+    object: React.PropTypes.object,
+  },
+
+  render: wrapRender(function () {
     return (
       DOM.span({"className": "caption"}, this.props.object)
     );
-  },
+  }),
 });
 
+// Exports from this module
 module.exports = Caption;

@@ -1,7 +1,12 @@
+// ReactJS
 const React = require("react");
 
 // Reps
-const { isGrip, getURLDisplayString } = require("./rep-utils");
+const {
+  isGrip,
+  getURLDisplayString,
+  wrapRender
+} = require("./rep-utils");
 
 // Shortcuts
 const DOM = React.DOM;
@@ -14,6 +19,7 @@ let StyleSheet = React.createClass({
 
   propTypes: {
     object: React.PropTypes.object.isRequired,
+    objectLink: React.PropTypes.func,
   },
 
   getTitle: function (grip) {
@@ -34,7 +40,7 @@ let StyleSheet = React.createClass({
     return url ? getURLDisplayString(url) : "";
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let grip = this.props.object;
 
     return (
@@ -45,7 +51,7 @@ let StyleSheet = React.createClass({
         )
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -57,6 +63,8 @@ function supportsObject(object, type) {
 
   return (type == "CSSStyleSheet");
 }
+
+// Exports from this module
 
 module.exports = {
   rep: StyleSheet,

@@ -1,4 +1,7 @@
+// Dependencies
 const React = require("react");
+
+const { wrapRender } = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -9,6 +12,13 @@ const { span } = React.DOM;
 const Number = React.createClass({
   displayName: "Number",
 
+  propTypes: {
+    object: React.PropTypes.oneOfType([
+      React.PropTypes.object,
+      React.PropTypes.number,
+    ]).isRequired
+  },
+
   stringify: function (object) {
     let isNegativeZero = Object.is(object, -0) ||
       (object.type && object.type == "-0");
@@ -16,7 +26,7 @@ const Number = React.createClass({
     return (isNegativeZero ? "-0" : String(object));
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let value = this.props.object;
 
     return (
@@ -24,12 +34,14 @@ const Number = React.createClass({
         this.stringify(value)
       )
     );
-  }
+  })
 });
 
 function supportsObject(object, type) {
   return ["boolean", "number", "-0"].includes(type);
 }
+
+// Exports from this module
 
 module.exports = {
   rep: Number,

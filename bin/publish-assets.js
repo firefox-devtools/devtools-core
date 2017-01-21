@@ -4,7 +4,7 @@ const path = require("path");
 function start() {
   console.log("start: publish assets");
   const projectPath = path.resolve(__dirname, "..");
-  const mcModulePath = "devtools/client/debugger/new";
+  const mcModulePath = "devtools/client/shared/components/reps";
 
   copyFile(
     path.resolve(projectPath, "src/test/mochitest"),

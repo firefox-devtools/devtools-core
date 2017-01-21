@@ -1,7 +1,12 @@
+// ReactJS
 const React = require("react");
 
 // Reps
-const { isGrip, cropString } = require("./rep-utils");
+const {
+  isGrip,
+  cropString,
+  wrapRender,
+} = require("./rep-utils");
 const { MODE } = require("./constants");
 
 // Shortcuts
@@ -17,6 +22,9 @@ let TextNode = React.createClass({
     object: React.PropTypes.object.isRequired,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    objectLink: React.PropTypes.func,
+    onDOMNodeMouseOver: React.PropTypes.func,
+    onDOMNodeMouseOut: React.PropTypes.func,
   },
 
   getTextContent: function (grip) {
@@ -33,7 +41,7 @@ let TextNode = React.createClass({
     return title;
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let {
       object: grip,
       mode = MODE.SHORT,
@@ -65,7 +73,7 @@ let TextNode = React.createClass({
         )
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -78,6 +86,7 @@ function supportsObject(grip, type) {
   return (grip.preview && grip.class == "Text");
 }
 
+// Exports from this module
 module.exports = {
   rep: TextNode,
   supportsObject: supportsObject

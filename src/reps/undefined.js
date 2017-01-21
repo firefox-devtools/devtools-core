@@ -1,4 +1,7 @@
+// Dependencies
 const React = require("react");
+
+const { wrapRender } = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -9,13 +12,13 @@ const { span } = React.DOM;
 const Undefined = React.createClass({
   displayName: "UndefinedRep",
 
-  render: function () {
+  render: wrapRender(function () {
     return (
       span({className: "objectBox objectBox-undefined"},
         "undefined"
       )
     );
-  },
+  }),
 });
 
 function supportsObject(object, type) {
@@ -25,6 +28,8 @@ function supportsObject(object, type) {
 
   return (type == "undefined");
 }
+
+// Exports from this module
 
 module.exports = {
   rep: Undefined,

@@ -1,7 +1,13 @@
+// ReactJS
 const React = require("react");
 // Dependencies
-const { isGrip } = require("./rep-utils");
-const PropRep = React.createFactory(require("./prop-rep"));
+const {
+  createFactories,
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
+
+const { PropRep } = createFactories(require("./prop-rep"));
 const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
@@ -16,6 +22,7 @@ const PromiseRep = React.createClass({
     object: React.PropTypes.object.isRequired,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    objectLink: React.PropTypes.func,
   },
 
   getTitle: function (object) {
@@ -45,13 +52,13 @@ const PromiseRep = React.createClass({
     });
   },
 
-  render: function () {
+  render: wrapRender(function () {
     const object = this.props.object;
     const {promiseState} = object;
     let objectLink = this.props.objectLink || span;
 
     if (this.props.mode === MODE.TINY) {
-      let Rep = React.createFactory(require("./rep"));
+      let { Rep } = createFactories(require("./rep"));
 
       return (
         span({className: "objectBox objectBox-object"},
@@ -84,7 +91,7 @@ const PromiseRep = React.createClass({
         }, " }")
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -95,6 +102,7 @@ function supportsObject(object, type) {
   return type === "Promise";
 }
 
+// Exports from this module
 module.exports = {
   rep: PromiseRep,
   supportsObject: supportsObject

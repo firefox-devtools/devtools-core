@@ -1,8 +1,12 @@
+// ReactJS
 const React = require("react");
-const { MODE } = require("./constants");
 
 // Reps
-const { isGrip, getURLDisplayString } = require("./rep-utils");
+const {
+  isGrip,
+  getURLDisplayString,
+  wrapRender
+} = require("./rep-utils");
 
 // Shortcuts
 const DOM = React.DOM;
@@ -15,7 +19,7 @@ let Window = React.createClass({
 
   propTypes: {
     object: React.PropTypes.object.isRequired,
-    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    objectLink: React.PropTypes.func,
   },
 
   getTitle: function (grip) {
@@ -33,26 +37,18 @@ let Window = React.createClass({
     return getURLDisplayString(grip.preview.url);
   },
 
-  getDisplayValue: function (grip) {
-    if (this.props.mode === MODE.TINY) {
-      return grip.isGlobal ? "Global" : "Window";
-    }
-
-    return this.getLocation(grip);
-  },
-
-  render: function () {
+  render: wrapRender(function () {
     let grip = this.props.object;
 
     return (
       DOM.span({className: "objectBox objectBox-Window"},
         this.getTitle(grip),
         DOM.span({className: "objectPropValue"},
-          this.getDisplayValue(grip)
+          this.getLocation(grip)
         )
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -65,6 +61,7 @@ function supportsObject(object, type) {
   return (object.preview && type == "Window");
 }
 
+// Exports from this module
 module.exports = {
   rep: Window,
   supportsObject: supportsObject

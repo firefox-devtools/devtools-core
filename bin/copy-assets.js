@@ -9,9 +9,9 @@ const args = minimist(process.argv.slice(2), {
 function start() {
   console.log("start: copy assets");
   const projectPath = path.resolve(__dirname, "..");
-  const mcModulePath = "devtools/client/shared/components";
+  const mcModulePath = "devtools/client/shared/components/reps";
   const mcPath = "./firefox";
-  
+
   symlinkTests({ projectPath, mcModulePath });
 
   makeBundle({

@@ -1,8 +1,13 @@
+// ReactJS
 const React = require("react");
 // Dependencies
-const { isGrip } = require("./rep-utils");
-const Caption = React.createFactory(require("./caption"));
-const PropRep = React.createFactory(require("./prop-rep"));
+const {
+  createFactories,
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
+const { Caption } = createFactories(require("./caption"));
+const { PropRep } = createFactories(require("./prop-rep"));
 const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
@@ -21,6 +26,7 @@ const GripRep = React.createClass({
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     isInterestingProp: React.PropTypes.func,
     title: React.PropTypes.string,
+    objectLink: React.PropTypes.func,
   },
 
   getTitle: function (object) {
@@ -45,7 +51,7 @@ const GripRep = React.createClass({
 
   propIterator: function (object, max) {
     if (object.preview && Object.keys(object.preview).includes("wrappedValue")) {
-      const Rep = React.createFactory(require("./rep"));
+      const { Rep } = createFactories(require("./rep"));
 
       return [Rep({
         object: object.preview.wrappedValue,
@@ -94,7 +100,7 @@ const GripRep = React.createClass({
       props.push(Caption({
         object: objectLink({
           object: object
-        }, `${object.ownPropertyLength - max} more…`)
+        }, `${propertiesLength - max} more…`)
       }));
     }
 
@@ -188,7 +194,7 @@ const GripRep = React.createClass({
     return value;
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let object = this.props.object;
     let props = this.safePropIterator(object,
       (this.props.mode === MODE.LONG) ? 10 : 3);
@@ -220,7 +226,7 @@ const GripRep = React.createClass({
         }, " }")
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -236,4 +242,5 @@ let Grip = {
   supportsObject: supportsObject
 };
 
+// Exports from this module
 module.exports = Grip;

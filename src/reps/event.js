@@ -1,8 +1,13 @@
+// ReactJS
 const React = require("react");
 
 // Reps
-const { isGrip } = require("./rep-utils");
-const rep = React.createFactory(require("./grip").rep);
+const {
+  createFactories,
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
+const { rep } = createFactories(require("./grip").Grip);
 
 /**
  * Renders DOM event objects.
@@ -24,7 +29,7 @@ let Event = React.createClass({
     return title;
   },
 
-  render: function () {
+  render: wrapRender(function () {
     // Use `Object.assign` to keep `this.props` without changes because:
     // 1. JSON.stringify/JSON.parse is slow.
     // 2. Immutable.js is planned for the future.
@@ -70,10 +75,11 @@ let Event = React.createClass({
     }
 
     return rep(props);
-  }
+  })
 });
 
 // Registration
+
 function supportsObject(grip, type) {
   if (!isGrip(grip)) {
     return false;
@@ -82,6 +88,7 @@ function supportsObject(grip, type) {
   return (grip.preview && grip.preview.kind == "DOMEvent");
 }
 
+// Exports from this module
 module.exports = {
   rep: Event,
   supportsObject: supportsObject

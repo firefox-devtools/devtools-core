@@ -1,5 +1,10 @@
+// Dependencies
 const React = require("react");
-const { cropString } = require("./rep-utils");
+
+const {
+  cropString,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -13,6 +18,9 @@ const StringRep = React.createClass({
   propTypes: {
     useQuotes: React.PropTypes.bool,
     style: React.PropTypes.object,
+    object: React.PropTypes.string.isRequired,
+    member: React.PropTypes.any,
+    cropLimit: React.PropTypes.number,
   },
 
   getDefaultProps: function () {
@@ -21,7 +29,7 @@ const StringRep = React.createClass({
     };
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let text = this.props.object;
     let member = this.props.member;
     let style = this.props.style;
@@ -42,12 +50,14 @@ const StringRep = React.createClass({
       "\"" + croppedString + "\"" : croppedString;
 
     return span(config, formattedString);
-  },
+  }),
 });
 
 function supportsObject(object, type) {
   return (type == "string");
 }
+
+// Exports from this module
 
 module.exports = {
   rep: StringRep,

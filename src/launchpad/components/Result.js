@@ -2,7 +2,7 @@ const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 
 const { MODE } = require("../../reps/constants");
-const Rep = createFactory(require("../../reps/rep"));
+const Rep = createFactory(require("../../reps/rep").Rep);
 const Grip = require("../../reps/grip");
 
 const Result = React.createClass({
