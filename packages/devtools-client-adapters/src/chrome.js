@@ -1,32 +1,33 @@
+// @flow
+
 const CDP = require("chrome-remote-interface");
 const { getValue } = require("devtools-config");
 const networkRequest = require("devtools-network-request");
 const { setupCommands, clientCommands } = require("./chrome/commands");
 const { setupEvents, clientEvents } = require("./chrome/events");
-const { Tab } = require("./tcomb-types");
 
-// TODO: figure out a way to avoid patching native prototypes.
-// Unfortunately the Chrome client requires it to work.
+import type { Tab } from "./types";
 
-Array.prototype.peekLast = function() { // eslint-disable-line
-  return this[this.length - 1];
-};
+type ChromeTab = Tab & {
+  webSocketDebuggerUrl: string,
+  type: string
+}
 
 let connection;
 
-function createTabs(tabs, { type, clientType } = {}) {
+function createTabs(tabs: ChromeTab[], { type, clientType } = {}) {
   return tabs
     .filter(tab => {
       return tab.type == type;
     })
     .map(tab => {
-      return Tab({
+      return {
         title: tab.title,
         url: tab.url,
         id: tab.id,
         tab,
         clientType
-      });
+      };
     });
 }
 
@@ -67,14 +68,14 @@ function connectNodeClient() {
     }));
 }
 
-function connectTab(tab) {
+function connectTab(tab: ChromeTab) {
   return CDP({ tab: tab.webSocketDebuggerUrl })
     .then(conn => {
       connection = conn;
     });
 }
 
-function connectNode(tab) {
+function connectNode(tab: ChromeTab) {
   return CDP({ tab: tab.webSocketDebuggerUrl })
     .then(conn => {
       connection = conn;
@@ -85,7 +86,7 @@ function connectNode(tab) {
     });
 }
 
-function initPage(actions, { clientType }) {
+function initPage(actions: any, { clientType }: any) {
   const { Debugger, Runtime, Page } = connection;
 
   setupCommands({ Debugger, Runtime, Page });

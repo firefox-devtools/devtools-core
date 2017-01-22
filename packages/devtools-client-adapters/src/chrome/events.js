@@ -1,10 +1,12 @@
-const { Source, Location, Frame } = require("../tcomb-types");
+// @flow
+
+const { createFrame } = require("./create");
 
 let actions;
 let pageAgent;
 let clientType;
 
-function setupEvents(dependencies) {
+function setupEvents(dependencies: any) {
   actions = dependencies.actions;
   pageAgent = dependencies.Page;
   clientType = dependencies.clientType;
@@ -14,7 +16,7 @@ function setupEvents(dependencies) {
 function scriptParsed({ scriptId, url, startLine, startColumn,
              endLine, endColumn, executionContextId, hash,
              isContentScript, isInternalScript, isLiveEdit,
-             sourceMapURL, hasSourceURL, deprecatedCommentWasUsed }) {
+             sourceMapURL, hasSourceURL, deprecatedCommentWasUsed }: any) {
   if (isContentScript) {
     return;
   }
@@ -23,30 +25,19 @@ function scriptParsed({ scriptId, url, startLine, startColumn,
     sourceMapURL = undefined;
   }
 
-  actions.newSource(Source({
+  actions.newSource({
     id: scriptId,
     url,
     sourceMapURL,
     isPrettyPrinted: false
-  }));
+  });
 }
 
 function scriptFailedToParse() {}
 
 async function paused({ callFrames, reason, data,
-  hitBreakpoints, asyncStackTrace }) {
-  const frames = callFrames.map(frame => {
-    return Frame({
-      id: frame.callFrameId,
-      displayName: frame.functionName,
-      scopeChain: frame.scopeChain,
-      location: Location({
-        sourceId: frame.location.scriptId,
-        line: frame.location.lineNumber + 1,
-        column: frame.location.columnNumber
-      })
-    });
-  });
+  hitBreakpoints, asyncStackTrace }: any) {
+  const frames = callFrames.map(createFrame);
   const frame = frames[0];
   const why = Object.assign({}, {
     type: reason
@@ -71,7 +62,7 @@ function globalObjectCleared() {
 }
 
 // Page Events
-function frameNavigated(frame) {
+function frameNavigated(frame: any) {
   actions.navigate();
 }
 
