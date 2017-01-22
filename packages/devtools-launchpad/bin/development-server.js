@@ -10,6 +10,7 @@ const ps = require("child_process");
 const Mustache = require("mustache");
 const webpack = require("webpack");
 const express = require("express");
+const bodyParser = require("body-parser");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 const http = require("http");
@@ -18,6 +19,8 @@ const checkNode = require("check-node-version");
 const getValue = require("devtools-config").getValue;
 const setConfig = require("devtools-config").setConfig;
 const isDevelopment = require("devtools-config").isDevelopment;
+
+const _env = process.env;
 
 function httpOrHttpsGet(url, onResponse) {
   let protocol = url.startsWith("https:") ? https : http;
@@ -85,16 +88,22 @@ function handleNetworkRequest(req, res) {
 }
 
 function handleLaunchRequest(req, res) {
-  const browser = req.query.browser;
+  const browser = req.body.browser;
   const location = "https://devtools-html.github.io/debugger-examples/";
 
-  if (browser == "firefox") {
-    return ps.spawn(`./firefox-driver --start --location ${location}`);
+  process.env.PATH += ':' + __dirname;
+  if (browser == "Firefox") {
+    console.log(browser)
+    var b = ps.spawn("firefox-driver.js", ["--start", "--location", `${location}`]);
   }
 
-  if (browser == "chrome") {
-    return ps.spawn(`./chrome-driver --location ${location}`);
+  if (browser == "Chrome") {
+    ps.spawn("chrome-driver.js", ["--location", `${location}`]);
   }
+
+  b.stdout.on("data", data =>  {
+    console.log(data);
+  });
 }
 
 function onRequest(err, result) {
@@ -125,20 +134,27 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
 
   // setup app
   const app = express();
+
   app.use(express.static("assets/build"));
 
   let favicon = getValue("favicon");
   let faviconDir = favicon
     ? path.dirname(path.join(rootDir, favicon))
     : path.join(__dirname, '../assets')
+
   app.use(express.static(faviconDir));
+
+  app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+  app.use(bodyParser.json());
 
   if (!getValue("development.customIndex")) {
     app.get("/", serveRoot);
   }
 
   app.get("/get", handleNetworkRequest);
-  app.get("/launch", handleLaunchRequest);
+  app.post("/launch", handleLaunchRequest);
 
   const serverPort = getValue("development.serverPort");
   app.listen(serverPort, "0.0.0.0", onRequest);

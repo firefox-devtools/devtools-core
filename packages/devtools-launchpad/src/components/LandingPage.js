@@ -1,5 +1,6 @@
 const React = require("react");
 const classnames = require("classnames");
+const { getValue } = require("devtools-config");
 
 require("./LandingPage.css");
 const { DOM: dom } = React;
@@ -48,12 +49,7 @@ const LandingPage = React.createClass({
   },
 
   componentDidUpdate() {
-    if (this.refs.filterInput) {
-      this.refs.filterInput.focus();
-    }
-    if (this.refs.launchButton) {
-      this.refs.launchButton.focus();
-    }
+    this.refs.filterInput.focus();
   },
 
   onFilterChange(newFilterString) {
@@ -146,29 +142,40 @@ const LandingPage = React.createClass({
 
     const targets = getTabsByClientType(tabs, clientType);
 
+    function launchBrowser(browser) {
+      const port = getValue("development.serverPort");
+
+      fetch("/launch", {
+        body: JSON.stringify({ browser: browser }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "post"
+      });
+    }
+
     return dom.main({ className: "panel" },
       dom.header(
         {},
-        targets && targets.count() > 0
-          ? dom.input({
-            ref: "filterInput",
-            placeholder: "Filter tabs",
-            value: filterString,
-            autoFocus: true,
-            type: "search",
-            onChange: e => this.onFilterChange(e.target.value),
-            onKeyDown: e => {
-              if (targets.size === 1 && e.keyCode === 13) {
-                this.onTabClick(targets.first(), paramName);
-              }
+        dom.input({
+          ref: "filterInput",
+          placeholder: "Filter tabs",
+          value: filterString,
+          autoFocus: true,
+          type: "search",
+          onChange: e => this.onFilterChange(e.target.value),
+          onKeyDown: e => {
+            if (targets.size === 1 && e.keyCode === 13) {
+              this.onTabClick(targets.first(), paramName);
             }
-          }) : dom.input({
-            type: "button",
-            value: "Launch " + selectedPane,
-            ref: "launchButton",
-            onClick: e => {
-              
-            }
+          }
+        }),
+        dom.input({
+          type: "button",
+          value: `Launch ${selectedPane}`,
+          onClick: e => {
+            launchBrowser(selectedPane);
+          }
         })),
       this.renderTabs(targets, paramName),
       firstTimeMessage(name, docsUrlPart)

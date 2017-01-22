@@ -93,6 +93,10 @@
   transition: var(--base-transition);
 }
 
+.landing-page .panel header input[type=button] {
+  flex: 0.25;
+}
+
 .landing-page .panel header input::placeholder {
   color: var(--theme-body-color-inactive);
 }
