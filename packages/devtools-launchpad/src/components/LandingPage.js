@@ -1,6 +1,5 @@
 const React = require("react");
 const classnames = require("classnames");
-const { getValue } = require("devtools-config");
 
 require("./LandingPage.css");
 const { DOM: dom } = React;
