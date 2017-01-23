@@ -143,8 +143,6 @@ const LandingPage = React.createClass({
     const targets = getTabsByClientType(tabs, clientType);
 
     function launchBrowser(browser) {
-      const port = getValue("development.serverPort");
-
       fetch("/launch", {
         body: JSON.stringify({ browser: browser }),
         headers: {
