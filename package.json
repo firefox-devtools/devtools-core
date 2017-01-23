@@ -23,7 +23,7 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
-    "devtools-launchpad": "0.0.29",
+    "devtools-launchpad": "^0.0.30",
     "lodash": "^4.17.2"
   }
 }
