@@ -1056,9 +1056,9 @@ devtools-config@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.10.tgz#955a5ec1790e9e06a40009fdb1eaf5f979d168dd"
 
-devtools-launchpad@0.0.29:
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.29.tgz#a934cda80443af52d2823cce9f363790fc4fd1de"
+devtools-launchpad@^0.0.30:
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.30.tgz#3b312deebbd687d82aab19697e4e8a1459b2a38d"
   dependencies:
     amd-loader "0.0.5"
     babel-cli "^6.7.5"
