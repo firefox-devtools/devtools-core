@@ -20,8 +20,6 @@ const getValue = require("devtools-config").getValue;
 const setConfig = require("devtools-config").setConfig;
 const isDevelopment = require("devtools-config").isDevelopment;
 
-const _env = process.env;
-
 function httpOrHttpsGet(url, onResponse) {
   let protocol = url.startsWith("https:") ? https : http;
 
@@ -91,7 +89,7 @@ function handleLaunchRequest(req, res) {
   const browser = req.body.browser;
   const location = "https://devtools-html.github.io/debugger-examples/";
 
-  process.env.PATH += ':' + __dirname;
+  process.env.PATH += `:${__dirname}`;
   if (browser == "Firefox") {
     ps.spawn("firefox-driver.js", ["--start", "--location", `${location}`])
   }
