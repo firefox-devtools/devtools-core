@@ -3,12 +3,13 @@ const webpack = require("webpack");
 const process = require("process");
 
 function makeBundle({ outputPath, projectPath, watch = false }) {
+  process.env.TARGET = "firefox-panel";
+  process.env.OUTPUT_PATH = outputPath;
+
   const webpackConfig = require(path.resolve(projectPath, "webpack.config.js"));
 
   return new Promise((resolve, reject) => {
     const webpackCompiler = webpack(webpackConfig);
-    process.env.TARGET = "firefox-panel";
-    process.env.OUTPUT_PATH = outputPath;
 
     const postRun = (error, stats) => {
       if (stats.hasErrors()) {
@@ -27,4 +28,3 @@ function makeBundle({ outputPath, projectPath, watch = false }) {
 }
 
 module.exports = makeBundle;
-
