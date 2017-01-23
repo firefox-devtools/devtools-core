@@ -93,17 +93,13 @@ function handleLaunchRequest(req, res) {
 
   process.env.PATH += ':' + __dirname;
   if (browser == "Firefox") {
-    console.log(browser)
-    var b = ps.spawn("firefox-driver.js", ["--start", "--location", `${location}`]);
+    ps.spawn("firefox-driver.js", ["--start", "--location", `${location}`])
   }
 
   if (browser == "Chrome") {
     ps.spawn("chrome-driver.js", ["--location", `${location}`]);
   }
 
-  b.stdout.on("data", data =>  {
-    console.log(data);
-  });
 }
 
 function onRequest(err, result) {
