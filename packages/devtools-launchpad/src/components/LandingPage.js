@@ -150,7 +150,7 @@ const LandingPage = React.createClass({
         method: "post"
       })
       .catch(err => {
-        alert(`Error launching ${browser}. ${err.message}`)
+        alert(`Error launching ${browser}. ${err.message}`);
       });
     }
 
