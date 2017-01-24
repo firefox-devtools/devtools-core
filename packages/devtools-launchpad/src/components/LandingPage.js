@@ -137,7 +137,22 @@ const LandingPage = React.createClass({
       filterString = ""
     } = this.props;
 
+    let { selectedPane } = this.state;
+
     const targets = getTabsByClientType(tabs, clientType);
+
+    function launchBrowser(browser) {
+      fetch("/launch", {
+        body: JSON.stringify({ browser }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "post"
+      })
+      .catch(err => {
+        alert(`Error launching ${browser}. ${err.message}`);
+      });
+    }
 
     return dom.main({ className: "panel" },
       dom.header(
@@ -154,8 +169,12 @@ const LandingPage = React.createClass({
               this.onTabClick(targets.first(), paramName);
             }
           }
-        })
-      ),
+        }),
+        dom.input({
+          type: "button",
+          value: `Launch ${selectedPane}`,
+          onClick: () => launchBrowser(selectedPane)
+        })),
       this.renderTabs(targets, paramName),
       firstTimeMessage(name, docsUrlPart)
     );
