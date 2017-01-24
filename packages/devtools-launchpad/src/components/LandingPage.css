@@ -94,7 +94,7 @@
 }
 
 .landing-page .panel header input[type=button] {
-  flex: 0.25;
+  flex: none;
 }
 
 .landing-page .panel header input::placeholder {
