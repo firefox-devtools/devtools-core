@@ -19,6 +19,7 @@ const checkNode = require("check-node-version");
 const getValue = require("devtools-config").getValue;
 const setConfig = require("devtools-config").setConfig;
 const isDevelopment = require("devtools-config").isDevelopment;
+const firefoxDriver = require("./firefox-driver");
 
 function httpOrHttpsGet(url, onResponse) {
   let protocol = url.startsWith("https:") ? https : http;
@@ -91,11 +92,11 @@ function handleLaunchRequest(req, res) {
 
   process.env.PATH += `:${__dirname}`;
   if (browser == "Firefox") {
-    ps.spawn("firefox-driver.js", ["--start", "--location", `${location}`])
+    firefoxDriver.start();
   }
 
   if (browser == "Chrome") {
-    ps.spawn("chrome-driver.js", ["--location", `${location}`]);
+    ps.spawn("chrome-driver.js", ["--location", location]);
   }
 
 }

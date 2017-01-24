@@ -143,11 +143,14 @@ const LandingPage = React.createClass({
 
     function launchBrowser(browser) {
       fetch("/launch", {
-        body: JSON.stringify({ browser: browser }),
+        body: JSON.stringify({ browser }),
         headers: {
           "Content-Type": "application/json"
         },
         method: "post"
+      })
+      .catch(err => {
+        alert(`Error launching ${browser}. ${err.message}`)
       });
     }
 
@@ -170,9 +173,7 @@ const LandingPage = React.createClass({
         dom.input({
           type: "button",
           value: `Launch ${selectedPane}`,
-          onClick: e => {
-            launchBrowser(selectedPane);
-          }
+          onClick: () => launchBrowser(selectedPane)
         })),
       this.renderTabs(targets, paramName),
       firstTimeMessage(name, docsUrlPart)
