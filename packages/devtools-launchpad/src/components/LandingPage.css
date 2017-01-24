@@ -82,7 +82,7 @@
   padding-bottom: var(--base-spacing);
 }
 
-.landing-page .panel header input {
+.landing-page .panel header input[type=search] {
   flex: 1;
   background-color: var(--theme-tab-toolbar-background);
   color: var(--theme-comment);
@@ -94,7 +94,13 @@
 }
 
 .landing-page .panel header input[type=button] {
-  flex: none;
+  background-color: var(--theme-tab-toolbar-background);
+  color: var(--theme-comment);
+  font-size: var(--ui-element-font-size);
+  border: 1px solid var(--theme-splitter-color);
+  padding: calc(var(--base-spacing) / 2);
+  margin: 0 var(--base-spacing);
+  transition: var(--base-transition);
 }
 
 .landing-page .panel header input::placeholder {
