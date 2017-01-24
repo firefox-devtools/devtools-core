@@ -21,6 +21,8 @@ const setConfig = require("devtools-config").setConfig;
 const isDevelopment = require("devtools-config").isDevelopment;
 const firefoxDriver = require("./firefox-driver");
 
+const config = require("../config/config");
+
 function httpOrHttpsGet(url, onResponse) {
   let protocol = url.startsWith("https:") ? https : http;
 

@@ -58,12 +58,15 @@ const LandingPage = React.createClass({
   onSideBarItemClick(itemTitle) {
     if (itemTitle !== this.state.selectedPane) {
       this.setState({ selectedPane: itemTitle });
-      this.onFilterChange("");
     }
   },
 
   onTabClick(tab, paramName) {
     this.props.onTabClick(getTabURL(tab, paramName));
+  },
+
+  renderSettings() {
+
   },
 
   renderTabs(tabs, paramName) {
@@ -122,6 +125,12 @@ const LandingPage = React.createClass({
         clientType: "node",
         paramName: "node-tab",
         docsUrlPart: "node"
+      },
+      Settings: {
+        name: "Settings",
+        clientType: "settings",
+        paramName: "settings-tab",
+        docsUrlPart: "settings"
       }
     };
 
@@ -190,6 +199,8 @@ const LandingPage = React.createClass({
     if (this.props.supportsChrome) {
       connections.push("Chrome", "Node");
     }
+
+    connections.push("Settings");
 
     return dom.aside(
       {
