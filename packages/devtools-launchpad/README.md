@@ -1,6 +1,6 @@
 # Launchpad
 
-<img width="1271" alt="debugger-screenshot" src="https://cloud.githubusercontent.com/assets/2134/19079518/bdb69580-8a08-11e6-909c-bc74e49bc395.png">
+![launchpad-screenshot](https://cloud.githubusercontent.com/assets/1141550/22296671/433a4c68-e31b-11e6-8e46-bf3c653f6f6a.png)
 
 The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.
 
@@ -9,7 +9,7 @@ The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and N
 
 **Features**
 * *Dev Server* - local development environment to run your tool
-* *Webpack Base* - webpack config to build on top of  
+* *Webpack Base* - webpack config to build on top of
 * *Landing Page* - see available connections
 * *Bootstrap function* - hook to start your tool with a debuggee connection
 * *Configs* - config system to add additional runtime configuration

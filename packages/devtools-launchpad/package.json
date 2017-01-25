@@ -3,13 +3,13 @@
   "version": "0.0.30",
   "license": "MPL-2.0",
   "repository": {
-    "url": "git://github.com/devtools-html/debugger.html.git",
+    "url": "git://github.com/devtools-html/devtools-core.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/devtools-html/debugger.html/issues"
+    "url": "https://github.com/devtools-html/devtools-core/issues"
   },
-  "homepage": "https://github.com/devtools-html/debugger.html#readme",
+  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
