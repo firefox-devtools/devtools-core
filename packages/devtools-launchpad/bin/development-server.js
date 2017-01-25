@@ -17,11 +17,9 @@ const http = require("http");
 const https = require("https");
 const checkNode = require("check-node-version");
 const getValue = require("devtools-config").getValue;
-const setConfig = require("devtools-config").setConfig;
+const { setConfig, getConfig } = require("devtools-config");
 const isDevelopment = require("devtools-config").isDevelopment;
 const firefoxDriver = require("./firefox-driver");
-
-const config = require("../config/config");
 
 function httpOrHttpsGet(url, onResponse) {
   let protocol = url.startsWith("https:") ? https : http;
@@ -100,7 +98,10 @@ function handleLaunchRequest(req, res) {
   if (browser == "Chrome") {
     ps.spawn("chrome-driver.js", ["--location", location]);
   }
+}
 
+function handleGetConfig(req, res) {
+  res.json(getConfig());
 }
 
 function onRequest(err, result) {
@@ -152,6 +153,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
 
   app.get("/get", handleNetworkRequest);
   app.post("/launch", handleLaunchRequest);
+  app.get("/getconfig", handleGetConfig);
 
   const serverPort = getValue("development.serverPort");
   app.listen(serverPort, "0.0.0.0", onRequest);
