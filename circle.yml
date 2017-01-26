@@ -6,6 +6,7 @@ test:
     - echo "nothing yet"
   post:
     - npm run lint-js
+
 dependencies:
   pre:
   cache_directories:
