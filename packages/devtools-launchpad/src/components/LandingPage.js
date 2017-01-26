@@ -43,12 +43,23 @@ const LandingPage = React.createClass({
 
   getInitialState() {
     return {
-      selectedPane: "Firefox"
+      selectedPane: "Firefox",
+      config: {}
     };
   },
 
   componentDidUpdate() {
-    this.refs.filterInput.focus();
+    if (this.refs.filterInput) {
+      this.refs.filterInput.focus();
+    }
+  },
+
+  async componentDidMount() {
+    const res = await fetch("/getconfig", {
+      method: "get"
+    });
+    const config = await res.json();
+    this.setState({ config });
   },
 
   onFilterChange(newFilterString) {
@@ -58,12 +69,29 @@ const LandingPage = React.createClass({
   onSideBarItemClick(itemTitle) {
     if (itemTitle !== this.state.selectedPane) {
       this.setState({ selectedPane: itemTitle });
-      this.onFilterChange("");
     }
   },
 
   onTabClick(tab, paramName) {
     this.props.onTabClick(getTabURL(tab, paramName));
+  },
+
+  renderSettings() {
+    const config = this.state.config;
+    return dom.div(
+      { className: "tab-group" },
+      dom.ul(
+        { className: "tab-list" },
+        dom.li({ className: "tab tab-sides" },
+          dom.div({ className: "tab-title" }, "dir"),
+          dom.div({ className: "tab-value" }, config.dir),
+        ),
+        dom.li({ className: "tab tab-sides" },
+          dom.div({ className: "tab-title" }, "theme"),
+          dom.div({ className: "tab-value" }, config.theme)
+        )
+      )
+    );
   },
 
   renderTabs(tabs, paramName) {
@@ -122,6 +150,12 @@ const LandingPage = React.createClass({
         clientType: "node",
         paramName: "node-tab",
         docsUrlPart: "node"
+      },
+      Settings: {
+        name: "Settings",
+        clientType: "settings",
+        paramName: "settings-tab",
+        docsUrlPart: "settings"
       }
     };
 
@@ -140,6 +174,7 @@ const LandingPage = React.createClass({
     let { selectedPane } = this.state;
 
     const targets = getTabsByClientType(tabs, clientType);
+    const settings = name === "Settings";
 
     function launchBrowser(browser) {
       fetch("/launch", {
@@ -154,8 +189,9 @@ const LandingPage = React.createClass({
       });
     }
 
-    return dom.main({ className: "panel" },
-      dom.header(
+    return dom.main(
+      { className: "panel" },
+      !settings ? dom.header(
         {},
         dom.input({
           ref: "filterInput",
@@ -174,10 +210,10 @@ const LandingPage = React.createClass({
           type: "button",
           value: `Launch ${selectedPane}`,
           onClick: () => launchBrowser(selectedPane)
-        })),
-      this.renderTabs(targets, paramName),
-      firstTimeMessage(name, docsUrlPart)
-    );
+        })
+      ) : dom.header({}, dom.h1({}, "Settings")),
+      settings ? this.renderSettings() : this.renderTabs(targets, paramName),
+      firstTimeMessage(name, docsUrlPart));
   },
 
   renderSidebar() {
@@ -190,6 +226,8 @@ const LandingPage = React.createClass({
     if (this.props.supportsChrome) {
       connections.push("Chrome", "Node");
     }
+
+    connections.push("Settings");
 
     return dom.aside(
       {
