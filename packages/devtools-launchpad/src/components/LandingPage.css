@@ -103,6 +103,15 @@
   transition: var(--base-transition);
 }
 
+.landing-page .panel header h1 {
+  color: var(--theme-body-color);
+  font-size: var(--title-font-size);
+  margin: 0;
+  line-height: var(--primary-line-height);
+  font-weight: normal;
+  padding-left: calc(2 * var(--base-spacing));
+}
+
 .landing-page .panel header input::placeholder {
   color: var(--theme-body-color-inactive);
 }
@@ -139,6 +148,12 @@
   font-family: sans-serif;
 }
 
+.landing-page .tab-sides {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 var(--base-spacing);
+}
+
 .landing-page .tab-title {
   line-height: var(--secondary-line-height);
   font-size: var(--ui-element-font-size);
@@ -149,6 +164,12 @@
 .landing-page .tab-url {
   color: var(--theme-comment);
   word-break: break-all;
+}
+
+.landing-page .tab-value {
+  color: var(--theme-comment);
+  line-height: var(--secondary-line-height);
+  font-size: var(--ui-element-font-size);
 }
 
 .landing-page .tab:focus,
