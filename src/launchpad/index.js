@@ -1,3 +1,4 @@
+// globals window, document
 // require("./webconsole.css")
 require("../reps/reps.css");
 
