@@ -3,8 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 /* eslint no-unused-vars: [2, {"vars": "local"}] */
 
-"use strict";
-
 var { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;
 
 var { require } = Cu.import("resource://devtools/shared/Loader.jsm", {});
@@ -13,6 +11,7 @@ var { gDevTools } = require("devtools/client/framework/devtools");
 var { BrowserLoader } = Cu.import("resource://devtools/client/shared/browser-loader.js", {});
 var flags = require("devtools/shared/flags");
 var { Task } = require("devtools/shared/task");
+var DevToolsUtils = require("devtools/shared/DevToolsUtils");
 
 flags.testing = true;
 var { require: browserRequire } = BrowserLoader({
