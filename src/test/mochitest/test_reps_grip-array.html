@@ -39,8 +39,9 @@ window.onload = Task.async(function* () {
     yield testNodeList();
     yield testDocumentFragment();
 
-    yield testOnMouseOver();
-    yield testOnMouseOut();
+    yield testOnDomNodeMouseOver();
+    yield testOnDomNodeMouseOut();
+    yield testOnDomNodeInspectIconClick();
   } catch (e) {
     ok(false, "Got an error: " + DevToolsUtils.safeErrorString(e));
   } finally {
@@ -308,41 +309,104 @@ window.onload = Task.async(function* () {
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
   }
 
-
-
-  function testOnMouseOver() {
+  function testOnDomNodeMouseOver() {
     const stub = getGripStub("testNodeList");
 
     let mouseOverValue;
     let onDOMNodeMouseOver = (object) => {
       mouseOverValue = object;
     };
-    const renderedComponent = renderComponent(
-      GripArray.rep, {object: stub, onDOMNodeMouseOver});
+    const renderedComponent = renderComponent(GripArray.rep, {
+      object: stub,
+      onDOMNodeMouseOver,
+      attachedNodeFrontsByActor: stub.preview.items.reduce((res, nodegrip) => {
+        return Object.assign({
+          [nodegrip.actor]: nodegrip.actor
+        }, res);
+      }, {}),
+    });
 
     const nodes = renderedComponent.querySelectorAll(".objectBox-node");
     nodes.forEach((node, index) => {
       TestUtils.Simulate.mouseOver(node);
 
-      is(mouseOverValue, stub.preview.items[index], "onDOMNodeMouseOver is called with " +
-        "the expected argument when mouseover is fired on the Rep");
+      is(mouseOverValue, stub.preview.items[index].actor,
+        "onDOMNodeMouseOver is called with the expected argument " +
+        "when mouseover is fired on the Rep");
     });
   }
 
-  function testOnMouseOut() {
+  function testOnDomNodeMouseOut() {
     const stub = getGripStub("testNodeList");
 
-    let called = false;
+    let called = 0;
     let onDOMNodeMouseOut = (object) => {
-      called = true;
+      called++;
     };
-    const renderedComponent = renderComponent(
-      GripArray.rep, {object: stub, onDOMNodeMouseOut});
+    const renderedComponent = renderComponent(GripArray.rep, {
+      object: stub,
+      onDOMNodeMouseOut,
+      attachedNodeFrontsByActor: stub.preview.items.reduce((res, nodegrip) => {
+        return Object.assign({
+          [nodegrip.actor]: nodegrip.actor
+        }, res);
+      }, {}),
+    });
 
-    const node = renderedComponent.querySelector(".objectBox-node");
-    TestUtils.Simulate.mouseOut(node);
+    const nodes = renderedComponent.querySelectorAll(".objectBox-node");
+    info("Simulating mouseout on each node");
+    Array.from(nodes).forEach(node => TestUtils.Simulate.mouseOut(node));
 
-    is(called, true, "onDOMNodeMouseOut is called when mouseout is fired on the Rep");
+    is(called, 3, "onDOMNodeMouseOut is called when mouseout is fired on each NodeRep");
+  }
+
+  function testOnDomNodeInspectIconClick() {
+    const stub = getGripStub("testNodeList");
+
+    let inspectIconClickedValue = null;
+    let onInspectIconClick = (object) => {
+      inspectIconClickedValue = object;
+    };
+
+    let renderedComponentWithoutInspectIcon = renderComponent(GripArray.rep, {
+      object: stub,
+      onInspectIconClick,
+    });
+    is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
+      "There isn't an inspect icon when attachedNodeFrontsByActor isn't provided");
+
+    renderedComponentWithoutInspectIcon = renderComponent(GripArray.rep, {
+      object: stub,
+      onInspectIconClick,
+      attachedNodeFrontsByActor: {
+        "fakeactorid": "fakeactorid"
+      }
+    });
+    is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
+      "There isn't an inspect icon when attachedNodeFrontsByActor does not have keys " +
+      "matching grip array's item");
+
+    const renderedComponent = renderComponent(GripArray.rep, {
+      object: stub,
+      onInspectIconClick,
+      attachedNodeFrontsByActor: stub.preview.items.reduce((res, nodegrip) => {
+        return Object.assign({
+          [nodegrip.actor]: nodegrip.actor
+        }, res);
+      }, {}),
+    });
+
+    const icons = renderedComponent.querySelectorAll(".open-inspector");
+    is(icons.length, stub.preview.items.length,
+      "There is an icon for each grip array item with a matching attachedNodeFront");
+
+    icons.forEach((icon, index) => {
+      TestUtils.Simulate.click(icon);
+
+      is(inspectIconClickedValue, stub.preview.items[index].actor,
+        "onInspectIconClick is called with the expected argument " +
+        "when the inspect icon is clicked");
+    });
   }
 
   function getGripStub(functionName) {

@@ -33,6 +33,10 @@ window.onload = Task.async(function* () {
     yield testMaxEntries();
     yield testMoreThanMaxEntries();
     yield testUninterestingEntries();
+
+    yield testOnDomNodeMouseOver();
+    yield testOnDomNodeMouseOut();
+    yield testOnDomNodeInspectIconClick();
   } catch (e) {
     ok(false, "Got an error: " + DevToolsUtils.safeErrorString(e));
   } finally {
@@ -231,6 +235,183 @@ window.onload = Task.async(function* () {
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
   }
 
+  function testOnDomNodeMouseOver() {
+    const nodeValuedStub = getGripStub("testNodeValuedMap");
+    const nodeKeyedStub = getGripStub("testNodeKeyedMap");
+
+    let mouseOverValue;
+    let onDOMNodeMouseOver = (object) => {
+      mouseOverValue = object;
+    };
+
+    info("Testing onDOMNodeMouseOver on node valued Map");
+    const nodeValuedRenderedComponent = renderComponent(GripMap.rep, {
+      object: nodeValuedStub,
+      onDOMNodeMouseOver,
+      attachedNodeFrontsByActor: nodeValuedStub.preview.entries.reduce(
+        (res, [key, value]) => {
+          return Object.assign({
+            [value.actor]: value.actor
+          }, res);
+        }, {}),
+    });
+
+    let nodes = nodeValuedRenderedComponent.querySelectorAll(".objectBox-node");
+    nodes.forEach((node, index) => {
+      TestUtils.Simulate.mouseOver(node);
+      let entry = nodeValuedStub.preview.entries[index];
+      let value = entry[1];
+      is(mouseOverValue, value.actor,
+        "onDOMNodeMouseOver is called with the expected argument " +
+        "when mouseover is fired on the Rep");
+    });
+
+    info("Testing onDOMNodeMouseOver on node keyed Map");
+    const nodeKeyedRenderedComponent = renderComponent(GripMap.rep, {
+      object: nodeKeyedStub,
+      onDOMNodeMouseOver,
+      attachedNodeFrontsByActor: nodeKeyedStub.preview.entries.reduce(
+        (res, [key, value]) => {
+          return Object.assign({
+            [key.actor]: key.actor
+          }, res);
+        }, {}),
+    });
+
+    nodes = nodeKeyedRenderedComponent.querySelectorAll(".objectBox-node");
+    nodes.forEach((node, index) => {
+      TestUtils.Simulate.mouseOver(node);
+      let [key] = nodeKeyedStub.preview.entries[index];
+      is(mouseOverValue, key.actor,
+        "onDOMNodeMouseOver is called with the expected argument " +
+        "when mouseover is fired on the Rep");
+    });
+  }
+
+  function testOnDomNodeMouseOut() {
+    const nodeValuedStub = getGripStub("testNodeValuedMap");
+    const nodeKeyedStub = getGripStub("testNodeKeyedMap");
+
+    let called = 0;
+    let onDOMNodeMouseOut = (object) => {
+      called++;
+    };
+
+    info("Testing onDOMNodeMouseOut on node valued Map");
+    const nodeValuedRenderedComponent = renderComponent(GripMap.rep, {
+      object: nodeValuedStub,
+      onDOMNodeMouseOut,
+      attachedNodeFrontsByActor: nodeValuedStub.preview.entries.reduce(
+        (res, [key, value]) => {
+          return Object.assign({
+            [value.actor]: value.actor
+          }, res);
+        }, {}),
+    });
+
+    let nodes = nodeValuedRenderedComponent.querySelectorAll(".objectBox-node");
+    info("Simulating mouseout on each value node");
+    nodes.forEach((node, index) => TestUtils.Simulate.mouseOut(node));
+    is(called, 3,
+      "onDOMNodeMouseOut is called when mouseout is fired on each value NodeRep");
+
+    info("Testing onDOMNodeMouseOut on node keyed Map");
+    const nodeKeyedRenderedComponent = renderComponent(GripMap.rep, {
+      object: nodeKeyedStub,
+      onDOMNodeMouseOut,
+      attachedNodeFrontsByActor: nodeKeyedStub.preview.entries.reduce(
+        (res, [key, value]) => {
+          return Object.assign({
+            [key.actor]: key.actor
+          }, res);
+        }, {}),
+    });
+
+    nodes = nodeKeyedRenderedComponent.querySelectorAll(".objectBox-node");
+    // Resets counter
+    called = 0;
+    info("Simulating mouseout on each key node");
+    nodes.forEach((node, index) => TestUtils.Simulate.mouseOut(node));
+    is(called, 3,
+      "onDOMNodeMouseOut is called when mouseout is fired on each key NodeRep");
+  }
+
+  function testOnDomNodeInspectIconClick() {
+    const nodeValuedStub = getGripStub("testNodeValuedMap");
+    const nodeKeyedStub = getGripStub("testNodeKeyedMap");
+
+    let inspectIconClickedValue = null;
+    let onInspectIconClick = (object) => {
+      inspectIconClickedValue = object;
+    };
+
+    let renderedComponentWithoutInspectIcon = renderComponent(GripMap.rep, {
+      object: nodeValuedStub,
+      onInspectIconClick,
+    });
+    is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
+      "There isn't an inspect icon when attachedNodeFrontsByActor isn't provided");
+
+    renderedComponentWithoutInspectIcon = renderComponent(GripMap.rep, {
+      object: nodeValuedStub,
+      onInspectIconClick,
+      attachedNodeFrontsByActor: {
+        "fakeactorid": "fakeactorid"
+      }
+    });
+    is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
+      "There isn't an inspect icon when attachedNodeFrontsByActor does not have keys " +
+      "matching map keys or values");
+
+    info("Testing onInspectIconClick on node valued Map");
+    const nodeValuedRenderedComponent = renderComponent(GripMap.rep, {
+      object: nodeValuedStub,
+      onInspectIconClick,
+      attachedNodeFrontsByActor: nodeValuedStub.preview.entries.reduce(
+        (res, [key, value]) => {
+          return Object.assign({
+            [value.actor]: value.actor
+          }, res);
+        }, {}),
+    });
+
+    let icons = nodeValuedRenderedComponent.querySelectorAll(".open-inspector");
+    is(icons.length, nodeValuedStub.preview.entries.length,
+      "There is an icon for each map value with a matching attachedNodeFront");
+
+    icons.forEach((icon, index) => {
+      TestUtils.Simulate.click(icon);
+      let entry = nodeValuedStub.preview.entries[index];
+      let value = entry[1];
+      is(inspectIconClickedValue, value.actor, "onInspectIconClick is called " +
+        "with the expected argument when the inspect icon is clicked");
+    });
+
+    info("Testing onInspectIconClick on node keyed Map");
+    const nodeKeyedRenderedComponent = renderComponent(GripMap.rep, {
+      object: nodeKeyedStub,
+      onInspectIconClick,
+      attachedNodeFrontsByActor: nodeKeyedStub.preview.entries.reduce(
+        (res, [key, value]) => {
+          return Object.assign({
+            [key.actor]: key.actor
+          }, res);
+        }, {}),
+    });
+
+    icons = nodeKeyedRenderedComponent.querySelectorAll(".open-inspector");
+    is(icons.length, nodeKeyedStub.preview.entries.length,
+      "There is an icon for each map key with a matching attachedNodeFront");
+
+    icons.forEach((icon, index) => {
+      TestUtils.Simulate.click(icon);
+      let entry = nodeKeyedStub.preview.entries[index];
+      let key = entry[0];
+      is(inspectIconClickedValue, key.actor, "onInspectIconClick is called " +
+        "with the expected argument when the inspect icon is clicked");
+    });
+  }
+
   function getGripStub(functionName) {
     switch (functionName) {
       case "testEmptyMap":
@@ -392,6 +573,172 @@ window.onload = Task.async(function* () {
               [
                 "key-d",
                 4
+              ]
+            ]
+          }
+        };
+
+      case "testNodeValuedMap":
+        return {
+          "type": "object",
+          "actor": "server1.conn1.child1/obj213",
+          "class": "Map",
+          "ownPropertyLength": 0,
+          "preview": {
+            "kind": "MapLike",
+            "size": 3,
+            "entries": [
+              [
+                "item-0",
+                {
+                  "type": "object",
+                  "actor": "server1.conn1.child1/obj214",
+                  "class": "HTMLButtonElement",
+                  "extensible": true,
+                  "frozen": false,
+                  "sealed": false,
+                  "ownPropertyLength": 0,
+                  "preview": {
+                    "kind": "DOMNode",
+                    "nodeType": 1,
+                    "nodeName": "button",
+                    "attributes": {
+                      "id": "btn-1",
+                      "class": "btn btn-log",
+                      "type": "button"
+                    },
+                    "attributesLength": 3
+                  }
+                }
+              ],
+              [
+                "item-1",
+                {
+                  "type": "object",
+                  "actor": "server1.conn1.child1/obj215",
+                  "class": "HTMLButtonElement",
+                  "extensible": true,
+                  "frozen": false,
+                  "sealed": false,
+                  "ownPropertyLength": 0,
+                  "preview": {
+                    "kind": "DOMNode",
+                    "nodeType": 1,
+                    "nodeName": "button",
+                    "attributes": {
+                      "id": "btn-2",
+                      "class": "btn btn-err",
+                      "type": "button"
+                    },
+                    "attributesLength": 3
+                  }
+                }
+              ],
+              [
+                "item-2",
+                {
+                  "type": "object",
+                  "actor": "server1.conn1.child1/obj216",
+                  "class": "HTMLButtonElement",
+                  "extensible": true,
+                  "frozen": false,
+                  "sealed": false,
+                  "ownPropertyLength": 0,
+                  "preview": {
+                    "kind": "DOMNode",
+                    "nodeType": 1,
+                    "nodeName": "button",
+                    "attributes": {
+                      "id": "btn-3",
+                      "class": "btn btn-count",
+                      "type": "button"
+                    },
+                    "attributesLength": 3
+                  }
+                }
+              ]
+            ]
+          }
+        };
+
+      case "testNodeKeyedMap":
+        return {
+          "type": "object",
+          "actor": "server1.conn1.child1/obj223",
+          "class": "WeakMap",
+          "ownPropertyLength": 0,
+          "preview": {
+            "kind": "MapLike",
+            "size": 3,
+            "entries": [
+              [
+                {
+                  "type": "object",
+                  "actor": "server1.conn1.child1/obj224",
+                  "class": "HTMLButtonElement",
+                  "extensible": true,
+                  "frozen": false,
+                  "sealed": false,
+                  "ownPropertyLength": 0,
+                  "preview": {
+                    "kind": "DOMNode",
+                    "nodeType": 1,
+                    "nodeName": "button",
+                    "attributes": {
+                      "id": "btn-1",
+                      "class": "btn btn-log",
+                      "type": "button"
+                    },
+                    "attributesLength": 3
+                  }
+                },
+                "item-0"
+              ],
+              [
+                {
+                  "type": "object",
+                  "actor": "server1.conn1.child1/obj225",
+                  "class": "HTMLButtonElement",
+                  "extensible": true,
+                  "frozen": false,
+                  "sealed": false,
+                  "ownPropertyLength": 0,
+                  "preview": {
+                    "kind": "DOMNode",
+                    "nodeType": 1,
+                    "nodeName": "button",
+                    "attributes": {
+                      "id": "btn-3",
+                      "class": "btn btn-count",
+                      "type": "button"
+                    },
+                    "attributesLength": 3
+                  }
+                },
+                "item-2"
+              ],
+              [
+                {
+                  "type": "object",
+                  "actor": "server1.conn1.child1/obj226",
+                  "class": "HTMLButtonElement",
+                  "extensible": true,
+                  "frozen": false,
+                  "sealed": false,
+                  "ownPropertyLength": 0,
+                  "preview": {
+                    "kind": "DOMNode",
+                    "nodeType": 1,
+                    "nodeName": "button",
+                    "attributes": {
+                      "id": "btn-2",
+                      "class": "btn btn-err",
+                      "type": "button"
+                    },
+                    "attributesLength": 3
+                  }
+                },
+                "item-1"
               ]
             ]
           }

@@ -23,8 +23,10 @@ let TextNode = React.createClass({
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     objectLink: React.PropTypes.func,
+    attachedNodeFront: React.PropTypes.object,
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
+    onInspectIconClick: React.PropTypes.func,
   },
 
   getTextContent: function (grip) {
@@ -45,23 +47,40 @@ let TextNode = React.createClass({
     let {
       object: grip,
       mode = MODE.SHORT,
+      attachedNodeFront,
+      onDOMNodeMouseOver,
+      onDOMNodeMouseOut,
+      onInspectIconClick,
     } = this.props;
 
     let baseConfig = {className: "objectBox objectBox-textNode"};
-    if (this.props.onDOMNodeMouseOver) {
-      Object.assign(baseConfig, {
-        onMouseOver: _ => this.props.onDOMNodeMouseOver(grip)
-      });
-    }
+    let inspectIcon;
+    if (attachedNodeFront) {
+      if (onDOMNodeMouseOver) {
+        Object.assign(baseConfig, {
+          onMouseOver: _ => onDOMNodeMouseOver(attachedNodeFront)
+        });
+      }
 
-    if (this.props.onDOMNodeMouseOut) {
-      Object.assign(baseConfig, {
-        onMouseOut: this.props.onDOMNodeMouseOut
-      });
+      if (onDOMNodeMouseOut) {
+        Object.assign(baseConfig, {
+          onMouseOut: onDOMNodeMouseOut
+        });
+      }
+
+      if (onInspectIconClick) {
+        inspectIcon = DOM.a({
+          className: "open-inspector",
+          draggable: false,
+          // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
+          title: "Click to select the node in the inspector",
+          onClick: () => onInspectIconClick(attachedNodeFront)
+        });
+      }
     }
 
     if (mode === MODE.TINY) {
-      return DOM.span(baseConfig, this.getTitle(grip));
+      return DOM.span(baseConfig, this.getTitle(grip), inspectIcon);
     }
 
     return (
@@ -70,7 +89,8 @@ let TextNode = React.createClass({
         DOM.span({className: "nodeValue"},
           " ",
           `"${this.getTextContent(grip)}"`
-        )
+        ),
+        inspectIcon
       )
     );
   }),

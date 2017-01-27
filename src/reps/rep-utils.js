@@ -1,6 +1,9 @@
 // Dependencies
 const React = require("react");
 
+// Utils
+const nodeConstants = require("../shared/dom-node-constants");
+
 /**
  * Create React factories for given arguments.
  * Example:
@@ -157,6 +160,66 @@ function wrapRender(renderMethod) {
   };
 }
 
+function isGripSelectableInInspector(grip) {
+  return grip
+    && typeof grip === "object"
+    && grip.preview
+    && [
+      nodeConstants.TEXT_NODE,
+      nodeConstants.ELEMENT_NODE
+    ].includes(grip.preview.nodeType);
+}
+
+function getFlattenedGrips(parameters, filterFn) {
+  if (!Array.isArray(parameters)) {
+    return null;
+  }
+  let nodeGrips = parameters.reduce((result, parameter) => {
+    return result.concat(getPreviewGrips(parameter, filterFn));
+  }, []);
+  return [...new Set(nodeGrips)];
+}
+
+function getPreviewGrips(grip, filterFn = null) {
+  let grips = [];
+  if (!filterFn || filterFn(grip)) {
+    grips.push(grip);
+  }
+
+  let previewItems = [];
+  if (grip && grip.preview) {
+    if (grip.preview.items) {
+      previewItems = grip.preview.items;
+    } else if (grip.preview.childNodes) {
+      previewItems = grip.preview.childNodes;
+    } else if (grip.preview.entries) {
+      previewItems = grip.preview.entries.reduce((res, entry) => res.concat(entry), []);
+    } else if (grip.promiseState && grip.promiseState.value) {
+      previewItems = [grip.promiseState.value];
+    } else if (grip.preview.ownProperties) {
+      let propertiesValues = Object.keys(grip.preview.ownProperties)
+        .map(key => {
+          let property = grip.preview.ownProperties[key];
+          return property.value || property;
+        });
+
+      if (grip.preview && grip.preview.safeGetterValues) {
+        propertiesValues = propertiesValues.concat(
+          Object.keys(grip.preview.safeGetterValues)
+            .map(key => {
+              let property = grip.preview.safeGetterValues[key];
+              return property.getterValue || property;
+            })
+        );
+      }
+      previewItems = propertiesValues;
+    } else if (grip.preview.target) {
+      previewItems = [grip.preview.target];
+    }
+  }
+  return grips.concat(getFlattenedGrips(previewItems, filterFn));
+}
+
 module.exports = {
   createFactories,
   isGrip,
@@ -167,5 +230,8 @@ module.exports = {
   parseURLParams,
   parseURLEncodedText,
   getFileName,
-  getURLDisplayString
+  getURLDisplayString,
+  isGripSelectableInInspector,
+  getFlattenedGrips,
+  getPreviewGrips,
 };

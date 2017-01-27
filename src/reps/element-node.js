@@ -10,7 +10,7 @@ const { MODE } = require("./constants");
 const nodeConstants = require("../shared/dom-node-constants");
 
 // Shortcuts
-const { span } = React.DOM;
+const { a, span } = React.DOM;
 
 /**
  * Renders DOM element node.
@@ -22,8 +22,10 @@ const ElementNode = React.createClass({
     object: React.PropTypes.object.isRequired,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    attachedNodeFront: React.PropTypes.object,
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
+    onInspectIconClick: React.PropTypes.func,
     objectLink: React.PropTypes.func,
   },
 
@@ -89,27 +91,43 @@ const ElementNode = React.createClass({
     let {
       object,
       mode,
+      attachedNodeFront,
       onDOMNodeMouseOver,
-      onDOMNodeMouseOut
+      onDOMNodeMouseOut,
+      onInspectIconClick,
     } = this.props;
     let elements = this.getElements(object, mode);
     let objectLink = this.props.objectLink || span;
 
     let baseConfig = {className: "objectBox objectBox-node"};
-    if (onDOMNodeMouseOver) {
-      Object.assign(baseConfig, {
-        onMouseOver: _ => onDOMNodeMouseOver(object)
-      });
+    let inspectIcon;
+    if (attachedNodeFront) {
+      if (onDOMNodeMouseOver) {
+        Object.assign(baseConfig, {
+          onMouseOver: _ => onDOMNodeMouseOver(attachedNodeFront)
+        });
+      }
+
+      if (onDOMNodeMouseOut) {
+        Object.assign(baseConfig, {
+          onMouseOut: onDOMNodeMouseOut
+        });
+      }
+
+      if (onInspectIconClick) {
+        inspectIcon = a({
+          className: "open-inspector",
+          draggable: false,
+          // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
+          title: "Click to select the node in the inspector",
+          onClick: () => onInspectIconClick(attachedNodeFront)
+        });
+      }
     }
 
-    if (onDOMNodeMouseOut) {
-      Object.assign(baseConfig, {
-        onMouseOut: onDOMNodeMouseOut
-      });
-    }
-
-    return objectLink({object},
-      span(baseConfig, ...elements)
+    return span(baseConfig,
+      objectLink({object}, ...elements),
+      inspectIcon
     );
   }),
 });
