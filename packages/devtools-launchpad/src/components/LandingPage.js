@@ -44,7 +44,9 @@ const LandingPage = React.createClass({
   getInitialState() {
     return {
       selectedPane: "Firefox",
-      config: {}
+      config: {},
+      firefoxConnected: false,
+      chromeConnected: false
     };
   },
 
@@ -213,7 +215,7 @@ const LandingPage = React.createClass({
     const targets = getTabsByClientType(tabs, clientType);
     const settings = name === "Settings";
 
-    function launchBrowser(browser) {
+    const launchBrowser = (browser) => {
       fetch("/launch", {
         body: JSON.stringify({ browser }),
         headers: {
@@ -222,11 +224,25 @@ const LandingPage = React.createClass({
         method: "post"
       })
       .then(resp => {
+        if (browser == "firefox") {
+          this.setState({ firefoxConnected: true });
+        } else {
+          this.setState({ chromeConnected: true });
+        }
       })
       .catch(err => {
         alert(`Error launching ${browser}. ${err.message}`);
       });
-    }
+    };
+
+    const isConnected = name == "Firefox"
+      ? this.state.firefoxConnected
+      : this.state.chromeConnected;
+    const launchButton = isConnected ? null : dom.input({
+      type: "button",
+      value: `Launch ${selectedPane}`,
+      onClick: () => launchBrowser(selectedPane)
+    });
 
     return dom.main(
       { className: "panel" },
@@ -245,14 +261,11 @@ const LandingPage = React.createClass({
             }
           }
         }),
-        dom.input({
-          type: "button",
-          value: `Launch ${selectedPane}`,
-          onClick: () => launchBrowser(selectedPane)
-        })
+        launchButton
       ) : dom.header({}, dom.h1({}, "Settings")),
       settings ? this.renderSettings() : this.renderTabs(targets, paramName),
-      firstTimeMessage(name, docsUrlPart));
+      firstTimeMessage(name, docsUrlPart)
+    );
   },
 
   renderSidebar() {
