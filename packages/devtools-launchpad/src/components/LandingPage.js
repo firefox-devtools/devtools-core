@@ -54,7 +54,7 @@ const LandingPage = React.createClass({
     }
   },
 
-  async componentDidMount() {
+  async componentWillMount() {
     const res = await fetch("/getconfig", {
       method: "get"
     });
@@ -78,19 +78,56 @@ const LandingPage = React.createClass({
 
   renderSettings() {
     const config = this.state.config;
+    const features = config.features;
     return dom.div(
       { className: "tab-group" },
-      dom.ul(
-        { className: "tab-list" },
-        dom.li({ className: "tab tab-sides" },
-          dom.div({ className: "tab-title" }, "dir"),
-          dom.div({ className: "tab-value" }, config.dir),
-        ),
-        dom.li({ className: "tab tab-sides" },
-          dom.div({ className: "tab-title" }, "theme"),
-          dom.div({ className: "tab-value" }, config.theme)
-        )
+      dom.h3({}, "Configurations"),
+      this.renderConfig(config),
+      dom.h3({}, "Features"),
+      this.renderFeatures(features)
+    );
+  },
+
+  renderConfig(config) {
+    return dom.ul(
+      { className: "tab-list" },
+      dom.li({ className: "tab tab-sides" },
+        dom.div({ className: "tab-title" }, "Direction"),
+        dom.div({ className: "tab-value" }, config.dir),
+      ),
+      dom.li({ className: "tab tab-sides" },
+        dom.div({ className: "tab-title" }, "Theme"),
+        dom.div({ className: "tab-value" }, config.theme)
       )
+    );
+  },
+
+  renderFeatures(features) {
+    const onInputHandler = (e, key) => {
+      features[key] = e.target.checked;
+    };
+    return dom.ul(
+      { className: "tab-list" },
+      Object.keys(features).map(key => dom.li(
+        {
+          className: "tab tab-sides",
+          key
+        },
+        dom.div({ className: "tab-title" },
+          typeof features[key] == "object" ?
+            features[key].label :
+            key
+        ),
+        dom.div({ className: "tab-value" },
+          dom.input(
+            {
+              type: "checkbox",
+              defaultChecked: features[key].enabled,
+              onChange: e => onInputHandler(e, key)
+            },
+          )
+        )
+      ))
     );
   },
 

@@ -12,7 +12,10 @@ function getValue(key) {
 }
 
 function isEnabled(key) {
-  return config.features && config.features[key];
+  return config.features &&
+    typeof config.features[key] == 'object' ?
+    config.features[key].enabled :
+    config.features[key];
 }
 
 function isDevelopment() {
