@@ -92,7 +92,7 @@ function handleLaunchRequest(req, res) {
 
   process.env.PATH += `:${__dirname}`;
   if (browser == "Firefox") {
-    firefoxDriver.start();
+    firefoxDriver.start(location);
   }
 
   if (browser == "Chrome") {
