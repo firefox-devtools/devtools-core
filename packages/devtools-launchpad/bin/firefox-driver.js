@@ -64,7 +64,7 @@ function firefoxProfile() {
   return profile;
 }
 
-function start() {
+function start(_url) {
   let options = new firefox.Options();
 
   options.setProfile(firefoxProfile());
@@ -75,19 +75,18 @@ function start() {
     .setFirefoxOptions(options)
     .build();
 
-  return driver;
-}
-
-if (shouldStart) {
-  const driver = start();
-  let location = url.parse('about:blank');
-  if (args.location) {
-    location = url.parse(args.location);
-  }
+  let location = url.parse(_url);
   if (location.protocol === null) {
     location.protocol = 'http:';
   }
   driver.get(url.format(location));
+
+  return driver;
+}
+
+if (shouldStart) {
+  const location = args.location || 'about:blank';
+  const driver = start(location);
   setInterval(() => {}, 100);
 }
 
