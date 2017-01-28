@@ -140,6 +140,10 @@ function handleGetConfig(req, res) {
   res.json(getConfig());
 }
 
+function handleSetConfig(req, res) {
+
+}
+
 function onRequest(err, result) {
   const serverPort = getValue("development.serverPort");
 
@@ -190,6 +194,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   app.get("/get", handleNetworkRequest);
   app.post("/launch", handleLaunchRequest);
   app.get("/getconfig", handleGetConfig);
+  app.get("/setconfig", handleSetConfig);
 
   const serverPort = getValue("development.serverPort");
   app.listen(serverPort, "0.0.0.0", onRequest);
