@@ -20,6 +20,33 @@ const getValue = require("devtools-config").getValue;
 const { setConfig, getConfig } = require("devtools-config");
 const isDevelopment = require("devtools-config").isDevelopment;
 const firefoxDriver = require("./firefox-driver");
+var psLookup = require("ps-node");
+
+function isFirefoxRunning() {
+  return new Promise((resolve, reject) => {
+    let isRunning = false;
+    psLookup.lookup({
+      command: "firefox-bin",
+    }, function(err, resultList) {
+      if (err) {
+        throw new Error(err);
+      }
+
+      resultList.forEach(function(process) {
+        if (process) {
+          const args = process.arguments.join(" ");
+          console.log('found process', process)
+          if (args.match(/--start-debugger-server=6080/)) {
+            isRunning = true;
+          }
+        } else {
+        }
+      });
+
+      resolve(isRunning);
+    });
+  });
+}
 
 function httpOrHttpsGet(url, onResponse) {
   let protocol = url.startsWith("https:") ? https : http;
@@ -92,11 +119,20 @@ function handleLaunchRequest(req, res) {
 
   process.env.PATH += `:${__dirname}`;
   if (browser == "Firefox") {
-    firefoxDriver.start(location);
+    isFirefoxRunning().then((isRunning) => {
+      console.log('running', isRunning)
+      if (!isRunning) {
+        firefoxDriver.start(location);
+        res.end('launched firefox');
+      } else {
+        res.end('already running firefox')
+      }
+    })
   }
 
   if (browser == "Chrome") {
     ps.spawn("chrome-driver.js", ["--location", location]);
+    res.end('launched chrome');
   }
 }
 

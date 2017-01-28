@@ -221,6 +221,8 @@ const LandingPage = React.createClass({
         },
         method: "post"
       })
+      .then(resp => {
+      })
       .catch(err => {
         alert(`Error launching ${browser}. ${err.message}`);
       });
