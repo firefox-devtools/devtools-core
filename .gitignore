@@ -2,3 +2,5 @@ node_modules
 lerna-debug.log
 yarn-error.log
 npm-debug.log
+.idea/
+.vscode/
