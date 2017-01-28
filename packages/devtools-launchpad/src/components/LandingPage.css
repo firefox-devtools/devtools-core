@@ -112,6 +112,10 @@
   padding-left: calc(2 * var(--base-spacing));
 }
 
+.landing-page .panel h3 {
+  padding-left: calc(2 * var(--base-spacing));
+}
+
 .landing-page .panel header input::placeholder {
   color: var(--theme-body-color-inactive);
 }
