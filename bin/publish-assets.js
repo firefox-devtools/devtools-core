@@ -35,6 +35,12 @@ function start() {
     { cwd: projectPath }
   );
 
+  copyFile(
+    path.resolve(projectPath, "src/reps/load-reps.js"),
+    path.resolve(projectPath, "assets/build/load-reps.js"),
+    { cwd: projectPath }
+  );
+
   makeBundle({
     outputPath: `${projectPath}/assets/build`,
     projectPath
