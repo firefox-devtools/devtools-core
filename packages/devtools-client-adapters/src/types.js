@@ -126,6 +126,13 @@ export type WhyPaused = {
   type: string
 };
 
+export type LoadedObject = {
+  objectId: string,
+  parentId: string,
+  name: string,
+  value: any
+}
+
 /**
  * Pause
  * @memberof types
@@ -134,7 +141,8 @@ export type WhyPaused = {
 export type Pause = {
   frames: Frame[],
   why: Why,
-  getIn: (string[]) => any
+  getIn: (string[]) => any,
+  loadedObjects?: LoadedObject[]
 }
 /**
  * Expression

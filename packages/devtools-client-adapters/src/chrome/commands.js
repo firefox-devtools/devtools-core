@@ -1,6 +1,8 @@
 // @flow
 
-const { toServerLocation, fromServerLocation } = require("./create");
+const {
+  toServerLocation, fromServerLocation, createLoadedObject
+} = require("./create");
 
 import type { Location } from "../types";
 import type { ServerLocation, Agents } from "./types";
@@ -74,6 +76,16 @@ function removeBreakpoint(breakpointId: string) {
   return debuggerAgent.removeBreakpoint({ breakpointId });
 }
 
+async function getProperties(object: any) {
+  const { result } = await runtimeAgent.getProperties({
+    objectId: object.objectId
+  });
+
+  const loadedObjects = result.map(createLoadedObject);
+
+  return { loadedObjects };
+}
+
 function evaluate(script: string) {
   return runtimeAgent.evaluate({ expression: script });
 }
@@ -99,7 +111,8 @@ const clientCommands = {
   removeBreakpoint,
   evaluate,
   debuggeeCommand,
-  navigate
+  navigate,
+  getProperties
 };
 
 module.exports = {
