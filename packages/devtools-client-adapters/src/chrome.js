@@ -90,7 +90,7 @@ function initPage(actions: any, { clientType }: any) {
   const { Debugger, Runtime, Page } = connection;
 
   setupCommands({ Debugger, Runtime, Page });
-  setupEvents({ actions, Page, clientType });
+  setupEvents({ actions, Page, clientType, Runtime });
 
   Debugger.enable();
   Debugger.setPauseOnExceptions({ state: "none" });
