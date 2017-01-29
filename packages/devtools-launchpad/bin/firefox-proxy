@@ -6,8 +6,8 @@ const ws = require("ws");
 const net = require("net");
 
 function proxy(webSocketPort, tcpPort, logging) {
-  console.log("Listening for WS on *:" + webSocketPort);
-  console.log("Will proxy to TCP on *:" + tcpPort + " on first WS connection");
+  console.log("Listening for WS on *:" + webSocketPort + ". " +
+      "Will proxy to TCP on *:" + tcpPort + " on first WS connection");
   if (!logging) {
     console.log("Protocol messages can be logged by enabling " +
     "logging.firefoxProtocol in your local.json config");
