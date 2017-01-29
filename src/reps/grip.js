@@ -6,8 +6,8 @@ const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
-const { Caption } = createFactories(require("./caption"));
-const { PropRep } = createFactories(require("./prop-rep"));
+const Caption = React.createFactory(require("./caption"));
+const PropRep = React.createFactory(require("./prop-rep"));
 const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
@@ -237,6 +237,7 @@ function supportsObject(object, type) {
   return (object.preview && object.preview.ownProperties);
 }
 
+// Grip is used in propIterator and has to be defined here.
 let Grip = {
   rep: GripRep,
   supportsObject: supportsObject

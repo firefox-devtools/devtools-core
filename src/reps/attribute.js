@@ -7,7 +7,7 @@ const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
-const { StringRep } = require("./string");
+const StringRep = require("./string");
 
 // Shortcuts
 const { span } = React.DOM;

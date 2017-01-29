@@ -13,8 +13,8 @@ define(function (require, exports, module) {
   let parseURLEncodedText;
   let parseURLParams;
 
-  // useRepsBundle hardcoded to false while we experiment with the reps bundle in
-  // bugs 1325401 and 1330779. Set it to true to test devtools using the reps bundle.
+  // useRepsBundle hardcoded to true to use the bundle from github. Switch back to rely
+  // on individual reps files by flipping it to false.
   let useRepsBundle = true;
   if (useRepsBundle) {
     const bundle = require("devtools/client/shared/components/reps/reps");

@@ -7,7 +7,7 @@ const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
-const { rep } = createFactories(require("./grip").Grip);
+const { rep } = createFactories(require("./grip"));
 
 /**
  * Renders DOM event objects.

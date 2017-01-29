@@ -32,7 +32,7 @@ let PropRep = React.createClass({
   },
 
   render: wrapRender(function () {
-    const { Grip } = require("./grip");
+    const Grip = require("./grip");
     let { Rep } = createFactories(require("./rep"));
 
     let key;

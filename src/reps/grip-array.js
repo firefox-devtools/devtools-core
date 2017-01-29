@@ -5,7 +5,7 @@ const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
-const { Caption } = createFactories(require("./caption"));
+const Caption = React.createFactory(require("./caption"));
 const { MODE } = require("./constants");
 
 // Shortcuts
