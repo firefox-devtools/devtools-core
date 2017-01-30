@@ -13,21 +13,21 @@ commander@2.1.x:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.1.0.tgz#d121bbae860d9992a3d517ba96f56588e47c6781"
 
-devtools-config@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.10.tgz#955a5ec1790e9e06a40009fdb1eaf5f979d168dd"
+devtools-config@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.11.tgz#f82a052e1e205fdb4c2eea5085560da0e580a84b"
 
-devtools-modules@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.10.tgz#2f7721e5c76b7a92427800128ab2fb4d92bcea3a"
+devtools-modules@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.14.tgz#03edc685a8d03d39cff065d7e3acb12e9d381492"
 
 devtools-network-request@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.9.tgz#cdf51f4f21d7cb8cedba5b9d89e860ba531ddeb7"
 
-devtools-sham-modules@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.10.tgz#87d305f2098e8333eced2a7fd2e0fbfad02b828e"
+devtools-sham-modules@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.12.tgz#0fe0cb529e283e54207ef73bc2fed616cc501e8a"
 
 flow-bin@^0.37.4:
   version "0.37.4"
