@@ -1,17 +1,15 @@
 // @flow
 
-const { createFrame, createLoadedObject } = require("./create");
+const { createFrame } = require("./create");
 
 let actions;
 let pageAgent;
 let clientType;
-let runtimeAgent;
 
 function setupEvents(dependencies: any) {
   actions = dependencies.actions;
   pageAgent = dependencies.Page;
   clientType = dependencies.clientType;
-  runtimeAgent = dependencies.Runtime;
 }
 
 // Debugger Events
@@ -45,18 +43,11 @@ async function paused({ callFrames, reason, data,
     type: reason
   }, data);
 
-  const objectId = frame.scopeChain[0].object.objectId;
-  const { result } = await runtimeAgent.getProperties({
-    objectId
-  });
-
-  const loadedObjects = result.map(createLoadedObject);
-
   if (clientType == "chrome") {
     pageAgent.configureOverlay({ message: "Paused in debugger.html" });
   }
 
-  await actions.paused({ frame, why, frames, loadedObjects });
+  await actions.paused({ frame, why, frames });
 }
 
 function resumed() {

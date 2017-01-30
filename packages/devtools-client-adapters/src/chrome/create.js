@@ -1,6 +1,6 @@
 // @flow
 
-import type { Location, LoadedObject } from "../types";
+import type { Location } from "../types";
 import type { ServerLocation } from "./types";
 
 function fromServerLocation(serverLocation?: ServerLocation): ?Location {
@@ -29,21 +29,8 @@ function createFrame(frame: any) {
   };
 }
 
-function createLoadedObject(
-  serverObject: any, parentId: string): LoadedObject {
-  const { value, name } = serverObject;
-
-  return {
-    objectId: value.objectId,
-    parentId,
-    name,
-    value
-  };
-}
-
 module.exports = {
   fromServerLocation,
   toServerLocation,
-  createFrame,
-  createLoadedObject
+  createFrame
 };
