@@ -12,6 +12,6 @@
 - [Installing Locally](./docs/local-development.md#installing-locally)
   - [Linking](./docs/local-development.md#linking)
   - [Local install](./docs/local-development.md#local-install)
-- [Versining](./docs/versioning.md)
+- [Versioning](./docs/versioning.md)
   - [Update a Package](./docs/versioning.md#update-a-package)
   - [Updating a Launchpad Dependency](./docs/versioning.md#updating-a-launchpad-dependency)
