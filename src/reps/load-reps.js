@@ -3,6 +3,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+// Disable eslint strict rule because the eslint env ("es6") is incompatible with eslint
+// validation in MC (https://github.com/devtools-html/devtools-reps/issues/58)
+/* eslint-disable strict */
+
 // Make this available to both AMD and CJS environments
 define(function (require, exports, module) {
   let REPS;
