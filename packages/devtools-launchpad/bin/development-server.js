@@ -17,10 +17,13 @@ const http = require("http");
 const https = require("https");
 const checkNode = require("check-node-version");
 const getValue = require("devtools-config").getValue;
-const { setConfig, getConfig } = require("devtools-config");
+const setValue = require("devtools-config").setValue;
+const { setConfig, getConfig, updateLocalConfig } = require("devtools-config");
 const isDevelopment = require("devtools-config").isDevelopment;
 const firefoxDriver = require("./firefox-driver");
 var psLookup = require("ps-node");
+
+let root;
 
 function isFirefoxRunning() {
   return new Promise((resolve, reject) => {
@@ -141,7 +144,12 @@ function handleGetConfig(req, res) {
 }
 
 function handleSetConfig(req, res) {
-
+  const name = req.body.name;
+  const value = req.body.value;
+  setValue(name, value);
+  const output  = updateLocalConfig(root);
+  console.log(output);
+  res.end(output);
 }
 
 function onRequest(err, result) {
@@ -156,6 +164,7 @@ function onRequest(err, result) {
 
 function startDevServer(devConfig, webpackConfig, rootDir) {
   setConfig(devConfig);
+  root = rootDir;
   checkNode(">=6.9.0", function(_, opts) {
     if (!opts.nodeSatisfied) {
       const version = opts.node.raw;
@@ -194,7 +203,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   app.get("/get", handleNetworkRequest);
   app.post("/launch", handleLaunchRequest);
   app.get("/getconfig", handleGetConfig);
-  app.get("/setconfig", handleSetConfig);
+  app.post("/setconfig", handleSetConfig);
 
   const serverPort = getValue("development.serverPort");
   app.listen(serverPort, "0.0.0.0", onRequest);

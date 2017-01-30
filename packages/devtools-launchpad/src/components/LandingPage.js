@@ -4,6 +4,7 @@ const classnames = require("classnames");
 require("./LandingPage.css");
 const { DOM: dom } = React;
 const ImPropTypes = require("react-immutable-proptypes");
+const { showMenu, buildMenu } = require("../menu");
 
 const githubUrl = "https://github.com/devtools-html/debugger.html/blob/master";
 
@@ -78,6 +79,65 @@ const LandingPage = React.createClass({
     this.props.onTabClick(getTabURL(tab, paramName));
   },
 
+  onConfigContextMenu(event, key) {
+    event.preventDefault();
+    const conf = this.state.config;
+
+    const setConfig = (name, value) => {
+      let config = this.state.config;
+      config[name] = value;
+      this.setState({ config });
+      // make fetch request to set the config
+      fetch("/setconfig", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, value })
+      });
+    };
+
+    const ltrMenuItem = {
+      id: "node-menu-ltr",
+      label: "ltr",
+      disabled: conf[key] === "ltr",
+      click: () => setConfig(key, "ltr")
+    };
+
+    const rtlMenuItem = {
+      id: "node-menu-rtl",
+      label: "rtl",
+      disabled: conf[key] === "rtl",
+      click: () => setConfig(key, "rtl")
+    };
+
+    const lightMenuItem = {
+      id: "node-menu-light",
+      label: "light",
+      disabled: conf[key] === "light",
+      click: () => setConfig(key, "light")
+    };
+
+    const darkMenuItem = {
+      id: "node-menu-dark",
+      label: "dark",
+      disabled: conf[key] === "dark",
+      click: () => setConfig(key, "dark")
+    };
+
+    const items = {
+      "dir": [
+        { item: ltrMenuItem },
+        { item: rtlMenuItem },
+      ],
+      "theme": [
+        { item: lightMenuItem },
+        { item: darkMenuItem }
+      ]
+    };
+    showMenu(event, buildMenu(items[key]));
+  },
+
   renderSettings() {
     const config = this.state.config;
     const features = config.features;
@@ -95,11 +155,17 @@ const LandingPage = React.createClass({
       { className: "tab-list" },
       dom.li({ className: "tab tab-sides" },
         dom.div({ className: "tab-title" }, "Direction"),
-        dom.div({ className: "tab-value" }, config.dir),
+        dom.div({
+          className: "tab-value",
+          onClick: e => this.onConfigContextMenu(e, "dir")
+        }, config.dir),
       ),
       dom.li({ className: "tab tab-sides" },
         dom.div({ className: "tab-title" }, "Theme"),
-        dom.div({ className: "tab-value" }, config.theme)
+        dom.div({
+          className: "tab-value",
+          onClick: e => this.onConfigContextMenu(e, "theme")
+        }, config.theme)
       )
     );
   },
