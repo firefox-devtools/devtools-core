@@ -1,6 +1,6 @@
 {
   "name": "devtools-client-adapters",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Devtools Client Adapters",
   "main": "index.js",
   "scripts": {
