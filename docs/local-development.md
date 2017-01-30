@@ -12,15 +12,15 @@ There are a couple strategies for this: link, local install, and package install
 #### Linking
 
 Linking is the most common approach.
-Here, yarn creates a symlink from the debugger's `node_modules/devtools-client-adapters` directory to the
+Here, yarn creates a symlink from the tools's `node_modules/devtools-client-adapters` directory to the
 devtools-core `devtools-client-adapters` package directory.
 
-* Once the debugger is linked then any change in the code will be reflected in the debugger.
+* Once the tool is linked then any change in the code will be reflected in the tool.
 * Making changes does not require re-starting the dev-server.
 * Ignores any pre-publish steps that might be important.
 * Could create a bundling issue because `devtools-client-adapters` has its own set of node_modules, which are not shared with the debugger or other tools.
 
-Steps:
+Steps for linking `devtools-client-adapters` and `debugger.html`:
 
 ```bash
 cd devtools-core/packages/devtools-client-adapters
