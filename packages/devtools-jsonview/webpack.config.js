@@ -12,6 +12,7 @@ let webpackConfig = {
   context: path.join(__dirname, "."),
   entry: {
     bundle: [path.join(projectPath, "../index.js")],
+    jsonview: [path.join(projectPath, "./main.js")],
   },
 
   output: {
