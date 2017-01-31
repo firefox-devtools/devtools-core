@@ -3,6 +3,8 @@
   "hotReloading": true,
   "environment": "development",
   "theme": "light",
+  "features": {
+  },
   "firefox": {
     "proxyHost": "localhost:9000",
     "webSocketConnection": false,
@@ -10,6 +12,7 @@
     "mcPath": "./firefox"
   },
   "development": {
+    "customIndex": "index.html",
     "serverPort": 8000
   },
   "logging": {

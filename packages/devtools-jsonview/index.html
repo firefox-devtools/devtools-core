@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html dir="{{dir}}">
+  <head>
+    <title>{{title}}</title>
+    <meta charset="utf8" />
+    <link rel="shortcut icon" href="{{favicon}}" type="image/png" />
+    {{^isDevelopment}}
+    <link rel="stylesheet" href="assets/build/{{bundleName}}.css" type="text/css" />
+    {{/isDevelopment}}
+  </head>
+
+  <body>
+    <popupset></popupset>
+    <div id="mount"></div>
+    <script src="assets/build/bundle.js"></script>
+  </body>
+</html>
