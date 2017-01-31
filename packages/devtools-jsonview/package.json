@@ -1,0 +1,31 @@
+{
+  "name": "jsonview.html",
+  "version": "0.0.1",
+  "license": "ISC",
+  "description": "Simple JSON preview app for developers",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node bin/dev-server.js",
+    "lint-js": "eslint src/**/*.js"
+  },
+  "author": "",
+  "repository": {
+    "url": "git://github.com/devtools-html/jsonview.html.git",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/devtools-html/jsonview.html/issues"
+  },
+  "homepage": "https://github.com/devtools-html/jsonview.html#readme",
+  "engineStrict": true,
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "dependencies": {
+    "devtools-modules": "0.0.13",
+    "devtools-reps": "0.0.4",
+    "react": "=0.14.7",
+    "react-dom": "=0.14.7",
+    "svg-inline-react": "^1.0.3"
+  }
+}

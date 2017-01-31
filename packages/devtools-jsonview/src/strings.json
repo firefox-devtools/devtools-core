@@ -1,0 +1,14 @@
+{
+  "jsonViewer.tab.JSON": "JSON",
+  "jsonViewer.tab.RawData": "Raw Data",
+  "jsonViewer.tab.Headers": "Headers",
+  "jsonViewer.responseHeaders": "Response Headers",
+  "jsonViewer.requestHeaders": "Request Headers",
+  "jsonViewer.Save": "Save",
+  "jsonViewer.Copy": "Copy",
+  "jsonViewer.ExpandAll": "Expand All",
+  "jsonViewer.PrettyPrint": "Pretty Print",
+  "jsonViewer.reps.more": "more…",
+  "jsonViewer.filterJSON": "Filter JSON",
+  "jsonViewer.reps.reference": "Cycle Reference"
+}
