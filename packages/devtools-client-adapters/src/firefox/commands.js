@@ -21,6 +21,8 @@ import type {
   BreakpointResponse
 } from "./types";
 
+const { createSource } = require("./create");
+
 let bpClients : {[id:ActorId]: BreakpointClient};
 let threadClient: ThreadClient;
 let tabTarget : TabTarget;
@@ -203,6 +205,11 @@ function pauseGrip(func: Function): ObjectClient {
   return threadClient.pauseGrip(func);
 }
 
+async function fetchSources() {
+  const { sources } = await threadClient.getSources();
+  return sources.map(createSource);
+}
+
 const clientCommands = {
   interrupt,
   eventListeners,
@@ -223,7 +230,8 @@ const clientCommands = {
   getProperties,
   pauseOnExceptions,
   prettyPrint,
-  disablePrettyPrint
+  disablePrettyPrint,
+  fetchSources
 };
 
 module.exports = {
