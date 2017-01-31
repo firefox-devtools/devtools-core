@@ -61,7 +61,7 @@ function getConfig() {
 function updateLocalConfig(relativePath) {
   const localConfigPath = path.resolve(relativePath, "../configs/local.json");
   try {
-    fs.writeFileSync(localConfigPath, JSON.stringify(config, null, "  "));
+    fs.writeFileSync(localConfigPath, JSON.stringify(config, null, 2));
     return "Local configuration updated. Please restart development server!";
   } catch(err) {
     return `Error updating local.json, ${err.message}`;
