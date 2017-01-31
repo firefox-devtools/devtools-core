@@ -14,6 +14,10 @@
   --base-transition: all 0.25s ease;
 }
 
+.landing-popup {
+  min-width: 0;
+}
+
 .landing-page .sidebar {
   display: flex;
   background-color: var(--theme-tab-toolbar-background);
@@ -155,7 +159,7 @@
 .landing-page .tab-sides {
   display: flex;
   justify-content: space-between;
-  margin: 0 var(--base-spacing);
+  margin: 0 calc(var(--base-spacing) * 2);
 }
 
 .landing-page .tab-title {
@@ -174,6 +178,7 @@
   color: var(--theme-comment);
   line-height: var(--secondary-line-height);
   font-size: var(--ui-element-font-size);
+  cursor: pointer;
 }
 
 .landing-page .tab:focus,
