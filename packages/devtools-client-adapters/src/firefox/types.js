@@ -101,6 +101,16 @@ export type SourcePacket = {
 };
 
 /**
+ * Sources Packet from calling threadClient.getSources();
+ * @memberof firefox/packets
+ * @static
+ */
+export type SourcesPacket = {
+  from: ActorId,
+  sources: SourcePayload[]
+};
+
+/**
  * Pause Packet sent when the server is in a "paused" state
  *
  * @memberof firefox
@@ -314,7 +324,8 @@ export type ThreadClient = {
   interrupt: () => Promise<*>,
   eventListeners: () => Promise<*>,
   getFrames: (number, number) => FramesResponse,
-  addListener: (string, Function) => void
+  addListener: (string, Function) => void,
+  getSources: () => Promise<SourcesPacket>
 };
 
 /**
