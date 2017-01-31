@@ -15,13 +15,13 @@ function start() {
   symlinkTests({ projectPath, mcModulePath });
 
   copyFile(
-    path.join(projectPath, "./assets/build/load-reps.js"),
+    path.resolve(projectPath, "src/reps/load-reps.js"),
     path.join(mcPath, mcModulePath, "load-reps.js"),
     {cwd: projectPath}
   );
 
   copyFile(
-    path.join(projectPath, "./assets/build/reps.css"),
+    path.resolve(projectPath, "src/reps/reps.css"),
     path.join(mcPath, mcModulePath, "reps.css"),
     {cwd: projectPath}
   );
