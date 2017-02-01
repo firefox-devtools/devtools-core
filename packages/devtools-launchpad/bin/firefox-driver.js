@@ -24,16 +24,13 @@ const isTests = args.tests;
 const useWebSocket = args.websocket;
 
 function addGeckoDriverToPath() {
-  // https://github.com/devtools-html/debugger.html/pull/1309
-  const delim = isWindows ? ";" : ":"
-
   // NOTE: when the launchpad is symlinked we ned to check for
   // geckodriver in a different location
   const isSymLinked = __dirname.match(/devtools-core/);
   const relativeGeckoPath = isSymLinked ?
     '../node_modules/geckodriver' : '../../geckodriver';
   const geckoDriverPath = path.resolve(__dirname, relativeGeckoPath);
-  process.env.PATH = `${geckoDriverPath}${delim}${process.env.PATH}`;
+  process.env.PATH = `${geckoDriverPath}${path.delimiter}${process.env.PATH}`;
 }
 
 function binaryArgs() {
