@@ -22,8 +22,13 @@ function getFilterString(state) {
   return state.tabs.get("filterString");
 }
 
+function getConfig(state) {
+  return state.config.get("config");
+}
+
 module.exports = {
   getTabs,
   getSelectedTab,
-  getFilterString
+  getFilterString,
+  getConfig
 };
