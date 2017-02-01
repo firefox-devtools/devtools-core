@@ -1,6 +1,6 @@
 {
   "name": "devtools-network-request",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Devtools Library for making cross origin requests",
   "main": "index.js",
   "scripts": {
