@@ -1,0 +1,58 @@
+.landing-page .tab-group {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.landing-page .tab-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.landing-page .tab {
+  border-bottom: 1px solid var(--theme-splitter-color);
+  padding: calc(var(--base-spacing) / 2) var(--base-spacing);
+  font-family: sans-serif;
+}
+
+.landing-page .tab-sides {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 var(--base-spacing);
+}
+
+.landing-page .tab-title {
+  line-height: var(--secondary-line-height);
+  font-size: var(--ui-element-font-size);
+  color: var(--theme-highlight-bluegrey);
+  word-break: break-all;
+}
+
+.landing-page .tab-url {
+  color: var(--theme-comment);
+  word-break: break-all;
+}
+
+.landing-page .tab-value {
+  color: var(--theme-comment);
+  line-height: var(--secondary-line-height);
+  font-size: var(--ui-element-font-size);
+}
+
+.landing-page .tab:focus,
+.landing-page .tab.active {
+  background: var(--theme-selection-background);
+  color: var(--theme-selection-color);
+  cursor: pointer;
+  transition: var(--base-transition);
+}
+
+.landing-page .tab:focus .tab-title,
+.landing-page .tab.active .tab-title {
+  color: inherit;
+}
+
+.landing-page .tab:focus .tab-url,
+.landing-page .tab.active .tab-url {
+  color: var(--theme-highlight-gray);
+}
