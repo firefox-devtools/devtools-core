@@ -248,11 +248,6 @@ div.CodeMirror span.eval-text {
   color: var(--theme-content-color3);
 }
 
-.cm-s-mozilla .CodeMirror-gutters { /* vertical line next to line numbers */
-  border-right-color: var(--theme-splitter-color);
-  background-color: var(--theme-sidebar-background);
-}
-
 .cm-s-markup-view pre {
   line-height: 1.4em;
   min-height: 1.4em;

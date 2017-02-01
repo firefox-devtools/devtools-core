@@ -233,3 +233,8 @@ input[type="checkbox"]:-moz-focusring,
 checkbox:-moz-focusring {
   outline: none;
 }
+
+.cm-s-mozilla .CodeMirror-gutters { /* vertical line next to line numbers */
+  border-width: 0;
+  background-color: var(--theme-codemirror-gutter-background);
+}
