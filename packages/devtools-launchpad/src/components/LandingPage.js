@@ -1,10 +1,12 @@
 const React = require("react");
-const classnames = require("classnames");
 
 require("./LandingPage.css");
 const { DOM: dom } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { showMenu, buildMenu } = require("../menu");
+
+const Tabs = React.createFactory(require("./Tabs"));
+const Sidebar = React.createFactory(require("./Sidebar"));
 
 const githubUrl = "https://github.com/devtools-html/debugger.html/blob/master";
 
@@ -24,11 +26,6 @@ function firstTimeMessage(title, urlPart) {
   );
 }
 
-function getTabURL(tab, paramName) {
-  const tabID = tab.get("id");
-  return `/?${paramName}=${tabID}`;
-}
-
 const LandingPage = React.createClass({
   propTypes: {
     tabs: ImPropTypes.map.isRequired,
@@ -38,6 +35,7 @@ const LandingPage = React.createClass({
     filterString: React.PropTypes.string,
     onFilterChange: React.PropTypes.func.isRequired,
     onTabClick: React.PropTypes.func.isRequired,
+    config: React.PropTypes.object
   },
 
   displayName: "LandingPage",
@@ -57,14 +55,6 @@ const LandingPage = React.createClass({
     }
   },
 
-  async componentWillMount() {
-    const res = await fetch("/getconfig", {
-      method: "get"
-    });
-    const config = await res.json();
-    this.setState({ config });
-  },
-
   onFilterChange(newFilterString) {
     this.props.onFilterChange(newFilterString);
   },
@@ -73,10 +63,6 @@ const LandingPage = React.createClass({
     if (itemTitle !== this.state.selectedPane) {
       this.setState({ selectedPane: itemTitle });
     }
-  },
-
-  onTabClick(tab, paramName) {
-    this.props.onTabClick(getTabURL(tab, paramName));
   },
 
   onConfigContextMenu(event, key) {
@@ -139,7 +125,7 @@ const LandingPage = React.createClass({
   },
 
   renderSettings() {
-    const config = this.state.config;
+    const { config } = this.props;
     const features = config.features;
     return dom.div(
       { className: "tab-group" },
@@ -199,44 +185,8 @@ const LandingPage = React.createClass({
     );
   },
 
-  renderTabs(tabs, paramName) {
-    if (!tabs || tabs.count() == 0) {
-      return dom.div({}, "");
-    }
-
-    let tabClassNames = ["tab"];
-    if (tabs.size === 1) {
-      tabClassNames.push("active");
-    }
-
-    return dom.div(
-      { className: "tab-group" },
-      dom.ul(
-        { className: "tab-list" },
-        tabs.valueSeq().map(
-          tab => dom.li({
-            className: classnames("tab", {
-              active: tabs.size === 1
-            }),
-            key: tab.get("id"),
-            tabIndex: 0,
-            role: "link",
-            onClick: () => this.onTabClick(tab, paramName),
-            onKeyDown: e => {
-              if (e.keyCode === 13) {
-                this.onTabClick(tab, paramName);
-              }
-            }
-          },
-          dom.div({ className: "tab-title" }, tab.get("title")),
-          dom.div({ className: "tab-url" }, tab.get("url"))
-          )
-        )
-      )
-    );
-  },
-
   renderPanel() {
+    const { onTabClick } = this.props;
     const configMap = {
       Firefox: {
         name: "Firefox",
@@ -279,7 +229,7 @@ const LandingPage = React.createClass({
     let { selectedPane } = this.state;
 
     const targets = getTabsByClientType(tabs, clientType);
-    const settings = name === "Settings";
+    const isSettingsPaneSelected = name === "Settings";
 
     const launchBrowser = (browser) => {
       fetch("/launch", {
@@ -309,77 +259,45 @@ const LandingPage = React.createClass({
       value: `Launch ${selectedPane}`,
       onClick: () => launchBrowser(selectedPane)
     });
-
     return dom.main(
       { className: "panel" },
-      !settings ? dom.header(
-        {},
-        dom.input({
-          ref: "filterInput",
-          placeholder: "Filter tabs",
-          value: filterString,
-          autoFocus: true,
-          type: "search",
-          onChange: e => this.onFilterChange(e.target.value),
-          onKeyDown: e => {
-            if (targets.size === 1 && e.keyCode === 13) {
-              this.onTabClick(targets.first(), paramName);
-            }
-          }
-        }),
-        launchButton
-      ) : dom.header({}, dom.h1({}, "Settings")),
-      settings ? this.renderSettings() : this.renderTabs(targets, paramName),
-      firstTimeMessage(name, docsUrlPart)
-    );
-  },
-
-  renderSidebar() {
-    let connections = [];
-
-    if (this.props.supportsFirefox) {
-      connections.push("Firefox");
-    }
-
-    if (this.props.supportsChrome) {
-      connections.push("Chrome", "Node");
-    }
-
-    connections.push("Settings");
-
-    return dom.aside(
-      {
-        className: "sidebar"
-      },
-      dom.h1({}, this.props.title),
-      dom.ul(
-        {},
-        connections.map(title => dom.li(
-          {
-            className: classnames({
-              selected: title == this.state.selectedPane
-            }),
-            key: title,
-            tabIndex: 0,
-            role: "button",
-            onClick: () => this.onSideBarItemClick(title),
+      !isSettingsPaneSelected ?
+        dom.header({},
+          dom.input({
+            ref: "filterInput",
+            placeholder: "Filter tabs",
+            value: filterString,
+            autoFocus: true,
+            type: "search",
+            onChange: e => this.onFilterChange(e.target.value),
             onKeyDown: e => {
-              if (e.keyCode === 13) {
-                this.onSideBarItemClick(title);
+              if (targets.size === 1 && e.keyCode === 13) {
+                this.onTabClick(targets.first(), paramName);
               }
             }
-          },
-          dom.a({}, title)
-      )))
+          }),
+          launchButton
+        ) :
+        dom.header({}, dom.h1({}, "Settings")),
+        isSettingsPaneSelected ?
+          this.renderSettings() :
+          Tabs({ targets, paramName, onTabClick }),
+          firstTimeMessage(name, docsUrlPart)
     );
   },
 
   render() {
+    const { supportsFirefox, supportsChrome, title } = this.props;
+    const { selectedPane } = this.state;
+    const { onSideBarItemClick } = this;
     return dom.div(
       {
         className: "landing-page"
       },
-      this.renderSidebar(),
+      Sidebar({
+        supportsFirefox, supportsChrome, title,
+        selectedPane, onSideBarItemClick
+      }),
       this.renderPanel()
     );
   }

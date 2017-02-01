@@ -31,7 +31,7 @@ if (process.env.TARGET !== "firefox-panel") {
   document.body.parentNode.classList.add(`theme-${theme}`);
 }
 
-function initApp() {
+async function initApp() {
   const configureStore = require("./utils/create-store");
   const reducers = require("./reducers");
   const LaunchpadApp = require("./components/LaunchpadApp");
@@ -45,7 +45,12 @@ function initApp() {
 
   const store = createStore(combineReducers(reducers));
   const actions = bindActionCreators(require("./actions"), store.dispatch);
-
+  const response = await fetch("/getconfig", {
+    method: "get"
+  });
+  const config = await response.json();
+  actions.setConfig(config);
+  setConfig(config);
   debugGlobal("launchpadStore", store);
 
   if (isDevelopment()) {
@@ -99,7 +104,7 @@ function getTargetFromQuery() {
   return null;
 }
 
-function bootstrap(React, ReactDOM, App, appActions, appStore) {
+async function bootstrap(React, ReactDOM, App, appActions, appStore) {
   const connTarget = getTargetFromQuery();
   if (connTarget) {
     return startDebugging(connTarget, appActions)
@@ -110,7 +115,7 @@ function bootstrap(React, ReactDOM, App, appActions, appStore) {
       });
   }
 
-  const { store, actions, LaunchpadApp } = initApp();
+  const { store, actions, LaunchpadApp } = await initApp();
   renderRoot(React, ReactDOM, LaunchpadApp, store);
   chrome.connectClient().then(tabs => {
     actions.newTabs(tabs);

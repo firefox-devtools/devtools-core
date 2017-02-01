@@ -3,7 +3,7 @@ const { PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
-const { getTabs, getFilterString } = require("../selectors");
+const { getTabs, getFilterString, getConfig } = require("../selectors");
 const { getValue } = require("devtools-config");
 const LandingPage = React.createFactory(require("./LandingPage"));
 
@@ -11,7 +11,8 @@ const LaunchpadApp = React.createClass({
   propTypes: {
     tabs: ImPropTypes.map.isRequired,
     filterString: PropTypes.string,
-    actions: PropTypes.object
+    actions: PropTypes.object,
+    config: PropTypes.object
   },
 
   displayName: "LaunchpadApp",
@@ -26,7 +27,8 @@ const LaunchpadApp = React.createClass({
       onFilterChange: this.props.actions.filterTabs,
       onTabClick: (url) => {
         window.location = url;
-      }
+      },
+      config: this.props.config
     });
   }
 });
@@ -34,7 +36,8 @@ const LaunchpadApp = React.createClass({
 function mapStateToProps(state) {
   return {
     tabs: getTabs(state),
-    filterString: getFilterString(state)
+    filterString: getFilterString(state),
+    config: getConfig(state)
   };
 }
 
