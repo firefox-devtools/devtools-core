@@ -9,6 +9,7 @@
  */
 
 const constants = require("../constants");
+import type { ThunkArgs } from "./types";
 
 /**
  * @typedef {Object} ConfigAction
@@ -26,9 +27,18 @@ const constants = require("../constants");
  * @returns {ConfigAction} with type constants.SET_VALUE and value
  */
 function setValue(path, value) {
-  return {
-    type: constants.SET_VALUE,
-    value
+  return async function({ dispatch }: ThunkArgs) {
+    await fetch("/setconfig", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ path, value })
+    });
+
+    dispatch({
+      type: constants.SET_VALUE,
+      path,
+      value
+    });
   };
 }
 
