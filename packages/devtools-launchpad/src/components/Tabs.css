@@ -18,7 +18,7 @@
 .landing-page .tab-sides {
   display: flex;
   justify-content: space-between;
-  margin: 0 var(--base-spacing);
+  margin: 0 calc(var(--base-spacing) * 2);
 }
 
 .landing-page .tab-title {

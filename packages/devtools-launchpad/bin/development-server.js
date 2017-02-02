@@ -144,10 +144,9 @@ function handleGetConfig(req, res) {
 }
 
 function handleSetConfig(req, res) {
-  const name = req.body.name;
-  const value = req.body.value;
-  setValue(name, value);
-  const output  = updateLocalConfig(root);
+  const params = req.body;
+  setValue(params.path, params.value);
+  const output = updateLocalConfig(root);
   res.end(output);
 }
 

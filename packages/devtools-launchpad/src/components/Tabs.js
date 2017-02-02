@@ -1,4 +1,4 @@
-const React = require("React");
+const React = require("react");
 
 require("./Tabs.css");
 const { DOM: dom } = React;

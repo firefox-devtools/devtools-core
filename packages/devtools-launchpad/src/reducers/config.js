@@ -4,18 +4,19 @@
 
 const constants = require("../constants");
 const fromJS = require("../utils/fromJS");
+const I = require("immutable");
 
 const initialState = fromJS({
-  config: {}
+  config: I.Map()
 });
 
 function update(state = initialState, action) {
   switch (action.type) {
     case constants.SET_VALUE:
-      return state.setIn(["config", ...action.key.split(".")], action.value);
+      return state.setIn(["config", ...action.path.split(".")], action.value);
 
     case constants.SET_CONFIG:
-      return state.setIn(["config"], action.config);
+      return state.setIn(["config"], fromJS(action.config));
   }
 
   return state;

@@ -3,10 +3,10 @@ const React = require("react");
 require("./LandingPage.css");
 const { DOM: dom } = React;
 const ImPropTypes = require("react-immutable-proptypes");
-const { showMenu, buildMenu } = require("../menu");
 
 const Tabs = React.createFactory(require("./Tabs"));
 const Sidebar = React.createFactory(require("./Sidebar"));
+const Settings = React.createFactory(require("./Settings"));
 
 const githubUrl = "https://github.com/devtools-html/debugger.html/blob/master";
 
@@ -35,7 +35,8 @@ const LandingPage = React.createClass({
     filterString: React.PropTypes.string,
     onFilterChange: React.PropTypes.func.isRequired,
     onTabClick: React.PropTypes.func.isRequired,
-    config: React.PropTypes.object
+    config: React.PropTypes.object.isRequired,
+    setValue: React.PropTypes.func.isRequired
   },
 
   displayName: "LandingPage",
@@ -43,7 +44,6 @@ const LandingPage = React.createClass({
   getInitialState() {
     return {
       selectedPane: "Firefox",
-      config: {},
       firefoxConnected: false,
       chromeConnected: false
     };
@@ -65,128 +65,8 @@ const LandingPage = React.createClass({
     }
   },
 
-  onConfigContextMenu(event, key) {
-    event.preventDefault();
-    const conf = this.state.config;
-
-    const setConfig = (name, value) => {
-      let config = this.state.config;
-      config[name] = value;
-      this.setState({ config });
-      // make fetch request to set the config
-      fetch("/setconfig", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name, value })
-      });
-    };
-
-    const ltrMenuItem = {
-      id: "node-menu-ltr",
-      label: "ltr",
-      disabled: conf[key] === "ltr",
-      click: () => setConfig(key, "ltr")
-    };
-
-    const rtlMenuItem = {
-      id: "node-menu-rtl",
-      label: "rtl",
-      disabled: conf[key] === "rtl",
-      click: () => setConfig(key, "rtl")
-    };
-
-    const lightMenuItem = {
-      id: "node-menu-light",
-      label: "light",
-      disabled: conf[key] === "light",
-      click: () => setConfig(key, "light")
-    };
-
-    const darkMenuItem = {
-      id: "node-menu-dark",
-      label: "dark",
-      disabled: conf[key] === "dark",
-      click: () => setConfig(key, "dark")
-    };
-
-    const items = {
-      "dir": [
-        { item: ltrMenuItem },
-        { item: rtlMenuItem },
-      ],
-      "theme": [
-        { item: lightMenuItem },
-        { item: darkMenuItem }
-      ]
-    };
-    showMenu(event, buildMenu(items[key]));
-  },
-
-  renderSettings() {
-    const { config } = this.props;
-    const features = config.features;
-    return dom.div(
-      { className: "tab-group" },
-      dom.h3({}, "Configurations"),
-      this.renderConfig(config),
-      dom.h3({}, "Features"),
-      this.renderFeatures(features)
-    );
-  },
-
-  renderConfig(config) {
-    return dom.ul(
-      { className: "tab-list" },
-      dom.li({ className: "tab tab-sides" },
-        dom.div({ className: "tab-title" }, "Direction"),
-        dom.div({
-          className: "tab-value",
-          onClick: e => this.onConfigContextMenu(e, "dir")
-        }, config.dir),
-      ),
-      dom.li({ className: "tab tab-sides" },
-        dom.div({ className: "tab-title" }, "Theme"),
-        dom.div({
-          className: "tab-value",
-          onClick: e => this.onConfigContextMenu(e, "theme")
-        }, config.theme)
-      )
-    );
-  },
-
-  renderFeatures(features) {
-    const onInputHandler = (e, key) => {
-      features[key] = e.target.checked;
-    };
-    return dom.ul(
-      { className: "tab-list" },
-      Object.keys(features).map(key => dom.li(
-        {
-          className: "tab tab-sides",
-          key
-        },
-        dom.div({ className: "tab-title" },
-          typeof features[key] == "object" ?
-            features[key].label :
-            key
-        ),
-        dom.div({ className: "tab-value" },
-          dom.input(
-            {
-              type: "checkbox",
-              defaultChecked: features[key].enabled,
-              onChange: e => onInputHandler(e, key)
-            },
-          )
-        )
-      ))
-    );
-  },
-
   renderPanel() {
-    const { onTabClick } = this.props;
+    const { onTabClick, config, setValue } = this.props;
     const configMap = {
       Firefox: {
         name: "Firefox",
@@ -278,11 +158,12 @@ const LandingPage = React.createClass({
           }),
           launchButton
         ) :
-        dom.header({}, dom.h1({}, "Settings")),
-        isSettingsPaneSelected ?
-          this.renderSettings() :
+        dom.header({},
+          dom.h1({}, "Settings")),
+          isSettingsPaneSelected ?
+          Settings({ config, setValue }) :
           Tabs({ targets, paramName, onTabClick }),
-          firstTimeMessage(name, docsUrlPart)
+        firstTimeMessage(name, docsUrlPart)
     );
   },
 
