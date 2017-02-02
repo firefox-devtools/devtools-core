@@ -1,8 +1,5 @@
 const React = require("react");
-
-require("./Settings.css");
 const { DOM: dom } = React;
-
 const { showMenu, buildMenu } = require("../menu");
 
 const Settings = React.createClass({
