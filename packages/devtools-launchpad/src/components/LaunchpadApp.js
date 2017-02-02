@@ -18,17 +18,22 @@ const LaunchpadApp = React.createClass({
   displayName: "LaunchpadApp",
 
   render() {
+    const {
+      filterString,
+      actions: { setValue, filterTabs }, config } = this.props;
+
     return LandingPage({
       tabs: this.props.tabs,
       supportsFirefox: !!getValue("firefox"),
       supportsChrome: !!getValue("chrome"),
       title: getValue("title"),
-      filterString: this.props.filterString,
-      onFilterChange: this.props.actions.filterTabs,
+      filterString,
+      onFilterChange: filterTabs,
       onTabClick: (url) => {
         window.location = url;
       },
-      config: this.props.config
+      config,
+      setValue
     });
   }
 });

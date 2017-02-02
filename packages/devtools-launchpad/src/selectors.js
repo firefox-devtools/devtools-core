@@ -23,7 +23,7 @@ function getFilterString(state) {
 }
 
 function getConfig(state) {
-  return state.config.get("config");
+  return state.config.get("config").toJS();
 }
 
 module.exports = {
