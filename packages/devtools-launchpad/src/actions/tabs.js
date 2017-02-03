@@ -25,9 +25,11 @@ const constants = require("../constants");
  * @returns {TabAction} with type constants.ADD_TABS and tabs as value
  */
 function newTabs(tabs) {
-  return {
-    type: constants.ADD_TABS,
-    value: tabs
+  return ({ getState, dispatch }) => {
+    return dispatch({
+      type: constants.ADD_TABS,
+      value: tabs
+    });
   };
 }
 

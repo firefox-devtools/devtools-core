@@ -61,7 +61,10 @@ function connectClient() {
   const socket = new WebSocket(`ws://${firefoxHost}`);
   const transport = useProxy ?
     new DebuggerTransport(socket) : new WebsocketTransport(socket);
+  return getTabs(transport);
+}
 
+function getTabs(transport) {
   return new Promise((resolve, reject) => {
     debuggerClient = new DebuggerClient(transport);
     debuggerClient.connect().then(() => {
