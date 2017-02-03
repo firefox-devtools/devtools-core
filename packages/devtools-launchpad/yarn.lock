@@ -1664,14 +1664,14 @@ detective@^4.3.1:
     acorn "^3.1.0"
     defined "^1.0.0"
 
-devtools-client-adapters@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.11.tgz#3456e958c5a604596309196ebfa2b9add3653154"
+devtools-client-adapters@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.12.tgz#3d8bff4d077c125d918c815ae9937504edf47763"
   dependencies:
     chrome-remote-interface "0.17.0"
     devtools-config "^0.0.11"
     devtools-modules "^0.0.14"
-    devtools-network-request "^0.0.9"
+    devtools-network-request "^0.0.10"
     devtools-sham-modules "^0.0.12"
     tcomb "^3.1.0"
 
@@ -1683,9 +1683,9 @@ devtools-modules@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.14.tgz#03edc685a8d03d39cff065d7e3acb12e9d381492"
 
-devtools-network-request@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.9.tgz#cdf51f4f21d7cb8cedba5b9d89e860ba531ddeb7"
+devtools-network-request@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.10.tgz#cc72b1fb80a858b6ac569efb9f3876097a64e325"
 
 devtools-sham-modules@^0.0.12:
   version "0.0.12"
