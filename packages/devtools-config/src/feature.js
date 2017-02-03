@@ -21,7 +21,7 @@ function setValue(key, value) {
 
 function isEnabled(key) {
   return config.features &&
-    typeof config.features[key] == 'object' ?
+    typeof config.features[key] == "object" ?
     config.features[key].enabled :
     config.features[key];
 }
@@ -61,10 +61,11 @@ function getConfig() {
 function updateLocalConfig(relativePath) {
   const localConfigPath = path.resolve(relativePath, "../configs/local.json");
   try {
-    fs.writeFileSync(localConfigPath, JSON.stringify(config, null, 2));
-    return "Local configuration updated. Please restart development server!";
-  } catch(err) {
-    return `Error updating local.json, ${err.message}`;
+    const output = JSON.stringify(config, null, 2);
+    fs.writeFileSync(localConfigPath, output);
+    return output;
+  } catch (err) {
+    return "{}";
   }
 }
 

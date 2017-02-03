@@ -147,6 +147,7 @@ function handleSetConfig(req, res) {
   const params = req.body;
   setValue(params.path, params.value);
   const output = updateLocalConfig(root);
+
   res.end(output);
 }
 

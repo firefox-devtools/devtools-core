@@ -7,7 +7,7 @@
 @import url(common.css);
 @import url(light-theme.css);
 
-:root {
+:root.theme-firebug  {
   font-size: 11px;
   font-family: var(--proportional-font-family);
 }
