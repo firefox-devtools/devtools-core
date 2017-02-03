@@ -16,9 +16,13 @@ const webpackHotMiddleware = require("webpack-hot-middleware");
 const http = require("http");
 const https = require("https");
 const checkNode = require("check-node-version");
-const getValue = require("devtools-config").getValue;
-const setValue = require("devtools-config").setValue;
-const { setConfig, getConfig, updateLocalConfig } = require("devtools-config");
+const {
+  setConfig,
+  getConfig,
+  updateLocalConfig,
+  getValue,
+  setValue
+} = require("devtools-config");
 const isDevelopment = require("devtools-config").isDevelopment;
 const firefoxDriver = require("./firefox-driver");
 var psLookup = require("ps-node");
