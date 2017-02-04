@@ -394,6 +394,14 @@ PrefBranch.prototype = {
     return branch;
   },
 
+  getKeyName: function(keyName) {
+    if (keyName.startsWith(PREFIX)) {
+      return keyName.slice(PREFIX.length);
+    }
+
+    return keyName;
+  },
+
   /**
    * Helper function that is called when local storage changes.  This
    * updates the preferences and notifies pref observers as needed.
@@ -405,17 +413,20 @@ PrefBranch.prototype = {
     if (event.storageArea !== localStorage) {
       return;
     }
+
+    const key = this.getKeyName(event.key);
+
     // Ignore delete events.  Not clear what's correct.
-    if (event.key === null || event.newValue === null) {
+    if (key === null || event.newValue === null) {
       return;
     }
 
     let { type, userValue, hasUserValue, defaultValue } =
         JSON.parse(event.newValue);
     if (event.oldValue === null) {
-      this._findOrCreatePref(event.key, userValue, hasUserValue, defaultValue);
+      this._findOrCreatePref(key, userValue, hasUserValue, defaultValue);
     } else {
-      let thePref = this._findPref(event.key);
+      let thePref = this._findPref(key);
       thePref._storageUpdated(type, userValue, hasUserValue, defaultValue);
     }
   },
