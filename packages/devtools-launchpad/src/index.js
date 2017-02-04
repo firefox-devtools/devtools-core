@@ -22,13 +22,39 @@ const Root = require("./components/Root");
 // Using this static variable allows webpack to know at compile-time
 // to avoid this require and not include it at all in the output.
 if (process.env.TARGET !== "firefox-panel") {
-  const theme = getValue("theme");
-  switch (theme) {
-    case "dark": require("./lib/themes/dark-theme.css"); break;
-    case "light": require("./lib/themes/light-theme.css"); break;
-    case "firebug": require("./lib/themes/firebug-theme.css"); break;
+  require("./lib/themes/dark-theme.css");
+  require("./lib/themes/light-theme.css");
+  require("./lib/themes/firebug-theme.css");
+}
+
+function updateTheme() {
+  if (process.env.TARGET !== "firefox-panel") {
+    const theme = getValue("theme");
+    const root = document.body.parentNode;
+    const appRoot = document.querySelector(".launchpad-root");
+
+    root.className = "";
+    appRoot.className = "launchpad-root";
+
+    root.classList.add(`theme-${theme}`);
+    appRoot.classList.add(`theme-${theme}`);
   }
-  document.body.parentNode.classList.add(`theme-${theme}`);
+}
+
+function updateDir() {
+  const dir = getValue("dir");
+  const root = document.body.parentNode;
+  root.dir = dir;
+}
+
+async function updateConfig() {
+  const response = await fetch("/getconfig", {
+    method: "get"
+  });
+
+  const config = await response.json();
+  setConfig(config);
+  return config;
 }
 
 async function initApp() {
@@ -45,15 +71,12 @@ async function initApp() {
 
   const store = createStore(combineReducers(reducers));
   const actions = bindActionCreators(require("./actions"), store.dispatch);
-  const response = await fetch("/getconfig", {
-    method: "get"
-  });
-  const config = await response.json();
-  actions.setConfig(config);
-  setConfig(config);
+
   debugGlobal("launchpadStore", store);
 
   if (isDevelopment()) {
+    const config = await updateConfig();
+    actions.setConfig(config);
     AppConstants.DEBUG_JS_MODULES = true;
   }
 
@@ -80,6 +103,9 @@ function renderRoot(_React, _ReactDOM, component, _store) {
   } else {
     root.appendChild(component);
   }
+
+  updateConfig();
+  updateTheme();
 }
 
 function unmountRoot(_ReactDOM) {
@@ -107,30 +133,26 @@ function getTargetFromQuery() {
 async function bootstrap(React, ReactDOM, App, appActions, appStore) {
   const connTarget = getTargetFromQuery();
   if (connTarget) {
-    return startDebugging(connTarget, appActions)
-      .then(({ tab, client }) => {
-        debugGlobal("client", client.clientCommands);
-        renderRoot(React, ReactDOM, App, appStore);
-        return { tab, connTarget, client };
-      });
+    const { tab, client } = await startDebugging(
+      connTarget, appActions
+    );
+
+    await updateConfig();
+    debugGlobal("client", client.clientCommands);
+    renderRoot(React, ReactDOM, App, appStore);
+    return { tab, connTarget, client };
   }
 
   const { store, actions, LaunchpadApp } = await initApp();
   renderRoot(React, ReactDOM, LaunchpadApp, store);
-  chrome.connectClient().then(tabs => {
-    actions.newTabs(tabs);
-  }).catch(e => {
-    console.log("Connect to chrome:");
-    console.log("https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#chrome");
-  });
+  const chromeTabs = await chrome.connectClient();
+  actions.newTabs(chromeTabs);
 
-  chrome.connectNodeClient().then(tabs => {
-    actions.newTabs(tabs);
-  });
+  const nodeTabs = await chrome.connectNodeClient();
+  actions.newTabs(nodeTabs);
 
-  return firefox.connectClient().then(tabs => {
-    actions.newTabs(tabs);
-  });
+  const firefoxTabs = await firefox.connectClient();
+  actions.newTabs(firefoxTabs);
 }
 
 module.exports = {
@@ -140,5 +162,7 @@ module.exports = {
   debugGlobal,
   L10N,
   showMenu,
-  buildMenu
+  buildMenu,
+  updateTheme,
+  updateDir
 };
