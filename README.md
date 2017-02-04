@@ -33,19 +33,12 @@ Supported types:
 Grip is client representation of remote JS object and is used as an input object for this rep component.
 
 
-### Object Inspector
+### History
 
-Object Inspector is component responsible for creating the property tree.
+The Reps project was ported to Github January 18th, 2017. You can view the history of a file after that date on [github][history] or by running this query:
 
-In the scopes pane, it receives a set of scopes as the roots. But it is recursive, and subsequent levels it shows property nodes.
-
-* *getObjectProperties* - it expects a way to get loaded properties
-* *loadObjectProperties* - it expects a way to fetch new properties
-
-```js
-ObjectInspector({
-  roots: scopes,
-  getObjectProperties: id => loadedObjects.get(id),
-  loadObjectProperties
-});
+```bash
+git log --before "2017-1-17" devtools/client/shared/components/reps
 ```
+
+[history]: https://github.com/mozilla/gecko-dev/commits/master/devtools/client/shared/components/reps
