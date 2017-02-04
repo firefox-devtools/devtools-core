@@ -51,7 +51,8 @@ function connectClient() {
   })
     .then(tabs => createTabs(tabs, {
       clientType: "chrome", type: "page"
-    }));
+    }))
+    .catch(() => {});
 }
 
 function connectNodeClient() {
@@ -65,7 +66,8 @@ function connectNodeClient() {
   })
     .then(tabs => createTabs(tabs, {
       clientType: "node", type: "node"
-    }));
+    }))
+    .catch(() => {});
 }
 
 function connectTab(tab: ChromeTab) {
