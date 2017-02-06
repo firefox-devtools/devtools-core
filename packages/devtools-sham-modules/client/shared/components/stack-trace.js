@@ -2,9 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-"use strict";
-
-const React = require("devtools/client/shared/vendor/react");
+const React = require("react");
 const { DOM: dom, createClass, createFactory, PropTypes } = React;
 const { LocalizationHelper } = require("devtools/shared/l10n");
 const Frame = createFactory(require("./frame"));
