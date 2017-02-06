@@ -1,6 +1,6 @@
 {
   "name": "devtools-reps",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Devtools Reps",
   "main": "src/index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
-    "devtools-launchpad": "^0.0.32",
+    "devtools-launchpad": "^0.0.39",
     "lodash": "^4.17.2"
   },
   "devDependencies": {
