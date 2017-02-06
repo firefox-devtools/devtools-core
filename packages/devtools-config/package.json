@@ -1,6 +1,6 @@
 {
   "name": "devtools-config",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Devtools Local Configuration System",
   "main": "index.js",
   "directories": {
