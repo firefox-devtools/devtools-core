@@ -72,7 +72,7 @@ function globalObjectCleared() {
 
 // Page Events
 function frameNavigated(frame: any) {
-  actions.navigate();
+  actions.navigated();
 }
 
 function frameStartedLoading() {
