@@ -4,20 +4,12 @@ const webpack = require("webpack");
 
 const { DefinePlugin } = webpack;
 
-const ignoreRegexes = [
-  /(chrome-remote-debugging-protocol)/
-];
-
 const nativeMapping = {
   "../utils/source-editor": "devtools/client/sourceeditor/editor",
   "./test-flag": "devtools/shared/flags",
   "./client/shared/shim/Services": "Services",
-
-  // React can be required a few different ways, make sure they are
-  // all mapped.
   "react": "devtools/client/shared/vendor/react",
-  "devtools/client/shared/vendor/react": "devtools/client/shared/vendor/react",
-  "react/lib/ReactDOM": "devtools/client/shared/vendor/react-dom"
+  "react-dom": "devtools/client/shared/vendor/react-dom",
 };
 
 let packagesPath = path.join(__dirname, "../");
@@ -37,10 +29,7 @@ module.exports = (webpackConfig, envConfig) => {
     let mod = request;
 
     // Any matching paths here won't be included in the bundle.
-    if (ignoreRegexes.some(r => r.test(request))) {
-      callback(null, "var {}");
-      return;
-    } else if (nativeMapping[mod]) {
+    if (nativeMapping[mod]) {
       const mapping = nativeMapping[mod];
 
       if (webpackConfig.externalsRequire) {

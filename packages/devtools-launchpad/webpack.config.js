@@ -1,9 +1,7 @@
-
 require("babel-register");
 
 const path = require("path");
 const webpack = require("webpack");
-const SingleModulePlugin = require("single-module-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const { isDevelopment, isFirefoxPanel, getValue } = require("devtools-config");
 const NODE_ENV = process.env.NODE_ENV || "development";
@@ -67,18 +65,7 @@ module.exports = (webpackConfig, envConfig) => {
   webpackConfig.resolveLoader.root = webpackConfig.resolveLoader.root || [];
   webpackConfig.resolveLoader.root.push(path.resolve("./node_modules"));
 
-  const ignoreRegexes = [/^fs$/];
-  webpackConfig.externals = webpackConfig.externals || [];
-
-  function externalsTest(context, request, callback) {
-    // Any matching paths here won't be included in the bundle.
-    if (ignoreRegexes.some(r => r.test(request))) {
-      return callback(null, "var {}");
-    }
-
-    callback();
-  }
-  webpackConfig.externals.push(externalsTest);
+  webpackConfig.node = { fs: "empty" };
 
   webpackConfig.plugins = webpackConfig.plugins || [];
   webpackConfig.plugins.push(
@@ -90,8 +77,6 @@ module.exports = (webpackConfig, envConfig) => {
       "DebuggerConfig": JSON.stringify(envConfig)
     })
   );
-
-  webpackConfig.plugins.push(new SingleModulePlugin());
 
   if (isDevelopment()) {
     webpackConfig.module.loaders.push({
