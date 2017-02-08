@@ -1,6 +1,7 @@
 // Dependencies
 const React = require("react");
 const {
+  escapeString,
   sanitizeString,
   isGrip,
   wrapRender,
@@ -50,8 +51,8 @@ const LongStringRep = React.createClass({
     if (string.length < length) {
       string += "\u2026";
     }
-    let formattedString = useQuotes ? `"${string}"` : string;
-    return span(config, sanitizeString(formattedString));
+    let formattedString = useQuotes ? escapeString(string) : sanitizeString(string);
+    return span(config, formattedString);
   }),
 });
 

@@ -2,7 +2,9 @@
 const React = require("react");
 
 const {
-  cropString,
+  escapeString,
+  rawCropString,
+  sanitizeString,
   wrapRender,
 } = require("./rep-utils");
 
@@ -39,17 +41,17 @@ const StringRep = React.createClass({
       config.style = style;
     }
 
-    if (member && member.open) {
-      return span(config, "\"" + text + "\"");
+    if (this.props.useQuotes) {
+      text = escapeString(text);
+    } else {
+      text = sanitizeString(text);
     }
 
-    let croppedString = this.props.cropLimit ?
-      cropString(text, this.props.cropLimit) : cropString(text);
+    if ((!member || !member.open) && this.props.cropLimit) {
+      text = rawCropString(text, this.props.cropLimit);
+    }
 
-    let formattedString = this.props.useQuotes ?
-      "\"" + croppedString + "\"" : croppedString;
-
-    return span(config, formattedString);
+    return span(config, text);
   }),
 });
 
