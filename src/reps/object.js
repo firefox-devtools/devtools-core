@@ -28,7 +28,7 @@ const Obj = React.createClass({
     if (this.props.objectLink) {
       return this.props.objectLink({
         object: object
-      }, className);
+      }, title);
     }
     return title;
   },
