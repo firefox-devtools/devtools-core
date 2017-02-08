@@ -42,11 +42,10 @@ function isFirefoxRunning() {
       resultList.forEach(function(process) {
         if (process) {
           const args = process.arguments.join(" ");
-          console.log('found process', process)
+          console.log("found process", process);
           if (args.match(/--start-debugger-server=6080/)) {
             isRunning = true;
           }
-        } else {
         }
       });
 
@@ -100,10 +99,9 @@ function serveRoot(req, res) {
 function handleNetworkRequest(req, res) {
   const url = req.query.url;
   if (url.indexOf("file://") === 0) {
-    const path = url.replace("file://", "");
-    res.json(JSON.parse(fs.readFileSync(path, "utf8")));
-  }
-  else {
+    const filePath = url.replace("file://", "");
+    res.json(JSON.parse(fs.readFileSync(filePath, "utf8")));
+  } else {
     const httpReq = httpOrHttpsGet(
       req.query.url,
       body => {
@@ -127,19 +125,19 @@ function handleLaunchRequest(req, res) {
   process.env.PATH += `:${__dirname}`;
   if (browser == "Firefox") {
     isFirefoxRunning().then((isRunning) => {
-      console.log('running', isRunning)
+      console.log("running", isRunning);
       if (!isRunning) {
         firefoxDriver.start(location);
-        res.end('launched firefox');
+        res.end("launched firefox");
       } else {
-        res.end('already running firefox')
+        res.end("already running firefox");
       }
-    })
+    });
   }
 
   if (browser == "Chrome") {
     ps.spawn("chrome-driver.js", ["--location", location]);
-    res.end('launched chrome');
+    res.end("launched chrome");
   }
 }
 
@@ -173,7 +171,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
       const version = opts.node.raw;
       console.log(`Sorry, Your version of node is ${version}.`);
       console.log("The minimum requirement is >=6.9.0");
-      exit();
+      exit(); // eslint-disable-line no-undef
     }
   });
 
@@ -190,7 +188,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   let favicon = getValue("favicon");
   let faviconDir = favicon
     ? path.dirname(path.join(rootDir, favicon))
-    : path.join(__dirname, '../assets')
+    : path.join(__dirname, "../assets");
 
   app.use(express.static(faviconDir));
 
@@ -224,9 +222,9 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
     console.log("Hot Reloading - https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#hot-reloading");
   }
 
-  return { express, app }
+  return { express, app };
 }
 
 module.exports = {
   startDevServer
-}
+};

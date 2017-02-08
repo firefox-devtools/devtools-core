@@ -5,19 +5,18 @@ const webpack = require("webpack");
 const { DefinePlugin } = webpack;
 
 const ignoreRegexes = [
-  /(chrome-remote-debugging-protocol)/
+  /(chrome-remote-interface)/
 ];
 
 const nativeMapping = {
-  "../utils/source-editor": "devtools/client/sourceeditor/editor",
+  "../utils/editor/source-editor": "devtools/client/sourceeditor/editor",
   "./test-flag": "devtools/shared/flags",
   "./client/shared/shim/Services": "Services",
 
   // React can be required a few different ways, make sure they are
   // all mapped.
   "react": "devtools/client/shared/vendor/react",
-  "devtools/client/shared/vendor/react": "devtools/client/shared/vendor/react",
-  "react/lib/ReactDOM": "devtools/client/shared/vendor/react-dom"
+  "ReactDOM": "devtools/client/shared/vendor/react-dom"
 };
 
 let packagesPath = path.join(__dirname, "../");
@@ -28,19 +27,20 @@ module.exports = (webpackConfig, envConfig) => {
     webpackConfig.output.path = outputPath;
   }
 
+  webpackConfig.resolve = webpackConfig.resolve || {};
+  webpackConfig.resolve.alias = webpackConfig.resolve.alias || {};
   webpackConfig.resolve.alias["devtools-network-request"] = path.resolve(
      packagesPath,
      "devtools-network-request/privilegedNetworkRequest"
   );
 
+  webpackConfig.resolve.alias["chrome-remote-interface"] = "no-op";
+
   function externalsTest(context, request, callback) {
     let mod = request;
 
     // Any matching paths here won't be included in the bundle.
-    if (ignoreRegexes.some(r => r.test(request))) {
-      callback(null, "var {}");
-      return;
-    } else if (nativeMapping[mod]) {
+    if (nativeMapping[mod]) {
       const mapping = nativeMapping[mod];
 
       if (webpackConfig.externalsRequire) {
@@ -65,7 +65,7 @@ module.exports = (webpackConfig, envConfig) => {
     p => !(p instanceof DefinePlugin)
   );
   webpackConfig.plugins = plugins.concat([
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || "production"),
         TARGET: JSON.stringify("firefox-panel")
