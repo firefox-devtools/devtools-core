@@ -7,6 +7,10 @@ const {
 const Caption = React.createFactory(require("./caption"));
 const { MODE } = require("./constants");
 
+const ModePropType = React.PropTypes.oneOf(
+  Object.keys(MODE).map(key => MODE[key])
+);
+
 // Shortcuts
 const DOM = React.DOM;
 
@@ -19,7 +23,7 @@ let ArrayRep = React.createClass({
 
   propTypes: {
     // @TODO Change this to Object.values once it's supported in Node's version of V8
-    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    mode: ModePropType,
     objectLink: React.PropTypes.func,
     object: React.PropTypes.array.isRequired,
   },
@@ -165,7 +169,7 @@ let ItemRep = React.createFactory(React.createClass({
   propTypes: {
     object: React.PropTypes.any.isRequired,
     delim: React.PropTypes.string.isRequired,
-    mode: React.PropTypes.symbol,
+    mode: ModePropType,
   },
 
   render: wrapRender(function () {
