@@ -8,6 +8,7 @@ const Caption = React.createFactory(require("./caption"));
 const { MODE } = require("./constants");
 
 const ModePropType = React.PropTypes.oneOf(
+  // @TODO Change this to Object.values once it's supported in Node's version of V8
   Object.keys(MODE).map(key => MODE[key])
 );
 
@@ -22,7 +23,6 @@ let ArrayRep = React.createClass({
   displayName: "ArrayRep",
 
   propTypes: {
-    // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: ModePropType,
     objectLink: React.PropTypes.func,
     object: React.PropTypes.array.isRequired,
