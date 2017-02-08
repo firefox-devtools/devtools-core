@@ -16,20 +16,21 @@ const Obj = React.createClass({
   displayName: "Obj",
 
   propTypes: {
-    object: React.PropTypes.object,
+    object: React.PropTypes.object.isRequired,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     objectLink: React.PropTypes.func,
+    title: React.PropTypes.string,
   },
 
   getTitle: function (object) {
-    let className = object && object.class ? object.class : "Object";
+    let title = this.props.title || object.class || "Object";
     if (this.props.objectLink) {
       return this.props.objectLink({
         object: object
-      }, className);
+      }, title);
     }
-    return className;
+    return title;
   },
 
   safePropIterator: function (object, max) {
