@@ -104,8 +104,10 @@ function renderRoot(_React, _ReactDOM, component, _store) {
     root.appendChild(component);
   }
 
-  updateConfig();
-  updateTheme();
+  if (isDevelopment()) {
+    updateConfig();
+    updateTheme();
+  }
 }
 
 function unmountRoot(_ReactDOM) {
