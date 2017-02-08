@@ -4,7 +4,7 @@ const CDP = require("chrome-remote-interface");
 const { getValue } = require("devtools-config");
 const networkRequest = require("devtools-network-request");
 const { setupCommands, clientCommands } = require("./chrome/commands");
-const { setupEvents, clientEvents } = require("./chrome/events");
+const { setupEvents, clientEvents, pageEvents } = require("./chrome/events");
 
 import type { Tab } from "./types";
 
@@ -106,6 +106,9 @@ function initPage(actions: any, { clientType }: any) {
 
   if (clientType == "chrome") {
     Page.enable();
+    Page.frameNavigated(pageEvents.frameNavigated);
+    Page.frameStartedLoading(pageEvents.frameStartedLoading);
+    Page.frameStoppedLoading(pageEvents.frameStoppedLoading);
   }
 
   Debugger.scriptParsed(clientEvents.scriptParsed);
