@@ -159,8 +159,8 @@ async function bootstrap(React, ReactDOM, App, appActions, appStore) {
 
   const { store, actions, LaunchpadApp } = await initApp();
   renderRoot(React, ReactDOM, LaunchpadApp, store);
-  getTabs(actions);
-  setInterval(() => getTabs(actions), 5000);
+  await getTabs(actions);
+  setInterval(async () => await getTabs(actions), 5000);
 }
 
 module.exports = {
