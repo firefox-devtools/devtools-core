@@ -4,6 +4,7 @@ const { DOM: dom, PropTypes, createFactory } = React;
 const { MODE } = require("../../reps/constants");
 const Rep = createFactory(require("../../reps/rep").Rep);
 const Grip = require("../../reps/grip");
+const { getSelectableInInspectorGrips } = require("../../reps/rep-utils");
 
 const Result = React.createClass({
   propTypes: {
@@ -47,7 +48,18 @@ const Result = React.createClass({
         key: JSON.stringify(object) + modeKey,
         "data-mode": modeKey,
       },
-      Rep({ object, defaultRep: Grip, mode: MODE[modeKey] })
+      Rep({
+        object,
+        defaultRep: Grip,
+        mode: MODE[modeKey],
+        onInspectIconClick: nodeFront => console.log("inspectIcon click", nodeFront),
+        attachedNodeFrontsByActor: getSelectableInInspectorGrips(object)
+          .reduce((res, gripStub) => {
+            return Object.assign(res, {
+              [gripStub.actor]: gripStub
+            });
+          }, {})
+      })
     );
   },
 
