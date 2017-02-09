@@ -19,7 +19,11 @@ Test GripMap rep
 "use strict";
 
 window.onload = Task.async(function* () {
-  const { REPS, MODE } = browserRequire("devtools/client/shared/components/reps/load-reps");
+  const {
+    REPS,
+    MODE,
+    getSelectableInInspectorGrips,
+  } = browserRequire("devtools/client/shared/components/reps/load-reps");
   let { Rep, GripMap } = REPS;
 
   const componentUnderTest = GripMap;
@@ -239,6 +243,14 @@ window.onload = Task.async(function* () {
     const nodeValuedStub = getGripStub("testNodeValuedMap");
     const nodeKeyedStub = getGripStub("testNodeKeyedMap");
 
+    const valuesGrips = getSelectableInInspectorGrips(nodeValuedStub);
+    is(valuesGrips.length, 3, "the stub has three node grips");
+    const valuesAttachedNodeFrontsByActor = getStubNodeFront(valuesGrips);
+
+    const keysGrips = getSelectableInInspectorGrips(nodeKeyedStub);
+    is(keysGrips.length, 3, "the stub has three node grips");
+    const keysAttachedNodeFrontsByActor = getStubNodeFront(keysGrips);
+
     let mouseOverValue;
     let onDOMNodeMouseOver = (object) => {
       mouseOverValue = object;
@@ -248,20 +260,13 @@ window.onload = Task.async(function* () {
     const nodeValuedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeValuedStub,
       onDOMNodeMouseOver,
-      attachedNodeFrontsByActor: nodeValuedStub.preview.entries.reduce(
-        (res, [key, value]) => {
-          return Object.assign({
-            [value.actor]: value.actor
-          }, res);
-        }, {}),
+      attachedNodeFrontsByActor: valuesAttachedNodeFrontsByActor,
     });
 
     let nodes = nodeValuedRenderedComponent.querySelectorAll(".objectBox-node");
     nodes.forEach((node, index) => {
       TestUtils.Simulate.mouseOver(node);
-      let entry = nodeValuedStub.preview.entries[index];
-      let value = entry[1];
-      is(mouseOverValue, value.actor,
+      is(mouseOverValue, valuesGrips[index],
         "onDOMNodeMouseOver is called with the expected argument " +
         "when mouseover is fired on the Rep");
     });
@@ -270,19 +275,13 @@ window.onload = Task.async(function* () {
     const nodeKeyedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeKeyedStub,
       onDOMNodeMouseOver,
-      attachedNodeFrontsByActor: nodeKeyedStub.preview.entries.reduce(
-        (res, [key, value]) => {
-          return Object.assign({
-            [key.actor]: key.actor
-          }, res);
-        }, {}),
+      attachedNodeFrontsByActor: keysAttachedNodeFrontsByActor,
     });
 
     nodes = nodeKeyedRenderedComponent.querySelectorAll(".objectBox-node");
     nodes.forEach((node, index) => {
       TestUtils.Simulate.mouseOver(node);
-      let [key] = nodeKeyedStub.preview.entries[index];
-      is(mouseOverValue, key.actor,
+      is(mouseOverValue, keysGrips[index],
         "onDOMNodeMouseOver is called with the expected argument " +
         "when mouseover is fired on the Rep");
     });
@@ -291,6 +290,14 @@ window.onload = Task.async(function* () {
   function testOnDomNodeMouseOut() {
     const nodeValuedStub = getGripStub("testNodeValuedMap");
     const nodeKeyedStub = getGripStub("testNodeKeyedMap");
+
+    const valuesGrips = getSelectableInInspectorGrips(nodeValuedStub);
+    is(valuesGrips.length, 3, "the stub has three node grips");
+    const valuesAttachedNodeFrontsByActor = getStubNodeFront(valuesGrips);
+
+    const keysGrips = getSelectableInInspectorGrips(nodeKeyedStub);
+    is(keysGrips.length, 3, "the stub has three node grips");
+    const keysAttachedNodeFrontsByActor = getStubNodeFront(keysGrips);
 
     let called = 0;
     let onDOMNodeMouseOut = (object) => {
@@ -301,12 +308,7 @@ window.onload = Task.async(function* () {
     const nodeValuedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeValuedStub,
       onDOMNodeMouseOut,
-      attachedNodeFrontsByActor: nodeValuedStub.preview.entries.reduce(
-        (res, [key, value]) => {
-          return Object.assign({
-            [value.actor]: value.actor
-          }, res);
-        }, {}),
+      attachedNodeFrontsByActor: valuesAttachedNodeFrontsByActor,
     });
 
     let nodes = nodeValuedRenderedComponent.querySelectorAll(".objectBox-node");
@@ -319,12 +321,7 @@ window.onload = Task.async(function* () {
     const nodeKeyedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeKeyedStub,
       onDOMNodeMouseOut,
-      attachedNodeFrontsByActor: nodeKeyedStub.preview.entries.reduce(
-        (res, [key, value]) => {
-          return Object.assign({
-            [key.actor]: key.actor
-          }, res);
-        }, {}),
+      attachedNodeFrontsByActor: keysAttachedNodeFrontsByActor,
     });
 
     nodes = nodeKeyedRenderedComponent.querySelectorAll(".objectBox-node");
@@ -339,6 +336,14 @@ window.onload = Task.async(function* () {
   function testOnDomNodeInspectIconClick() {
     const nodeValuedStub = getGripStub("testNodeValuedMap");
     const nodeKeyedStub = getGripStub("testNodeKeyedMap");
+
+    const valuesGrips = getSelectableInInspectorGrips(nodeValuedStub);
+    is(valuesGrips.length, 3, "the stub has three node grips");
+    const valuesAttachedNodeFrontsByActor = getStubNodeFront(valuesGrips);
+
+    const keysGrips = getSelectableInInspectorGrips(nodeKeyedStub);
+    is(keysGrips.length, 3, "the stub has three node grips");
+    const keysAttachedNodeFrontsByActor = getStubNodeFront(keysGrips);
 
     let inspectIconClickedValue = null;
     let onInspectIconClick = (object) => {
@@ -367,23 +372,16 @@ window.onload = Task.async(function* () {
     const nodeValuedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeValuedStub,
       onInspectIconClick,
-      attachedNodeFrontsByActor: nodeValuedStub.preview.entries.reduce(
-        (res, [key, value]) => {
-          return Object.assign({
-            [value.actor]: value.actor
-          }, res);
-        }, {}),
+      attachedNodeFrontsByActor: valuesAttachedNodeFrontsByActor,
     });
 
     let icons = nodeValuedRenderedComponent.querySelectorAll(".open-inspector");
-    is(icons.length, nodeValuedStub.preview.entries.length,
+    is(icons.length, valuesGrips.length,
       "There is an icon for each map value with a matching attachedNodeFront");
 
     icons.forEach((icon, index) => {
       TestUtils.Simulate.click(icon);
-      let entry = nodeValuedStub.preview.entries[index];
-      let value = entry[1];
-      is(inspectIconClickedValue, value.actor, "onInspectIconClick is called " +
+      is(inspectIconClickedValue, valuesGrips[index], "onInspectIconClick is called " +
         "with the expected argument when the inspect icon is clicked");
     });
 
@@ -391,23 +389,16 @@ window.onload = Task.async(function* () {
     const nodeKeyedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeKeyedStub,
       onInspectIconClick,
-      attachedNodeFrontsByActor: nodeKeyedStub.preview.entries.reduce(
-        (res, [key, value]) => {
-          return Object.assign({
-            [key.actor]: key.actor
-          }, res);
-        }, {}),
+      attachedNodeFrontsByActor: keysAttachedNodeFrontsByActor,
     });
 
     icons = nodeKeyedRenderedComponent.querySelectorAll(".open-inspector");
-    is(icons.length, nodeKeyedStub.preview.entries.length,
+    is(icons.length, keysGrips.length,
       "There is an icon for each map key with a matching attachedNodeFront");
 
     icons.forEach((icon, index) => {
       TestUtils.Simulate.click(icon);
-      let entry = nodeKeyedStub.preview.entries[index];
-      let key = entry[0];
-      is(inspectIconClickedValue, key.actor, "onInspectIconClick is called " +
+      is(inspectIconClickedValue, keysGrips[index], "onInspectIconClick is called " +
         "with the expected argument when the inspect icon is clicked");
     });
   }

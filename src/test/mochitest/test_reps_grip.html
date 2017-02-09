@@ -17,7 +17,11 @@ Test grip rep
 <script src="head.js" type="application/javascript;version=1.8"></script>
 <script type="application/javascript;version=1.8">
 window.onload = Task.async(function* () {
-  const { REPS, MODE } = browserRequire("devtools/client/shared/components/reps/load-reps");
+  const {
+    REPS,
+    MODE,
+    getSelectableInInspectorGrips,
+  } = browserRequire("devtools/client/shared/components/reps/load-reps");
   let { Rep, Grip } = REPS;
 
   const componentUnderTest = Grip;
@@ -521,8 +525,10 @@ window.onload = Task.async(function* () {
 
   function testOnDomNodeMouseOver() {
     const stub = getGripStub("testObjectWithNodes");
-    const properties = stub.preview.ownProperties;
-    const propertiesNames = Object.keys(properties);
+
+    const grips = getSelectableInInspectorGrips(stub);
+    is(grips.length, 2, "the stub has two node grips");
+    const attachedNodeFrontsByActor = getStubNodeFront(grips);
 
     let mouseOverValue;
     let called = 0;
@@ -534,21 +540,13 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(Grip.rep, {
       object: stub,
       onDOMNodeMouseOver,
-      attachedNodeFrontsByActor: propertiesNames
-        .reduce((res, key) => {
-          let nodeGrip = properties[key].value;
-          return Object.assign({
-            [nodeGrip.actor]: nodeGrip.actor
-          }, res);
-        }, {}),
+      attachedNodeFrontsByActor,
     });
 
     const nodes = renderedComponent.querySelectorAll(".objectBox-node");
     nodes.forEach((node, index) => {
       TestUtils.Simulate.mouseOver(node);
-      let propName = propertiesNames[index];
-      let grip = properties[propName].value;
-      is(mouseOverValue, grip.actor,
+      is(mouseOverValue, grips[index],
         "onDOMNodeMouseOver is called with the expected argument " +
         "when mouseover is fired on the Rep");
     });
@@ -558,8 +556,10 @@ window.onload = Task.async(function* () {
 
   function testOnDomNodeMouseOut() {
     const stub = getGripStub("testObjectWithNodes");
-    const properties = stub.preview.ownProperties;
-    const propertiesNames = Object.keys(properties);
+
+    const grips = getSelectableInInspectorGrips(stub);
+    is(grips.length, 2, "the stub has two node grips");
+    const attachedNodeFrontsByActor = getStubNodeFront(grips);
 
     let called = 0;
     let onDOMNodeMouseOut = (object) => {
@@ -569,13 +569,7 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(Grip.rep, {
       object: stub,
       onDOMNodeMouseOut,
-      attachedNodeFrontsByActor: propertiesNames
-        .reduce((res, key) => {
-          let nodeGrip = properties[key].value;
-          return Object.assign({
-            [nodeGrip.actor]: nodeGrip.actor
-          }, res);
-        }, {}),
+      attachedNodeFrontsByActor,
     });
 
     const nodes = renderedComponent.querySelectorAll(".objectBox-node");
@@ -587,8 +581,10 @@ window.onload = Task.async(function* () {
 
   function testOnDomNodeInspectIconClick() {
     const stub = getGripStub("testObjectWithNodes");
-    const properties = stub.preview.ownProperties;
-    const propertiesNames = Object.keys(properties);
+
+    const grips = getSelectableInInspectorGrips(stub);
+    is(grips.length, 2, "the stub has two node grips");
+    const attachedNodeFrontsByActor = getStubNodeFront(grips);
 
     let inspectIconClickedValue = null;
     let onInspectIconClick = (object) => {
@@ -616,13 +612,7 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(Grip.rep, {
       object: stub,
       onInspectIconClick,
-      attachedNodeFrontsByActor: propertiesNames
-        .reduce((res, key) => {
-          let nodeGrip = properties[key].value;
-          return Object.assign({
-            [nodeGrip.actor]: nodeGrip.actor
-          }, res);
-        }, {}),
+      attachedNodeFrontsByActor,
     });
 
     const icons = renderedComponent.querySelectorAll(".open-inspector");
@@ -631,9 +621,7 @@ window.onload = Task.async(function* () {
 
     icons.forEach((icon, index) => {
       TestUtils.Simulate.click(icon);
-      let propName = propertiesNames[index];
-      let grip = properties[propName].value;
-      is(inspectIconClickedValue, grip.actor,
+      is(inspectIconClickedValue, grips[index],
         "onInspectIconClick is called with the expected argument " +
         "when the inspect icon is clicked");
     });

@@ -17,7 +17,11 @@ Test Event rep
 <script src="head.js" type="application/javascript;version=1.8"></script>
 <script type="application/javascript;version=1.8">
 window.onload = Task.async(function* () {
-  const { REPS, MODE } = browserRequire("devtools/client/shared/components/reps/load-reps");
+  const {
+    REPS,
+    MODE,
+    getSelectableInInspectorGrips,
+  } = browserRequire("devtools/client/shared/components/reps/load-reps");
   let { Rep, Event } = REPS;
 
   try {
@@ -34,8 +38,7 @@ window.onload = Task.async(function* () {
     yield testOnDomNodeMouseOver();
     yield testOnDomNodeMouseOut();
     yield testOnDomNodeInspectIconClick();
-
-  } catch(e) {
+  } catch (e) {
     ok(false, "Got an error: " + DevToolsUtils.safeErrorString(e));
   } finally {
     SimpleTest.finish();
@@ -120,7 +123,12 @@ window.onload = Task.async(function* () {
 
   function testOnDomNodeMouseOver() {
     const stub = getGripStub("testMouseEvent");
-    const attachedNodeFront = Symbol("attachedNodeFront");
+    const grips = getSelectableInInspectorGrips(stub);
+
+    is(grips.length, 1, "the stub has one node grip");
+
+    const attachedNodeFrontsByActor = getStubNodeFront(grips);
+
     let mouseOverValue;
     let onDOMNodeMouseOver = (object) => {
       mouseOverValue = object;
@@ -128,21 +136,23 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(Event.rep, {
       object: stub,
       onDOMNodeMouseOver,
-      attachedNodeFrontsByActor: {
-        [stub.preview.target.actor]: attachedNodeFront
-      }
+      attachedNodeFrontsByActor,
     });
 
     const node = renderedComponent.querySelector(".objectBox-node");
     TestUtils.Simulate.mouseOver(node);
 
-    is(mouseOverValue, attachedNodeFront, "onDOMNodeMouseOver is called with " +
+    is(mouseOverValue, grips[0], "onDOMNodeMouseOver is called with " +
       "the expected argument when mouseover is fired on the Rep");
   }
 
   function testOnDomNodeMouseOut() {
     const stub = getGripStub("testMouseEvent");
-    const attachedNodeFront = Symbol("attachedNodeFront");
+    const grips = getSelectableInInspectorGrips(stub);
+    is(grips.length, 1, "the stub has one node grip");
+
+    const attachedNodeFrontsByActor = getStubNodeFront(grips);
+
     let called = false;
     let onDOMNodeMouseOut = (object) => {
       called = true;
@@ -150,9 +160,7 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(Event.rep, {
       object: stub,
       onDOMNodeMouseOut,
-      attachedNodeFrontsByActor: {
-        [stub.preview.target.actor]: attachedNodeFront
-      }
+      attachedNodeFrontsByActor
     });
 
     const node = renderedComponent.querySelector(".objectBox-node");
@@ -163,7 +171,10 @@ window.onload = Task.async(function* () {
 
   function testOnDomNodeInspectIconClick() {
     const stub = getGripStub("testMouseEvent");
-    const attachedNodeFront = Symbol("attachedNodeFront");
+    const grips = getSelectableInInspectorGrips(stub);
+    is(grips.length, 1, "the stub has one node grip");
+
+    const attachedNodeFrontsByActor = getStubNodeFront(grips);
 
     let inspectIconClickedValue = null;
     let onInspectIconClick = (object) => {
@@ -191,9 +202,7 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(Event.rep, {
       object: stub,
       onInspectIconClick,
-      attachedNodeFrontsByActor: {
-        [stub.preview.target.actor]: attachedNodeFront
-      }
+      attachedNodeFrontsByActor
     });
 
     const icon = renderedComponent.querySelector(".open-inspector");
@@ -202,7 +211,7 @@ window.onload = Task.async(function* () {
 
     TestUtils.Simulate.click(icon);
 
-    is(inspectIconClickedValue, attachedNodeFront,
+    is(inspectIconClickedValue, grips[0],
       "onInspectIconClick is called with the expected argument " +
       "when the inspect icon is clicked");
   }

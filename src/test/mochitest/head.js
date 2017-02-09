@@ -60,3 +60,11 @@ function testRepRenderModes(modeTests, testName, componentUnderTest, gripStub,
     is(rendered.textContent, expectedOutput, message);
   });
 }
+
+function getStubNodeFront(gripStubs) {
+  return gripStubs.reduce((res, gripStub) => {
+    return Object.assign(res, {
+      [gripStub.actor]: gripStub
+    });
+  }, {});
+}
