@@ -26,10 +26,13 @@ define(function (require, exports, module) {
     parseURLEncodedText = bundle.parseURLEncodedText;
     parseURLParams = bundle.parseURLParams;
   } else {
-    ({ createFactories, parseURLEncodedText, parseURLParams } =
-      require("devtools/client/shared/components/reps/rep-utils"));
-    REPS = require("devtools/client/shared/components/reps/rep").REPS;
-    MODE = require("devtools/client/shared/components/reps/constants").MODE;
+    // Commenting out all requires, otherwise requirejs will agressively load all
+    // dependencies when loading load-reps.js, which will fail because files have been
+    // removed.
+    // ({ createFactories, parseURLEncodedText, parseURLParams } =
+    //   require("devtools/client/shared/components/reps/rep-utils"));
+    // REPS = require("devtools/client/shared/components/reps/rep").REPS;
+    // MODE = require("devtools/client/shared/components/reps/constants").MODE;
   }
 
   exports.REPS = REPS;
