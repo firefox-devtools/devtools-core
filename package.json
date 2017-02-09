@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Collection of devtools packages",
   "scripts": {
-    "lint": "yarn run lint-css -s; yarn run lint-js -s",
+    "lint": "concurrently \"yarn run lint-css -s\" \"yarn run lint-js -s\"",
     "lint-css": "stylelint packages/devtools-launchpad/**/*.css",
     "lint-js": "eslint packages/devtools-launchpad/src packages/devtools-client-adapters/src",
     "prepush": "yarn run lint",
@@ -23,6 +23,7 @@
     "babel-eslint": "^7.1.0",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
+    "concurrently": "^3.1.0",
     "eslint": "^3.12.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flowtype": "^2.20.0",
