@@ -11,7 +11,7 @@ const nodeConstants = require("../shared/dom-node-constants");
 const Svg = require("./images/Svg");
 
 // Shortcuts
-const { a, span } = React.DOM;
+const { span } = React.DOM;
 
 /**
  * Renders DOM element node.

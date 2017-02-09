@@ -180,7 +180,6 @@ let GripArrayItem = React.createFactory(React.createClass({
     let { Rep } = createFactories(require("./rep"));
     let {
       attachedNodeFrontsByActor,
-      object,
     } = this.props;
     return (
       span({},
