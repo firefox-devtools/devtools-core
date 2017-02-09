@@ -160,6 +160,25 @@ function wrapRender(renderMethod) {
   };
 }
 
+/**
+ * Get an array of all the items from the grip in parameter (including the grip itself)
+ * which can be selected in the inspector.
+ *
+ * @param {Object} Grip
+ * @return {Array} Flat array of the grips which can be selected in the inspector
+ */
+function getSelectableInInspectorGrips(grip) {
+  let grips = new Set(getFlattenedGrips([grip]));
+  return [...grips].filter(isGripSelectableInInspector);
+}
+
+/**
+ * Indicate if a Grip can be selected in the inspector,
+ * i.e. if it represents a node element.
+ *
+ * @param {Object} Grip
+ * @return {Boolean}
+ */
 function isGripSelectableInInspector(grip) {
   return grip
     && typeof grip === "object"
@@ -170,54 +189,77 @@ function isGripSelectableInInspector(grip) {
     ].includes(grip.preview.nodeType);
 }
 
-function getFlattenedGrips(parameters, filterFn) {
-  if (!Array.isArray(parameters)) {
-    return null;
-  }
-  let nodeGrips = parameters.reduce((result, parameter) => {
-    return result.concat(getPreviewGrips(parameter, filterFn));
+/**
+ * Get a flat array of all the grips and their preview items.
+ *
+ * @param {Array} Grips
+ * @return {Array} Flat array of the grips and their preview items
+ */
+function getFlattenedGrips(grips) {
+  return grips.reduce((res, grip) => {
+    let previewItems = getGripPreviewItems(grip);
+    let flatPreviewItems = previewItems.length > 0
+      ? getFlattenedGrips(previewItems)
+      : [];
+
+    return [...res, grip, ...flatPreviewItems];
   }, []);
-  return [...new Set(nodeGrips)];
 }
 
-function getPreviewGrips(grip, filterFn = null) {
-  let grips = [];
-  if (!filterFn || filterFn(grip)) {
-    grips.push(grip);
+/**
+ * Get preview items from a Grip.
+ *
+ * @param {Object} Grip from which we want the preview items
+ * @return {Array} Array of the preview items of the grip, or an empty array
+ *                 if the grip does not have preview items
+ */
+function getGripPreviewItems(grip) {
+  if (!grip) {
+    return [];
   }
 
-  let previewItems = [];
-  if (grip && grip.preview) {
-    if (grip.preview.items) {
-      previewItems = grip.preview.items;
-    } else if (grip.preview.childNodes) {
-      previewItems = grip.preview.childNodes;
-    } else if (grip.preview.entries) {
-      previewItems = grip.preview.entries.reduce((res, entry) => res.concat(entry), []);
-    } else if (grip.promiseState && grip.promiseState.value) {
-      previewItems = [grip.promiseState.value];
-    } else if (grip.preview.ownProperties) {
-      let propertiesValues = Object.keys(grip.preview.ownProperties)
-        .map(key => {
-          let property = grip.preview.ownProperties[key];
-          return property.value || property;
-        });
+  // Promise resolved value Grip
+  if (grip.promiseState && grip.promiseState.value) {
+    return [grip.promiseState.value];
+  }
 
-      if (grip.preview && grip.preview.safeGetterValues) {
-        propertiesValues = propertiesValues.concat(
-          Object.keys(grip.preview.safeGetterValues)
-            .map(key => {
-              let property = grip.preview.safeGetterValues[key];
-              return property.getterValue || property;
-            })
-        );
-      }
-      previewItems = propertiesValues;
-    } else if (grip.preview.target) {
-      previewItems = [grip.preview.target];
+  // Array Grip
+  if (grip.preview && grip.preview.items) {
+    return grip.preview.items;
+  }
+
+  // Node Grip
+  if (grip.preview && grip.preview.childNodes) {
+    return grip.preview.childNodes;
+  }
+
+  // Set or Map Grip
+  if (grip.preview && grip.preview.entries) {
+    return grip.preview.entries.reduce((res, entry) => res.concat(entry), []);
+  }
+
+  // Event Grip
+  if (grip.preview && grip.preview.target) {
+    return [grip.preview.target];
+  }
+
+  // Generic Grip
+  if (grip.preview && grip.preview.ownProperties) {
+    let propertiesValues = Object.values(grip.preview.ownProperties)
+      .map(property => property.value || property);
+
+    // ArrayBuffer Grip
+    if (grip.preview.safeGetterValues) {
+      propertiesValues = propertiesValues.concat(
+        Object.values(grip.preview.safeGetterValues)
+          .map(property => property.getterValue || property)
+      );
     }
+
+    return propertiesValues;
   }
-  return grips.concat(getFlattenedGrips(previewItems, filterFn));
+
+  return [];
 }
 
 module.exports = {
@@ -231,7 +273,5 @@ module.exports = {
   parseURLEncodedText,
   getFileName,
   getURLDisplayString,
-  isGripSelectableInInspector,
-  getFlattenedGrips,
-  getPreviewGrips,
+  getSelectableInInspectorGrips,
 };
