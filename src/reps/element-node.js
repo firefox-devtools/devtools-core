@@ -8,6 +8,7 @@ const {
 } = require("./rep-utils");
 const { MODE } = require("./constants");
 const nodeConstants = require("../shared/dom-node-constants");
+const Svg = require("./images/Svg");
 
 // Shortcuts
 const { a, span } = React.DOM;
@@ -118,8 +119,8 @@ const ElementNode = React.createClass({
       }
 
       if (onInspectIconClick) {
-        inspectIcon = a({
-          className: "open-inspector",
+        inspectIcon = Svg("open-inspector", {
+          element: "a",
           draggable: false,
           // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
           title: "Click to select the node in the inspector",
