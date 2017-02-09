@@ -61,11 +61,6 @@ const PromiseRep = React.createClass({
         equal: ": ",
         delim: i < keys.length - 1 ? ", " : "",
         attachedNodeFrontsByActor,
-        attachedNodeFront: (
-          object && object.actor && attachedNodeFrontsByActor
-            ? attachedNodeFrontsByActor[object.actor]
-            : null
-        ),
         onDOMNodeMouseOver,
         onDOMNodeMouseOut,
         onInspectIconClick,

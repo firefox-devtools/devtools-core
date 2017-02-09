@@ -23,7 +23,7 @@ let TextNode = React.createClass({
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     objectLink: React.PropTypes.func,
-    attachedNodeFront: React.PropTypes.object,
+    attachedNodeFrontsByActor: React.PropTypes.object,
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
     onInspectIconClick: React.PropTypes.func,
@@ -47,7 +47,7 @@ let TextNode = React.createClass({
     let {
       object: grip,
       mode = MODE.SHORT,
-      attachedNodeFront,
+      attachedNodeFrontsByActor,
       onDOMNodeMouseOver,
       onDOMNodeMouseOut,
       onInspectIconClick,
@@ -55,6 +55,10 @@ let TextNode = React.createClass({
 
     let baseConfig = {className: "objectBox objectBox-textNode"};
     let inspectIcon;
+    let attachedNodeFront = attachedNodeFrontsByActor
+      ? attachedNodeFrontsByActor[grip.actor]
+      : null;
+
     if (attachedNodeFront) {
       if (onDOMNodeMouseOver) {
         Object.assign(baseConfig, {

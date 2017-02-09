@@ -44,7 +44,6 @@ let PropRep = React.createClass({
       attachedNodeFrontsByActor,
       equal,
       delim,
-      object,
     } = this.props;
 
     let key;
@@ -57,11 +56,7 @@ let PropRep = React.createClass({
         object: name,
         mode: mode || MODE.TINY,
         defaultRep: Grip,
-        attachedNodeFront: (
-          name && name.actor && attachedNodeFrontsByActor
-            ? attachedNodeFrontsByActor[name.actor]
-            : null
-        ),
+        attachedNodeFrontsByActor,
       }));
     }
 
@@ -71,13 +66,7 @@ let PropRep = React.createClass({
         span({
           "className": "objectEqual"
         }, equal),
-        Rep(Object.assign({}, this.props, {
-          attachedNodeFront: (
-            object && object.actor && attachedNodeFrontsByActor
-              ? attachedNodeFrontsByActor[object.actor]
-              : null
-          ),
-        })),
+        Rep(Object.assign({}, this.props)),
         span({
           "className": "objectComma"
         }, delim)

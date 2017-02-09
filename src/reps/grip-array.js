@@ -186,11 +186,7 @@ let GripArrayItem = React.createFactory(React.createClass({
       span({},
         Rep(Object.assign({}, this.props, {
           mode: MODE.TINY,
-          attachedNodeFront: (
-            object && object.actor && attachedNodeFrontsByActor
-              ? attachedNodeFrontsByActor[object.actor]
-              : null
-          ),
+          attachedNodeFrontsByActor,
         })),
         this.props.delim
       )

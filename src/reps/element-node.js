@@ -22,7 +22,7 @@ const ElementNode = React.createClass({
     object: React.PropTypes.object.isRequired,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-    attachedNodeFront: React.PropTypes.object,
+    attachedNodeFrontsByActor: React.PropTypes.object,
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
     onInspectIconClick: React.PropTypes.func,
@@ -91,13 +91,16 @@ const ElementNode = React.createClass({
     let {
       object,
       mode,
-      attachedNodeFront,
+      attachedNodeFrontsByActor,
       onDOMNodeMouseOver,
       onDOMNodeMouseOut,
       onInspectIconClick,
     } = this.props;
     let elements = this.getElements(object, mode);
     let objectLink = this.props.objectLink || span;
+    let attachedNodeFront = attachedNodeFrontsByActor
+      ? attachedNodeFrontsByActor[object.actor]
+      : null;
 
     let baseConfig = {className: "objectBox objectBox-node"};
     let inspectIcon;

@@ -138,11 +138,7 @@ const GripRep = React.createClass({
         equal: ": ",
         delim: i !== indexes.length - 1 || truncate ? ", " : "",
         defaultRep: Grip,
-        attachedNodeFront: (
-          value && value.actor && this.props.attachedNodeFrontsByActor
-            ? this.props.attachedNodeFrontsByActor[value.actor]
-            : null
-        ),
+        attachedNodeFrontsByActor: this.props.attachedNodeFrontsByActor,
       })));
     });
 
