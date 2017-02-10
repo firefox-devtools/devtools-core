@@ -119,8 +119,11 @@ const Settings = React.createClass({
       { className: "tab-group" },
       dom.h3({}, "Configurations"),
       this.renderConfig(config),
-      dom.h3({}, "Features"),
-      this.renderFeatures(config.features)
+      config.features ?
+      (
+        dom.h3({}, "Features"),
+        this.renderFeatures(config.features)
+      ) : null
     );
   }
 });

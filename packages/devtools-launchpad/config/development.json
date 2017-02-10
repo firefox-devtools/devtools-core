@@ -1,0 +1,22 @@
+{
+  "title": "Launchpad",
+  "environment": "development",
+  "baseWorkerURL": "http://localhost:8000/assets/build/",
+  "favicon": "assets/launchpad-favicon.png",
+  "theme": "light",
+  "dir": "ltr",
+  "logging": {
+    "client": false,
+    "firefoxProxy": false,
+    "actions": false
+  },
+  "development": {
+    "serverPort": 8000,
+    "examplesPort": 7999
+  },
+  "firefox": {
+    "webSocketConnection": false,
+    "proxyHost": "localhost:9000",
+    "websocketHost": "localhost:6080"
+  }
+}

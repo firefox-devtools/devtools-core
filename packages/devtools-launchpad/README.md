@@ -2,6 +2,14 @@
 
 ![launchpad-screenshot](https://cloud.githubusercontent.com/assets/1141550/22296671/433a4c68-e31b-11e6-8e46-bf3c653f6f6a.png)
 
+
+### Starting
+
+The launchpad is almost always run in conjunction with a devtool like the Debugger.
+If you would like to run the launchpad by itself to test something or add a feature that is possible as well
+by running `yarn start`.
+
+
 The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.
 
 [Debugger.html](../../README.md) and [Console.html](https://github.com/jasonlaster/console.html) are a good examples of tools built on top of the toolbox.
@@ -13,6 +21,7 @@ The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and N
 * *Landing Page* - see available connections
 * *Bootstrap function* - hook to start your tool with a debuggee connection
 * *Configs* - config system to add additional runtime configuration
+
 
 #### Dev Server
 
