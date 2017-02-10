@@ -1,7 +1,9 @@
-How to create a new Reps release for mozilla-central.
+### How to create a new Reps release for mozilla-central.
+
 Before you get started, you will need clones of devtools-reps and mozilla-central, as well as
 a Bugzilla account.
 
+```
 1. Go to your clone of devtools-reps
   a. create a release branch on github
   b. update minor version in package.json, reset build version: 
@@ -23,6 +25,7 @@ a Bugzilla account.
   f. when everything is fine and the patch is r+, land on autoland or inbound
   g. merge the PR on github
   h. create a tag on github
+```
 
 After that any issue with the bundle should be addressed with a new build version. 
 Ideally, if the bundle has to be updated in mozilla-central for a bugfix, a corresponding
