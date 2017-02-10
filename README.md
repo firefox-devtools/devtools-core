@@ -33,5 +33,15 @@ Supported types:
 Grip is client representation of remote JS object and is used as an input object for this rep component.
 
 
+### History
+The Reps project was ported to Github January 18th, 2017. You can view the history of a file after that date on [github][history] or by running this query:
+
+```bash
+git log --before "2017-1-17" devtools/client/shared/components/reps
+```
+
+[history]: https://github.com/mozilla/gecko-dev/commits/master/devtools/client/shared/components/reps
+
+
 ### Publishing to mozilla-central
 See https://github.com/devtools-html/devtools-reps/blob/master/RELEASE.md
