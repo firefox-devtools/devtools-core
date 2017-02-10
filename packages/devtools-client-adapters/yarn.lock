@@ -13,21 +13,21 @@ commander@2.1.x:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.1.0.tgz#d121bbae860d9992a3d517ba96f56588e47c6781"
 
-devtools-config@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.11.tgz#f82a052e1e205fdb4c2eea5085560da0e580a84b"
-
-devtools-modules@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.14.tgz#03edc685a8d03d39cff065d7e3acb12e9d381492"
-
-devtools-network-request@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.9.tgz#cdf51f4f21d7cb8cedba5b9d89e860ba531ddeb7"
-
-devtools-sham-modules@^0.0.12:
+devtools-config@^0.0.12:
   version "0.0.12"
-  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.12.tgz#0fe0cb529e283e54207ef73bc2fed616cc501e8a"
+  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
+
+devtools-modules@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.16.tgz#49452f23875fdcc183434876eb8035b19d4a9435"
+
+devtools-network-request@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.11.tgz#e3a2b9927eb4ee657f2a93909dc7eb83e13bd994"
+
+devtools-sham-modules@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.13.tgz#adf77140789b5454375d1c2f642e6f69be36d811"
 
 flow-bin@^0.37.4:
   version "0.37.4"
@@ -36,10 +36,6 @@ flow-bin@^0.37.4:
 options@>=0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
-
-tcomb@^3.1.0:
-  version "3.2.15"
-  resolved "https://registry.yarnpkg.com/tcomb/-/tcomb-3.2.15.tgz#09e40f447976d1d9c07ff465b8377342a8fe67e1"
 
 ultron@1.0.x:
   version "1.0.2"

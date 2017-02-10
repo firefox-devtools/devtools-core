@@ -225,6 +225,7 @@ export type Actions = {
  * @static
  */
 export type TabTarget = {
+  on: (string, Function) => void,
   activeConsole: {
     evaluateJS: (
       script: Script,
@@ -325,7 +326,9 @@ export type ThreadClient = {
   eventListeners: () => Promise<*>,
   getFrames: (number, number) => FramesResponse,
   addListener: (string, Function) => void,
-  getSources: () => Promise<SourcesPacket>
+  getSources: () => Promise<SourcesPacket>,
+  reconfigure: ({ observeAsmJS: boolean }) => Promise<*>,
+  getLastPausePacket: () => ?PausedPacket
 };
 
 /**
@@ -353,3 +356,10 @@ export type BreakpointResponse = [
   },
   BreakpointClient
 ];
+
+export type FirefoxClientConnection = {
+  getTabTarget: () => TabTarget,
+  getThreadClient: () => ThreadClient,
+  setTabTarget: (target: TabTarget) => void,
+  setThreadClient: (client: ThreadClient) => void
+};

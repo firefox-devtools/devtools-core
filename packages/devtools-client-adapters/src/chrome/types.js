@@ -11,3 +11,8 @@ export type Agents = {
   Runtime: any,
   Page: any
 }
+
+export type ChromeClientConnection = {
+  connectNodeClient: () => void,
+  connectNode: () => void
+};
