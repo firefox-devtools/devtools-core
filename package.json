@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Collection of devtools packages",
   "scripts": {
+    "flow": "flow",
     "lint": "yarn run lint-css -s; yarn run lint-js -s",
     "lint-css": "stylelint packages/devtools-launchpad/**/*.css",
     "lint-js": "eslint packages/devtools-launchpad/src packages/devtools-client-adapters/src",
@@ -35,6 +36,7 @@
     "stylelint": "^7.4.2"
   },
   "devDependencies": {
-    "lerna": "2.0.0-beta.31"
+    "lerna": "2.0.0-beta.31",
+    "flow-bin": "^0.37.4"
   }
 }

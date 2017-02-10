@@ -10,6 +10,7 @@ test:
   post:
     - yarn run lint-css
     - yarn run lint-js
+    - yarn run flow
 
 dependencies:
   pre:

@@ -1,0 +1,7 @@
+[ignore]
+.*node_modules/cjson.*
+.*node_modules/fbjs.*
+.*node_modules/npm.*
+.*node_modules/stylelint.*
+.*node_modules/config-chain.*
+.*flow-coverage-report/.*
