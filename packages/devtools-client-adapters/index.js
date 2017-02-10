@@ -1,9 +1,18 @@
+// @flow
 const { Task } = require("./src/utils/task");
 const firefox = require("./src/firefox");
 const chrome = require("./src/chrome");
 const { createSource } = require("./src/firefox/create");
 
-let clientType = null;
+import type {
+  ConnectionTarget,
+  Connection,
+  TargetEnvironments,
+  Actions,
+  Tab
+} from "./src/types";
+
+let clientType: TargetEnvironments | null = null;
 function getClient() {
   if (clientType === "chrome" || clientType === "node") {
     return chrome.clientCommands;
@@ -12,16 +21,17 @@ function getClient() {
   return firefox.clientCommands;
 }
 
-function startDebugging(connTarget, actions) {
+function startDebugging(
+  connTarget: ConnectionTarget,
+  actions: Actions) {
   if (connTarget.type === "node") {
     return startDebuggingNode(connTarget.param, actions);
   }
 
-  const target = connTarget.type === "chrome" ? chrome : firefox;
-  return startDebuggingTab(target, connTarget.param, actions);
+  return startDebuggingTab(connTarget, actions);
 }
 
-function startDebuggingNode(tabId, actions) {
+function startDebuggingNode(tabId: string, actions: Actions) {
   return Task.spawn(function* () {
     clientType = "node";
 
@@ -35,16 +45,20 @@ function startDebuggingNode(tabId, actions) {
   });
 }
 
-function startDebuggingTab(targetEnv, tabId, actions) {
+function startDebuggingTab(
+  connTarget: ConnectionTarget,
+  actions: Actions) {
+  const client = connTarget.type === "chrome" ? chrome : firefox;
   return Task.spawn(function* () {
-    const tabs = yield targetEnv.connectClient();
-    const tab = tabs.find(t => t.id.indexOf(tabId) !== -1);
-    yield targetEnv.connectTab(tab.tab);
+    const tabs: Tab[] = yield client.connectClient();
+    const tab: ?Tab = tabs.find(t => t.id.indexOf(connTarget.param) !== -1);
+    if (tab) {
+      yield client.connectTab(tab.tab);
 
-    clientType = targetEnv === firefox ? "firefox" : "chrome";
-    targetEnv.initPage(actions, { clientType });
-
-    return { tabs, tab, client: targetEnv };
+      clientType = connTarget.type;
+      client.initPage(actions, { clientType });
+    }
+    return { tabs, tab, client };
   });
 }
 
