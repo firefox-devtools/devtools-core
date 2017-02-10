@@ -5,14 +5,14 @@ const { Provider } = require("react-redux");
 
 const { DevToolsUtils, AppConstants } = require("devtools-sham-modules");
 const { debugGlobal } = require("./utils/debug");
-const { setConfig, isEnabled, getValue, isDevelopment } = require("devtools-config");
+const { setConfig, getValue, isDevelopment } = require("devtools-config");
 const L10N = require("./utils/L10N");
 const { showMenu, buildMenu } = require("./menu");
 
 setConfig(DebuggerConfig);
 
 // Set various flags before requiring app code.
-if (isEnabled("logging.client")) {
+if (getValue("logging.client")) {
   DevToolsUtils.dumpn.wantLogging = true;
 }
 
