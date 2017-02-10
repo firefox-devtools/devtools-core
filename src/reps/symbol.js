@@ -1,4 +1,7 @@
+// Dependencies
 const React = require("react");
+
+const { wrapRender } = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -13,7 +16,7 @@ const SymbolRep = React.createClass({
     object: React.PropTypes.object.isRequired
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let {object} = this.props;
     let {name} = object;
 
@@ -22,13 +25,14 @@ const SymbolRep = React.createClass({
         `Symbol(${name || ""})`
       )
     );
-  },
+  }),
 });
 
 function supportsObject(object, type) {
   return (type == "symbol");
 }
 
+// Exports from this module
 module.exports = {
   rep: SymbolRep,
   supportsObject: supportsObject,

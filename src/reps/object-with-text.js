@@ -1,7 +1,11 @@
+// ReactJS
 const React = require("react");
 
 // Reps
-const { isGrip } = require("./rep-utils");
+const {
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -14,6 +18,7 @@ let ObjectWithText = React.createClass({
 
   propTypes: {
     object: React.PropTypes.object.isRequired,
+    objectLink: React.PropTypes.func,
   },
 
   getTitle: function (grip) {
@@ -35,7 +40,7 @@ let ObjectWithText = React.createClass({
     return "\"" + grip.preview.text + "\"";
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let grip = this.props.object;
     return (
       span({className: "objectBox objectBox-" + this.getType(grip)},
@@ -45,7 +50,7 @@ let ObjectWithText = React.createClass({
         )
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -58,6 +63,7 @@ function supportsObject(grip, type) {
   return (grip.preview && grip.preview.kind == "ObjectWithText");
 }
 
+// Exports from this module
 module.exports = {
   rep: ObjectWithText,
   supportsObject: supportsObject

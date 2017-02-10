@@ -1,7 +1,12 @@
+// ReactJS
 const React = require("react");
 
 // Reps
-const { isGrip, getURLDisplayString } = require("./rep-utils");
+const {
+  isGrip,
+  getURLDisplayString,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -13,7 +18,8 @@ let Document = React.createClass({
   displayName: "Document",
 
   propTypes: {
-    object: React.PropTypes.object.isRequired
+    object: React.PropTypes.object.isRequired,
+    objectLink: React.PropTypes.func,
   },
 
   getLocation: function (grip) {
@@ -36,7 +42,7 @@ let Document = React.createClass({
     return doc.location.href;
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let grip = this.props.object;
 
     return (
@@ -47,7 +53,7 @@ let Document = React.createClass({
         )
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -60,6 +66,7 @@ function supportsObject(object, type) {
   return (object.preview && type == "HTMLDocument");
 }
 
+// Exports from this module
 module.exports = {
   rep: Document,
   supportsObject: supportsObject

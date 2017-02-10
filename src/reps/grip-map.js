@@ -1,5 +1,9 @@
+// Dependencies
 const React = require("react");
-const { isGrip } = require("./rep-utils");
+const {
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
 const Caption = React.createFactory(require("./caption"));
 const PropRep = React.createFactory(require("./prop-rep"));
 const { MODE } = require("./constants");
@@ -16,6 +20,8 @@ const GripMap = React.createClass({
     object: React.PropTypes.object,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    objectLink: React.PropTypes.func,
+    isInterestingEntry: React.PropTypes.func,
   },
 
   getTitle: function (object) {
@@ -134,7 +140,7 @@ const GripMap = React.createClass({
       }, []);
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let object = this.props.object;
     let props = this.safeEntriesIterator(object,
       (this.props.mode === MODE.LONG) ? 10 : 3);
@@ -166,7 +172,7 @@ const GripMap = React.createClass({
         }, " }")
       )
     );
-  },
+  }),
 });
 
 function supportsObject(grip, type) {
@@ -176,6 +182,7 @@ function supportsObject(grip, type) {
   return (grip.preview && grip.preview.kind == "MapLike");
 }
 
+// Exports from this module
 module.exports = {
   rep: GripMap,
   supportsObject: supportsObject

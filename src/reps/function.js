@@ -1,7 +1,12 @@
+// ReactJS
 const React = require("react");
 
 // Reps
-const { isGrip, cropString } = require("./rep-utils");
+const {
+  isGrip,
+  cropString,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -13,24 +18,34 @@ let Func = React.createClass({
   displayName: "Func",
 
   propTypes: {
-    object: React.PropTypes.object.isRequired
+    object: React.PropTypes.object.isRequired,
+    objectLink: React.PropTypes.func,
   },
 
   getTitle: function (grip) {
+    let title = "function ";
+    if (grip.isGenerator) {
+      title = "function* ";
+    }
+    if (grip.isAsync) {
+      title = "async " + title;
+    }
+
     if (this.props.objectLink) {
       return this.props.objectLink({
         object: grip
-      }, "function ");
+      }, title);
     }
-    return "";
+
+    return title;
   },
 
   summarizeFunction: function (grip) {
-    let name = grip.userDisplayName || grip.displayName || grip.name || "function";
+    let name = grip.userDisplayName || grip.displayName || grip.name || "";
     return cropString(name + "()", 100);
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let grip = this.props.object;
 
     return (
@@ -41,7 +56,7 @@ let Func = React.createClass({
         this.summarizeFunction(grip)
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -53,6 +68,8 @@ function supportsObject(grip, type) {
 
   return (type == "Function");
 }
+
+// Exports from this module
 
 module.exports = {
   rep: Func,

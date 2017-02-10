@@ -132,4 +132,37 @@ function getRep(object, defaultRep = Obj) {
   return React.createFactory(defaultRep.rep);
 }
 
-module.exports = Rep;
+module.exports = {
+  Rep,
+  REPS: {
+    ArrayRep,
+    Attribute,
+    CommentNode,
+    DateTime,
+    Document,
+    ElementNode,
+    ErrorRep,
+    Event,
+    Func,
+    Grip,
+    GripArray,
+    GripMap,
+    InfinityRep,
+    LongStringRep,
+    NaNRep,
+    Null,
+    Number,
+    Obj,
+    ObjectWithText,
+    ObjectWithURL,
+    PromiseRep,
+    RegExp,
+    Rep,
+    StringRep,
+    StyleSheet,
+    SymbolRep,
+    TextNode,
+    Undefined,
+    Window,
+  }
+};

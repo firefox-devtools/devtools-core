@@ -1,4 +1,7 @@
+// Dependencies
 const React = require("react");
+
+const { wrapRender } = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -9,19 +12,24 @@ const { span } = React.DOM;
 const InfinityRep = React.createClass({
   displayName: "Infinity",
 
-  render: function () {
+  propTypes: {
+    object: React.PropTypes.object.isRequired,
+  },
+
+  render: wrapRender(function () {
     return (
       span({className: "objectBox objectBox-number"},
         this.props.object.type
       )
     );
-  }
+  })
 });
 
 function supportsObject(object, type) {
   return type == "Infinity" || type == "-Infinity";
 }
 
+// Exports from this module
 module.exports = {
   rep: InfinityRep,
   supportsObject: supportsObject

@@ -1,16 +1,21 @@
 {
   "name": "devtools-reps",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Devtools Reps",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "node bin/dev-server.js",
-    "lint-js": "eslint src/**/*.js"
+    "lint-js": "eslint src/**/*.js",
+    "firefox": "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
+    "chrome": "./node_modules/.bin/start-chrome",
+    "copy-assets": "node bin/copy-assets",
+    "copy-assets-watch": "node bin/copy-assets --watch",
+    "prepublish": "node bin/publish-assets"
   },
   "author": "",
   "license": "ISC",
   "repository": {
-    "url": "git://github.com/jasonlaster/devtools-reps.git",
+    "url": "git://github.com/devtools-html/devtools-reps.git",
     "type": "git"
   },
   "engineStrict": true,
@@ -18,7 +23,11 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
-    "devtools-launchpad": "0.0.19",
     "lodash": "^4.17.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.12.0",
+    "eslint-plugin-mozilla": "0.2.3",
+    "devtools-launchpad": "^0.0.41"
   }
 }

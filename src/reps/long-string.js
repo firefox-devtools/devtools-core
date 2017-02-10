@@ -1,5 +1,10 @@
+// Dependencies
 const React = require("react");
-const { sanitizeString, isGrip } = require("./rep-utils");
+const {
+  sanitizeString,
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
 // Shortcuts
 const { span } = React.DOM;
 
@@ -12,6 +17,9 @@ const LongStringRep = React.createClass({
   propTypes: {
     useQuotes: React.PropTypes.bool,
     style: React.PropTypes.object,
+    cropLimit: React.PropTypes.number.isRequired,
+    member: React.PropTypes.string,
+    object: React.PropTypes.object.isRequired,
   },
 
   getDefaultProps: function () {
@@ -20,7 +28,7 @@ const LongStringRep = React.createClass({
     };
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let {
       cropLimit,
       member,
@@ -44,7 +52,7 @@ const LongStringRep = React.createClass({
     }
     let formattedString = useQuotes ? `"${string}"` : string;
     return span(config, sanitizeString(formattedString));
-  },
+  }),
 });
 
 function supportsObject(object, type) {
@@ -54,6 +62,7 @@ function supportsObject(object, type) {
   return object.type === "longString";
 }
 
+// Exports from this module
 module.exports = {
   rep: LongStringRep,
   supportsObject: supportsObject,

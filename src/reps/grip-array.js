@@ -1,5 +1,10 @@
+// Dependencies
 const React = require("react");
-const { isGrip } = require("./rep-utils");
+const {
+  createFactories,
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
 const Caption = React.createFactory(require("./caption"));
 const { MODE } = require("./constants");
 
@@ -18,6 +23,7 @@ let GripArray = React.createClass({
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     provider: React.PropTypes.object,
+    objectLink: React.PropTypes.func,
   },
 
   getLength: function (grip) {
@@ -98,7 +104,7 @@ let GripArray = React.createClass({
     return items;
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let {
       object,
       mode = MODE.SHORT
@@ -143,7 +149,7 @@ let GripArray = React.createClass({
         )
       )
     );
-  },
+  }),
 });
 
 /**
@@ -158,7 +164,7 @@ let GripArrayItem = React.createFactory(React.createClass({
   },
 
   render: function () {
-    let Rep = React.createFactory(require("./rep"));
+    let { Rep } = createFactories(require("./rep"));
 
     return (
       span({},
@@ -183,6 +189,7 @@ function supportsObject(grip, type) {
   );
 }
 
+// Exports from this module
 module.exports = {
   rep: GripArray,
   supportsObject: supportsObject

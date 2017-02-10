@@ -1,6 +1,10 @@
+// ReactJS
 const React = require("react");
 // Utils
-const { isGrip } = require("./rep-utils");
+const {
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
 const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
@@ -15,9 +19,10 @@ const ErrorRep = React.createClass({
     object: React.PropTypes.object.isRequired,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    objectLink: React.PropTypes.func,
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let object = this.props.object;
     let preview = object.preview;
     let name = preview && preview.name
@@ -43,7 +48,7 @@ const ErrorRep = React.createClass({
         span({}, content)
       )
     );
-  },
+  }),
 });
 
 // Registration
@@ -54,6 +59,7 @@ function supportsObject(object, type) {
   return (object.preview && type === "Error");
 }
 
+// Exports from this module
 module.exports = {
   rep: ErrorRep,
   supportsObject: supportsObject

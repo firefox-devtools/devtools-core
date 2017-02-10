@@ -4,11 +4,11 @@
 <!DOCTYPE HTML>
 <html>
 <!--
-Test ObjectWithText rep
+Test fallback for rep rendering when a rep fails to render.
 -->
 <head>
   <meta charset="utf-8">
-  <title>Rep test - ObjectWithText</title>
+  <title>Rep test - Failure</title>
   <script type="application/javascript" src="chrome://mochikit/content/tests/SimpleTest/SimpleTest.js"></script>
   <link rel="stylesheet" type="text/css" href="chrome://mochikit/content/tests/SimpleTest/test.css">
 </head>
@@ -19,29 +19,34 @@ Test ObjectWithText rep
 window.onload = Task.async(function* () {
   try {
     const { REPS } = browserRequire("devtools/client/shared/components/reps/load-reps");
-    let { Rep, ObjectWithText } = REPS;
+    let { Rep, ArrayRep, RegExp } = REPS;
 
+    // Force the RegExp rep to crash by creating RegExp grip that throws when accessing
+    // the displayString property
     let gripStub = {
       "type": "object",
-      "class": "CSSStyleRule",
-      "actor": "server1.conn3.obj273",
+      "class": "RegExp",
+      "actor": "server1.conn22.obj39",
       "extensible": true,
       "frozen": false,
       "sealed": false,
-      "ownPropertyLength": 0,
-      "preview": {
-        "kind": "ObjectWithText",
-        "text": ".Shadow"
+      "ownPropertyLength": 1,
+      get displayString() {
+        throw new Error("failure");
       }
     };
 
-    // Test that correct rep is chosen
+    // Test that correct rep is chosen.
     const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, ObjectWithText.rep, `Rep correctly selects ${ObjectWithText.rep.displayName}`);
+    is(renderedRep.type, RegExp.rep, `Rep correctly selects ${RegExp.rep.displayName}`);
 
-    // Test rendering
-    const renderedComponent = renderComponent(ObjectWithText.rep, { object: gripStub });
-    is(renderedComponent.textContent, "\".Shadow\"", "ObjectWithText rep has expected text content");
+    // Test fallback message is displayed when rendering bad rep directly.
+    let renderedComponent = renderComponent(RegExp.rep, { object: gripStub });
+    is(renderedComponent.textContent, "Invalid object", "Fallback rendering has expected text content");
+
+    // Test fallback message is displayed when bad rep is nested in another rep.
+    renderedComponent = renderComponent(ArrayRep.rep, { object: [1, gripStub, 2] });
+    is(renderedComponent.textContent, "[ 1, Invalid object, 2 ]", "Fallback rendering has expected text content");
   } catch(e) {
     ok(false, "Got an error: " + DevToolsUtils.safeErrorString(e));
   } finally {

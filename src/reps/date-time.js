@@ -1,7 +1,11 @@
+// ReactJS
 const React = require("react");
 
 // Reps
-const { isGrip } = require("./rep-utils");
+const {
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -13,7 +17,8 @@ let DateTime = React.createClass({
   displayName: "Date",
 
   propTypes: {
-    object: React.PropTypes.object.isRequired
+    object: React.PropTypes.object.isRequired,
+    objectLink: React.PropTypes.func,
   },
 
   getTitle: function (grip) {
@@ -25,7 +30,7 @@ let DateTime = React.createClass({
     return "";
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let grip = this.props.object;
     let date;
     try {
@@ -38,8 +43,9 @@ let DateTime = React.createClass({
     } catch (e) {
       date = span({className: "objectBox"}, "Invalid Date");
     }
+
     return date;
-  },
+  }),
 });
 
 // Registration
@@ -52,6 +58,7 @@ function supportsObject(grip, type) {
   return (type == "Date" && grip.preview);
 }
 
+// Exports from this module
 module.exports = {
   rep: DateTime,
   supportsObject: supportsObject

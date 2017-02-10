@@ -1,4 +1,8 @@
+// Dependencies
 const React = require("react");
+const {
+  wrapRender,
+} = require("./rep-utils");
 const Caption = React.createFactory(require("./caption"));
 const PropRep = React.createFactory(require("./prop-rep"));
 const { MODE } = require("./constants");
@@ -12,19 +16,21 @@ const Obj = React.createClass({
   displayName: "Obj",
 
   propTypes: {
-    object: React.PropTypes.object,
+    object: React.PropTypes.object.isRequired,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    objectLink: React.PropTypes.func,
+    title: React.PropTypes.string,
   },
 
   getTitle: function (object) {
-    let className = object && object.class ? object.class : "Object";
+    let title = this.props.title || object.class || "Object";
     if (this.props.objectLink) {
       return this.props.objectLink({
         object: object
-      }, className);
+      }, title);
     }
-    return className;
+    return title;
   },
 
   safePropIterator: function (object, max) {
@@ -50,41 +56,41 @@ const Obj = React.createClass({
 
     // Object members with non-empty values are preferred since it gives the
     // user a better overview of the object.
-    let props = this.getProps(object, max, isInterestingProp);
+    let propsArray = this.getPropsArray(object, max, isInterestingProp);
 
-    if (props.length <= max) {
+    if (propsArray.length <= max) {
       // There are not enough props yet (or at least, not enough props to
       // be able to know whether we should print "more…" or not).
       // Let's display also empty members and functions.
-      props = props.concat(this.getProps(object, max, (t, value) => {
+      propsArray = propsArray.concat(this.getPropsArray(object, max, (t, value) => {
         return !isInterestingProp(t, value);
       }));
     }
 
-    if (props.length > max) {
-      props.pop();
+    if (propsArray.length > max) {
+      propsArray.pop();
       let objectLink = this.props.objectLink || span;
 
-      props.push(Caption({
+      propsArray.push(Caption({
         object: objectLink({
           object: object
         }, (Object.keys(object).length - max) + " more…")
       }));
-    } else if (props.length > 0) {
+    } else if (propsArray.length > 0) {
       // Remove the last comma.
-      props[props.length - 1] = React.cloneElement(
-        props[props.length - 1], { delim: "" });
+      propsArray[propsArray.length - 1] = React.cloneElement(
+        propsArray[propsArray.length - 1], { delim: "" });
     }
 
-    return props;
+    return propsArray;
   },
 
-  getProps: function (object, max, filter) {
-    let props = [];
+  getPropsArray: function (object, max, filter) {
+    let propsArray = [];
 
     max = max || 3;
     if (!object) {
-      return props;
+      return propsArray;
     }
 
     // Hardcode tiny mode to avoid recursive handling.
@@ -92,8 +98,8 @@ const Obj = React.createClass({
 
     try {
       for (let name in object) {
-        if (props.length > max) {
-          return props;
+        if (propsArray.length > max) {
+          return propsArray;
         }
 
         let value;
@@ -105,7 +111,7 @@ const Obj = React.createClass({
 
         let t = typeof value;
         if (filter(t, value)) {
-          props.push(PropRep({
+          propsArray.push(PropRep({
             mode: mode,
             name: name,
             object: value,
@@ -118,15 +124,15 @@ const Obj = React.createClass({
       console.error(err);
     }
 
-    return props;
+    return propsArray;
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let object = this.props.object;
-    let props = this.safePropIterator(object);
+    let propsArray = this.safePropIterator(object);
     let objectLink = this.props.objectLink || span;
 
-    if (this.props.mode === MODE.TINY || !props.length) {
+    if (this.props.mode === MODE.TINY || !propsArray.length) {
       return (
         span({className: "objectBox objectBox-object"},
           objectLink({className: "objectTitle"}, this.getTitle(object))
@@ -141,19 +147,20 @@ const Obj = React.createClass({
           className: "objectLeftBrace",
           object: object
         }, " { "),
-        ...props,
+        ...propsArray,
         objectLink({
           className: "objectRightBrace",
           object: object
         }, " }")
       )
     );
-  },
+  }),
 });
 function supportsObject(object, type) {
   return true;
 }
 
+// Exports from this module
 module.exports = {
   rep: Obj,
   supportsObject: supportsObject

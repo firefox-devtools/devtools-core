@@ -1,11 +1,17 @@
+// ReactJS
 const React = require("react");
 
 // Reps
-const { isGrip } = require("./rep-utils");
-const StringRep = React.createFactory(require("./string").rep);
+const {
+  createFactories,
+  isGrip,
+  wrapRender,
+} = require("./rep-utils");
+const StringRep = require("./string");
 
 // Shortcuts
 const { span } = React.DOM;
+const { rep: StringRepFactory } = createFactories(StringRep);
 
 /**
  * Renders DOM attribute
@@ -14,14 +20,15 @@ let Attribute = React.createClass({
   displayName: "Attr",
 
   propTypes: {
-    object: React.PropTypes.object.isRequired
+    object: React.PropTypes.object.isRequired,
+    objectLink: React.PropTypes.func,
   },
 
   getTitle: function (grip) {
     return grip.preview.nodeName;
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let object = this.props.object;
     let value = object.preview.value;
     let objectLink = this.props.objectLink || span;
@@ -35,11 +42,11 @@ let Attribute = React.createClass({
           span({className: "attrEqual"},
             "="
           ),
-          StringRep({object: value})
+          StringRepFactory({object: value})
         )
       )
     );
-  },
+  }),
 });
 
 // Registration

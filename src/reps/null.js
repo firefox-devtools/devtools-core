@@ -1,4 +1,7 @@
+// Dependencies
 const React = require("react");
+
+const { wrapRender } = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -9,13 +12,13 @@ const { span } = React.DOM;
 const Null = React.createClass({
   displayName: "NullRep",
 
-  render: function () {
+  render: wrapRender(function () {
     return (
       span({className: "objectBox objectBox-null"},
         "null"
       )
     );
-  },
+  }),
 });
 
 function supportsObject(object, type) {
@@ -25,6 +28,8 @@ function supportsObject(object, type) {
 
   return (object == null);
 }
+
+// Exports from this module
 
 module.exports = {
   rep: Null,

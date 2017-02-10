@@ -1,7 +1,16 @@
-
+// Dependencies
 const React = require("react");
+const {
+  createFactories,
+  wrapRender,
+} = require("./rep-utils");
 const Caption = React.createFactory(require("./caption"));
 const { MODE } = require("./constants");
+
+const ModePropType = React.PropTypes.oneOf(
+  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  Object.keys(MODE).map(key => MODE[key])
+);
 
 // Shortcuts
 const DOM = React.DOM;
@@ -14,8 +23,9 @@ let ArrayRep = React.createClass({
   displayName: "ArrayRep",
 
   propTypes: {
-    // @TODO Change this to Object.values once it's supported in Node's version of V8
-    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    mode: ModePropType,
+    objectLink: React.PropTypes.func,
+    object: React.PropTypes.array.isRequired,
   },
 
   getTitle: function (object, context) {
@@ -105,7 +115,7 @@ let ArrayRep = React.createClass({
   onClickBracket: function (event) {
   },
 
-  render: function () {
+  render: wrapRender(function () {
     let {
       object,
       mode = MODE.SHORT,
@@ -147,7 +157,7 @@ let ArrayRep = React.createClass({
         )
       )
     );
-  },
+  }),
 });
 
 /**
@@ -156,8 +166,14 @@ let ArrayRep = React.createClass({
 let ItemRep = React.createFactory(React.createClass({
   displayName: "ItemRep",
 
-  render: function () {
-    const Rep = React.createFactory(require("./rep"));
+  propTypes: {
+    object: React.PropTypes.any.isRequired,
+    delim: React.PropTypes.string.isRequired,
+    mode: ModePropType,
+  },
+
+  render: wrapRender(function () {
+    const { Rep } = createFactories(require("./rep"));
 
     let object = this.props.object;
     let delim = this.props.delim;
@@ -168,7 +184,7 @@ let ItemRep = React.createFactory(React.createClass({
         delim
       )
     );
-  }
+  })
 }));
 
 function supportsObject(object, type) {
@@ -176,6 +192,7 @@ function supportsObject(object, type) {
     Object.prototype.toString.call(object) === "[object Arguments]";
 }
 
+// Exports from this module
 module.exports = {
   rep: ArrayRep,
   supportsObject: supportsObject

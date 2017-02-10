@@ -47,7 +47,7 @@ function filterByKey(obj, predicate) {
 
 let keyCounter = 0;
 function generateKey() {
-  return `${++keyCounter}`;
+  return `${performance.now()}`;
 }
 
 module.exports = {
