@@ -33,7 +33,5 @@ Supported types:
 Grip is client representation of remote JS object and is used as an input object for this rep component.
 
 
-### Publishing to MC
-
-1. `node bin/publish-assets`
-2. copy files from `assets/build` to the correct location
+### Publishing to mozilla-central
+See https://github.com/devtools-html/devtools-reps/blob/master/RELEASE.md
