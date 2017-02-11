@@ -7,7 +7,7 @@
     "lint": "yarn run lint-css -s; yarn run lint-js -s",
     "lint-css": "stylelint packages/devtools-launchpad/**/*.css",
     "lint-js": "eslint packages/devtools-launchpad/src packages/devtools-client-adapters/src",
-    "reset": "rm -rf node_modules/ packages/*/node_modules/ && yarn install",
+    "nom": "rm -rf node_modules/ packages/*/node_modules/ && yarn install",
     "prepush": "yarn run lint",
     "postinstall": "lerna bootstrap"
   },
