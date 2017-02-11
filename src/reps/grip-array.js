@@ -41,9 +41,10 @@ let GripArray = React.createClass({
   getTitle: function (object, context) {
     let objectLink = this.props.objectLink || span;
     if (this.props.mode !== MODE.TINY) {
+      let title = this.props.title || object.class || "Array";
       return objectLink({
         object: object
-      }, object.class + " ");
+      }, title, " ");
     }
     return "";
   },
