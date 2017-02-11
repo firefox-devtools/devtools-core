@@ -41,7 +41,6 @@ let PropRep = React.createClass({
     let {
       name,
       mode,
-      attachedNodeFrontsByActor,
       equal,
       delim,
     } = this.props;
@@ -56,7 +55,6 @@ let PropRep = React.createClass({
         object: name,
         mode: mode || MODE.TINY,
         defaultRep: Grip,
-        attachedNodeFrontsByActor,
       }));
     }
 

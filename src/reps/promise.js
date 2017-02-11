@@ -45,13 +45,6 @@ const PromiseRep = React.createClass({
       keys.push("value");
     }
 
-    let {
-      attachedNodeFrontsByActor,
-      onDOMNodeMouseOver,
-      onDOMNodeMouseOut,
-      onInspectIconClick,
-    } = this.props;
-
     return keys.map((key, i) => {
       let object = promiseState[key];
       return PropRep(Object.assign({}, this.props, {
@@ -60,10 +53,6 @@ const PromiseRep = React.createClass({
         object,
         equal: ": ",
         delim: i < keys.length - 1 ? ", " : "",
-        attachedNodeFrontsByActor,
-        onDOMNodeMouseOver,
-        onDOMNodeMouseOut,
-        onInspectIconClick,
       }));
     });
   },
