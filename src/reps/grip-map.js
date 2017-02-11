@@ -26,10 +26,11 @@ const GripMap = React.createClass({
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
     onInspectIconClick: React.PropTypes.func,
+    title: React.PropTypes.string,
   },
 
   getTitle: function (object) {
-    let title = object && object.class ? object.class : "Map";
+    let title = this.props.title || (object && object.class ? object.class : "Map");
     if (this.props.objectLink) {
       return this.props.objectLink({
         object: object

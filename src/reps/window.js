@@ -8,6 +8,8 @@ const {
   wrapRender
 } = require("./rep-utils");
 
+const { MODE } = require("./constants");
+
 // Shortcuts
 const DOM = React.DOM;
 
@@ -18,33 +20,49 @@ let Window = React.createClass({
   displayName: "Window",
 
   propTypes: {
+    // @TODO Change this to Object.values once it's supported in Node's version of V8
+    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     object: React.PropTypes.object.isRequired,
     objectLink: React.PropTypes.func,
+    title: React.PropTypes.string,
   },
 
-  getTitle: function (grip) {
+  getTitle: function (object) {
+    let title = this.props.title || object.class || "Window";
     if (this.props.objectLink) {
       return DOM.span({className: "objectBox"},
         this.props.objectLink({
-          object: grip
-        }, grip.class + " ")
+          object
+        }, title)
       );
     }
-    return "";
+    return title;
   },
 
-  getLocation: function (grip) {
-    return getURLDisplayString(grip.preview.url);
+  getLocation: function (object) {
+    return getURLDisplayString(object.preview.url);
   },
 
   render: wrapRender(function () {
-    let grip = this.props.object;
+    let {
+      mode,
+      object,
+    } = this.props;
+
+    if (mode === MODE.TINY) {
+      return (
+        DOM.span({className: "objectBox objectBox-Window"},
+          this.getTitle(object)
+        )
+      );
+    }
 
     return (
       DOM.span({className: "objectBox objectBox-Window"},
-        this.getTitle(grip),
+        this.getTitle(object),
+        " ",
         DOM.span({className: "objectPropValue"},
-          this.getLocation(grip)
+          this.getLocation(object)
         )
       )
     );

@@ -138,6 +138,13 @@ window.onload = Task.async(function* () {
       {
         mode: MODE.LONG,
         expectedOutput: defaultOutput,
+      },
+      {
+        // Check the custom title with nested objects to make sure nested objects are not
+        // displayed with their parent's title.
+        mode: MODE.LONG,
+        title: "CustomTitle",
+        expectedOutput: `CustomTitle { Object: "value-a" }`,
       }
     ];
 

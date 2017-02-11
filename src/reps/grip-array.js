@@ -41,9 +41,10 @@ let GripArray = React.createClass({
   getTitle: function (object, context) {
     let objectLink = this.props.objectLink || span;
     if (this.props.mode !== MODE.TINY) {
+      let title = this.props.title || object.class || "Array";
       return objectLink({
         object: object
-      }, object.class + " ");
+      }, title, " ");
     }
     return "";
   },
@@ -85,12 +86,16 @@ let GripArray = React.createClass({
 
         items.push(GripArrayItem(Object.assign({}, this.props, {
           object: value,
-          delim: delim
+          delim: delim,
+          // Do not propagate title to array items reps
+          title: undefined,
         })));
       } catch (exc) {
         items.push(GripArrayItem(Object.assign({}, this.props, {
           object: exc,
-          delim: delim
+          delim: delim,
+          // Do not propagate title to array items reps
+          title: undefined,
         })));
       }
     }
