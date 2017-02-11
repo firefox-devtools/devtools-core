@@ -60,13 +60,9 @@ function getConfig() {
 
 function updateLocalConfig(relativePath) {
   const localConfigPath = path.resolve(relativePath, "../configs/local.json");
-  try {
-    const output = JSON.stringify(config, null, 2);
-    fs.writeFileSync(localConfigPath, output);
-    return output;
-  } catch (err) {
-    return "{}";
-  }
+  const output = JSON.stringify(config, null, 2);
+  fs.writeFileSync(localConfigPath, output, { flag: 'w' });
+  return output;
 }
 
 module.exports = {
