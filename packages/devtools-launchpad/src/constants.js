@@ -5,6 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 module.exports = {
+  CLEAR_TABS: "CLEAR_TABS",
   ADD_TABS: "ADD_TABS",
   SELECT_TAB: "SELECT_TAB",
   FILTER_TABS: "FILTER_TABS",
