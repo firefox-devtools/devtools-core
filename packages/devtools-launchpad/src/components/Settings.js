@@ -60,33 +60,37 @@ const Settings = React.createClass({
     showMenu(event, buildMenu(items[key]));
   },
 
+  onInputHandler(e, path) {
+    const { setValue } = this.props;
+    setValue(path, e.target.checked);
+  },
+
   renderConfig(config) {
+    const configs = [
+      { name: "dir", label: "direction" },
+      { name: "theme", label: "theme" },
+      { name: "hotReloading", label: "hot reloading", bool: true }
+    ];
+
     return dom.ul(
       { className: "tab-list" },
-      dom.li({ className: "tab tab-sides" },
-        dom.div({ className: "tab-title" }, "Direction"),
-        dom.div({
-          className: "tab-value",
-          onClick: e => this.onConfigContextMenu(e, "dir")
-        }, config.dir),
-      ),
-      dom.li({ className: "tab tab-sides" },
-        dom.div({ className: "tab-title" }, "Theme"),
-        dom.div({
-          className: "tab-value",
-          onClick: e => this.onConfigContextMenu(e, "theme")
-        }, config.theme)
-      )
+      configs.map(c => {
+        return dom.li({ key: c.name, className: "tab tab-sides" },
+          dom.div({ className: "tab-title" }, c.label),
+          c.bool ? dom.input({
+            type: "checkbox",
+            defaultChecked: config[c.name],
+            onChange: e => this.onInputHandler(e, c.name)
+          }, null) : dom.div({
+            className: "tab-value",
+            onClick: e => this.onConfigContextMenu(e, c.name)
+          }, config[c.name])
+        )
+      })
     );
   },
 
   renderFeatures(features) {
-    const { setValue } = this.props;
-
-    const onInputHandler = (e, key) => {
-      setValue(`features.${key}.enabled`, e.target.checked);
-    };
-
     return dom.ul(
       { className: "tab-list" },
       Object.keys(features).map(key => dom.li(
@@ -104,7 +108,7 @@ const Settings = React.createClass({
             {
               type: "checkbox",
               defaultChecked: features[key].enabled,
-              onChange: e => onInputHandler(e, key)
+              onChange: e => this.onInputHandler(e, `features.${key}.enabled`)
             },
           )
         )
