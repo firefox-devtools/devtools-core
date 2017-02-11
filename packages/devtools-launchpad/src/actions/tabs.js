@@ -18,17 +18,16 @@ const constants = require("../constants");
  * @property {number} value The payload of the Action
  */
 
-
  /**
   * @memberof actions/tabs
   * @static
   * @returns {TabAction} with type constants.CLEAR_TABS and tabs as value
   */
- function clearTabs() {
-   return {
-     type: constants.CLEAR_TABS
-   };
- }
+function clearTabs() {
+  return {
+    type: constants.CLEAR_TABS
+  };
+}
 
 /**
  * @memberof actions/tabs
@@ -37,7 +36,7 @@ const constants = require("../constants");
  * @returns {TabAction} with type constants.ADD_TABS and tabs as value
  */
 function newTabs(tabs) {
-  return ({ getState , dispatch }) => {
+  return ({ getState, dispatch }) => {
     return dispatch({
       type: constants.ADD_TABS,
       value: tabs
