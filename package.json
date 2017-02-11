@@ -23,7 +23,8 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
-    "lodash": "^4.17.2"
+    "lodash": "^4.17.2",
+    "svg-inline-react": "^1.0.2"
   },
   "devDependencies": {
     "eslint": "^3.12.0",

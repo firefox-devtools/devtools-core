@@ -29,11 +29,21 @@ let PropRep = React.createClass({
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     objectLink: React.PropTypes.func,
+    attachedNodeFrontsByActor: React.PropTypes.object,
+    onDOMNodeMouseOver: React.PropTypes.func,
+    onDOMNodeMouseOut: React.PropTypes.func,
+    onInspectIconClick: React.PropTypes.func,
   },
 
   render: wrapRender(function () {
     const Grip = require("./grip");
     let { Rep } = createFactories(require("./rep"));
+    let {
+      name,
+      mode,
+      equal,
+      delim,
+    } = this.props;
 
     let key;
     // The key can be a simple string, for plain objects,
@@ -41,12 +51,11 @@ let PropRep = React.createClass({
     if (typeof this.props.name === "string") {
       key = span({"className": "nodeName"}, this.props.name);
     } else {
-      key = Rep({
-        object: this.props.name,
-        mode: this.props.mode || MODE.TINY,
+      key = Rep(Object.assign({}, this.props, {
+        object: name,
+        mode: mode || MODE.TINY,
         defaultRep: Grip,
-        objectLink: this.props.objectLink,
-      });
+      }));
     }
 
     return (
@@ -54,11 +63,11 @@ let PropRep = React.createClass({
         key,
         span({
           "className": "objectEqual"
-        }, this.props.equal),
-        Rep(this.props),
+        }, equal),
+        Rep(Object.assign({}, this.props)),
         span({
           "className": "objectComma"
-        }, this.props.delim)
+        }, delim)
       )
     );
   })

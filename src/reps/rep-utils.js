@@ -1,6 +1,9 @@
 // Dependencies
 const React = require("react");
 
+// Utils
+const nodeConstants = require("../shared/dom-node-constants");
+
 /**
  * Create React factories for given arguments.
  * Example:
@@ -157,6 +160,108 @@ function wrapRender(renderMethod) {
   };
 }
 
+/**
+ * Get an array of all the items from the grip in parameter (including the grip itself)
+ * which can be selected in the inspector.
+ *
+ * @param {Object} Grip
+ * @return {Array} Flat array of the grips which can be selected in the inspector
+ */
+function getSelectableInInspectorGrips(grip) {
+  let grips = new Set(getFlattenedGrips([grip]));
+  return [...grips].filter(isGripSelectableInInspector);
+}
+
+/**
+ * Indicate if a Grip can be selected in the inspector,
+ * i.e. if it represents a node element.
+ *
+ * @param {Object} Grip
+ * @return {Boolean}
+ */
+function isGripSelectableInInspector(grip) {
+  return grip
+    && typeof grip === "object"
+    && grip.preview
+    && [
+      nodeConstants.TEXT_NODE,
+      nodeConstants.ELEMENT_NODE
+    ].includes(grip.preview.nodeType);
+}
+
+/**
+ * Get a flat array of all the grips and their preview items.
+ *
+ * @param {Array} Grips
+ * @return {Array} Flat array of the grips and their preview items
+ */
+function getFlattenedGrips(grips) {
+  return grips.reduce((res, grip) => {
+    let previewItems = getGripPreviewItems(grip);
+    let flatPreviewItems = previewItems.length > 0
+      ? getFlattenedGrips(previewItems)
+      : [];
+
+    return [...res, grip, ...flatPreviewItems];
+  }, []);
+}
+
+/**
+ * Get preview items from a Grip.
+ *
+ * @param {Object} Grip from which we want the preview items
+ * @return {Array} Array of the preview items of the grip, or an empty array
+ *                 if the grip does not have preview items
+ */
+function getGripPreviewItems(grip) {
+  if (!grip) {
+    return [];
+  }
+
+  // Promise resolved value Grip
+  if (grip.promiseState && grip.promiseState.value) {
+    return [grip.promiseState.value];
+  }
+
+  // Array Grip
+  if (grip.preview && grip.preview.items) {
+    return grip.preview.items;
+  }
+
+  // Node Grip
+  if (grip.preview && grip.preview.childNodes) {
+    return grip.preview.childNodes;
+  }
+
+  // Set or Map Grip
+  if (grip.preview && grip.preview.entries) {
+    return grip.preview.entries.reduce((res, entry) => res.concat(entry), []);
+  }
+
+  // Event Grip
+  if (grip.preview && grip.preview.target) {
+    return [grip.preview.target];
+  }
+
+  // Generic Grip
+  if (grip.preview && grip.preview.ownProperties) {
+    let propertiesValues = Object.values(grip.preview.ownProperties)
+      .map(property => property.value || property);
+
+    // ArrayBuffer Grip
+    if (grip.preview.safeGetterValues) {
+      propertiesValues = propertiesValues.concat(
+        Object.values(grip.preview.safeGetterValues)
+          .map(property => property.getterValue || property)
+      );
+    }
+
+    return propertiesValues;
+  }
+
+  return [];
+}
+
 module.exports = {
   createFactories,
   isGrip,
@@ -167,5 +272,6 @@ module.exports = {
   parseURLParams,
   parseURLEncodedText,
   getFileName,
-  getURLDisplayString
+  getURLDisplayString,
+  getSelectableInInspectorGrips,
 };

@@ -23,6 +23,10 @@ const PromiseRep = React.createClass({
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     objectLink: React.PropTypes.func,
+    attachedNodeFrontsByActor: React.PropTypes.object,
+    onDOMNodeMouseOver: React.PropTypes.func,
+    onDOMNodeMouseOut: React.PropTypes.func,
+    onInspectIconClick: React.PropTypes.func,
   },
 
   getTitle: function (object) {
@@ -42,12 +46,13 @@ const PromiseRep = React.createClass({
     }
 
     return keys.map((key, i) => {
+      let object = promiseState[key];
       return PropRep(Object.assign({}, this.props, {
         mode: MODE.TINY,
         name: `<${key}>`,
-        object: promiseState[key],
+        object,
         equal: ": ",
-        delim: i < keys.length - 1 ? ", " : ""
+        delim: i < keys.length - 1 ? ", " : "",
       }));
     });
   },

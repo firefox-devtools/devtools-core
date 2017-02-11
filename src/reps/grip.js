@@ -27,6 +27,10 @@ const GripRep = React.createClass({
     isInterestingProp: React.PropTypes.func,
     title: React.PropTypes.string,
     objectLink: React.PropTypes.func,
+    attachedNodeFrontsByActor: React.PropTypes.object,
+    onDOMNodeMouseOver: React.PropTypes.func,
+    onDOMNodeMouseOut: React.PropTypes.func,
+    onInspectIconClick: React.PropTypes.func,
   },
 
   getTitle: function (object) {
@@ -133,7 +137,7 @@ const GripRep = React.createClass({
         object: value,
         equal: ": ",
         delim: i !== indexes.length - 1 || truncate ? ", " : "",
-        defaultRep: Grip
+        defaultRep: Grip,
       })));
     });
 

@@ -24,6 +24,10 @@ let GripArray = React.createClass({
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     provider: React.PropTypes.object,
     objectLink: React.PropTypes.func,
+    attachedNodeFrontsByActor: React.PropTypes.object,
+    onDOMNodeMouseOver: React.PropTypes.func,
+    onDOMNodeMouseOut: React.PropTypes.func,
+    onInspectIconClick: React.PropTypes.func,
   },
 
   getLength: function (grip) {
@@ -161,6 +165,15 @@ let GripArrayItem = React.createFactory(React.createClass({
 
   propTypes: {
     delim: React.PropTypes.string,
+    object: React.PropTypes.object.isRequired,
+    objectLink: React.PropTypes.func,
+    // @TODO Change this to Object.values once it's supported in Node's version of V8
+    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+    provider: React.PropTypes.object,
+    attachedNodeFrontsByActor: React.PropTypes.object,
+    onDOMNodeMouseOver: React.PropTypes.func,
+    onDOMNodeMouseOut: React.PropTypes.func,
+    onInspectIconClick: React.PropTypes.func,
   },
 
   render: function () {

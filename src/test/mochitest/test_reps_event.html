@@ -17,7 +17,11 @@ Test Event rep
 <script src="head.js" type="application/javascript;version=1.8"></script>
 <script type="application/javascript;version=1.8">
 window.onload = Task.async(function* () {
-  const { REPS, MODE } = browserRequire("devtools/client/shared/components/reps/load-reps");
+  const {
+    REPS,
+    MODE,
+    getSelectableInInspectorGrips,
+  } = browserRequire("devtools/client/shared/components/reps/load-reps");
   let { Rep, Event } = REPS;
 
   try {
@@ -31,9 +35,10 @@ window.onload = Task.async(function* () {
     yield testKeyboardEventWithModifiers();
     yield testMessageEvent();
 
-    yield testOnMouseOver();
-    yield testOnMouseOut();
-  } catch(e) {
+    yield testOnDomNodeMouseOver();
+    yield testOnDomNodeMouseOut();
+    yield testOnDomNodeInspectIconClick();
+  } catch (e) {
     ok(false, "Got an error: " + DevToolsUtils.safeErrorString(e));
   } finally {
     SimpleTest.finish();
@@ -116,26 +121,37 @@ window.onload = Task.async(function* () {
        "Event rep has expected text content for a message event in long mode");
   }
 
-  function testOnMouseOver() {
+  function testOnDomNodeMouseOver() {
     const stub = getGripStub("testMouseEvent");
+    const grips = getSelectableInInspectorGrips(stub);
+
+    is(grips.length, 1, "the stub has one node grip");
+
+    const attachedNodeFrontsByActor = getStubNodeFront(grips);
 
     let mouseOverValue;
     let onDOMNodeMouseOver = (object) => {
       mouseOverValue = object;
     };
     const renderedComponent = renderComponent(Event.rep, {
-      object: stub, onDOMNodeMouseOver
+      object: stub,
+      onDOMNodeMouseOver,
+      attachedNodeFrontsByActor,
     });
 
     const node = renderedComponent.querySelector(".objectBox-node");
     TestUtils.Simulate.mouseOver(node);
 
-    is(mouseOverValue, stub.preview.target, "onDOMNodeMouseOver is called with " +
+    is(mouseOverValue, grips[0], "onDOMNodeMouseOver is called with " +
       "the expected argument when mouseover is fired on the Rep");
   }
 
-  function testOnMouseOut() {
+  function testOnDomNodeMouseOut() {
     const stub = getGripStub("testMouseEvent");
+    const grips = getSelectableInInspectorGrips(stub);
+    is(grips.length, 1, "the stub has one node grip");
+
+    const attachedNodeFrontsByActor = getStubNodeFront(grips);
 
     let called = false;
     let onDOMNodeMouseOut = (object) => {
@@ -143,13 +159,61 @@ window.onload = Task.async(function* () {
     };
     const renderedComponent = renderComponent(Event.rep, {
       object: stub,
-      onDOMNodeMouseOut
+      onDOMNodeMouseOut,
+      attachedNodeFrontsByActor
     });
 
     const node = renderedComponent.querySelector(".objectBox-node");
     TestUtils.Simulate.mouseOut(node);
 
     is(called, true, "onDOMNodeMouseOut is called when mouseout is fired on the Rep");
+  }
+
+  function testOnDomNodeInspectIconClick() {
+    const stub = getGripStub("testMouseEvent");
+    const grips = getSelectableInInspectorGrips(stub);
+    is(grips.length, 1, "the stub has one node grip");
+
+    const attachedNodeFrontsByActor = getStubNodeFront(grips);
+
+    let inspectIconClickedValue = null;
+    let onInspectIconClick = (object) => {
+      inspectIconClickedValue = object;
+    };
+
+    let renderedComponentWithoutInspectIcon = renderComponent(Event.rep, {
+      object: stub,
+      onInspectIconClick,
+    });
+    is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
+      "There isn't an inspect icon when attachedNodeFrontsByActor isn't provided");
+
+    renderedComponentWithoutInspectIcon = renderComponent(Event.rep, {
+      object: stub,
+      onInspectIconClick,
+      attachedNodeFrontsByActor: {
+        "fakeactorid": "fakeactorid"
+      }
+    });
+    is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
+      "There isn't an inspect icon when attachedNodeFrontsByActor does not have keys " +
+      "matching grip event's target item");
+
+    const renderedComponent = renderComponent(Event.rep, {
+      object: stub,
+      onInspectIconClick,
+      attachedNodeFrontsByActor
+    });
+
+    const icon = renderedComponent.querySelector(".open-inspector");
+    ok(icon !== null, "There is an icon as expected when passing a matching " +
+      "attachedNodeFrontsByActor item");
+
+    TestUtils.Simulate.click(icon);
+
+    is(inspectIconClickedValue, grips[0],
+      "onInspectIconClick is called with the expected argument " +
+      "when the inspect icon is clicked");
   }
 
   function getGripStub(name) {

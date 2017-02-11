@@ -8,6 +8,7 @@ const {
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
+const Svg = require("./images/Svg");
 
 // Shortcuts
 const DOM = React.DOM;
@@ -23,8 +24,10 @@ let TextNode = React.createClass({
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     objectLink: React.PropTypes.func,
+    attachedNodeFrontsByActor: React.PropTypes.object,
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
+    onInspectIconClick: React.PropTypes.func,
   },
 
   getTextContent: function (grip) {
@@ -45,23 +48,44 @@ let TextNode = React.createClass({
     let {
       object: grip,
       mode = MODE.SHORT,
+      attachedNodeFrontsByActor,
+      onDOMNodeMouseOver,
+      onDOMNodeMouseOut,
+      onInspectIconClick,
     } = this.props;
 
     let baseConfig = {className: "objectBox objectBox-textNode"};
-    if (this.props.onDOMNodeMouseOver) {
-      Object.assign(baseConfig, {
-        onMouseOver: _ => this.props.onDOMNodeMouseOver(grip)
-      });
-    }
+    let inspectIcon;
+    let attachedNodeFront = attachedNodeFrontsByActor
+      ? attachedNodeFrontsByActor[grip.actor]
+      : null;
 
-    if (this.props.onDOMNodeMouseOut) {
-      Object.assign(baseConfig, {
-        onMouseOut: this.props.onDOMNodeMouseOut
-      });
+    if (attachedNodeFront) {
+      if (onDOMNodeMouseOver) {
+        Object.assign(baseConfig, {
+          onMouseOver: _ => onDOMNodeMouseOver(attachedNodeFront)
+        });
+      }
+
+      if (onDOMNodeMouseOut) {
+        Object.assign(baseConfig, {
+          onMouseOut: onDOMNodeMouseOut
+        });
+      }
+
+      if (onInspectIconClick) {
+        inspectIcon = Svg("open-inspector", {
+          element: "a",
+          draggable: false,
+          // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
+          title: "Click to select the node in the inspector",
+          onClick: () => onInspectIconClick(attachedNodeFront)
+        });
+      }
     }
 
     if (mode === MODE.TINY) {
-      return DOM.span(baseConfig, this.getTitle(grip));
+      return DOM.span(baseConfig, this.getTitle(grip), inspectIcon);
     }
 
     return (
@@ -70,7 +94,8 @@ let TextNode = React.createClass({
         DOM.span({className: "nodeValue"},
           " ",
           `"${this.getTextContent(grip)}"`
-        )
+        ),
+        inspectIcon
       )
     );
   }),
