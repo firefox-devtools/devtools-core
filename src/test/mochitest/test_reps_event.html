@@ -116,7 +116,7 @@ window.onload = Task.async(function* () {
     });
     is(longRenderedComponent.textContent,
        `message { target: http://example.com, isTrusted: false, data: "test data", ` +
-       `origin: "null", lastEventId: "", source: , ports: message, currentTarget: , ` +
+       `origin: "null", lastEventId: "", source: , ports: Array, currentTarget: , ` +
        `eventPhase: 2, bubbles: false, 1 more… }`,
        "Event rep has expected text content for a message event in long mode");
   }

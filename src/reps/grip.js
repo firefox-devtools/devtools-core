@@ -138,6 +138,8 @@ const GripRep = React.createClass({
         equal: ": ",
         delim: i !== indexes.length - 1 || truncate ? ", " : "",
         defaultRep: Grip,
+        // Do not propagate title to properties reps
+        title: undefined,
       })));
     });
 
