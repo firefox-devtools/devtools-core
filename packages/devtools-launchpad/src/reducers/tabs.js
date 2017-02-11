@@ -14,6 +14,9 @@ const initialState = fromJS({
 
 function update(state = initialState, action) {
   switch (action.type) {
+    case constants.CLEAR_TABS:
+      return initialState;
+
     case constants.ADD_TABS:
       const tabs = action.value;
       if (!tabs) {
