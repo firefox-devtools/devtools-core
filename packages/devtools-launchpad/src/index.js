@@ -134,11 +134,11 @@ function getTargetFromQuery() {
 
 async function getTabs(actions) {
   actions.clearTabs();
-  const chromeTabs = await chrome.connectClient();
-  actions.newTabs(chromeTabs);
+  chrome.connectClient()
+    .then(actions.newTabs);
 
-  const nodeTabs = await chrome.connectNodeClient();
-  actions.newTabs(nodeTabs);
+  chrome.connectNodeClient()
+    .then(actions.newTabs);
 
   const firefoxTabs = await firefox.connectClient();
   actions.newTabs(firefoxTabs);
