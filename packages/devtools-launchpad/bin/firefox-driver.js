@@ -57,6 +57,7 @@ function firefoxProfile() {
   profile.setPreference("devtools.chrome.enabled", true);
   profile.setPreference("devtools.debugger.prompt-connection", false);
   profile.setPreference("devtools.debugger.remote-websocket", useWebSocket);
+  profile.setPreference("javascript.options.asyncstack", true);
 
   return profile;
 }
