@@ -4,3 +4,5 @@ yarn-error.log
 npm-debug.log
 .idea/
 .vscode/
+
+packages/devtools-launchpad/configs/local.json
