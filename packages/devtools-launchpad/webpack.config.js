@@ -65,6 +65,15 @@ module.exports = (webpackConfig, envConfig) => {
   webpackConfig.resolveLoader.root = webpackConfig.resolveLoader.root || [];
   webpackConfig.resolveLoader.root.push(path.resolve("./node_modules"));
 
+  // Add a resolve alias for React if the target is UMD
+  if (webpackConfig.output && webpackConfig.output.libraryTarget === "umd") {
+    webpackConfig.resolve = webpackConfig.resolve || {};
+    webpackConfig.resolve.alias = webpackConfig.resolve.alias || {};
+    if (!webpackConfig.resolve.alias.react) {
+      webpackConfig.resolve.alias.react = "react/lib/ReactUMDEntry";
+    }
+  }
+
   webpackConfig.node = { fs: "empty" };
 
   webpackConfig.plugins = webpackConfig.plugins || [];
