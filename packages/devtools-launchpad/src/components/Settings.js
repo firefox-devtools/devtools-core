@@ -85,7 +85,7 @@ const Settings = React.createClass({
             className: "tab-value",
             onClick: e => this.onConfigContextMenu(e, c.name)
           }, config[c.name])
-        )
+        );
       })
     );
   },
