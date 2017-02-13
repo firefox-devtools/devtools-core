@@ -63,21 +63,20 @@ window.onload = Task.async(function* () {
     is(longRenderedComponent.textContent, "Window about:newtab",
        "Window rep has expected text content in LONG mode");
 
-    const customTitleRenderedComponent = renderComponent(Window.rep, {
-      object: gripStub,
+    const displayClassRenderedComponent = renderComponent(Window.rep, {
+      object: Object.assign({}, gripStub, {displayClass : "Custom"}),
       mode: MODE.TINY,
-      title: "Custom"
     });
-    is(customTitleRenderedComponent.textContent, "Custom",
-       "Window rep has expected text content in TINY mode with Custom title");
+    is(displayClassRenderedComponent.textContent, "Custom",
+       "Window rep has expected text content in TINY mode with Custom display class");
 
-    const customTitleLongRenderedComponent = renderComponent(Window.rep, {
-      object: gripStub,
+    const displayClassLongRenderedComponent = renderComponent(Window.rep, {
+      object: Object.assign({}, gripStub, {displayClass : "Custom"}),
       mode: MODE.LONG,
       title: "Custom"
     });
-    is(customTitleLongRenderedComponent.textContent, "Custom about:newtab",
-       "Window rep has expected text content in LONG mode with Custom title");
+    is(displayClassLongRenderedComponent.textContent, "Custom about:newtab",
+       "Window rep has expected text content in LONG mode with Custom display class");
   } catch(e) {
     ok(false, "Got an error: " + DevToolsUtils.safeErrorString(e));
   } finally {
