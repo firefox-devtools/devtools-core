@@ -42,12 +42,12 @@ Supported types:
 You need to clone the repository, then install dependencies, for which you'll need the [Yarn](https://yarnpkg.com/en/) tool:
 
 ```
-git clone https://github.com/devtools-html/devtools-reps.git
-cd devtools-reps
+git clone https://github.com/devtools-html/reps.git
+cd reps
 yarn install
 ```
 
-*(Note: this should work with `npm` too, but there seems to be some [issues](https://github.com/devtools-html/devtools-reps/issues/75)).*
+*(Note: this should work with `npm` too, but there seems to be some [issues](https://github.com/devtools-html/reps/issues/75)).*
 
 Once everything is installed, you can start the development server with:
 
@@ -71,4 +71,4 @@ git log --before "2017-1-17" devtools/client/shared/components/reps
 
 ## Publishing to `mozilla-central`
 
-See https://github.com/devtools-html/devtools-reps/blob/master/RELEASE.md
+See https://github.com/devtools-html/reps/blob/master/RELEASE.md
