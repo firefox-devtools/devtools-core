@@ -24,11 +24,10 @@ let Window = React.createClass({
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     object: React.PropTypes.object.isRequired,
     objectLink: React.PropTypes.func,
-    title: React.PropTypes.string,
   },
 
   getTitle: function (object) {
-    let title = this.props.title || object.class || "Window";
+    let title = object.displayClass || object.class || "Window";
     if (this.props.objectLink) {
       return DOM.span({className: "objectBox"},
         this.props.objectLink({
