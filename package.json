@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "repository": {
-    "url": "git://github.com/devtools-html/devtools-reps.git",
+    "url": "git://github.com/devtools-html/reps.git",
     "type": "git"
   },
   "engineStrict": true,
