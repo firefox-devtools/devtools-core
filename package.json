@@ -27,7 +27,7 @@
     "svg-inline-react": "^1.0.2"
   },
   "devDependencies": {
-    "devtools-launchpad": "^0.0.41",
+    "devtools-launchpad": "^0.0.43",
     "eslint": "^3.12.0",
     "eslint-plugin-mozilla": "0.2.3",
     "fs-extra": "^2.0.0"
