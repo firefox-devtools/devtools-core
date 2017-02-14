@@ -13,18 +13,17 @@ a Bugzilla account.
 
 2. Go to your clone of mozilla-central
   a. update mozilla-central to the latest
-  b. copy : 
-       assets/build/reps.js      -> devtools/shared/components/reps
-       assets/build/reps.css     -> devtools/shared/components/reps
-       assets/build/load-reps.js -> devtools/shared/components/reps
-       assets/build/mochitest/*  -> devtools/shared/components/reps/test/mochitest/
-  c. commit 'Bug XXXXXXX - reps v0.N+1.0: update devtools reps bundle from GitHub;r=reviewer'
-  d. push to try, test locally, submit for review etc ...
-  e. while try fails or some problem is detected, go back to devtools-reps, fix the issue, 
+  b. create configs/local.json, add 'firefox.mcPath' pointing to your mozilla-central clone
+  c. run 'node bin/copy-assets.js' 
+  d. commit 'Bug XXXXXXX - reps v0.N+1.0: update devtools reps bundle from GitHub;r=reviewer'
+  
+3. Bugzilla, mozreview, try
+  a. push to try, test locally, submit for review etc ...
+  b. while try fails or some problem is detected, go back to devtools-reps, fix the issue, 
      create a new bundle and go back to 2.a
-  f. when everything is fine and the patch is r+, land on autoland or inbound
-  g. merge the PR on github
-  h. create a tag on github
+  c. when everything is fine and the patch is r+, land on autoland/inbound
+  d. merge the PR on github
+  e. create a tag for v0.N+1.0 on github
 ```
 
 After that any issue with the bundle should be addressed with a new build version. 
