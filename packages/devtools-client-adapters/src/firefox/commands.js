@@ -27,7 +27,6 @@ let bpClients : {[id:ActorId]: BreakpointClient};
 let threadClient: ThreadClient;
 let tabTarget : TabTarget;
 let debuggerClient: DebuggerClient | null;
-let propertiesRequestCache = new Set();
 
 type Dependencies = {
   threadClient: ThreadClient,
@@ -162,11 +161,6 @@ function reload(): Promise<*> {
 }
 
 function getProperties(grip: Grip): Promise<*> {
-  if (propertiesRequestCache.has(grip.actor)) {
-    return Promise.resolve();
-  }
-
-  propertiesRequestCache.add(grip.actor);
   const objClient = threadClient.pauseGrip(grip);
 
   return objClient.getPrototypeAndProperties().then(resp => {
