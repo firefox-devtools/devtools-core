@@ -47,8 +47,6 @@ cd reps
 yarn install
 ```
 
-*(Note: this should work with `npm` too, but there seems to be some [issues](https://github.com/devtools-html/reps/issues/75)).*
-
 Once everything is installed, you can start the development server with:
 
 ```bash
