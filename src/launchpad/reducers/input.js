@@ -49,7 +49,7 @@ function update(state = initialState, action) {
       return state.withMutations(map => {
         map
           .set("currentValue", history.get(newNavigationKey) || fallbackValue)
-          .set("currentNavigationKey", newNavigationKey|| fallbackNavigationKey);
+          .set("currentNavigationKey", newNavigationKey || fallbackNavigationKey);
       });
   }
 

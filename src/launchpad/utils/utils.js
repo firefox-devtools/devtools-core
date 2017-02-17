@@ -45,7 +45,6 @@ function filterByKey(obj, predicate) {
     }, {});
 }
 
-let keyCounter = 0;
 function generateKey() {
   return `${performance.now()}`;
 }

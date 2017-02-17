@@ -7,6 +7,8 @@ require("./Header.css");
 
 const Header = React.createClass({
 
+  displayName: "Header",
+
   propTypes: {
     addInput: PropTypes.func.isRequired,
     changeCurrentInput: PropTypes.func.isRequired,
@@ -16,20 +18,18 @@ const Header = React.createClass({
     navigateInputHistory: PropTypes.func.isRequired,
   },
 
-  displayName: "Header",
-
-  onSubmitForm: function(e) {
+  onSubmitForm: function (e) {
     e.preventDefault();
     let data = new FormData(e.target);
     let expression = data.get("expression");
     this.props.addInput(expression);
   },
 
-  onInputChange: function(e) {
+  onInputChange: function (e) {
     this.props.changeCurrentInput(e.target.value);
   },
 
-  onInputKeyDown: function(e) {
+  onInputKeyDown: function (e) {
     if (["ArrowUp", "ArrowDown"].includes(e.key)) {
       this.props.navigateInputHistory(e.key === "ArrowUp"
         ? constants.DIR_BACKWARD
@@ -38,7 +38,7 @@ const Header = React.createClass({
     }
   },
 
-  onClearButtonClick: function(e) {
+  onClearButtonClick: function (e) {
     this.props.clearResultsList();
   },
 
@@ -50,9 +50,8 @@ const Header = React.createClass({
 
     return dom.header(
       { className: "console-header" },
-      dom.form({
-          onSubmit: this.onSubmitForm,
-        },
+      dom.form(
+        { onSubmit: this.onSubmitForm, },
         dom.h1({}, "Reps"),
         dom.input({
           type: "text",

@@ -11,23 +11,23 @@ const ResultsList = createFactory(require("./ResultsList"));
 require("./Console.css");
 
 const Console = React.createClass({
+  displayName: "Console",
+
   propTypes: {
     client: PropTypes.object.isRequired,
     shortcuts: PropTypes.object.isRequired,
     clearExpressions: PropTypes.func.isRequired,
   },
 
-  displayName: "Console",
-
-  componentDidMount: function() {
+  componentDidMount: function () {
     this.props.shortcuts.on("CmdOrCtrl+Shift+L", this.props.clearExpressions);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     this.props.shortcuts.off("CmdOrCtrl+Shift+L");
   },
 
-  render: function() {
+  render: function () {
     let {
       addInput,
       changeCurrentInput,

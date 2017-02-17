@@ -6,7 +6,9 @@ try {
   storedExpressions = JSON.parse(
     window.localStorage.getItem(constants.LS_EXPRESSIONS_KEY)
   );
-} catch (e) {}
+} catch (e) {
+  // Ignore.
+}
 
 const initialState = storedExpressions
   ? Immutable.fromJS(storedExpressions)
@@ -19,7 +21,7 @@ function update(state = initialState, action) {
     case constants.ADD_EXPRESSION:
       let newState = state.set(key, Immutable.Map(value));
       window.localStorage.setItem(
-        constants.LS_EXPRESSIONS_KEY, 
+        constants.LS_EXPRESSIONS_KEY,
         JSON.stringify(newState.toJS())
       );
       return newState;

@@ -1,8 +1,17 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-/* eslint no-unused-vars: [2, {"vars": "local"}] */
 
+/* Entirely disable no-unused-vars, because the second line here
+   doesn't seem to work with eslint 3.15.0 -- it doesn't suppress
+   other no-unused-vars errors.  */
+/* eslint-disable no-unused-vars */
+/* eslint no-unused-vars: ["error", {"vars": "local"}] */
+
+/* globals is */
+
+/* Not really a module.  */
+/* eslint-disable strict */
 "use strict";
 
 var { classes: Cc, interfaces: Ci, utils: Cu, results: Cr } = Components;

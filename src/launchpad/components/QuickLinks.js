@@ -5,11 +5,11 @@ const samples = require("../samples.js");
 
 const QuickLinks = React.createClass({
 
+  displayName: "QuickLinks",
+
   propTypes: {
     evaluate: PropTypes.func.isRequired
   },
-
-  displayName: "QuickLinks",
 
   evaluateExpressions(expressions) {
     expressions.forEach(
@@ -21,7 +21,7 @@ const QuickLinks = React.createClass({
     return Object.keys(samples)
       .map(label => {
         let expressions = samples[label];
-        let length =  expressions.length;
+        let length = expressions.length;
         return dom.button(
           {
             key: label,
@@ -31,7 +31,7 @@ const QuickLinks = React.createClass({
             onClick: () => this.evaluateExpressions(expressions)
           },
           label
-        )
+        );
       });
   },
 

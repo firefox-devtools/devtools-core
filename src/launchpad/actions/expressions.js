@@ -7,7 +7,7 @@ function evaluateInput(input) {
       const packet = await client.clientCommands.evaluate(input, {});
       dispatch(addExpression(input, packet));
     } catch (err) {
-      console.warn("Error when evaluating expression", err)
+      console.warn("Error when evaluating expression", err);
     }
   };
 }

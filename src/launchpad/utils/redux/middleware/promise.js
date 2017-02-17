@@ -17,7 +17,6 @@ function seqIdGen() {
 
 function promiseMiddleware({ dispatch, getState }) {
   return next => action => {
-
     if (!action || !Object.keys(action).includes(PROMISE)) {
       return next(action);
     }

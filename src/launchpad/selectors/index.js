@@ -10,8 +10,6 @@ function getCurrentInputValue(state) {
   return getInputState(state).get("currentValue");
 }
 
-
-
 module.exports = {
   getCurrentInputValue,
   getExpressions,

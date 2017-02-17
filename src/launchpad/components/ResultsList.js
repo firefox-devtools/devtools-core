@@ -5,15 +5,15 @@ const ImPropTypes = require("react-immutable-proptypes");
 const Result = createFactory(require("./Result"));
 
 const ResultsList = React.createClass({
+  displayName: "ResultsList",
+
   propTypes: {
     expressions: ImPropTypes.map.isRequired,
     showResultPacket: PropTypes.func.isRequired,
     hideResultPacket: PropTypes.func.isRequired,
   },
 
-  displayName: "ResultsList",
-
-  render: function() {
+  render: function () {
     let {
       expressions,
       showResultPacket,
