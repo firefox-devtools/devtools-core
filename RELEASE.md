@@ -8,14 +8,14 @@ a Bugzilla account.
   a. create a release branch on github
   b. update minor version in package.json, reset build version: 
     v0.N.X -> v0.N+1.0
-  c. create a PR on Github for this release
-  d. run /bin/publish-assets.js to create the bundle
+  c. commit `release: bump version to v0.N+1.0`
+  d. create a PR on Github for this release
+  e. create configs/local.json, add 'firefox.mcPath' pointing to your mozilla-central clone
 
 2. Go to your clone of mozilla-central
   a. update mozilla-central to the latest
-  b. create configs/local.json, add 'firefox.mcPath' pointing to your mozilla-central clone
-  c. run 'node bin/copy-assets.js' 
-  d. commit 'Bug XXXXXXX - reps v0.N+1.0: update devtools reps bundle from GitHub;r=reviewer'
+  b. run 'node bin/copy-assets.js' 
+  c. commit 'Bug XXXXXXX - reps v0.N+1.0: update devtools reps bundle from GitHub;r=reviewer'
   
 3. Bugzilla, mozreview, try
   a. push to try, test locally, submit for review etc ...
