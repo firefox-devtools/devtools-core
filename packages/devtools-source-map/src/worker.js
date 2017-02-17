@@ -16,7 +16,7 @@ const {
   generatedToOriginalId,
   isGeneratedId,
   isOriginalId
-} = require("./source-map-util");
+} = require("./util");
 
 import type { Location, Source } from "../types";
 type Message = {

@@ -6,5 +6,6 @@
   "author": "J. Ryan Stinnett <jryans@gmail.com>",
   "repository": "github:devtools-html/devtools-core",
   "bugs": "https://github.com/devtools-html/devtools-core/issues",
-  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map#readme"
+  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map#readme",
+  "main": "src/index.js"
 }

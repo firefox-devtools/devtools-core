@@ -7,7 +7,7 @@ const {
   generatedToOriginalId,
   isGeneratedId,
   isOriginalId
-} = require("./source-map-util");
+} = require("./util");
 const { prefs } = require("./prefs");
 
 import type { Location } from "../types";
@@ -18,7 +18,7 @@ function restartWorker() {
     sourceMapWorker.terminate();
   }
   sourceMapWorker = new Worker(
-    `${getValue("baseWorkerURL")}source-map-worker.js`
+    `${getValue("baseWorkerURL")}worker.js`
   );
 
   sourceMapWorker.postMessage({ id: 0, method: "enableSourceMaps" });
