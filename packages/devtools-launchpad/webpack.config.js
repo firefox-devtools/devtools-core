@@ -45,7 +45,7 @@ module.exports = (webpackConfig, envConfig) => {
         excluded = excluded || request.match(webpackConfig.babelExcludes);
       }
       return excluded && !request.match(/devtools-launchpad(\/|\\)src/)
-              && !request.match(/devtools-client-adapters(\/|\\)src/);
+              && !request.match(/devtools-client-adapters/);
     },
     loaders: [
       `babel?${
