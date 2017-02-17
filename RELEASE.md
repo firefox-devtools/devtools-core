@@ -4,21 +4,21 @@ Before you get started, you will need clones of devtools-reps and mozilla-centra
 a Bugzilla account.
 
 ```
-1. Go to your clone of devtools-reps
+1. Prepare reps release
   a. create a release branch on github
   b. update minor version in package.json, reset build version: 
     v0.N.X -> v0.N+1.0
   c. commit `release: bump version to v0.N+1.0`
-  d. create a PR on Github for this release
-  e. create configs/local.json, add 'firefox.mcPath' pointing to your mozilla-central clone
+  d. create a PR on Github for this release
+  e. make sure you have a configs/local.json file, with `firefox.mcPath` pointing to your mozilla-central clone
 
-2. Go to your clone of mozilla-central
-  a. update mozilla-central to the latest
-  b. run 'node bin/copy-assets.js' 
-  c. create a new bug in Developer Tools: Shared Components [1] (P3 enhancement)
-  d. commit 'Bug XXXXXXX - reps v0.N+1.0: update devtools reps bundle from GitHub;r=reviewer'
+2. Copy to mozilla central
+  a. update your mozilla-central clone to the latest
+  b. in reps, run node bin/copy-assets.js`
+  c. create a new bug in Developer Tools: Shared Components [1]
+  d. commit 'Bug XXXXXXX - reps v0.N+1.0: update reps bundle from GitHub;r=reviewer'
   
-3. Bugzilla, mozreview, try
+3. Validate & cleanup
   a. push to try, test locally, submit for review etc ...
   b. while try fails or some problem is detected, go back to devtools-reps, fix the issue, 
      create a new bundle and go back to 2.a
