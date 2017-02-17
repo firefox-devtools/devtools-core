@@ -9,4 +9,4 @@ docker run -it \
   -e "DISPLAY=unix$DISPLAY" \
   --ipc host \
   jasonlaster11/mochitest-runner \
-  /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/shared/components/reps/test/mochitest/chrome.ini && ./mach build && ./mach mochitest devtools/client/shared/components/reps/test/mochitest/"
+  /bin/bash -c "export SHELL=/bin/bash; touch devtools/client/shared/components/reps/test/mochitest/chrome.ini && ./mach build && ./mach mochitest devtools/client/shared/components/reps/test/mochitest/ && ./mach test devtools/client/webconsole/new-console-output/test/mochitest/"
