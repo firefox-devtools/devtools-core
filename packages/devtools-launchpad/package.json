@@ -1,6 +1,6 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.43",
+  "version": "0.0.44",
   "license": "MPL-2.0",
   "description": "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
   "repository": {
@@ -49,7 +49,7 @@
     "classnames": "^2.2.5",
     "co": "=4.6.0",
     "css-loader": "^0.26.1",
-    "devtools-client-adapters": "^0.0.15",
+    "devtools-client-adapters": "^0.0.16",
     "devtools-config": "^0.0.12",
     "devtools-modules": "^0.0.16",
     "devtools-network-request": "^0.0.11",
