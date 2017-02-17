@@ -221,7 +221,7 @@ window.onload = Task.async(function* () {
 
     const grips = getSelectableInInspectorGrips(stub);
     is(grips.length, 1, "the stub has one node grip");
-    const attachedNodeFrontsByActor = getStubNodeFront(grips);
+    const attachedActorIds = getStubAttachedActorIds(grips);
 
     let mouseOverValue;
     let onDOMNodeMouseOver = (object) => {
@@ -231,7 +231,7 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(PromiseRep.rep, {
       object: stub,
       onDOMNodeMouseOver,
-      attachedNodeFrontsByActor,
+      attachedActorIds,
     });
 
     const node = renderedComponent.querySelector(".objectBox-node");
@@ -246,7 +246,7 @@ window.onload = Task.async(function* () {
 
     const grips = getSelectableInInspectorGrips(stub);
     is(grips.length, 1, "the stub has one node grip");
-    const attachedNodeFrontsByActor = getStubNodeFront(grips);
+    const attachedActorIds = getStubAttachedActorIds(grips);
 
     let called = false;
     let onDOMNodeMouseOut = (object) => {
@@ -255,7 +255,7 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(PromiseRep.rep, {
       object: stub,
       onDOMNodeMouseOut,
-      attachedNodeFrontsByActor,
+      attachedActorIds,
     });
 
     const node = renderedComponent.querySelector(".objectBox-node");
@@ -270,7 +270,7 @@ window.onload = Task.async(function* () {
 
     const grips = getSelectableInInspectorGrips(stub);
     is(grips.length, 1, "the stub has one node grip");
-    const attachedNodeFrontsByActor = getStubNodeFront(grips);
+    const attachedActorIds = getStubAttachedActorIds(grips);
 
     let inspectIconClickedValues = null;
     let onInspectIconClick = (object) => {
@@ -280,25 +280,15 @@ window.onload = Task.async(function* () {
     let renderedComponentWithoutInspectIcon = renderComponent(PromiseRep.rep, {
       object: stub,
       onInspectIconClick,
+      attachedActorIds: ["someOtherId"],
     });
     is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
-      "There isn't an inspect icon when attachedNodeFrontsByActor isn't provided");
-
-    renderedComponentWithoutInspectIcon = renderComponent(PromiseRep.rep, {
-      object: stub,
-      onInspectIconClick,
-      attachedNodeFrontsByActor: {
-        "fakeactorid": "fakeactorid"
-      }
-    });
-    is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
-      "There isn't an inspect icon when attachedNodeFrontsByActor does not have keys " +
-      "matching promise fulfillment value");
+      "There isn't an inspect icon when the actor is not in attachedActorIds");
 
     const renderedComponent = renderComponent(PromiseRep.rep, {
       object: stub,
       onInspectIconClick,
-      attachedNodeFrontsByActor,
+      attachedActorIds,
     });
 
     const icon = renderedComponent.querySelector(".open-inspector");

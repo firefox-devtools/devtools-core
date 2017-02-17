@@ -22,7 +22,7 @@ let Event = React.createClass({
     objectLink: React.PropTypes.func,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-    attachedNodeFrontsByActor: React.PropTypes.object,
+    attachedActorIds: React.PropTypes.array,
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
     onInspectIconClick: React.PropTypes.func,

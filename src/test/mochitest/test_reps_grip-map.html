@@ -252,11 +252,11 @@ window.onload = Task.async(function* () {
 
     const valuesGrips = getSelectableInInspectorGrips(nodeValuedStub);
     is(valuesGrips.length, 3, "the stub has three node grips");
-    const valuesAttachedNodeFrontsByActor = getStubNodeFront(valuesGrips);
+    const valuesattachedActorIds = getStubAttachedActorIds(valuesGrips);
 
     const keysGrips = getSelectableInInspectorGrips(nodeKeyedStub);
     is(keysGrips.length, 3, "the stub has three node grips");
-    const keysAttachedNodeFrontsByActor = getStubNodeFront(keysGrips);
+    const keysAttachedActorIds = getStubAttachedActorIds(keysGrips);
 
     let mouseOverValue;
     let onDOMNodeMouseOver = (object) => {
@@ -267,7 +267,7 @@ window.onload = Task.async(function* () {
     const nodeValuedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeValuedStub,
       onDOMNodeMouseOver,
-      attachedNodeFrontsByActor: valuesAttachedNodeFrontsByActor,
+      attachedActorIds: valuesattachedActorIds,
     });
 
     let nodes = nodeValuedRenderedComponent.querySelectorAll(".objectBox-node");
@@ -282,7 +282,7 @@ window.onload = Task.async(function* () {
     const nodeKeyedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeKeyedStub,
       onDOMNodeMouseOver,
-      attachedNodeFrontsByActor: keysAttachedNodeFrontsByActor,
+      attachedActorIds: keysAttachedActorIds,
     });
 
     nodes = nodeKeyedRenderedComponent.querySelectorAll(".objectBox-node");
@@ -300,11 +300,11 @@ window.onload = Task.async(function* () {
 
     const valuesGrips = getSelectableInInspectorGrips(nodeValuedStub);
     is(valuesGrips.length, 3, "the stub has three node grips");
-    const valuesAttachedNodeFrontsByActor = getStubNodeFront(valuesGrips);
+    const valuesattachedActorIds = getStubAttachedActorIds(valuesGrips);
 
     const keysGrips = getSelectableInInspectorGrips(nodeKeyedStub);
     is(keysGrips.length, 3, "the stub has three node grips");
-    const keysAttachedNodeFrontsByActor = getStubNodeFront(keysGrips);
+    const keysAttachedActorIds = getStubAttachedActorIds(keysGrips);
 
     let called = 0;
     let onDOMNodeMouseOut = (object) => {
@@ -315,7 +315,7 @@ window.onload = Task.async(function* () {
     const nodeValuedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeValuedStub,
       onDOMNodeMouseOut,
-      attachedNodeFrontsByActor: valuesAttachedNodeFrontsByActor,
+      attachedActorIds: valuesattachedActorIds,
     });
 
     let nodes = nodeValuedRenderedComponent.querySelectorAll(".objectBox-node");
@@ -328,7 +328,7 @@ window.onload = Task.async(function* () {
     const nodeKeyedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeKeyedStub,
       onDOMNodeMouseOut,
-      attachedNodeFrontsByActor: keysAttachedNodeFrontsByActor,
+      attachedActorIds: keysAttachedActorIds,
     });
 
     nodes = nodeKeyedRenderedComponent.querySelectorAll(".objectBox-node");
@@ -346,40 +346,30 @@ window.onload = Task.async(function* () {
 
     const valuesGrips = getSelectableInInspectorGrips(nodeValuedStub);
     is(valuesGrips.length, 3, "the stub has three node grips");
-    const valuesAttachedNodeFrontsByActor = getStubNodeFront(valuesGrips);
+    const valuesattachedActorIds = getStubAttachedActorIds(valuesGrips);
 
     const keysGrips = getSelectableInInspectorGrips(nodeKeyedStub);
     is(keysGrips.length, 3, "the stub has three node grips");
-    const keysAttachedNodeFrontsByActor = getStubNodeFront(keysGrips);
+    const keysAttachedActorIds = getStubAttachedActorIds(keysGrips);
 
     let inspectIconClickedValue = null;
     let onInspectIconClick = (object) => {
       inspectIconClickedValue = object;
     };
 
-    let renderedComponentWithoutInspectIcon = renderComponent(GripMap.rep, {
+    const renderedComponentWithoutInspectIcon = renderComponent(GripMap.rep, {
       object: nodeValuedStub,
       onInspectIconClick,
+      attachedActorIds: [],
     });
     is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
-      "There isn't an inspect icon when attachedNodeFrontsByActor isn't provided");
-
-    renderedComponentWithoutInspectIcon = renderComponent(GripMap.rep, {
-      object: nodeValuedStub,
-      onInspectIconClick,
-      attachedNodeFrontsByActor: {
-        "fakeactorid": "fakeactorid"
-      }
-    });
-    is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
-      "There isn't an inspect icon when attachedNodeFrontsByActor does not have keys " +
-      "matching map keys or values");
+      "There isn't an inspect icon when the actor is not in attachedActorIds");
 
     info("Testing onInspectIconClick on node valued Map");
     const nodeValuedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeValuedStub,
       onInspectIconClick,
-      attachedNodeFrontsByActor: valuesAttachedNodeFrontsByActor,
+      attachedActorIds: valuesattachedActorIds,
     });
 
     let icons = nodeValuedRenderedComponent.querySelectorAll(".open-inspector");
@@ -396,7 +386,7 @@ window.onload = Task.async(function* () {
     const nodeKeyedRenderedComponent = renderComponent(GripMap.rep, {
       object: nodeKeyedStub,
       onInspectIconClick,
-      attachedNodeFrontsByActor: keysAttachedNodeFrontsByActor,
+      attachedActorIds: keysAttachedActorIds,
     });
 
     icons = nodeKeyedRenderedComponent.querySelectorAll(".open-inspector");

@@ -24,7 +24,7 @@ let TextNode = React.createClass({
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     objectLink: React.PropTypes.func,
-    attachedNodeFrontsByActor: React.PropTypes.object,
+    attachedActorIds: React.PropTypes.array,
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
     onInspectIconClick: React.PropTypes.func,
@@ -48,7 +48,7 @@ let TextNode = React.createClass({
     let {
       object: grip,
       mode = MODE.SHORT,
-      attachedNodeFrontsByActor,
+      attachedActorIds,
       onDOMNodeMouseOver,
       onDOMNodeMouseOut,
       onInspectIconClick,
@@ -56,14 +56,12 @@ let TextNode = React.createClass({
 
     let baseConfig = {className: "objectBox objectBox-textNode"};
     let inspectIcon;
-    let attachedNodeFront = attachedNodeFrontsByActor
-      ? attachedNodeFrontsByActor[grip.actor]
-      : null;
+    let isInTree = attachedActorIds ? attachedActorIds.includes(grip.actor) : true;
 
-    if (attachedNodeFront) {
+    if (isInTree) {
       if (onDOMNodeMouseOver) {
         Object.assign(baseConfig, {
-          onMouseOver: _ => onDOMNodeMouseOver(attachedNodeFront)
+          onMouseOver: _ => onDOMNodeMouseOver(grip)
         });
       }
 
@@ -79,7 +77,7 @@ let TextNode = React.createClass({
           draggable: false,
           // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
           title: "Click to select the node in the inspector",
-          onClick: () => onInspectIconClick(attachedNodeFront)
+          onClick: () => onInspectIconClick(grip)
         });
       }
     }

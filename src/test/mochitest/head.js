@@ -61,10 +61,6 @@ function testRepRenderModes(modeTests, testName, componentUnderTest, gripStub,
   });
 }
 
-function getStubNodeFront(gripStubs) {
-  return gripStubs.reduce((res, gripStub) => {
-    return Object.assign(res, {
-      [gripStub.actor]: gripStub
-    });
-  }, {});
+function getStubAttachedActorIds(gripStubs) {
+  return gripStubs.map(gripStub => gripStub.actor);
 }

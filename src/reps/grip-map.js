@@ -22,7 +22,7 @@ const GripMap = React.createClass({
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
     objectLink: React.PropTypes.func,
     isInterestingEntry: React.PropTypes.func,
-    attachedNodeFrontsByActor: React.PropTypes.object,
+    attachedActorIds: React.PropTypes.array,
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
     onInspectIconClick: React.PropTypes.func,
@@ -98,7 +98,7 @@ const GripMap = React.createClass({
   getEntries: function (entries, indexes) {
     let {
       objectLink,
-      attachedNodeFrontsByActor,
+      attachedActorIds,
       onDOMNodeMouseOver,
       onDOMNodeMouseOut,
       onInspectIconClick,
@@ -123,7 +123,7 @@ const GripMap = React.createClass({
         delim: (i < indexes.length - 1 || indexes.length < entries.length) ? ", " : "",
         mode: MODE.TINY,
         objectLink,
-        attachedNodeFrontsByActor,
+        attachedActorIds,
         onDOMNodeMouseOver,
         onDOMNodeMouseOut,
         onInspectIconClick,

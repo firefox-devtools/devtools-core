@@ -23,7 +23,7 @@ const ElementNode = React.createClass({
     object: React.PropTypes.object.isRequired,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-    attachedNodeFrontsByActor: React.PropTypes.object,
+    attachedActorIds: React.PropTypes.array,
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
     onInspectIconClick: React.PropTypes.func,
@@ -92,23 +92,22 @@ const ElementNode = React.createClass({
     let {
       object,
       mode,
-      attachedNodeFrontsByActor,
+      attachedActorIds,
       onDOMNodeMouseOver,
       onDOMNodeMouseOut,
       onInspectIconClick,
     } = this.props;
     let elements = this.getElements(object, mode);
     let objectLink = this.props.objectLink || span;
-    let attachedNodeFront = attachedNodeFrontsByActor
-      ? attachedNodeFrontsByActor[object.actor]
-      : null;
+
+    let isInTree = attachedActorIds ? attachedActorIds.includes(object.actor) : true;
 
     let baseConfig = {className: "objectBox objectBox-node"};
     let inspectIcon;
-    if (attachedNodeFront) {
+    if (isInTree) {
       if (onDOMNodeMouseOver) {
         Object.assign(baseConfig, {
-          onMouseOver: _ => onDOMNodeMouseOver(attachedNodeFront)
+          onMouseOver: _ => onDOMNodeMouseOver(object)
         });
       }
 
@@ -124,7 +123,7 @@ const ElementNode = React.createClass({
           draggable: false,
           // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
           title: "Click to select the node in the inspector",
-          onClick: () => onInspectIconClick(attachedNodeFront)
+          onClick: () => onInspectIconClick(object)
         });
       }
     }
