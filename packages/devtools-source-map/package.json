@@ -7,5 +7,12 @@
   "repository": "github:devtools-html/devtools-core",
   "bugs": "https://github.com/devtools-html/devtools-core/issues",
   "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map#readme",
-  "main": "src/index.js"
+  "main": "src/index.js",
+  "dependencies": {
+    "devtools-config": "^0.0.12",
+    "devtools-network-request": "^0.0.11",
+    "md5": "^2.2.1",
+    "source-map": "^0.5.6",
+    "url": "^0.11.0"
+  }
 }
