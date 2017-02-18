@@ -9,13 +9,13 @@ const networkRequest = require("devtools-network-request");
 const { parse } = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
-const { getContentType } = require("./source");
 const assert = require("./assert");
 const {
   originalToGeneratedId,
   generatedToOriginalId,
   isGeneratedId,
-  isOriginalId
+  isOriginalId,
+  getContentType,
 } = require("./util");
 
 import type { Location, Source } from "../types";

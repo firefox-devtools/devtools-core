@@ -1,14 +1,13 @@
 // @flow
 
 const { getValue } = require("devtools-config");
-const { workerTask } = require("./utils");
 const {
   originalToGeneratedId,
   generatedToOriginalId,
   isGeneratedId,
-  isOriginalId
+  isOriginalId,
+  workerTask,
 } = require("./util");
-const { prefs } = require("./prefs");
 
 import type { Location } from "../types";
 
@@ -30,10 +29,6 @@ function destroyWorker() {
     sourceMapWorker.terminate();
     sourceMapWorker = null;
   }
-}
-
-function shouldSourceMap(): boolean {
-  return prefs.clientSourceMapsEnabled;
 }
 
 async function hasMappedSource(location: Location): Promise<boolean> {
@@ -68,5 +63,4 @@ module.exports = {
   applySourceMap,
   clearSourceMaps,
   destroyWorker,
-  shouldSourceMap
 };
