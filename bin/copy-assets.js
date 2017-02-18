@@ -27,12 +27,6 @@ function start() {
   }
 
   console.log("  output path is:", mcPath);
-  console.log("  copying load-reps...");
-  copyFile(
-    path.resolve(projectPath, "src/reps/load-reps.js"),
-    path.join(mcPath, mcModulePath, "load-reps.js"),
-    {cwd: projectPath}
-  );
 
   if (shouldSymlink) {
     console.log("  copying tests...");
