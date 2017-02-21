@@ -11,9 +11,8 @@ function isFirefoxRunning() {
       }
 
       resultList.forEach(function(process) {
-        if (process) {
+        if (process && process.arguments) {
           const args = process.arguments.join(" ");
-          console.log("found process", process);
           if (args.match(/--start-debugger-server=6080/)) {
             isRunning = true;
           }
