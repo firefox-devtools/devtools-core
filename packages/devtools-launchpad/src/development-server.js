@@ -71,8 +71,8 @@ function serveRoot(req, res) {
 function handleNetworkRequest(req, res) {
   const url = req.query.url;
   if (url.indexOf("file://") === 0) {
-    const path = url.replace("file://", "");
-    res.json(JSON.parse(fs.readFileSync(path, "utf8")));
+    const _path = url.replace("file://", "");
+    res.json(JSON.parse(fs.readFileSync(_path, "utf8")));
   } else {
     const httpReq = httpOrHttpsGet(
       req.query.url,
@@ -143,7 +143,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
       const version = opts.node.raw;
       console.log(`Sorry, Your version of node is ${version}.`);
       console.log("The minimum requirement is >=6.9.0");
-      exit();
+      process.exit();
     }
   });
 
@@ -167,6 +167,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   app.use(bodyParser.urlencoded({
     extended: true
   }));
+
   app.use(bodyParser.json());
 
   if (!getValue("development.customIndex")) {
