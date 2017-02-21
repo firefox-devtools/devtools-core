@@ -215,7 +215,10 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   app.use(webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
     noInfo: true,
-    stats: { colors: true }
+    stats: {
+      colors: true,
+      chunks: false
+    }
   }));
 
   if (getValue("hotReloading")) {
