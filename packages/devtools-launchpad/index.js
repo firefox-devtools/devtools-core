@@ -1,4 +1,4 @@
-const developmentServer = require("./bin/development-server");
+const developmentServer = require("./src/development-server");
 const toolboxConfig = require("./webpack.config");
 const tools = require("./src/tools");
 const developmentConfig = require("./configs/development.json");

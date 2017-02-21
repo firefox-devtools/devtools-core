@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-"use strict";
-
 require("babel-register");
 
 const path = require("path");
@@ -24,36 +22,9 @@ const {
   setValue
 } = require("devtools-config");
 const isDevelopment = require("devtools-config").isDevelopment;
-const firefoxDriver = require("./firefox-driver");
-var psLookup = require("ps-node");
-
+const firefoxDriver = require("../bin/firefox-driver");
+const { isFirefoxRunning } = require("./server/utils/firefox");
 let root;
-
-function isFirefoxRunning() {
-  return new Promise((resolve, reject) => {
-    let isRunning = false;
-    psLookup.lookup({
-      command: "firefox-bin",
-    }, function(err, resultList) {
-      if (err) {
-        throw new Error(err);
-      }
-
-      resultList.forEach(function(process) {
-        if (process) {
-          const args = process.arguments.join(" ");
-          console.log('found process', process)
-          if (args.match(/--start-debugger-server=6080/)) {
-            isRunning = true;
-          }
-        } else {
-        }
-      });
-
-      resolve(isRunning);
-    });
-  });
-}
 
 function httpOrHttpsGet(url, onResponse) {
   let protocol = url.startsWith("https:") ? https : http;
@@ -102,8 +73,7 @@ function handleNetworkRequest(req, res) {
   if (url.indexOf("file://") === 0) {
     const path = url.replace("file://", "");
     res.json(JSON.parse(fs.readFileSync(path, "utf8")));
-  }
-  else {
+  } else {
     const httpReq = httpOrHttpsGet(
       req.query.url,
       body => {
@@ -127,19 +97,19 @@ function handleLaunchRequest(req, res) {
   process.env.PATH += `:${__dirname}`;
   if (browser == "Firefox") {
     isFirefoxRunning().then((isRunning) => {
-      console.log('running', isRunning)
+      console.log("running", isRunning);
       if (!isRunning) {
         firefoxDriver.start(location);
-        res.end('launched firefox');
+        res.end("launched firefox");
       } else {
-        res.end('already running firefox')
+        res.end("already running firefox");
       }
-    })
+    });
   }
 
   if (browser == "Chrome") {
     ps.spawn("chrome-driver.js", ["--location", location]);
-    res.end('launched chrome');
+    res.end("launched chrome");
   }
 }
 
@@ -178,7 +148,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   });
 
   if (!getValue("firefox.webSocketConnection")) {
-    const firefoxProxy = require("./firefox-proxy");
+    const firefoxProxy = require("../bin/firefox-proxy");
     firefoxProxy({ logging: getValue("logging.firefoxProxy") });
   }
 
@@ -190,7 +160,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   let favicon = getValue("favicon");
   let faviconDir = favicon
     ? path.dirname(path.join(rootDir, favicon))
-    : path.join(__dirname, '../assets')
+    : path.join(__dirname, "../assets");
 
   app.use(express.static(faviconDir));
 
@@ -227,9 +197,9 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
     console.log("Hot Reloading - https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#hot-reloading");
   }
 
-  return { express, app }
+  return { express, app };
 }
 
 module.exports = {
   startDevServer
-}
+};
