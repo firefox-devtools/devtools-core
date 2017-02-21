@@ -52,7 +52,7 @@ function createTabs(tabs: TabPayload[]): Tab[] {
   });
 }
 
-function connectClient() {
+async function connectClient() {
   const useProxy = !getValue("firefox.webSocketConnection");
   const firefoxHost = getValue(
     useProxy ? "firefox.proxyHost" : "firefox.webSocketHost"
@@ -62,20 +62,19 @@ function connectClient() {
   const transport = useProxy ?
     new DebuggerTransport(socket) : new WebsocketTransport(socket);
 
-  return new Promise((resolve, reject) => {
-    debuggerClient = new DebuggerClient(transport);
-    debuggerClient.connect().then(() => {
-      if (debuggerClient !== null) {
-        return debuggerClient.listTabs().then(response => {
-          resolve(createTabs(response.tabs));
-        });
-      }
-      return resolve([]);
-    }).catch(err => {
-      console.log(err);
-      resolve([]);
-    });
-  });
+  debuggerClient = new DebuggerClient(transport);
+  if (!debuggerClient) {
+    return [];
+  }
+
+  try {
+    await debuggerClient.connect();
+    const tabs = await getTabs();
+    return tabs;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 }
 
 function connectTab(tab: Tab) {
@@ -96,6 +95,15 @@ function connectTab(tab: Tab) {
       });
     });
   });
+}
+
+async function getTabs() {
+  if (!debuggerClient || !debuggerClient.mainRoot) {
+    return;
+  }
+
+  const response = await debuggerClient.listTabs();
+  return createTabs(response.tabs);
 }
 
 function initPage(actions: Actions) {
@@ -128,5 +136,6 @@ module.exports = {
   setThreadClient,
   getTabTarget,
   setTabTarget,
-  initPage
+  initPage,
+  getTabs
 };

@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 
-"use strict";
-
 require("babel-register");
 
 const path = require("path");
 const fs = require("fs");
-const ps = require("child_process");
 const Mustache = require("mustache");
 const webpack = require("webpack");
 const express = require("express");
@@ -24,36 +21,8 @@ const {
   setValue
 } = require("devtools-config");
 const isDevelopment = require("devtools-config").isDevelopment;
-const firefoxDriver = require("./firefox-driver");
-var psLookup = require("ps-node");
-
+const { handleLaunchRequest } = require("./server/launch");
 let root;
-
-function isFirefoxRunning() {
-  return new Promise((resolve, reject) => {
-    let isRunning = false;
-    psLookup.lookup({
-      command: "firefox-bin",
-    }, function(err, resultList) {
-      if (err) {
-        throw new Error(err);
-      }
-
-      resultList.forEach(function(process) {
-        if (process) {
-          const args = process.arguments.join(" ");
-          console.log('found process', process)
-          if (args.match(/--start-debugger-server=6080/)) {
-            isRunning = true;
-          }
-        } else {
-        }
-      });
-
-      resolve(isRunning);
-    });
-  });
-}
 
 function httpOrHttpsGet(url, onResponse) {
   let protocol = url.startsWith("https:") ? https : http;
@@ -100,10 +69,9 @@ function serveRoot(req, res) {
 function handleNetworkRequest(req, res) {
   const url = req.query.url;
   if (url.indexOf("file://") === 0) {
-    const path = url.replace("file://", "");
-    res.json(JSON.parse(fs.readFileSync(path, "utf8")));
-  }
-  else {
+    const _path = url.replace("file://", "");
+    res.json(JSON.parse(fs.readFileSync(_path, "utf8")));
+  } else {
     const httpReq = httpOrHttpsGet(
       req.query.url,
       body => {
@@ -117,29 +85,6 @@ function handleNetworkRequest(req, res) {
 
     httpReq.on("error", err => res.status(500).send(err.code));
     httpReq.on("statusCode", err => res.status(err.message).send(err.message));
-  }
-}
-
-function handleLaunchRequest(req, res) {
-  const browser = req.body.browser;
-  const location = "https://devtools-html.github.io/debugger-examples/";
-
-  process.env.PATH += `:${__dirname}`;
-  if (browser == "Firefox") {
-    isFirefoxRunning().then((isRunning) => {
-      console.log('running', isRunning)
-      if (!isRunning) {
-        firefoxDriver.start(location);
-        res.end('launched firefox');
-      } else {
-        res.end('already running firefox')
-      }
-    })
-  }
-
-  if (browser == "Chrome") {
-    ps.spawn("chrome-driver.js", ["--location", location]);
-    res.end('launched chrome');
   }
 }
 
@@ -173,12 +118,12 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
       const version = opts.node.raw;
       console.log(`Sorry, Your version of node is ${version}.`);
       console.log("The minimum requirement is >=6.9.0");
-      exit();
+      process.exit();
     }
   });
 
   if (!getValue("firefox.webSocketConnection")) {
-    const firefoxProxy = require("./firefox-proxy");
+    const firefoxProxy = require("../bin/firefox-proxy");
     firefoxProxy({ logging: getValue("logging.firefoxProxy") });
   }
 
@@ -190,13 +135,14 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   let favicon = getValue("favicon");
   let faviconDir = favicon
     ? path.dirname(path.join(rootDir, favicon))
-    : path.join(__dirname, '../assets')
+    : path.join(__dirname, "../assets");
 
   app.use(express.static(faviconDir));
 
   app.use(bodyParser.urlencoded({
     extended: true
   }));
+
   app.use(bodyParser.json());
 
   if (!getValue("development.customIndex")) {
@@ -227,9 +173,9 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
     console.log("Hot Reloading - https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#hot-reloading");
   }
 
-  return { express, app }
+  return { express, app };
 }
 
 module.exports = {
   startDevServer
-}
+};

@@ -18,7 +18,7 @@ function proxy(webSocketPort, tcpPort, logging) {
     tcpClient.setEncoding("utf8");
 
     tcpClient.on("connect", () => {
-      console.log("TCP connection succeeded");
+      // console.log("TCP connection succeeded");
     });
 
     tcpClient.on("error", e => {
