@@ -4,7 +4,6 @@ require("babel-register");
 
 const path = require("path");
 const fs = require("fs");
-const ps = require("child_process");
 const Mustache = require("mustache");
 const webpack = require("webpack");
 const express = require("express");
@@ -22,8 +21,7 @@ const {
   setValue
 } = require("devtools-config");
 const isDevelopment = require("devtools-config").isDevelopment;
-const firefoxDriver = require("../bin/firefox-driver");
-const { isFirefoxRunning } = require("./server/utils/firefox");
+const { handleLaunchRequest } = require("./server/launch");
 let root;
 
 function httpOrHttpsGet(url, onResponse) {
@@ -87,29 +85,6 @@ function handleNetworkRequest(req, res) {
 
     httpReq.on("error", err => res.status(500).send(err.code));
     httpReq.on("statusCode", err => res.status(err.message).send(err.message));
-  }
-}
-
-function handleLaunchRequest(req, res) {
-  const browser = req.body.browser;
-  const location = "https://devtools-html.github.io/debugger-examples/";
-
-  process.env.PATH += `:${__dirname}`;
-  if (browser == "Firefox") {
-    isFirefoxRunning().then((isRunning) => {
-      console.log("running", isRunning);
-      if (!isRunning) {
-        firefoxDriver.start(location);
-        res.end("launched firefox");
-      } else {
-        res.end("already running firefox");
-      }
-    });
-  }
-
-  if (browser == "Chrome") {
-    ps.spawn("chrome-driver.js", ["--location", location]);
-    res.end("launched chrome");
   }
 }
 
