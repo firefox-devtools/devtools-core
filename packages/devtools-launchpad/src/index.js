@@ -132,8 +132,7 @@ function getTargetFromQuery() {
   return null;
 }
 
-async function getTabs(actions) {
-  actions.clearTabs();
+async function connectClients(actions) {
   chrome.connectClient()
     .then(actions.newTabs);
 
@@ -141,6 +140,12 @@ async function getTabs(actions) {
     .then(actions.newTabs);
 
   const firefoxTabs = await firefox.connectClient();
+  actions.newTabs(firefoxTabs);
+}
+
+async function getTabs(actions) {
+  actions.clearTabs();
+  const firefoxTabs = await firefox.getTabs();
   actions.newTabs(firefoxTabs);
 }
 
@@ -159,7 +164,7 @@ async function bootstrap(React, ReactDOM, App, appActions, appStore) {
 
   const { store, actions, LaunchpadApp } = await initApp();
   renderRoot(React, ReactDOM, LaunchpadApp, store);
-  await getTabs(actions);
+  await connectClients(actions);
   setInterval(async () => await getTabs(actions), 3000);
 }
 
