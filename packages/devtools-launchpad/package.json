@@ -1,6 +1,6 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.45",
+  "version": "0.0.48",
   "license": "MPL-2.0",
   "description": "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
   "repository": {
@@ -14,7 +14,8 @@
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "start": "node bin/dev-server"
+    "start": "node bin/dev-server",
+    "prepublish": "node bin/validate-deps"
   },
   "main": "src/index.js",
   "bin": {
@@ -49,11 +50,11 @@
     "classnames": "^2.2.5",
     "co": "=4.6.0",
     "css-loader": "^0.26.1",
-    "devtools-client-adapters": "^0.0.16",
-    "devtools-config": "^0.0.12",
-    "devtools-modules": "^0.0.16",
-    "devtools-network-request": "^0.0.11",
-    "devtools-sham-modules": "^0.0.13",
+    "devtools-client-adapters": "^0.x.x",
+    "devtools-config": "^0.x.x",
+    "devtools-modules": "^0.x.x",
+    "devtools-network-request": "^0.x.x",
+    "devtools-sham-modules": "^0.x.x",
     "eslint": "^3.12.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flowtype": "^2.20.0",
@@ -69,6 +70,7 @@
     "minimist": "^1.2.0",
     "mustache": "^2.2.1",
     "node-static": "^0.7.7",
+    "parse-yarn-lock": "^1.0.2",
     "postcss": "^5.2.12",
     "postcss-bidirection": "=2.0.2",
     "postcss-loader": "^1.2.2",

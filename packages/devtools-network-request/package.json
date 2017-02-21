@@ -1,13 +1,13 @@
 {
   "name": "devtools-network-request",
-  "version": "0.0.11",
+  "version": "0.0.13",
   "description": "Devtools Library for making cross origin requests",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "devtools-config": "^0.0.12"
+    "devtools-config": "^0.x.x"
   },
   "author": "",
   "license": "ISC"
