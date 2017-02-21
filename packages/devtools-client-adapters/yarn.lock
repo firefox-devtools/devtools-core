@@ -25,13 +25,9 @@ devtools-network-request@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.11.tgz#e3a2b9927eb4ee657f2a93909dc7eb83e13bd994"
 
-devtools-sham-modules@^0.0.13:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.13.tgz#adf77140789b5454375d1c2f642e6f69be36d811"
-
-flow-bin@^0.37.4:
-  version "0.37.4"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.37.4.tgz#3d8da2ef746e80e730d166e09040f4198969b76b"
+devtools-sham-modules@^0.x.x:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.14.tgz#03108898de8dc3a2b679fa086bc2ec0da78a0bf2"
 
 options@>=0.0.5:
   version "0.0.6"
@@ -42,8 +38,8 @@ ultron@1.0.x:
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
 
 ws@1.1.x:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.1.tgz#082ddb6c641e85d4bb451f03d52f06eabdb1f018"
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.2.tgz#8a244fa052401e08c9886cf44a85189e1fd4067f"
   dependencies:
     options ">=0.0.5"
     ultron "1.0.x"
