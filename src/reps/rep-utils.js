@@ -154,7 +154,7 @@ function sanitizeString(text) {
   // (horizontal) tab (HT: \x09) and newline (LF: \x0A, CR: \x0D),
   // with unicode replacement character (u+fffd).
   // eslint-disable-next-line no-control-regex
-  let re = new RegExp("[\x00-\x08\x0B\x0C\x0E-\x1F\x80-\x9F]", "g");
+  let re = new RegExp("[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]", "g");
   return text.replace(re, "\ufffd");
 }
 
