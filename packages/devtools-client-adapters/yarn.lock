@@ -13,17 +13,17 @@ commander@2.1.x:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.1.0.tgz#d121bbae860d9992a3d517ba96f56588e47c6781"
 
-devtools-config@^0.0.12:
+devtools-config@^0.x.x:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
-devtools-modules@^0.0.16:
+devtools-modules@^0.x.x:
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.16.tgz#49452f23875fdcc183434876eb8035b19d4a9435"
 
-devtools-network-request@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.11.tgz#e3a2b9927eb4ee657f2a93909dc7eb83e13bd994"
+devtools-network-request@^0.x.x:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.13.tgz#9dec00174ee9d990cd538ae8fb3c95c742c1a175"
 
 devtools-sham-modules@^0.x.x:
   version "0.0.14"
