@@ -731,24 +731,7 @@ clone@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.2.tgz#260b7a99ebb1edfe247538175f783243cb19d149"
 
-co-from-stream@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/co-from-stream/-/co-from-stream-0.0.0.tgz#1a5cd8ced77263946094fa39f2499a63297bcaf9"
-  dependencies:
-    co-read "0.0.1"
-
-co-fs@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/co-fs/-/co-fs-1.2.0.tgz#a6df045ce58c04eed45586ff4385032813aba64e"
-  dependencies:
-    co-from-stream "0.0.0"
-    thunkify "0.0.1"
-
-co-read@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/co-read/-/co-read-0.0.1.tgz#f81b3eb8a86675fec51e3d883a7f564e873c9389"
-
-co@4.6.0, co@=4.6.0, co@^4.6.0:
+co@=4.6.0, co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
 
@@ -2097,14 +2080,7 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-js-yaml@3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.6.1.tgz#6e5fe67d8b205ce4d22fad05b7781e8dadcc4b30"
-  dependencies:
-    argparse "^1.0.7"
-    esprima "^2.6.0"
-
-js-yaml@^3.4.3, js-yaml@^3.5.1, js-yaml@^3.8.1:
+js-yaml@^3.4.3, js-yaml@^3.5.1:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.1.tgz#782ba50200be7b9e5a8537001b7804db3ad02628"
   dependencies:
@@ -2455,14 +2431,6 @@ node-status-codes@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/node-status-codes/-/node-status-codes-1.0.0.tgz#5ae5541d024645d32a58fcddc9ceecea7ae3ac2f"
 
-node-yaml@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/node-yaml/-/node-yaml-3.0.3.tgz#be539ebe9d4dbb3fbb8697cdcd87303ad7fd693d"
-  dependencies:
-    co "4.6.0"
-    co-fs "1.2.0"
-    js-yaml "3.6.1"
-
 nopt@~3.0.6:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"
@@ -2688,9 +2656,9 @@ pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
 
-postcss-bidirection@=2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/postcss-bidirection/-/postcss-bidirection-2.0.2.tgz#7680bceebcac899d143671a7d2b2bf7dce16d328"
+postcss-bidirection@=2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/postcss-bidirection/-/postcss-bidirection-2.0.3.tgz#b5a0b31de5a0859be6b6dc7db81cd103157847d4"
   dependencies:
     postcss "^5.0.10"
 
@@ -3641,10 +3609,6 @@ text-table@~0.2.0:
 through@^2.3.6:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
-
-thunkify@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/thunkify/-/thunkify-0.0.1.tgz#bd5d36b1069b4078e5dcbac8fab45359bea6183d"
 
 timed-out@^2.0.0:
   version "2.0.0"
