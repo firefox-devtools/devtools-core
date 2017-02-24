@@ -123,7 +123,7 @@ const ElementNode = React.createClass({
           draggable: false,
           // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
           title: "Click to select the node in the inspector",
-          onClick: () => onInspectIconClick(object)
+          onClick: (e) => onInspectIconClick(object, e)
         });
       }
     }

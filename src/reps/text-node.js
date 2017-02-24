@@ -77,7 +77,7 @@ let TextNode = React.createClass({
           draggable: false,
           // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
           title: "Click to select the node in the inspector",
-          onClick: () => onInspectIconClick(grip)
+          onClick: (e) => onInspectIconClick(grip, e)
         });
       }
     }
