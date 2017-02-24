@@ -92,7 +92,7 @@ function renderRoot(_React, _ReactDOM, component, _store) {
     return;
   }
 
-  const root = Root("launchpad-root");
+  const root = Root("launchpad-root theme-body");
   mount.appendChild(root);
 
   if (component.props || component.propTypes) {
