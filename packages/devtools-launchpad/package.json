@@ -19,7 +19,7 @@
   },
   "main": "src/index.js",
   "bin": {
-    "start-dev-server": "./bin/development-server.js",
+    "start-dev-server": "./src/development-server.js",
     "start-firefox": "./bin/firefox-driver.js",
     "start-chrome": "./bin/chrome-driver.js"
   },
