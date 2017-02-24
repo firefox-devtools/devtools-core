@@ -131,7 +131,7 @@ function eventSource(aProto) {
         listener.apply(null, arguments);
       } catch (e) {
         // Prevent a bad listener from interfering with the others.
-        DevToolsUtils.reportException("notify event '" + name + "'", e);
+        DevToolsUtils.reportException(`notify event '${ name }'`, e);
       }
     }
   };
@@ -257,8 +257,8 @@ DebuggerClient.requester = function(aPacketSkeleton, config = {}) {
       let transportType = this._transport.onOutputStreamReady === undefined
         ? "LOCAL_"
         : "REMOTE_";
-      let histogramId = "DEVTOOLS_DEBUGGER_RDP_"
-        + transportType + telemetry + "_MS";
+      let histogramId = `DEVTOOLS_DEBUGGER_RDP_${
+         transportType }${telemetry }_MS`;
       histogram = Services.telemetry.getHistogramById(histogramId);
       startTime = +new Date();
     }
@@ -313,7 +313,7 @@ DebuggerClient.Argument = function(aPosition) {
 
 DebuggerClient.Argument.prototype.getArgument = function(aParams) {
   if (!(this.position in aParams)) {
-    throw new Error("Bad index into params: " + this.position);
+    throw new Error(`Bad index into params: ${ this.position}`);
   }
   return aParams[this.position];
 };
@@ -711,11 +711,11 @@ DebuggerClient.prototype = {
     }
     let type = aRequest.type || "";
     if (!aRequest.to) {
-      throw Error("'" + type + "' request packet has no destination.");
+      throw Error(`'${ type }' request packet has no destination.`);
     }
     if (this._closed) {
-      let msg = "'" + type + "' request packet to " +
-                "'" + aRequest.to + "' " +
+      let msg = `'${ type }' request packet to ` +
+                `'${ aRequest.to }' ` +
                "can't be sent as the connection is closed.";
       let resp = { error: "connectionClosed", message: msg };
       if (aOnResponse) {
@@ -841,10 +841,10 @@ DebuggerClient.prototype = {
       throw Error("Bulk packet is missing the required 'type' field.");
     }
     if (!request.actor) {
-      throw Error("'" + request.type + "' bulk packet has no destination.");
+      throw Error(`'${ request.type }' bulk packet has no destination.`);
     }
     if (!request.length) {
-      throw Error("'" + request.type + "' bulk packet has no length.");
+      throw Error(`'${ request.type }' bulk packet has no length.`);
     }
 
     request = new Request(request);
@@ -926,7 +926,7 @@ DebuggerClient.prototype = {
    */
   expectReply: function(aActor, aRequest) {
     if (this._activeRequests.has(aActor)) {
-      throw Error("clashing handlers for next reply from " + uneval(aActor));
+      throw Error(`clashing handlers for next reply from ${ uneval(aActor)}`);
     }
 
     // If a handler is passed directly (as it is with the handler for the root
@@ -952,8 +952,8 @@ DebuggerClient.prototype = {
     if (!aPacket.from) {
       DevToolsUtils.reportException(
         "onPacket",
-        new Error("Server did not specify an actor, dropping packet: " +
-                  JSON.stringify(aPacket)));
+        new Error(`Server did not specify an actor, dropping packet: ${
+                  JSON.stringify(aPacket)}`));
       return;
     }
 
@@ -1066,8 +1066,8 @@ DebuggerClient.prototype = {
     if (!actor) {
       DevToolsUtils.reportException(
         "onBulkPacket",
-        new Error("Server did not specify an actor, dropping bulk packet: " +
-                  JSON.stringify(packet)));
+        new Error(`Server did not specify an actor, dropping bulk packet: ${
+                  JSON.stringify(packet)}`));
       return;
     }
 
@@ -1105,11 +1105,11 @@ DebuggerClient.prototype = {
       // to expectReply, so that there is no request object.
       let msg;
       if (request.request) {
-        msg = "'" + request.request.type + "' " + type + " request packet" +
-              " to '" + actor + "' " +
+        msg = `'${ request.request.type }' ${ type } request packet` +
+              ` to '${ actor }' ` +
               "can't be sent as the connection just closed.";
       } else {
-        msg = "server side packet from '" + actor + "' can't be received " +
+        msg = `server side packet from '${ actor }' can't be received ` +
               "as the connection just closed.";
       }
       let packet = { error: "connectionClosed", message: msg };
@@ -1204,7 +1204,7 @@ DebuggerClient.prototype = {
 
   poolFor: function(actorID) {
     for (let pool of this._pools) {
-      if (pool.has(actorID)) return pool;
+      if (pool.has(actorID)) {return pool;}
     }
     return null;
   },
@@ -1713,7 +1713,7 @@ ThreadClient.prototype = {
 
   _assertPaused: function(aCommand) {
     if (!this.paused) {
-      throw Error(aCommand + " command sent while not paused. Currently " + this._state);
+      throw Error(`${aCommand } command sent while not paused. Currently ${ this._state}`);
     }
   },
 
@@ -2923,7 +2923,7 @@ SourceClient.prototype = {
    * @param function aOnResponse
    *        Called with the thread's response.
    */
-  setBreakpoint: function({ line, column, condition, noSliding }, aOnResponse = noop) {
+  setBreakpoint: function({ line, column, condition, noSliding }, onResponse = noop) {
     // A helper function that sets the breakpoint.
     let doSetBreakpoint = aCallback => {
       let root = this._client.mainRoot;
@@ -2947,24 +2947,24 @@ SourceClient.prototype = {
         packet.location.url = this.url;
       }
 
-      return this._client.request(packet).then(aResponse => {
+      return this._client.request(packet).then(response => {
         // Ignoring errors, since the user may be setting a breakpoint in a
         // dead script that will reappear on a page reload.
         let bpClient;
-        if (aResponse.actor) {
+        if (response.actor) {
           bpClient = new BreakpointClient(
             this._client,
             this,
-            aResponse.actor,
+            response.actor,
             location,
             root.traits.conditionalBreakpoints ? condition : undefined
           );
         }
-        aOnResponse(aResponse, bpClient);
+        onResponse(response, bpClient);
         if (aCallback) {
           aCallback();
         }
-        return [aResponse, bpClient];
+        return [response, bpClient];
       });
     };
 
@@ -2976,7 +2976,7 @@ SourceClient.prototype = {
     return this._activeThread.interrupt().then(aResponse => {
       if (aResponse.error) {
         // Can't set the breakpoint if pausing failed.
-        aOnResponse(aResponse);
+        onResponse(aResponse);
         return aResponse;
       }
 
