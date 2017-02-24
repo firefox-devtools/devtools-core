@@ -91,6 +91,9 @@
     "webpack-hot-middleware": "^2.12.0",
     "ws": "^1.0.1"
   },
+  "devDependencies": {
+    "yarn": "^0.20.3"
+  },
   "files": [
     "bin",
     "src",
