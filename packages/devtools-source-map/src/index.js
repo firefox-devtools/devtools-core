@@ -19,6 +19,9 @@ function restartWorker() {
   sourceMapWorker = new Worker(
     `${getValue("baseWorkerURL")}worker.js`
   );
+  sourceMapWorker.onerror = () => {
+    console.error("Error in source map worker");
+  };
 
   sourceMapWorker.postMessage({ id: 0, method: "enableSourceMaps" });
 }
