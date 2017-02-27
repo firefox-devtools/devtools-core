@@ -4,7 +4,7 @@
   "description": "Collection of devtools packages",
   "scripts": {
     "flow": "flow",
-    "lint": "yarn run lint-css -s; yarn run lint-js -s",
+    "lint": "yarn run lint-css -s; a=$?; yarn run lint-js -s; b=$?; test $a -eq 0 -a $b -eq 0",
     "lint-css": "stylelint packages/devtools-launchpad/**/*.css",
     "lint-js": "eslint packages/devtools-launchpad/src packages/devtools-client-adapters/src",
     "nom": "rm -rf node_modules/ packages/*/node_modules/ && yarn install",
