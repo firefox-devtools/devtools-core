@@ -41,8 +41,11 @@ function createSource(source: SourcePayload): Source {
 }
 
 function createPause(packet: PausedPacket, response: FramesResponse): any {
+  // NOTE: useful when the debugger is already paused
+  const frame = packet.frame || response.frames[0];
+
   return Object.assign({}, packet, {
-    frame: createFrame(packet.frame),
+    frame: createFrame(frame),
     frames: response.frames.map(createFrame)
   });
 }
