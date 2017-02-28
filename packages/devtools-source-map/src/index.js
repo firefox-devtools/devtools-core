@@ -11,7 +11,7 @@ const {
 
 const WORKER_PATH = "devtools-source-map/worker.js";
 
-import type { Location } from "../types";
+import type { Location } from "devtools-client-adapters/src/types";
 
 let sourceMapWorker;
 function restartWorker() {
