@@ -9,6 +9,8 @@ const {
   workerTask,
 } = require("./util");
 
+const WORKER_PATH = "devtools-source-map/worker.js";
+
 import type { Location } from "../types";
 
 let sourceMapWorker;
@@ -16,9 +18,7 @@ function restartWorker() {
   if (sourceMapWorker) {
     sourceMapWorker.terminate();
   }
-  sourceMapWorker = new Worker(
-    `${getValue("baseWorkerURL")}worker.js`
-  );
+  sourceMapWorker = new Worker(`${getValue("baseWorkerURL")}${WORKER_PATH}`);
   sourceMapWorker.onerror = () => {
     console.error("Error in source map worker");
   };

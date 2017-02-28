@@ -8,3 +8,8 @@ This is used in multiple contexts:
   tab by itself
 * The toolbox inside Firefox loads this package and passes it down to interested
   tools so that they can share a common instance of the utilities
+
+# Application Requirements
+
+This package assumes that an application using this code will make the
+`worker.js` file available at `${baseWorkerURL}devtools-source-map/worker.js`.
