@@ -9,6 +9,7 @@
   "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map#readme",
   "main": "src/index.js",
   "dependencies": {
+    "devtools-client-adapters": "^0.0.19",
     "devtools-config": "^0.0.12",
     "devtools-network-request": "^0.0.11",
     "md5": "^2.2.1",
