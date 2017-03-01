@@ -2,6 +2,7 @@
 const React = require("react");
 const {
   createFactories,
+  maybeEscapePropertyName,
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
@@ -33,6 +34,10 @@ let PropRep = React.createClass({
     onDOMNodeMouseOver: React.PropTypes.func,
     onDOMNodeMouseOut: React.PropTypes.func,
     onInspectIconClick: React.PropTypes.func,
+    // Normally a PropRep will quote a property name that isn't valid
+    // when unquoted; but this flag can be used to suppress the
+    // quoting.
+    suppressQuotes: React.PropTypes.bool,
   },
 
   render: wrapRender(function () {
@@ -43,13 +48,17 @@ let PropRep = React.createClass({
       mode,
       equal,
       delim,
+      suppressQuotes,
     } = this.props;
 
     let key;
     // The key can be a simple string, for plain objects,
     // or another object for maps and weakmaps.
-    if (typeof this.props.name === "string") {
-      key = span({"className": "nodeName"}, this.props.name);
+    if (typeof name === "string") {
+      if (!suppressQuotes) {
+        name = maybeEscapePropertyName(name);
+      }
+      key = span({"className": "nodeName"}, name);
     } else {
       key = Rep(Object.assign({}, this.props, {
         object: name,

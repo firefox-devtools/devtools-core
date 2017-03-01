@@ -96,7 +96,12 @@ const GripRep = React.createClass({
     }
 
     const truncate = Object.keys(properties).length > max;
-    let propsArray = this.getProps(properties, indexes, truncate);
+    // The server synthesizes some property names for a Proxy, like
+    // <target> and <handler>; we don't want to quote these because,
+    // as synthetic properties, they appear more natural when
+    // unquoted.
+    const suppressQuotes = object.class === "Proxy";
+    let propsArray = this.getProps(properties, indexes, truncate, suppressQuotes);
     if (truncate) {
       // There are some undisplayed props. Then display "more...".
       let objectLink = this.props.objectLink || span;
@@ -117,9 +122,11 @@ const GripRep = React.createClass({
    * @param {Object} properties Props object.
    * @param {Array} indexes Indexes of props.
    * @param {Boolean} truncate true if the grip will be truncated.
+   * @param {Boolean} suppressQuotes true if we should suppress quotes
+   *                  on property names.
    * @return {Array} Props.
    */
-  getProps: function (properties, indexes, truncate) {
+  getProps: function (properties, indexes, truncate, suppressQuotes) {
     let propsArray = [];
 
     // Make indexes ordered by ascending.
@@ -140,6 +147,7 @@ const GripRep = React.createClass({
         defaultRep: Grip,
         // Do not propagate title to properties reps
         title: undefined,
+        suppressQuotes,
       })));
     });
 

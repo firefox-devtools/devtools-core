@@ -5,12 +5,14 @@ const {
   parseURLEncodedText,
   parseURLParams,
   getSelectableInInspectorGrips,
+  maybeEscapePropertyName,
 } = require("./reps/rep-utils");
 
 module.exports = {
   REPS,
   MODE,
   createFactories,
+  maybeEscapePropertyName,
   parseURLEncodedText,
   parseURLParams,
   getSelectableInInspectorGrips,

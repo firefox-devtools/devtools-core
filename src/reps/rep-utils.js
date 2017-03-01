@@ -115,6 +115,29 @@ function escapeString(str) {
   }) + "\"";
 }
 
+/**
+ * Escape a property name, if needed.  "Escaping" in this context
+ * means surrounding the property name with quotes.
+ *
+ * @param {String}
+ *        name the property name
+ * @return {String} either the input, or the input surrounded by
+ *                  quotes, properly quoted in JS syntax.
+ */
+function maybeEscapePropertyName(name) {
+  // Quote the property name if it needs quoting.  This particular
+  // test is an approximation; see
+  // https://mathiasbynens.be/notes/javascript-properties.  However,
+  // the full solution requires a fair amount of Unicode data, and so
+  // let's defer that until either it's important, or the \p regexp
+  // syntax lands, see
+  // https://github.com/tc39/proposal-regexp-unicode-property-escapes.
+  if (!/^\w+$/.test(name)) {
+    name = escapeString(name);
+  }
+  return name;
+}
+
 function cropMultipleLines(text, limit) {
   return escapeNewLines(cropString(text, limit));
 }
@@ -364,4 +387,5 @@ module.exports = {
   getFileName,
   getURLDisplayString,
   getSelectableInInspectorGrips,
+  maybeEscapePropertyName,
 };
