@@ -81,7 +81,7 @@ const PromiseRep = React.createClass({
       );
     }
 
-    const props = this.getProps(promiseState);
+    const propsArray = this.getProps(promiseState);
     return (
       span({className: "objectBox objectBox-object"},
         this.getTitle(object),
@@ -89,7 +89,7 @@ const PromiseRep = React.createClass({
           className: "objectLeftBrace",
           object: object
         }, " { "),
-        ...props,
+        ...propsArray,
         objectLink({
           className: "objectRightBrace",
           object: object

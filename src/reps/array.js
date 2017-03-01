@@ -89,9 +89,9 @@ let ArrayRep = React.createClass({
       return x === y.toString();
     }
 
-    let props = Object.getOwnPropertyNames(array);
-    for (let i = 0; i < props.length; i++) {
-      let p = props[i];
+    let propsArray = Object.getOwnPropertyNames(array);
+    for (let i = 0; i < propsArray.length; i++) {
+      let p = propsArray[i];
 
       // Valid indexes are skipped
       if (isInteger(p)) {

@@ -159,7 +159,7 @@ const GripMap = React.createClass({
 
   render: wrapRender(function () {
     let object = this.props.object;
-    let props = this.safeEntriesIterator(object,
+    let propsArray = this.safeEntriesIterator(object,
       (this.props.mode === MODE.LONG) ? 10 : 3);
 
     let objectLink = this.props.objectLink || span;
@@ -182,7 +182,7 @@ const GripMap = React.createClass({
           className: "objectLeftBrace",
           object: object
         }, " { "),
-        props,
+        propsArray,
         objectLink({
           className: "objectRightBrace",
           object: object

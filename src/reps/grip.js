@@ -96,19 +96,19 @@ const GripRep = React.createClass({
     }
 
     const truncate = Object.keys(properties).length > max;
-    let props = this.getProps(properties, indexes, truncate);
+    let propsArray = this.getProps(properties, indexes, truncate);
     if (truncate) {
       // There are some undisplayed props. Then display "more...".
       let objectLink = this.props.objectLink || span;
 
-      props.push(Caption({
+      propsArray.push(Caption({
         object: objectLink({
           object: object
         }, `${propertiesLength - max} more…`)
       }));
     }
 
-    return props;
+    return propsArray;
   },
 
   /**
@@ -120,7 +120,7 @@ const GripRep = React.createClass({
    * @return {Array} Props.
    */
   getProps: function (properties, indexes, truncate) {
-    let props = [];
+    let propsArray = [];
 
     // Make indexes ordered by ascending.
     indexes.sort(function (a, b) {
@@ -131,7 +131,7 @@ const GripRep = React.createClass({
       let name = Object.keys(properties)[i];
       let value = this.getPropValue(properties[name]);
 
-      props.push(PropRep(Object.assign({}, this.props, {
+      propsArray.push(PropRep(Object.assign({}, this.props, {
         mode: MODE.TINY,
         name: name,
         object: value,
@@ -143,7 +143,7 @@ const GripRep = React.createClass({
       })));
     });
 
-    return props;
+    return propsArray;
   },
 
   /**
@@ -202,7 +202,7 @@ const GripRep = React.createClass({
 
   render: wrapRender(function () {
     let object = this.props.object;
-    let props = this.safePropIterator(object,
+    let propsArray = this.safePropIterator(object,
       (this.props.mode === MODE.LONG) ? 10 : 3);
 
     let objectLink = this.props.objectLink || span;
@@ -225,7 +225,7 @@ const GripRep = React.createClass({
           className: "objectLeftBrace",
           object: object
         }, " { "),
-        ...props,
+        ...propsArray,
         objectLink({
           className: "objectRightBrace",
           object: object
