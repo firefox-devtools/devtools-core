@@ -4,7 +4,12 @@
 
 :root.theme-light,
 :root .theme-light {
-  --theme-search-overlays-semitransparent: rgba(221, 225, 228, 0.66);
+  --codemirror-gutter-background: #f4f4f4;
+}
+
+:root.theme-dark,
+:root .theme-dark {
+  --codemirror-gutter-background: #262b37;
 }
 
 * {
