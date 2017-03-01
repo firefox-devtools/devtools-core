@@ -60,8 +60,9 @@ const SplitBox = React.createClass({
   getInitialState() {
     return {
       vert: this.props.vert,
-      width: this.props.initialWidth || this.props.initialSize,
-      height: this.props.initialHeight || this.props.initialSize
+      // We use integers for these properties
+      width: parseInt(this.props.initialWidth || this.props.initialSize),
+      height: parseInt(this.props.initialHeight || this.props.initialSize)
     };
   },
 
@@ -100,54 +101,37 @@ const SplitBox = React.createClass({
     splitBox.classList.remove("dragging");
   },
 
-  screenX() {
-    // NOTE: in practice the window might have a border which calls for comparing window.outerWidth and window.innerWidth
-    return window.screenX;
-  },
-
-  screenY() {
-    // NOTE: in practice the window might have a border which calls for comparing window.outerHeight and window.innerHeight
-    return window.screenY;
-  },
-
   /**
    * Adjust size of the controlled panel. Depending on the current
    * orientation we either remember the width or height of
    * the splitter box.
    */
-  onMove(x, y) {
+  onMove({ movementX, movementY }) {
     const node = ReactDOM.findDOMNode(this);
     const doc = node.ownerDocument;
-    const win = doc.defaultView;
 
-    let size;
-    let { endPanelControl } = this.props;
+    if (this.props.endPanelControl) {
+      // For the end panel we need to increase the width/height when the
+      // movement is towards the left/top.
+      movementX = -movementX;
+      movementY = -movementY;
+    }
 
     if (this.state.vert) {
-      // Switch the control flag in case of RTL. Note that RTL
-      // has impact on vertical splitter only.
-      let dir = win.getComputedStyle(doc.documentElement).direction;
-      if (dir == "rtl") {
-        endPanelControl = !endPanelControl;
+      const isRtl = doc.dir === "rtl";
+      if (isRtl) {
+        // In RTL we need to reverse the movement again -- but only for vertical
+        // splitters
+        movementX = -movementX;
       }
 
-      let innerOffset = x - this.screenX();
-      size = endPanelControl ?
-        (node.offsetLeft + node.offsetWidth) - innerOffset :
-        innerOffset - node.offsetLeft;
-
-      this.setState({
-        width: size
-      });
+      this.setState((state, props) => ({
+        width: state.width + movementX
+      }));
     } else {
-      let innerOffset = y - this.screenY();
-      size = endPanelControl ?
-        (node.offsetTop + node.offsetHeight) - innerOffset :
-        innerOffset - node.offsetTop;
-
-      this.setState({
-        height: size
-      });
+      this.setState((state, props) => ({
+        height: state.height + movementY
+      }));
     }
   },
 
