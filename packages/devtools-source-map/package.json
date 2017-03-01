@@ -1,0 +1,19 @@
+{
+  "name": "devtools-source-map",
+  "version": "0.1.0",
+  "description": "DevTools utilities for working with source maps",
+  "license": "MPL-2.0",
+  "author": "J. Ryan Stinnett <jryans@gmail.com>",
+  "repository": "github:devtools-html/devtools-core",
+  "bugs": "https://github.com/devtools-html/devtools-core/issues",
+  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map#readme",
+  "main": "src/index.js",
+  "dependencies": {
+    "devtools-client-adapters": "^0.0.19",
+    "devtools-config": "^0.0.12",
+    "devtools-network-request": "^0.0.11",
+    "md5": "^2.2.1",
+    "source-map": "^0.5.6",
+    "url": "^0.11.0"
+  }
+}

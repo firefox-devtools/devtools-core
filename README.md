@@ -6,6 +6,7 @@
 * [devtools-config](./packages/devtools-config/README.md)
 * [devtools-modules](./packages/devtools-modules/README.md)
 * [devtools-sham-modules](./packages/devtools-sham-modules/README.md)
+* [devtools-source-map](./packages/devtools-source-map/README.md)
 
 ### Docs:
 
