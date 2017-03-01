@@ -53,6 +53,7 @@ const PromiseRep = React.createClass({
         object,
         equal: ": ",
         delim: i < keys.length - 1 ? ", " : "",
+        suppressQuotes: true,
       }));
     });
   },
