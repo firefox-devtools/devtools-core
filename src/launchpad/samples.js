@@ -52,7 +52,7 @@ let samples = {
   promise: [
     "Promise.resolve([1, 2, 3])",
     "Promise.reject(new Error('This is wrong'))",
-    "new Promise()"
+    "new Promise(() => {})"
   ],
 
   regexp: [
