@@ -16,6 +16,7 @@ const Number = React.createClass({
     object: React.PropTypes.oneOfType([
       React.PropTypes.object,
       React.PropTypes.number,
+      React.PropTypes.bool,
     ]).isRequired
   },
 

@@ -42,12 +42,14 @@ const ErrorRep = React.createClass({
       content = `${content}\nStack trace:\n${preview.stack}`;
     }
 
-    let objectLink = this.props.objectLink || span;
-    return (
-      objectLink({object, className: "objectBox-stackTrace"},
-        span({}, content)
-      )
-    );
+    let objectLink = (config, ...children) => {
+      if (this.props.objectLink) {
+        return this.props.objectLink(Object.assign({object}, config), ...children);
+      }
+      return span(config, ...children);
+    };
+
+    return objectLink({className: "objectBox-stackTrace"}, content);
   }),
 });
 

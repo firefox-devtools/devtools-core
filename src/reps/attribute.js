@@ -31,19 +31,22 @@ let Attribute = React.createClass({
   render: wrapRender(function () {
     let object = this.props.object;
     let value = object.preview.value;
-    let objectLink = this.props.objectLink || span;
+    let objectLink = (config, ...children) => {
+      if (this.props.objectLink) {
+        return this.props.objectLink(Object.assign({object}, config), ...children);
+      }
+      return span(config, ...children);
+    };
 
     return (
-      objectLink({className: "objectLink-Attr", object},
-        span({},
-          span({className: "attrTitle"},
-            this.getTitle(object)
-          ),
-          span({className: "attrEqual"},
-            "="
-          ),
-          StringRepFactory({object: value})
-        )
+      objectLink({className: "objectLink-Attr"},
+        span({className: "attrTitle"},
+          this.getTitle(object)
+        ),
+        span({className: "attrEqual"},
+          "="
+        ),
+        StringRepFactory({object: value})
       )
     );
   }),

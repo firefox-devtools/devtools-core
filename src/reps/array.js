@@ -58,9 +58,8 @@ let ArrayRep = React.createClass({
     }
 
     if (array.length > max) {
-      let objectLink = this.props.objectLink || DOM.span;
       items.push(Caption({
-        object: objectLink({
+        object: this.safeObjectLink({
           object: this.props.object
         }, (array.length - max) + " more…")
       }));
@@ -115,6 +114,20 @@ let ArrayRep = React.createClass({
   onClickBracket: function (event) {
   },
 
+  safeObjectLink: function (config, ...children) {
+    if (this.props.objectLink) {
+      return this.props.objectLink(Object.assign({
+        object: this.props.object
+      }, config), ...children);
+    }
+
+    if (Object.keys(config).length === 0 && children.length === 1) {
+      return children[0];
+    }
+
+    return DOM.span(config, ...children);
+  },
+
   render: wrapRender(function () {
     let {
       object,
@@ -137,17 +150,15 @@ let ArrayRep = React.createClass({
       brackets = needSpace(items.length > 0);
     }
 
-    let objectLink = this.props.objectLink || DOM.span;
-
     return (
       DOM.span({
         className: "objectBox objectBox-array"},
-        objectLink({
+        this.safeObjectLink({
           className: "arrayLeftBracket",
           object: object
         }, brackets.left),
         ...items,
-        objectLink({
+        this.safeObjectLink({
           className: "arrayRightBracket",
           object: object
         }, brackets.right),

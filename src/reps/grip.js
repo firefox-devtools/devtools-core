@@ -35,12 +35,7 @@ const GripRep = React.createClass({
 
   getTitle: function (object) {
     let title = this.props.title || object.class || "Object";
-    if (this.props.objectLink) {
-      return this.props.objectLink({
-        object: object
-      }, title);
-    }
-    return title;
+    return this.safeObjectLink({}, title);
   },
 
   safePropIterator: function (object, max) {
@@ -104,12 +99,8 @@ const GripRep = React.createClass({
     let propsArray = this.getProps(properties, indexes, truncate, suppressQuotes);
     if (truncate) {
       // There are some undisplayed props. Then display "more...".
-      let objectLink = this.props.objectLink || span;
-
       propsArray.push(Caption({
-        object: objectLink({
-          object: object
-        }, `${propertiesLength - max} more…`)
+        object: this.safeObjectLink({}, `${propertiesLength - max} more…`)
       }));
     }
 
@@ -138,7 +129,7 @@ const GripRep = React.createClass({
       let name = Object.keys(properties)[i];
       let value = this.getPropValue(properties[name]);
 
-      propsArray.push(PropRep(Object.assign({}, this.props, {
+      let propRepProps = Object.assign({}, this.props, {
         mode: MODE.TINY,
         name: name,
         object: value,
@@ -148,7 +139,9 @@ const GripRep = React.createClass({
         // Do not propagate title to properties reps
         title: undefined,
         suppressQuotes,
-      })));
+      });
+      delete propRepProps.objectLink;
+      propsArray.push(PropRep(propRepProps));
     });
 
     return propsArray;
@@ -208,20 +201,29 @@ const GripRep = React.createClass({
     return value;
   },
 
+  safeObjectLink: function (config, ...children) {
+    if (this.props.objectLink) {
+      return this.props.objectLink(Object.assign({
+        object: this.props.object
+      }, config), ...children);
+    }
+
+    if (Object.keys(config).length === 0 && children.length === 1) {
+      return children[0];
+    }
+
+    return span(config, ...children);
+  },
+
   render: wrapRender(function () {
     let object = this.props.object;
     let propsArray = this.safePropIterator(object,
       (this.props.mode === MODE.LONG) ? 10 : 3);
 
-    let objectLink = this.props.objectLink || span;
     if (this.props.mode === MODE.TINY) {
       return (
         span({className: "objectBox objectBox-object"},
-          this.getTitle(object),
-          objectLink({
-            className: "objectLeftBrace",
-            object: object
-          }, "")
+          this.getTitle(object)
         )
       );
     }
@@ -229,14 +231,12 @@ const GripRep = React.createClass({
     return (
       span({className: "objectBox objectBox-object"},
         this.getTitle(object),
-        objectLink({
+        this.safeObjectLink({
           className: "objectLeftBrace",
-          object: object
         }, " { "),
         ...propsArray,
-        objectLink({
+        this.safeObjectLink({
           className: "objectRightBrace",
-          object: object
         }, " }")
       )
     );

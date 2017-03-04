@@ -98,7 +98,12 @@ const ElementNode = React.createClass({
       onInspectIconClick,
     } = this.props;
     let elements = this.getElements(object, mode);
-    let objectLink = this.props.objectLink || span;
+    let objectLink = (config, ...children) => {
+      if (this.props.objectLink) {
+        return this.props.objectLink(Object.assign({object}, config), ...children);
+      }
+      return span(config, ...children);
+    };
 
     let isInTree = attachedActorIds ? attachedActorIds.includes(object.actor) : true;
 
@@ -129,7 +134,7 @@ const ElementNode = React.createClass({
     }
 
     return span(baseConfig,
-      objectLink({object}, ...elements),
+      objectLink({}, ...elements),
       inspectIcon
     );
   }),

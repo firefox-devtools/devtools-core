@@ -39,14 +39,12 @@ let GripArray = React.createClass({
   },
 
   getTitle: function (object, context) {
-    let objectLink = this.props.objectLink || span;
-    if (this.props.mode !== MODE.TINY) {
-      let title = this.props.title || object.class || "Array";
-      return objectLink({
-        object: object
-      }, title, " ");
+    if (this.props.mode === MODE.TINY) {
+      return "";
     }
-    return "";
+
+    let title = this.props.title || object.class || "Array";
+    return this.safeObjectLink({}, title + " ");
   },
 
   getPreviewItems: function (grip) {
@@ -100,17 +98,28 @@ let GripArray = React.createClass({
       }
     }
     if (previewItems.length > max || gripLength > previewItems.length) {
-      let objectLink = this.props.objectLink || span;
       let leftItemNum = gripLength - max > 0 ?
         gripLength - max : gripLength - previewItems.length;
       items.push(Caption({
-        object: objectLink({
-          object: this.props.object
-        }, leftItemNum + " more…")
+        object: this.safeObjectLink({}, leftItemNum + " more…")
       }));
     }
 
     return items;
+  },
+
+  safeObjectLink: function (config, ...children) {
+    if (this.props.objectLink) {
+      return this.props.objectLink(Object.assign({
+        object: this.props.object
+      }, config), ...children);
+    }
+
+    if (Object.keys(config).length === 0 && children.length === 1) {
+      return children[0];
+    }
+
+    return span(config, ...children);
   },
 
   render: wrapRender(function () {
@@ -136,21 +145,18 @@ let GripArray = React.createClass({
       brackets = needSpace(items.length > 0);
     }
 
-    let objectLink = this.props.objectLink || span;
     let title = this.getTitle(object);
 
     return (
       span({
         className: "objectBox objectBox-array"},
         title,
-        objectLink({
+        this.safeObjectLink({
           className: "arrayLeftBracket",
-          object: object
         }, brackets.left),
         ...items,
-        objectLink({
+        this.safeObjectLink({
           className: "arrayRightBracket",
-          object: object
         }, brackets.right),
         span({
           className: "arrayProperties",
@@ -170,7 +176,11 @@ let GripArrayItem = React.createFactory(React.createClass({
 
   propTypes: {
     delim: React.PropTypes.string,
-    object: React.PropTypes.object.isRequired,
+    object: React.PropTypes.oneOfType([
+      React.PropTypes.object,
+      React.PropTypes.number,
+      React.PropTypes.string,
+    ]).isRequired,
     objectLink: React.PropTypes.func,
     // @TODO Change this to Object.values once it's supported in Node's version of V8
     mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),

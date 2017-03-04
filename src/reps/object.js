@@ -25,12 +25,7 @@ const Obj = React.createClass({
 
   getTitle: function (object) {
     let title = this.props.title || object.class || "Object";
-    if (this.props.objectLink) {
-      return this.props.objectLink({
-        object: object
-      }, title);
-    }
-    return title;
+    return this.safeObjectLink({className: "objectTitle"}, title);
   },
 
   safePropIterator: function (object, max) {
@@ -127,15 +122,28 @@ const Obj = React.createClass({
     return propsArray;
   },
 
+  safeObjectLink: function (config, ...children) {
+    if (this.props.objectLink) {
+      return this.props.objectLink(Object.assign({
+        object: this.props.object
+      }, config), ...children);
+    }
+
+    if (Object.keys(config).length === 0 && children.length === 1) {
+      return children[0];
+    }
+
+    return span(config, ...children);
+  },
+
   render: wrapRender(function () {
     let object = this.props.object;
     let propsArray = this.safePropIterator(object);
-    let objectLink = this.props.objectLink || span;
 
     if (this.props.mode === MODE.TINY || !propsArray.length) {
       return (
         span({className: "objectBox objectBox-object"},
-          objectLink({className: "objectTitle"}, this.getTitle(object))
+          this.getTitle(object)
         )
       );
     }
@@ -143,14 +151,12 @@ const Obj = React.createClass({
     return (
       span({className: "objectBox objectBox-object"},
         this.getTitle(object),
-        objectLink({
+        this.safeObjectLink({
           className: "objectLeftBrace",
-          object: object
         }, " { "),
         ...propsArray,
-        objectLink({
+        this.safeObjectLink({
           className: "objectRightBrace",
-          object: object
         }, " }")
       )
     );

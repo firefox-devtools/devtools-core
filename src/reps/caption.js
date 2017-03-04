@@ -12,7 +12,10 @@ const Caption = React.createClass({
   displayName: "Caption",
 
   propTypes: {
-    object: React.PropTypes.object,
+    object: React.PropTypes.oneOfType([
+      React.PropTypes.number,
+      React.PropTypes.string,
+    ]).isRequired,
   },
 
   render: wrapRender(function () {

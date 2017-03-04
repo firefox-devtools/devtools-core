@@ -26,16 +26,18 @@ let RegExp = React.createClass({
   },
 
   render: wrapRender(function () {
-    let grip = this.props.object;
-    let objectLink = this.props.objectLink || span;
+    let {object} = this.props;
+    let objectLink = (config, ...children) => {
+      if (this.props.objectLink) {
+        return this.props.objectLink(Object.assign({object}, config), ...children);
+      }
+      return span(config, ...children);
+    };
 
     return (
-      span({className: "objectBox objectBox-regexp"},
-        objectLink({
-          object: grip,
-          className: "regexpSource"
-        }, this.getSource(grip))
-      )
+      objectLink({
+        className: "objectBox objectBox-regexp regexpSource"
+      }, this.getSource(object))
     );
   }),
 });

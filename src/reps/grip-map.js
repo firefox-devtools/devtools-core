@@ -31,12 +31,7 @@ const GripMap = React.createClass({
 
   getTitle: function (object) {
     let title = this.props.title || (object && object.class ? object.class : "Map");
-    if (this.props.objectLink) {
-      return this.props.objectLink({
-        object: object
-      }, title);
-    }
-    return title;
+    return this.safeObjectLink({}, title);
   },
 
   safeEntriesIterator: function (object, max) {
@@ -75,13 +70,9 @@ const GripMap = React.createClass({
     let entries = this.getEntries(mapEntries, indexes);
     if (entries.length < mapEntries.length) {
       // There are some undisplayed entries. Then display "more…".
-      let objectLink = this.props.objectLink || span;
-
       entries.push(Caption({
         key: "more",
-        object: objectLink({
-          object: object
-        }, `${mapEntries.length - max} more…`)
+        object: this.safeObjectLink({}, `${mapEntries.length - max} more…`)
       }));
     }
 
@@ -157,20 +148,29 @@ const GripMap = React.createClass({
       }, []);
   },
 
+  safeObjectLink: function (config, ...children) {
+    if (this.props.objectLink) {
+      return this.props.objectLink(Object.assign({
+        object: this.props.object
+      }, config), ...children);
+    }
+
+    if (Object.keys(config).length === 0 && children.length === 1) {
+      return children[0];
+    }
+
+    return span(config, ...children);
+  },
+
   render: wrapRender(function () {
     let object = this.props.object;
     let propsArray = this.safeEntriesIterator(object,
       (this.props.mode === MODE.LONG) ? 10 : 3);
 
-    let objectLink = this.props.objectLink || span;
     if (this.props.mode === MODE.TINY) {
       return (
         span({className: "objectBox objectBox-object"},
-          this.getTitle(object),
-          objectLink({
-            className: "objectLeftBrace",
-            object: object
-          }, "")
+          this.getTitle(object)
         )
       );
     }
@@ -178,14 +178,12 @@ const GripMap = React.createClass({
     return (
       span({className: "objectBox objectBox-object"},
         this.getTitle(object),
-        objectLink({
+        this.safeObjectLink({
           className: "objectLeftBrace",
-          object: object
         }, " { "),
         propsArray,
-        objectLink({
+        this.safeObjectLink({
           className: "objectRightBrace",
-          object: object
         }, " }")
       )
     );

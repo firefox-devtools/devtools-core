@@ -31,12 +31,7 @@ const PromiseRep = React.createClass({
 
   getTitle: function (object) {
     const title = object.class;
-    if (this.props.objectLink) {
-      return this.props.objectLink({
-        object: object
-      }, title);
-    }
-    return title;
+    return this.safeObjectLink({}, title);
   },
 
   getProps: function (promiseState) {
@@ -58,10 +53,23 @@ const PromiseRep = React.createClass({
     });
   },
 
+  safeObjectLink: function (config, ...children) {
+    if (this.props.objectLink) {
+      return this.props.objectLink(Object.assign({
+        object: this.props.object
+      }, config), ...children);
+    }
+
+    if (Object.keys(config).length === 0 && children.length === 1) {
+      return children[0];
+    }
+
+    return span(config, ...children);
+  },
+
   render: wrapRender(function () {
     const object = this.props.object;
     const {promiseState} = object;
-    let objectLink = this.props.objectLink || span;
 
     if (this.props.mode === MODE.TINY) {
       let { Rep } = createFactories(require("./rep"));
@@ -69,14 +77,12 @@ const PromiseRep = React.createClass({
       return (
         span({className: "objectBox objectBox-object"},
           this.getTitle(object),
-          objectLink({
+          this.safeObjectLink({
             className: "objectLeftBrace",
-            object: object
           }, " { "),
           Rep({object: promiseState.state}),
-          objectLink({
+          this.safeObjectLink({
             className: "objectRightBrace",
-            object: object
           }, " }")
         )
       );
@@ -86,14 +92,12 @@ const PromiseRep = React.createClass({
     return (
       span({className: "objectBox objectBox-object"},
         this.getTitle(object),
-        objectLink({
+        this.safeObjectLink({
           className: "objectLeftBrace",
-          object: object
         }, " { "),
         ...propsArray,
-        objectLink({
+        this.safeObjectLink({
           className: "objectRightBrace",
-          object: object
         }, " }")
       )
     );
