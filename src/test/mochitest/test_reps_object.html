@@ -41,6 +41,9 @@ window.onload = Task.async(function* () {
 
     // Test that you can pass a custom title to the Rep
     yield testCustomTitle();
+
+    // Test that you can pass an objectLink to the Rep
+    yield testCustomTitle();
   } catch(e) {
     ok(false, "Got an error: " + DevToolsUtils.safeErrorString(e));
   } finally {
@@ -282,6 +285,46 @@ window.onload = Task.async(function* () {
       componentUnderTest,
       stub, {
         title: customTitle
+      }
+    );
+  }
+
+  function testObjectLink() {
+    const stub = {
+      a: undefined,
+      b: 1,
+      "more": 2,
+      d: 3
+    };
+    const defaultOutput = `*Object **{ *b: 1, more: 2, d: 3, *1 more…** }*`;
+
+    const modeTests = [
+      {
+        mode: undefined,
+        expectedOutput: defaultOutput,
+      },
+      {
+        mode: MODE.TINY,
+        expectedOutput: `*Object*`,
+      },
+      {
+        mode: MODE.SHORT,
+        expectedOutput: defaultOutput,
+      },
+      {
+        mode: MODE.LONG,
+        expectedOutput: defaultOutput,
+      }
+    ];
+
+    testRepRenderModes(
+      modeTests,
+      "testObjectLink",
+      componentUnderTest,
+      stub,
+      {
+        objectLink: (props, ...children) => React.DOM.span({},
+          "*", ...children, "*"),
       }
     );
   }
