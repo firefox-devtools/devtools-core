@@ -6,6 +6,7 @@
 
 :root {
   font: message-box;
+  font-size: 11px;
   --monospace-font-family: Menlo, monospace;
 }
 
