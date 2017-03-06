@@ -8,7 +8,7 @@
 * [devtools-sham-modules](./packages/devtools-sham-modules/README.md)
 * [devtools-source-map](./packages/devtools-source-map/README.md)
 
-### Docs:
+### Docs
 
 - [Installing Locally](./docs/local-development.md#installing-locally)
   - [Linking](./docs/local-development.md#linking)
