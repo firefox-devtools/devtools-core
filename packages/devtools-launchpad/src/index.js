@@ -144,8 +144,8 @@ async function connectClients(actions) {
 }
 
 async function getTabs(actions) {
-  actions.clearTabs();
   const firefoxTabs = await firefox.getTabs();
+  actions.clearTabs();
   actions.newTabs(firefoxTabs);
 }
 
