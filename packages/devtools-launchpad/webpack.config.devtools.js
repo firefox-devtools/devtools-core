@@ -13,12 +13,18 @@ const nativeMapping = {
 };
 
 let packagesPath = path.join(__dirname, "../");
+const rootDir = path.join(__dirname, "../..");
 const outputPath = process.env.OUTPUT_PATH;
 
 module.exports = (webpackConfig, envConfig) => {
   if (outputPath) {
     webpackConfig.output.path = outputPath;
   }
+
+  webpackConfig.devtool = false;
+  webpackConfig.recordsPath = path.join(
+    rootDir, "assets/module-manifest.json"
+  );
 
   webpackConfig.resolve.alias["devtools-network-request"] = path.resolve(
      packagesPath,
