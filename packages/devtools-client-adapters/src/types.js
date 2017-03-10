@@ -43,7 +43,8 @@ export type ActorId = string;
 export type Location = {
   sourceId: SourceId,
   line: number,
-  column?: number
+  column?: number,
+  sourceUrl?: string
 };
 
 /**
