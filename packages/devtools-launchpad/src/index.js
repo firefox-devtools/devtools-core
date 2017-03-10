@@ -7,6 +7,7 @@ const { DevToolsUtils, AppConstants } = require("devtools-sham-modules");
 const { debugGlobal } = require("./utils/debug");
 const { setConfig, getValue, isDevelopment } = require("devtools-config");
 const L10N = require("./utils/L10N");
+const defer = require("./utils/defer");
 const { showMenu, buildMenu } = require("./menu");
 
 setConfig(DebuggerConfig);
@@ -174,6 +175,7 @@ module.exports = {
   unmountRoot,
   debugGlobal,
   L10N,
+  defer,
   showMenu,
   buildMenu,
   updateTheme,
