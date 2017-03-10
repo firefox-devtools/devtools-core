@@ -133,7 +133,10 @@ module.exports = (webpackConfig, envConfig) => {
     webpackConfig.plugins.push(new ExtractTextPlugin("[name].css"));
   }
 
-  webpackConfig.postcss = () => [require("postcss-bidirection")];
+  webpackConfig.postcss = () => [
+    require("postcss-bidirection"),
+    require("autoprefixer")
+  ];
 
   if (isFirefoxPanel()) {
     webpackConfig = require("./webpack.config.devtools")(webpackConfig, envConfig);
