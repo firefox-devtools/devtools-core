@@ -71,6 +71,10 @@ function getContentType(url: string) {
     return "text/elm";
   }
 
+  if (url.match(/cljs$/)) {
+    return "text/x-clojure";
+  }
+
   return "text/plain";
 }
 
