@@ -68,8 +68,9 @@ const Settings = React.createClass({
   renderConfig(config) {
     const configs = [
       { name: "dir", label: "direction" },
-      { name: "theme", label: "theme" },
-      { name: "hotReloading", label: "hot reloading", bool: true }
+      { name: "theme", label: "theme" }
+      //Hiding hotReloading option for now. See Issue #242
+      /*{ name: "hotReloading", label: "hot reloading", bool: true }*/
     ];
 
     return dom.ul(
