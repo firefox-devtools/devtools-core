@@ -13,21 +13,21 @@ commander@2.1.x:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.1.0.tgz#d121bbae860d9992a3d517ba96f56588e47c6781"
 
-devtools-config@^0.x.x:
+devtools-config@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
-devtools-modules@^0.x.x:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.16.tgz#49452f23875fdcc183434876eb8035b19d4a9435"
+devtools-modules@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.17.tgz#baaccd878ec70928d863878005fd814e2d86e048"
 
-devtools-network-request@^0.x.x:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.13.tgz#9dec00174ee9d990cd538ae8fb3c95c742c1a175"
-
-devtools-sham-modules@^0.x.x:
+devtools-network-request@^0.0.14:
   version "0.0.14"
-  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.14.tgz#03108898de8dc3a2b679fa086bc2ec0da78a0bf2"
+  resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.14.tgz#427f13a20728ab7367ca885708e57f065742db57"
+
+devtools-sham-modules@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.16.tgz#82c74831918877b075cabba4cd39933ae80c0d81"
 
 options@>=0.0.5:
   version "0.0.6"
@@ -38,8 +38,8 @@ ultron@1.0.x:
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
 
 ws@1.1.x:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.2.tgz#8a244fa052401e08c9886cf44a85189e1fd4067f"
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.4.tgz#57f40d036832e5f5055662a397c4de76ed66bf61"
   dependencies:
     options ">=0.0.5"
     ultron "1.0.x"

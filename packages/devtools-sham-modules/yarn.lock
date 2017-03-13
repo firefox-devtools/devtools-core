@@ -2,6 +2,6 @@
 # yarn lockfile v1
 
 
-devtools-modules@^0.x.x:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.16.tgz#49452f23875fdcc183434876eb8035b19d4a9435"
+devtools-modules@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.17.tgz#baaccd878ec70928d863878005fd814e2d86e048"
