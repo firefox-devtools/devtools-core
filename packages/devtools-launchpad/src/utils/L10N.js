@@ -4,7 +4,7 @@ const { sprintf } = require("devtools-modules");
 let strings = {};
 
 function setBundle(bundle: { [key: string]: string }) {
-  strings = bundle;
+  strings = Object.assign(strings, bundle);
 }
 
 function getStr(key: string) {
