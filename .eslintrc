@@ -4,7 +4,8 @@
     "react",
     "mozilla",
     "flowtype",
-    "babel"
+    "babel",
+    "jest"
   ],
   "globals": {
     "atob": true,
