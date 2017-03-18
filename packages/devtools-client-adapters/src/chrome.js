@@ -40,34 +40,36 @@ window.criRequest = function(options, callback) {
     .catch(err => callback(err));
 };
 
-function connectClient() {
+async function connectClient() {
   if (!getValue("chrome.debug")) {
-    return Promise.resolve(createTabs([]));
+    return createTabs([]);
   }
 
-  return CDP.List({
+  const tabs = await CDP.List({
     port: getValue("chrome.port"),
     host: getValue("chrome.host")
-  })
-    .then(tabs => createTabs(tabs, {
-      clientType: "chrome", type: "page"
-    }))
-    .catch(() => {});
+  });
+
+  return createTabs(tabs, {
+    clientType: "chrome",
+    type: "page"
+  });
 }
 
-function connectNodeClient() {
+async function connectNodeClient() {
   if (!getValue("node.debug")) {
-    return Promise.resolve(createTabs([]));
+    return createTabs([]);
   }
 
-  return CDP.List({
+  const tabs = await CDP.List({
     port: getValue("node.port"),
     host: getValue("node.host")
   })
-    .then(tabs => createTabs(tabs, {
-      clientType: "node", type: "node"
-    }))
-    .catch(() => {});
+
+  return createTabs(tabs, {
+    clientType: "node",
+    type: "node"
+  });
 }
 
 function connectTab(tab: ChromeTab) {
