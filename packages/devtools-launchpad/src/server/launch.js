@@ -1,4 +1,5 @@
 const ps = require("child_process");
+const path = require("path");
 const { isFirefoxRunning } = require("./utils/firefox");
 const firefoxDriver = require("../../bin/firefox-driver");
 
@@ -20,7 +21,8 @@ function handleLaunchRequest(req, res) {
   }
 
   if (browser == "Chrome") {
-    ps.spawn("chrome-driver.js", ["--location", location]);
+    ps.spawn(path.resolve(__dirname, '../../bin/chrome-driver.js'),
+     ["--location", location]);
     res.end("launched chrome");
   }
 }
