@@ -10,6 +10,7 @@ test:
     - yarn run lint-css
     - yarn run lint-js
     - yarn run flow
+    - cd ./packages/devtools-source-map; yarn test
 
 dependencies:
   cache_directories:

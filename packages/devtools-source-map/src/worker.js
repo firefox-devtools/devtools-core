@@ -7,6 +7,9 @@ const {
   clearSourceMaps
 } = require("./source-map");
 
+
+// The interface is implemented in source-map to be
+// easier to unit test.
 const publicInterface = {
   getOriginalURLs,
   getGeneratedLocation,
