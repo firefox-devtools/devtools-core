@@ -64,7 +64,7 @@ async function connectNodeClient() {
   const tabs = await CDP.List({
     port: getValue("node.port"),
     host: getValue("node.host")
-  })
+  });
 
   return createTabs(tabs, {
     clientType: "node",
