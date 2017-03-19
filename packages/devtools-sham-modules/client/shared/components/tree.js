@@ -49,13 +49,13 @@ const TreeNode = createFactory(createClass({
   displayName: "TreeNode",
 
   componentDidMount() {
-    if (this.props.focused) {
+    if (this.props.focused && !this.props.blurred) {
       this.refs.button.focus();
     }
   },
 
   componentDidUpdate() {
-    if (this.props.focused) {
+    if (this.props.focused && !this.props.blurred) {
       this.refs.button.focus();
     }
   },
@@ -74,13 +74,14 @@ const TreeNode = createFactory(createClass({
       visible: this.props.hasChildren,
       onExpand: this.props.onExpand,
       onCollapse: this.props.onCollapse,
+      onClick: this.props.onFocus,
     });
 
     let isOddRow = this.props.index % 2;
     return dom.div(
       {
         className: `tree-node div ${isOddRow ? "tree-node-odd" : ""}`,
-        //onFocus: this.props.onFocus,
+        onFocus: this.props.onFocus,
         onClick: this.props.onFocus,
         onBlur: this.props.onBlur,
         style: {
@@ -326,7 +327,6 @@ const Tree = module.exports = createClass({
         onScroll: this._onScroll,
         onClick: this._onClick,
         onBlur: this._onBlur,
-        onFocus: this._onFocus,
         style
       },
       // VirtualScroll({
@@ -450,8 +450,7 @@ const Tree = module.exports = createClass({
    *        The item to be focused, or undefined to focus no item.
    */
   _focus(index, item) {
-    console.log("_focus index: " + index + " ; item: " + item);
-    //this.setState({ blurred: false });
+    this.setState({ blurred: false });
 
     if (item !== undefined) {
       const itemStartPosition = index * this.props.itemHeight;
@@ -478,9 +477,7 @@ const Tree = module.exports = createClass({
   /**
    * Sets the state to have no focused item.
    */
-  _onBlur(e) {
-    console.log("blurring... ");
-
+  _onBlur() {
     this.setState({ blurred: true });
 
     if (this.props.onBlur) {
@@ -488,19 +485,11 @@ const Tree = module.exports = createClass({
     }
   },
 
-  _onFocus(e) {
-    console.log("focusing... this.props.onFocus " + e.currentTarget);
+  /**
+   * Sets the state to highlight focused item if tree has one
+   */
+  _onClick() {
     this.setState({ blurred: false });
-
-    if (this.props.onFocus) {
-      this.props.onFocus(this.props.focused);
-    }
-  },
-
-  _onClick(e) {
-    console.log("clicking... ");
-
-    //this.setState({ blurred: false });
 
     if (this.props.onClick) {
       this.props.onClick();
@@ -590,7 +579,6 @@ const Tree = module.exports = createClass({
     }
 
     this._focus(prevIndex, prev);
-    this.setState({ blurred: false });
   }),
 
   /**
@@ -616,8 +604,6 @@ const Tree = module.exports = createClass({
     if (i + 1 < traversal.length) {
       this._focus(i + 1, traversal[i + 1].item);
     }
-
-    this.setState({ blurred: false });
   }),
 
   /**
@@ -640,6 +626,5 @@ const Tree = module.exports = createClass({
     }
 
     this._focus(parentIndex, parent);
-    this.setState({ blurred: false });
   }),
 });
