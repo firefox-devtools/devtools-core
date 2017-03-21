@@ -6,7 +6,7 @@ module.exports = function(url) {
     // example.com is used at a dummy URL that points to our local
     // `/src` folder.
     url = url.replace(/http:\/\/localhost:8000/, "");
-    const requestUrl = _path.join(__dirname, "/../../src/test/mochitest/", url);
+    const requestUrl = _path.join(__dirname, "../src/test/mochitest/", url);
     const content = fs.readFileSync(requestUrl, "utf8");
 
     resolve({ content });
