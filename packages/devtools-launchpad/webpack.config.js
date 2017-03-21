@@ -63,8 +63,12 @@ module.exports = (webpackConfig, envConfig) => {
   });
   webpackConfig.module.loaders.push({
     test: /\.svg$/,
-    exclude: /lkdjlskdjslkdjsdlk/,
     loader: "svg-inline"
+  });
+
+  webpackConfig.module.loaders.push({
+    test: /\.properties$/,
+    loader: "raw"
   });
 
   // Add resolveLoader for ./node_modules to fix issues when synlinked.
