@@ -47,6 +47,13 @@ const Settings = React.createClass({
       click: () => setConfig(key, "dark")
     };
 
+    const firebugMenuItem = {
+      id: "node-menu-firebug",
+      label: "firebug",
+      disabled: config[key] === "firebug",
+      click: () => setConfig(key, "firebug")
+    };
+
     const items = {
       "dir": [
         { item: ltrMenuItem },
@@ -54,7 +61,8 @@ const Settings = React.createClass({
       ],
       "theme": [
         { item: lightMenuItem },
-        { item: darkMenuItem }
+        { item: darkMenuItem },
+        { item: firebugMenuItem }
       ]
     };
     showMenu(event, buildMenu(items[key]));
