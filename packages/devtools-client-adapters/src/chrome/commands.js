@@ -38,9 +38,13 @@ function stepOut() {
   return debuggerAgent.stepOut();
 }
 
-function pauseOnExceptions(toggle: boolean) {
-  const state = toggle ? "uncaught" : "none";
-  return debuggerAgent.setPauseOnExceptions(state);
+function pauseOnExceptions(
+  shouldPauseOnExceptions: boolean, shouldIgnoreCaughtExceptions: boolean) {
+  if (!shouldPauseOnExceptions) {
+    return debuggerAgent.setPauseOnExceptions({ state: "none" });
+  }
+  const state = shouldIgnoreCaughtExceptions ? "uncaught" : "all";
+  return debuggerAgent.setPauseOnExceptions({ state });
 }
 
 function breakOnNext() {
