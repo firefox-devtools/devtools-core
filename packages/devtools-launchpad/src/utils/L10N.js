@@ -1,9 +1,12 @@
 // @flow
 
 const { sprintf } = require("devtools-modules");
+const { parse } = require("properties-parser");
+
 let strings = {};
 
 function setBundle(bundle: { [key: string]: string }) {
+  bundle = parse(bundle);
   strings = Object.assign(strings, bundle);
 }
 
