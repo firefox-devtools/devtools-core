@@ -1,0 +1,21 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE html>
+<html dir="{{dir}}">
+  <head>
+    <title>{{title}}</title>
+    <meta charset="utf8" />
+    <link rel="shortcut icon" href="{{favicon}}" type="image/png" />
+    {{^isDevelopment}}
+    <link rel="stylesheet" href="assets/build/{{bundleName}}.css" type="text/css" />
+    {{/isDevelopment}}
+  </head>
+
+  <body>
+    <popupset></popupset>
+    <div id="mount"></div>
+    <script src="assets/build/{{bundleName}}.js"></script>
+  </body>
+</html>

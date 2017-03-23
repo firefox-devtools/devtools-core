@@ -1,0 +1,23 @@
+{
+  "title": "JSON Viewer",
+  "hotReloading": true,
+  "environment": "development",
+  "theme": "light",
+  "features": {
+  },
+  "firefox": {
+    "proxyHost": "localhost:9000",
+    "webSocketConnection": false,
+    "websocketHost": "localhost:6080",
+    "mcPath": "./firefox"
+  },
+  "development": {
+    "customIndex": "index.html",
+    "serverPort": 8000
+  },
+  "logging": {
+    "client": false,
+    "firefoxProxy": false,
+    "actions": false
+  }
+}
