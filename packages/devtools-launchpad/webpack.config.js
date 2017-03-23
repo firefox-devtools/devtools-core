@@ -38,21 +38,15 @@ module.exports = (webpackConfig, envConfig) => {
       let excludedRe = new RegExp(`(${excludedPaths.join("|")})`);
       let excluded = !!request.match(excludedRe);
 
-      // Others are explicitly included for Babel
-      let includedPaths = [
-        "devtools-client-adapters",
-        path.join("devtools-launchpad", "src"),
-        path.join("devtools-source-map", "src"),
-      ];
-      let includedRe = new RegExp(`(${includedPaths.join("|")})`);
-      let included = !!request.match(includedRe);
-
       if (webpackConfig.babelExcludes) {
         // If the tool defines an additional exclude regexp for Babel.
         excluded = excluded || !!request.match(webpackConfig.babelExcludes);
       }
 
-      return excluded && !included;
+      return excluded
+        && !request.match(/devtools-launchpad(\/|\\)src/)
+        && !request.match(/devtools-source-map(\/|\\)src/)
+        && !request.match(/devtools-client-adapters/);
     },
     loaders: [
       `babel?${
