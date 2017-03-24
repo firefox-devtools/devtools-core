@@ -1,6 +1,6 @@
 {
   "name": "devtools-client-adapters",
-  "version": "0.0.21",
+  "version": "0.0.23",
   "description": "Devtools Client Adapters",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,9 @@
   "dependencies": {
     "chrome-remote-interface": "0.17.0",
     "devtools-config": "^0.0.12",
-    "devtools-modules": "^0.0.17",
+    "devtools-modules": "^0.0.18",
     "devtools-network-request": "^0.0.14",
-    "devtools-sham-modules": "^0.0.16"
+    "devtools-sham-modules": "^0.0.17"
   },
   "files": [
     "index.js",
