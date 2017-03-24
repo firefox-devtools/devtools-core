@@ -134,20 +134,26 @@ function getTargetFromQuery() {
 }
 
 async function connectClients(actions) {
+  const firefoxTabs = await firefox.connectClient();
+  actions.newTabs(firefoxTabs);
+
   chrome.connectClient()
     .then(actions.newTabs);
 
   chrome.connectNodeClient()
     .then(actions.newTabs);
-
-  const firefoxTabs = await firefox.connectClient();
-  actions.newTabs(firefoxTabs);
 }
 
 async function getTabs(actions) {
   const firefoxTabs = await firefox.getTabs();
+  const chromeTabs = await chrome.connectClient();
+  const nodeTabs = await chrome.connectNodeClient();
+
   actions.clearTabs();
+
   actions.newTabs(firefoxTabs);
+  actions.newTabs(chromeTabs);
+  actions.newTabs(nodeTabs);
 }
 
 async function bootstrap(React, ReactDOM, App, appActions, appStore) {
