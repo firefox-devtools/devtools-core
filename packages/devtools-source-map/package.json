@@ -15,9 +15,9 @@
   "dependencies": {
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "devtools-client-adapters": "^0.0.21",
-    "devtools-config": "^0.0.12",
+    "devtools-client-adapters": "^0.0.23",
     "devtools-network-request": "^0.0.14",
+    "devtools-config": "^0.0.12",
     "devtools-modules": "^0.0.18",
     "jest": "^19.0.2",
     "md5": "^2.2.1",
@@ -26,7 +26,7 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "devtools-launchpad": "^0.0.56"
+    "devtools-launchpad": "^0.0.59"
   },
   "jest": {
     "rootDir": "src",
