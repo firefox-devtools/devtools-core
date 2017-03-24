@@ -27,13 +27,8 @@ module.exports = (webpackConfig, envConfig) => {
     exclude: request => {
       // Some paths are excluded from Babel
       let excludedPaths = [
-        "bower_components",
         "fs",
         "node_modules",
-        "devtools-config",
-        "devtools-modules",
-        "devtools-network-request",
-        "devtools-sham-modules",
       ];
       let excludedRe = new RegExp(`(${excludedPaths.join("|")})`);
       let excluded = !!request.match(excludedRe);
@@ -43,10 +38,7 @@ module.exports = (webpackConfig, envConfig) => {
         excluded = excluded || !!request.match(webpackConfig.babelExcludes);
       }
 
-      return excluded
-        && !request.match(/devtools-launchpad(\/|\\)src/)
-        && !request.match(/devtools-source-map(\/|\\)src/)
-        && !request.match(/devtools-client-adapters/);
+      return excluded && !request.match(/node_modules(\/|\\)devtools-/)
     },
     loaders: [
       `babel?${
