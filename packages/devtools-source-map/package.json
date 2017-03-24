@@ -18,6 +18,7 @@
     "devtools-client-adapters": "^0.0.21",
     "devtools-config": "^0.0.12",
     "devtools-network-request": "^0.0.14",
+    "devtools-modules": "^0.0.18",
     "jest": "^19.0.2",
     "md5": "^2.2.1",
     "regenerator-runtime": "^0.10.3",

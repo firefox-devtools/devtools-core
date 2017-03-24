@@ -17,17 +17,17 @@ devtools-config@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
-devtools-modules@^0.0.17:
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.17.tgz#baaccd878ec70928d863878005fd814e2d86e048"
+devtools-modules@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.18.tgz#87f0dc697692f33cd4eb166b1469bfed67d53c29"
 
 devtools-network-request@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.14.tgz#427f13a20728ab7367ca885708e57f065742db57"
 
-devtools-sham-modules@^0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.16.tgz#82c74831918877b075cabba4cd39933ae80c0d81"
+devtools-sham-modules@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.17.tgz#26dd2741ac26a27b424e07690e16d7deaa5102fa"
 
 options@>=0.0.5:
   version "0.0.6"
