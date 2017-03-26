@@ -550,7 +550,7 @@ DebuggerClient.prototype = {
         if (this._clients.has(aConsoleActor)) {
           consoleClient = this._clients.get(aConsoleActor);
         } else {
-          consoleClient = new WebConsoleClient(this, aResponse);
+          consoleClient = new WebConsoleClient(this, aResponse, LongStringClient);
           this.registerClient(consoleClient);
         }
       }

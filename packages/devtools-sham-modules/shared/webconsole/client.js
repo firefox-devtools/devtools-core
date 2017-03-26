@@ -6,11 +6,10 @@
 
 "use strict";
 
-const {Cc, Ci, Cu} = require("../../sham/chrome");
+const { Cc, Ci, Cu } = require("../../sham/chrome");
 const DevToolsUtils = require("../DevToolsUtils");
 const EventEmitter = require("../event-emitter");
 const promise = require("../../sham/promise");
-const {LongStringClient} = require("../client/main");
 
 /**
  * A WebConsoleClient is used as a front end for the WebConsoleActor that is
@@ -21,11 +20,14 @@ const {LongStringClient} = require("../client/main");
  * @param object aResponse
  *        The response packet received from the "startListeners" request sent to
  *        the WebConsoleActor.
+ * @param object LongStringClient
+ *        LongStringClient constructor to get full string from server
  */
-function WebConsoleClient(aDebuggerClient, aResponse)
+function WebConsoleClient(aDebuggerClient, aResponse, LongStringClient)
 {
   this._actor = aResponse.from;
   this._client = aDebuggerClient;
+  this.LongStringClient = LongStringClient;
   this._longStrings = {};
   this.traits = aResponse.traits || {};
   this.events = [];
@@ -595,6 +597,7 @@ WebConsoleClient.prototype = {
       return this._longStrings[aGrip.actor];
     }
 
+    let LongStringClient = this.LongStringClient.bind(this);
     let client = new LongStringClient(this._client, aGrip);
     this._longStrings[aGrip.actor] = client;
     return client;
