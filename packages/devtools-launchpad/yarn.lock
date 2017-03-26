@@ -1715,9 +1715,9 @@ gauge@~2.7.1:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-geckodriver@^1.2.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-1.5.0.tgz#5ea6bafc01863ac31e39dd30e9f6637f7f36a966"
+geckodriver@=1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-1.4.0.tgz#f3bc1e4e6139e9e09b44e0777225c628e41d129c"
   dependencies:
     adm-zip "0.4.7"
     bluebird "3.4.6"
