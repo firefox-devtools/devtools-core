@@ -45,10 +45,16 @@ async function connectClient() {
     return createTabs([]);
   }
 
-  const tabs = await CDP.List({
-    port: getValue("chrome.port"),
-    host: getValue("chrome.host")
-  });
+  let tabs;
+
+  try {
+    tabs = await CDP.List({
+      port: getValue("chrome.port"),
+      host: getValue("chrome.host"),
+    });
+  } catch (e) {
+    return;
+  }
 
   return createTabs(tabs, {
     clientType: "chrome",
@@ -61,10 +67,15 @@ async function connectNodeClient() {
     return createTabs([]);
   }
 
-  const tabs = await CDP.List({
-    port: getValue("node.port"),
-    host: getValue("node.host")
-  });
+  let tabs;
+  try {
+    tabs = await CDP.List({
+      port: getValue("node.port"),
+      host: getValue("node.host"),
+    });
+  } catch (e) {
+    return;
+  }
 
   return createTabs(tabs, {
     clientType: "node",
