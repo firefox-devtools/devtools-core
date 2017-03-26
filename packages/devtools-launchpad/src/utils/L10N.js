@@ -21,8 +21,33 @@ function getFormatStr(name: string, ...args: any) {
   return sprintf(getStr(name), ...args);
 }
 
+function numberWithDecimals(number: number, decimals: number = 0) {
+  // If this is an integer, don't do anything special.
+  if (number === (number|0)) {
+    return number;
+  }
+  // If this isn't a number (and yes, `isNaN(null)` is false), return zero.
+  if (isNaN(number) || number === null) {
+    return "0";
+  }
+
+  let localized = number.toLocaleString();
+
+  // If no grouping or decimal separators are available, bail out, because
+  // padding with zeros at the end of the string won't make sense anymore.
+  if (!localized.match(/[^\d]/)) {
+    return localized;
+  }
+
+  return number.toLocaleString(undefined, {
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals
+  });
+}
+
 module.exports = {
+  setBundle,
   getStr,
   getFormatStr,
-  setBundle
+  numberWithDecimals
 };
