@@ -1,6 +1,6 @@
 {
   "name": "devtools-client-adapters",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "Devtools Client Adapters",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "devtools-config": "^0.0.12",
     "devtools-modules": "^0.0.18",
     "devtools-network-request": "^0.0.14",
-    "devtools-sham-modules": "^0.0.17"
+    "devtools-sham-modules": "^0.0.18"
   },
   "files": [
     "index.js",

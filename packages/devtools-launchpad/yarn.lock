@@ -1119,15 +1119,15 @@ detect-indent@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-5.0.0.tgz#3871cc0a6a002e8c3e5b3cf7f336264675f06b9d"
 
-devtools-client-adapters@^0.0.23:
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.23.tgz#c0b05b07ec4419b6553c5f171a59a5e35502d13e"
+devtools-client-adapters@^0.0.24:
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/devtools-client-adapters/-/devtools-client-adapters-0.0.24.tgz#cd16b654248207b763551fdc25d759cf308aed87"
   dependencies:
     chrome-remote-interface "0.17.0"
     devtools-config "^0.0.12"
     devtools-modules "^0.0.18"
     devtools-network-request "^0.0.14"
-    devtools-sham-modules "^0.0.17"
+    devtools-sham-modules "^0.0.18"
 
 devtools-config@^0.0.12:
   version "0.0.12"
@@ -1141,9 +1141,9 @@ devtools-network-request@^0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/devtools-network-request/-/devtools-network-request-0.0.14.tgz#427f13a20728ab7367ca885708e57f065742db57"
 
-devtools-sham-modules@^0.0.17:
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.17.tgz#26dd2741ac26a27b424e07690e16d7deaa5102fa"
+devtools-sham-modules@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.18.tgz#0e2d89b164a4a642bd0948a4eb036aa72fc185ee"
 
 diff@^2.2.1:
   version "2.2.3"
