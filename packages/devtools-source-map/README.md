@@ -1,5 +1,7 @@
 # devtools-source-map
 
+[![Npm version](https://img.shields.io/npm/v/devtools-source-map.svg)](https://npmjs.org/package/devtools-source-map)
+
 This package contains DevTools utilities for working with source maps.
 
 This is used in multiple contexts:
