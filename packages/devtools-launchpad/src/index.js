@@ -145,7 +145,7 @@ async function connectClients(actions) {
 }
 
 async function getTabs(actions) {
-  const firefoxTabs = await firefox.getTabs();
+  const firefoxTabs = await firefox.connectClient();
   const chromeTabs = await chrome.connectClient();
   const nodeTabs = await chrome.connectNodeClient();
 
