@@ -1,31 +1,37 @@
-const { KeyShortcuts } = require("./client/shared/key-shortcuts");
-const { DebuggerTransport } = require("./transport/transport");
-const { DebuggerClient } = require("./shared/client/main");
-const PrefsHelper = require("./client/shared/prefs").PrefsHelper;
-const { TargetFactory } = require("./client/framework/target");
-const DevToolsUtils = require("./shared/DevToolsUtils");
 const AppConstants = require("./sham/appconstants");
+const { DebuggerClient } = require("./shared/client/main");
+const { DebuggerTransport } = require("./transport/transport");
+const DevToolsUtils = require("./shared/DevToolsUtils");
 const EventEmitter = require("./shared/event-emitter");
-const WebsocketTransport = require("./shared/transport/websocket-transport");
+const frame = require("./client/shared/components/frame");
+const { KeyShortcuts } = require("./client/shared/key-shortcuts");
 const Menu = require("./client/framework/menu");
 const MenuItem = require("./client/framework/menu-item");
-const Tree = require("./client/shared/components/tree");
+const PrefsHelper = require("./client/shared/prefs").PrefsHelper;
+const SearchBox = require("./client/shared/components/search-box");
 const sourceUtils = require("./client/shared/source-utils");
-const frame = require("./client/shared/components/frame");
+const Tabbar = require("./client/shared/components/tabs/tabbar");
+const TabPanel = require("./client/shared/components/tabs/tabs");
+const { TargetFactory } = require("./client/framework/target");
+const Tree = require("./client/shared/components/tree");
+const WebsocketTransport = require("./shared/transport/websocket-transport");
 
 module.exports = {
-  KeyShortcuts,
-  PrefsHelper,
+  AppConstants,
+  frame,
   DebuggerClient,
   DebuggerTransport,
-  TargetFactory,
   DevToolsUtils,
-  AppConstants,
   EventEmitter,
-  WebsocketTransport,
+  KeyShortcuts,
   Menu,
   MenuItem,
-  Tree,
+  PrefsHelper,
   sourceUtils,
-  frame
+  SearchBox,
+  Tabbar,
+  TabPanel,
+  TargetFactory,
+  Tree,
+  WebsocketTransport,
 };
