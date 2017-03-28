@@ -1,7 +1,6 @@
 const React = require("react");
 const ReactDOM = require("react-dom");
 const { combineReducers } = require("redux");
-const { getClient, firefox } = require("devtools-client-adapters");
 const configureStore = require("./utils/create-store");
 const reducers = require("./reducers");
 
@@ -23,7 +22,7 @@ const App = React.createClass({
 const createStore = configureStore({
   log: false,
   makeThunkArgs: (args, state) => {
-    return Object.assign({}, args, { client: getClient(state) });
+    return Object.assign({}, args, { });
   }
 });
 
@@ -38,8 +37,7 @@ async function onConnect(connection: Object) {
 
   const { tab } = connection;
   if (tab && tab.clientType == "firefox") {
-    const tabTarget = firefox.getTabTarget();
-    console.log(`connected to ${tabTarget._form.url}`);
+    console.log(`connected to ${tab.url}`);
   }
 }
 

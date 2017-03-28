@@ -1,6 +1,6 @@
-
 const path = require("path");
 const webpack = require("webpack");
+const { NormalModuleReplacementPlugin } = webpack;
 
 const { DefinePlugin } = webpack;
 
@@ -24,11 +24,6 @@ module.exports = (webpackConfig, envConfig) => {
   webpackConfig.devtool = false;
   webpackConfig.recordsPath = path.join(
     rootDir, "assets/module-manifest.json"
-  );
-
-  webpackConfig.resolve.alias["devtools-network-request"] = path.resolve(
-     packagesPath,
-     "devtools-network-request/privilegedNetworkRequest"
   );
 
   function externalsTest(context, request, callback) {
@@ -68,6 +63,17 @@ module.exports = (webpackConfig, envConfig) => {
       "DebuggerConfig": JSON.stringify(envConfig)
     })
   ]);
+
+  const mappings = [
+    [
+      /\.(\/|\\)client(\/|\\)shared(\/|\\)shim(\/|\\)networkRequest/,
+      "./client/shared/privilegedNetworkRequest"
+    ],
+  ];
+
+  mappings.forEach(([regex, res]) => {
+    webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
+  });
 
   return webpackConfig;
 };
