@@ -6,7 +6,7 @@
     "flow": "flow",
     "lint": "yarn run lint-css -s; a=$?; yarn run lint-js -s; b=$?; test $a -eq 0 -a $b -eq 0",
     "lint-css": "stylelint packages/devtools-launchpad/**/*.css",
-    "lint-js": "eslint packages/devtools-launchpad/src packages/devtools-client-adapters/src",
+    "lint-js": "eslint packages/devtools-launchpad/src",
     "nom": "rm -rf node_modules/ packages/*/node_modules/ && yarn install",
     "prepush": "yarn run lint && yarn run flow",
     "postinstall": "lerna bootstrap"

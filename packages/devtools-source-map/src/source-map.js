@@ -5,7 +5,7 @@
  * @module utils/source-map-worker
  */
 
-const networkRequest = require("devtools-network-request");
+const { networkRequest } = require("devtools-modules");
 
 const { parse } = require("url");
 const path = require("./path");
@@ -19,7 +19,7 @@ const {
   getContentType,
 } = require("./util");
 
-import type { Location, Source } from "devtools-client-adapters/src/types";
+import type { Location, Source } from "debugger-html";
 
 let sourceMapRequests = new Map();
 
