@@ -1,5 +1,7 @@
 ## Configuration
 
+[![Npm version](https://img.shields.io/npm/v/devtools-config.svg)](https://npmjs.org/package/devtools-config)
+
 All default config values are in [`config/development.json`](./development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
 
 * *logging*

@@ -1,5 +1,7 @@
 # Launchpad
 
+[![Npm version](https://img.shields.io/npm/v/devtools-launchpad.svg)](https://npmjs.org/package/devtools-launchpad)
+
 ![launchpad-screenshot](https://cloud.githubusercontent.com/assets/1141550/22296671/433a4c68-e31b-11e6-8e46-bf3c653f6f6a.png)
 
 
