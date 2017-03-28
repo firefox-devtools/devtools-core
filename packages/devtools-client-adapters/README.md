@@ -1,5 +1,7 @@
 ### DevTools Client Adapters
 
+[![Npm version](https://img.shields.io/npm/v/devtools-client-adapters.svg)](https://npmjs.org/package/devtools-client-adapters)
+
 DevTools Client Adapters provides a common interface for:
 
 1. getting firefox, chrome, and node tabs
