@@ -11,7 +11,7 @@ const {
 const { workerUtils: { workerTask }} = require("devtools-modules");
 const { setConfig, getValue } = require("devtools-config");
 
-import type { Location } from "devtools-client-adapters/src/types";
+import type { Location } from "debugger-html";
 
 // TODO: Rename this to something not specific to debugger (#265)
 // $FlowIgnore: global DebuggerConfig

@@ -19,6 +19,11 @@
     "host": "localhost",
     "port": 9222
   },
+  "node": {
+    "debug": true,
+    "host": "localhost",
+    "port": 9229
+  },
   "firefox": {
     "webSocketConnection": false,
     "proxyHost": "localhost:9000",

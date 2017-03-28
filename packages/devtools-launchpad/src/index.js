@@ -17,7 +17,7 @@ if (getValue("logging.client")) {
   DevToolsUtils.dumpn.wantLogging = true;
 }
 
-const { getClient, firefox, chrome, startDebugging } = require("devtools-client-adapters");
+const { firefox, chrome, startDebugging } = require("./client");
 const Root = require("./components/Root");
 
 // Using this static variable allows webpack to know at compile-time
@@ -50,7 +50,7 @@ function updateDir() {
 
 async function updateConfig() {
   const response = await fetch("/getconfig", {
-    method: "get"
+    method: "get",
   });
 
   const config = await response.json();
@@ -66,8 +66,8 @@ async function initApp() {
   const createStore = configureStore({
     log: getValue("logging.actions"),
     makeThunkArgs: (args, state) => {
-      return Object.assign({}, args, { client: getClient(state) });
-    }
+      return Object.assign({}, args, {});
+    },
   });
 
   const store = createStore(combineReducers(reducers));
@@ -137,11 +137,9 @@ async function connectClients(actions) {
   const firefoxTabs = await firefox.connectClient();
   actions.newTabs(firefoxTabs);
 
-  chrome.connectClient()
-    .then(actions.newTabs);
+  chrome.connectClient().then(actions.newTabs);
 
-  chrome.connectNodeClient()
-    .then(actions.newTabs);
+  chrome.connectNodeClient().then(actions.newTabs);
 }
 
 async function getTabs(actions) {
@@ -156,17 +154,13 @@ async function getTabs(actions) {
   actions.newTabs(nodeTabs);
 }
 
-async function bootstrap(React, ReactDOM, App, appActions, appStore) {
+async function bootstrap(React, ReactDOM) {
   const connTarget = getTargetFromQuery();
   if (connTarget) {
-    const { tab, client } = await startDebugging(
-      connTarget, appActions
-    );
+    const { tab, tabConnection } = await startDebugging(connTarget);
 
     await updateConfig();
-    debugGlobal("client", client.clientCommands);
-    renderRoot(React, ReactDOM, App, appStore);
-    return { tab, connTarget, client };
+    return { tab, connTarget, tabConnection };
   }
 
   const { store, actions, LaunchpadApp } = await initApp();
@@ -185,5 +179,5 @@ module.exports = {
   showMenu,
   buildMenu,
   updateTheme,
-  updateDir
+  updateDir,
 };

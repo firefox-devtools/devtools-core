@@ -5,17 +5,17 @@
  * https://wiki.mozilla.org/Remote_Debugging_Protocol
  */
 
-import type {
-  FrameId,
-  ActorId,
-  Script,
-  Source,
-  Pause,
-  SourceId
-} from "../types";
-
+type FrameId = string;
+type ActorId = string;
+type SourceId = string;
+type Script = string;
 type URL = string;
 
+type Source = {
+  id: SourceId,
+  url?: string,
+  sourceMapURL?: string,
+};
 /**
  * The protocol is carried by a reliable, bi-directional byte stream; data sent
  * in both directions consists of JSON objects, called packets. A packet is a
@@ -157,6 +157,43 @@ export type FramesResponse = {
   from: ActorId
 }
 
+/**
+ * The protocol is carried by a reliable, bi-directional byte stream; data sent
+ * in both directions consists of JSON objects, called packets. A packet is a
+ * top-level JSON object, not contained inside any other value.
+ *
+ * Every packet sent to the client has the form:
+ *  `{ "to":actor, "type":type, ... }`
+ *
+ * where actor is the name of the actor to whom the packet is directed and type
+ * is a string specifying what sort of packet it is. Additional properties may
+ * be present, depending on type.
+ *
+ * Every packet sent from the server has the form:
+ *  `{ "from":actor, ... }`
+ *
+ * where actor is the name of the actor that sent it. The packet may have
+ * additional properties, depending on the situation.
+ *
+ * If a packet is directed to an actor that no longer exists, the server
+ * sends a packet to the client of the following form:
+ *  `{ "from":actor, "error":"noSuchActor" }`
+ *
+ * where actor is the name of the non-existent actor. (It is strange to receive
+ * messages from actors that do not exist, but the client evidently believes
+ * that actor exists, and this reply allows the client to pair up the error
+ * report with the source of the problem.)
+ *
+ * Clients should silently ignore packet properties they do not recognize. We
+ * expect that, as the protocol evolves, we will specify new properties that
+ * can appear in existing packets, and experimental implementations will do
+ * the same.
+ *
+ * @see https://wiki.mozilla.org/Remote_Debugging_Protocol#Packets
+ * @memberof firefox/packets
+ * @static
+ */
+
 export type TabPayload = {
   actor: ActorId,
   animationsActor: ActorId,
@@ -187,36 +224,7 @@ export type TabPayload = {
   url: URL,
   webExtensionInspectedWindowActor: ActorId,
   webaudioActor: ActorId,
-  webglActor: ActorId
-};
-
-/**
- * Response from the `listTabs` function call
- * @memberof firefox
- * @static
- */
-export type ListTabsResponse = {
-  actorRegistryActor: ActorId,
-  addonsActor: ActorId,
-  deviceActor: ActorId,
-  directorRegistryActor: ActorId,
-  from: string,
-  heapSnapshotFileActor: ActorId,
-  preferenceActor: ActorId,
-  selected: number,
-  tabs: TabPayload[]
-};
-
-/**
- * Actions
- * @memberof firefox
- * @static
- */
-export type Actions = {
-  paused: (Pause) => void,
-  resumed: (ResumedPacket) => void,
-  newSource: (Source) => void,
-  fetchEventListeners: () => void
+  webglActor: ActorId,
 };
 
 /**
@@ -231,15 +239,16 @@ export type TabTarget = {
       script: Script,
       func: Function,
       params?: { frameActor?: FrameId }
-    ) => void
+    ) => void,
   },
   form: { consoleActor: any },
   activeTab: {
     navigateTo: (string) => Promise<*>,
-    reload: () => Promise<*>
+    reload: () => Promise<*>,
+    attachThread: () => Promise<*>
   },
-  destroy: () => void
-}
+  destroy: () => void,
+};
 
 /**
  * Clients for accessing the Firefox debug server and browser
@@ -255,11 +264,11 @@ export type TabTarget = {
 export type DebuggerClient = {
   _activeRequests: {
     get: (any) => any,
-    delete: (any) => void
+    delete: (any) => void,
   },
   connect: () => Promise<*>,
-  listTabs: () => Promise<*>
-}
+  listTabs: () => Promise<*>,
+};
 
 /**
  * A grip is a JSON value that refers to a specific JavaScript value in the
@@ -320,7 +329,7 @@ export type ThreadClient = {
   breakOnNext: () => Promise<*>,
   // FIXME: unclear if SourceId or ActorId here
   source: ({ actor: SourceId }) => SourceClient,
-  pauseGrip: (Grip|Function) => ObjectClient,
+  pauseGrip: (Grip | Function) => ObjectClient,
   pauseOnExceptions: (boolean, boolean) => Promise<*>,
   interrupt: () => Promise<*>,
   eventListeners: () => Promise<*>,
@@ -328,7 +337,7 @@ export type ThreadClient = {
   addListener: (string, Function) => void,
   getSources: () => Promise<SourcesPacket>,
   reconfigure: ({ observeAsmJS: boolean }) => Promise<*>,
-  getLastPausePacket: () => ?PausedPacket
+  getLastPausePacket: () => ?PausedPacket,
 };
 
 /**
@@ -361,5 +370,5 @@ export type FirefoxClientConnection = {
   getTabTarget: () => TabTarget,
   getThreadClient: () => ThreadClient,
   setTabTarget: (target: TabTarget) => void,
-  setThreadClient: (client: ThreadClient) => void
+  setThreadClient: (client: ThreadClient) => void,
 };
