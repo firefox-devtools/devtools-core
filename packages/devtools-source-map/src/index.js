@@ -1,4 +1,5 @@
 // @flow
+/* global DebuggerConfig */
 
 const {
   originalToGeneratedId,
@@ -8,9 +9,13 @@ const {
 } = require("./util");
 
 const { workerUtils: { workerTask }} = require("devtools-modules");
-const { getValue } = require("devtools-config");
+const { setConfig, getValue } = require("devtools-config");
 
 import type { Location } from "devtools-client-adapters/src/types";
+
+// TODO: Rename this to something not specific to debugger (#265)
+// $FlowIgnore: global DebuggerConfig
+setConfig(DebuggerConfig);
 
 let sourceMapWorker;
 function restartWorker() {
