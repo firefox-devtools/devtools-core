@@ -5,3 +5,6 @@
 .*node_modules/stylelint.*
 .*node_modules/config-chain.*
 .*flow-coverage-report/.*
+
+[options]
+suppress_comment=\\(.\\|\n\\)*\\$FlowIgnore
