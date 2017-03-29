@@ -7,7 +7,7 @@ function isUnique(list) {
 }
 
 const parser = require('parse-yarn-lock')
-const lockFilePath = path.normalize(path.join(__dirname, '../yarn.lock'));
+const lockFilePath = path.normalize(path.join(__dirname, '..', 'yarn.lock'));
 const lockfile = fs.readFileSync(lockFilePath).toString()
 
 parser.parse(lockfile, function (err, deps) {
