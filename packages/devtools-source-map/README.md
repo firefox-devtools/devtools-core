@@ -14,4 +14,4 @@ This is used in multiple contexts:
 # Application Requirements
 
 This package assumes that an application using this code will make the
-`worker.js` file available at application specified URL `sourceMapWorkerURL`.
+`worker.js` file available at application specified URL `workers.sourceMapURL`.

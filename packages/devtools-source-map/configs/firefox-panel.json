@@ -1,0 +1,5 @@
+{
+  "workers": {
+    "sourceMapURL": "resource://devtools/client/shared/source-map/worker.js"
+  }
+}
