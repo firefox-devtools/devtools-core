@@ -11,7 +11,8 @@
 const { DOM, createClass, PropTypes, createFactory } = require("react");
 const Tabs = createFactory(require("./tabs").Tabs);
 
-const { Menu, MenuItem } = require("devtools-sham-modules");
+const Menu = require("../../../framework/menu");
+const MenuItem = require("../../../framework/menu-item");
 
 // Shortcuts
 const { div } = DOM;
