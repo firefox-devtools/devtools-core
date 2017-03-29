@@ -3,6 +3,8 @@ const ReactDOM = require("react-dom");
 const Draggable = React.createFactory(require("./Draggable"));
 const { DOM: dom, PropTypes } = React;
 
+require("./SplitBox.css");
+
 /**
  * This component represents a Splitter. The splitter supports vertical
  * as well as horizontal mode.
