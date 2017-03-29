@@ -2,7 +2,7 @@
 
 |Package|README|
 |:----:|:---:|
-| [![devtools-client-adapters-version]] [devtools-client-adapters-pkg] | [devtools-client-adapters] |
+| [![devtools-client-adapters-version]][devtools-client-adapters-pkg] | [devtools-client-adapters] |
 | [![devtools-launchpad-version]][devtools-launchpad-pkg] | [devtools-launchpad] |
 | [![devtools-network-request-version]][devtools-network-request-pkg] | [devtools-network-request] |
 | [![devtools-config-version]][devtools-config-pkg] | [devtools-config] |
