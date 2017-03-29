@@ -25,6 +25,8 @@ mozilla-central, as well as a Bugzilla account.
   c. when everything is fine and the patch is r+, land on autoland/inbound
   d. merge the PR on github
   e. create a tag for `devtools-source-map-v0.N+1.0` on github
+  f. push the tag (`git push --tags <remote>`)
+  g. publish package to NPM (`npm publish`)
 ```
 
 After that any issue with the bundle should be addressed with a new build version.
