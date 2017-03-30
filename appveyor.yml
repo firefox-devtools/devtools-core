@@ -8,10 +8,11 @@ matrix:
 build: off
 install:
   - ps: Install-Product node $env:nodejs_version
-  - yarn install
+  - appveyor-retry yarn install
 test_script:
   - node --version
   - yarn --version
   - (cd ./packages/devtools-source-map && yarn test)
 cache:
+ - node_modules
  - "%LOCALAPPDATA%\\Yarn"
