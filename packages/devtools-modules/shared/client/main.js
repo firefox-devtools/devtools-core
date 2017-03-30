@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const { Ci, Cu, components } = require("../../sham/chrome");
-const { Services } = require("devtools-modules");
+const Services = require("../../client/shared/shim/Services");
 const DevToolsUtils = require("../DevToolsUtils");
 
 // WARNING I swapped the sync one for the async one here
