@@ -12,6 +12,12 @@ const SearchBox = require("./client/shared/components/search-box");
 const Services = require("./client/shared/shim/Services");
 const sourceUtils = require("./client/shared/source-utils");
 const SplitBox = require("./client/shared/components/splitter/SplitBox");
+// const SplitBoxCSS = require("./client/shared/components/splitter/SplitBox.css")
+const {
+  LocalizationHelper,
+  localizeMarkup,
+  MultiLocalizationHelper,
+} = require("./shared/l10n");
 const sprintf = require("./shared/sprintf").sprintf;
 const Tabbar = require("./client/shared/components/tabs/tabbar");
 const TabPanel = require("./client/shared/components/tabs/tabs");
@@ -57,6 +63,10 @@ module.exports = {
   setNamedTimeout,
   sourceUtils,
   SplitBox,
+  // SplitBoxCSS,
+  LocalizationHelper,
+  localizeMarkup,
+  MultiLocalizationHelper,
   sprintf,
   Tabbar,
   TabPanel,
