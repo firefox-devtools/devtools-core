@@ -49,13 +49,13 @@ const TreeNode = createFactory(createClass({
   displayName: "TreeNode",
 
   componentDidMount() {
-    if (this.props.focused) {
+    if (this.props.focused && !this.props.blurred) {
       this.refs.button.focus();
     }
   },
 
   componentDidUpdate() {
-    if (this.props.focused) {
+    if (this.props.focused && !this.props.blurred) {
       this.refs.button.focus();
     }
   },
@@ -63,7 +63,8 @@ const TreeNode = createFactory(createClass({
   shouldComponentUpdate(nextProps) {
     return this.props.item !== nextProps.item ||
       this.props.focused !== nextProps.focused ||
-      this.props.expanded !== nextProps.expanded;
+      this.props.expanded !== nextProps.expanded ||
+      this.props.blurred !== nextProps.blurred;
   },
 
   render() {
@@ -73,6 +74,7 @@ const TreeNode = createFactory(createClass({
       visible: this.props.hasChildren,
       onExpand: this.props.onExpand,
       onCollapse: this.props.onCollapse,
+      onClick: this.props.onFocus,
     });
 
     let isOddRow = this.props.index % 2;
@@ -89,10 +91,11 @@ const TreeNode = createFactory(createClass({
       },
 
       this.props.renderItem(this.props.item,
-                            this.props.depth,
-                            this.props.focused,
-                            arrow,
-                            this.props.expanded),
+        this.props.depth,
+        this.props.focused,
+        arrow,
+        this.props.expanded,
+        this.props.blurred),
 
       // XXX: OSX won't focus/blur regular elements even if you set tabindex
       // unless there is an input/button child.
@@ -187,6 +190,10 @@ const Tree = module.exports = createClass({
     // Optional event handlers for when items are expanded or collapsed.
     onExpand: PropTypes.func,
     onCollapse: PropTypes.func,
+    // Whether the tree is blurred or focused
+    blurred: PropTypes.bool,
+    // Handle when the tree looses focus.
+    onBlur: PropTypes.func,
   },
 
   getDefaultProps() {
@@ -201,6 +208,7 @@ const Tree = module.exports = createClass({
       scroll: 0,
       height: window.innerHeight,
       seen: new Set(),
+      blurred: false,
     };
   },
 
@@ -229,7 +237,7 @@ const Tree = module.exports = createClass({
     // collapsed nodes.
     const autoExpand = (item, currentDepth) => {
       if (currentDepth >= props.autoExpandDepth ||
-          this.state.seen.has(item)) {
+        this.state.seen.has(item)) {
         return;
       }
 
@@ -291,6 +299,7 @@ const Tree = module.exports = createClass({
         onExpand: this._onExpand,
         onCollapse: this._onCollapse,
         onFocus: () => this._focus(i, item),
+        blurred: this.state.blurred
       });
     };
 
@@ -316,6 +325,8 @@ const Tree = module.exports = createClass({
         onKeyPress: this._preventArrowKeyScrolling,
         onKeyUp: this._preventArrowKeyScrolling,
         onScroll: this._onScroll,
+        onClick: this._onClick,
+        onBlur: this._onBlur,
         style
       },
       // VirtualScroll({
@@ -439,6 +450,8 @@ const Tree = module.exports = createClass({
    *        The item to be focused, or undefined to focus no item.
    */
   _focus(index, item) {
+    this.setState({ blurred: false });
+
     if (item !== undefined) {
       const itemStartPosition = index * this.props.itemHeight;
       const itemEndPosition = (index + 1) * this.props.itemHeight;
@@ -465,7 +478,22 @@ const Tree = module.exports = createClass({
    * Sets the state to have no focused item.
    */
   _onBlur() {
-    this._focus(0, undefined);
+    this.setState({ blurred: true });
+
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  },
+
+  /**
+   * Sets the state to highlight focused item if tree has one
+   */
+  _onClick() {
+    this.setState({ blurred: false });
+
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
   },
 
   /**
@@ -509,7 +537,7 @@ const Tree = module.exports = createClass({
 
       case "ArrowLeft":
         if (this.props.isExpanded(this.props.focused)
-            && this.props.getChildren(this.props.focused).length) {
+          && this.props.getChildren(this.props.focused).length) {
           this._onCollapse(this.props.focused);
         } else {
           this._focusParentNode();
