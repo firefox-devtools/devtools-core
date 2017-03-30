@@ -1,4 +1,5 @@
 environment:
+  CI: true
   matrix:
     - nodejs_version: '7'
     - nodejs_version: '6'
@@ -7,12 +8,10 @@ matrix:
 build: off
 install:
   - ps: Install-Product node $env:nodejs_version
-  - set CI=true
   - yarn install
 test_script:
   - node --version
   - yarn --version
   - (cd ./packages/devtools-source-map && yarn test)
 cache:
- - node_modules
  - "%LOCALAPPDATA%\\Yarn"
