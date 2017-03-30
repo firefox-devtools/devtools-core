@@ -1,5 +1,13 @@
 // @flow
 
+export type Message = {
+  data: {
+    id: string,
+    method: string,
+    args: Array<any>,
+  },
+};
+
 function WorkerDispatcher() {
   this.msgId = 1;
   this.worker = null;
@@ -23,19 +31,17 @@ WorkerDispatcher.prototype = {
   },
 
   task(method) {
-    let { worker, msgId } = this;
-
-    return function task(...args: any) {
+    return (...args: any) => {
       return new Promise((resolve, reject) => {
-        const id = msgId++;
-        worker.postMessage({ id, method, args });
+        const id = this.msgId++;
+        this.worker.postMessage({ id, method, args });
 
         const listener = ({ data: result }) => {
           if (result.id !== id) {
             return;
           }
 
-          worker.removeEventListener("message", listener);
+          this.worker.removeEventListener("message", listener);
           if (result.error) {
             reject(result.error);
           } else {
@@ -43,12 +49,26 @@ WorkerDispatcher.prototype = {
           }
         };
 
-        worker.addEventListener("message", listener);
+        this.worker.addEventListener("message", listener);
       });
     };
   }
 }
 
+function workerHandler(publicInterface: Object) {
+  return function workerHandler(msg: Message) {
+    const { id, method, args } = msg.data;
+    const response = publicInterface[method].apply(undefined, args);
+    if (response instanceof Promise) {
+      response.then(val => self.postMessage({ id, response: val }),
+                    err => self.postMessage({ id, error: err }));
+    } else {
+      self.postMessage({ id, response });
+    }
+  };
+}
+
 module.exports = {
   WorkerDispatcher,
+  workerHandler
 };

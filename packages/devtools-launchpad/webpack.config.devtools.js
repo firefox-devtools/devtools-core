@@ -65,10 +65,7 @@ module.exports = (webpackConfig, envConfig) => {
   ]);
 
   const mappings = [
-    [
-      /\.(\/|\\)client(\/|\\)shared(\/|\\)shim(\/|\\)networkRequest/,
-      "./client/shared/privilegedNetworkRequest"
-    ],
+    [/.\/src\/network-request/, "./src/privileged-network-request"],
   ];
 
   mappings.forEach(([regex, res]) => {
