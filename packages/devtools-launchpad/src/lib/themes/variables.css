@@ -75,8 +75,6 @@
   /* Command line */
   /* --theme-command-line-image: url(chrome://devtools/skin/images/commandline-icon.svg#light-theme); */
   /* --theme-command-line-image-focus: url(chrome://devtools/skin/images/commandline-icon.svg#light-theme-focus); */
-
-  --theme-codemirror-gutter-background: #f4f4f4;
 }
 
 :root.theme-dark {
@@ -90,7 +88,6 @@
   --theme-toolbar-background-hover: #20232B;
   --theme-selection-background: #5675B9;
   --theme-selection-background-semitransparent: rgba(86, 117, 185, 0.5);
-  --theme-search-overlays-semitransparent: rgba(42, 46, 56, 0.66);
   --theme-selection-color: #f5f7fa;
   --theme-splitter-color: #454d5d;
   --theme-comment: #757873;
@@ -141,8 +138,6 @@
   /* Command line */
   /* --theme-command-line-image: url(chrome://devtools/skin/images/commandline-icon.svg#dark-theme); */
   /* --theme-command-line-image-focus: url(chrome://devtools/skin/images/commandline-icon.svg#dark-theme-focus); */
-
-  --theme-codemirror-gutter-background: #262b37;
 }
 
 :root.theme-firebug {
@@ -203,8 +198,6 @@
   /* Command line */
   /* --theme-command-line-image: url(chrome://devtools/skin/images/firebug/commandline-icon.svg); */
   /* --theme-command-line-image-focus: url(chrome://devtools/skin/images/firebug/commandline-icon.svg#focus); */
-
-  --theme-codemirror-gutter-background: #ebeced;
 }
 
 :root {
