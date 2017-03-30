@@ -7,6 +7,7 @@
 | [![devtools-modules-version]][devtools-modules-pkg] | [devtools-modules] |
 | [![devtools-sham-modules-version]][devtools-sham-modules-pkg] | [devtools-sham-modules] |
 | [![devtools-source-map-version]][devtools-source-map-pkg] | [devtools-source-map] |
+| [![devtools-utils-version]][devtools-utils-pkg] | [devtools-utils] |
 
 ### Docs
 
@@ -36,3 +37,7 @@
 [devtools-source-map-version]:https://img.shields.io/npm/v/devtools-source-map.svg
 [devtools-source-map-pkg]:https://npmjs.org/package/devtools-source-map
 [devtools-source-map]:./packages/devtools-source-map/#readme
+
+[devtools-utils-version]:https://img.shields.io/npm/v/devtools-utils.svg
+[devtools-utils-pkg]:https://npmjs.org/package/devtools-utils
+[devtools-utils]:./packages/devtools-utils/#readme

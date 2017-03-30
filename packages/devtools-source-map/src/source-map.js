@@ -5,7 +5,7 @@
  * @module utils/source-map-worker
  */
 
-const { networkRequest } = require("devtools-modules");
+const { networkRequest } = require("devtools-utils");
 
 const { parse } = require("url");
 const path = require("./path");
@@ -190,6 +190,15 @@ async function getOriginalSourceText(originalSource: Source) {
     text,
     contentType: getContentType(originalSource.url || "")
   };
+}
+
+async function hasMappedSource(location: Location): Promise<boolean> {
+  if (isOriginalId(location.sourceId)) {
+    return true;
+  }
+
+  const loc = await getOriginalLocation(location);
+  return loc.sourceId !== location.sourceId;
 }
 
 function applySourceMap(

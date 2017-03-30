@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-jest.mock("devtools-modules/client/shared/shim/networkRequest");
+jest.mock("devtools-utils/src/network-request");
 const { getOriginalURLs } = require("../source-map");
 
 function getMap(_path) {
@@ -16,7 +16,7 @@ describe("source maps", () => {
       sourceMapURL: "bundle.js.map"
     };
 
-    require("devtools-modules/client/shared/shim/networkRequest").mockImplementationOnce(() => {
+    require("devtools-utils/src/network-request").mockImplementationOnce(() => {
       const content = getMap("fixtures/bundle.js.map");
       return { content };
     });
