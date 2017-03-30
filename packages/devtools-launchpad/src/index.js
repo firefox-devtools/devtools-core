@@ -3,10 +3,9 @@
 const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
 
-const { DevToolsUtils, AppConstants } = require("devtools-sham-modules");
+const { DevToolsUtils, AppConstants, defer } = require("devtools-sham-modules");
 const { debugGlobal } = require("./utils/debug");
 const { setConfig, getValue, isDevelopment } = require("devtools-config");
-const defer = require("./utils/defer");
 const L10N = require("./utils/L10N");
 const { showMenu, buildMenu } = require("./menu");
 
