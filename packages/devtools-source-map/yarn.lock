@@ -1353,9 +1353,9 @@ devtools-sham-modules@^0.0.17:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.17.tgz#26dd2741ac26a27b424e07690e16d7deaa5102fa"
 
-devtools-utils@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.1.tgz#21614ef3dbd8653c143a7f93d6db9784e501b27b"
+devtools-utils@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.2.tgz#8e711f276920f75785cdd9ae061d7d45752c6d44"
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-stage-3 "^6.22.0"
