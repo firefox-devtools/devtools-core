@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { Services: { appinfo }} = require("devtools-modules");
+const { appinfo } = require("./shim/services");
 const EventEmitter = require("../../shared/event-emitter");
 const isOSX = appinfo.OS === "Darwin";
 "use strict";

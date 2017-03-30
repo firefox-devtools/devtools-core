@@ -1,4 +1,4 @@
-const { Menu, MenuItem } = require("devtools-sham-modules");
+const { Menu, MenuItem } = require("devtools-modules");
 const { isFirefoxPanel } = require("devtools-config");
 
 function createPopup(doc) {

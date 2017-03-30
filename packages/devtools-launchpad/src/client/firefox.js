@@ -4,7 +4,7 @@ const {
   DebuggerTransport,
   TargetFactory,
   WebsocketTransport,
-} = require("devtools-sham-modules");
+} = require("devtools-modules");
 
 const { getValue } = require("devtools-config");
 import type { Tab } from "./types";
