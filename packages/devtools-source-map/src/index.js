@@ -33,6 +33,6 @@ module.exports = {
   getOriginalSourceText,
   applySourceMap,
   clearSourceMaps,
-  start: dispatcher.start.bind(dispatcher),
-  stop: dispatcher.start.bind(dispatcher)
+  startSourceMapWorker: dispatcher.start.bind(dispatcher),
+  stopSourceMapWorker: dispatcher.stop.bind(dispatcher),
 };
