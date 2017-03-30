@@ -2,7 +2,6 @@
 
 |Package|README|
 |:----:|:---:|
-
 | [![devtools-launchpad-version]][devtools-launchpad-pkg] | [devtools-launchpad] |
 | [![devtools-config-version]][devtools-config-pkg] | [devtools-config] |
 | [![devtools-modules-version]][devtools-modules-pkg] | [devtools-modules] |
