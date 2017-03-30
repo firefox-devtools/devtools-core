@@ -5,7 +5,6 @@
 | [![devtools-launchpad-version]][devtools-launchpad-pkg] | [devtools-launchpad] |
 | [![devtools-config-version]][devtools-config-pkg] | [devtools-config] |
 | [![devtools-modules-version]][devtools-modules-pkg] | [devtools-modules] |
-| [![devtools-sham-modules-version]][devtools-sham-modules-pkg] | [devtools-sham-modules] |
 | [![devtools-source-map-version]][devtools-source-map-pkg] | [devtools-source-map] |
 | [![devtools-utils-version]][devtools-utils-pkg] | [devtools-utils] |
 
@@ -29,10 +28,6 @@
 [devtools-modules-version]:https://img.shields.io/npm/v/devtools-modules.svg
 [devtools-modules-pkg]:https://npmjs.org/package/devtools-modules
 [devtools-modules]:./packages/devtools-modules/#readme
-
-[devtools-sham-modules-version]:https://img.shields.io/npm/v/devtools-sham-modules.svg
-[devtools-sham-modules-pkg]:https://npmjs.org/package/devtools-sham-modules
-[devtools-sham-modules]:./packages/devtools-sham-modules/#readme
 
 [devtools-source-map-version]:https://img.shields.io/npm/v/devtools-source-map.svg
 [devtools-source-map-pkg]:https://npmjs.org/package/devtools-source-map

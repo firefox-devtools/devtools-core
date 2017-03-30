@@ -3,7 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const { Ci, Cc, Cr, CC } = require("../../sham/chrome");
-const { Services } = require("devtools-modules");
+const { Services } = require("../../client/shared/shim/Services");
+
 const { dumpv } = require("../DevToolsUtils");
 const EventEmitter = require("../event-emitter");
 const promise = require("../../sham/promise");

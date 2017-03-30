@@ -4,7 +4,6 @@
 
 /* General utilities used throughout devtools. */
 var { Ci, Cu, Cc, components } = require("../sham/chrome");
-const { Services } = require("devtools-modules");
 var promise = require("../sham/promise");
 
 const { FileUtils } = require("../sham/fileutils");
@@ -279,9 +278,9 @@ exports.isSafeJSObject = function isSafeJSObject(aObj) {
   }
 
   let principal = Cu.getObjectPrincipal(aObj);
-  if (Services.scriptSecurityManager.isSystemPrincipal(principal)) {
-    return true; // allow chrome objects
-  }
+  // if (Services.scriptSecurityManager.isSystemPrincipal(principal)) {
+  //   return true; // allow chrome objects
+  // }
 
   return Cu.isXrayWrapper(aObj);
 };

@@ -54,7 +54,6 @@
     "css-loader": "^0.26.1",
     "devtools-config": "^0.0.12",
     "devtools-modules": "^0.0.18",
-    "devtools-sham-modules": "^0.0.18",
     "eslint": "^3.12.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flowtype": "^2.20.0",
