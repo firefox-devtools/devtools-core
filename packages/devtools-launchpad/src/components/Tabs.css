@@ -13,6 +13,7 @@
   border-bottom: 1px solid var(--theme-splitter-color);
   padding: calc(var(--base-spacing) / 2) var(--base-spacing);
   font-family: sans-serif;
+  cursor: pointer;
 }
 
 .landing-page .tab-sides {
@@ -43,7 +44,6 @@
 .landing-page .tab.active {
   background: var(--theme-selection-background);
   color: var(--theme-selection-color);
-  cursor: pointer;
   transition: var(--base-transition);
 }
 
