@@ -1,19 +1,21 @@
-build:
-  verbosity: minimal
-
 environment:
-  nodejs_version: "7.0"
-
+  matrix:
+    - nodejs_version: '7'
+    - nodejs_version: '4'
+matrix:
+  fast_finish: true
+build: off
+version: '{build}'
+shallow_clone: true
+clone_depth: 1
 install:
   - ps: Install-Product node $env:nodejs_version
+  - set CI=true
   - yarn install
-
 test_script:
   - node --version
   - yarn --version
-  # run tests
   - (cd ./packages/devtools-source-map && yarn test)
-
 cache:
  - node_modules
  - "%LOCALAPPDATA%\\Yarn"
