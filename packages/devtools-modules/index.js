@@ -31,7 +31,7 @@ const { PluralForm } = require("./shared/plural-form");
 const { setNamedTimeout } = require("./client/shared/widgets/view-helpers");
 const { TargetFactory } = require("./client/framework/target");
 const { TimelineFront } = require("./client/shared/fronts/timeline");
-const { LocalizationHelper, localizeMarkup, MultiLocalizationHelper } = require("./shared/l10n");
+// const { LocalizationHelper, localizeMarkup, MultiLocalizationHelper } = require("./shared/l10n");
 
 module.exports = {
   AppConstants,
@@ -58,9 +58,9 @@ module.exports = {
   setNamedTimeout,
   sourceUtils,
   SplitBox,
-  LocalizationHelper,
-  localizeMarkup,
-  MultiLocalizationHelper,
+  // LocalizationHelper,
+  // localizeMarkup,
+  // MultiLocalizationHelper,
   sprintf,
   Tabbar,
   TabPanel,
