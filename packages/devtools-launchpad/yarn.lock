@@ -1123,13 +1123,11 @@ devtools-config@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
-devtools-modules@^0.0.18:
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.18.tgz#87f0dc697692f33cd4eb166b1469bfed67d53c29"
-
-devtools-sham-modules@^0.0.18:
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/devtools-sham-modules/-/devtools-sham-modules-0.0.18.tgz#0e2d89b164a4a642bd0948a4eb036aa72fc185ee"
+devtools-modules@^0.0.21:
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.21.tgz#5a20fd2e042b55e7c3435e741a26c6d1571ea7d3"
+  dependencies:
+    properties-parser "^0.3.1"
 
 diff@^2.2.1:
   version "2.2.3"
