@@ -13,8 +13,8 @@ const Services = require("./client/shared/shim/Services");
 const sourceUtils = require("./client/shared/source-utils");
 const SplitBox = require("./client/shared/components/splitter/SplitBox");
 const sprintf = require("./shared/sprintf").sprintf;
-const Tabbar = require("./client/shared/components/tabs/tabbar");
-const TabPanel = require("./client/shared/components/tabs/tabs");
+// const Tabbar = require("./client/shared/components/tabs/tabbar");
+// const TabPanel = require("./client/shared/components/tabs/tabs");
 const Tree = require("./client/shared/components/tree");
 const WebsocketTransport = require("./shared/transport/websocket-transport");
 const workerUtils = require("./shared/worker-utils");
@@ -62,8 +62,8 @@ module.exports = {
   // localizeMarkup,
   // MultiLocalizationHelper,
   sprintf,
-  Tabbar,
-  TabPanel,
+  // Tabbar,
+  // TabPanel,
   TargetFactory,
   TimelineFront,
   Tree,
