@@ -1123,9 +1123,9 @@ devtools-config@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
-devtools-modules@^0.0.21:
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.21.tgz#5a20fd2e042b55e7c3435e741a26c6d1571ea7d3"
+devtools-modules@^0.0.22:
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.22.tgz#82ad112f56ed8956083f60627e2b0f42c879c7a5"
   dependencies:
     properties-parser "^0.3.1"
 
