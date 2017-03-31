@@ -7,8 +7,7 @@ const { DefinePlugin } = webpack;
 const nativeMapping = {
   "../utils/source-editor": "devtools/client/sourceeditor/editor",
   "./test-flag": "devtools/shared/flags",
-  "./client/shared/shim/Services": "Services",
-  "react": "devtools/client/shared/vendor/react",
+  react: "devtools/client/shared/vendor/react",
   "react-dom": "devtools/client/shared/vendor/react-dom",
 };
 
@@ -22,12 +21,15 @@ module.exports = (webpackConfig, envConfig) => {
   }
 
   webpackConfig.devtool = false;
-  webpackConfig.recordsPath = path.join(
-    rootDir, "assets/module-manifest.json"
-  );
+  webpackConfig.recordsPath = path.join(rootDir, "assets/module-manifest.json");
 
   function externalsTest(context, request, callback) {
     let mod = request;
+
+    if (mod.match(/.*shim\/Services/)) {
+      callback(null, "Services");
+      return;
+    }
 
     // Any matching paths here won't be included in the bundle.
     if (nativeMapping[mod]) {
