@@ -1,0 +1,17 @@
+{
+  "name": "devtools-splitter",
+  "version": "0.0.1",
+  "description": "DevTools Splitter",
+  "main": "index.js",
+  "scripts": {
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jason Laster",
+  "license": "ISC",
+  "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  }
+}

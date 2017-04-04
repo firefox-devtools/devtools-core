@@ -7,6 +7,7 @@
 | [![devtools-modules-version]][devtools-modules-pkg] | [devtools-modules] |
 | [![devtools-source-map-version]][devtools-source-map-pkg] | [devtools-source-map] |
 | [![devtools-utils-version]][devtools-utils-pkg] | [devtools-utils] |
+| [![devtools-splitter-version]][devtools-splitter-pkg] | [devtools-splitter] |
 
 ### Docs
 
@@ -36,3 +37,7 @@
 [devtools-utils-version]:https://img.shields.io/npm/v/devtools-utils.svg
 [devtools-utils-pkg]:https://npmjs.org/package/devtools-utils
 [devtools-utils]:./packages/devtools-utils/#readme
+
+[devtools-splitter-version]:https://img.shields.io/npm/v/devtools-splitter.svg
+[devtools-splitter-pkg]:https://npmjs.org/package/devtools-splitter
+[devtools-splitter]:./packages/devtools-splitter/#readme

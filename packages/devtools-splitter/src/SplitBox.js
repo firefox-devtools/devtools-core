@@ -3,12 +3,13 @@ const ReactDOM = require("react-dom");
 const Draggable = React.createFactory(require("./Draggable"));
 const { DOM: dom, PropTypes } = React;
 
+require("./SplitBox.css");
+
 /**
  * This component represents a Splitter. The splitter supports vertical
  * as well as horizontal mode.
  */
 const SplitBox = React.createClass({
-
   propTypes: {
     // Custom class name. You can use more names separated by a space.
     className: PropTypes.string,
@@ -37,7 +38,7 @@ const SplitBox = React.createClass({
     // True if the splitter bar is vertical (default is vertical).
     vert: PropTypes.bool,
     // Optional style properties passed into the splitbox
-    style: PropTypes.object
+    style: PropTypes.object,
   },
 
   displayName: "SplitBox",
@@ -48,7 +49,7 @@ const SplitBox = React.createClass({
       vert: true,
       endPanelControl: false,
       endPanelCollapsed: false,
-      startPanelCollapsed: false
+      startPanelCollapsed: false,
     };
   },
 
@@ -62,7 +63,7 @@ const SplitBox = React.createClass({
       vert: this.props.vert,
       // We use integers for these properties
       width: parseInt(this.props.initialWidth || this.props.initialSize),
-      height: parseInt(this.props.initialHeight || this.props.initialSize)
+      height: parseInt(this.props.initialHeight || this.props.initialSize),
     };
   },
 
@@ -83,13 +84,14 @@ const SplitBox = React.createClass({
     const splitBox = ReactDOM.findDOMNode(this);
     const doc = splitBox.ownerDocument;
     let defaultCursor = doc.documentElement.style.cursor;
-    doc.documentElement.style.cursor =
-      (this.state.vert ? "ew-resize" : "ns-resize");
+    doc.documentElement.style.cursor = this.state.vert
+      ? "ew-resize"
+      : "ns-resize";
 
     splitBox.classList.add("dragging");
 
     this.setState({
-      defaultCursor: defaultCursor
+      defaultCursor: defaultCursor,
     });
   },
 
@@ -126,11 +128,11 @@ const SplitBox = React.createClass({
       }
 
       this.setState((state, props) => ({
-        width: state.width + movementX
+        width: state.width + movementX,
       }));
     } else {
       this.setState((state, props) => ({
-        height: state.height + movementY
+        height: state.height + movementY,
       }));
     }
   },
@@ -139,8 +141,12 @@ const SplitBox = React.createClass({
   preparePanelStyles() {
     const vert = this.state.vert;
     const {
-      minSize, maxSize, startPanelCollapsed, endPanelControl,
-      endPanelCollapsed } = this.props;
+      minSize,
+      maxSize,
+      startPanelCollapsed,
+      endPanelControl,
+      endPanelCollapsed,
+    } = this.props;
     let leftPanelStyle, rightPanelStyle;
 
     // Set proper size for panels depending on the current state.
@@ -151,12 +157,12 @@ const SplitBox = React.createClass({
       leftPanelStyle = {
         maxWidth: endPanelControl ? null : maxSize,
         minWidth: endPanelControl ? null : minSize,
-        width: startPanelCollapsed ? 0 : startWidth
+        width: startPanelCollapsed ? 0 : startWidth,
       };
       rightPanelStyle = {
         maxWidth: endPanelControl ? maxSize : null,
         minWidth: endPanelControl ? minSize : null,
-        width: endPanelCollapsed ? 0 : endWidth
+        width: endPanelCollapsed ? 0 : endWidth,
       };
     } else {
       let startHeight = endPanelControl ? null : this.state.height,
@@ -165,12 +171,12 @@ const SplitBox = React.createClass({
       leftPanelStyle = {
         maxHeight: endPanelControl ? null : maxSize,
         minHeight: endPanelControl ? null : minSize,
-        height: endPanelCollapsed ? maxSize : startHeight
+        height: endPanelCollapsed ? maxSize : startHeight,
       };
       rightPanelStyle = {
         maxHeight: endPanelControl ? maxSize : null,
         minHeight: endPanelControl ? minSize : null,
-        height: startPanelCollapsed ? maxSize : endHeight
+        height: startPanelCollapsed ? maxSize : endHeight,
       };
     }
 
@@ -185,7 +191,7 @@ const SplitBox = React.createClass({
       endPanel,
       endPanelControl,
       splitterSize,
-      endPanelCollapsed
+      endPanelCollapsed,
     } = this.props;
 
     let style = Object.assign({}, this.props.style);
@@ -201,35 +207,41 @@ const SplitBox = React.createClass({
 
     // Calculate splitter size
     let splitterStyle = {
-      flex: `0 0 ${splitterSize}px`
+      flex: `0 0 ${splitterSize}px`,
     };
 
-    return (
-      dom.div({
+    return dom.div(
+      {
         className: classNames.join(" "),
-        style: style },
-        !startPanelCollapsed ?
-          dom.div({
+        style: style,
+      },
+      !startPanelCollapsed
+        ? dom.div(
+          {
             className: endPanelControl ? "uncontrolled" : "controlled",
-            style: leftPanelStyle },
-            startPanel
-          ) : null,
-        Draggable({
-          className: "splitter",
-          style: splitterStyle,
-          onStart: this.onStartMove,
-          onStop: this.onStopMove,
-          onMove: this.onMove
-        }),
-        !endPanelCollapsed ?
-          dom.div({
+            style: leftPanelStyle,
+          },
+            startPanel,
+          )
+        : null,
+      Draggable({
+        className: "splitter",
+        style: splitterStyle,
+        onStart: this.onStartMove,
+        onStop: this.onStopMove,
+        onMove: this.onMove,
+      }),
+      !endPanelCollapsed
+        ? dom.div(
+          {
             className: endPanelControl ? "controlled" : "uncontrolled",
-            style: rightPanelStyle },
-            endPanel
-          ) : null
-      )
+            style: rightPanelStyle,
+          },
+            endPanel,
+          )
+        : null,
     );
-  }
+  },
 });
 
 module.exports = SplitBox;
