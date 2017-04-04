@@ -39,6 +39,8 @@ const SplitBox = React.createClass({
     vert: PropTypes.bool,
     // Optional style properties passed into the splitbox
     style: PropTypes.object,
+    // Optional callback when splitbox resize stops
+    onResizeEnd: PropTypes.func
   },
 
   displayName: "SplitBox",
@@ -101,6 +103,12 @@ const SplitBox = React.createClass({
     doc.documentElement.style.cursor = this.state.defaultCursor;
 
     splitBox.classList.remove("dragging");
+
+    if (this.props.onResizeEnd) {
+      this.props.onResizeEnd(
+        (this.state.vert) ? this.state.width : this.state.height
+      );
+    }
   },
 
   /**
