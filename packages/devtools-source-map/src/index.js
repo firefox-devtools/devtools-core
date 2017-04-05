@@ -9,8 +9,6 @@ const {
 
 const { workerUtils: { WorkerDispatcher }} = require("devtools-utils");
 
-import type { Location } from "debugger-html";
-
 const dispatcher = new WorkerDispatcher();
 
 const getOriginalURLs = dispatcher.task("getOriginalURLs");
