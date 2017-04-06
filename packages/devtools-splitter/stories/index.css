@@ -1,0 +1,10 @@
+#root .split-box {
+  background: #f4f4f4;
+  border: 1px solid pink;
+  margin: auto;
+  width: 50vw;
+}
+
+#root .split-box > .splitter {
+  border-color: pink;
+}
