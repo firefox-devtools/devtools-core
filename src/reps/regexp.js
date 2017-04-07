@@ -4,46 +4,33 @@ const React = require("react");
 // Reps
 const {
   isGrip,
+  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
-
-// Shortcuts
-const { span } = React.DOM;
 
 /**
  * Renders a grip object with regular expression.
  */
-let RegExp = React.createClass({
-  displayName: "regexp",
+RegExp.propTypes = {
+  object: React.PropTypes.object.isRequired,
+  objectLink: React.PropTypes.func,
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired,
-    objectLink: React.PropTypes.func,
-  },
+function RegExp(props) {
+  let {object} = props;
 
-  getSource: function (grip) {
-    return grip.displayString;
-  },
+  return (
+    safeObjectLink(props, {
+      className: "objectBox objectBox-regexp regexpSource"
+    }, getSource(object))
+  );
+}
 
-  render: wrapRender(function () {
-    let {object} = this.props;
-    let objectLink = (config, ...children) => {
-      if (this.props.objectLink) {
-        return this.props.objectLink(Object.assign({object}, config), ...children);
-      }
-      return span(config, ...children);
-    };
-
-    return (
-      objectLink({
-        className: "objectBox objectBox-regexp regexpSource"
-      }, this.getSource(object))
-    );
-  }),
-});
+function getSource(grip) {
+  return grip.displayString;
+}
 
 // Registration
-
 function supportsObject(object, type) {
   if (!isGrip(object)) {
     return false;
@@ -54,6 +41,6 @@ function supportsObject(object, type) {
 
 // Exports from this module
 module.exports = {
-  rep: RegExp,
-  supportsObject: supportsObject
+  rep: wrapRender(RegExp),
+  supportsObject,
 };

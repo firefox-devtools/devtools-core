@@ -9,21 +9,17 @@ const { span } = React.DOM;
 /**
  * Renders a Infinity object
  */
-const InfinityRep = React.createClass({
-  displayName: "Infinity",
+InfinityRep.propTypes = {
+  object: React.PropTypes.object.isRequired,
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired,
-  },
-
-  render: wrapRender(function () {
-    return (
-      span({className: "objectBox objectBox-number"},
-        this.props.object.type
-      )
-    );
-  })
-});
+function InfinityRep(props) {
+  return (
+    span({className: "objectBox objectBox-number"},
+      props.object.type
+    )
+  );
+}
 
 function supportsObject(object, type) {
   return type == "Infinity" || type == "-Infinity";
@@ -31,6 +27,6 @@ function supportsObject(object, type) {
 
 // Exports from this module
 module.exports = {
-  rep: InfinityRep,
-  supportsObject: supportsObject
+  rep: wrapRender(InfinityRep),
+  supportsObject,
 };

@@ -1,7 +1,4 @@
-const React = require("react");
-
 const { isGrip } = require("./rep-utils");
-const { MODE } = require("./constants");
 
 // Load all existing rep templates
 const Undefined = require("./undefined");
@@ -74,21 +71,14 @@ let reps = [
  * to the current value type. The value must be passed is as 'object'
  * property.
  */
-const Rep = React.createClass({
-  displayName: "Rep",
-
-  propTypes: {
-    object: React.PropTypes.any,
-    defaultRep: React.PropTypes.object,
-    // @TODO Change this to Object.values once it's supported in Node's version of V8
-    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  },
-
-  render: function () {
-    let rep = getRep(this.props.object, this.props.defaultRep);
-    return rep(this.props);
-  },
-});
+const Rep = function (props) {
+  let {
+    object,
+    defaultRep,
+  } = props;
+  let rep = getRep(object, defaultRep);
+  return rep(props);
+};
 
 // Helpers
 
@@ -122,14 +112,14 @@ function getRep(object, defaultRep = Obj) {
       // but a number), which would allow to priorities templates and
       // support better extensibility.
       if (rep.supportsObject(object, type)) {
-        return React.createFactory(rep.rep);
+        return rep.rep;
       }
     } catch (err) {
       console.error(err);
     }
   }
 
-  return React.createFactory(defaultRep.rep);
+  return defaultRep.rep;
 }
 
 module.exports = {
@@ -164,5 +154,7 @@ module.exports = {
     TextNode,
     Undefined,
     Window,
-  }
+  },
+  // Exporting for tests
+  getRep,
 };

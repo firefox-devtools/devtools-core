@@ -5,57 +5,44 @@ const React = require("react");
 const {
   isGrip,
   getURLDisplayString,
+  safeObjectLink,
   wrapRender
 } = require("./rep-utils");
 
 // Shortcuts
-const DOM = React.DOM;
+const {span} = React.DOM;
 
 /**
  * Renders a grip representing CSSStyleSheet
  */
-let StyleSheet = React.createClass({
-  displayName: "object",
+StyleSheet.propTypes = {
+  object: React.PropTypes.object.isRequired,
+  objectLink: React.PropTypes.func,
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired,
-    objectLink: React.PropTypes.func,
-  },
+function StyleSheet(props) {
+  let grip = props.object;
 
-  getTitle: function (grip) {
-    let title = "StyleSheet ";
-    if (this.props.objectLink) {
-      return DOM.span({className: "objectBox"},
-        this.props.objectLink({
-          object: grip
-        }, title)
-      );
-    }
-    return title;
-  },
+  return (
+    span({className: "objectBox objectBox-object"},
+      getTitle(props, grip),
+      span({className: "objectPropValue"}, getLocation(grip))
+    )
+  );
+}
 
-  getLocation: function (grip) {
-    // Embedded stylesheets don't have URL and so, no preview.
-    let url = grip.preview ? grip.preview.url : "";
-    return url ? getURLDisplayString(url) : "";
-  },
+function getTitle(props, grip) {
+  let title = "StyleSheet ";
+  return safeObjectLink(props, {className: "objectBox"}, title);
+}
 
-  render: wrapRender(function () {
-    let grip = this.props.object;
-
-    return (
-      DOM.span({className: "objectBox objectBox-object"},
-        this.getTitle(grip),
-        DOM.span({className: "objectPropValue"},
-          this.getLocation(grip)
-        )
-      )
-    );
-  }),
-});
+function getLocation(grip) {
+  // Embedded stylesheets don't have URL and so, no preview.
+  let url = grip.preview ? grip.preview.url : "";
+  return url ? getURLDisplayString(url) : "";
+}
 
 // Registration
-
 function supportsObject(object, type) {
   if (!isGrip(object)) {
     return false;
@@ -67,6 +54,6 @@ function supportsObject(object, type) {
 // Exports from this module
 
 module.exports = {
-  rep: StyleSheet,
-  supportsObject: supportsObject
+  rep: wrapRender(StyleSheet),
+  supportsObject,
 };

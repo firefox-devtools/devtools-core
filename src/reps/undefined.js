@@ -9,17 +9,13 @@ const { span } = React.DOM;
 /**
  * Renders undefined value
  */
-const Undefined = React.createClass({
-  displayName: "UndefinedRep",
-
-  render: wrapRender(function () {
-    return (
-      span({className: "objectBox objectBox-undefined"},
-        "undefined"
-      )
-    );
-  }),
-});
+const Undefined = function () {
+  return (
+    span({className: "objectBox objectBox-undefined"},
+      "undefined"
+    )
+  );
+};
 
 function supportsObject(object, type) {
   if (object && object.type && object.type == "undefined") {
@@ -32,6 +28,6 @@ function supportsObject(object, type) {
 // Exports from this module
 
 module.exports = {
-  rep: Undefined,
-  supportsObject: supportsObject
+  rep: wrapRender(Undefined),
+  supportsObject,
 };

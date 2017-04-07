@@ -9,17 +9,13 @@ const { span } = React.DOM;
 /**
  * Renders a NaN object
  */
-const NaNRep = React.createClass({
-  displayName: "NaN",
-
-  render: wrapRender(function () {
-    return (
-      span({className: "objectBox objectBox-nan"},
-        "NaN"
-      )
-    );
-  })
-});
+function NaNRep(props) {
+  return (
+    span({className: "objectBox objectBox-nan"},
+      "NaN"
+    )
+  );
+}
 
 function supportsObject(object, type) {
   return type == "NaN";
@@ -27,6 +23,6 @@ function supportsObject(object, type) {
 
 // Exports from this module
 module.exports = {
-  rep: NaNRep,
-  supportsObject: supportsObject
+  rep: wrapRender(NaNRep),
+  supportsObject,
 };

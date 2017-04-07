@@ -5,6 +5,7 @@ const React = require("react");
 const {
   isGrip,
   getURLDisplayString,
+  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -14,48 +15,34 @@ const { span } = React.DOM;
 /**
  * Renders a grip object with URL data.
  */
-let ObjectWithURL = React.createClass({
-  displayName: "ObjectWithURL",
+ObjectWithURL.propTypes = {
+  object: React.PropTypes.object.isRequired,
+  objectLink: React.PropTypes.func,
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired,
-    objectLink: React.PropTypes.func,
-  },
+function ObjectWithURL(props) {
+  let grip = props.object;
+  return (
+    span({className: "objectBox objectBox-" + getType(grip)},
+      getTitle(props, grip),
+      span({className: "objectPropValue"}, getDescription(grip))
+    )
+  );
+}
 
-  getTitle: function (grip) {
-    if (this.props.objectLink) {
-      return span({className: "objectBox"},
-        this.props.objectLink({
-          object: grip
-        }, this.getType(grip) + " ")
-      );
-    }
-    return "";
-  },
+function getTitle(props, grip) {
+  return safeObjectLink(props, {className: "objectBox"}, getType(grip) + " ");
+}
 
-  getType: function (grip) {
-    return grip.class;
-  },
+function getType(grip) {
+  return grip.class;
+}
 
-  getDescription: function (grip) {
-    return getURLDisplayString(grip.preview.url);
-  },
-
-  render: wrapRender(function () {
-    let grip = this.props.object;
-    return (
-      span({className: "objectBox objectBox-" + this.getType(grip)},
-        this.getTitle(grip),
-        span({className: "objectPropValue"},
-          this.getDescription(grip)
-        )
-      )
-    );
-  }),
-});
+function getDescription(grip) {
+  return getURLDisplayString(grip.preview.url);
+}
 
 // Registration
-
 function supportsObject(grip, type) {
   if (!isGrip(grip)) {
     return false;
@@ -66,6 +53,6 @@ function supportsObject(grip, type) {
 
 // Exports from this module
 module.exports = {
-  rep: ObjectWithURL,
-  supportsObject: supportsObject
+  rep: wrapRender(ObjectWithURL),
+  supportsObject,
 };

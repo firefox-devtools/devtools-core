@@ -9,34 +9,30 @@ const { span } = React.DOM;
 /**
  * Renders a number
  */
-const Number = React.createClass({
-  displayName: "Number",
+Number.propTypes = {
+  object: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.number,
+    React.PropTypes.bool,
+  ]).isRequired
+};
 
-  propTypes: {
-    object: React.PropTypes.oneOfType([
-      React.PropTypes.object,
-      React.PropTypes.number,
-      React.PropTypes.bool,
-    ]).isRequired
-  },
+function Number(props) {
+  let value = props.object;
 
-  stringify: function (object) {
-    let isNegativeZero = Object.is(object, -0) ||
-      (object.type && object.type == "-0");
+  return (
+    span({className: "objectBox objectBox-number"},
+      stringify(value)
+    )
+  );
+}
 
-    return (isNegativeZero ? "-0" : String(object));
-  },
+function stringify(object) {
+  let isNegativeZero = Object.is(object, -0) ||
+    (object.type && object.type == "-0");
 
-  render: wrapRender(function () {
-    let value = this.props.object;
-
-    return (
-      span({className: "objectBox objectBox-number"},
-        this.stringify(value)
-      )
-    );
-  })
-});
+  return (isNegativeZero ? "-0" : String(object));
+}
 
 function supportsObject(object, type) {
   return ["boolean", "number", "-0"].includes(type);
@@ -45,6 +41,6 @@ function supportsObject(object, type) {
 // Exports from this module
 
 module.exports = {
-  rep: Number,
-  supportsObject: supportsObject
+  rep: wrapRender(Number),
+  supportsObject,
 };

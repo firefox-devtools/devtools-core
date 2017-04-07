@@ -9,17 +9,13 @@ const { span } = React.DOM;
 /**
  * Renders null value
  */
-const Null = React.createClass({
-  displayName: "NullRep",
-
-  render: wrapRender(function () {
-    return (
-      span({className: "objectBox objectBox-null"},
-        "null"
-      )
-    );
-  }),
-});
+function Null(props) {
+  return (
+    span({className: "objectBox objectBox-null"},
+      "null"
+    )
+  );
+}
 
 function supportsObject(object, type) {
   if (object && object.type && object.type == "null") {
@@ -32,6 +28,6 @@ function supportsObject(object, type) {
 // Exports from this module
 
 module.exports = {
-  rep: Null,
-  supportsObject: supportsObject
+  rep: wrapRender(Null),
+  supportsObject,
 };

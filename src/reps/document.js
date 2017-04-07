@@ -5,6 +5,7 @@ const React = require("react");
 const {
   isGrip,
   getURLDisplayString,
+  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -14,50 +15,34 @@ const { span } = React.DOM;
 /**
  * Renders DOM document object.
  */
-let Document = React.createClass({
-  displayName: "Document",
+Document.propTypes = {
+  object: React.PropTypes.object.isRequired,
+  objectLink: React.PropTypes.func,
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired,
-    objectLink: React.PropTypes.func,
-  },
+function Document(props) {
+  let grip = props.object;
 
-  getLocation: function (grip) {
-    let location = grip.preview.location;
-    return location ? getURLDisplayString(location) : "";
-  },
-
-  getTitle: function (grip) {
-    if (this.props.objectLink) {
-      return span({className: "objectBox"},
-        this.props.objectLink({
-          object: grip
-        }, grip.class + " ")
-      );
-    }
-    return "";
-  },
-
-  getTooltip: function (doc) {
-    return doc.location.href;
-  },
-
-  render: wrapRender(function () {
-    let grip = this.props.object;
-
-    return (
-      span({className: "objectBox objectBox-object"},
-        this.getTitle(grip),
-        span({className: "objectPropValue"},
-          this.getLocation(grip)
-        )
+  return (
+    span({className: "objectBox objectBox-object"},
+      getTitle(props, grip),
+      span({className: "objectPropValue"},
+        getLocation(grip)
       )
-    );
-  }),
-});
+    )
+  );
+}
+
+function getLocation(grip) {
+  let location = grip.preview.location;
+  return location ? getURLDisplayString(location) : "";
+}
+
+function getTitle(props, grip) {
+  return safeObjectLink(props, {}, grip.class + " ");
+}
 
 // Registration
-
 function supportsObject(object, type) {
   if (!isGrip(object)) {
     return false;
@@ -68,6 +53,6 @@ function supportsObject(object, type) {
 
 // Exports from this module
 module.exports = {
-  rep: Document,
-  supportsObject: supportsObject
+  rep: wrapRender(Document),
+  supportsObject,
 };

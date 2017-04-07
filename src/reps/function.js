@@ -5,6 +5,7 @@ const React = require("react");
 const {
   isGrip,
   cropString,
+  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -14,53 +15,42 @@ const { span } = React.DOM;
 /**
  * This component represents a template for Function objects.
  */
-let Func = React.createClass({
-  displayName: "Func",
+FunctionRep.propTypes = {
+  object: React.PropTypes.object.isRequired,
+  objectLink: React.PropTypes.func,
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired,
-    objectLink: React.PropTypes.func,
-  },
+function FunctionRep(props) {
+  let grip = props.object;
 
-  getTitle: function (grip) {
-    let title = "function ";
-    if (grip.isGenerator) {
-      title = "function* ";
-    }
-    if (grip.isAsync) {
-      title = "async " + title;
-    }
+  return (
+    // Set dir="ltr" to prevent function parentheses from
+    // appearing in the wrong direction
+    span({dir: "ltr", className: "objectBox objectBox-function"},
+      getTitle(props, grip),
+      summarizeFunction(grip)
+    )
+  );
+}
 
-    if (this.props.objectLink) {
-      return this.props.objectLink({
-        object: grip
-      }, title);
-    }
+function getTitle(props, grip) {
+  let title = "function ";
+  if (grip.isGenerator) {
+    title = "function* ";
+  }
+  if (grip.isAsync) {
+    title = "async " + title;
+  }
 
-    return title;
-  },
+  return safeObjectLink(props, {}, title);
+}
 
-  summarizeFunction: function (grip) {
-    let name = grip.userDisplayName || grip.displayName || grip.name || "";
-    return cropString(name + "()", 100);
-  },
-
-  render: wrapRender(function () {
-    let grip = this.props.object;
-
-    return (
-      // Set dir="ltr" to prevent function parentheses from
-      // appearing in the wrong direction
-      span({dir: "ltr", className: "objectBox objectBox-function"},
-        this.getTitle(grip),
-        this.summarizeFunction(grip)
-      )
-    );
-  }),
-});
+function summarizeFunction(grip) {
+  let name = grip.userDisplayName || grip.displayName || grip.name || "";
+  return cropString(name + "()", 100);
+}
 
 // Registration
-
 function supportsObject(grip, type) {
   if (!isGrip(grip)) {
     return (type == "function");
@@ -72,6 +62,6 @@ function supportsObject(grip, type) {
 // Exports from this module
 
 module.exports = {
-  rep: Func,
-  supportsObject: supportsObject
+  rep: wrapRender(FunctionRep),
+  supportsObject,
 };

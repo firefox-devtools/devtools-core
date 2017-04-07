@@ -255,10 +255,11 @@ function splitURLTrue(url) {
  * fallback rep if the render fails.
  */
 function wrapRender(renderMethod) {
-  return function () {
+  const wrappedFunction = function (props) {
     try {
-      return renderMethod.call(this);
+      return renderMethod.call(this, props);
     } catch (e) {
+      console.error(e);
       return React.DOM.span(
         {
           className: "objectBox objectBox-failure",
@@ -269,6 +270,8 @@ function wrapRender(renderMethod) {
         "Invalid object");
     }
   };
+  wrappedFunction.propTypes = renderMethod.propTypes;
+  return wrappedFunction;
 }
 
 /**
@@ -373,6 +376,25 @@ function getGripPreviewItems(grip) {
   return [];
 }
 
+function safeObjectLink(props, config, ...children) {
+  const {
+    objectLink,
+    object,
+  } = props;
+
+  if (objectLink) {
+    return objectLink(Object.assign({
+      object
+    }, config), ...children);
+  }
+
+  if (Object.keys(config).length === 0 && children.length === 1) {
+    return children[0];
+  }
+
+  return React.DOM.span(config, ...children);
+}
+
 module.exports = {
   createFactories,
   isGrip,
@@ -388,4 +410,5 @@ module.exports = {
   getURLDisplayString,
   getSelectableInInspectorGrips,
   maybeEscapePropertyName,
+  safeObjectLink,
 };
