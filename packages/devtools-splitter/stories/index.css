@@ -3,6 +3,7 @@
   border: 1px solid pink;
   margin: auto;
   width: 50vw;
+  height: 50vw;
 }
 
 #root .split-box > .splitter {
