@@ -1,6 +1,6 @@
 const React = require("react");
 const { DOM: dom } = React;
-const { showMenu, buildMenu } = require("../menu");
+const { showMenu, buildMenu } = require("./shared/menu");
 
 const Settings = React.createClass({
   propTypes: {
