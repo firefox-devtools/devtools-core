@@ -9,8 +9,8 @@ const MenuItem = require("./client/framework/menu-item");
 const networkRequest = require("./client/shared/shim/networkRequest");
 const PrefsHelper = require("./client/shared/prefs").PrefsHelper;
 const SearchBox = require("./client/shared/components/search-box");
-const StackTrace = require("./client/shared/components/stack-trace");
 const Services = require("./client/shared/shim/Services");
+const SourceEditor = require("./client/shared/components/source-editor/source-editor");
 const sourceUtils = require("./client/shared/source-utils");
 const sprintf = require("./shared/sprintf").sprintf;
 // const Tabbar = require("./client/shared/components/tabs/tabbar");
@@ -54,8 +54,8 @@ module.exports = {
   PluralForm,
   PrefsHelper,
   SearchBox,
-  StackTrace,
   Services,
+  SourceEditor,
   setNamedTimeout,
   sourceUtils,
   // LocalizationHelper,

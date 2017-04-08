@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+codemirror@^5.25.0:
+  version "5.25.0"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.25.0.tgz#78e06939c7bb41f65707b8aa9c5328111948b756"
+
 properties-parser@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/properties-parser/-/properties-parser-0.3.1.tgz#1316e9539ffbfd93845e369b211022abd478771a"
