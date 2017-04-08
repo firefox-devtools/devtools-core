@@ -7,7 +7,7 @@ const { DevToolsUtils, AppConstants, defer } = require("devtools-modules");
 const { debugGlobal } = require("./utils/debug");
 const { setConfig, getValue, isDevelopment } = require("devtools-config");
 const L10N = require("./utils/L10N");
-const { showMenu, buildMenu } = require("./menu");
+const { showMenu, buildMenu } = require("./components/shared/menu");
 
 setConfig(DebuggerConfig);
 
