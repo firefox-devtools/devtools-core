@@ -1,6 +1,8 @@
 const { Menu, MenuItem } = require("devtools-modules");
 const { isFirefoxPanel } = require("devtools-config");
 
+require("./menu.css");
+
 function createPopup(doc) {
   let popup = doc.createElement("menupopup");
   popup.className = "landing-popup";

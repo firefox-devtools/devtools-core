@@ -4,10 +4,9 @@
 
 const React = require("react");
 const { DOM: dom, createClass, createFactory, PropTypes } = React;
-const { LocalizationHelper } = require("devtools/shared/l10n");
+const { LocalizationHelper } = require("../../../shared/l10n");
 const Frame = createFactory(require("./frame"));
 
-const l10n = new LocalizationHelper("devtools/client/locales/webconsole.properties");
 
 const AsyncFrame = createFactory(createClass({
   displayName: "AsyncFrame",

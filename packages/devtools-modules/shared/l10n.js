@@ -27,12 +27,12 @@ const propertiesMap = {};
 // file.  In the webpack case this results in just the locale property
 // files being included in the pack; and in the devtools case this is
 // a wordy no-op.
-const reqShared = require.context("devtools/shared/locales/",
-                                  true, /^.*\.properties$/);
-const reqClient = require.context("devtools/client/locales/",
-                                  true, /^.*\.properties$/);
-const reqGlobal = require.context("toolkit/locales/",
-                                  true, /^.*\.properties$/);
+// const reqShared = require.context("devtools/shared/locales/",
+//                                   true, /^.*\.properties$/);
+// const reqClient = require.context("devtools/client/locales/",
+//                                   true, /^.*\.properties$/);
+// const reqGlobal = require.context("toolkit/locales/",
+//                                   true, /^.*\.properties$/);
 
 /**
  * Memoized getter for properties files that ensures a given url is only required and
