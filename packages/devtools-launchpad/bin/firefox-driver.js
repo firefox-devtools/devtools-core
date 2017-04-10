@@ -34,11 +34,10 @@ function addGeckoDriverToPath() {
 }
 
 function binaryArgs() {
-  return [
-    (!isWindows ? "-" : "") +
-    "-start-debugger-server=" +
-    (useWebSocket ? "ws:6080" : "6080")
-  ];
+	if (isWindows)
+		return [ "-start-debugger-server", useWebSocket ? "ws:6080" : "6080" ]  // e.g. -start-debugger-server 6080
+	else 
+		return ["--start-debugger-server=" + (useWebSocket ? "ws:6080" : "6080")] // e.g. --start-debugger-server=6080
 }
 
 function firefoxBinary() {
