@@ -74,7 +74,7 @@ Menu.prototype.popup = function (screenX, screenY, toolbox) {
     popup.hidePopup();
   }
 
-  popup = this.createPopup(doc)
+  popup = this.createPopup(doc);
   popup.setAttribute("menu-api", "true");
 
   if (this.id) {
@@ -115,9 +115,12 @@ Menu.prototype._createMenuItems = function (parent) {
       let menupopup = doc.createElement("menupopup");
       item.submenu._createMenuItems(menupopup);
 
+      let menuitem = doc.createElement("menuitem");
+      menuitem.setAttribute("label", item.label);
+      menuitem.textContent = item.label;
       let menu = doc.createElement("menu");
+      menu.appendChild(menuitem);
       menu.appendChild(menupopup);
-      menu.setAttribute("label", item.label);
       if (item.disabled) {
         menu.setAttribute("disabled", "true");
       }
