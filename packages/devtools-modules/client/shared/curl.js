@@ -37,7 +37,7 @@
 
 "use strict";
 
-const { Services } = require("./shim/Services");
+const Services = require("./shim/Services");
 
 const DEFAULT_HTTP_VERSION = "HTTP/1.1";
 

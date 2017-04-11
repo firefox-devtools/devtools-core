@@ -1,3 +1,22 @@
+menu {
+  display: inline;
+  padding: 0;
+}
+
+menu > menuitem::after {
+  content: "►";
+  float: right;
+}
+
+menu > menupopup {
+  display: none;
+}
+
+menu > menuitem:hover + menupopup,
+menu > menupopup:hover {
+  display: block;
+}
+
 menupopup {
   position: fixed;
   z-index: 10000;
@@ -34,6 +53,18 @@ menuitem[disabled=true] {
 menuitem[disabled=true]:hover {
   background-color: transparent;
   cursor: default;
+}
+
+menuitem[type=checkbox]::before {
+  content: "";
+  width: 10px;
+  display: inline-block;
+}
+
+menuitem[type=checkbox][checked=true]::before {
+  content: "✓";
+  left: -8px;
+  position: relative;
 }
 
 menuseparator {
