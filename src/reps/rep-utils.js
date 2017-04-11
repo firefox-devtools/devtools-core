@@ -378,13 +378,13 @@ function getGripPreviewItems(grip) {
 
 /**
  * Returns a new element wrapped with a component, props.objectLink if it exists,
- * or a soan if there are multiple childs, or directly the child if only one is passed.
+ * or a span if there are multiple childs, or directly the child if only one is passed.
  *
  * @param {Object} props A Rep "props" object that may contain `objectLink`
  *                 and `object` properties.
  * @param {Object} config Object to pass as props to the `objectLink` component.
  * @param {...Element} children Elements to be wrapped with the `objectLink` component.
- * @return {Element} Element, wrapped or not depending if `objectLink`
+ * @return {Element} Element, wrapped or not, depending if `objectLink`
  *                   was supplied in props.
  */
 function safeObjectLink(props, config, ...children) {
