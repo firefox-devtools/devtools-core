@@ -63,9 +63,9 @@ function safePropIterator(props, object, max) {
 }
 
 function propIterator(props, object, max) {
-  let isInterestingProp = (t, value) => {
+  let isInterestingProp = (type, value) => {
     // Do not pick objects, it could cause recursion.
-    return (t == "boolean" || t == "number" || (t == "string" && value));
+    return (type == "boolean" || type == "number" || (type == "string" && value));
   };
 
   // Work around https://bugzilla.mozilla.org/show_bug.cgi?id=945377
@@ -85,14 +85,14 @@ function propIterator(props, object, max) {
       getFilteredObject(
         object,
         max - Object.keys(interestingObject).length,
-        (t, value) => !isInterestingProp(t, value)
+        (type, value) => !isInterestingProp(type, value)
       )
     );
   }
 
-  const truncate = Object.keys(object).length > max;
-  let propsArray = getPropsArray(interestingObject, truncate);
-  if (truncate) {
+  const truncated = Object.keys(object).length > max;
+  let propsArray = getPropsArray(interestingObject, truncated);
+  if (truncated) {
     propsArray.push(Caption({
       object: safeObjectLink(props, {},
         (Object.keys(object).length - max) + " more…")
@@ -106,10 +106,10 @@ function propIterator(props, object, max) {
  * Get an array of components representing the properties of the object
  *
  * @param {Object} object
- * @param {Boolean} truncate true if the object will be truncated.
+ * @param {Boolean} truncated true if the object is truncated.
  * @return {Array} Array of PropRep.
  */
-function getPropsArray(object, truncate) {
+function getPropsArray(object, truncated) {
   let propsArray = [];
 
   if (!object) {
@@ -118,13 +118,13 @@ function getPropsArray(object, truncate) {
 
   // Hardcode tiny mode to avoid recursive handling.
   let mode = MODE.TINY;
-
-  return Object.keys(object).map((name, i) => PropRep({
+  const objectKeys = Object.keys(object);
+  return objectKeys.map((name, i) => PropRep({
     mode,
     name,
     object: object[name],
     equal: ": ",
-    delim: i !== Object.keys(object).length - 1 || truncate ? ", " : "",
+    delim: i !== objectKeys.length - 1 || truncated ? ", " : "",
   }));
 }
 

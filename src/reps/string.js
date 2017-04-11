@@ -24,6 +24,7 @@ StringRep.propTypes = {
 
 function StringRep(props) {
   let {
+    cropLimit,
     object: text,
     member,
     style,
@@ -41,8 +42,8 @@ function StringRep(props) {
     text = sanitizeString(text);
   }
 
-  if ((!member || !member.open) && props.cropLimit) {
-    text = rawCropString(text, props.cropLimit);
+  if ((!member || !member.open) && cropLimit) {
+    text = rawCropString(text, cropLimit);
   }
 
   return span(config, text);
