@@ -15,31 +15,27 @@ const { span } = React.DOM;
 /**
  * Renders DOM comment node.
  */
-const CommentNode = React.createClass({
-  displayName: "CommentNode",
+CommentNode.propTypes = {
+  object: React.PropTypes.object.isRequired,
+  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired,
-    // @TODO Change this to Object.values once it's supported in Node's version of V8
-    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  },
+function CommentNode(props) {
+  let {
+    object,
+    mode = MODE.SHORT
+  } = props;
 
-  render: wrapRender(function () {
-    let {
-      object,
-      mode = MODE.SHORT
-    } = this.props;
+  let {textContent} = object.preview;
+  if (mode === MODE.TINY) {
+    textContent = cropMultipleLines(textContent, 30);
+  } else if (mode === MODE.SHORT) {
+    textContent = cropString(textContent, 50);
+  }
 
-    let {textContent} = object.preview;
-    if (mode === MODE.TINY) {
-      textContent = cropMultipleLines(textContent, 30);
-    } else if (mode === MODE.SHORT) {
-      textContent = cropString(textContent, 50);
-    }
-
-    return span({className: "objectBox theme-comment"}, `<!-- ${textContent} -->`);
-  }),
-});
+  return span({className: "objectBox theme-comment"}, `<!-- ${textContent} -->`);
+}
 
 // Registration
 function supportsObject(object, type) {
@@ -51,6 +47,6 @@ function supportsObject(object, type) {
 
 // Exports from this module
 module.exports = {
-  rep: CommentNode,
-  supportsObject: supportsObject
+  rep: wrapRender(CommentNode),
+  supportsObject,
 };

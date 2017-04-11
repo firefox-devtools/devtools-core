@@ -22,6 +22,7 @@ window.onload = Task.async(function* () {
   const {
     REPS,
     MODE,
+    getRep,
     getSelectableInInspectorGrips,
   } = browserRequire("devtools/client/shared/components/reps/reps");
   let { Rep, PromiseRep } = REPS;
@@ -51,9 +52,8 @@ window.onload = Task.async(function* () {
     const stub = getGripStub("testPending");
 
     // Test that correct rep is chosen.
-    const renderedRep = shallowRenderComponent(Rep, { object: stub });
-    is(renderedRep.type, PromiseRep.rep,
-      `Rep correctly selects ${PromiseRep.rep.displayName} for pending Promise`);
+    is(getRep(stub), PromiseRep.rep,
+      "Rep correctly selects PromiseRep Rep for pending Promise");
 
     // Test rendering
     const defaultOutput = `Promise { <state>: "pending" }`;
@@ -84,10 +84,8 @@ window.onload = Task.async(function* () {
     const stub = getGripStub("testFulfilledWithNumber");
 
     // Test that correct rep is chosen.
-    const renderedRep = shallowRenderComponent(Rep, { object: stub });
-    const {displayName} = PromiseRep.rep;
-    is(renderedRep.type, PromiseRep.rep,
-      `Rep correctly selects ${displayName} for Promise fulfilled with a number`);
+    is(getRep(stub), PromiseRep.rep,
+      "Rep correctly selects PromiseRep Rep for Promise fulfilled with a number");
 
     // Test rendering
     const defaultOutput = `Promise { <state>: "fulfilled", <value>: 42 }`;
@@ -118,10 +116,8 @@ window.onload = Task.async(function* () {
     const stub = getGripStub("testFulfilledWithString");
 
     // Test that correct rep is chosen.
-    const renderedRep = shallowRenderComponent(Rep, { object: stub });
-    const {displayName} = PromiseRep.rep;
-    is(renderedRep.type, PromiseRep.rep,
-      `Rep correctly selects ${displayName} for Promise fulfilled with a string`);
+    is(getRep(stub), PromiseRep.rep,
+      "Rep correctly selects PromiseRep Rep for Promise fulfilled with a string");
 
     // Test rendering
     const defaultOutput = `Promise { <state>: "fulfilled", <value>: "foo" }`;
@@ -153,10 +149,8 @@ window.onload = Task.async(function* () {
     const stub = getGripStub("testFulfilledWithObject");
 
     // Test that correct rep is chosen.
-    const renderedRep = shallowRenderComponent(Rep, { object: stub });
-    const {displayName} = PromiseRep.rep;
-    is(renderedRep.type, PromiseRep.rep,
-      `Rep correctly selects ${displayName} for Promise fulfilled with an object`);
+    is(getRep(stub), PromiseRep.rep,
+      "Rep correctly selects PromiseRep Rep for Promise fulfilled with an object");
 
     // Test rendering
     const defaultOutput = `Promise { <state>: "fulfilled", <value>: Object }`;
@@ -188,10 +182,8 @@ window.onload = Task.async(function* () {
     const stub = getGripStub("testFulfilledWithArray");
 
     // Test that correct rep is chosen.
-    const renderedRep = shallowRenderComponent(Rep, { object: stub });
-    const {displayName} = PromiseRep.rep;
-    is(renderedRep.type, PromiseRep.rep,
-      `Rep correctly selects ${displayName} for Promise fulfilled with an array`);
+    is(getRep(stub), PromiseRep.rep,
+      "Rep correctly selects PromiseRep Rep for Promise fulfilled with an array");
 
     // Test rendering
     const defaultOutput = `Promise { <state>: "fulfilled", <value>: [3] }`;

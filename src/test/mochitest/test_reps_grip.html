@@ -20,6 +20,7 @@ window.onload = Task.async(function* () {
   const {
     REPS,
     MODE,
+    getRep,
     getSelectableInInspectorGrips,
   } = browserRequire("devtools/client/shared/components/reps/reps");
   let { Rep, Grip } = REPS;
@@ -66,8 +67,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub("testBasic");
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, Grip.rep, `Rep correctly selects ${Grip.rep.displayName}`);
+    is(getRep(gripStub), Grip.rep, "Rep correctly selects Grip Rep");
 
     // Test rendering
     const defaultOutput = `Object {  }`;
@@ -100,8 +100,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub(testName);
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, Grip.rep, `Rep correctly selects ${Grip.rep.displayName}`);
+    is(getRep(gripStub), Grip.rep, "Rep correctly selects Grip Rep");
 
     // Test rendering
     const defaultOutput = `Boolean { true }`;
@@ -134,8 +133,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub(testName);
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, Grip.rep, `Rep correctly selects ${Grip.rep.displayName}`);
+    is(getRep(gripStub), Grip.rep, "Rep correctly selects Grip Rep");
 
     // Test rendering
     const defaultOutput = `Number { 42 }`;
@@ -168,8 +166,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub(testName);
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, Grip.rep, `Rep correctly selects ${Grip.rep.displayName}`);
+    is(getRep(gripStub), Grip.rep, "Rep correctly selects Grip Rep");
 
     // Test rendering
     const defaultOutput = `String { "foo" }`;
@@ -202,8 +199,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub(testName);
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, Grip.rep, `Rep correctly selects ${Grip.rep.displayName}`);
+    is(getRep(gripStub), Grip.rep, "Rep correctly selects Grip Rep");
 
     // Test rendering
     const defaultOutput = `Proxy { <target>: Object, <handler>: [3] }`;
@@ -236,8 +232,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub(testName);
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, Grip.rep, `Rep correctly selects ${Grip.rep.displayName}`);
+    is(getRep(gripStub), Grip.rep, "Rep correctly selects Grip Rep");
 
     // Test rendering
     const defaultOutput = `ArrayBuffer { byteLength: 10 }`;
@@ -270,8 +265,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub(testName);
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, Grip.rep, `Rep correctly selects ${Grip.rep.displayName}`);
+    is(getRep(gripStub), Grip.rep, "Rep correctly selects Grip Rep");
 
     // Test rendering
     const defaultOutput = `SharedArrayBuffer { byteLength: 5 }`;
@@ -304,8 +298,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub(testName);
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, Grip.rep, `Rep correctly selects ${Grip.rep.displayName}`);
+    is(getRep(gripStub), Grip.rep, "Rep correctly selects Grip Rep");
 
     // Test rendering
     const defaultOutput =
@@ -412,8 +405,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub("testNonEnumerableProps");
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, Grip.rep, `Rep correctly selects ${Grip.rep.displayName}`);
+    is(getRep(gripStub), Grip.rep, "Rep correctly selects Grip Rep");
 
     // Test rendering
     const defaultOutput = `Object {  }`;

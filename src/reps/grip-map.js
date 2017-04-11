@@ -2,193 +2,178 @@
 const React = require("react");
 const {
   isGrip,
+  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
-const Caption = React.createFactory(require("./caption"));
-const PropRep = React.createFactory(require("./prop-rep"));
+const Caption = require("./caption");
+const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
+
 /**
  * Renders an map. A map is represented by a list of its
  * entries enclosed in curly brackets.
  */
-const GripMap = React.createClass({
-  displayName: "GripMap",
+GripMap.propTypes = {
+  object: React.PropTypes.object,
+  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  objectLink: React.PropTypes.func,
+  isInterestingEntry: React.PropTypes.func,
+  attachedActorIds: React.PropTypes.array,
+  onDOMNodeMouseOver: React.PropTypes.func,
+  onDOMNodeMouseOut: React.PropTypes.func,
+  onInspectIconClick: React.PropTypes.func,
+  title: React.PropTypes.string,
+};
 
-  propTypes: {
-    object: React.PropTypes.object,
-    // @TODO Change this to Object.values once it's supported in Node's version of V8
-    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-    objectLink: React.PropTypes.func,
-    isInterestingEntry: React.PropTypes.func,
-    attachedActorIds: React.PropTypes.array,
-    onDOMNodeMouseOver: React.PropTypes.func,
-    onDOMNodeMouseOut: React.PropTypes.func,
-    onInspectIconClick: React.PropTypes.func,
-    title: React.PropTypes.string,
-  },
+function GripMap(props) {
+  let object = props.object;
+  let propsArray = safeEntriesIterator(props, object,
+    (props.mode === MODE.LONG) ? 10 : 3);
 
-  getTitle: function (object) {
-    let title = this.props.title || (object && object.class ? object.class : "Map");
-    return this.safeObjectLink({}, title);
-  },
+  if (props.mode === MODE.TINY) {
+    return (
+      span({className: "objectBox objectBox-object"},
+        getTitle(props, object)
+      )
+    );
+  }
 
-  safeEntriesIterator: function (object, max) {
-    max = (typeof max === "undefined") ? 3 : max;
-    try {
-      return this.entriesIterator(object, max);
-    } catch (err) {
-      console.error(err);
-    }
-    return [];
-  },
+  return (
+    span({className: "objectBox objectBox-object"},
+      getTitle(props, object),
+      safeObjectLink(props, {
+        className: "objectLeftBrace",
+      }, " { "),
+      propsArray,
+      safeObjectLink(props, {
+        className: "objectRightBrace",
+      }, " }")
+    )
+  );
+}
 
-  entriesIterator: function (object, max) {
-    // Entry filter. Show only interesting entries to the user.
-    let isInterestingEntry = this.props.isInterestingEntry || ((type, value) => {
-      return (
-        type == "boolean" ||
-        type == "number" ||
-        (type == "string" && value.length != 0)
-      );
-    });
+function getTitle(props, object) {
+  let title = props.title || (object && object.class ? object.class : "Map");
+  return safeObjectLink(props, {}, title);
+}
 
-    let mapEntries = object.preview && object.preview.entries
-      ? object.preview.entries : [];
+function safeEntriesIterator(props, object, max) {
+  max = (typeof max === "undefined") ? 3 : max;
+  try {
+    return entriesIterator(props, object, max);
+  } catch (err) {
+    console.error(err);
+  }
+  return [];
+}
 
-    let indexes = this.getEntriesIndexes(mapEntries, max, isInterestingEntry);
-    if (indexes.length < max && indexes.length < mapEntries.length) {
-      // There are not enough entries yet, so we add uninteresting entries.
-      indexes = indexes.concat(
-        this.getEntriesIndexes(mapEntries, max - indexes.length, (t, value, name) => {
-          return !isInterestingEntry(t, value, name);
-        })
-      );
-    }
+function entriesIterator(props, object, max) {
+  // Entry filter. Show only interesting entries to the user.
+  let isInterestingEntry = props.isInterestingEntry || ((type, value) => {
+    return (
+      type == "boolean" ||
+      type == "number" ||
+      (type == "string" && value.length != 0)
+    );
+  });
 
-    let entries = this.getEntries(mapEntries, indexes);
-    if (entries.length < mapEntries.length) {
-      // There are some undisplayed entries. Then display "more…".
-      entries.push(Caption({
-        key: "more",
-        object: this.safeObjectLink({}, `${mapEntries.length - max} more…`)
-      }));
-    }
+  let mapEntries = object.preview && object.preview.entries
+    ? object.preview.entries : [];
 
-    return entries;
-  },
+  let indexes = getEntriesIndexes(mapEntries, max, isInterestingEntry);
+  if (indexes.length < max && indexes.length < mapEntries.length) {
+    // There are not enough entries yet, so we add uninteresting entries.
+    indexes = indexes.concat(
+      getEntriesIndexes(mapEntries, max - indexes.length, (t, value, name) => {
+        return !isInterestingEntry(t, value, name);
+      })
+    );
+  }
 
-  /**
-   * Get entries ordered by index.
-   *
-   * @param {Array} entries Entries array.
-   * @param {Array} indexes Indexes of entries.
-   * @return {Array} Array of PropRep.
-   */
-  getEntries: function (entries, indexes) {
-    let {
+  let entries = getEntries(props, mapEntries, indexes);
+  if (entries.length < mapEntries.length) {
+    // There are some undisplayed entries. Then display "more…".
+    entries.push(Caption({
+      key: "more",
+      object: safeObjectLink(props, {}, `${mapEntries.length - max} more…`)
+    }));
+  }
+
+  return entries;
+}
+
+/**
+ * Get entries ordered by index.
+ *
+ * @param {Object} props Component props.
+ * @param {Array} entries Entries array.
+ * @param {Array} indexes Indexes of entries.
+ * @return {Array} Array of PropRep.
+ */
+function getEntries(props, entries, indexes) {
+  let {
+    objectLink,
+    attachedActorIds,
+    onDOMNodeMouseOver,
+    onDOMNodeMouseOut,
+    onInspectIconClick,
+  } = props;
+
+  // Make indexes ordered by ascending.
+  indexes.sort(function (a, b) {
+    return a - b;
+  });
+
+  return indexes.map((index, i) => {
+    let [key, entryValue] = entries[index];
+    let value = entryValue.value !== undefined ? entryValue.value : entryValue;
+
+    return PropRep({
+      // key,
+      name: key,
+      equal: ": ",
+      object: value,
+      // Do not add a trailing comma on the last entry
+      // if there won't be a "more..." item.
+      delim: (i < indexes.length - 1 || indexes.length < entries.length) ? ", " : "",
+      mode: MODE.TINY,
       objectLink,
       attachedActorIds,
       onDOMNodeMouseOver,
       onDOMNodeMouseOut,
       onInspectIconClick,
-    } = this.props;
-
-    // Make indexes ordered by ascending.
-    indexes.sort(function (a, b) {
-      return a - b;
     });
+  });
+}
 
-    return indexes.map((index, i) => {
-      let [key, entryValue] = entries[index];
-      let value = entryValue.value !== undefined ? entryValue.value : entryValue;
+/**
+ * Get the indexes of entries in the map.
+ *
+ * @param {Array} entries Entries array.
+ * @param {Number} max The maximum length of indexes array.
+ * @param {Function} filter Filter the entry you want.
+ * @return {Array} Indexes of filtered entries in the map.
+ */
+function getEntriesIndexes(entries, max, filter) {
+  return entries
+    .reduce((indexes, [key, entry], i) => {
+      if (indexes.length < max) {
+        let value = (entry && entry.value !== undefined) ? entry.value : entry;
+        // Type is specified in grip's "class" field and for primitive
+        // values use typeof.
+        let type = (value && value.class ? value.class : typeof value).toLowerCase();
 
-      return PropRep({
-        // key,
-        name: key,
-        equal: ": ",
-        object: value,
-        // Do not add a trailing comma on the last entry
-        // if there won't be a "more..." item.
-        delim: (i < indexes.length - 1 || indexes.length < entries.length) ? ", " : "",
-        mode: MODE.TINY,
-        objectLink,
-        attachedActorIds,
-        onDOMNodeMouseOver,
-        onDOMNodeMouseOut,
-        onInspectIconClick,
-      });
-    });
-  },
-
-  /**
-   * Get the indexes of entries in the map.
-   *
-   * @param {Array} entries Entries array.
-   * @param {Number} max The maximum length of indexes array.
-   * @param {Function} filter Filter the entry you want.
-   * @return {Array} Indexes of filtered entries in the map.
-   */
-  getEntriesIndexes: function (entries, max, filter) {
-    return entries
-      .reduce((indexes, [key, entry], i) => {
-        if (indexes.length < max) {
-          let value = (entry && entry.value !== undefined) ? entry.value : entry;
-          // Type is specified in grip's "class" field and for primitive
-          // values use typeof.
-          let type = (value && value.class ? value.class : typeof value).toLowerCase();
-
-          if (filter(type, value, key)) {
-            indexes.push(i);
-          }
+        if (filter(type, value, key)) {
+          indexes.push(i);
         }
+      }
 
-        return indexes;
-      }, []);
-  },
-
-  safeObjectLink: function (config, ...children) {
-    if (this.props.objectLink) {
-      return this.props.objectLink(Object.assign({
-        object: this.props.object
-      }, config), ...children);
-    }
-
-    if (Object.keys(config).length === 0 && children.length === 1) {
-      return children[0];
-    }
-
-    return span(config, ...children);
-  },
-
-  render: wrapRender(function () {
-    let object = this.props.object;
-    let propsArray = this.safeEntriesIterator(object,
-      (this.props.mode === MODE.LONG) ? 10 : 3);
-
-    if (this.props.mode === MODE.TINY) {
-      return (
-        span({className: "objectBox objectBox-object"},
-          this.getTitle(object)
-        )
-      );
-    }
-
-    return (
-      span({className: "objectBox objectBox-object"},
-        this.getTitle(object),
-        this.safeObjectLink({
-          className: "objectLeftBrace",
-        }, " { "),
-        propsArray,
-        this.safeObjectLink({
-          className: "objectRightBrace",
-        }, " }")
-      )
-    );
-  }),
-});
+      return indexes;
+    }, []);
+}
 
 function supportsObject(grip, type) {
   if (!isGrip(grip)) {
@@ -199,6 +184,6 @@ function supportsObject(grip, type) {
 
 // Exports from this module
 module.exports = {
-  rep: GripMap,
-  supportsObject: supportsObject
+  rep: wrapRender(GripMap),
+  supportsObject,
 };

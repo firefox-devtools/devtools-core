@@ -1,5 +1,5 @@
 const { MODE } = require("./reps/constants");
-const { REPS } = require("./reps/rep");
+const { REPS, getRep } = require("./reps/rep");
 const {
   createFactories,
   parseURLEncodedText,
@@ -10,6 +10,7 @@ const {
 
 module.exports = {
   REPS,
+  getRep,
   MODE,
   createFactories,
   maybeEscapePropertyName,

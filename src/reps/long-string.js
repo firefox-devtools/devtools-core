@@ -12,49 +12,39 @@ const { span } = React.DOM;
 /**
  * Renders a long string grip.
  */
-const LongStringRep = React.createClass({
-  displayName: "LongStringRep",
+LongStringRep.propTypes = {
+  useQuotes: React.PropTypes.bool,
+  style: React.PropTypes.object,
+  cropLimit: React.PropTypes.number.isRequired,
+  member: React.PropTypes.string,
+  object: React.PropTypes.object.isRequired,
+};
 
-  propTypes: {
-    useQuotes: React.PropTypes.bool,
-    style: React.PropTypes.object,
-    cropLimit: React.PropTypes.number.isRequired,
-    member: React.PropTypes.string,
-    object: React.PropTypes.object.isRequired,
-  },
+function LongStringRep(props) {
+  let {
+    cropLimit,
+    member,
+    object,
+    style,
+    useQuotes = true
+  } = props;
+  let {fullText, initial, length} = object;
 
-  getDefaultProps: function () {
-    return {
-      useQuotes: true,
-    };
-  },
+  let config = {className: "objectBox objectBox-string"};
+  if (style) {
+    config.style = style;
+  }
 
-  render: wrapRender(function () {
-    let {
-      cropLimit,
-      member,
-      object,
-      style,
-      useQuotes
-    } = this.props;
-    let {fullText, initial, length} = object;
+  let string = member && member.open
+    ? fullText || initial
+    : initial.substring(0, cropLimit);
 
-    let config = {className: "objectBox objectBox-string"};
-    if (style) {
-      config.style = style;
-    }
-
-    let string = member && member.open
-      ? fullText || initial
-      : initial.substring(0, cropLimit);
-
-    if (string.length < length) {
-      string += "\u2026";
-    }
-    let formattedString = useQuotes ? escapeString(string) : sanitizeString(string);
-    return span(config, formattedString);
-  }),
-});
+  if (string.length < length) {
+    string += "\u2026";
+  }
+  let formattedString = useQuotes ? escapeString(string) : sanitizeString(string);
+  return span(config, formattedString);
+}
 
 function supportsObject(object, type) {
   if (!isGrip(object)) {
@@ -65,6 +55,6 @@ function supportsObject(object, type) {
 
 // Exports from this module
 module.exports = {
-  rep: LongStringRep,
-  supportsObject: supportsObject,
+  rep: wrapRender(LongStringRep),
+  supportsObject,
 };

@@ -20,6 +20,7 @@ window.onload = Task.async(function* () {
   const {
     REPS,
     MODE,
+    getRep,
     getSelectableInInspectorGrips,
   } = browserRequire("devtools/client/shared/components/reps/reps");
   let { Rep, GripArray } = REPS;
@@ -60,8 +61,7 @@ window.onload = Task.async(function* () {
 
     // Test that correct rep is chosen
     const gripStub = getGripStub("testBasic");
-    const renderedRep = shallowRenderComponent(Rep, { object: gripStub });
-    is(renderedRep.type, GripArray.rep, `Rep correctly selects ${GripArray.rep.displayName}`);
+    is(getRep(gripStub), GripArray.rep, "Rep correctly selects GripArray Rep");
 
     // Test rendering
     const defaultOutput = `Array []`;

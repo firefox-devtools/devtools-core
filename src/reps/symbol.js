@@ -9,24 +9,20 @@ const { span } = React.DOM;
 /**
  * Renders a symbol.
  */
-const SymbolRep = React.createClass({
-  displayName: "SymbolRep",
+SymbolRep.propTypes = {
+  object: React.PropTypes.object.isRequired
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired
-  },
+function SymbolRep(props) {
+  let {object} = props;
+  let {name} = object;
 
-  render: wrapRender(function () {
-    let {object} = this.props;
-    let {name} = object;
-
-    return (
-      span({className: "objectBox objectBox-symbol"},
-        `Symbol(${name || ""})`
-      )
-    );
-  }),
-});
+  return (
+    span({className: "objectBox objectBox-symbol"},
+      `Symbol(${name || ""})`
+    )
+  );
+}
 
 function supportsObject(object, type) {
   return (type == "symbol");
@@ -34,6 +30,6 @@ function supportsObject(object, type) {
 
 // Exports from this module
 module.exports = {
-  rep: SymbolRep,
-  supportsObject: supportsObject,
+  rep: wrapRender(SymbolRep),
+  supportsObject,
 };

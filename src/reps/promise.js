@@ -2,8 +2,8 @@
 const React = require("react");
 // Dependencies
 const {
-  createFactories,
   isGrip,
+  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -15,94 +15,76 @@ const { span } = React.DOM;
 /**
  * Renders a DOM Promise object.
  */
-const PromiseRep = React.createClass({
-  displayName: "Promise",
+PromiseRep.propTypes = {
+  object: React.PropTypes.object.isRequired,
+  // @TODO Change this to Object.values once it's supported in Node's version of V8
+  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  objectLink: React.PropTypes.func,
+  attachedActorIds: React.PropTypes.array,
+  onDOMNodeMouseOver: React.PropTypes.func,
+  onDOMNodeMouseOut: React.PropTypes.func,
+  onInspectIconClick: React.PropTypes.func,
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired,
-    // @TODO Change this to Object.values once it's supported in Node's version of V8
-    mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-    objectLink: React.PropTypes.func,
-    attachedActorIds: React.PropTypes.array,
-    onDOMNodeMouseOver: React.PropTypes.func,
-    onDOMNodeMouseOut: React.PropTypes.func,
-    onInspectIconClick: React.PropTypes.func,
-  },
+function PromiseRep(props) {
+  const object = props.object;
+  const {promiseState} = object;
 
-  getTitle: function (object) {
-    const title = object.class;
-    return this.safeObjectLink({}, title);
-  },
+  if (props.mode === MODE.TINY) {
+    let { Rep } = require("./rep");
 
-  getProps: function (promiseState) {
-    const keys = ["state"];
-    if (Object.keys(promiseState).includes("value")) {
-      keys.push("value");
-    }
-
-    return keys.map((key, i) => {
-      let object = promiseState[key];
-      return PropRep(Object.assign({}, this.props, {
-        mode: MODE.TINY,
-        name: `<${key}>`,
-        object,
-        equal: ": ",
-        delim: i < keys.length - 1 ? ", " : "",
-        suppressQuotes: true,
-      }));
-    });
-  },
-
-  safeObjectLink: function (config, ...children) {
-    if (this.props.objectLink) {
-      return this.props.objectLink(Object.assign({
-        object: this.props.object
-      }, config), ...children);
-    }
-
-    if (Object.keys(config).length === 0 && children.length === 1) {
-      return children[0];
-    }
-
-    return span(config, ...children);
-  },
-
-  render: wrapRender(function () {
-    const object = this.props.object;
-    const {promiseState} = object;
-
-    if (this.props.mode === MODE.TINY) {
-      let { Rep } = createFactories(require("./rep"));
-
-      return (
-        span({className: "objectBox objectBox-object"},
-          this.getTitle(object),
-          this.safeObjectLink({
-            className: "objectLeftBrace",
-          }, " { "),
-          Rep({object: promiseState.state}),
-          this.safeObjectLink({
-            className: "objectRightBrace",
-          }, " }")
-        )
-      );
-    }
-
-    const propsArray = this.getProps(promiseState);
     return (
       span({className: "objectBox objectBox-object"},
-        this.getTitle(object),
-        this.safeObjectLink({
+        getTitle(props, object),
+        safeObjectLink(props, {
           className: "objectLeftBrace",
         }, " { "),
-        ...propsArray,
-        this.safeObjectLink({
+        Rep({object: promiseState.state}),
+        safeObjectLink(props, {
           className: "objectRightBrace",
         }, " }")
       )
     );
-  }),
-});
+  }
+
+  const propsArray = getProps(props, promiseState);
+  return (
+    span({className: "objectBox objectBox-object"},
+      getTitle(props, object),
+      safeObjectLink(props, {
+        className: "objectLeftBrace",
+      }, " { "),
+      ...propsArray,
+      safeObjectLink(props, {
+        className: "objectRightBrace",
+      }, " }")
+    )
+  );
+}
+
+function getTitle(props, object) {
+  const title = object.class;
+  return safeObjectLink(props, {}, title);
+}
+
+function getProps(props, promiseState) {
+  const keys = ["state"];
+  if (Object.keys(promiseState).includes("value")) {
+    keys.push("value");
+  }
+
+  return keys.map((key, i) => {
+    let object = promiseState[key];
+    return PropRep(Object.assign({}, props, {
+      mode: MODE.TINY,
+      name: `<${key}>`,
+      object,
+      equal: ": ",
+      delim: i < keys.length - 1 ? ", " : "",
+      suppressQuotes: true,
+    }));
+  });
+}
 
 // Registration
 function supportsObject(object, type) {
@@ -114,6 +96,6 @@ function supportsObject(object, type) {
 
 // Exports from this module
 module.exports = {
-  rep: PromiseRep,
-  supportsObject: supportsObject
+  rep: wrapRender(PromiseRep),
+  supportsObject,
 };

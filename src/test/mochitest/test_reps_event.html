@@ -20,14 +20,14 @@ window.onload = Task.async(function* () {
   const {
     REPS,
     MODE,
+    getRep,
     getSelectableInInspectorGrips,
   } = browserRequire("devtools/client/shared/components/reps/reps");
   let { Rep, Event } = REPS;
 
   try {
     // Test that correct rep is chosen
-    const renderedRep = shallowRenderComponent(Rep, { object: getGripStub("testEvent") });
-    is(renderedRep.type, Event.rep, `Rep correctly selects ${Event.rep.displayName}`);
+    is(getRep(getGripStub("testEvent")), Event.rep, "Rep correctly selects Event Rep");
 
     yield testEvent();
     yield testMouseEvent();

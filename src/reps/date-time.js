@@ -4,6 +4,7 @@ const React = require("react");
 // Reps
 const {
   isGrip,
+  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -13,43 +14,33 @@ const { span } = React.DOM;
 /**
  * Used to render JS built-in Date() object.
  */
-let DateTime = React.createClass({
-  displayName: "Date",
+DateTime.propTypes = {
+  object: React.PropTypes.object.isRequired,
+  objectLink: React.PropTypes.func,
+};
 
-  propTypes: {
-    object: React.PropTypes.object.isRequired,
-    objectLink: React.PropTypes.func,
-  },
+function DateTime(props) {
+  let grip = props.object;
+  let date;
+  try {
+    date = span({className: "objectBox"},
+      getTitle(props, grip),
+      span({className: "Date"},
+        new Date(grip.preview.timestamp).toISOString()
+      )
+    );
+  } catch (e) {
+    date = span({className: "objectBox"}, "Invalid Date");
+  }
 
-  getTitle: function (grip) {
-    if (this.props.objectLink) {
-      return this.props.objectLink({
-        object: grip
-      }, grip.class + " ");
-    }
-    return "";
-  },
+  return date;
+}
 
-  render: wrapRender(function () {
-    let grip = this.props.object;
-    let date;
-    try {
-      date = span({className: "objectBox"},
-        this.getTitle(grip),
-        span({className: "Date"},
-          new Date(grip.preview.timestamp).toISOString()
-        )
-      );
-    } catch (e) {
-      date = span({className: "objectBox"}, "Invalid Date");
-    }
-
-    return date;
-  }),
-});
+function getTitle(props, grip) {
+  return safeObjectLink(props, {}, grip.class + " ");
+}
 
 // Registration
-
 function supportsObject(grip, type) {
   if (!isGrip(grip)) {
     return false;
@@ -60,6 +51,6 @@ function supportsObject(grip, type) {
 
 // Exports from this module
 module.exports = {
-  rep: DateTime,
-  supportsObject: supportsObject
+  rep: wrapRender(DateTime),
+  supportsObject,
 };
