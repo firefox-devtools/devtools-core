@@ -5,6 +5,7 @@
 | [![devtools-launchpad-version]][devtools-launchpad-pkg] | [devtools-launchpad] |
 | [![devtools-config-version]][devtools-config-pkg] | [devtools-config] |
 | [![devtools-modules-version]][devtools-modules-pkg] | [devtools-modules] |
+| [![devtools-source-editor-version]][devtools-source-editor-pkg] | [devtools-source-editor] |
 | [![devtools-source-map-version]][devtools-source-map-pkg] | [devtools-source-map] |
 | [![devtools-utils-version]][devtools-utils-pkg] | [devtools-utils] |
 | [![devtools-splitter-version]][devtools-splitter-pkg] | [devtools-splitter] |
@@ -29,6 +30,10 @@
 [devtools-modules-version]:https://img.shields.io/npm/v/devtools-modules.svg
 [devtools-modules-pkg]:https://npmjs.org/package/devtools-modules
 [devtools-modules]:./packages/devtools-modules/#readme
+
+[devtools-source-editor-version]:https://img.shields.io/npm/v/devtools-source-editor.svg
+[devtools-source-editor-pkg]:https://npmjs.org/package/devtools-source-editor
+[devtools-source-editor]:./packages/devtools-source-editor/#readme
 
 [devtools-source-map-version]:https://img.shields.io/npm/v/devtools-source-map.svg
 [devtools-source-map-pkg]:https://npmjs.org/package/devtools-source-map
