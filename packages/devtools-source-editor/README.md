@@ -1,5 +1,7 @@
 ### Source Editor
 
+[![Npm version](https://img.shields.io/npm/v/devtools-source-editor.svg)](https://npmjs.org/package/devtools-source-editor)
+
 The Source Editor is the DevTools shared CodeMirror wrapper. It is currently used in the Debugger and has shared styles.
 
 ![editor-image]
