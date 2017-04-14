@@ -54,7 +54,7 @@ function onShown(menu, popup) {
   popup.childNodes.forEach((menuItemNode, i) => {
     let item = menu.items[i];
 
-    if (!item.disabled) {
+    if (!item.disabled && item.visible) {
       menuItemNode.onclick = () => {
         item.click();
         popup.hidePopup();
@@ -71,7 +71,7 @@ function showMenu(evt, items) {
   }
 
   let menu = new Menu();
-  items.forEach((item) => {
+  items.filter((item) => item.visible).forEach((item) => {
     let menuItem = new MenuItem(item);
     menuItem.submenu = createSubMenu(item.submenu);
     menu.append(menuItem);
@@ -107,8 +107,8 @@ function showSubMenu(subMenu, menuItemNode, popup) {
     let subMenuItemNodes = menuItemNode
       .querySelector("menupopup:not(.landing-popup)").childNodes;
     subMenuItemNodes.forEach((subMenuItemNode, j) => {
-      let subMenuItem = subMenu.items[j];
-      if (!subMenuItem.disabled) {
+      let subMenuItem = subMenu.items.filter((item) => item.visible)[j];
+      if (!subMenuItem.disabled && subMenuItem.visible) {
         subMenuItemNode.onclick = () => {
           subMenuItem.click();
           popup.hidePopup();

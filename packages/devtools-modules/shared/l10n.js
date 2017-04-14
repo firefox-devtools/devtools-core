@@ -28,11 +28,11 @@ const propertiesMap = {};
 // files being included in the pack; and in the devtools case this is
 // a wordy no-op.
 // const reqShared = require.context("devtools/shared/locales/",
-//                                   true, /^.*\.properties$/);
+//                                    true, /^.*\.properties$/);
 // const reqClient = require.context("devtools/client/locales/",
-//                                   true, /^.*\.properties$/);
+//                                    true, /^.*\.properties$/);
 // const reqGlobal = require.context("toolkit/locales/",
-//                                   true, /^.*\.properties$/);
+//                                    true, /^.*\.properties$/);
 
 /**
  * Memoized getter for properties files that ensures a given url is only required and
