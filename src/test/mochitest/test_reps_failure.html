@@ -22,7 +22,7 @@ window.onload = Task.async(function* () {
       REPS,
       getRep,
     } = browserRequire("devtools/client/shared/components/reps/reps");
-    let { Rep, ArrayRep, RegExp } = REPS;
+    let { ArrayRep, RegExp } = REPS;
 
     // Force the RegExp rep to crash by creating RegExp grip that throws when accessing
     // the displayString property
