@@ -215,7 +215,6 @@ window.onload = Task.async(function* () {
 
     const grips = getSelectableInInspectorGrips(stub);
     is(grips.length, 1, "the stub has one node grip");
-    const attachedActorIds = getStubAttachedActorIds(grips);
 
     let mouseOverValue;
     let onDOMNodeMouseOver = (object) => {
@@ -225,7 +224,6 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(PromiseRep.rep, {
       object: stub,
       onDOMNodeMouseOver,
-      attachedActorIds,
     });
 
     const node = renderedComponent.querySelector(".objectBox-node");
@@ -240,7 +238,6 @@ window.onload = Task.async(function* () {
 
     const grips = getSelectableInInspectorGrips(stub);
     is(grips.length, 1, "the stub has one node grip");
-    const attachedActorIds = getStubAttachedActorIds(grips);
 
     let called = false;
     let onDOMNodeMouseOut = (object) => {
@@ -249,7 +246,6 @@ window.onload = Task.async(function* () {
     const renderedComponent = renderComponent(PromiseRep.rep, {
       object: stub,
       onDOMNodeMouseOut,
-      attachedActorIds,
     });
 
     const node = renderedComponent.querySelector(".objectBox-node");
@@ -261,10 +257,8 @@ window.onload = Task.async(function* () {
 
   function testOnDomNodeInspectIconClick() {
     const stub = getGripStub("testFulfilledWithNode");
-
     const grips = getSelectableInInspectorGrips(stub);
     is(grips.length, 1, "the stub has one node grip");
-    const attachedActorIds = getStubAttachedActorIds(grips);
 
     let inspectIconClickedValues = null;
     let onInspectIconClick = (object) => {
@@ -272,17 +266,15 @@ window.onload = Task.async(function* () {
     };
 
     let renderedComponentWithoutInspectIcon = renderComponent(PromiseRep.rep, {
-      object: stub,
+      object: getGripStub("testFulfilledWithDisconnectedNode"),
       onInspectIconClick,
-      attachedActorIds: ["someOtherId"],
     });
     is(renderedComponentWithoutInspectIcon.querySelector(".open-inspector"), null,
-      "There isn't an inspect icon when the actor is not in attachedActorIds");
+      "There isn't an inspect icon when the node is not connected to the DOM tree");
 
     const renderedComponent = renderComponent(PromiseRep.rep, {
       object: stub,
       onInspectIconClick,
-      attachedActorIds,
     });
 
     const icon = renderedComponent.querySelector(".open-inspector");
@@ -466,6 +458,46 @@ window.onload = Task.async(function* () {
                 "kind": "DOMNode",
                 "nodeType": 1,
                 "nodeName": "button",
+                "isConnected": true,
+                "attributes": {
+                  "id": "btn-1",
+                  "class": "btn btn-log",
+                  "type": "button"
+                },
+                "attributesLength": 3
+              }
+            },
+            "creationTimestamp": 1480423091620.3716,
+            "timeToSettle": 0.02842400000372436
+          },
+          "ownPropertyLength": 0,
+          "preview": {
+            "kind": "Object",
+            "ownProperties": {},
+            "ownPropertiesLength": 0,
+            "safeGetterValues": {}
+          }
+        };
+      case "testFulfilledWithDisconnectedNode":
+        return {
+          "type": "object",
+          "actor": "server1.conn1.child1/obj217",
+          "class": "Promise",
+          "promiseState": {
+            "state": "fulfilled",
+            "value": {
+              "type": "object",
+              "actor": "server1.conn1.child1/obj218",
+              "class": "HTMLButtonElement",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "ownPropertyLength": 0,
+              "preview": {
+                "kind": "DOMNode",
+                "nodeType": 1,
+                "nodeName": "button",
+                "isConnected": false,
                 "attributes": {
                   "id": "btn-1",
                   "class": "btn btn-log",

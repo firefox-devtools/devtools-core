@@ -21,7 +21,6 @@ GripMap.propTypes = {
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   objectLink: React.PropTypes.func,
   isInterestingEntry: React.PropTypes.func,
-  attachedActorIds: React.PropTypes.array,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
@@ -116,7 +115,6 @@ function entriesIterator(props, object, max) {
 function getEntries(props, entries, indexes) {
   let {
     objectLink,
-    attachedActorIds,
     onDOMNodeMouseOver,
     onDOMNodeMouseOut,
     onInspectIconClick,
@@ -141,7 +139,6 @@ function getEntries(props, entries, indexes) {
       delim: (i < indexes.length - 1 || indexes.length < entries.length) ? ", " : "",
       mode: MODE.TINY,
       objectLink,
-      attachedActorIds,
       onDOMNodeMouseOver,
       onDOMNodeMouseOut,
       onInspectIconClick,

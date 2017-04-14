@@ -24,7 +24,6 @@ GripRep.propTypes = {
   isInterestingProp: React.PropTypes.func,
   title: React.PropTypes.string,
   objectLink: React.PropTypes.func,
-  attachedActorIds: React.PropTypes.array,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,

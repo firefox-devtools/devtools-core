@@ -22,7 +22,6 @@ TextNode.propTypes = {
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   objectLink: React.PropTypes.func,
-  attachedActorIds: React.PropTypes.array,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
@@ -32,7 +31,6 @@ function TextNode(props) {
   let {
     object: grip,
     mode = MODE.SHORT,
-    attachedActorIds,
     onDOMNodeMouseOver,
     onDOMNodeMouseOut,
     onInspectIconClick,
@@ -40,7 +38,7 @@ function TextNode(props) {
 
   let baseConfig = {className: "objectBox objectBox-textNode"};
   let inspectIcon;
-  let isInTree = attachedActorIds ? attachedActorIds.includes(grip.actor) : true;
+  let isInTree = grip.preview && grip.preview.isConnected === true;
 
   if (isInTree) {
     if (onDOMNodeMouseOver) {

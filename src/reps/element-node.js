@@ -21,7 +21,6 @@ ElementNode.propTypes = {
   object: React.PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  attachedActorIds: React.PropTypes.array,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
@@ -32,14 +31,13 @@ function ElementNode(props) {
   let {
     object,
     mode,
-    attachedActorIds,
     onDOMNodeMouseOver,
     onDOMNodeMouseOut,
     onInspectIconClick,
   } = props;
   let elements = getElements(object, mode);
 
-  let isInTree = attachedActorIds ? attachedActorIds.includes(object.actor) : true;
+  let isInTree = object.preview && object.preview.isConnected === true;
 
   let baseConfig = {className: "objectBox objectBox-node"};
   let inspectIcon;
