@@ -25,7 +25,7 @@ window.onload = Task.async(function* () {
     getRep,
     getSelectableInInspectorGrips,
   } = browserRequire("devtools/client/shared/components/reps/reps");
-  let { Rep, ElementNode } = REPS;
+  let { ElementNode } = REPS;
 
   try {
     yield testBodyNode();

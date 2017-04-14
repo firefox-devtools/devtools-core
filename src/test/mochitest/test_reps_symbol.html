@@ -24,7 +24,7 @@ window.onload = Task.async(function* () {
     REPS,
     getRep,
   } = browserRequire("devtools/client/shared/components/reps/reps");
-  let { Rep, SymbolRep } = REPS;
+  let { SymbolRep } = REPS;
 
   let gripStubs = new Map();
   gripStubs.set("testSymbolFoo", {

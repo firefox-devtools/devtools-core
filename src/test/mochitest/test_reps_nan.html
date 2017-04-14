@@ -23,7 +23,7 @@ window.onload = Task.async(function* () {
     REPS,
     getRep,
   } = browserRequire("devtools/client/shared/components/reps/reps");
-  let { Rep, NaNRep } = REPS;
+  let { NaNRep } = REPS;
 
   try {
     yield testNaN();
@@ -38,7 +38,6 @@ window.onload = Task.async(function* () {
       type: "NaN"
     };
     is(getRep(stub), NaNRep.rep, "Rep correctly selects NaN Rep");
-
 
     const renderedComponent = renderComponent(NaNRep.rep, {object: stub});
     is(renderedComponent.textContent, "NaN", "NaN rep has expected text content");
