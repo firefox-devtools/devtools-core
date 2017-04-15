@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "codemirror": "^5.25.0",
     "properties-parser": "^0.3.1"
   }
 }

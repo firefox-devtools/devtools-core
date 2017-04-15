@@ -10,6 +10,7 @@ const networkRequest = require("./client/shared/shim/networkRequest");
 const PrefsHelper = require("./client/shared/prefs").PrefsHelper;
 const SearchBox = require("./client/shared/components/search-box");
 const Services = require("./client/shared/shim/Services");
+const SourceEditor = require("./client/shared/components/source-editor/source-editor");
 const sourceUtils = require("./client/shared/source-utils");
 const sprintf = require("./shared/sprintf").sprintf;
 // const Tabbar = require("./client/shared/components/tabs/tabbar");
@@ -54,6 +55,7 @@ module.exports = {
   PrefsHelper,
   SearchBox,
   Services,
+  SourceEditor,
   setNamedTimeout,
   sourceUtils,
   // LocalizationHelper,
