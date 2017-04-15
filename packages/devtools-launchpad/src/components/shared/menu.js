@@ -71,11 +71,13 @@ function showMenu(evt, items) {
   }
 
   let menu = new Menu();
-  items.filter((item) => item.visible).forEach((item) => {
-    let menuItem = new MenuItem(item);
-    menuItem.submenu = createSubMenu(item.submenu);
-    menu.append(menuItem);
-  });
+  items
+    .filter((item) => item.visible === undefined || item.visible === true)
+    .forEach((item) => {
+      let menuItem = new MenuItem(item);
+      menuItem.submenu = createSubMenu(item.submenu);
+      menu.append(menuItem);
+    });
 
   if (isFirefoxPanel()) {
     menu.popup(evt.screenX, evt.screenY, { doc: window.parent.document });
@@ -107,7 +109,8 @@ function showSubMenu(subMenu, menuItemNode, popup) {
     let subMenuItemNodes = menuItemNode
       .querySelector("menupopup:not(.landing-popup)").childNodes;
     subMenuItemNodes.forEach((subMenuItemNode, j) => {
-      let subMenuItem = subMenu.items.filter((item) => item.visible)[j];
+      let subMenuItem = subMenu.items.filter((item) =>
+        item.visible === undefined || item.visible === true)[j];
       if (!subMenuItem.disabled && subMenuItem.visible) {
         subMenuItemNode.onclick = () => {
           subMenuItem.click();
