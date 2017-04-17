@@ -78,6 +78,14 @@ window.onload = Task.async(function* () {
       useQuotes: true
     },
     result: "\"\ud83d\udeec\""
+  }, {
+    name: "testNoEscapeWhitespace",
+    props: {
+      object: "line 1\r\nline 2\n\tline 3",
+      useQuotes: true,
+      escapeWhitespace: false,
+    },
+    result: "\"line 1\r\nline 2\n\tline 3\""
   }];
 
   try {

@@ -14,6 +14,7 @@ const { span } = React.DOM;
  */
 LongStringRep.propTypes = {
   useQuotes: React.PropTypes.bool,
+  escapeWhitespace: React.PropTypes.bool,
   style: React.PropTypes.object,
   cropLimit: React.PropTypes.number.isRequired,
   member: React.PropTypes.string,
@@ -26,7 +27,8 @@ function LongStringRep(props) {
     member,
     object,
     style,
-    useQuotes = true
+    useQuotes = true,
+    escapeWhitespace = true,
   } = props;
   let {fullText, initial, length} = object;
 
@@ -42,7 +44,8 @@ function LongStringRep(props) {
   if (string.length < length) {
     string += "\u2026";
   }
-  let formattedString = useQuotes ? escapeString(string) : sanitizeString(string);
+  let formattedString = useQuotes ? escapeString(string, escapeWhitespace) :
+      sanitizeString(string);
   return span(config, formattedString);
 }
 

@@ -16,6 +16,7 @@ const { span } = React.DOM;
  */
 StringRep.propTypes = {
   useQuotes: React.PropTypes.bool,
+  escapeWhitespace: React.PropTypes.bool,
   style: React.PropTypes.object,
   object: React.PropTypes.string.isRequired,
   member: React.PropTypes.any,
@@ -29,6 +30,7 @@ function StringRep(props) {
     member,
     style,
     useQuotes = true,
+    escapeWhitespace = true,
   } = props;
 
   let config = {className: "objectBox objectBox-string"};
@@ -37,7 +39,7 @@ function StringRep(props) {
   }
 
   if (useQuotes) {
-    text = escapeString(text);
+    text = escapeString(text, escapeWhitespace);
   } else {
     text = sanitizeString(text);
   }
