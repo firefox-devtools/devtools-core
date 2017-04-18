@@ -10,7 +10,6 @@ Reps is Firefox DevTools' remote object formatter. It stands for *representation
 ```js
 const React = require("react");
 let { Rep, Grip } = require("devtools-modules");
-Rep = React.createFactory(Rep);
 
 function renderRep({ object, mode }) {
   return Rep({ object, defaultRep: Grip, mode });
