@@ -1,6 +1,6 @@
 {
   "name": "devtools-splitter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "DevTools Splitter",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react": "=15.3.2",
+    "react-dom": "=15.3.2"
   }
 }
