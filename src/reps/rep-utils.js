@@ -80,12 +80,17 @@ const escapeRegexp = new RegExp(
  *
  * @param {String} str
  *        the input
+ * @param {Boolean} escapeWhitespace
+ *        if true, TAB, CR, and NL characters will be escaped
  * @return {String} the escaped string
  */
-function escapeString(str) {
+function escapeString(str, escapeWhitespace) {
   return "\"" + str.replace(escapeRegexp, (match, offset) => {
     let c = match.charCodeAt(0);
     if (c in escapeMap) {
+      if (!escapeWhitespace && (c === 9 || c === 0xa || c === 0xd)) {
+        return match[0];
+      }
       return escapeMap[c];
     }
     if (c >= 0xd800 && c <= 0xdfff) {
