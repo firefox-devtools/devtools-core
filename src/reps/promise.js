@@ -20,7 +20,6 @@ PromiseRep.propTypes = {
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   objectLink: React.PropTypes.func,
-  attachedActorIds: React.PropTypes.array,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
