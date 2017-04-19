@@ -79,7 +79,7 @@ function getProps(props, promiseState) {
       name: `<${key}>`,
       object,
       equal: ": ",
-      delim: i < keys.length - 1 ? ", " : "",
+      delim: i < keys.length - 1 ? ", " : null,
       suppressQuotes: true,
     }));
   });

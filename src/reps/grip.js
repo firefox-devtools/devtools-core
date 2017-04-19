@@ -157,7 +157,7 @@ function getProps(componentProps, properties, indexes, truncate, suppressQuotes)
       name,
       object: value,
       equal: ": ",
-      delim: i !== indexes.length - 1 || truncate ? ", " : "",
+      delim: i !== indexes.length - 1 || truncate ? ", " : null,
       defaultRep: Grip,
       // Do not propagate title to properties reps
       title: undefined,

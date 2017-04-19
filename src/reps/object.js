@@ -124,7 +124,7 @@ function getPropsArray(object, truncated) {
     name,
     object: object[name],
     equal: ": ",
-    delim: i !== objectKeys.length - 1 || truncated ? ", " : "",
+    delim: i !== objectKeys.length - 1 || truncated ? ", " : null,
   }));
 }
 

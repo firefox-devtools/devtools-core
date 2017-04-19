@@ -63,6 +63,13 @@ function PropRep(props) {
     }));
   }
 
+  let delimElement;
+  if (delim) {
+    delimElement = span({
+      "className": "objectComma"
+    }, delim);
+  }
+
   return (
     span({},
       key,
@@ -70,9 +77,7 @@ function PropRep(props) {
         "className": "objectEqual"
       }, equal),
       Rep(Object.assign({}, props)),
-      span({
-        "className": "objectComma"
-      }, delim)
+      delimElement,
     )
   );
 }
