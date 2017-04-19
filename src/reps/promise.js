@@ -7,7 +7,7 @@ const {
   wrapRender,
 } = require("./rep-utils");
 
-const PropRep = React.createFactory(require("./prop-rep"));
+const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
