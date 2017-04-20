@@ -4,7 +4,7 @@ const {
   DebuggerTransport,
   TargetFactory,
   WebsocketTransport,
-} = require("devtools-modules");
+} = require("devtools-connection");
 
 const { getValue } = require("devtools-config");
 import type { Tab } from "./types";
@@ -38,7 +38,7 @@ function createTabs(tabs: TabPayload[]): Tab[] {
 async function connectClient() {
   const useProxy = !getValue("firefox.webSocketConnection");
   const firefoxHost = getValue(
-    useProxy ? "firefox.proxyHost" : "firefox.webSocketHost"
+    useProxy ? "firefox.proxyHost" : "firefox.webSocketHost",
   );
 
   const socket = new WebSocket(`ws://${firefoxHost}`);
@@ -69,8 +69,9 @@ async function connectTab(tab: Tab) {
   });
 
   const tabTarget: TabTarget = await lookupTabTarget(tab);
-  const [, threadClient: ThreadClient] =
-    await tabTarget.activeTab.attachThread({});
+  const [, threadClient: ThreadClient] = await tabTarget.activeTab.attachThread(
+    {},
+  );
 
   threadClient.resume();
   return { debuggerClient, threadClient, tabTarget };

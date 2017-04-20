@@ -1,0 +1,13 @@
+{
+  "name": "devtools-connection",
+  "version": "0.0.2",
+  "description": "DevTools HTML Connection Logic",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jason Laster",
+  "license": "ISC",
+  "dependencies": {
+  }
+}

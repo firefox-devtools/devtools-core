@@ -3,7 +3,7 @@
 const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
 
-const { DevToolsUtils, AppConstants, defer } = require("devtools-modules");
+const { defer } = require("devtools-modules");
 const { debugGlobal } = require("./utils/debug");
 const { setConfig, getValue, isDevelopment } = require("devtools-config");
 const L10N = require("./utils/L10N");
@@ -13,7 +13,7 @@ setConfig(DebuggerConfig);
 
 // Set various flags before requiring app code.
 if (getValue("logging.client")) {
-  DevToolsUtils.dumpn.wantLogging = true;
+  // DevToolsUtils.dumpn.wantLogging = true;
 }
 
 const { firefox, chrome, startDebugging } = require("./client");
@@ -77,7 +77,7 @@ async function initApp() {
   if (isDevelopment()) {
     const config = await updateConfig();
     actions.setConfig(config);
-    AppConstants.DEBUG_JS_MODULES = true;
+    // AppConstants.DEBUG_JS_MODULES = true;
   }
 
   return { store, actions, LaunchpadApp };
@@ -98,7 +98,7 @@ function renderRoot(_React, _ReactDOM, component, _store) {
   if (component.props || component.propTypes) {
     _ReactDOM.render(
       createElement(Provider, { store: _store }, createElement(component)),
-      root
+      root,
     );
   } else {
     root.appendChild(component);

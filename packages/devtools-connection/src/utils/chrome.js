@@ -16,7 +16,7 @@ var ourServices = {
 
 module.exports = {
   Cc: name => {
-    if (typeof console !== "undefined") {
+    if (typeof console !== 'undefined') {
     }
     return {
       getService: name => ourServices[name],
@@ -24,7 +24,7 @@ module.exports = {
     };
   },
   CC: (name, iface, method) => {
-    if (typeof console !== "undefined") {
+    if (typeof console !== 'undefined') {
     }
     return {};
   },
@@ -33,7 +33,7 @@ module.exports = {
       DISPATCH_NORMAL: 0,
       DISPATCH_SYNC: 1,
     },
-    nsIDOMNode: typeof HTMLElement !== "undefined" ? HTMLElement : null,
+    nsIDOMNode: typeof HTMLElement !== 'undefined' ? HTMLElement : null,
     nsIFocusManager: {
       MOVEFOCUS_BACKWARD: 2,
       MOVEFOCUS_FORWARD: 1,
@@ -56,13 +56,13 @@ module.exports = {
       SUPPORTS_RULE: 12,
       FONT_FEATURE_VALUES_RULE: 14,
     },
-    inIDOMUtils: "inIDOMUtils",
-    nsIClipboardHelper: "nsIClipboardHelper",
-    nsIXULChromeRegistry: "nsIXULChromeRegistry",
+    inIDOMUtils: 'inIDOMUtils',
+    nsIClipboardHelper: 'nsIClipboardHelper',
+    nsIXULChromeRegistry: 'nsIXULChromeRegistry',
   },
   Cu: {
     reportError: msg => {
-      typeof console !== "undefined" ? console.error(msg) : dump(msg);
+      typeof console !== 'undefined' ? console.error(msg) : dump(msg);
     },
     callFunctionWithAsyncStack: fn => fn(),
   },
