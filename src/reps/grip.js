@@ -142,33 +142,29 @@ function propIterator(props, object, max) {
  * @return {Array} Props.
  */
 function getProps(componentProps, properties, indexes, truncate, suppressQuotes) {
-  let propsArray = [];
-
   // Make indexes ordered by ascending.
   indexes.sort(function (a, b) {
     return a - b;
   });
 
-  indexes.forEach((i) => {
-    let name = Object.keys(properties)[i];
+  const propertiesKeys = Object.keys(properties);
+  return indexes.map((i) => {
+    let name = propertiesKeys[i];
     let value = getPropValue(properties[name]);
 
-    let propRepProps = Object.assign({}, componentProps, {
+    return PropRep(Object.assign({}, componentProps, {
       mode: MODE.TINY,
-      name: name,
+      name,
       object: value,
       equal: ": ",
-      delim: i !== indexes.length - 1 || truncate ? ", " : "",
+      delim: i !== indexes.length - 1 || truncate ? ", " : null,
       defaultRep: Grip,
-      // Do not propagate title to properties reps
-      title: undefined,
+      // Do not propagate title and objectLink to properties reps
+      title: null,
+      objectLink: null,
       suppressQuotes,
-    });
-    delete propRepProps.objectLink;
-    propsArray.push(PropRep(propRepProps));
+    }));
   });
-
-  return propsArray;
 }
 
 /**

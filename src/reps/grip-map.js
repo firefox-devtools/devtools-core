@@ -136,7 +136,7 @@ function getEntries(props, entries, indexes) {
       object: value,
       // Do not add a trailing comma on the last entry
       // if there won't be a "more..." item.
-      delim: (i < indexes.length - 1 || indexes.length < entries.length) ? ", " : "",
+      delim: (i < indexes.length - 1 || indexes.length < entries.length) ? ", " : null,
       mode: MODE.TINY,
       objectLink,
       onDOMNodeMouseOver,

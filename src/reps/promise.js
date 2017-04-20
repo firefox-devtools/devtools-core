@@ -7,7 +7,7 @@ const {
   wrapRender,
 } = require("./rep-utils");
 
-const PropRep = React.createFactory(require("./prop-rep"));
+const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
@@ -79,7 +79,7 @@ function getProps(props, promiseState) {
       name: `<${key}>`,
       object,
       equal: ": ",
-      delim: i < keys.length - 1 ? ", " : "",
+      delim: i < keys.length - 1 ? ", " : null,
       suppressQuotes: true,
     }));
   });
