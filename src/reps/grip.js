@@ -159,10 +159,10 @@ function getProps(componentProps, properties, indexes, truncate, suppressQuotes)
       equal: ": ",
       delim: i !== indexes.length - 1 || truncate ? ", " : null,
       defaultRep: Grip,
-      // Do not propagate title to properties reps
-      title: undefined,
-      suppressQuotes,
+      // Do not propagate title and objectLink to properties reps
+      title: null,
       objectLink: null,
+      suppressQuotes,
     }));
   });
 }
