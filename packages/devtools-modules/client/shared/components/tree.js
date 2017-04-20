@@ -519,6 +519,8 @@ const Tree = module.exports = createClass({
       case "ArrowRight":
         if (!this.props.isExpanded(this.props.focused)) {
           this._onExpand(this.props.focused);
+        } else if (this.props.getChildren(this.props.focused).length) {
+          this._focusNextNode();
         }
         return;
     }
