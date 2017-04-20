@@ -2,9 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-"use strict";
-
-const EventEmitter = require("../event-emitter");
+const EventEmitter = require("../utils/event-emitter");
 
 function WebSocketDebuggerTransport(socket) {
   EventEmitter.decorate(this);
@@ -65,7 +63,9 @@ WebSocketDebuggerTransport.prototype = {
 
   onMessage({ data }) {
     if (typeof data !== "string") {
-      throw new Error("Binary messages are not supported by WebSocket transport");
+      throw new Error(
+        "Binary messages are not supported by WebSocket transport",
+      );
     }
 
     let object = JSON.parse(data);

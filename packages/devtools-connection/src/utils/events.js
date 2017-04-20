@@ -1,16 +1,16 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-"use strict";
 
 module.metadata = {
-  "stability": "unstable"
+  stability: "unstable",
 };
 
-const UNCAUGHT_ERROR = 'An error event was emitted for which there was no listener.';
-const BAD_LISTENER = 'The event listener must be a function.';
+const UNCAUGHT_ERROR =
+  "An error event was emitted for which there was no listener.";
+const BAD_LISTENER = "The event listener must be a function.";
 
-const { ns } = require('../core/namespace');
+const { ns } = require("./namespace");
 
 const event = ns();
 
@@ -21,9 +21,11 @@ exports.EVENT_TYPE_PATTERN = EVENT_TYPE_PATTERN;
 // the specific event `type`. If listeners for this type does not exists they
 // will be created.
 const observers = function observers(target, type) {
-  if (!target) throw TypeError("Event target must be an object");
+  if (!target) {
+    throw TypeError("Event target must be an object");
+  }
   let listeners = event(target);
-  return type in listeners ? listeners[type] : listeners[type] = [];
+  return type in listeners ? listeners[type] : (listeners[type] = []);
 };
 
 /**
@@ -37,18 +39,18 @@ const observers = function observers(target, type) {
  *    The listener function that processes the event.
  */
 function on(target, type, listener) {
-  if (typeof(listener) !== 'function')
+  if (typeof listener !== "function") {
     throw new Error(BAD_LISTENER);
+  }
 
   let listeners = observers(target, type);
-  if (!~listeners.indexOf(listener))
+  if (!~listeners.indexOf(listener)) {
     listeners.push(listener);
+  }
 }
 exports.on = on;
 
-
 var onceWeakMap = new WeakMap();
-
 
 /**
  * Registers an event `listener` that is called only the next time an event
@@ -85,7 +87,7 @@ exports.once = once;
  * @params {Object|Number|String|Boolean} args
  *    Arguments that will be passed to listeners.
  */
-function emit (target, type, ...args) {
+function emit(target, type, ...args) {
   emitOnObject(target, type, target, ...args);
 }
 exports.emit = emit;
@@ -94,7 +96,7 @@ exports.emit = emit;
  * A variant of emit that allows setting the this property for event listeners
  */
 function emitOnObject(target, type, thisArg, ...args) {
-  let all = observers(target, '*').length;
+  let all = observers(target, "*").length;
   let state = observers(target, type);
   let listeners = state.slice();
   let count = listeners.length;
@@ -102,25 +104,31 @@ function emitOnObject(target, type, thisArg, ...args) {
 
   // If error event and there are no handlers (explicit or catch-all)
   // then print error message to the console.
-  if (count === 0 && type === 'error' && all === 0)
+  if (count === 0 && type === "error" && all === 0) {
     console.exception(args[0]);
+  }
   while (index < count) {
     try {
       let listener = listeners[index];
       // Dispatch only if listener is still registered.
-      if (~state.indexOf(listener))
+      if (~state.indexOf(listener)) {
         listener.apply(thisArg, args);
-    }
-    catch (error) {
+      }
+    } catch (error) {
       // If exception is not thrown by a error listener and error listener is
       // registered emit `error` event. Otherwise dump exception to the console.
-      if (type !== 'error') emit(target, 'error', error);
-      else console.exception(error);
+      if (type !== "error") {
+        emit(target, "error", error);
+      } else {
+        console.exception(error);
+      }
     }
     index++;
   }
-   // Also emit on `"*"` so that one could listen for all events.
-  if (type !== '*') emit(target, '*', type, ...args);
+  // Also emit on `"*"` so that one could listen for all events.
+  if (type !== "*") {
+    emit(target, "*", type, ...args);
+  }
 }
 exports.emitOnObject = emitOnObject;
 
@@ -146,13 +154,12 @@ function off(target, type, listener) {
 
     let listeners = observers(target, type);
     let index = listeners.indexOf(listener);
-    if (~index)
+    if (~index) {
       listeners.splice(index, 1);
-  }
-  else if (length === 2) {
+    }
+  } else if (length === 2) {
     observers(target, type).splice(0);
-  }
-  else if (length === 1) {
+  } else if (length === 1) {
     let listeners = event(target);
     Object.keys(listeners).forEach(type => delete listeners[type]);
   }
@@ -183,11 +190,14 @@ function setListeners(target, listeners) {
   Object.keys(listeners || {}).forEach(key => {
     let match = EVENT_TYPE_PATTERN.exec(key);
     let type = match && match[1].toLowerCase();
-    if (!type) return;
+    if (!type) {
+      return;
+    }
 
     let listener = listeners[key];
-    if (typeof(listener) === 'function')
+    if (typeof listener === "function") {
       on(target, type, listener);
+    }
   });
 }
 exports.setListeners = setListeners;
