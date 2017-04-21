@@ -2,7 +2,7 @@
 
 const CDP = require("chrome-remote-interface");
 const { getValue } = require("devtools-config");
-const { networkRequest } = require("devtools-modules");
+const { networkRequest } = require("devtools-utils");
 
 import type { Tab } from "./types";
 
