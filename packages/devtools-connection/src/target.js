@@ -1,7 +1,3 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 const promise = require("./utils/promise");
 const EventEmitter = require("./utils/event-emitter");
 const { DebuggerClient } = require("./debugger/client");
@@ -175,17 +171,14 @@ TabTarget.prototype = {
    */
   getActorDescription: function(actorName) {
     if (!this.client) {
-      throw new Error(
-        "TabTarget#getActorDescription() can only be called on " +
-          "remote tabs.",
-      );
+      throw new Error("TabTarget#getActorDescription() can only be called on " +
+                      "remote tabs.");
     }
 
     let deferred = promise.defer();
 
-    if (
-      this._protocolDescription && this._protocolDescription.types[actorName]
-    ) {
+    if (this._protocolDescription &&
+        this._protocolDescription.types[actorName]) {
       deferred.resolve(this._protocolDescription.types[actorName]);
     } else {
       this.client.mainRoot.protocolDescription(description => {
@@ -206,12 +199,11 @@ TabTarget.prototype = {
    */
   hasActor: function(actorName) {
     if (!this.client) {
-      throw new Error(
-        "TabTarget#hasActor() can only be called on remote " + "tabs.",
-      );
+      throw new Error("TabTarget#hasActor() can only be called on remote " +
+                      "tabs.");
     }
     if (this.form) {
-      return !!this.form[`${actorName}Actor`];
+      return !!this.form[actorName + "Actor"];
     }
     return false;
   },
@@ -229,9 +221,8 @@ TabTarget.prototype = {
    */
   actorHasMethod: function(actorName, methodName) {
     if (!this.client) {
-      throw new Error(
-        "TabTarget#actorHasMethod() can only be called on " + "remote tabs.",
-      );
+      throw new Error("TabTarget#actorHasMethod() can only be called on " +
+                      "remote tabs.");
     }
     return this.getActorDescription(actorName).then(desc => {
       if (desc && desc.methods) {
@@ -249,9 +240,8 @@ TabTarget.prototype = {
    */
   getTrait: function(traitName) {
     if (!this.client) {
-      throw new Error(
-        "TabTarget#getTrait() can only be called on remote " + "tabs.",
-      );
+      throw new Error("TabTarget#getTrait() can only be called on remote " +
+                      "tabs.");
     }
 
     // If the targeted actor exposes traits and has a defined value for this
@@ -284,7 +274,7 @@ TabTarget.prototype = {
     return new Promise((resolve, reject) => {
       this.client.listTabs(response => {
         if (response.error) {
-          reject(new Error(`${response.error}: ${response.message}`));
+          reject(new Error(response.error + ": " + response.message));
           return;
         }
 
@@ -340,7 +330,8 @@ TabTarget.prototype = {
   },
 
   get url() {
-    return this._tab ? this._tab.linkedBrowser.currentURI.spec : this._form.url;
+    return this._tab ? this._tab.linkedBrowser.currentURI.spec :
+                       this._form.url;
   },
 
   get isRemote() {
@@ -348,9 +339,8 @@ TabTarget.prototype = {
   },
 
   get isAddon() {
-    return !!(this._form &&
-      this._form.actor &&
-      this._form.actor.match(/conn\d+\.addon\d+/));
+    return !!(this._form && this._form.actor &&
+              this._form.actor.match(/conn\d+\.addon\d+/));
   },
 
   get isLocalTab() {
@@ -414,11 +404,9 @@ TabTarget.prototype = {
     };
 
     let attachConsole = () => {
-      this._client.attachConsole(
-        this._form.consoleActor,
-        ["NetworkActivity"],
-        onConsoleAttached,
-      );
+      this._client.attachConsole(this._form.consoleActor,
+                                 [ "NetworkActivity" ],
+                                 onConsoleAttached);
     };
 
     if (this.isLocalTab) {
@@ -622,7 +610,7 @@ TabTarget.prototype = {
   },
 
   toString: function() {
-    let id = this._tab ? this._tab : this._form && this._form.actor;
+    let id = this._tab ? this._tab : (this._form && this._form.actor);
     return `TabTarget:${id}`;
   },
 };
@@ -664,7 +652,7 @@ WorkerTarget.prototype = {
 
   get form() {
     return {
-      consoleActor: this._workerClient.consoleActor,
+      consoleActor: this._workerClient.consoleActor
     };
   },
 
@@ -688,5 +676,5 @@ WorkerTarget.prototype = {
 
   makeRemote: function() {
     return Promise.resolve();
-  },
+  }
 };

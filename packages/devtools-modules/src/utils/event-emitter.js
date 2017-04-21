@@ -1,11 +1,3 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
-/**
- * EventEmitter.
- */
-
 var EventEmitter = function EventEmitter() {};
 module.exports = EventEmitter;
 
@@ -18,7 +10,7 @@ const promise = require("./promise");
  *        Bind all public methods of EventEmitter to
  *        the aObjectToDecorate object.
  */
-EventEmitter.decorate = function EventEmitter_decorate(aObjectToDecorate) {
+EventEmitter.decorate = function EventEmitter_decorate (aObjectToDecorate) {
   let emitter = new EventEmitter();
   aObjectToDecorate.on = emitter.on.bind(emitter);
   aObjectToDecorate.off = emitter.off.bind(emitter);
@@ -36,9 +28,8 @@ EventEmitter.prototype = {
    *        Called when the event is fired.
    */
   on: function EventEmitter_on(aEvent, aListener) {
-    if (!this._eventEmitterListeners) {
+    if (!this._eventEmitterListeners)
       this._eventEmitterListeners = new Map();
-    }
     if (!this._eventEmitterListeners.has(aEvent)) {
       this._eventEmitterListeners.set(aEvent, []);
     }
@@ -86,17 +77,13 @@ EventEmitter.prototype = {
    *        The listener to remove.
    */
   off: function EventEmitter_off(aEvent, aListener) {
-    if (!this._eventEmitterListeners) {
+    if (!this._eventEmitterListeners)
       return;
-    }
     let listeners = this._eventEmitterListeners.get(aEvent);
     if (listeners) {
-      this._eventEmitterListeners.set(
-        aEvent,
-        listeners.filter(l => {
-          return l !== aListener && l._originalListener !== aListener;
-        }),
-      );
+      this._eventEmitterListeners.set(aEvent, listeners.filter(l => {
+        return l !== aListener && l._originalListener !== aListener;
+      }));
     }
   },
 
@@ -105,9 +92,7 @@ EventEmitter.prototype = {
    * be sent to listener functions.
    */
   emit: function EventEmitter_emit(aEvent) {
-    if (
-      !this._eventEmitterListeners || !this._eventEmitterListeners.has(aEvent)
-    ) {
+    if (!this._eventEmitterListeners || !this._eventEmitterListeners.has(aEvent)) {
       return;
     }
 
@@ -121,16 +106,15 @@ EventEmitter.prototype = {
 
       // If listeners were removed during emission, make sure the
       // event handler we're going to fire wasn't removed.
-      if (
-        originalListeners === this._eventEmitterListeners.get(aEvent) ||
-        this._eventEmitterListeners.get(aEvent).some(l => l === listener)
-      ) {
+      if (originalListeners === this._eventEmitterListeners.get(aEvent) ||
+          this._eventEmitterListeners.get(aEvent).some(l => l === listener)) {
         try {
           listener.apply(null, arguments);
-        } catch (ex) {
+        }
+        catch (ex) {
           // Prevent a bad listener from interfering with the others.
-          let msg = `${ex}: ${ex.stack}`;
-          // console.error(msg);
+          let msg = ex + ": " + ex.stack;
+          //console.error(msg);
           console.log(msg);
         }
       }
