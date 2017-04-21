@@ -3,7 +3,7 @@
 const { bindActionCreators, combineReducers } = require("redux");
 const { Provider } = require("react-redux");
 
-const { defer } = require("devtools-modules");
+const { defer } = require("./utils/defer");
 const { debugGlobal } = require("./utils/debug");
 const { setConfig, getValue, isDevelopment } = require("devtools-config");
 const L10N = require("./utils/L10N");
