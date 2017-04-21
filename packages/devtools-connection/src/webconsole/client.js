@@ -15,7 +15,8 @@ const promise = require("../utils/promise");
  * @param object LongStringClient
  *        LongStringClient constructor to get full string from server
  */
-function WebConsoleClient(aDebuggerClient, aResponse, LongStringClient) {
+function WebConsoleClient(aDebuggerClient, aResponse, LongStringClient)
+{
   this._actor = aResponse.from;
   this._client = aDebuggerClient;
   this.LongStringClient = LongStringClient;
@@ -65,9 +66,7 @@ WebConsoleClient.prototype = {
     return this._networkRequests.values();
   },
 
-  get actor() {
-    return this._actor;
-  },
+  get actor() { return this._actor; },
 
   /**
    * The "networkEvent" message type handler. We redirect any message to
@@ -79,7 +78,8 @@ WebConsoleClient.prototype = {
    * @param object packet
    *        The message received from the server.
    */
-  _onNetworkEvent: function(type, packet) {
+  _onNetworkEvent: function (type, packet)
+  {
     if (packet.from == this._actor) {
       let actor = packet.eventActor;
       let networkInfo = {
@@ -99,7 +99,7 @@ WebConsoleClient.prototype = {
         timings: {},
         updates: [], // track the list of network event updates
         private: actor.private,
-        fromCache: actor.fromCache,
+        fromCache: actor.fromCache
       };
       this._networkRequests.set(actor.actor, networkInfo);
 
@@ -117,7 +117,8 @@ WebConsoleClient.prototype = {
    * @param object packet
    *        The message received from the server.
    */
-  _onNetworkEventUpdate: function(type, packet) {
+  _onNetworkEventUpdate: function (type, packet)
+  {
     let networkInfo = this.getNetworkRequest(packet.from);
     if (!networkInfo) {
       return;
@@ -160,7 +161,7 @@ WebConsoleClient.prototype = {
 
     this.emit("networkEventUpdate", {
       packet: packet,
-      networkInfo,
+      networkInfo
     });
   },
 
@@ -174,7 +175,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  getCachedMessages: function WCC_getCachedMessages(types, aOnResponse) {
+  getCachedMessages: function WCC_getCachedMessages(types, aOnResponse)
+  {
     let packet = {
       to: this._actor,
       type: "getCachedMessages",
@@ -191,10 +193,9 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  inspectObjectProperties: function WCC_inspectObjectProperties(
-    aActor,
-    aOnResponse,
-  ) {
+  inspectObjectProperties:
+  function WCC_inspectObjectProperties(aActor, aOnResponse)
+  {
     let packet = {
       to: aActor,
       type: "inspectProperties",
@@ -238,7 +239,8 @@ WebConsoleClient.prototype = {
    *        that can reference the currently selected node in the Inspector, like
    *        $0.
    */
-  evaluateJS: function WCC_evaluateJS(aString, aOnResponse, aOptions = {}) {
+  evaluateJS: function WCC_evaluateJS(aString, aOnResponse, aOptions = {})
+  {
     let packet = {
       to: this._actor,
       type: "evaluateJS",
@@ -256,7 +258,8 @@ WebConsoleClient.prototype = {
    * Evaluate a JavaScript expression asynchronously.
    * See evaluateJS for parameter and response information.
    */
-  evaluateJSAsync: function(aString, aOnResponse, aOptions = {}) {
+  evaluateJSAsync: function(aString, aOnResponse, aOptions = {})
+  {
     // Pre-37 servers don't support async evaluation.
     if (!this.traits.evaluateJSAsync) {
       this.evaluateJS(aString, aOnResponse, aOptions);
@@ -302,10 +305,8 @@ WebConsoleClient.prototype = {
       onResponse(aPacket);
       this.pendingEvaluationResults.delete(aPacket.resultID);
     } else {
-      DevToolsUtils.reportException(
-        "onEvaluationResult",
-        `No response handler for an evaluateJSAsync result (resultID: ${aPacket.resultID})`,
-      );
+      DevToolsUtils.reportException("onEvaluationResult",
+        "No response handler for an evaluateJSAsync result (resultID: " + aPacket.resultID + ")");
     }
   },
 
@@ -321,12 +322,8 @@ WebConsoleClient.prototype = {
    * @param string aFrameActor
    *        The id of the frame actor that made the call.
    */
-  autocomplete: function WCC_autocomplete(
-    aString,
-    aCursor,
-    aOnResponse,
-    aFrameActor,
-  ) {
+  autocomplete: function WCC_autocomplete(aString, aCursor, aOnResponse, aFrameActor)
+  {
     let packet = {
       to: this._actor,
       type: "autocomplete",
@@ -340,7 +337,8 @@ WebConsoleClient.prototype = {
   /**
    * Clear the cache of messages (page errors and console API calls).
    */
-  clearMessagesCache: function WCC_clearMessagesCache() {
+  clearMessagesCache: function WCC_clearMessagesCache()
+  {
     let packet = {
       to: this._actor,
       type: "clearMessagesCache",
@@ -356,7 +354,8 @@ WebConsoleClient.prototype = {
    * @param function [aOnResponse]
    *        Optional function to invoke when the response is received.
    */
-  getPreferences: function WCC_getPreferences(aPreferences, aOnResponse) {
+  getPreferences: function WCC_getPreferences(aPreferences, aOnResponse)
+  {
     let packet = {
       to: this._actor,
       type: "getPreferences",
@@ -373,7 +372,8 @@ WebConsoleClient.prototype = {
    * @param function [aOnResponse]
    *        Optional function to invoke when the response is received.
    */
-  setPreferences: function WCC_setPreferences(aPreferences, aOnResponse) {
+  setPreferences: function WCC_setPreferences(aPreferences, aOnResponse)
+  {
     let packet = {
       to: this._actor,
       type: "setPreferences",
@@ -390,7 +390,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  getRequestHeaders: function WCC_getRequestHeaders(aActor, aOnResponse) {
+  getRequestHeaders: function WCC_getRequestHeaders(aActor, aOnResponse)
+  {
     let packet = {
       to: aActor,
       type: "getRequestHeaders",
@@ -406,7 +407,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  getRequestCookies: function WCC_getRequestCookies(aActor, aOnResponse) {
+  getRequestCookies: function WCC_getRequestCookies(aActor, aOnResponse)
+  {
     let packet = {
       to: aActor,
       type: "getRequestCookies",
@@ -422,7 +424,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  getRequestPostData: function WCC_getRequestPostData(aActor, aOnResponse) {
+  getRequestPostData: function WCC_getRequestPostData(aActor, aOnResponse)
+  {
     let packet = {
       to: aActor,
       type: "getRequestPostData",
@@ -438,7 +441,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  getResponseHeaders: function WCC_getResponseHeaders(aActor, aOnResponse) {
+  getResponseHeaders: function WCC_getResponseHeaders(aActor, aOnResponse)
+  {
     let packet = {
       to: aActor,
       type: "getResponseHeaders",
@@ -454,7 +458,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  getResponseCookies: function WCC_getResponseCookies(aActor, aOnResponse) {
+  getResponseCookies: function WCC_getResponseCookies(aActor, aOnResponse)
+  {
     let packet = {
       to: aActor,
       type: "getResponseCookies",
@@ -470,7 +475,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  getResponseContent: function WCC_getResponseContent(aActor, aOnResponse) {
+  getResponseContent: function WCC_getResponseContent(aActor, aOnResponse)
+  {
     let packet = {
       to: aActor,
       type: "getResponseContent",
@@ -486,7 +492,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  getEventTimings: function WCC_getEventTimings(aActor, aOnResponse) {
+  getEventTimings: function WCC_getEventTimings(aActor, aOnResponse)
+  {
     let packet = {
       to: aActor,
       type: "getEventTimings",
@@ -502,7 +509,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        The function invoked when the response is received.
    */
-  getSecurityInfo: function WCC_getSecurityInfo(aActor, aOnResponse) {
+  getSecurityInfo: function WCC_getSecurityInfo(aActor, aOnResponse)
+  {
     let packet = {
       to: aActor,
       type: "getSecurityInfo",
@@ -522,7 +530,7 @@ WebConsoleClient.prototype = {
     let packet = {
       to: this._actor,
       type: "sendHTTPRequest",
-      request: aData,
+      request: aData
     };
     this._client.request(packet, aOnResponse);
   },
@@ -537,7 +545,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        Function to invoke when the server response is received.
    */
-  startListeners: function WCC_startListeners(aListeners, aOnResponse) {
+  startListeners: function WCC_startListeners(aListeners, aOnResponse)
+  {
     let packet = {
       to: this._actor,
       type: "startListeners",
@@ -556,7 +565,8 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        Function to invoke when the server response is received.
    */
-  stopListeners: function WCC_stopListeners(aListeners, aOnResponse) {
+  stopListeners: function WCC_stopListeners(aListeners, aOnResponse)
+  {
     let packet = {
       to: this._actor,
       type: "stopListeners",
@@ -573,7 +583,8 @@ WebConsoleClient.prototype = {
    * @return object
    *         The LongStringClient for the given long string grip.
    */
-  longString: function WCC_longString(aGrip) {
+  longString: function WCC_longString(aGrip)
+  {
     if (aGrip.actor in this._longStrings) {
       return this._longStrings[aGrip.actor];
     }
@@ -591,13 +602,11 @@ WebConsoleClient.prototype = {
    * @param function aOnResponse
    *        Function to invoke when the server response is received.
    */
-  detach: function WCC_detach(aOnResponse) {
+  detach: function WCC_detach(aOnResponse)
+  {
     this._client.removeListener("evaluationResult", this.onEvaluationResult);
     this._client.removeListener("networkEvent", this.onNetworkEvent);
-    this._client.removeListener(
-      "networkEventUpdate",
-      this.onNetworkEventUpdate,
-    );
+    this._client.removeListener("networkEventUpdate", this.onNetworkEventUpdate);
     this.stopListeners(null, aOnResponse);
     this._longStrings = null;
     this._client = null;
@@ -607,7 +616,7 @@ WebConsoleClient.prototype = {
     this._networkRequests = null;
   },
 
-  clearNetworkRequests: function() {
+  clearNetworkRequests: function () {
     this._networkRequests.clear();
   },
 
@@ -633,16 +642,14 @@ WebConsoleClient.prototype = {
       return stringGrip._fullText.promise;
     }
 
-    let deferred = (stringGrip._fullText = promise.defer());
+    let deferred = stringGrip._fullText = promise.defer();
     let { actor, initial, length } = stringGrip;
     let longStringClient = this.longString(stringGrip);
 
     longStringClient.substring(initial.length, length, aResponse => {
       if (aResponse.error) {
-        DevToolsUtils.reportException(
-          "getString",
-          `${aResponse.error}: ${aResponse.message}`,
-        );
+        DevToolsUtils.reportException("getString",
+            aResponse.error + ": " + aResponse.message);
 
         deferred.reject(aResponse);
         return;
@@ -651,5 +658,5 @@ WebConsoleClient.prototype = {
     });
 
     return deferred.promise;
-  },
+  }
 };
