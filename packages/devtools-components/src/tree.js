@@ -1,12 +1,4 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 const { DOM: dom, createClass, createFactory, PropTypes } = require("react");
-// const { ViewHelpers } =
-// require("resource://devtools/client/shared/widgets/ViewHelpers.jsm");
-// let { VirtualScroll } = require("react-virtualized");
-// VirtualScroll = createFactory(VirtualScroll);
 
 const AUTO_EXPAND_DEPTH = 0; // depth
 
@@ -257,26 +249,6 @@ const Tree = module.exports = createClass({
   render() {
     const traversal = this._dfsFromRoots();
 
-    // Remove `NUMBER_OF_OFFSCREEN_ITEMS` from `begin` and add `2 *
-    // NUMBER_OF_OFFSCREEN_ITEMS` to `end` so that the top and bottom of the
-    // page are filled with the `NUMBER_OF_OFFSCREEN_ITEMS` previous and next
-    // items respectively, rather than whitespace if the item is not in full
-    // view.
-    // const begin = Math.max(((this.state.scroll / this.props.itemHeight) | 0) - NUMBER_OF_OFFSCREEN_ITEMS, 0);
-    // const end = begin + (2 * NUMBER_OF_OFFSCREEN_ITEMS) + ((this.state.height / this.props.itemHeight) | 0);
-    // const toRender = traversal;
-
-    // const nodes = [
-    //   dom.div({
-    //     key: "top-spacer",
-    //     style: {
-    //       padding: 0,
-    //       margin: 0,
-    //       height: begin * this.props.itemHeight + "px"
-    //     }
-    //   })
-    // ];
-
     const renderItem = i => {
       let { item, depth } = traversal[i];
       return TreeNode({
@@ -294,15 +266,6 @@ const Tree = module.exports = createClass({
       });
     };
 
-    // nodes.push(dom.div({
-    //   key: "bottom-spacer",
-    //   style: {
-    //     padding: 0,
-    //     margin: 0,
-    //     height: (traversal.length - 1 - end) * this.props.itemHeight + "px"
-    //   }
-    // }));
-
     const style = Object.assign({}, this.props.style || {}, {
       padding: 0,
       margin: 0
@@ -318,13 +281,6 @@ const Tree = module.exports = createClass({
         onScroll: this._onScroll,
         style
       },
-      // VirtualScroll({
-      //   width: this.props.width,
-      //   height: this.props.height,
-      //   rowsCount: traversal.length,
-      //   rowHeight: this.props.itemHeight,
-      //   rowRenderer: renderItem
-      // })
       traversal.map((v, i) => renderItem(i))
     );
   },

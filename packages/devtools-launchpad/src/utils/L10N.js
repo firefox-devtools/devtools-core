@@ -1,6 +1,6 @@
 // @flow
 
-const { sprintf } = require("devtools-modules");
+const { sprintf } = require("devtools-sprintf-js");
 const { parse } = require("properties-parser");
 
 let strings = {};

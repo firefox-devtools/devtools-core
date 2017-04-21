@@ -1,11 +1,6 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
-const { appinfo } = require("./shim/Services");
-const EventEmitter = require("../../shared/event-emitter");
+const { appinfo } = require("./Services");
+const EventEmitter = require("./utils/event-emitter");
 const isOSX = appinfo.OS === "Darwin";
-"use strict";
 
 // List of electron keys mapped to DOM API (DOM_VK_*) key code
 const ElectronKeysMapping = {
