@@ -32,3 +32,22 @@ Ideally, if the bundle has to be updated in mozilla-central for a bugfix, a corr
 tag should be created on GitHub.
 
 [1] https://bugzilla.mozilla.org/enter_bug.cgi?product=Firefox&component=Developer%20Tools%3A%20Shared%20Components
+
+
+### How to publish a new Reps release to npm.
+
+Steps to publish to npm :
+```
+1. Checkout the latest release tag
+  a. git fetch --tags # get new tags from remote
+  b. git checkout tags/v0.N+1.0 # checkout the tag created for the release
+2. npm login # Might ask your npm username and password
+3. npm publish
+```
+
+To publish a new version of the package on npm, you need to :
+
+1. have an npm account and 
+2. be a collaborator on the package. 
+
+If you want to become a collaborator on the Reps package, please ask the other collaborators, either through IRC or Slack, or by filing an issue in this repo.
