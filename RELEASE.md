@@ -36,12 +36,18 @@ tag should be created on GitHub.
 
 ### How to publish a new Reps release to npm.
 
-Reps can be installed by application through npm ([see package page](https://www.npmjs.com/package/devtools-reps)).
-To publish a new version of the package on npm, you need to have an npm account and be a collaborator to the package. If you want to become a collaborator on the Reps package, please ask the other collaborators, either through IRC or Slack, or by filing an issue in this repo.
-
-Step to publish to npm :
+Steps to publish to npm :
 ```
 1. Checkout the latest release tag
-2. npm login #Will ask your npm username and password
+  a. git fetch --tags # get new tags from remote
+  b. git checkout tags/v0.N+1.0 # checkout the tag created for the release
+2. npm login # Might ask your npm username and password
 3. npm publish
 ```
+
+To publish a new version of the package on npm, you need to :
+
+1. have an npm account and 
+2. be a collaborator on the package. 
+
+If you want to become a collaborator on the Reps package, please ask the other collaborators, either through IRC or Slack, or by filing an issue in this repo.
