@@ -26,7 +26,7 @@ module.exports = (webpackConfig, envConfig) => {
   function externalsTest(context, request, callback) {
     let mod = request;
 
-    if (mod.match(/.*shim\/Services/)) {
+    if (mod.match(/.*\/Services$/)) {
       callback(null, "Services");
       return;
     }
