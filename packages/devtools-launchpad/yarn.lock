@@ -1306,13 +1306,13 @@ devtools-config@^0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
 
-devtools-connection@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.2.tgz#a4a87c4fc59456fcb0cc69ac7c18a24d2178d78f"
+devtools-connection@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.3.tgz#c0c29d0078562aec93c4096459a368deb52feb9b"
 
-devtools-modules@^0.0.26:
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.26.tgz#be15b71569b08070aa2284f6a865591895bdf750"
+devtools-modules@^0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.27.tgz#55ba9cc4fab4eb37335b343a94f26ded9b360e81"
 
 devtools-sprintf-js@^1.0.3:
   version "1.0.3"
