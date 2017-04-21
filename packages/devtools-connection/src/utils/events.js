@@ -5,7 +5,7 @@ module.metadata = {
 const UNCAUGHT_ERROR = 'An error event was emitted for which there was no listener.';
 const BAD_LISTENER = 'The event listener must be a function.';
 
-const { ns } = require('../core/namespace');
+const { ns } = require('./namespace');
 
 const event = ns();
 
