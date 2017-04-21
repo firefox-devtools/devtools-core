@@ -9,5 +9,5 @@ module.exports = {
   Menu,
   MenuItem,
   PrefsHelper,
-  Services
+  Services,
 };
