@@ -362,10 +362,18 @@ function getGripPreviewItems(grip) {
     return [grip.preview.target];
   }
 
+  // RegEx Grip
+  if (grip.displayString) {
+    return [grip.displayString];
+  }
+
   // Generic Grip
   if (grip.preview && grip.preview.ownProperties) {
     let propertiesValues = Object.values(grip.preview.ownProperties)
       .map(property => property.value || property);
+
+    let propertyKeys = Object.keys(grip.preview.ownProperties);
+    propertiesValues = propertiesValues.concat(propertyKeys);
 
     // ArrayBuffer Grip
     if (grip.preview.safeGetterValues) {
@@ -383,7 +391,7 @@ function getGripPreviewItems(grip) {
 
 /**
  * Returns a new element wrapped with a component, props.objectLink if it exists,
- * or a span if there are multiple childs, or directly the child if only one is passed.
+ * or a span if there are multiple children, or directly the child if only one is passed.
  *
  * @param {Object} props A Rep "props" object that may contain `objectLink`
  *                 and `object` properties.
@@ -427,4 +435,5 @@ module.exports = {
   getSelectableInInspectorGrips,
   maybeEscapePropertyName,
   safeObjectLink,
+  getGripPreviewItems,
 };
