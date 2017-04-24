@@ -6,6 +6,7 @@ const {
   parseURLParams,
   getSelectableInInspectorGrips,
   maybeEscapePropertyName,
+  getGripPreviewItems,
 } = require("./reps/rep-utils");
 
 module.exports = {
@@ -17,4 +18,5 @@ module.exports = {
   parseURLEncodedText,
   parseURLParams,
   getSelectableInInspectorGrips,
+  getGripPreviewItems,
 };
