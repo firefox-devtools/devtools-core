@@ -85,7 +85,7 @@
     "react-inlinesvg": "^0.5.3",
     "react-redux": "4.4.5",
     "redux": "3.5.2",
-    "selenium-webdriver": "^3.0.1",
+    "selenium-webdriver": "=3.3.0",
     "devtools-sprintf-js": "^1.0.3",
     "style-loader": "^0.13.1",
     "svg-inline-loader": "^0.7.1",
