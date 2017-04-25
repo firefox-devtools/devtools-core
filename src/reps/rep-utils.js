@@ -359,7 +359,9 @@ function getGripPreviewItems(grip) {
 
   // Event Grip
   if (grip.preview && grip.preview.target) {
-    return [grip.preview.target];
+    let keys = Object.keys(grip.preview.properties);
+    let values = Object.values(grip.preview.properties);
+    return [grip.preview.target, ...keys, ...values];
   }
 
   // RegEx Grip
