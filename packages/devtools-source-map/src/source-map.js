@@ -217,5 +217,6 @@ module.exports = {
   getOriginalLocation,
   getOriginalSourceText,
   applySourceMap,
-  clearSourceMaps
+  clearSourceMaps,
+  hasMappedSource,
 };
