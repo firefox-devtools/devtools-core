@@ -34,47 +34,34 @@ function trimUrlQuery(url: string): string {
   return url.slice(0, q);
 }
 
+// Map suffix to content type.
+const contentMap = {
+  "js": "text/javascript",
+  "jsm": "text/javascript",
+  "ts": "text/typescript",
+  "tsx": "text/typescript-jsx",
+  "jsx": "text/jsx",
+  "coffee": "text/coffeescript",
+  "elm": "text/elm",
+  "cljs": "text/x-clojure",
+};
+
 /**
- * Returns true if the specified URL and/or content type are specific to
- * JavaScript files.
+ * Returns the content type for the specified URL.  If no specific
+ * content type can be determined, "text/plain" is returned.
  *
- * @return boolean
- *         True if the source is likely JavaScript.
+ * @return String
+ *         The content type.
  */
-function isJavaScript(url: string, contentType: string = ""): boolean {
-  return (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
-         contentType.includes("javascript");
-}
-
 function getContentType(url: string) {
-  if (isJavaScript(url)) {
-    return "text/javascript";
+  url = trimUrlQuery(url);
+  let dot = url.lastIndexOf(".");
+  if (dot >= 0) {
+    let name = url.substring(dot + 1);
+    if (name in contentMap) {
+      return contentMap[name];
+    }
   }
-
-  if (url.match(/ts$/)) {
-    return "text/typescript";
-  }
-
-  if (url.match(/tsx$/)) {
-    return "text/typescript-jsx";
-  }
-
-  if (url.match(/jsx$/)) {
-    return "text/jsx";
-  }
-
-  if (url.match(/coffee$/)) {
-    return "text/coffeescript";
-  }
-
-  if (url.match(/elm$/)) {
-    return "text/elm";
-  }
-
-  if (url.match(/cljs$/)) {
-    return "text/x-clojure";
-  }
-
   return "text/plain";
 }
 
@@ -84,4 +71,5 @@ module.exports = {
   isOriginalId,
   isGeneratedId,
   getContentType,
+  contentMapForTesting: contentMap,
 };
