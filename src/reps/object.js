@@ -90,26 +90,40 @@ function propIterator(props, object, max) {
     );
   }
 
-  const truncated = Object.keys(object).length > max;
-  let propsArray = getPropsArray(interestingObject, truncated);
-  if (truncated) {
+  let propsArray = getPropsArray(interestingObject);
+  if (Object.keys(object).length > max) {
     propsArray.push(Caption({
       object: safeObjectLink(props, {},
         (Object.keys(object).length - max) + " more…")
     }));
   }
 
-  return propsArray;
+  return unfoldProps(propsArray);
+}
+
+function unfoldProps(items) {
+  return items.reduce((res, item, index) => {
+    if (Array.isArray(item)) {
+      res = res.concat(item);
+    } else {
+      res.push(item);
+    }
+
+    // Interleave commas between elements
+    if (index !== items.length - 1) {
+      res.push(", ");
+    }
+    return res;
+  }, []);
 }
 
 /**
  * Get an array of components representing the properties of the object
  *
  * @param {Object} object
- * @param {Boolean} truncated true if the object is truncated.
  * @return {Array} Array of PropRep.
  */
-function getPropsArray(object, truncated) {
+function getPropsArray(object) {
   let propsArray = [];
 
   if (!object) {
@@ -124,7 +138,6 @@ function getPropsArray(object, truncated) {
     name,
     object: object[name],
     equal: ": ",
-    delim: i !== objectKeys.length - 1 || truncated ? ", " : null,
   }));
 }
 

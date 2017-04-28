@@ -30,17 +30,20 @@ GripRep.propTypes = {
 };
 
 function GripRep(props) {
-  let object = props.object;
-  let propsArray = safePropIterator(props, object,
-    (props.mode === MODE.LONG) ? 10 : 3);
+  let {
+    mode,
+    object,
+  } = props;
 
-  if (props.mode === MODE.TINY) {
+  if (mode === MODE.TINY) {
     return (
       span({className: "objectBox objectBox-object"},
         getTitle(props, object)
       )
     );
   }
+
+  let propsArray = safePropIterator(props, object, (mode === MODE.LONG) ? 10 : 3);
 
   return (
     span({className: "objectBox objectBox-object"},
@@ -113,21 +116,36 @@ function propIterator(props, object, max) {
     );
   }
 
-  const truncate = Object.keys(properties).length > max;
   // The server synthesizes some property names for a Proxy, like
   // <target> and <handler>; we don't want to quote these because,
   // as synthetic properties, they appear more natural when
   // unquoted.
   const suppressQuotes = object.class === "Proxy";
-  let propsArray = getProps(props, properties, indexes, truncate, suppressQuotes);
-  if (truncate) {
+  let propsArray = getProps(props, properties, indexes, suppressQuotes);
+  if (Object.keys(properties).length > max) {
     // There are some undisplayed props. Then display "more...".
     propsArray.push(Caption({
       object: safeObjectLink(props, {}, `${propertiesLength - max} more…`)
     }));
   }
 
-  return propsArray;
+  return unfoldProps(propsArray);
+}
+
+function unfoldProps(items) {
+  return items.reduce((res, item, index) => {
+    if (Array.isArray(item)) {
+      res = res.concat(item);
+    } else {
+      res.push(item);
+    }
+
+    // Interleave commas between elements
+    if (index !== items.length - 1) {
+      res.push(", ");
+    }
+    return res;
+  }, []);
 }
 
 /**
@@ -136,12 +154,11 @@ function propIterator(props, object, max) {
  * @param {Object} componentProps Grip Component props.
  * @param {Object} properties Properties of the object the Grip describes.
  * @param {Array} indexes Indexes of properties.
- * @param {Boolean} truncate true if the grip will be truncated.
  * @param {Boolean} suppressQuotes true if we should suppress quotes
  *                  on property names.
  * @return {Array} Props.
  */
-function getProps(componentProps, properties, indexes, truncate, suppressQuotes) {
+function getProps(componentProps, properties, indexes, suppressQuotes) {
   // Make indexes ordered by ascending.
   indexes.sort(function (a, b) {
     return a - b;
@@ -157,7 +174,6 @@ function getProps(componentProps, properties, indexes, truncate, suppressQuotes)
       name,
       object: value,
       equal: ": ",
-      delim: i !== indexes.length - 1 || truncate ? ", " : null,
       defaultRep: Grip,
       // Do not propagate title and objectLink to properties reps
       title: null,
