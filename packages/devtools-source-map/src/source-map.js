@@ -142,7 +142,7 @@ async function getGeneratedLocation(location: Location, originalSource: Source)
   };
 }
 
-async function getOriginalLocation(location: Location) {
+async function getOriginalLocation(location: Location) : Promise<Location> {
   if (!isGeneratedId(location.sourceId)) {
     return location;
   }
@@ -164,6 +164,7 @@ async function getOriginalLocation(location: Location) {
 
   return {
     sourceId: generatedToOriginalId(location.sourceId, url),
+    sourceUrl: url,
     line,
     column
   };
