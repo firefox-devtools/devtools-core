@@ -321,7 +321,7 @@ window.onload = Task.async(function* () {
         mode: MODE.LONG,
         expectedOutput: "Array [ 0, 1, <1 empty slot>, 3, 4, 5 ]",
       }],
-      "Array with one empty slot at the middle",
+      "Array with one empty slot in the middle",
       componentUnderTest,
       getGripStub("[0,1,,3,4,5]")
     );
@@ -343,7 +343,7 @@ window.onload = Task.async(function* () {
         mode: MODE.LONG,
         expectedOutput: "Array [ 0, 1, <3 empty slots>, 5 ]",
       }],
-      "Array with multiple successive empty slots at the middle",
+      "Array with multiple successive empty slots in the middle",
       componentUnderTest,
       getGripStub("[0,1,,,,5]")
     );
