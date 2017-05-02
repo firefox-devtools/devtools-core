@@ -58,7 +58,7 @@ function GripArray(props) {
       safeObjectLink(props, {
         className: "arrayLeftBracket",
       }, brackets.left),
-      ...items,
+      ...interleaveCommas(items),
       safeObjectLink(props, {
         className: "arrayRightBracket",
       }, brackets.right),
@@ -70,40 +70,13 @@ function GripArray(props) {
   );
 }
 
-/**
- * Renders array item. Individual values are separated by
- * a delimiter (a comma by default).
- */
-GripArrayItem.propTypes = {
-  delim: React.PropTypes.string,
-  object: React.PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.number,
-    React.PropTypes.string,
-  ]).isRequired,
-  objectLink: React.PropTypes.func,
-  // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  provider: React.PropTypes.object,
-  onDOMNodeMouseOver: React.PropTypes.func,
-  onDOMNodeMouseOut: React.PropTypes.func,
-  onInspectIconClick: React.PropTypes.func,
-};
-
-function GripArrayItem(props) {
-  let { Rep } = require("./rep");
-  let {
-    delim,
-  } = props;
-
-  return (
-    span({},
-      Rep(Object.assign({}, props, {
-        mode: MODE.TINY
-      })),
-      delim
-    )
-  );
+function interleaveCommas(items) {
+  return items.reduce((res, item, index) => {
+    if (index !== items.length - 1) {
+      return res.concat(item, ", ");
+    }
+    return res.concat(item);
+  }, []);
 }
 
 function getLength(grip) {
@@ -132,6 +105,8 @@ function getPreviewItems(grip) {
 }
 
 function arrayIterator(props, grip, max) {
+  let { Rep } = require("./rep");
+
   let items = [];
   const gripLength = getLength(grip);
 
@@ -144,44 +119,66 @@ function arrayIterator(props, grip, max) {
     return items;
   }
 
-  let delim;
-  // number of grip preview items is limited to 10, but we may have more
-  // items in grip-array.
-  let delimMax = gripLength > previewItems.length ?
-    previewItems.length : previewItems.length - 1;
   let provider = props.provider;
 
-  for (let i = 0; i < previewItems.length && i < max; i++) {
+  let emptySlots = 0;
+  let foldedEmptySlots = 0;
+  items = previewItems.reduce((res, itemGrip) => {
+    if (res.length >= max) {
+      return res;
+    }
+
+    let object;
     try {
-      let itemGrip = previewItems[i];
-      let value = provider ? provider.getValue(itemGrip) : itemGrip;
+      if (!provider && itemGrip === null) {
+        emptySlots++;
+        return res;
+      }
 
-      delim = (i == delimMax ? "" : ", ");
-
-      items.push(GripArrayItem(Object.assign({}, props, {
-        object: value,
-        delim: delim,
-        // Do not propagate title to array items reps
-        title: undefined,
-      })));
+      object = provider
+        ? provider.getValue(itemGrip)
+        : itemGrip;
     } catch (exc) {
-      items.push(GripArrayItem(Object.assign({}, props, {
-        object: exc,
-        delim: delim,
+      object = exc;
+    }
+
+    if (emptySlots > 0) {
+      res.push(getEmptySlotsElement(emptySlots));
+      foldedEmptySlots = foldedEmptySlots + emptySlots - 1;
+      emptySlots = 0;
+    }
+
+    if (res.length < max) {
+      res.push(Rep(Object.assign({}, props, {
+        object,
+        mode: MODE.TINY,
         // Do not propagate title to array items reps
         title: undefined,
       })));
     }
+
+    return res;
+  }, []);
+
+  // Handle trailing empty slots if there are some.
+  if (items.length < max && emptySlots > 0) {
+    items.push(getEmptySlotsElement(emptySlots));
+    foldedEmptySlots = foldedEmptySlots + emptySlots - 1;
   }
-  if (previewItems.length > max || gripLength > previewItems.length) {
-    let leftItemNum = gripLength - max > 0 ?
-      gripLength - max : gripLength - previewItems.length;
+
+  const itemsShown = (items.length + foldedEmptySlots);
+  if (gripLength > itemsShown) {
     items.push(Caption({
-      object: safeObjectLink(props, {}, leftItemNum + " more…")
+      object: safeObjectLink(props, {}, gripLength - itemsShown + " more…")
     }));
   }
 
   return items;
+}
+
+function getEmptySlotsElement(number) {
+  // TODO: Use l10N - See https://github.com/devtools-html/reps/issues/141
+  return `<${number} empty slot${number > 1 ? "s" : ""}>`;
 }
 
 function supportsObject(grip, type) {
