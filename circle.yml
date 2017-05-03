@@ -12,6 +12,7 @@ test:
     - yarn run flow
     - cd ./packages/devtools-source-map; yarn test
     - cd ./packages/devtools-utils; yarn test
+    - cd ./packages/devtools-splitter; yarn snapshot
 
 dependencies:
   cache_directories:
