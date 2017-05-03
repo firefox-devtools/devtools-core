@@ -7,6 +7,10 @@ let config;
 
 const flag = require("./test-flag");
 
+function isBrowser() {
+  return typeof window == "object" && typeof module == "undefined";
+}
+
 /**
  * Gets a config value for a given key
  * e.g "chrome.webSocketPort"
@@ -26,7 +30,7 @@ function isEnabled(key) {
 }
 
 function isDevelopment() {
-  if (typeof window == "object") {
+  if (isBrowser()) {
     if (process.env.NODE_ENV === "production") {
       return false;
     }
