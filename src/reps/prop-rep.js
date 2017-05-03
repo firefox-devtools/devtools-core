@@ -38,7 +38,7 @@ PropRep.propTypes = {
  * of React elements representing an object property (e.g. `name: value`)
  *
  * @param {Object} props
- * @return {Array(3)} Array of React elements.
+ * @return {Array} Array of React elements.
  */
 function PropRep(props) {
   const Grip = require("./grip");
