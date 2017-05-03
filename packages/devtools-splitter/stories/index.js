@@ -13,7 +13,7 @@ storiesOf("Splitter", module)
         startPanel={start}
         endPanel={end}
         splitterSize={1}
-        initialSize="50%"
+        initialSize="30%"
         minSize={10}
         vert={true}
         endPanelControl={true}
