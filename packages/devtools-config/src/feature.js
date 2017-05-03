@@ -20,13 +20,20 @@ function setValue(key, value) {
 }
 
 function isEnabled(key) {
-  return config.features &&
-    typeof config.features[key] == "object" ?
-    config.features[key].enabled :
-    config.features[key];
+  return config.features && typeof config.features[key] == "object"
+    ? config.features[key].enabled
+    : config.features[key];
 }
 
 function isDevelopment() {
+  if (typeof window == "object") {
+    if (process.env.NODE_ENV === "production") {
+      return true;
+    }
+    const href = window.location ? window.location.href : "";
+    return href.match(/^file:/) || href.match(/localhost:/);
+  }
+
   if (isFirefoxPanel()) {
     // Default to production if compiling for the Firefox panel
     return process.env.NODE_ENV === "development";
@@ -61,7 +68,7 @@ function getConfig() {
 function updateLocalConfig(relativePath) {
   const localConfigPath = path.resolve(relativePath, "../configs/local.json");
   const output = JSON.stringify(config, null, 2);
-  fs.writeFileSync(localConfigPath, output, { flag: 'w' });
+  fs.writeFileSync(localConfigPath, output, { flag: "w" });
   return output;
 }
 
@@ -76,5 +83,5 @@ module.exports = {
   isFirefox,
   getConfig,
   setConfig,
-  updateLocalConfig
+  updateLocalConfig,
 };
