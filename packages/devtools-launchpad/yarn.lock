@@ -1296,9 +1296,9 @@ detect-indent@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-5.0.0.tgz#3871cc0a6a002e8c3e5b3cf7f336264675f06b9d"
 
-devtools-config@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.12.tgz#4094e62efec23cdc31bd0e6d89e15f7c51d6a7e6"
+devtools-config@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.13.tgz#cec2048e92b153396b7d838b8ecb4f429266b0d6"
 
 devtools-connection@^0.0.4:
   version "0.0.4"
