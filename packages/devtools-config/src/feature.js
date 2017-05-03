@@ -28,7 +28,7 @@ function isEnabled(key) {
 function isDevelopment() {
   if (typeof window == "object") {
     if (process.env.NODE_ENV === "production") {
-      return true;
+      return false;
     }
     const href = window.location ? window.location.href : "";
     return href.match(/^file:/) || href.match(/localhost:/);
