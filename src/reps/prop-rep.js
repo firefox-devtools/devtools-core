@@ -21,8 +21,6 @@ PropRep.propTypes = {
   ]).isRequired,
   // Equal character rendered between property name and value.
   equal: React.PropTypes.string,
-  // Delimiter character used to separate individual properties.
-  delim: React.PropTypes.string,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   objectLink: React.PropTypes.func,
@@ -35,6 +33,13 @@ PropRep.propTypes = {
   suppressQuotes: React.PropTypes.bool,
 };
 
+/**
+ * Function that given a name, a delimiter and an object returns an array
+ * of React elements representing an object property (e.g. `name: value`)
+ *
+ * @param {Object} props
+ * @return {Array} Array of React elements.
+ */
 function PropRep(props) {
   const Grip = require("./grip");
   const { Rep } = require("./rep");
@@ -43,7 +48,6 @@ function PropRep(props) {
     name,
     mode,
     equal,
-    delim,
     suppressQuotes,
   } = props;
 
@@ -63,23 +67,13 @@ function PropRep(props) {
     }));
   }
 
-  let delimElement;
-  if (delim) {
-    delimElement = span({
-      "className": "objectComma"
-    }, delim);
-  }
-
-  return (
-    span({},
-      key,
-      span({
-        "className": "objectEqual"
-      }, equal),
-      Rep(Object.assign({}, props)),
-      delimElement,
-    )
-  );
+  return [
+    key,
+    span({
+      "className": "objectEqual"
+    }, equal),
+    Rep(Object.assign({}, props)),
+  ];
 }
 
 // Exports from this module

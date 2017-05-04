@@ -72,17 +72,23 @@ function getProps(props, promiseState) {
     keys.push("value");
   }
 
-  return keys.map((key, i) => {
+  return keys.reduce((res, key, i) => {
     let object = promiseState[key];
-    return PropRep(Object.assign({}, props, {
+    res = res.concat(PropRep(Object.assign({}, props, {
       mode: MODE.TINY,
       name: `<${key}>`,
       object,
       equal: ": ",
-      delim: i < keys.length - 1 ? ", " : null,
       suppressQuotes: true,
-    }));
-  });
+    })));
+
+    // Interleave commas between elements
+    if (i !== keys.length - 1) {
+      res.push(", ");
+    }
+
+    return res;
+  }, []);
 }
 
 // Registration

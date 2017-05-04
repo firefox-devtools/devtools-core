@@ -28,11 +28,12 @@ GripMap.propTypes = {
 };
 
 function GripMap(props) {
-  let object = props.object;
-  let propsArray = safeEntriesIterator(props, object,
-    (props.mode === MODE.LONG) ? 10 : 3);
+  let {
+    mode,
+    object,
+  } = props;
 
-  if (props.mode === MODE.TINY) {
+  if (mode === MODE.TINY) {
     return (
       span({className: "objectBox objectBox-object"},
         getTitle(props, object)
@@ -40,13 +41,16 @@ function GripMap(props) {
     );
   }
 
+  let propsArray = safeEntriesIterator(props, object,
+    (props.mode === MODE.LONG) ? 10 : 3);
+
   return (
     span({className: "objectBox objectBox-object"},
       getTitle(props, object),
       safeObjectLink(props, {
         className: "objectLeftBrace",
       }, " { "),
-      propsArray,
+      ...propsArray,
       safeObjectLink(props, {
         className: "objectRightBrace",
       }, " }")
@@ -101,7 +105,23 @@ function entriesIterator(props, object, max) {
     }));
   }
 
-  return entries;
+  return unfoldEntries(entries);
+}
+
+function unfoldEntries(items) {
+  return items.reduce((res, item, index) => {
+    if (Array.isArray(item)) {
+      res = res.concat(item);
+    } else {
+      res.push(item);
+    }
+
+    // Interleave commas between elements
+    if (index !== items.length - 1) {
+      res.push(", ");
+    }
+    return res;
+  }, []);
 }
 
 /**
@@ -134,9 +154,6 @@ function getEntries(props, entries, indexes) {
       name: key,
       equal: ": ",
       object: value,
-      // Do not add a trailing comma on the last entry
-      // if there won't be a "more..." item.
-      delim: (i < indexes.length - 1 || indexes.length < entries.length) ? ", " : null,
       mode: MODE.TINY,
       objectLink,
       onDOMNodeMouseOver,
