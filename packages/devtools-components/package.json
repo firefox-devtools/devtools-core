@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jason Laster",
-  "license": "ISC",
+  "license": "MPL-2.0",
   "dependencies": {
   }
 }
