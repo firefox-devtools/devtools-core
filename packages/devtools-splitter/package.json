@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jason Laster",
-  "license": "ISC",
+  "license": "MPL-2.0",
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
     "react": "=15.3.2",
