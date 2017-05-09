@@ -4,11 +4,12 @@
   "description": "DevTools Utils",
   "main": "index.js",
   "scripts": {
+    "license-check": "../devtools-license-check/bin/devtools-license-check",
     "test": "jest"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-stage-3": "^6.22.0",
     "jest": "^19.0.2"

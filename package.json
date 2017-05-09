@@ -4,6 +4,7 @@
   "description": "Collection of devtools packages",
   "scripts": {
     "flow": "flow",
+    "license-check": "lerna run license-check",
     "lint": "yarn run lint-css -s; a=$?; yarn run lint-js -s; b=$?; test $a -eq 0 -a $b -eq 0",
     "lint-css": "stylelint packages/devtools-launchpad/**/*.css",
     "lint-js": "eslint packages/devtools-launchpad/src",
@@ -20,6 +21,10 @@
   },
   "homepage": "https://github.com/jasonLaster/devtools-core#readme",
   "dependencies": {
+    "react": "=15.3.2",
+    "react-dom": "=15.3.2"
+  },
+  "devDependencies": {
     "babel-cli": "^6.7.5",
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.1.0",
@@ -31,14 +36,10 @@
     "eslint-plugin-jest": "^19.0.1",
     "eslint-plugin-mozilla": "0.2.3",
     "eslint-plugin-react": "^6.7.1",
+    "flow-bin": "^0.37.4",
     "husky": "^0.12.0",
-    "react": "=15.3.2",
-    "react-dom": "=15.3.2",
+    "lerna": "2.0.0-beta.30",
     "react-hot-loader": "^1.3.1",
     "stylelint": "^7.4.2"
-  },
-  "devDependencies": {
-    "flow-bin": "^0.37.4",
-    "lerna": "2.0.0-beta.30"
   }
 }
