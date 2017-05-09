@@ -25,10 +25,10 @@ async function startDebuggingNode(tabId: string) {
     return {};
   }
 
-  await chrome.connectNode(tab.tab);
-  chrome.initPage({ clientType });
+  const tabConnection = await chrome.connectNode(tab.tab);
+  chrome.initPage({ clientType, tabConnection });
 
-  return { tabs, tab, clientType, client: chrome };
+  return { tabs, tab, clientType, client: chrome, tabConnection };
 }
 
 async function startDebuggingTab(connTarget: ConnectionTarget) {
