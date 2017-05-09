@@ -4,6 +4,7 @@
   "description": "DevTools HTML Connection Logic",
   "main": "index.js",
   "scripts": {
+    "license-check": "../devtools-license-check/bin/devtools-license-check",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jason Laster",

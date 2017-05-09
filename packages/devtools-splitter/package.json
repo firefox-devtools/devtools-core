@@ -6,6 +6,7 @@
   "scripts": {
     "storybook": "start-storybook -p 9001 -c .storybook",
     "snapshot": "build-storybook && percy-storybook",
+    "license-check": "../devtools-license-check/bin/devtools-license-check",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jason Laster",

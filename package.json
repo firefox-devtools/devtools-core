@@ -4,6 +4,7 @@
   "description": "Collection of devtools packages",
   "scripts": {
     "flow": "flow",
+    "license-check": "lerna run license-check",
     "lint": "yarn run lint-css -s; a=$?; yarn run lint-js -s; b=$?; test $a -eq 0 -a $b -eq 0",
     "lint-css": "stylelint packages/devtools-launchpad/**/*.css",
     "lint-js": "eslint packages/devtools-launchpad/src",

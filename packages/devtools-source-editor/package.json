@@ -9,6 +9,7 @@
   "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-editor#readme",
   "main": "index.js",
   "scripts": {
+    "license-check": "../devtools-license-check/bin/devtools-license-check",
     "start": "node bin/dev-server"
   },
   "dependencies": {
