@@ -17,6 +17,7 @@ test:
 dependencies:
   cache_directories:
     - ~/.cache/yarn
+    - ~/.yarn
   override:
     - yarn
 
