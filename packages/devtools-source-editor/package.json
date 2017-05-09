@@ -15,7 +15,6 @@
     "codemirror": "^5.25.0"
   },
   "devDependencies": {
-    "react": "=15.3.2",
     "devtools-launchpad": "0.0.65"
   }
 }

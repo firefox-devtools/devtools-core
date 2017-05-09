@@ -13,17 +13,17 @@
     "test": "jest"
   },
   "dependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.22.0",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "devtools-utils": "0.0.2",
-    "jest": "^19.0.2",
     "md5": "^2.2.1",
     "regenerator-runtime": "^0.10.3",
     "source-map": "^0.5.6",
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "devtools-launchpad": "^0.0.62"
+    "babel-plugin-transform-async-to-generator": "^6.22.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "devtools-launchpad": "^0.0.62",
+    "jest": "^19.0.2"
   },
   "jest": {
     "rootDir": "src",
