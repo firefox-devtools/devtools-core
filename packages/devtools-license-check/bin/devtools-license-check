@@ -1,0 +1,105 @@
+#!/usr/bin/env node
+
+// Any copyright is dedicated to the Public Domain.
+// http://creativecommons.org/publicdomain/zero/1.0/
+
+// Shamelessly ripped from jsantell/Tofino.
+// https://github.com/jsantell/tofino/blob/c4d744f0f3ee6f0228dafcc93aa5e8eefef2c1cf/test/unit/lint/test-licenses.js#L16
+
+const path = require("path");
+const fs = require("fs");
+const checker = require("license-checker");
+
+const WAIVED_DEPENDENCIES = [
+  // Later versions are MIT, so let's assume these are ok.
+  "commander@2.1.0",
+  "ripemd160@0.2.0",
+  // Says MIT on https://www.npmjs.com/package/indexof, but not in package.json.
+  "indexof@0.0.1",
+];
+
+const VALID_LICENSES = [
+  'ISC',
+
+  'MIT',
+  'MIT*',
+  'MIT/X11',
+
+  'CC-BY-3.0',
+  'CC-BY-4.0',
+
+  'AFLv2.1',
+
+  'LGPL',
+  'GPLv2',
+  'GPLv3',
+
+  'MPL-2.0',
+  'MPL 2.0',
+
+  'Apache',
+  'Apache*',
+  'Apache-2.0',
+  'Apache License, Version 2.0',
+
+  'BSD',
+  'BSD-2-Clause',
+  'BSD-3-Clause',
+  'BSD*',
+
+  'Artistic-2.0',
+
+  'WTFPL',
+  'Unlicense',
+  'Public Domain',
+  'Public domain',
+];
+
+function isValidLicense(license) {
+  // If parentheses in string, like "(MIT OR BSD)", then just
+  // strip it out.
+  const matched = license.match(/^\((.*)\)$/);
+  if (matched && matched[1]) {
+    license = matched[1];
+  }
+
+  // Otherwise, apply the boolean logic of AND or OR'ing the licenses.
+  if (/ AND /.test(license)) {
+    return license.split(' AND ').every(l => VALID_LICENSES.includes(l));
+  } else if (/ OR /.test(license)) {
+    return license.split(' OR ').some(l => VALID_LICENSES.includes(l));
+  } else {
+    return VALID_LICENSES.includes(license);
+  }
+}
+
+checker.init({
+  start: process.cwd(),
+  production: true,
+  development: false,
+}, (err, licenseInfo) => {
+  if (err) {
+    console.error("ERROR: " + err);
+    process.exit(1);
+  }
+
+  let exitCode = 0;
+  for (let dep in licenseInfo) {
+    if (WAIVED_DEPENDENCIES.includes(dep)) {
+      continue;
+    }
+
+    let licenses = licenseInfo[dep].licenses;
+    if (typeof licenses === "string") {
+      licenses = [licenses];
+    }
+
+    for (let license of licenses) {
+      if (!isValidLicense(license)) {
+        console.error(`Invalid license for ${dep}: ${licenseInfo[dep].licenses}`);
+        exitCode = 1;
+      }
+    }
+  }
+  process.exit(exitCode);
+});
