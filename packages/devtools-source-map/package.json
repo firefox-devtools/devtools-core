@@ -10,6 +10,7 @@
   "main": "src/index.js",
   "scripts": {
     "copy-assets": "node bin/copy-assets",
+    "license-check": "devtools-license-check",
     "test": "jest"
   },
   "dependencies": {
