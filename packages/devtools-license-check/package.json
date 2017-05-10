@@ -1,0 +1,14 @@
+{
+  "name": "devtools-license-check",
+  "version": "0.1.0",
+  "description": "Verify licenses for inclusion in Mozilla DevTools",
+  "repository": "github:devtools-html/devtools-core",
+  "author": "",
+  "license": "MPL-2.0",
+  "bin": {
+    "devtools-license-check": "./bin/devtools-license-check"
+  },
+  "dependencies": {
+    "license-checker": "^9.0.3"
+  }
+}
