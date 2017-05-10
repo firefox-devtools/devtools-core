@@ -110,6 +110,8 @@ const LandingPage = React.createClass({
 
     const targets = getTabsByClientType(tabs, clientType);
     const isSettingsPaneSelected = name === "Settings";
+    const isNodeSelected = name === configMap.Node.name;
+    const currentTargetsExist = targets && targets.count() > 0;
 
     const launchBrowser = (browser) => {
       fetch("/launch", {
@@ -134,30 +136,36 @@ const LandingPage = React.createClass({
     const isConnected = name == "Firefox"
       ? this.state.firefoxConnected
       : this.state.chromeConnected;
-    const launchButton = isConnected ? null : dom.input({
+
+    const connectedStateText = isNodeSelected ?
+      null : `Please open a tab in ${name}`;
+
+    const launchButton = isConnected ? connectedStateText : dom.input({
       type: "button",
       value: `Launch ${selectedPane}`,
       onClick: () => launchBrowser(selectedPane)
     });
+
+    const targetsContent = currentTargetsExist ? dom.header({},
+      dom.input({
+        ref: "filterInput",
+        placeholder: "Filter tabs",
+        value: filterString,
+        autoFocus: true,
+        type: "search",
+        onChange: e => this.onFilterChange(e.target.value),
+        onKeyDown: e => {
+          if (targets.size === 1 && e.keyCode === 13) {
+            this.onTabClick(targets.first(), paramName);
+          }
+        }
+      })
+    ) : dom.div({ className: "hero" }, launchButton);
+
     return dom.main(
       { className: "panel" },
       !isSettingsPaneSelected ?
-        dom.header({},
-          dom.input({
-            ref: "filterInput",
-            placeholder: "Filter tabs",
-            value: filterString,
-            autoFocus: true,
-            type: "search",
-            onChange: e => this.onFilterChange(e.target.value),
-            onKeyDown: e => {
-              if (targets.size === 1 && e.keyCode === 13) {
-                this.onTabClick(targets.first(), paramName);
-              }
-            }
-          }),
-          launchButton
-        ) :
+        targetsContent :
         dom.header({},
           dom.h1({}, "Settings")),
           isSettingsPaneSelected ?
