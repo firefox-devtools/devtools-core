@@ -4,6 +4,7 @@
   "description": "DevTools Utils",
   "main": "index.js",
   "scripts": {
+    "license-check": "devtools-license-check",
     "test": "jest"
   },
   "author": "",
