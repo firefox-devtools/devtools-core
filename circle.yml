@@ -21,6 +21,7 @@ test:
     - echo "yo yo yo yo!"
   post:
     - npm run lint-js
+    - npm run license-check
 
 dependencies:
   pre:
