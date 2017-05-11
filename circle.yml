@@ -10,6 +10,7 @@ test:
     - yarn run lint-css
     - yarn run lint-js
     - yarn run flow
+    - yarn run license-check
     - cd ./packages/devtools-source-map; yarn test
     - cd ./packages/devtools-utils; yarn test
     - cd ./packages/devtools-splitter; yarn snapshot
