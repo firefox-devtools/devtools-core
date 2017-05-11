@@ -30,10 +30,6 @@ const VALID_LICENSES = [
 
   'AFLv2.1',
 
-  'LGPL',
-  'GPLv2',
-  'GPLv3',
-
   'MPL-2.0',
   'MPL 2.0',
 
@@ -46,8 +42,6 @@ const VALID_LICENSES = [
   'BSD-2-Clause',
   'BSD-3-Clause',
   'BSD*',
-
-  'Artistic-2.0',
 
   'WTFPL',
   'Unlicense',
