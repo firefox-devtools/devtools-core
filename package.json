@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "devtools-launchpad": "^0.0.43",
-    "devtools-license-check": "^0.1.0",
+    "devtools-license-check": "^0.2.0",
     "eslint": "^3.12.0",
     "eslint-plugin-mozilla": "0.2.3",
     "fs-extra": "^2.0.0"
