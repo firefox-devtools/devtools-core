@@ -1,61 +1,46 @@
 const toolbox = require("../../../index");
 
-let result = true;
-
-function assert(expected, actual) {
-  if (expected != actual) {
-    console.warn(`Oops, ${expected} is different than ${actual}`);
-    result = false;
-  }
+// NOTE: we can likely switch this out for an appropriate path function
+function getLocalPath(filepath) {
+  return filepath.split("devtools-core")[1];
 }
 
-// NOTE: we can use a path function for this too
-function getLocalPath(path) {
-  return path.split("devtools-core")[1];
-}
+describe("Webpack config", () => {
+  it("default config", () => {
+    const webpackConfig = {};
+    const envConfig = {};
+    const config = toolbox.toolboxConfig(webpackConfig, envConfig);
 
-function testSimple() {
-  const webpackConfig = {};
-  const envConfig = {};
-  const config = toolbox.toolboxConfig(webpackConfig, envConfig);
+    expect(getLocalPath(config.context)).toBe(
+      "/packages/devtools-launchpad/src"
+    );
 
-  assert(getLocalPath(config.context), "/packages/devtools-launchpad/src");
-  const roots = config.resolveLoader.root;
+    const roots = config.resolveLoader.root;
+    expect(getLocalPath(roots[0])).toBe(
+      "/packages/devtools-launchpad/node_modules"
+    );
+  });
 
-  assert(getLocalPath(roots[0]), "/packages/devtools-launchpad/node_modules");
-  assert(getLocalPath(roots[1]), "");
-}
+  it("JS excludes rules", () => {
+    const webpackConfig = {
+      babelExcludes: /poop/
+    };
+    const envConfig = {};
+    const config = toolbox.toolboxConfig(webpackConfig, envConfig);
 
-function testJsLoader() {
-  const webpackConfig = {
-    babelExcludes: /poop/
-  };
-  const envConfig = {};
-  const config = toolbox.toolboxConfig(webpackConfig, envConfig);
+    const loaders = config.module.loaders;
+    const jsLoader = loaders[1];
+    const jsExclude = jsLoader.exclude;
+    // console.log(Object.values(loaders).map(l => l.test));
 
-  const loaders = config.module.loaders;
-  const jsLoader = loaders[1];
-  const jsExclude = jsLoader.exclude;
-  // console.log(Object.values(loaders).map(l => l.test));
+    expect(jsExclude("node_modules/foo")).toBe(true);
+    expect(jsExclude("fs")).toBe(true);
 
-  assert(jsExclude("node_modules/foo"), true);
-  assert(jsExclude("fs"), true);
+    // NOTE: if fs appears in a module path it will excluded, which could be bad
+    expect(jsExclude("fsoop")).toBe(true);
+    expect(jsExclude("poop")).toBe(true);
 
-  // NOTE: if fs appears in a module path it will excluded, which could be bad
-  assert(jsExclude("fsoop"), true);
-  assert(jsExclude("poop"), true);
-
-  assert(jsExclude("node_modules/devtools-config"), false);
-  assert(jsExclude("./foo"), false);
-
-  // console.log(jsExclude("node_modules/foo") ? "yay" : "nay");
-}
-
-testSimple();
-testJsLoader();
-
-if (result) {
-  process.exit();
-} else {
-  process.exit(1);
-}
+    expect(jsExclude("node_modules/devtools-config")).toBe(false);
+    expect(jsExclude("./foo")).toBe(false);
+  });
+});
