@@ -65,6 +65,45 @@ const LandingPage = React.createClass({
     }
   },
 
+  renderLaunchButton() {
+    const { selectedPane } = this.state;
+    const { name } = configMap[selectedPane];
+
+    const isConnected = name === configMap.Firefox.name
+      ? this.state.firefoxConnected
+      : this.state.chromeConnected;
+    const isNodeSelected = name === configMap.Node.name;
+
+    const connectedStateText = isNodeSelected ?
+      null : `Please open a tab in ${name}`;
+
+    return isConnected ? connectedStateText : dom.input({
+      type: "button",
+      value: `Launch ${configMap[selectedPane].name}`,
+      onClick: () => this.launchBrowser(configMap[selectedPane].name)
+    });
+  },
+
+  launchBrowser(browser) {
+    fetch("/launch", {
+      body: JSON.stringify({ browser }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "post"
+    })
+    .then(resp => {
+      if (browser === configMap.Firefox.name) {
+        this.setState({ firefoxConnected: true });
+      } else {
+        this.setState({ chromeConnected: true });
+      }
+    })
+    .catch(err => {
+      alert(`Error launching ${browser}. ${err.message}`);
+    });
+  },
+
   renderPanel() {
     const { onTabClick, config, setValue } = this.props;
     const { selectedPane } = this.state;
@@ -86,40 +125,6 @@ const LandingPage = React.createClass({
     const currentTargetsExist = targets && targets.count() > 0;
 
     const isSettingsPaneSelected = name === configMap.Settings.name;
-    const isNodeSelected = name === configMap.Node.name;
-
-    const launchBrowser = (browser) => {
-      fetch("/launch", {
-        body: JSON.stringify({ browser }),
-        headers: {
-          "Content-Type": "application/json"
-        },
-        method: "post"
-      })
-      .then(resp => {
-        if (browser.name === configMap.Firefox.name) {
-          this.setState({ firefoxConnected: true });
-        } else {
-          this.setState({ chromeConnected: true });
-        }
-      })
-      .catch(err => {
-        alert(`Error launching ${browser}. ${err.message}`);
-      });
-    };
-
-    const isConnected = name === configMap.Firefox.name
-      ? this.state.firefoxConnected
-      : this.state.chromeConnected;
-
-    const connectedStateText = isNodeSelected ?
-      null : `Please open a tab in ${name}`;
-
-    const launchButton = isConnected ? connectedStateText : dom.input({
-      type: "button",
-      value: `Launch ${configMap[selectedPane].name}`,
-      onClick: () => launchBrowser(selectedPane)
-    });
 
     const targetsContent = currentTargetsExist ? dom.header({},
       dom.input({
@@ -135,7 +140,7 @@ const LandingPage = React.createClass({
           }
         }
       })
-    ) : dom.div({ className: "hero" }, launchButton);
+    ) : dom.div({ className: "hero" }, this.renderLaunchButton());
 
     return dom.main(
       { className: "panel" },
