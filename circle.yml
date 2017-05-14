@@ -7,10 +7,10 @@ machine:
 
 test:
   post:
-    - yarn run lint-css
-    - yarn run lint-js
-    - yarn run flow
-    - yarn run license-check
+    - yarn lint-css
+    - yarn lint-js
+    - yarn flow
+    - yarn license-check
     - cd ./packages/devtools-launchpad; yarn test
     - cd ./packages/devtools-source-map; yarn test
     - cd ./packages/devtools-utils; yarn test
