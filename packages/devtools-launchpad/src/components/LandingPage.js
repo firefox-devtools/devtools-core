@@ -3,7 +3,7 @@ const React = require("react");
 require("./LandingPage.css");
 const { DOM: dom } = React;
 const ImPropTypes = require("react-immutable-proptypes");
-
+const configMap = require("../constants").sidePanelItems;
 const Tabs = React.createFactory(require("./Tabs"));
 const Sidebar = React.createFactory(require("./Sidebar"));
 const Settings = React.createFactory(require("./Settings"));
@@ -43,7 +43,7 @@ const LandingPage = React.createClass({
 
   getInitialState() {
     return {
-      selectedPane: "Firefox",
+      selectedPane: configMap.Firefox.name,
       firefoxConnected: false,
       chromeConnected: false
     };
@@ -67,51 +67,26 @@ const LandingPage = React.createClass({
 
   renderPanel() {
     const { onTabClick, config, setValue } = this.props;
-    const configMap = {
-      Firefox: {
-        name: "Firefox",
-        clientType: "firefox",
-        paramName: "firefox-tab",
-        docsUrlPart: "firefox"
-      },
-      Chrome: {
-        name: "Chrome",
-        clientType: "chrome",
-        paramName: "chrome-tab",
-        docsUrlPart: "chrome"
-      },
-      Node: {
-        name: "Node",
-        clientType: "node",
-        paramName: "node-tab",
-        docsUrlPart: "node"
-      },
-      Settings: {
-        name: "Settings",
-        clientType: "settings",
-        paramName: "settings-tab",
-        docsUrlPart: "settings"
-      }
-    };
+    const { selectedPane } = this.state;
 
-    let {
+    const {
       name,
       clientType,
       paramName,
       docsUrlPart
-    } = configMap[this.state.selectedPane];
+    } = configMap[selectedPane];
 
-    let {
+    const {
       tabs,
       filterString = ""
     } = this.props;
 
-    let { selectedPane } = this.state;
 
     const targets = getTabsByClientType(tabs, clientType);
-    const isSettingsPaneSelected = name === "Settings";
-    const isNodeSelected = name === configMap.Node.name;
     const currentTargetsExist = targets && targets.count() > 0;
+
+    const isSettingsPaneSelected = name === configMap.Settings.name;
+    const isNodeSelected = name === configMap.Node.name;
 
     const launchBrowser = (browser) => {
       fetch("/launch", {
@@ -122,7 +97,7 @@ const LandingPage = React.createClass({
         method: "post"
       })
       .then(resp => {
-        if (browser == "firefox") {
+        if (browser.name === configMap.Firefox.name) {
           this.setState({ firefoxConnected: true });
         } else {
           this.setState({ chromeConnected: true });
@@ -133,7 +108,7 @@ const LandingPage = React.createClass({
       });
     };
 
-    const isConnected = name == "Firefox"
+    const isConnected = name === configMap.Firefox.name
       ? this.state.firefoxConnected
       : this.state.chromeConnected;
 
@@ -142,7 +117,7 @@ const LandingPage = React.createClass({
 
     const launchButton = isConnected ? connectedStateText : dom.input({
       type: "button",
-      value: `Launch ${selectedPane}`,
+      value: `Launch ${configMap[selectedPane].name}`,
       onClick: () => launchBrowser(selectedPane)
     });
 
@@ -167,7 +142,7 @@ const LandingPage = React.createClass({
       !isSettingsPaneSelected ?
         targetsContent :
         dom.header({},
-          dom.h1({}, "Settings")),
+          dom.h1({}, configMap.Settings.name)),
           isSettingsPaneSelected ?
           Settings({ config, setValue }) :
           Tabs({ targets, paramName, onTabClick }),
