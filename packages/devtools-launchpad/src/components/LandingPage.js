@@ -104,8 +104,17 @@ const LandingPage = React.createClass({
     });
   },
 
+  renderEmptyPanel() {
+    return dom.div({ className: "hero" }, this.renderLaunchButton());
+  },
+
+  renderSettings() {
+    const { config, setValue } = this.props;
+    return Settings({ config, setValue });
+  },
+
   renderPanel() {
-    const { onTabClick, config, setValue } = this.props;
+    const { onTabClick } = this.props;
     const { selectedPane } = this.state;
 
     const {
@@ -140,7 +149,7 @@ const LandingPage = React.createClass({
           }
         }
       })
-    ) : dom.div({ className: "hero" }, this.renderLaunchButton());
+    ) : this.renderEmptyPanel();
 
     return dom.main(
       { className: "panel" },
@@ -148,8 +157,8 @@ const LandingPage = React.createClass({
         targetsContent :
         dom.header({},
           dom.h1({}, configMap.Settings.name)),
-          isSettingsPaneSelected ?
-          Settings({ config, setValue }) :
+          isSettingsPaneSelected ? this.renderSettings()
+           :
           Tabs({ targets, paramName, onTabClick }),
         firstTimeMessage(name, docsUrlPart)
     );
