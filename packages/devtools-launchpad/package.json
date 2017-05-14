@@ -97,6 +97,7 @@
     "ws": "^1.0.1"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
     "yarn": "^0.20.3"
   },
   "files": [
