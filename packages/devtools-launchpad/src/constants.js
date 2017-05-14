@@ -39,5 +39,3 @@ module.exports = {
   SET_CONFIG: "SET_CONFIG",
   sidePanelItems
 };
-
-

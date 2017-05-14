@@ -110,32 +110,31 @@ const LandingPage = React.createClass({
 
   renderSettings() {
     const { config, setValue } = this.props;
-    return Settings({ config, setValue });
+
+    return dom.div({},
+      dom.header({},
+        dom.h1({}, configMap.Settings.name)
+      ),
+      Settings({ config, setValue })
+    );
   },
 
-  renderPanel() {
-    const { onTabClick } = this.props;
+  renderFilter() {
     const { selectedPane } = this.state;
-
-    const {
-      name,
-      clientType,
-      paramName,
-      docsUrlPart
-    } = configMap[selectedPane];
 
     const {
       tabs,
       filterString = ""
     } = this.props;
 
+    const {
+      clientType,
+      paramName,
+    } = configMap[selectedPane];
 
     const targets = getTabsByClientType(tabs, clientType);
-    const currentTargetsExist = targets && targets.count() > 0;
 
-    const isSettingsPaneSelected = name === configMap.Settings.name;
-
-    const targetsContent = currentTargetsExist ? dom.header({},
+    return dom.header({},
       dom.input({
         ref: "filterInput",
         placeholder: "Filter tabs",
@@ -149,18 +148,36 @@ const LandingPage = React.createClass({
           }
         }
       })
-    ) : this.renderEmptyPanel();
+    );
+  },
 
-    return dom.main(
-      { className: "panel" },
-      !isSettingsPaneSelected ?
-        targetsContent :
-        dom.header({},
-          dom.h1({}, configMap.Settings.name)),
-          isSettingsPaneSelected ? this.renderSettings()
-           :
-          Tabs({ targets, paramName, onTabClick }),
-        firstTimeMessage(name, docsUrlPart)
+  renderPanel() {
+    const { onTabClick, tabs } = this.props;
+    const { selectedPane } = this.state;
+
+    const {
+      name,
+      clientType,
+      paramName,
+    } = configMap[selectedPane];
+
+    const clientTargets = getTabsByClientType(tabs, clientType);
+    const tabsDetected = clientTargets && clientTargets.count() > 0;
+    const targets = clientTargets.filter(t => !t.get("filteredOut"));
+
+    const isSettingsPaneSelected = name === configMap.Settings.name;
+
+    if (isSettingsPaneSelected) {
+      return this.renderSettings();
+    }
+
+    if (!tabsDetected) {
+      return this.renderEmptyPanel();
+    }
+
+    return dom.div({},
+        this.renderFilter(),
+        Tabs({ targets, paramName, onTabClick })
     );
   },
 
@@ -168,6 +185,12 @@ const LandingPage = React.createClass({
     const { supportsFirefox, supportsChrome, title } = this.props;
     const { selectedPane } = this.state;
     const { onSideBarItemClick } = this;
+
+    const {
+      name,
+      docsUrlPart
+    } = configMap[selectedPane];
+
     return dom.div(
       {
         className: "landing-page"
@@ -176,7 +199,11 @@ const LandingPage = React.createClass({
         supportsFirefox, supportsChrome, title,
         selectedPane, onSideBarItemClick
       }),
-      this.renderPanel()
+      dom.main(
+        { className: "panel" },
+        this.renderPanel(),
+        firstTimeMessage(name, docsUrlPart)
+      )
     );
   }
 });
