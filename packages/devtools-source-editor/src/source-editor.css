@@ -1,17 +1,15 @@
 :root {
-  /* --breakpoint-background: url("chrome://devtools/skin/images/breakpoint.svg#light"); */
-  /* --breakpoint-hover-background: url("chrome://devtools/skin/images/breakpoint.svg#light-hover"); */
   --breakpoint-active-color: rgba(44,187,15,.2);
   --breakpoint-active-color-hover: rgba(44,187,15,.5);
-  /* --breakpoint-conditional-background: url("chrome://devtools/skin/images/breakpoint.svg#light-conditional"); */
+  --debug-line-background: rgba(226, 236, 247, .5);
+  --debug-line-border: rgb(145, 188, 219);
 }
 
 .theme-dark:root {
-  /* --breakpoint-background: url("chrome://devtools/skin/images/breakpoint.svg#dark"); */
-  /* --breakpoint-hover-background: url("chrome://devtools/skin/images/breakpoint.svg#dark-hover"); */
+  --debug-line-background: rgb(73, 82, 103);
+  --debug-line-border: rgb(119, 134, 162);
   --breakpoint-active-color: rgba(45,210,158,0.5);
   --breakpoint-active-color-hover: rgba(0,255,175,.7);
-  /* --breakpoint-conditional-background: url("chrome://devtools/skin/images/breakpoint.svg#dark-conditional"); */
 }
 
 .CodeMirror .errors {
@@ -72,16 +70,13 @@
   background-image: var(--breakpoint-conditional-background) !important;
 }
 
-.debug-line .CodeMirror-linenumber {
-  background-color: var(--breakpoint-active-color);
-}
-
 .theme-dark .debug-line .CodeMirror-linenumber {
   color: #c0c0c0;
 }
 
 .debug-line .CodeMirror-line {
-  background-color: var(--breakpoint-active-color) !important;
+  background-color: var(--debug-line-background) !important;
+  outline: var(--debug-line-border) solid 1px;
 }
 
 /* Don't display the highlight color since the debug line
