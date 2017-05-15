@@ -2,21 +2,21 @@ function forEachLine(codeMirror, iter) {
   codeMirror.doc.iter(0, codeMirror.lineCount(), iter);
 }
 
-export function removeLineClass(codeMirror, line, className) {
+function removeLineClass(codeMirror, line, className) {
   codeMirror.removeLineClass(line, "line", className);
 }
 
-export function clearLineClass(codeMirror, className) {
+function clearLineClass(codeMirror, className) {
   forEachLine(codeMirror, line => {
     removeLineClass(codeMirror, line, className);
   });
 }
 
-export function getTextForLine(codeMirror, line) {
+function getTextForLine(codeMirror, line) {
   return codeMirror.getLine(line - 1).trim();
 }
 
-export function getCursorLine(codeMirror) {
+function getCursorLine(codeMirror) {
   return codeMirror.getCursor().line;
 }
 
@@ -26,9 +26,17 @@ export function getCursorLine(codeMirror) {
  * beneath the line numbers. This makes it easy to be flexible with
  * how we overlay breakpoints.
  */
-export function resizeBreakpointGutter(editor) {
+function resizeBreakpointGutter(editor) {
   const gutters = editor.display.gutters;
   const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
   const breakpoints = gutters.querySelector(".breakpoints");
   breakpoints.style.width = `${lineNumbers.clientWidth}px`;
 }
+
+module.exports = {
+  removeLineClass,
+  clearLineClass,
+  getTextForLine,
+  getCursorLine,
+  resizeBreakpointGutter
+};

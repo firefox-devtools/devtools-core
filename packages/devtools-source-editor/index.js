@@ -1,4 +1,4 @@
-import SourceEditor from "./src/source-editor";
-import * as SourceEditorUtils  from "./src/utils";
+const SourceEditor = require("./src/source-editor");
+const SourceEditorUtils = require("./src/utils");
 
-export { SourceEditor, SourceEditorUtils };
+module.exports = { SourceEditor, SourceEditorUtils };

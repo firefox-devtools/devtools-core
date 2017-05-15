@@ -1,9 +1,8 @@
-// import SourceEditor from "../src/source-editor";
-const SourceEditor = require("../src/source-editor")
+const SourceEditor = require("../src/source-editor");
 
-require("devtools-launchpad/src/lib/themes/light-theme.css")
+require("devtools-launchpad/src/lib/themes/light-theme.css");
 
-function createEditor(){
+function createEditor() {
   const gutters = ["breakpoints", "hit-markers", "CodeMirror-linenumbers"];
   gutters.push("CodeMirror-foldgutter");
 
@@ -28,20 +27,18 @@ function createEditor(){
 }
 
 function getText(editor) {
-  const todomvc = "http://todomvc.com/examples/backbone/js/views/todo-view.js"
-  fetch(todomvc).then(r => r.text()).then(v => editor.setText(v))
+  const todomvc = "http://localhost:8002/assets/build/examples.js";
+  fetch(todomvc).then(r => r.text()).then(v => editor.setText(v));
 }
-
-
 
 window.onload = function() {
   const editor = createEditor();
   editor._initShortcuts = () => {};
 
   editor.appendToLocalElement(document.querySelector(".editor-mount"));
-  getText(editor)
-  editor.setMode({ name: "javascript" })
+  getText(editor);
+  editor.setMode({ name: "javascript" });
 
-  document.body.parentNode.classList.add("theme-light")
+  document.body.parentNode.classList.add("theme-light");
   window.editor = editor;
-}
+};

@@ -26,10 +26,7 @@ module.exports = (webpackConfig, envConfig) => {
     test: /\.js$/,
     exclude: request => {
       // Some paths are excluded from Babel
-      let excludedPaths = [
-        "fs",
-        "node_modules",
-      ];
+      let excludedPaths = ["fs", "node_modules"];
       let excludedRe = new RegExp(`(${excludedPaths.join("|")})`);
       let excluded = !!request.match(excludedRe);
 
@@ -38,12 +35,10 @@ module.exports = (webpackConfig, envConfig) => {
         excluded = excluded || !!request.match(webpackConfig.babelExcludes);
       }
 
-      return excluded && !request.match(/node_modules(\/|\\)devtools-/)
+      return excluded && !request.match(/devtools-/);
     },
     loaders: [
-      `babel?${
-        defaultBabelPlugins.map(p => `plugins[]=${ p}`)
-        }&ignore=src/lib`
+      `babel?${defaultBabelPlugins.map(p => `plugins[]=${p}`)}&ignore=src/lib`
     ],
     isJavaScriptLoader: true
   });
@@ -80,7 +75,7 @@ module.exports = (webpackConfig, envConfig) => {
         NODE_ENV: JSON.stringify(NODE_ENV),
         TARGET: JSON.stringify(TARGET)
       },
-      "DebuggerConfig": JSON.stringify(envConfig)
+      DebuggerConfig: JSON.stringify(envConfig)
     })
   );
 
@@ -107,16 +102,19 @@ module.exports = (webpackConfig, envConfig) => {
       });
     }
   } else {
-  // Extract CSS into a single file
+    // Extract CSS into a single file
     webpackConfig.module.loaders.push({
       test: /\.css$/,
       exclude: request => {
         // If the tool defines an exclude regexp for CSS files.
-        return webpackConfig.cssExcludes
-          && request.match(webpackConfig.cssExcludes);
+        return (
+          webpackConfig.cssExcludes && request.match(webpackConfig.cssExcludes)
+        );
       },
       loader: ExtractTextPlugin.extract(
-        "style-loader", "css-loader", "postcss-loader"
+        "style-loader",
+        "css-loader",
+        "postcss-loader"
       )
     });
 
@@ -129,7 +127,10 @@ module.exports = (webpackConfig, envConfig) => {
   ];
 
   if (isFirefoxPanel()) {
-    webpackConfig = require("./webpack.config.devtools")(webpackConfig, envConfig);
+    webpackConfig = require("./webpack.config.devtools")(
+      webpackConfig,
+      envConfig
+    );
   }
 
   // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
