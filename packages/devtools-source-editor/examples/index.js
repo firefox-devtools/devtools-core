@@ -1,6 +1,12 @@
 const SourceEditor = require("../src/source-editor");
 
 require("devtools-launchpad/src/lib/themes/light-theme.css");
+require("devtools-launchpad/src/lib/themes/dark-theme.css");
+require("devtools-launchpad/src/lib/themes/firebug-theme.css");
+require("./index.css");
+require("../src/source-editor.css");
+
+const { clearLineClass } = require("../src/utils");
 
 function createEditor() {
   const gutters = ["breakpoints", "hit-markers", "CodeMirror-linenumbers"];
@@ -39,6 +45,25 @@ window.onload = function() {
   getText(editor);
   editor.setMode({ name: "javascript" });
 
-  document.body.parentNode.classList.add("theme-light");
+  setTheme("light");
   window.editor = editor;
+};
+
+console.log("call addDebugLine(line) to add a debug line");
+window.addDebugLine = function(line) {
+  const cm = document.querySelector(".CodeMirror").CodeMirror;
+  clearLineClass(cm, "debug-line");
+  cm.addLineClass(line, "line", "debug-line");
+};
+
+console.log("call setTheme(theme) to set the theme");
+window.setTheme = function(theme) {
+  const root = document.body.parentNode;
+  const bod = document.body;
+
+  root.className = "";
+  bod.className = "";
+
+  root.classList.add(`theme-${theme}`);
+  bod.classList.add(`theme-${theme}`);
 };
