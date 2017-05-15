@@ -8,10 +8,13 @@ function getTabs(state) {
     return tabs;
   }
 
-  return tabs.filter(tab => (
+  return tabs.map(tab => {
+    const _overallScore =
     score(tab.get("title"), filterString) +
-    score(tab.get("url"), filterString) > 0
-  ));
+    score(tab.get("url"), filterString);
+    return tab.set("filteredOut", _overallScore === 0);
+  }
+);
 }
 
 function getSelectedTab(state) {

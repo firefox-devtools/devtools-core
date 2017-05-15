@@ -8,6 +8,8 @@ let constants = require("../src/constants");
 let getState = combineReducers(reducers);
 const selectors = require("../src/selectors");
 
+import { Map } from "immutable";
+
 // Add devtools theme styles
 require("../src/lib/themes/light-theme.css");
 document.body.classList.add("theme-light");
@@ -37,11 +39,21 @@ const getTabs = (tabs, state) => {
 const renderLandingPage = (props) => {
   return React.DOM.div({}, React.createElement(LandingPage, Object.assign({
     onFilterChange: action("onFilterChange"),
-    onTabClick: action("onTabClick")
+    onTabClick: action("onTabClick"),
+    title: "Storybook test",
+    supportsFirefox: true,
+    supportsChrome: true,
+    config: {},
+    setValue: () => {}
   }, props)));
 };
 
 storiesOf("LandingPage", module)
+  .add("No Tabs", () => {
+    return renderLandingPage({
+      tabs: Map()
+    });
+  })
   .add("six firefox tabs", () => {
     let tabs = [
       getTab(1, "Page 1", "firefox"),
@@ -53,10 +65,7 @@ storiesOf("LandingPage", module)
     ];
 
     return renderLandingPage({
-      tabs: getTabs(tabs),
-      supportsFirefox: true,
-      supportsChrome: true,
-      title: "Storybook test"
+      tabs: getTabs(tabs)
     });
   })
   .add("two of each", () => {
@@ -70,10 +79,7 @@ storiesOf("LandingPage", module)
     ];
 
     return renderLandingPage({
-      tabs: getTabs(tabs),
-      supportsFirefox: true,
-      supportsChrome: true,
-      title: "Storybook test"
+      tabs: getTabs(tabs)
     });
   })
   .add("one hundred firefox tabs with long titles and URLs", () => {
@@ -89,10 +95,7 @@ storiesOf("LandingPage", module)
       );
 
     return renderLandingPage({
-      tabs: getTabs(tabs),
-      supportsFirefox: true,
-      supportsChrome: true,
-      title: "Storybook test"
+      tabs: getTabs(tabs)
     });
   })
   .add("six firefox tabs, filtered with \"MoZ\" (two tabs match)", () => {
@@ -113,10 +116,7 @@ storiesOf("LandingPage", module)
 
     return renderLandingPage({
       tabs: getTabs(tabs, state),
-      filterString: selectors.getFilterString(state),
-      supportsFirefox: true,
-      supportsChrome: true,
-      title: "Storybook test"
+      filterString: selectors.getFilterString(state)
     });
   })
   .add("One of each", () => {
@@ -127,9 +127,6 @@ storiesOf("LandingPage", module)
     ];
 
     return renderLandingPage({
-      tabs: getTabs(tabs),
-      supportsFirefox: true,
-      supportsChrome: true,
-      title: "Storybook test"
+      tabs: getTabs(tabs)
     });
   });

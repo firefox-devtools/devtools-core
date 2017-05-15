@@ -3,7 +3,7 @@ const React = require("react");
 require("./LandingPage.css");
 const { DOM: dom } = React;
 const ImPropTypes = require("react-immutable-proptypes");
-
+const configMap = require("../constants").sidePanelItems;
 const Tabs = React.createFactory(require("./Tabs"));
 const Sidebar = React.createFactory(require("./Sidebar"));
 const Settings = React.createFactory(require("./Settings"));
@@ -11,17 +11,19 @@ const Settings = React.createFactory(require("./Settings"));
 const githubUrl = "https://github.com/devtools-html/debugger.html/blob/master";
 
 function getTabsByClientType(tabs, clientType) {
-  return tabs.valueSeq()
-    .filter(tab => tab.get("clientType") == clientType);
+  return tabs.valueSeq().filter(tab => tab.get("clientType") == clientType);
 }
 
 function firstTimeMessage(title, urlPart) {
   return dom.div(
     { className: "footer-note" },
     `First time connecting to ${title}? Checkout out the `,
-    dom.a({
-      href: `${githubUrl}/docs/getting-setup.md#starting-${urlPart}`
-    }, "docs"),
+    dom.a(
+      {
+        href: `${githubUrl}/docs/getting-setup.md#starting-${urlPart}`
+      },
+      "docs"
+    ),
     "."
   );
 }
@@ -43,7 +45,7 @@ const LandingPage = React.createClass({
 
   getInitialState() {
     return {
-      selectedPane: "Firefox",
+      selectedPane: configMap.Firefox.name,
       firefoxConnected: false,
       chromeConnected: false
     };
@@ -65,62 +67,42 @@ const LandingPage = React.createClass({
     }
   },
 
-  renderPanel() {
-    const { onTabClick, config, setValue } = this.props;
-    const configMap = {
-      Firefox: {
-        name: "Firefox",
-        clientType: "firefox",
-        paramName: "firefox-tab",
-        docsUrlPart: "firefox"
+  renderLaunchButton() {
+    const { selectedPane } = this.state;
+    const { name } = configMap[selectedPane];
+
+    const isConnected = name === configMap.Firefox.name
+      ? this.state.firefoxConnected
+      : this.state.chromeConnected;
+    const isNodeSelected = name === configMap.Node.name;
+
+    if (isNodeSelected) {
+      return dom.h3({}, "Run a node script in the terminal with `--inspect`");
+    }
+
+    const connectedStateText = isNodeSelected
+      ? null
+      : `Please open a tab in ${name}`;
+
+    return isConnected
+      ? connectedStateText
+      : dom.input({
+        type: "button",
+        value: `Launch ${configMap[selectedPane].name}`,
+        onClick: () => this.launchBrowser(configMap[selectedPane].name)
+      });
+  },
+
+  launchBrowser(browser) {
+    fetch("/launch", {
+      body: JSON.stringify({ browser }),
+      headers: {
+        "Content-Type": "application/json"
       },
-      Chrome: {
-        name: "Chrome",
-        clientType: "chrome",
-        paramName: "chrome-tab",
-        docsUrlPart: "chrome"
-      },
-      Node: {
-        name: "Node",
-        clientType: "node",
-        paramName: "node-tab",
-        docsUrlPart: "node"
-      },
-      Settings: {
-        name: "Settings",
-        clientType: "settings",
-        paramName: "settings-tab",
-        docsUrlPart: "settings"
-      }
-    };
-
-    let {
-      name,
-      clientType,
-      paramName,
-      docsUrlPart
-    } = configMap[this.state.selectedPane];
-
-    let {
-      tabs,
-      filterString = ""
-    } = this.props;
-
-    let { selectedPane } = this.state;
-
-    const targets = getTabsByClientType(tabs, clientType);
-    const isSettingsPaneSelected = name === "Settings";
-
-    const launchBrowser = (browser) => {
-      fetch("/launch", {
-        body: JSON.stringify({ browser }),
-        headers: {
-          "Content-Type": "application/json"
-        },
-        method: "post"
-      })
+      method: "post"
+    })
       .then(resp => {
-        if (browser == "firefox") {
+        if (browser === configMap.Firefox.name) {
           this.setState({ firefoxConnected: true });
         } else {
           this.setState({ chromeConnected: true });
@@ -129,41 +111,73 @@ const LandingPage = React.createClass({
       .catch(err => {
         alert(`Error launching ${browser}. ${err.message}`);
       });
-    };
+  },
 
-    const isConnected = name == "Firefox"
-      ? this.state.firefoxConnected
-      : this.state.chromeConnected;
-    const launchButton = isConnected ? null : dom.input({
-      type: "button",
-      value: `Launch ${selectedPane}`,
-      onClick: () => launchBrowser(selectedPane)
-    });
-    return dom.main(
-      { className: "panel" },
-      !isSettingsPaneSelected ?
-        dom.header({},
-          dom.input({
-            ref: "filterInput",
-            placeholder: "Filter tabs",
-            value: filterString,
-            autoFocus: true,
-            type: "search",
-            onChange: e => this.onFilterChange(e.target.value),
-            onKeyDown: e => {
-              if (targets.size === 1 && e.keyCode === 13) {
-                this.onTabClick(targets.first(), paramName);
-              }
-            }
-          }),
-          launchButton
-        ) :
-        dom.header({},
-          dom.h1({}, "Settings")),
-          isSettingsPaneSelected ?
-          Settings({ config, setValue }) :
-          Tabs({ targets, paramName, onTabClick }),
-        firstTimeMessage(name, docsUrlPart)
+  renderEmptyPanel() {
+    return dom.div({ className: "hero" }, this.renderLaunchButton());
+  },
+
+  renderSettings() {
+    const { config, setValue } = this.props;
+
+    return dom.div(
+      {},
+      dom.header({}, dom.h1({}, configMap.Settings.name)),
+      Settings({ config, setValue })
+    );
+  },
+
+  renderFilter() {
+    const { selectedPane } = this.state;
+
+    const { tabs, filterString = "" } = this.props;
+
+    const { clientType, paramName } = configMap[selectedPane];
+
+    const targets = getTabsByClientType(tabs, clientType);
+
+    return dom.header(
+      {},
+      dom.input({
+        ref: "filterInput",
+        placeholder: "Filter tabs",
+        value: filterString,
+        autoFocus: true,
+        type: "search",
+        onChange: e => this.onFilterChange(e.target.value),
+        onKeyDown: e => {
+          if (targets.size === 1 && e.keyCode === 13) {
+            this.onTabClick(targets.first(), paramName);
+          }
+        }
+      })
+    );
+  },
+
+  renderPanel() {
+    const { onTabClick, tabs } = this.props;
+    const { selectedPane } = this.state;
+
+    const { name, clientType, paramName } = configMap[selectedPane];
+
+    const clientTargets = getTabsByClientType(tabs, clientType);
+    const tabsDetected = clientTargets && clientTargets.count() > 0;
+    const targets = clientTargets.filter(t => !t.get("filteredOut"));
+
+    const isSettingsPaneSelected = name === configMap.Settings.name;
+
+    if (isSettingsPaneSelected) {
+      return this.renderSettings();
+    }
+
+    if (!tabsDetected) {
+      return this.renderEmptyPanel();
+    }
+
+    return dom.div(
+      {},
+      this.renderFilter(),
+      Tabs({ targets, paramName, onTabClick })
     );
   },
 
@@ -171,15 +185,25 @@ const LandingPage = React.createClass({
     const { supportsFirefox, supportsChrome, title } = this.props;
     const { selectedPane } = this.state;
     const { onSideBarItemClick } = this;
+
+    const { name, docsUrlPart } = configMap[selectedPane];
+
     return dom.div(
       {
         className: "landing-page"
       },
       Sidebar({
-        supportsFirefox, supportsChrome, title,
-        selectedPane, onSideBarItemClick
+        supportsFirefox,
+        supportsChrome,
+        title,
+        selectedPane,
+        onSideBarItemClick
       }),
-      this.renderPanel()
+      dom.main(
+        { className: "panel" },
+        this.renderPanel(),
+        firstTimeMessage(name, docsUrlPart)
+      )
     );
   }
 });
