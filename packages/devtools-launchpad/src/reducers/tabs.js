@@ -15,7 +15,8 @@ const initialState = fromJS({
 function update(state = initialState, action) {
   switch (action.type) {
     case constants.CLEAR_TABS:
-      return state.setIn(["tabs"], Immutable.Map()).setIn("selectedTab", null);
+      return state.setIn(["tabs"], Immutable.Map())
+        .setIn(["selectedTab"], null);
 
     case constants.ADD_TABS:
       const tabs = action.value;
