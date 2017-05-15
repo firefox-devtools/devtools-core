@@ -43,7 +43,15 @@
   transition: var(--base-transition);
 }
 
-.landing-page .panel header input[type=button] {
+.landing-page .panel .hero {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-page .panel input[type=button] {
   background-color: var(--theme-tab-toolbar-background);
   color: var(--theme-comment);
   font-size: var(--ui-element-font-size);
