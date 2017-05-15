@@ -10,7 +10,12 @@ function dirname(path: string) {
 }
 
 function isURL(str: string) {
-  return str.indexOf("://") !== -1;
+  try {
+    new URL(str);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 function isAbsolute(str: string) {
