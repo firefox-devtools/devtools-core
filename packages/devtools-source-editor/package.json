@@ -17,6 +17,6 @@
   },
   "devDependencies": {
     "react": "=15.3.2",
-    "devtools-launchpad": "0.0.65"
+    "devtools-launchpad": "0.0.81"
   }
 }
