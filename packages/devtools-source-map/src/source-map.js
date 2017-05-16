@@ -193,15 +193,6 @@ async function getOriginalSourceText(originalSource: Source) {
   };
 }
 
-async function hasMappedSource(location: Location): Promise<boolean> {
-  if (isOriginalId(location.sourceId)) {
-    return true;
-  }
-
-  const loc = await getOriginalLocation(location);
-  return loc.sourceId !== location.sourceId;
-}
-
 function applySourceMap(
   generatedId: string, url: string, code: string, mappings: Object) {
   const generator = new SourceMapGenerator({ file: url });
