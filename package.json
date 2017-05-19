@@ -14,7 +14,7 @@
     "prepublish": "node bin/publish-assets"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MPL-2.0",
   "repository": {
     "url": "git://github.com/devtools-html/reps.git",
     "type": "git"
