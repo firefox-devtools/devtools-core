@@ -8,7 +8,7 @@ const nativeMapping = {
   "./src/source-editor": "devtools/client/sourceeditor/editor",
   "./test-flag": "devtools/shared/flags",
   react: "devtools/client/shared/vendor/react",
-  "react-dom": "devtools/client/shared/vendor/react-dom",
+  "react-dom": "devtools/client/shared/vendor/react-dom"
 };
 
 let packagesPath = path.join(__dirname, "../");
@@ -20,7 +20,7 @@ module.exports = (webpackConfig, envConfig) => {
     webpackConfig.output.path = outputPath;
   }
 
-  webpackConfig.devtool = false;
+  // webpackConfig.devtool = false;
   webpackConfig.recordsPath = path.join(rootDir, "assets/module-manifest.json");
 
   function externalsTest(context, request, callback) {
@@ -62,12 +62,12 @@ module.exports = (webpackConfig, envConfig) => {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || "production"),
         TARGET: JSON.stringify("firefox-panel")
       },
-      "DebuggerConfig": JSON.stringify(envConfig)
+      DebuggerConfig: JSON.stringify(envConfig)
     })
   ]);
 
   const mappings = [
-    [/.\/src\/network-request/, "./src/privileged-network-request"],
+    [/.\/src\/network-request/, "./src/privileged-network-request"]
   ];
 
   mappings.forEach(([regex, res]) => {
