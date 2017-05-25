@@ -30,4 +30,21 @@ describe("source maps", () => {
       "webpack:///opts.js"
     ]);
   });
+
+  test("URL resolution", async () => {
+    const source = {
+      id: "absolute.js",
+      sourceMapURL: "bundle.js.map"
+    };
+
+    require("devtools-utils/src/network-request").mockImplementationOnce(() => {
+      const content = getMap("fixtures/absolute.js.map");
+      return { content };
+    });
+
+    const urls = await getOriginalURLs(source);
+    expect(urls).toEqual([
+      "http://example.com/cheese/heart.js"
+    ]);
+  });
 });
