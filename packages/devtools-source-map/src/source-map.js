@@ -7,7 +7,7 @@
 
 const { networkRequest } = require("devtools-utils");
 
-const { parse } = require("url");
+const { parse, resolve } = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
 const assert = require("./assert");
@@ -56,19 +56,11 @@ function _setSourceMapRoot(sourceMap, absSourceMapURL, source) {
     return;
   }
 
-  const base = path.dirname(
-    (absSourceMapURL.indexOf("data:") === 0 && source.url) ?
-      source.url :
-      absSourceMapURL
-  );
-
-  if (sourceMap.sourceRoot) {
-    sourceMap.sourceRoot = path.join(base, sourceMap.sourceRoot);
-  } else {
-    sourceMap.sourceRoot = base;
+  if (absSourceMapURL.indexOf("data:") === 0 && source.url) {
+    absSourceMapURL = source.url;
   }
-
-  return sourceMap;
+  sourceMap.sourceRoot = resolve(absSourceMapURL, sourceMap.sourceRoot);
+  return sourceMap.sourceRoot;
 }
 
 function _getSourceMap(generatedSourceId: string)
