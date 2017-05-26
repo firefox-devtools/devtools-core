@@ -7,7 +7,7 @@
 
 const { networkRequest } = require("devtools-utils");
 
-const { parse, resolve } = require("url");
+const { parse, resolve, format } = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
 const assert = require("./assert");
@@ -56,10 +56,20 @@ function _setSourceMapRoot(sourceMap, absSourceMapURL, source) {
     return;
   }
 
-  if (absSourceMapURL.indexOf("data:") === 0 && source.url) {
-    absSourceMapURL = source.url;
+  // If it's already a URL, just leave it alone.
+  if (!path.isURL(sourceMap.sourceRoot)) {
+    // In the odd case where the sourceMap is a data: URL and it does
+    // not contain the full sources, fall back to using the source's
+    // URL, if possible.
+    let parsedSourceMapURL = parse(absSourceMapURL);
+    if (parsedSourceMapURL.protocol === "data:" && source.url) {
+      parsedSourceMapURL = parse(source.url);
+    }
+
+    parsedSourceMapURL.pathname = path.dirname(parsedSourceMapURL.pathname);
+    sourceMap.sourceRoot = format(resolve(format(parsedSourceMapURL),
+                                          sourceMap.sourceRoot));
   }
-  sourceMap.sourceRoot = resolve(absSourceMapURL, sourceMap.sourceRoot);
   return sourceMap.sourceRoot;
 }
 
