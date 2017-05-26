@@ -7,7 +7,6 @@
 
 const { networkRequest } = require("devtools-utils");
 
-const { parse, resolve } = require("url");
 const path = require("./path");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
 const assert = require("./assert");
@@ -36,7 +35,7 @@ function _resolveSourceMapURL(source: Source) {
   } else if (path.isAbsolute(sourceMapURL)) {
     // If it's an absolute path, it should be resolved relative to the
     // host of the source.
-    const { protocol = "", host = "" } = parse(url);
+    const { protocol = "", host = "" } = new URL(url);
     return `${protocol}//${host}${sourceMapURL}`;
   }
   // Otherwise, it's a relative path and should be resolved relative
@@ -56,10 +55,20 @@ function _setSourceMapRoot(sourceMap, absSourceMapURL, source) {
     return;
   }
 
-  if (absSourceMapURL.indexOf("data:") === 0 && source.url) {
-    absSourceMapURL = source.url;
+  // If it's already a URL, just leave it alone.
+  if (!path.isURL(sourceMap.sourceRoot)) {
+    // In the odd case where the sourceMap is a data: URL and it does
+    // not contain the full sources, fall back to using the source's
+    // URL, if possible.
+    let parsedSourceMapURL = new URL(absSourceMapURL);
+    if (parsedSourceMapURL.protocol === "data:" && source.url) {
+      parsedSourceMapURL = new URL(source.url);
+    }
+
+    parsedSourceMapURL.pathname = path.dirname(parsedSourceMapURL.pathname);
+    sourceMap.sourceRoot = new URL(sourceMap.sourceRoot,
+                                   parsedSourceMapURL).toString();
   }
-  sourceMap.sourceRoot = resolve(absSourceMapURL, sourceMap.sourceRoot);
   return sourceMap.sourceRoot;
 }
 
