@@ -66,7 +66,7 @@ function _setSourceMapRoot(sourceMap, absSourceMapURL, source) {
     }
 
     parsedSourceMapURL.pathname = path.dirname(parsedSourceMapURL.pathname);
-    sourceMap.sourceRoot = new URL(sourceMap.sourceRoot,
+    sourceMap.sourceRoot = new URL(sourceMap.sourceRoot || "",
                                    parsedSourceMapURL).toString();
   }
   return sourceMap.sourceRoot;
