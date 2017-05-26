@@ -66,4 +66,22 @@ describe("source maps", () => {
       "http://example.com/whatever/heart.js"
     ]);
   });
+
+  test("Non-existing sourceRoot resolution", async () => {
+    const source = {
+      id: "noroot.js",
+      url: "http://example.com/whatever/noroot.js",
+      sourceMapURL: "noroot.js.map"
+    };
+
+    require("devtools-utils/src/network-request").mockImplementationOnce(() => {
+      const content = getMap("fixtures/noroot.js.map");
+      return { content };
+    });
+
+    const urls = await getOriginalURLs(source);
+    expect(urls).toEqual([
+      "http://example.com/whatever/heart.js"
+    ]);
+  });
 });
