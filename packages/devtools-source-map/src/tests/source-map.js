@@ -13,7 +13,8 @@ describe("source maps", () => {
   test("getOriginalURLs", async () => {
     const source = {
       id: "bundle.js",
-      sourceMapURL: "bundle.js.map"
+      sourceMapURL: "bundle.js.map",
+      url: "http:://example.com/bundle.js",
     };
 
     require("devtools-utils/src/network-request").mockImplementationOnce(() => {
@@ -34,7 +35,7 @@ describe("source maps", () => {
   test("URL resolution", async () => {
     const source = {
       id: "absolute.js",
-      sourceMapURL: "bundle.js.map"
+      sourceMapURL: "absolute.js.map"
     };
 
     require("devtools-utils/src/network-request").mockImplementationOnce(() => {
@@ -45,6 +46,24 @@ describe("source maps", () => {
     const urls = await getOriginalURLs(source);
     expect(urls).toEqual([
       "http://example.com/cheese/heart.js"
+    ]);
+  });
+
+  test("Empty sourceRoot resolution", async () => {
+    const source = {
+      id: "empty.js",
+      url: "http://example.com/whatever/empty.js",
+      sourceMapURL: "empty.js.map"
+    };
+
+    require("devtools-utils/src/network-request").mockImplementationOnce(() => {
+      const content = getMap("fixtures/empty.js.map");
+      return { content };
+    });
+
+    const urls = await getOriginalURLs(source);
+    expect(urls).toEqual([
+      "http://example.com/whatever/heart.js"
     ]);
   });
 });
