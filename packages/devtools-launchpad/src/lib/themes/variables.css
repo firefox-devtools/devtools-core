@@ -46,6 +46,7 @@
   --theme-highlight-red: #ed2655;
   --theme-highlight-pink: #b82ee5;
   --theme-highlight-gray: #dde1e4;
+  --theme-highlight-yellow: #ffffb4;
 
   /* For accessibility purposes we want to enhance the focus styling. This
    * should improve keyboard navigation usability. */
@@ -112,6 +113,7 @@
   --theme-highlight-red: #eb5368;
   --theme-highlight-pink: #df80ff;
   --theme-highlight-gray: #e9f4fe;
+  --theme-highlight-yellow: #ffffb4;
 
   /* For accessibility purposes we want to enhance the focus styling. This
    * should improve keyboard navigation usability. */
@@ -175,6 +177,7 @@
   --theme-highlight-red: #e22f6f;
   --theme-highlight-pink: #b82ee5;
   --theme-highlight-gray: #dde1e4;
+  --theme-highlight-yellow: #ffffb4;
 
   /* Colors used in Graphs, like performance tools. Similar colors to Chrome's timeline. */
   --theme-graphs-green: #85d175;
