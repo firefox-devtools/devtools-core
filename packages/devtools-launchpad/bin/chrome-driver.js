@@ -2,8 +2,14 @@
 
 const spawn = require('child_process').spawn;
 const minimist = require("minimist");
+const os = require("os");
 
-const chromeBinary = "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+const isWindows = /^win/.test(process.platform);
+
+const chromeBinary = isWindows ?
+  "c:\\program files (x86)\\google\\chrome\\application\\chrome.exe" :
+  "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome";
+
 const args = minimist(process.argv.slice(2), {
   string: ["location"]
 });
@@ -11,7 +17,7 @@ const args = minimist(process.argv.slice(2), {
 let chromeArgs = [
   "--remote-debugging-port=9222",
   "--no-first-run",
-  "--user-data-dir=/tmp/chrome-dev-profile"
+  `--user-data-dir=${os.tmpdir()}/chrome-dev-profile`
 ];
 
 chromeArgs.push(args.location ? args.location : "about:blank");
@@ -23,10 +29,11 @@ chrome.stderr.on('data', data => console.log(`stderr: ${data}`));
 chrome.on('close', code => console.log(`chrome exited with code ${code}`));
 chrome.on('error', error => {
   if (error.code == "ENOENT") {
-    console.log(`Hmm, could not find the path ${chromeBinary}.`)
-    console.log(`Try looking for chrome with ls /Applications`)
+    console.log(`Hmm, could not find the path ${chromeBinary}.`);
+    console.log("Try looking for chrome with ls /Applications");
+
     return;
   }
 
-  console.log(error)
+  console.log(error);
 });
