@@ -271,52 +271,6 @@ function wrapRender(renderMethod) {
 }
 
 /**
- * Get an array of all the items from the grip in parameter (including the grip itself)
- * which can be selected in the inspector.
- *
- * @param {Object} Grip
- * @return {Array} Flat array of the grips which can be selected in the inspector
- */
-function getSelectableInInspectorGrips(grip) {
-  let grips = new Set(getFlattenedGrips([grip]));
-  return [...grips].filter(isGripSelectableInInspector);
-}
-
-/**
- * Indicate if a Grip can be selected in the inspector,
- * i.e. if it represents a node element.
- *
- * @param {Object} Grip
- * @return {Boolean}
- */
-function isGripSelectableInInspector(grip) {
-  return grip
-    && typeof grip === "object"
-    && grip.preview
-    && [
-      nodeConstants.TEXT_NODE,
-      nodeConstants.ELEMENT_NODE
-    ].includes(grip.preview.nodeType);
-}
-
-/**
- * Get a flat array of all the grips and their preview items.
- *
- * @param {Array} Grips
- * @return {Array} Flat array of the grips and their preview items
- */
-function getFlattenedGrips(grips) {
-  return grips.reduce((res, grip) => {
-    let previewItems = getGripPreviewItems(grip);
-    let flatPreviewItems = previewItems.length > 0
-      ? getFlattenedGrips(previewItems)
-      : [];
-
-    return [...res, grip, ...flatPreviewItems];
-  }, []);
-}
-
-/**
  * Get preview items from a Grip.
  *
  * @param {Object} Grip from which we want the preview items
@@ -424,7 +378,6 @@ module.exports = {
   parseURLEncodedText,
   getFileName,
   getURLDisplayString,
-  getSelectableInInspectorGrips,
   maybeEscapePropertyName,
   safeObjectLink,
   getGripPreviewItems,
