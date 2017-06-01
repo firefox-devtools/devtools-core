@@ -5,9 +5,6 @@
 // Dependencies
 const React = require("react");
 
-// Utils
-const nodeConstants = require("../shared/dom-node-constants");
-
 /**
  * Returns true if the given object is a grip (see RDP protocol)
  */

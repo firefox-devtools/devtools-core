@@ -34,7 +34,9 @@ var { require: browserRequire } = BrowserLoader({
 let ReactDOM = browserRequire("devtools/client/shared/vendor/react-dom");
 let React = browserRequire("devtools/client/shared/vendor/react");
 var TestUtils = React.addons.TestUtils;
-const { getGripPreviewItems } = browserRequire("devtools/client/shared/components/reps/reps");
+const {
+  getGripPreviewItems
+} = browserRequire("devtools/client/shared/components/reps/reps");
 
 function renderComponent(component, props) {
   const el = React.createElement(component, props, {});
