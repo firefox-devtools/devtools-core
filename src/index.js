@@ -5,7 +5,6 @@
 const { MODE } = require("./reps/constants");
 const { REPS, getRep } = require("./reps/rep");
 const {
-  createFactories,
   parseURLEncodedText,
   parseURLParams,
   getSelectableInInspectorGrips,
@@ -17,7 +16,6 @@ module.exports = {
   REPS,
   getRep,
   MODE,
-  createFactories,
   maybeEscapePropertyName,
   parseURLEncodedText,
   parseURLParams,

@@ -9,19 +9,6 @@ const React = require("react");
 const nodeConstants = require("../shared/dom-node-constants");
 
 /**
- * Create React factories for given arguments.
- * Example:
- *   const { Rep } = createFactories(require("./rep"));
- */
-function createFactories(args) {
-  let result = {};
-  for (let p in args) {
-    result[p] = React.createFactory(args[p]);
-  }
-  return result;
-}
-
-/**
  * Returns true if the given object is a grip (see RDP protocol)
  */
 function isGrip(object) {
@@ -426,7 +413,6 @@ function safeObjectLink(props, config, ...children) {
 }
 
 module.exports = {
-  createFactories,
   isGrip,
   cropString,
   rawCropString,
