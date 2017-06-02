@@ -16,6 +16,15 @@ const WAIVED_DEPENDENCIES = [
   "ripemd160@0.2.0",
   // Says MIT on https://www.npmjs.com/package/indexof, but not in package.json.
   "indexof@0.0.1",
+  // This one is actually MIT according to:
+  // https://www.npmjs.com/package/big.js
+  // However for unknown reasons it winds up without a license field
+  // in the package.json when installed.
+  "big.js@3.1.3",
+  // The license in the package.json was incorrect for 2.3.9 and was
+  // fixed by
+  // https://github.com/Daplie/node-walk/commit/d0859da355db6b8fb6bac26311732e84d23686db
+  "walk@2.3.9",
 ];
 
 const VALID_LICENSES = [
@@ -34,6 +43,7 @@ const VALID_LICENSES = [
   'MPL 2.0',
 
   'Apache',
+  'Apache2',
   'Apache*',
   'Apache-2.0',
   'Apache License, Version 2.0',
