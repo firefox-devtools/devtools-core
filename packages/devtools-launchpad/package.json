@@ -99,6 +99,7 @@
   },
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
+    "ipaddr": "^0.0.9",
     "yarn": "^0.20.3"
   },
   "files": [
