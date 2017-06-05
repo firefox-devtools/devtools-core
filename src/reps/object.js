@@ -97,8 +97,7 @@ function propIterator(props, object, max) {
   let propsArray = getPropsArray(interestingObject);
   if (Object.keys(object).length > max) {
     propsArray.push(Caption({
-      object: safeObjectLink(props, {},
-        (Object.keys(object).length - max) + " more…")
+      object: safeObjectLink(props, {}, "more…")
     }));
   }
 

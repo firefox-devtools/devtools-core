@@ -173,7 +173,7 @@ function arrayIterator(props, grip, max) {
   const itemsShown = (items.length + foldedEmptySlots);
   if (gripLength > itemsShown) {
     items.push(Caption({
-      object: safeObjectLink(props, {}, gripLength - itemsShown + " more…")
+      object: safeObjectLink(props, {}, "more…")
     }));
   }
 

@@ -129,7 +129,7 @@ function propIterator(props, object, max) {
   if (Object.keys(properties).length > max) {
     // There are some undisplayed props. Then display "more...".
     propsArray.push(Caption({
-      object: safeObjectLink(props, {}, `${propertiesLength - max} more…`)
+      object: safeObjectLink(props, {}, "more…")
     }));
   }
 

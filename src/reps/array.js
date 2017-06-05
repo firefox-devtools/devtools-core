@@ -100,7 +100,7 @@ function arrayIterator(props, array, max) {
     items.push(Caption({
       object: safeObjectLink(props, {
         object: props.object
-      }, (array.length - max) + " more…")
+      }, "more…")
     }));
   }
 
