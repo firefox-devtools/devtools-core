@@ -9,13 +9,13 @@ machine:
 
 test:
   post:
+    - cd ./packages/devtools-launchpad; yarn test
+    - cd ./packages/devtools-source-map; yarn test
+    - cd ./packages/devtools-utils; yarn test
     - yarn lint-css
     - yarn lint-js
     - yarn flow
     - yarn license-check
-    - cd ./packages/devtools-launchpad; yarn test
-    - cd ./packages/devtools-source-map; yarn test
-    - cd ./packages/devtools-utils; yarn test
 
 dependencies:
   pre:
