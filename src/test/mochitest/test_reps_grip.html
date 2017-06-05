@@ -302,7 +302,7 @@ window.onload = Task.async(function* () {
 
     // Test rendering
     const defaultOutput =
-      "OfflineResourceList { status: 0, onchecking: null, onerror: null, 7 more… }";
+      "OfflineResourceList { status: 0, onchecking: null, onerror: null, more… }";
 
     const modeTests = [
       {
@@ -360,7 +360,7 @@ window.onload = Task.async(function* () {
     // Test object = `{p0: "0", p1: "1", p2: "2", …, p100: "100"}`
     const testName = "testMoreThanMaxProps";
 
-    const defaultOutput = `Object { p0: "0", p1: "1", p2: "2", 98 more… }`;
+    const defaultOutput = `Object { p0: "0", p1: "1", p2: "2", more… }`;
 
     // Generate string with 10 properties, which is the max limit for 'long' mode.
     let props = [];
@@ -368,7 +368,7 @@ window.onload = Task.async(function* () {
       props.push(`p${i}: "${i}"`);
     }
 
-    const longOutput = `Object { ${props.join(", ")}, 91 more… }`;
+    const longOutput = `Object { ${props.join(", ")}, more… }`;
 
     const modeTests = [
       {
@@ -396,7 +396,7 @@ window.onload = Task.async(function* () {
     // Test object: `{a: undefined, b: undefined, c: "c", d: 1}`
     // @TODO This is not how we actually want the preview to be output.
     // See https://bugzilla.mozilla.org/show_bug.cgi?id=1276376
-    const expectedOutput = `Object { a: undefined, b: undefined, c: "c", 1 more… }`;
+    const expectedOutput = `Object { a: undefined, b: undefined, c: "c", more… }`;
   }
 
   function testNonEnumerableProps() {
@@ -499,7 +499,7 @@ window.onload = Task.async(function* () {
     // Test object: `{a: undefined, b: 1, more: 2, d: 3}`;
     const testName = "testMoreProp";
 
-    const defaultOutput = `Object { b: 1, more: 2, d: 3, 1 more… }`;
+    const defaultOutput = `Object { b: 1, more: 2, d: 3, more… }`;
     const longOutput = `Object { a: undefined, b: 1, more: 2, d: 3 }`;
 
     const modeTests = [
@@ -613,7 +613,7 @@ window.onload = Task.async(function* () {
 
   function testObjectLink() {
     // Test object: `{a: undefined, b: 1, more: 2, d: 3}`;
-    const defaultOutput = `*Object** { *b: 1, more: 2, d: 3, *1 more…** }*`;
+    const defaultOutput = `*Object** { *b: 1, more: 2, d: 3, *more…** }*`;
     const longOutput = `*Object** { *a: undefined, b: 1, more: 2, d: 3* }*`;
 
     const modeTests = [

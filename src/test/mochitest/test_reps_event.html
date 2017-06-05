@@ -52,7 +52,7 @@ window.onload = Task.async(function* () {
     });
     is(renderedComponent.textContent,
       "beforeprint { target: Window, isTrusted: true, " +
-      "currentTarget: Window, 8 more… }",
+      "currentTarget: Window, more… }",
       "Event rep has expected text content for an event");
   }
 
@@ -61,7 +61,7 @@ window.onload = Task.async(function* () {
       object: getGripStub("testMouseEvent")
     });
     is(renderedComponent.textContent,
-      "click { target: div#test, clientX: 62, clientY: 18, 3 more… }",
+      "click { target: div#test, clientX: 62, clientY: 18, more… }",
       "Event rep has expected text content for a mouse event");
 
     const longRenderedComponent = renderComponent(Event.rep, {
@@ -79,7 +79,7 @@ window.onload = Task.async(function* () {
       object: getGripStub("testKeyboardEvent")
     });
     is(renderedComponent.textContent,
-       "keyup { target: body, key: \"Control\", charCode: 0, 1 more… }",
+       "keyup { target: body, key: \"Control\", charCode: 0, more… }",
        "Event rep has expected text content for a keyboard event");
 
     const longRenderedComponent = renderComponent(Event.rep, {
@@ -109,7 +109,7 @@ window.onload = Task.async(function* () {
     });
     is(renderedComponent.textContent,
        `message { target: Window, isTrusted: false, data: "test data", ` +
-       "8 more… }",
+       "more… }",
        "Event rep has expected text content for a message event");
 
     const longRenderedComponent = renderComponent(Event.rep, {
@@ -119,7 +119,7 @@ window.onload = Task.async(function* () {
     is(longRenderedComponent.textContent,
        `message { target: Window, isTrusted: false, data: "test data", ` +
        `origin: "null", lastEventId: "", source: Window, ports: Array, ` +
-       `currentTarget: Window, eventPhase: 2, bubbles: false, 1 more… }`,
+       `currentTarget: Window, eventPhase: 2, bubbles: false, more… }`,
        "Event rep has expected text content for a message event in long mode");
   }
 
@@ -198,7 +198,7 @@ window.onload = Task.async(function* () {
         "*", ...children, "*"),
     });
     is(renderedComponent.textContent,
-      "*click** { *target: div#test, clientX: 62, clientY: 18, *3 more…** }*",
+      "*click** { *target: div#test, clientX: 62, clientY: 18, *more…** }*",
       "Event rep has expected text content when an objectLink is passed as a prop");
 
     const longRenderedComponent = renderComponent(Event.rep, {

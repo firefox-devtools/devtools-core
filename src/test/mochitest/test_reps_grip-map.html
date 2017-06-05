@@ -187,11 +187,11 @@ window.onload = Task.async(function* () {
     const testName = "testMoreThanMaxEntries";
 
     const defaultOutput =
-      `Map { "key-0": "value-0", "key-1": "value-1", "key-2": "value-2", 98 more… }`;
+      `Map { "key-0": "value-0", "key-1": "value-1", "key-2": "value-2", more… }`;
 
     // Generate string with 101 entries, which is the max limit for 'long' mode.
     let longString = Array.from({length: 10}).map((_, i) => `"key-${i}": "value-${i}"`);
-    const longOutput = `Map { ${longString.join(", ")}, 91 more… }`;
+    const longOutput = `Map { ${longString.join(", ")}, more… }`;
 
     const modeTests = [
       {
@@ -221,7 +221,7 @@ window.onload = Task.async(function* () {
     const testName = "testUninterestingEntries";
 
     const defaultOutput =
-      `Map { "key-a": null, "key-c": "value-c", "key-d": 4, 1 more… }`;
+      `Map { "key-a": null, "key-c": "value-c", "key-d": 4, more… }`;
     const longOutput =
       `Map { "key-a": null, "key-b": undefined, "key-c": "value-c", "key-d": 4 }`;
 
@@ -392,7 +392,7 @@ window.onload = Task.async(function* () {
     // Test object:
     // `new Map([["key-a",null], ["key-b",undefined], ["key-c","value-c"], ["key-d",4]])`
     const defaultOutput =
-      `*Map** { *"key-a": null, "key-c": "value-c", "key-d": 4, *1 more…** }*`;
+      `*Map** { *"key-a": null, "key-c": "value-c", "key-d": 4, *more…** }*`;
     const longOutput =
       `*Map** { *"key-a": null, "key-b": undefined, "key-c": "value-c", "key-d": 4* }*`;
 

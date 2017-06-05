@@ -105,7 +105,7 @@ function entriesIterator(props, object, max) {
     // There are some undisplayed entries. Then display "more…".
     entries.push(Caption({
       key: "more",
-      object: safeObjectLink(props, {}, `${mapEntries.length - max} more…`)
+      object: safeObjectLink(props, {}, "more…")
     }));
   }
 
