@@ -3,20 +3,23 @@ machine:
     version: 7.0
   environment:
     DOWNLOADS_PATH: "$HOME/downloads"
-    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+    YARN_PATH: "$HOME/.yarn"
+    YARN_VERSION: 0.24.5
+    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
 
 test:
   post:
+    - cd ./packages/devtools-launchpad; yarn test
+    - cd ./packages/devtools-source-map; yarn test
+    - cd ./packages/devtools-utils; yarn test
     - yarn lint-css
     - yarn lint-js
     - yarn flow
     - yarn license-check
-    - cd ./packages/devtools-launchpad; yarn test
-    - cd ./packages/devtools-source-map; yarn test
-    - cd ./packages/devtools-utils; yarn test
-    - cd ./packages/devtools-splitter; yarn snapshot
 
 dependencies:
+  pre:
+    - ./bin/install-yarn
   cache_directories:
     - ~/.cache/yarn
     - ~/.yarn
