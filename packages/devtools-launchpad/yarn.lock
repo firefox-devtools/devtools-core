@@ -2871,6 +2871,12 @@ ipaddr.js@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.3.0.tgz#1e03a52fdad83a8bbb2b25cbf4998b4cffcd3dec"
 
+ipaddr@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/ipaddr/-/ipaddr-0.0.9.tgz#5052d035970bd2ec3f8dfaca9fcf3dda0155a5ea"
+  dependencies:
+    bl "^1.0.0"
+
 is-absolute-url@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/is-absolute-url/-/is-absolute-url-2.1.0.tgz#50530dfb84fcc9aa7dbe7852e83a37b93b9f2aa6"
