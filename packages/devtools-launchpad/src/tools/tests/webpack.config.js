@@ -1,4 +1,5 @@
 const toolbox = require("../../../index");
+const path = require("path");
 
 // NOTE: we can likely switch this out for an appropriate path function
 function getLocalPath(filepath) {
@@ -12,12 +13,12 @@ describe("Webpack config", () => {
     const config = toolbox.toolboxConfig(webpackConfig, envConfig);
 
     expect(getLocalPath(config.context)).toBe(
-      "/packages/devtools-launchpad/src"
+      path.normalize("/packages/devtools-launchpad/src")
     );
 
     const roots = config.resolveLoader.root;
     expect(getLocalPath(roots[0])).toBe(
-      "/packages/devtools-launchpad/node_modules"
+      path.normalize("/packages/devtools-launchpad/node_modules")
     );
   });
 
