@@ -39,7 +39,7 @@
     "stylelint": "^7.4.2"
   },
   "devDependencies": {
-    "devtools-license-check": "^0.1.0",
+    "devtools-license-check": "^0.3.0",
     "flow-bin": "^0.37.4",
     "lerna": "2.0.0-beta.30"
   }

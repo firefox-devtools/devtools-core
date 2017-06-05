@@ -743,9 +743,9 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-devtools-license-check@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/devtools-license-check/-/devtools-license-check-0.1.0.tgz#240d047d9a578545bec70900fd442d2b958ea339"
+devtools-license-check@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/devtools-license-check/-/devtools-license-check-0.3.0.tgz#e8befe2fa7d029f946e68da3f24530c3025b8b17"
   dependencies:
     license-checker "^9.0.3"
 
