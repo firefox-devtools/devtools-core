@@ -57,6 +57,7 @@
     "devtools-config": "^0.0.15",
     "devtools-connection": "^0.0.4",
     "devtools-modules": "^0.0.27",
+    "devtools-sprintf-js": "^1.0.3",
     "devtools-utils": "^0.0.2",
     "eslint": "^3.12.0",
     "eslint-plugin-babel": "^3.3.0",
@@ -69,7 +70,7 @@
     "fuzzaldrin-plus": "^0.4.0",
     "geckodriver": "=1.4.0",
     "immutable": "^3.7.6",
-    "jest": "^20.0.1",
+    "jest": "^19.0.2",
     "json-loader": "^0.5.4",
     "minimist": "^1.2.0",
     "mustache": "^2.2.1",
@@ -88,7 +89,6 @@
     "react-redux": "4.4.5",
     "redux": "3.5.2",
     "selenium-webdriver": "=3.3.0",
-    "devtools-sprintf-js": "^1.0.3",
     "style-loader": "^0.13.1",
     "svg-inline-loader": "^0.7.1",
     "webpack": "1.14.0",
@@ -99,6 +99,7 @@
   },
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
+    "ipaddr": "^0.0.9",
     "yarn": "^0.20.3"
   },
   "files": [
@@ -110,7 +111,7 @@
     "webpack.config.js",
     "webpack.config.devtools.js"
   ],
-"jest": {
+  "jest": {
     "rootDir": "src",
     "testMatch": [
       "**/tests/**/*.js"

@@ -743,9 +743,9 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-devtools-license-check@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/devtools-license-check/-/devtools-license-check-0.1.0.tgz#240d047d9a578545bec70900fd442d2b958ea339"
+devtools-license-check@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/devtools-license-check/-/devtools-license-check-0.3.0.tgz#e8befe2fa7d029f946e68da3f24530c3025b8b17"
   dependencies:
     license-checker "^9.0.3"
 
@@ -904,9 +904,9 @@ eslint-plugin-flowtype@^2.20.0:
   dependencies:
     lodash "^4.15.0"
 
-eslint-plugin-jest@^19.0.1:
-  version "19.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-19.0.1.tgz#42a420e90e81aa74e162c16166e43a31b890eece"
+eslint-plugin-jest@=20.0.1:
+  version "20.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-20.0.1.tgz#ddb8a7d30da81e8839e2b4e25907d2ac45d27aa4"
 
 eslint-plugin-mozilla@0.2.3:
   version "0.2.3"
