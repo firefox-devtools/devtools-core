@@ -1,0 +1,37 @@
+{
+  "name": "devtools-reps",
+  "version": "0.8.0",
+  "description": "Devtools Reps",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node bin/dev-server.js",
+    "lint-js": "eslint src",
+    "firefox": "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
+    "chrome": "./node_modules/.bin/start-chrome",
+    "copy-assets": "node bin/copy-assets",
+    "copy-assets-watch": "node bin/copy-assets --watch",
+    "license-check": "devtools-license-check",
+    "prepublish": "node bin/publish-assets"
+  },
+  "author": "",
+  "license": "MPL-2.0",
+  "repository": {
+    "url": "git://github.com/devtools-html/reps.git",
+    "type": "git"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.2",
+    "svg-inline-react": "^1.0.2"
+  },
+  "devDependencies": {
+    "devtools-launchpad": "^0.0.43",
+    "devtools-license-check": "^0.2.0",
+    "eslint": "^3.12.0",
+    "eslint-plugin-mozilla": "0.2.3",
+    "fs-extra": "^2.0.0"
+  }
+}
