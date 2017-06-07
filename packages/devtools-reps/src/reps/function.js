@@ -22,6 +22,7 @@ const { span } = React.DOM;
 FunctionRep.propTypes = {
   object: React.PropTypes.object.isRequired,
   objectLink: React.PropTypes.func,
+  parameterNames: React.PropTypes.array,
 };
 
 function FunctionRep(props) {
@@ -32,7 +33,10 @@ function FunctionRep(props) {
     // appearing in the wrong direction
     span({dir: "ltr", className: "objectBox objectBox-function"},
       getTitle(props, grip),
-      summarizeFunction(grip)
+      summarizeFunction(grip),
+      "(",
+      ...renderParams(props),
+      ")",
     )
   );
 }
@@ -51,7 +55,23 @@ function getTitle(props, grip) {
 
 function summarizeFunction(grip) {
   let name = grip.userDisplayName || grip.displayName || grip.name || "";
-  return cropString(name + "()", 100);
+  return cropString(name, 100);
+}
+
+function renderParams(props) {
+  const {
+    parameterNames = []
+  } = props;
+
+  return parameterNames
+    .filter(param => param)
+    .reduce((res, param, index, arr) => {
+      res.push(span({ className: "param" }, param));
+      if (index < arr.length - 1) {
+        res.push(span({ className: "delimiter" }, ", "));
+      }
+      return res;
+    }, []);
 }
 
 // Registration
