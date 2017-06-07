@@ -60,6 +60,28 @@ window.onload = Task.async(function* () {
     ];
 
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
+
+    // Testing parameters
+    let rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: []
+    });
+    is(rendered.textContent, "function testName()",
+      "Function Rep is render has expected if parameterNames is empty");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a"]
+    });
+    is(rendered.textContent, "function testName(a)",
+      "Function Rep is render has expected if parameterNames has one element");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a", "b", "c"]
+    });
+    is(rendered.textContent, "function testName(a, b, c)",
+      "Function Rep is render has expected if parameterNames has multiple elements");
   }
 
   function testUserNamed() {
@@ -76,6 +98,29 @@ window.onload = Task.async(function* () {
     ];
 
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
+
+    // Testing parameters
+    let rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: []
+    });
+
+    is(rendered.textContent, defaultOutput,
+      "Function Rep is render has expected if parameterNames is empty");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a"]
+    });
+    is(rendered.textContent, "function testUserName(a)",
+      "Function Rep is render has expected if parameterNames has one element");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a", "b", "c"]
+    });
+    is(rendered.textContent, "function testUserName(a, b, c)",
+      "Function Rep is render has expected if parameterNames has multiple elements");
   }
 
   function testVarNamed() {
@@ -92,6 +137,27 @@ window.onload = Task.async(function* () {
     ];
 
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
+
+    let rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: []
+    });
+    is(rendered.textContent, defaultOutput,
+      "Function Rep is render has expected if parameterNames is empty");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a"]
+    });
+    is(rendered.textContent, "function testVarName(a)",
+      "Function Rep is render has expected if parameterNames has one element");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a", "b", "c"]
+    });
+    is(rendered.textContent, "function testVarName(a, b, c)",
+      "Function Rep is render has expected if parameterNames has multiple elements");
   }
 
   function testAnon() {
@@ -108,13 +174,37 @@ window.onload = Task.async(function* () {
     ];
 
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
+
+    // Testing parameters
+    let rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: []
+    });
+
+    is(rendered.textContent, defaultOutput,
+      "Function Rep is render has expected if parameterNames is empty");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a"]
+    });
+    is(rendered.textContent, "function (a)",
+      "Function Rep is render has expected if parameterNames has one element");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a", "b", "c"]
+    });
+    is(rendered.textContent, "function (a, b, c)",
+      "Function Rep is render has expected if parameterNames has multiple elements");
   }
 
   function testLongName() {
     // Test declaration: `let f = function loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong() { }`
     const testName = "testLongName";
 
-    const defaultOutput = "function looooooooooooooooooooooooooooooooooooooooooooooooo\u2026ooooooooooooooooooooooooooooooooooooooooooooong()";
+    const functionName = "looooooooooooooooooooooooooooooooooooooooooooooooo\u2026ooooooooooooooooooooooooooooooooooooooooooooooong";
+    const defaultOutput = `function ${functionName}()`;
 
     const modeTests = [
       {
@@ -124,6 +214,29 @@ window.onload = Task.async(function* () {
     ];
 
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
+
+    // Testing parameters
+    let rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: []
+    });
+
+    is(rendered.textContent, defaultOutput,
+      "Function Rep is render has expected if parameterNames is empty");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a"]
+    });
+    is(rendered.textContent, `function ${functionName}(a)`,
+      "Function Rep is render has expected if parameterNames has one element");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a", "b", "c"]
+    });
+    is(rendered.textContent, `function ${functionName}(a, b, c)`,
+      "Function Rep is render has expected if parameterNames has multiple elements");
   }
 
   function testAsyncFunction() {
@@ -150,6 +263,29 @@ window.onload = Task.async(function* () {
       }
     ];
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
+
+    // Testing parameters
+    let rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: []
+    });
+
+    is(rendered.textContent, defaultOutput,
+      "Function Rep is render has expected if parameterNames is empty");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a"]
+    });
+    is(rendered.textContent, "async function waitUntil2017(a)",
+      "Function Rep is render has expected if parameterNames has one element");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a", "b", "c"]
+    });
+    is(rendered.textContent, "async function waitUntil2017(a, b, c)",
+      "Function Rep is render has expected if parameterNames has multiple elements");
   }
 
   function testAnonAsyncFunction() {
@@ -176,6 +312,29 @@ window.onload = Task.async(function* () {
       }
     ];
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
+
+    // Testing parameters
+    let rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: []
+    });
+
+    is(rendered.textContent, defaultOutput,
+      "Function Rep is render has expected if parameterNames is empty");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a"]
+    });
+    is(rendered.textContent, "async function (a)",
+      "Function Rep is render has expected if parameterNames has one element");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a", "b", "c"]
+    });
+    is(rendered.textContent, "async function (a, b, c)",
+      "Function Rep is render has expected if parameterNames has multiple elements");
   }
 
   function testGeneratorFunction() {
@@ -202,6 +361,29 @@ window.onload = Task.async(function* () {
       }
     ];
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
+
+    // Testing parameters
+    let rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: []
+    });
+
+    is(rendered.textContent, defaultOutput,
+      "Function Rep is render has expected if parameterNames is empty");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a"]
+    });
+    is(rendered.textContent, "function* fib(a)",
+      "Function Rep is render has expected if parameterNames has one element");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a", "b", "c"]
+    });
+    is(rendered.textContent, "function* fib(a, b, c)",
+      "Function Rep is render has expected if parameterNames has multiple elements");
   }
 
   function testAnonGeneratorFunction() {
@@ -228,6 +410,29 @@ window.onload = Task.async(function* () {
       }
     ];
     testRepRenderModes(modeTests, testName, componentUnderTest, getGripStub(testName));
+
+    // Testing parameters
+    let rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: []
+    });
+
+    is(rendered.textContent, defaultOutput,
+      "Function Rep is render has expected if parameterNames is empty");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a"]
+    });
+    is(rendered.textContent, "function* (a)",
+      "Function Rep is render has expected if parameterNames has one element");
+
+    rendered = renderComponent(Func.rep, {
+      object: getGripStub(testName),
+      parameterNames: ["a", "b", "c"]
+    });
+    is(rendered.textContent, "function* (a, b, c)",
+      "Function Rep is render has expected if parameterNames has multiple elements");
   }
 
   function testObjectLink() {
