@@ -50,9 +50,12 @@ const Console = React.createClass({
       hideResultPacket,
       navigateInputHistory,
       showResultPacket,
+      loadObjectProperties,
+      loadedObjects,
     } = this.props;
 
-    return dom.main({},
+    return dom.main(
+      {},
       Header({
         addInput,
         changeCurrentInput,
@@ -63,8 +66,10 @@ const Console = React.createClass({
       }),
       ResultsList({
         expressions: expressions.reverse(),
+        loadedObjects,
         hideResultPacket,
         showResultPacket,
+        loadObjectProperties
       })
     );
   }
@@ -73,6 +78,7 @@ const Console = React.createClass({
 function mapStateToProps(state) {
   return {
     expressions: selectors.getExpressions(state),
+    loadedObjects: selectors.getLoadedObjects(state),
     currentInputValue: selectors.getCurrentInputValue(state),
   };
 }

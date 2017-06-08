@@ -3,9 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const expressions = require("./expressions");
+const objects = require("./objects");
 const input = require("./input");
 
 module.exports = {
   expressions,
   input,
+  objects,
 };

@@ -5,18 +5,7 @@
 const constants = require("../constants");
 const Immutable = require("immutable");
 
-let storedExpressions;
-try {
-  storedExpressions = JSON.parse(
-    window.localStorage.getItem(constants.LS_EXPRESSIONS_KEY)
-  );
-} catch (e) {
-  // Ignore.
-}
-
-const initialState = storedExpressions
-  ? Immutable.fromJS(storedExpressions)
-  : Immutable.Map();
+const initialState = Immutable.Map();
 
 function update(state = initialState, action) {
   const { type, value, key } = action;

@@ -35,7 +35,7 @@ function onConnect(connection) {
 
   let store = configureStore({
     makeThunkArgs: (args, state) => {
-      return Object.assign({}, args, { client });
+      return Object.assign({}, args, { client: client.clientCommands });
     }
   });
   renderRoot(React, ReactDOM, RepsConsole, store);
