@@ -29,6 +29,7 @@
   --theme-splitter-color: #dde1e4;
   --theme-comment: #696969;
   --theme-comment-alt: #ccd1d5;
+  --theme-conditional-breakpoint-text-color: #ccd1d5;
 
   --theme-body-color: #393f4c;
   --theme-body-color-alt: #585959;
@@ -96,6 +97,7 @@
   --theme-splitter-color: #454d5d;
   --theme-comment: #757873;
   --theme-comment-alt: #5a6375;
+  --theme-conditional-breakpoint-text-color: #9fa4a9;
 
   --theme-body-color: #8fa1b2;
   --theme-body-color-alt: #b6babf;
@@ -161,6 +163,7 @@
   --theme-splitter-color: #aabccf;
   --theme-comment: green;
   --theme-comment-alt: #ccd1d5;
+  --theme-conditional-breakpoint-text-color: #ccd1d5;
 
   --theme-body-color: #18191a;
   --theme-body-color-alt: #585959;
