@@ -2180,6 +2180,10 @@ ThreadClient.prototype = {
     },
   ),
 
+  getEnvironment: function(frameId) {
+    return this.request({ to: frameId, type: "getEnvironment" });
+  },
+
   /**
    * An array of cached frames. Clients can observe the framesadded and
    * framescleared event to keep up to date on changes to this cache,

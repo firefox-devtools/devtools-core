@@ -74,7 +74,9 @@ async function connectTab(tab: Tab) {
 
   const tabTarget: TabTarget = await lookupTabTarget(tab);
   const [, threadClient: ThreadClient] = await tabTarget.activeTab.attachThread(
-    {},
+    {
+      ignoreFrameEnvironment: true
+    },
   );
 
   threadClient.resume();
