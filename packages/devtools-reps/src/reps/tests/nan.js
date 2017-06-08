@@ -16,7 +16,7 @@ const {
 
 const stubs = require("../stubs/nan");
 
-describe("test NaN", () => {
+describe("NaN", () => {
   const stub = stubs.get("NaN");
 
   it("selects NaN Rep as expected", () => {
@@ -27,6 +27,6 @@ describe("test NaN", () => {
     const renderedComponent = shallow(Rep({
       object: stub
     }));
-    expect(renderedComponent.text()).toEqual("NaN");
+    expect(renderedComponent).toMatchSnapshot();
   });
 });
