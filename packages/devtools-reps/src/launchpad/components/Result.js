@@ -61,7 +61,6 @@ const Result = React.createClass({
       new ObjectInspector({
         roots: [{
           path,
-          name: path,
           contents: {
             value: object
           }
