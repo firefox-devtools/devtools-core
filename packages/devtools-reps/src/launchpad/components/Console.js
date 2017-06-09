@@ -20,7 +20,15 @@ const Console = React.createClass({
   propTypes: {
     client: PropTypes.object.isRequired,
     shortcuts: PropTypes.object.isRequired,
+    addInput: PropTypes.func.isRequired,
+    changeCurrentInput: PropTypes.func.isRequired,
     clearExpressions: PropTypes.func.isRequired,
+    currentInputValue: PropTypes.func.isRequired,
+    evaluateInput: PropTypes.func.isRequired,
+    expressions: PropTypes.func.isRequired,
+    hideResultPacket: PropTypes.func.isRequired,
+    navigateInputHistory: PropTypes.func.isRequired,
+    showResultPacket: PropTypes.func.isRequired,
   },
 
   componentDidMount: function () {
