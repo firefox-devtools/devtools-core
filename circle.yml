@@ -12,6 +12,7 @@ test:
     - cd ./packages/devtools-launchpad; yarn test
     - cd ./packages/devtools-source-map; yarn test
     - cd ./packages/devtools-utils; yarn test
+    - cd ./packages/devtools-reps; yarn test
     - yarn lint-css
     - yarn lint-js
     - yarn flow

@@ -11,8 +11,8 @@ const reducers = require("./reducers");
 const { bootstrap } = require("./index");
 
 const App = React.createClass({
-  propTypes: {},
   displayName: "App",
+  propTypes: {},
   render() {
     return React.DOM.div({
       style: {

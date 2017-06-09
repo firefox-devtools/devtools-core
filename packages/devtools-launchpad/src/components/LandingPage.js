@@ -33,6 +33,8 @@ function firstTimeMessage(title, urlPart) {
 }
 
 const LandingPage = React.createClass({
+  displayName: "LandingPage",
+
   propTypes: {
     tabs: ImPropTypes.map.isRequired,
     supportsFirefox: React.PropTypes.bool.isRequired,
@@ -44,8 +46,6 @@ const LandingPage = React.createClass({
     config: React.PropTypes.object.isRequired,
     setValue: React.PropTypes.func.isRequired
   },
-
-  displayName: "LandingPage",
 
   getInitialState() {
     return {

@@ -29,7 +29,7 @@ import type { ThunkArgs } from "./types";
  * @returns {ConfigAction} with type constants.SET_VALUE and value
  */
 function setValue(path, value) {
-  return async function({ dispatch }: ThunkArgs) {
+  return async function ({ dispatch }: ThunkArgs) {
     const response = await fetch("/setconfig", {
       method: "post",
       headers: { "Content-Type": "application/json" },
