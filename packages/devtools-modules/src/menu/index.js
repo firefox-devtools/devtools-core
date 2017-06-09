@@ -4,6 +4,10 @@
 
 const EventEmitter = require("../utils/event-emitter");
 
+function inToolbox() {
+  return window.parent.document.documentURI == "about:devtools-toolbox"
+}
+
 /**
  * A partial implementation of the Menu API provided by electron:
  * https://github.com/electron/electron/blob/master/docs/api/menu.md.
@@ -100,7 +104,7 @@ Menu.prototype.createPopup = function(doc) {
   return doc.createElement("menupopup");
 }
 
-Menu.prototype._createMenuItems = function (parent) {
+Menu.prototype._createMenuItems = function(parent) {
   let doc = parent.ownerDocument;
   this.menuitems.forEach(item => {
     if (!item.visible) {
@@ -113,7 +117,10 @@ Menu.prototype._createMenuItems = function (parent) {
 
       let menuitem = doc.createElement("menuitem");
       menuitem.setAttribute("label", item.label);
-      menuitem.textContent = item.label;
+      if (!inToolbox()) {
+        menuitem.textContent = item.label;
+      }
+
       let menu = doc.createElement("menu");
       menu.appendChild(menuitem);
       menu.appendChild(menupopup);
@@ -133,7 +140,11 @@ Menu.prototype._createMenuItems = function (parent) {
     } else {
       let menuitem = doc.createElement("menuitem");
       menuitem.setAttribute("label", item.label);
-      menuitem.textContent = item.label;
+
+      if (!inToolbox()) {
+        menuitem.textContent = item.label;
+      }
+
       menuitem.addEventListener("command", () => item.click());
 
       if (item.type === "checkbox") {

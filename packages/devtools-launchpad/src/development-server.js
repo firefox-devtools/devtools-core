@@ -37,10 +37,12 @@ function httpOrHttpsGet(url, onResponse) {
       return onResponse("{}");
     }
     let body = "";
-    response.on("data", function(d) {
+    response.on("data", function (d) {
       body += d;
     });
     response.on("end", () => onResponse(body));
+
+    return undefined;
   });
 }
 
@@ -116,7 +118,7 @@ function onRequest(err, result) {
 function startDevServer(devConfig, webpackConfig, rootDir) {
   setConfig(devConfig);
   root = rootDir;
-  checkNode(">=6.9.0", function(_, opts) {
+  checkNode(">=6.9.0", function (_, opts) {
     if (!opts.nodeSatisfied) {
       const version = opts.node.raw;
       console.log(`Sorry, Your version of node is ${version}.`);

@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { DOM } = require('react');
+const { DOM } = require("react");
 const { shallow } = require("enzyme");
 
 const {
@@ -29,7 +29,7 @@ describe("test DateTime", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual('Date 2016-03-30T21:17:24.859Z');
+    expect(renderedComponent.text()).toEqual("Date 2016-03-30T21:17:24.859Z");
   });
 });
 
@@ -46,7 +46,7 @@ describe("test invalid DateTime", () => {
 });
 
 describe("test objectLink", () => {
-  const stub = stubs.get("DateTime")
+  const stub = stubs.get("DateTime");
 
   it("renders as expected when objectLink is passes as a prop", () => {
     const renderedComponent = shallow(Rep({
