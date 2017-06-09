@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-let EventEmitter = function() {};
+let EventEmitter = function () {};
 
 const defer = require("./defer");
 
@@ -13,7 +13,7 @@ const defer = require("./defer");
  *        Bind all public methods of EventEmitter to
  *        the objectToDecorate object.
  */
-EventEmitter.decorate = function(objectToDecorate) {
+EventEmitter.decorate = function (objectToDecorate) {
   let emitter = new EventEmitter();
   objectToDecorate.on = emitter.on.bind(emitter);
   objectToDecorate.off = emitter.off.bind(emitter);
@@ -60,7 +60,7 @@ EventEmitter.prototype = {
     let handler = (_, first, ...rest) => {
       this.off(event, handler);
       if (listener) {
-        listener.apply(null, [event, first, ...rest]);
+        listener(event, first, ...rest);
       }
       deferred.resolve(first);
     };

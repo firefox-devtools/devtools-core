@@ -7,12 +7,12 @@ const { DOM: dom } = React;
 const { showMenu, buildMenu } = require("./shared/menu");
 
 const Settings = React.createClass({
+  displayName: "Settings",
+
   propTypes: {
     config: React.PropTypes.object.isRequired,
     setValue: React.PropTypes.func.isRequired
   },
-
-  displayName: "Settings",
 
   onConfigContextMenu(event, key) {
     event.preventDefault();

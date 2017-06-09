@@ -62,7 +62,7 @@ function endTruncateStr(str: string, size: number) {
 
 let msgId = 1;
 function workerTask(worker: any, method: string) {
-  return function(...args: any) {
+  return function (...args: any) {
     return new Promise((resolve, reject) => {
       const id = msgId++;
       worker.postMessage({ id, method, args });
@@ -165,7 +165,7 @@ function updateObj<T: Object>(obj: T, fields: $Shape<T>) : T {
 
 function throttle(func: any, ms: number) {
   let timeout, _this;
-  return function(...args: any) {
+  return function (...args: any) {
     _this = this;
     if (!timeout) {
       timeout = setTimeout(() => {

@@ -170,6 +170,8 @@ async function bootstrap(React, ReactDOM) {
   renderRoot(React, ReactDOM, LaunchpadApp, store);
   await connectClients(actions);
   setInterval(async () => await getTabs(actions), 3000);
+
+  return undefined;
 }
 
 module.exports = {
