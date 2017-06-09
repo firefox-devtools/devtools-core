@@ -42,12 +42,12 @@ async function startDebuggingTab(connTarget: ConnectionTarget) {
   const tabs = await client.connectClient();
 
   if (!tabs) {
-    return;
+    return undefined;
   }
 
   const tab: ?Tab = tabs.find(t => t.id.indexOf(connTarget.param) !== -1);
   if (!tab) {
-    return;
+    return undefined;
   }
 
   const tabConnection = await client.connectTab(tab.tab);
