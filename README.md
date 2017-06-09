@@ -6,6 +6,7 @@
 | [![devtools-config-version]][devtools-config-pkg] | [devtools-config] |
 | [![devtools-components-version]][devtools-components-pkg] | [devtools-components] |
 | [![devtools-connection-version]][devtools-connection-pkg] | [devtools-connection] |
+| [![devtools-contextmenu-version]][devtools-contextmenu-pkg] | [devtools-contextmenu] |
 | [![devtools-modules-version]][devtools-modules-pkg] | [devtools-modules] |
 | [![devtools-source-editor-version]][devtools-source-editor-pkg] | [devtools-source-editor] |
 | [![devtools-source-map-version]][devtools-source-map-pkg] | [devtools-source-map] |
@@ -36,6 +37,10 @@
 [devtools-modules-version]:https://img.shields.io/npm/v/devtools-modules.svg
 [devtools-modules-pkg]:https://npmjs.org/package/devtools-modules
 [devtools-modules]:./packages/devtools-modules/#readme
+
+[devtools-contextmenu-version]:https://img.shields.io/npm/v/devtools-contextmenu.svg
+[devtools-contextmenu-pkg]:https://npmjs.org/package/devtools-contextmenu
+[devtools-contextmenu]:./packages/devtools-contextmenu/#readme
 
 [devtools-connection-version]:https://img.shields.io/npm/v/devtools-connection.svg
 [devtools-connection-pkg]:https://npmjs.org/package/devtools-connection
