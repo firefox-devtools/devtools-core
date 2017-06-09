@@ -19,7 +19,7 @@ describe("testInfinity", () => {
   it("Rep correctly selects Infinity Rep", () => {
     expect(getRep(stub)).toBe(InfinityRep.rep);
   });
-  
+
   it("Infinity rep has expected text content for Infinity", () => {
     const renderedComponent = shallow(Rep({
       object: stub
@@ -34,7 +34,7 @@ describe("testNegativeInfinity", () => {
   it("Rep correctly selects Infinity Rep", () => {
     expect(getRep(stub)).toBe(InfinityRep.rep);
   });
-  
+
   it("Infinity rep has expected text content for negative Infinity", () => {
     const renderedComponent = shallow(Rep({
       object: stub
