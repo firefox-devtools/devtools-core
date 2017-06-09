@@ -9,7 +9,11 @@ const svg = {
   "open-inspector": require("./open-inspector.svg"),
 };
 
-module.exports = function(name, props) { // eslint-disable-line
+Svg.propTypes = {
+  className: React.PropTypes.string,
+};
+
+function Svg(name, props) {
   if (!svg[name]) {
     throw new Error("Unknown SVG: " + name);
   }
@@ -22,4 +26,6 @@ module.exports = function(name, props) { // eslint-disable-line
   }
   props = Object.assign({}, props, { className, src: svg[name] });
   return React.createElement(InlineSVG, props);
-};
+}
+
+module.exports = Svg;
