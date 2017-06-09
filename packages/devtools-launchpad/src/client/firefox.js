@@ -73,6 +73,7 @@ async function connectTab(tab: Tab) {
   });
 
   const tabTarget: TabTarget = await lookupTabTarget(tab);
+
   const [, threadClient: ThreadClient] = await tabTarget.activeTab.attachThread(
     {
       ignoreFrameEnvironment: true
@@ -85,7 +86,7 @@ async function connectTab(tab: Tab) {
 
 async function getTabs() {
   if (!debuggerClient || !debuggerClient.mainRoot) {
-    return;
+    return undefined;
   }
 
   const response = await debuggerClient.listTabs();

@@ -33,7 +33,7 @@ function createTabs(tabs: ChromeTab[], { type, clientType } = {}) {
     });
 }
 
-window.criRequest = function(options, callback) {
+window.criRequest = function (options, callback) {
   const { host, port, path } = options;
   const url = `http://${host}:${port}${path}`;
 
@@ -74,7 +74,7 @@ async function connectNodeClient() {
       host: getValue("node.host"),
     });
   } catch (e) {
-    return;
+    return undefined;
   }
 
   return createTabs(tabs, {

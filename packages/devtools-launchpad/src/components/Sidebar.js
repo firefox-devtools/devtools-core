@@ -9,6 +9,7 @@ const { DOM: dom } = React;
 const classnames = require("classnames");
 
 const Sidebar = React.createClass({
+  displayName: "Sidebar",
 
   propTypes: {
     supportsFirefox: React.PropTypes.bool.isRequired,
@@ -17,8 +18,6 @@ const Sidebar = React.createClass({
     selectedPane: React.PropTypes.string.isRequired,
     onSideBarItemClick: React.PropTypes.func.isRequired
   },
-
-  displayName: "Sidebar",
 
   render() {
     let connections = [];

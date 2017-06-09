@@ -14,13 +14,13 @@ function getTabURL(tab, paramName) {
 }
 
 const Tabs = React.createClass({
+  displayName: "Tabs",
+
   propTypes: {
     targets: React.PropTypes.object.isRequired,
     paramName: React.PropTypes.string.isRequired,
     onTabClick: React.PropTypes.func.isRequired,
   },
-
-  displayName: "Tabs",
 
   onTabClick(tab, paramName) {
     this.props.onTabClick(getTabURL(tab, paramName));

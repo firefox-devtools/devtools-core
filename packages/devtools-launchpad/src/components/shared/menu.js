@@ -30,7 +30,7 @@ function createPopup(doc) {
 
   mask.onclick = () => popup.hidePopup();
 
-  popup.openPopupAtScreen = function(clientX, clientY) {
+  popup.openPopupAtScreen = function (clientX, clientY) {
     this.style.setProperty("left", `${clientX}px`);
     this.style.setProperty("top", `${clientY}px`);
     mask = document.querySelector("#contextmenu-mask");
@@ -40,7 +40,7 @@ function createPopup(doc) {
     this.popupshown;
   };
 
-  popup.hidePopup = function() {
+  popup.hidePopup = function () {
     this.remove();
     mask = document.querySelector("#contextmenu-mask");
     mask.classList.remove("show");

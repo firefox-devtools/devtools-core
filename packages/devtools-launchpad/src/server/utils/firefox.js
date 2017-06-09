@@ -9,12 +9,12 @@ function isFirefoxRunning() {
     let isRunning = false;
     psLookup.lookup({
       command: "firefox-bin",
-    }, function(err, resultList) {
+    }, function (err, resultList) {
       if (err) {
         throw new Error(err);
       }
 
-      resultList.forEach(function(process) {
+      resultList.forEach(function (process) {
         if (process && process.arguments) {
           const args = process.arguments.join(" ");
           if (args.match(/--start-debugger-server=6080/)) {

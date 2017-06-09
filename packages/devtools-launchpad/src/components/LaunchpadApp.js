@@ -12,14 +12,14 @@ const { getValue } = require("devtools-config");
 const LandingPage = React.createFactory(require("./LandingPage"));
 
 const LaunchpadApp = React.createClass({
+  displayName: "LaunchpadApp",
+
   propTypes: {
     tabs: ImPropTypes.map.isRequired,
     filterString: PropTypes.string,
     actions: PropTypes.object,
     config: PropTypes.object
   },
-
-  displayName: "LaunchpadApp",
 
   render() {
     const {
