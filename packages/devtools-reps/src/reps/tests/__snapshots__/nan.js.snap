@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NaN renders NaN Rep as expected 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <span
+    className="objectBox objectBox-nan"
+>
+    NaN
+</span>,
+  "nodes": Array [
+    <span
+      className="objectBox objectBox-nan"
+>
+      NaN
+</span>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": null,
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <span
+    className="objectBox objectBox-nan"
+>
+    NaN
+</span>,
+}
+`;
