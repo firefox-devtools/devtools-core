@@ -11,7 +11,8 @@
     "copy-assets": "node bin/copy-assets",
     "copy-assets-watch": "node bin/copy-assets --watch",
     "license-check": "devtools-license-check",
-    "prepublish": "node bin/publish-assets"
+    "prepublish": "node bin/publish-assets",
+    "test": "jest"
   },
   "author": "",
   "license": "MPL-2.0",
@@ -24,14 +25,38 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
+    "jest": "^19.0.2",
     "lodash": "^4.17.2",
     "svg-inline-react": "^1.0.2"
   },
   "devDependencies": {
     "devtools-launchpad": "^0.0.43",
     "devtools-license-check": "^0.2.0",
+    "enzyme": "^2.8.2",
     "eslint": "^3.12.0",
     "eslint-plugin-mozilla": "0.2.3",
-    "fs-extra": "^2.0.0"
+    "fs-extra": "^2.0.0",
+    "jest-cli": "^20.0.4",
+    "react": "=15.3.2",
+    "react-dom": "=15.3.2",
+    "react-addons-test-utils": "=15.3.2"
+  },
+  "jest": {
+    "rootDir": "src",
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/test/",
+      "<rootDir>/utils/tests/fixtures/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ],
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
+      "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"
+    }
   }
 }
