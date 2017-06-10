@@ -38,6 +38,3 @@ describe("Test Undefined", () => {
   });
 
 });
-
-
-

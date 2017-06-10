@@ -40,8 +40,7 @@
     "jest-cli": "^20.0.4",
     "react": "=15.3.2",
     "react-addons-test-utils": "=15.3.2",
-    "react-dom": "=15.3.2",
-    "yarn": "^0.24.5"
+    "react-dom": "=15.3.2"
   },
   "jest": {
     "rootDir": "src",
