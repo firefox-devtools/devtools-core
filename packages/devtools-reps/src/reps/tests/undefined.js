@@ -27,14 +27,14 @@ describe("Test Undefined", () => {
     const renderedComponent = shallow(Rep({
       object: stub
     }));
-    expect(renderedComponent.text()).toEqual('undefined');
+    expect(renderedComponent.text()).toEqual("undefined");
   });
 
   it("Undefined rep has expected class names", () => {
     const renderedComponent = shallow(Rep({
       object: stub
     }));
-    expect(renderedComponent.hasClass('objectBox objectBox-undefined')).toEqual(true);
+    expect(renderedComponent.hasClass("objectBox objectBox-undefined")).toEqual(true);
   });
 
 });
