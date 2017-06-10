@@ -26,7 +26,7 @@ describe("test RegExp", () => {
     expect(renderedComponent.text()).toEqual("/ab+c/i");
   });
 
-  it("renders with expected text content ", () => {
+  it("renders the expected text content when an objectLink is passed as a prop", () => {
     const renderedComponent = shallow(Rep({
       object: stub,
       objectLink: (props, ...children) => React.DOM.span({},
