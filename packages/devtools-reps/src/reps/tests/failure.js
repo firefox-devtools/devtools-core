@@ -6,7 +6,6 @@ const { shallow } = require("enzyme");
 
 const {
   REPS,
-  getRep,
 } = require("../rep");
 
 let { RegExp, Rep } = REPS;
@@ -15,10 +14,6 @@ const stubs = require("../stubs/failure");
 
 describe("test Failure", () => {
   const stub = stubs.get("Failure");
-
-  it("Rep correctly selects RegExp Rep", () => {
-    expect(getRep(stub)).toBe(RegExp.rep);
-  });
 
   it("Fallback rendering has expected text content", () => {
     const renderedComponent = shallow(Rep({
