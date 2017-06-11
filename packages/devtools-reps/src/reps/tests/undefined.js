@@ -36,5 +36,4 @@ describe("Test Undefined", () => {
     }));
     expect(renderedComponent.hasClass("objectBox objectBox-undefined")).toEqual(true);
   });
-
 });
