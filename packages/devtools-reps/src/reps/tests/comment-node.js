@@ -28,31 +28,15 @@ describe("test CommentNode", () => {
     expect(renderedComponent.hasClass("objectBox theme-comment")).toBe(true);
   });
 
-  it("renders with expected content", () => {
-    const renderedComponent = shallow(Rep({
-      object: stub
-    }));
+  it("renders as expected", () => {
+    const object = stubs.get("Comment");
+    const renderRep = props => shallow(CommentNode.rep(Object.assign({object}, props)));
 
-    expect(renderedComponent.text())
+    expect(renderRep({mode: undefined}).text())
       .toEqual(`<!-- test\nand test\nand test\nan…d test\nand test\nand test -->`);
-  });
-
-  it("renders with expected content in tiny mode", () => {
-    const renderedComponent = shallow(Rep({
-      object: stub,
-      mode: MODE.TINY,
-    }));
-
-    expect(renderedComponent.text())
+    expect(renderRep({mode: MODE.TINY}).text())
       .toEqual(`<!-- test\\nand test\\na… test\\nand test -->`);
-  });
-
-  it("renders with expected content in long mode", () => {
-    const renderedComponent = shallow(Rep({
-      object: stub,
-      mode: MODE.LONG,
-    }));
-
-    expect(renderedComponent.text()).toEqual(`<!-- ${stub.preview.textContent} -->`);
+    expect(renderRep({mode: MODE.LONG}).text())
+      .toEqual(`<!-- ${stub.preview.textContent} -->`);
   });
 });
