@@ -10,10 +10,10 @@ const {
 const { Number, Rep } = REPS;
 const stubs = require("../stubs/number");
 
-describe("test Int", () => {
+describe("Int", () => {
   const stub = stubs.get("Int");
 
-  it("correctly selects Number Rep", () => {
+  it("correctly selects Number Rep for Integer value", () => {
     expect(getRep(stub)).toBe(Number.rep);
   });
 
@@ -26,7 +26,7 @@ describe("test Int", () => {
   });
 });
 
-describe("test Boolean", () => {
+describe("Boolean", () => {
   const stubTrue = stubs.get("True");
   const stubFalse = stubs.get("False");
 
@@ -51,7 +51,7 @@ describe("test Boolean", () => {
   });
 });
 
-describe("test negative zero", () => {
+describe("Negative Zero", () => {
   const stubNegativeZeroGrip = stubs.get("NegZeroGrip");
   const stubNegativeZeroValue = stubs.get("NegZeroGrip");
 
@@ -76,7 +76,7 @@ describe("test negative zero", () => {
   });
 });
 
-describe("test unsage Int", () => {
+describe("Unsafe Int", () => {
   const stub = stubs.get("UnsafeInt");
 
   it("renders with expected test content for a long number", () => {
