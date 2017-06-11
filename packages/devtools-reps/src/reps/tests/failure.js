@@ -8,7 +8,7 @@ const {
   REPS,
 } = require("../rep");
 
-let { RegExp, Rep } = REPS;
+let { Rep } = REPS;
 
 const stubs = require("../stubs/failure");
 
