@@ -93,7 +93,7 @@ async function getTabs() {
   return createTabs(response.tabs);
 }
 
-function initPage() {}
+function initPage(options: Object) {}
 
 module.exports = {
   connectClient,
