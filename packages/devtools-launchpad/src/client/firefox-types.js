@@ -249,7 +249,7 @@ export type TabTarget = {
   activeTab: {
     navigateTo: (string) => Promise<*>,
     reload: () => Promise<*>,
-    attachThread: () => Promise<*>
+    attachThread: (thread: any) => Promise<*>
   },
   destroy: () => void,
 };

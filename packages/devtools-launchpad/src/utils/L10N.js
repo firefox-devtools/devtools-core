@@ -43,6 +43,9 @@ function numberWithDecimals(number: number, decimals: number = 0) {
     return localized;
   }
 
+  // Ignore error until bug is fixed in flow
+  // https://github.com/facebook/flow/issues/4036
+  // $FlowIgnore
   return number.toLocaleString(undefined, {
     maximumFractionDigits: decimals,
     minimumFractionDigits: decimals
