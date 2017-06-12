@@ -25,7 +25,7 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
-    "jest": "^19.0.2",
+    "jest": "^20.0.4",
     "lodash": "^4.17.2",
     "svg-inline-react": "^1.0.2"
   },
