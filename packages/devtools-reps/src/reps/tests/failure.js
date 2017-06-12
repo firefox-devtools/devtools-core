@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/* global beforeAll, afterAll */
 const { shallow } = require("enzyme");
 
 const {
@@ -11,6 +12,14 @@ const {
 let { Rep } = REPS;
 
 const stubs = require("../stubs/failure");
+
+let originalConsoleError;
+beforeAll(() => {
+  // Let's override the console.error function so we don't get an error message
+  // in the jest output for the expected exception.
+  originalConsoleError = window.console.error;
+  window.console.error = () => {};
+});
 
 describe("test Failure", () => {
   const stub = stubs.get("Failure");
@@ -28,4 +37,9 @@ describe("test Failure", () => {
     }));
     expect(renderedComponent.text()).toEqual("[ 1, Invalid object, 2 ]");
   });
+});
+
+afterAll(() => {
+  // Reverting the override.
+  window.console.error = originalConsoleError;
 });
