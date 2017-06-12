@@ -14,7 +14,7 @@ let { Attribute, Rep } = REPS;
 
 const stubs = require("../stubs/attribute");
 
-describe("testBasic", () => {
+describe("Attribute", () => {
   const stub = stubs.get("Attribute");
 
   it("Rep correctly selects Attribute Rep", () => {
@@ -27,10 +27,6 @@ describe("testBasic", () => {
     }));
     expect(renderedComponent.text()).toEqual("class=\"autocomplete-suggestions\"");
   });
-});
-
-describe("testObjectLink", () => {
-  const stub = stubs.get("Attribute");
 
   it("Attribute rep has expected text when an objectLink is passed as a prop", () => {
     const renderedComponent = shallow(Rep({
