@@ -13,7 +13,7 @@ const { MODE } = require("../constants");
 const { Rep, CommentNode } = REPS;
 const stubs = require("../stubs/comment-node");
 
-describe("test CommentNode", () => {
+describe("CommentNode", () => {
   const stub = stubs.get("Comment");
 
   it("selects CommentNode Rep correctly", () => {
