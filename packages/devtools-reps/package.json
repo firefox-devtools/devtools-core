@@ -25,7 +25,6 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
-    "jest": "^19.0.2",
     "lodash": "^4.17.2",
     "svg-inline-react": "^1.0.2"
   },
@@ -36,6 +35,7 @@
     "eslint": "^3.12.0",
     "eslint-plugin-mozilla": "0.2.3",
     "fs-extra": "^2.0.0",
+    "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
     "react": "=15.3.2",
     "react-dom": "=15.3.2",
