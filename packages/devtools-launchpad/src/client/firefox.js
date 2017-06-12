@@ -7,7 +7,7 @@ const {
   DebuggerClient,
   DebuggerTransport,
   TargetFactory,
-  WebsocketTransport,
+  WebsocketTransport
 } = require("devtools-connection");
 
 const { getValue } = require("devtools-config");
@@ -17,7 +17,7 @@ import type {
   TabTarget,
   TabPayload,
   DebuggerClient as DebuggerClientType,
-  ThreadClient,
+  ThreadClient
 } from "./firefox-types";
 
 let debuggerClient: DebuggerClientType | null = null;
@@ -34,16 +34,14 @@ function createTabs(tabs: TabPayload[]): Tab[] {
       url: tab.url,
       id: tab.actor,
       tab,
-      clientType: "firefox",
+      clientType: "firefox"
     };
   });
 }
 
 async function connectClient() {
   const useProxy = !getValue("firefox.webSocketConnection");
-  const firefoxHost = getValue(
-    useProxy ? "firefox.proxyHost" : "firefox.webSocketHost",
-  );
+  const firefoxHost = getValue(useProxy ? "firefox.proxyHost" : "firefox.webSocketHost");
 
   const socket = new WebSocket(`ws://${firefoxHost}`);
   const transport = useProxy
@@ -74,11 +72,9 @@ async function connectTab(tab: Tab) {
 
   const tabTarget: TabTarget = await lookupTabTarget(tab);
 
-  const [, threadClient: ThreadClient] = await tabTarget.activeTab.attachThread(
-    {
-      ignoreFrameEnvironment: true
-    },
-  );
+  const [, threadClient: ThreadClient] = await tabTarget.activeTab.attachThread({
+    ignoreFrameEnvironment: true
+  });
 
   threadClient.resume();
   return { debuggerClient, threadClient, tabTarget };
@@ -99,5 +95,5 @@ module.exports = {
   connectClient,
   connectTab,
   initPage,
-  getTabs,
+  getTabs
 };

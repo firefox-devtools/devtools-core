@@ -2,8 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-// @flow
-
 const { sprintf } = require("devtools-sprintf-js");
 const { parse } = require("properties-parser");
 
@@ -27,7 +25,7 @@ function getFormatStr(name: string, ...args: any) {
 
 function numberWithDecimals(number: number, decimals: number = 0) {
   // If this is an integer, don't do anything special.
-  if (number === (number|0)) {
+  if (number === (number | 0)) {
     return number;
   }
   // If this isn't a number (and yes, `isNaN(null)` is false), return zero.
@@ -43,9 +41,6 @@ function numberWithDecimals(number: number, decimals: number = 0) {
     return localized;
   }
 
-  // Ignore error until bug is fixed in flow
-  // https://github.com/facebook/flow/issues/4036
-  // $FlowIgnore
   return number.toLocaleString(undefined, {
     maximumFractionDigits: decimals,
     minimumFractionDigits: decimals

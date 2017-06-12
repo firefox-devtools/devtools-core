@@ -23,7 +23,7 @@
     "source-map": "^0.5.6"
   },
   "devDependencies": {
-    "devtools-launchpad": "^0.0.62"
+    "devtools-launchpad": "^0.0.85"
   },
   "jest": {
     "rootDir": "src",
