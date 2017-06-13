@@ -14,7 +14,7 @@ function quoteNewlines(text) {
   return text.split("\n").join("\\n");
 }
 
-describe("test Multiline / LongStringRep", () => {
+describe("LongStringRep", () => {
   it("selects LongString Rep", () => {
     const stub = stubs.get("testMultiline");
     expect(getRep(stub)).toEqual(LongStringRep.rep);
