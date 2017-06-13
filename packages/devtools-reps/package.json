@@ -49,6 +49,7 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/test/",
+      "<rootDir>/reps/tests/test-helpers",
       "<rootDir>/utils/tests/fixtures/"
     ],
     "transformIgnorePatterns": [
