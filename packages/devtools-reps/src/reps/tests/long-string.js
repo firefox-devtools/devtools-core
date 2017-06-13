@@ -17,6 +17,7 @@ function quoteNewlines(text) {
 describe("LongStringRep", () => {
   it("selects LongString Rep", () => {
     const stub = stubs.get("testMultiline");
+
     expect(getRep(stub)).toEqual(LongStringRep.rep);
   });
 
@@ -25,13 +26,13 @@ describe("LongStringRep", () => {
     const renderedComponent = shallow(LongStringRep.rep({
       object: stub
     }));
+
     expect(renderedComponent.text()).toEqual(quoteNewlines(`"${stub.initial}…"`));
   });
 
   it("renders with expected text content for multiline string with " +
     "specified number of characters", () => {
     const stub = stubs.get("testMultiline");
-
     const renderedComponent = shallow(LongStringRep.rep({
       object: stub,
       cropLimit: 20
@@ -42,7 +43,6 @@ describe("LongStringRep", () => {
 
   it("renders with expected text content for multiline string when open", () => {
     const stub = stubs.get("testMultiline");
-
     const renderedComponent = shallow(LongStringRep.rep({
       object: stub,
       member: {open: true},
