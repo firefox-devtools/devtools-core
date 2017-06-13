@@ -12,7 +12,7 @@ const { Document } = REPS;
 const stubs = require("../stubs/document");
 const stub = stubs.get("Document");
 
-describe("test Document", () => {
+describe("Document", () => {
   it("correctly selects Document Rep", () => {
     expect(getRep(stub)).toBe(Document.rep);
   });
@@ -25,10 +25,8 @@ describe("test Document", () => {
     expect(renderedComponent.text())
       .toEqual("HTMLDocument https://www.mozilla.org/en-US/firefox/new/");
   });
-});
 
-describe("test Document with ObjectLink", () => {
-  it("renders with expected text content", () => {
+  it("renders with expected text content when passed an objectLink prop", () => {
     const renderedComponent = shallow(Document.rep({
       object: stub,
       objectLink: (props, ...children) => React.DOM.span({},
