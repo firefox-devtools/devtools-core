@@ -84,6 +84,7 @@ describe("LongStringRep", () => {
       useQuotes: false
     }));
 
-    expect(renderedComponent.text()).toEqual(`a aaaaaaaaaaaaaaaaaa…`);
+    expect(renderedComponent.html())
+      .toEqual('<span class="objectBox objectBox-string">a\naaaaaaaaaaaaaaaaaa…</span>');
   });
 });
