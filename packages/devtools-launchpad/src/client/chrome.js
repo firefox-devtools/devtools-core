@@ -4,7 +4,12 @@
 
 // @flow
 
-const CDP = {}; //require("chrome-remote-interface");
+// STUBBED CDP because of https://github.com/devtools-html/devtools-core/issues/410
+// require("chrome-remote-interface");
+const CDP = (_: any) => ({
+  close: () => {},
+  onclose: undefined
+});
 const { getValue } = require("devtools-config");
 const { networkRequest } = require("devtools-utils");
 
