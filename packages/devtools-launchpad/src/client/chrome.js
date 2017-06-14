@@ -4,7 +4,7 @@
 
 // @flow
 
-const CDP = require("chrome-remote-interface");
+const CDP = {}; //require("chrome-remote-interface");
 const { getValue } = require("devtools-config");
 const { networkRequest } = require("devtools-utils");
 
