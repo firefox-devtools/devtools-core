@@ -48,7 +48,7 @@ function GripArray(props) {
     items = [span({className: "length"}, isEmpty ? "" : objectLength)];
     brackets = needSpace(false);
   } else {
-    let max = (mode === MODE.SHORT) ? 3 : 10;
+    let max = maxLengthMap.get(mode);
     items = arrayIterator(props, object, max);
     brackets = needSpace(items.length > 0);
   }
@@ -197,8 +197,13 @@ function supportsObject(grip, type) {
   );
 }
 
+const maxLengthMap = new Map();
+maxLengthMap.set(MODE.SHORT, 3);
+maxLengthMap.set(MODE.LONG, 10);
+
 // Exports from this module
 module.exports = {
   rep: wrapRender(GripArray),
   supportsObject,
+  maxLengthMap,
 };
