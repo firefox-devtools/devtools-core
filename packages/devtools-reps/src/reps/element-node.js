@@ -100,30 +100,26 @@ function getElements(grip, mode) {
     }
     return elements;
   }
-  let attributeElements = Object.keys(attributes)
-    .sort(function getIdAndClassFirst(a1, a2) {
-      if ([a1, a2].includes("id")) {
-        return 3 * (a1 === "id" ? -1 : 1);
-      }
-      if ([a1, a2].includes("class")) {
-        return 2 * (a1 === "class" ? -1 : 1);
-      }
+  let attributeKeys = Object.keys(attributes);
+  if (attributeKeys.includes("class")) {
+    attributeKeys.splice(attributeKeys.indexOf("class"), 1);
+    attributeKeys.unshift("class");
+  }
+  if (attributeKeys.includes("id")) {
+    attributeKeys.splice(attributeKeys.indexOf("id"), 1);
+    attributeKeys.unshift("id");
+  }
+  const attributeElements = attributeKeys.reduce((arr, name, i, keys) => {
+    let value = attributes[name];
+    let attribute = span({},
+      span({className: "attr-name theme-fg-color2"}, `${name}`),
+      `="`,
+      span({className: "attr-value theme-fg-color6"}, `${value}`),
+      `"`
+    );
 
-      // `id` and `class` excepted,
-      // we want to keep the same order that in `attributes`.
-      return 0;
-    })
-    .reduce((arr, name, i, keys) => {
-      let value = attributes[name];
-      let attribute = span({},
-        span({className: "attr-name theme-fg-color2"}, `${name}`),
-        `="`,
-        span({className: "attr-value theme-fg-color6"}, `${value}`),
-        `"`
-      );
-
-      return arr.concat([" ", attribute]);
-    }, []);
+    return arr.concat([" ", attribute]);
+  }, []);
 
   return [
     "<",
