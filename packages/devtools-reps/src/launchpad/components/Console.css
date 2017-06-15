@@ -44,7 +44,7 @@ main {
 
 .rep-element::before {
   content: attr(data-mode) ":";
-  background-color: var(--theme-toolbar-background);;
+  background-color: var(--theme-toolbar-background);
   font-family: monospace;
   display: inline-block;
   font-size: 0.75rem;

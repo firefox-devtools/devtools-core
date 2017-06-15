@@ -8,7 +8,7 @@ const { generateKey } = require("../utils/utils");
 function evaluateInput(input) {
   return async function ({dispatch, client}) {
     try {
-      const packet = await client.clientCommands.evaluate(input, {});
+      const packet = await client.clientCommands.evaluate(input);
       dispatch(addExpression(input, packet));
     } catch (err) {
       console.warn("Error when evaluating expression", err);
