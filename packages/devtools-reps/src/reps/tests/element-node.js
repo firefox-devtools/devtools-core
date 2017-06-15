@@ -99,33 +99,23 @@ describe("ElementNode - Node", () => {
       .toEqual("input#newtab-customize-button.bar.baz");
   });
 
-  it("renders and inspect icon", () => {
+  it("renders an inspect icon", () => {
     const onInspectIconClick = jest.fn();
     const renderedComponent = shallow(ElementNode.rep({
       object: stubs.get("Node"),
       onInspectIconClick
     }));
 
-    expect(renderedComponent.find(".open-inspector").exists()).toBeTruthy();
-  });
-
-  it("renders and inspect icon", () => {
-    const onInspectIconClick = jest.fn();
-
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      onInspectIconClick
-    }));
-
     const node = renderedComponent.find(".open-inspector");
     node.simulate("click", { type: "click" });
 
+    expect(node.exists()).toBeTruthy();
     expect(onInspectIconClick.mock.calls.length).toEqual(1);
     expect(onInspectIconClick.mock.calls[0][0]).toEqual(stub);
     expect(onInspectIconClick.mock.calls[0][1].type).toEqual("click");
   });
 
-  it("calls the expected argument when mouseout is fired on Rep", () => {
+  it("calls the expected function when mouseout is fired on Rep", () => {
     const onDOMNodeMouseOut = jest.fn();
     const renderedComponent = shallow(ElementNode.rep({
       object: stub,
@@ -137,7 +127,7 @@ describe("ElementNode - Node", () => {
     expect(onDOMNodeMouseOut.mock.calls.length).toEqual(1);
   });
 
-  it("calls the expected argument when mouseover is fired on Rep", () => {
+  it("calls the expected function when mouseover is fired on Rep", () => {
     const onDOMNodeMouseOver = jest.fn();
     const renderedComponent = shallow(ElementNode.rep({
       object: stub,
@@ -147,6 +137,7 @@ describe("ElementNode - Node", () => {
     renderedComponent.simulate("mouseover");
 
     expect(onDOMNodeMouseOver.mock.calls.length).toEqual(1);
+    expect(onDOMNodeMouseOver.mock.calls[0][0]).toEqual(stub);
   });
 });
 
@@ -184,6 +175,14 @@ describe("ElementNode - Node without attributes", () => {
     expect(getRep(stub)).toBe(ElementNode.rep);
   });
 
+  it("renders with expected text content", () => {
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub
+    }));
+
+    expect(renderedComponent.text()).toEqual("<p>");
+  });
+
   it("renders with expected text content in tiny mode", () => {
     const renderedComponent = shallow(ElementNode.rep({
       object: stub,
@@ -207,8 +206,8 @@ describe("ElementNode - Node with many attributes", () => {
     }));
 
     expect(renderedComponent.text()).toEqual(
-      '<p id="lots-of-attributes" n="" b="" c="" d="" e="" f="" a="" h="" ' +
-      'i="" j="" k="" l="" m="" g="">'
+      '<p id="lots-of-attributes" a="" b="" c="" d="" e="" f="" g="" ' +
+      'h="" i="" j="" k="" l="" m="" n="">'
     );
   });
 
@@ -276,7 +275,7 @@ describe("ElementNode - SVG Node in XHTML", () => {
   });
 });
 
-describe("ElementNode - On inspect icon clicked", () => {
+describe("ElementNode - Disconnected node", () => {
   const stub = stubs.get("DisconnectedNode");
 
   it("renders no inspect icon when the node is not in the DOM tree", () => {
@@ -293,7 +292,7 @@ describe("ElementNode - On inspect icon clicked", () => {
 describe("ElementNode - Object Link", () => {
   const stub = stubs.get("BodyNode");
 
-  it("renders with expected text content for body node", () => {
+  it("renders with expected text content when passed an objectLink prop", () => {
     const renderedComponent = shallow(ElementNode.rep({
       object: stub,
       objectLink: (props, ...children) => React.DOM.span({
@@ -305,7 +304,7 @@ describe("ElementNode - Object Link", () => {
       .toEqual('*<body id="body-id" class="body-class">*');
   });
 
-  it("renders with expected text content for body node in tiny mode", () => {
+  it("renders expected text content when passed an objectLink prop in tiny mode", () => {
     const renderedComponent = shallow(ElementNode.rep({
       object: stub,
       mode: MODE.TINY,
