@@ -16,6 +16,8 @@ const Result = React.createClass({
     expression: PropTypes.object.isRequired,
     showResultPacket: PropTypes.func.isRequired,
     hideResultPacket: PropTypes.func.isRequired,
+    loadObjectProperties: PropTypes.func.isRequired,
+    loadedObjects: PropTypes.object.isRequired,
   },
 
   copyPacketToClipboard: function (e, packet) {

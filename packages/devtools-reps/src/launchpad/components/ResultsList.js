@@ -15,6 +15,8 @@ const ResultsList = React.createClass({
     expressions: ImPropTypes.map.isRequired,
     showResultPacket: PropTypes.func.isRequired,
     hideResultPacket: PropTypes.func.isRequired,
+    loadObjectProperties: PropTypes.func.isRequired,
+    loadedObjects: PropTypes.object.isRequired,
   },
 
   render: function () {

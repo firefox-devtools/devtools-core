@@ -29,6 +29,8 @@ const Console = React.createClass({
     hideResultPacket: PropTypes.func.isRequired,
     navigateInputHistory: PropTypes.func.isRequired,
     showResultPacket: PropTypes.func.isRequired,
+    loadObjectProperties: PropTypes.func.isRequired,
+    loadedObjects: PropTypes.object.isRequired
   },
 
   componentDidMount: function () {

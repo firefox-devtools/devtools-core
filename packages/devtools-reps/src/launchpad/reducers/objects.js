@@ -4,7 +4,7 @@ const Immutable = require("immutable");
 const initialState = Immutable.Map();
 
 function update(state = initialState, action) {
-  const { type, value, object } = action;
+  const { type, value } = action;
   switch (type) {
     case constants.LOAD_OBJECT:
       return state.set(
