@@ -25,6 +25,7 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
+    "devtools-components": "^0.0.1",
     "lodash": "^4.17.2",
     "react": "=15.3.2",
     "react-dom": "=15.3.2",

@@ -11,7 +11,7 @@ const {
   PropTypes,
 } = require("react");
 
-const Tree = createFactory(require("devtools-sham-modules").Tree);
+const Tree = createFactory(require("devtools-components").Tree);
 require("./index.css");
 
 const classnames = require("classnames");
