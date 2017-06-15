@@ -7,7 +7,7 @@ const { DOM: dom, PropTypes, createFactory } = React;
 
 const { MODE } = require("../../reps/constants");
 const ObjectInspector = createFactory(require("../../index").ObjectInspector);
-const Grip = require("../../reps/grip");
+const { Rep } = require("../../reps/rep");
 
 const Result = React.createClass({
   displayName: "Result",
