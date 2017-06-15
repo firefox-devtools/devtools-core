@@ -4,12 +4,7 @@
 
 // @flow
 
-// STUBBED CDP because of https://github.com/devtools-html/devtools-core/issues/410
-// require("chrome-remote-interface");
-const CDP = (_: any) => ({
-  close: () => {},
-  onclose: undefined
-});
+const CDP = require("chrome-remote-interface");
 const { getValue } = require("devtools-config");
 const { networkRequest } = require("devtools-utils");
 
@@ -17,7 +12,7 @@ import type { Tab } from "./types";
 
 type ChromeTab = Tab & {
   webSocketDebuggerUrl: string,
-  type: string,
+  type: string
 };
 
 let connection;
@@ -33,12 +28,12 @@ function createTabs(tabs: ChromeTab[], { type, clientType } = {}) {
         url: tab.url,
         id: tab.id,
         tab,
-        clientType,
+        clientType
       };
     });
 }
 
-window.criRequest = function (options, callback) {
+window.criRequest = function(options, callback) {
   const { host, port, path } = options;
   const url = `http://${host}:${port}${path}`;
 
@@ -55,12 +50,12 @@ async function connectClient() {
   try {
     const tabs = await CDP.List({
       port: getValue("chrome.port"),
-      host: getValue("chrome.host"),
+      host: getValue("chrome.host")
     });
 
     return createTabs(tabs, {
       clientType: "chrome",
-      type: "page",
+      type: "page"
     });
   } catch (e) {
     return [];
@@ -76,7 +71,7 @@ async function connectNodeClient() {
   try {
     tabs = await CDP.List({
       port: getValue("node.port"),
-      host: getValue("node.host"),
+      host: getValue("node.host")
     });
   } catch (e) {
     return undefined;
@@ -84,7 +79,7 @@ async function connectNodeClient() {
 
   return createTabs(tabs, {
     clientType: "node",
-    type: "node",
+    type: "node"
   });
 }
 
@@ -125,5 +120,5 @@ module.exports = {
   connectNodeClient,
   connectNode,
   connectTab,
-  initPage,
+  initPage
 };

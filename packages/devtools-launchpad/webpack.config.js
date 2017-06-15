@@ -34,8 +34,7 @@ module.exports = (webpackConfig, envConfig) => {
         // If the tool defines an additional exclude regexp for Babel.
         excluded = excluded || !!request.match(webpackConfig.babelExcludes);
       }
-
-      return excluded && !request.match(/devtools-/);
+      return excluded && !request.match(/node_modules(\/|\\)devtools-/);
     },
     loaders: [
       `babel?${defaultBabelPlugins.map(p => `plugins[]=${p}`)}&ignore=src/lib`
