@@ -109,7 +109,7 @@ function getElements(grip, mode) {
     attributeKeys.splice(attributeKeys.indexOf("id"), 1);
     attributeKeys.unshift("id");
   }
-  attributeKeys = attributeKeys.reduce((arr, name, i, keys) => {
+  const attributeElements = attributeKeys.reduce((arr, name, i, keys) => {
     let value = attributes[name];
     let attribute = span({},
       span({className: "attr-name theme-fg-color2"}, `${name}`),
@@ -124,7 +124,7 @@ function getElements(grip, mode) {
   return [
     "<",
     nodeNameElement,
-    ...attributeKeys,
+    ...attributeElements,
     ">",
   ];
 }
