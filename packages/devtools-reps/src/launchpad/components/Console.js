@@ -4,6 +4,8 @@
 
 const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
+const { KeyShortcuts } = require("devtools-modules");
+let shortcuts = new KeyShortcuts({ window });
 
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
@@ -18,25 +20,23 @@ const Console = React.createClass({
   displayName: "Console",
 
   propTypes: {
-    client: PropTypes.object.isRequired,
-    shortcuts: PropTypes.object.isRequired,
     addInput: PropTypes.func.isRequired,
     changeCurrentInput: PropTypes.func.isRequired,
     clearExpressions: PropTypes.func.isRequired,
-    currentInputValue: PropTypes.func.isRequired,
+    currentInputValue: PropTypes.string.isRequired,
     evaluateInput: PropTypes.func.isRequired,
-    expressions: PropTypes.func.isRequired,
+    expressions: PropTypes.object.isRequired,
     hideResultPacket: PropTypes.func.isRequired,
     navigateInputHistory: PropTypes.func.isRequired,
     showResultPacket: PropTypes.func.isRequired,
   },
 
   componentDidMount: function () {
-    this.props.shortcuts.on("CmdOrCtrl+Shift+L", this.props.clearExpressions);
+    shortcuts.on("CmdOrCtrl+Shift+L", this.props.clearExpressions);
   },
 
   componentWillUnmount: function () {
-    this.props.shortcuts.off("CmdOrCtrl+Shift+L");
+    shortcuts.off("CmdOrCtrl+Shift+L");
   },
 
   render: function () {

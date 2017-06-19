@@ -3,54 +3,51 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // globals window, document
-// require("./webconsole.css")
 require("../reps/reps.css");
 
 const React = require("react");
 const ReactDOM = require("react-dom");
-const { createFactory } = React;
 
-const { bootstrap, L10N } = require("devtools-launchpad");
+const { bootstrap, L10N, renderRoot } = require("devtools-launchpad");
 
-const { Provider } = require("react-redux");
-
-const RepsConsole = createFactory(require("./components/Console"));
+const RepsConsole = require("./components/Console");
 const { configureStore } = require("./store");
-const { KeyShortcuts } = require("devtools-sham-modules");
 
 require("./launchpad.css");
 L10N.setBundle(require("../strings.js"));
 window.l10n = L10N;
 
-function onConnect({ client } = {}) {
-  if (!client) {
+function onConnect(connection) {
+  if (!connection) {
     return;
   }
+
+  const client = {
+    clientCommands: {
+      evaluate: input => new Promise(resolve => {
+        connection.tabConnection.tabTarget.activeConsole.evaluateJS(
+          input,
+          result => resolve(result)
+        );
+      })
+    }
+  };
 
   let store = configureStore({
     makeThunkArgs: (args, state) => {
       return Object.assign({}, args, { client });
     }
   });
-
-  let shortcuts = new KeyShortcuts({ window });
-
-  ReactDOM.render(
-    React.createElement(
-      Provider,
-      {store},
-      RepsConsole({ client, shortcuts })
-    ),
-    root
-  );
+  renderRoot(React, ReactDOM, RepsConsole, store);
 }
 
-let root = document.createElement("div");
-root.innerText = "Waiting for connection";
+function onConnectionError(e) {
+  const h1 = document.createElement("h1");
+  h1.innerText = `An error occured during the connection: «${e.message}»`;
+  console.warn("An error occured during the connection", e);
+  renderRoot(React, ReactDOM, h1);
+}
 
-bootstrap(React, ReactDOM, root)
-  .then(
-    onConnect,
-    e => console.error("An error occured during the connection", e)
-  )
-  .catch(e => console.error("An error occured in the onConnect function", e));
+bootstrap(React, ReactDOM)
+  .then(onConnect, onConnectionError)
+  .catch(onConnectionError);

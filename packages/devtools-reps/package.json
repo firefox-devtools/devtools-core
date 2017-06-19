@@ -26,10 +26,13 @@
   },
   "dependencies": {
     "lodash": "^4.17.2",
+    "react": "=15.3.2",
+    "react-dom": "=15.3.2",
     "svg-inline-react": "^1.0.2"
   },
   "devDependencies": {
-    "devtools-launchpad": "^0.0.43",
+    "devtools-config": "^0.0.15",
+    "devtools-launchpad": "^0.0.86",
     "devtools-license-check": "^0.2.0",
     "enzyme": "^2.8.2",
     "eslint": "^3.12.0",
@@ -37,8 +40,6 @@
     "fs-extra": "^2.0.0",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
-    "react": "=15.3.2",
-    "react-dom": "=15.3.2",
     "react-addons-test-utils": "=15.3.2"
   },
   "jest": {
