@@ -167,7 +167,7 @@ describe("Error - Internal error", () => {
   // Test object = `new InternalError("InternalError message")`
   const stub = stubs.get("InternalError");
 
-  it("correctly selects the Error Rep for EvalError object", () => {
+  it("correctly selects the Error Rep for InternalError object", () => {
     expect(getRep(stub)).toBe(ErrorRep.rep);
   });
 
