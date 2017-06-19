@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "devtools-config": "^0.0.15",
-    "devtools-launchpad": "^0.0.86",
+    "devtools-launchpad": "^0.0.87",
     "devtools-license-check": "^0.2.0",
     "enzyme": "^2.8.2",
     "eslint": "^3.12.0",
