@@ -3,7 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 function forEachLine(codeMirror, iter) {
-  codeMirror.doc.iter(0, codeMirror.lineCount(), iter);
+  codeMirror.operation(() => {
+    codeMirror.doc.iter(0, codeMirror.lineCount(), iter);
+  });
 }
 
 function removeLineClass(codeMirror, line, className) {
@@ -24,6 +26,17 @@ function getCursorLine(codeMirror) {
   return codeMirror.getCursor().line;
 }
 
+function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
+  const lineOffset = 1;
+  const { left, top } = tokenEl.getBoundingClientRect();
+  const { line, ch } = codeMirror.coordsChar({ left, top });
+
+  return {
+    line: line + lineOffset,
+    column: ch
+  };
+}
+
 /**
  * Forces the breakpoint gutter to be the same size as the line
  * numbers gutter. Editor CSS will absolutely position the gutter
@@ -42,5 +55,6 @@ module.exports = {
   clearLineClass,
   getTextForLine,
   getCursorLine,
+  getTokenLocation,
   resizeBreakpointGutter
 };
