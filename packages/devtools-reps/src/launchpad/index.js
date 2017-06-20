@@ -30,13 +30,22 @@ function onConnect(connection) {
           result => resolve(result)
         );
       })
+    },
+    getProperties: async function (grip) {
+      const objClient = connection.tabConnection.threadClient.pauseGrip(grip);
+
+      const resp = await objClient.getPrototypeAndProperties();
+      const { ownProperties, safeGetterValues } = resp;
+      for (const name in safeGetterValues) {
+        const { enumerable, writable, getterValue } = safeGetterValues[name];
+        ownProperties[name] = { enumerable, writable, value: getterValue };
+      }
+      return resp;
     }
   };
 
   let store = configureStore({
-    makeThunkArgs: (args, state) => {
-      return Object.assign({}, args, { client: client.clientCommands });
-    }
+    makeThunkArgs: (args, state) => Object.assign({}, args, { client })
   });
   renderRoot(React, ReactDOM, RepsConsole, store);
 }
