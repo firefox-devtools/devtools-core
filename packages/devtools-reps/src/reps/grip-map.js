@@ -45,8 +45,7 @@ function GripMap(props) {
     );
   }
 
-  let propsArray = safeEntriesIterator(props, object,
-    (props.mode === MODE.LONG) ? 10 : 3);
+  let propsArray = safeEntriesIterator(props, object, maxLengthMap.get(mode));
 
   return (
     span({className: "objectBox objectBox-object"},
@@ -200,8 +199,13 @@ function supportsObject(grip, type) {
   return (grip.preview && grip.preview.kind == "MapLike");
 }
 
+const maxLengthMap = new Map();
+maxLengthMap.set(MODE.SHORT, 3);
+maxLengthMap.set(MODE.LONG, 10);
+
 // Exports from this module
 module.exports = {
   rep: wrapRender(GripMap),
   supportsObject,
+  maxLengthMap,
 };
