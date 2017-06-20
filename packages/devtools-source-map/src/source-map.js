@@ -21,6 +21,7 @@ const {
   isOriginalId,
   getContentType,
 } = require("./util");
+const { WasmRemap } = require("./wasm-source-map");
 
 import type { Location, Source } from "debugger-html";
 
@@ -89,7 +90,11 @@ async function _resolveAndFetch(generatedSource: Source) : SourceMapConsumer {
   );
 
   // Create the source map and fix it up.
-  const map = new SourceMapConsumer(fetched.content);
+  let map = new SourceMapConsumer(fetched.content);
+  if (generatedSource.isWasm) {
+    map = new WasmRemap(map);
+  }
+
   _setSourceMapRoot(map, sourceMapURL, generatedSource);
   return map;
 }
