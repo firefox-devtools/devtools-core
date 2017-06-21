@@ -75,6 +75,7 @@ declare module "debugger-html" {
     id: SourceId,
     url?: string,
     sourceMapURL?: string,
+    isWasm: boolean,
   };
 
   /**

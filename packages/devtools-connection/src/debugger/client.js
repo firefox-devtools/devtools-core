@@ -2327,6 +2327,37 @@ ThreadClient.prototype = {
   },
 
   /**
+   * Get or create an ArrayBuffer client, checking the grip client cache if it
+   * already exists.
+   *
+   * @param aGrip Object
+   *        The ArrayBuffer grip returned by the protocol.
+   * @param aGripCacheName String
+   *        The property name of the grip client cache to check for existing
+   *        clients in.
+   */
+  _arrayBuffer: function (aGrip, aGripCacheName) {
+    if (aGrip.actor in this[aGripCacheName]) {
+      return this[aGripCacheName][aGrip.actor];
+    }
+
+    let client = new ArrayBufferClient(this.client, aGrip);
+    this[aGripCacheName][aGrip.actor] = client;
+    return client;
+  },
+
+  /**
+   * Return an instance of ArrayBufferClient for the given ArrayBuffer grip that
+   * is scoped to the thread lifetime.
+   *
+   * @param aGrip Object
+   *        The ArrayBuffer grip returned by the protocol.
+   */
+  threadArrayBuffer: function (aGrip) {
+    return this._arrayBuffer(aGrip, "_threadGrips");
+  },
+
+  /**
    * Clear and invalidate all the grip clients from the given cache.
    *
    * @param aGripCacheName
@@ -2931,6 +2962,47 @@ PropertyIteratorClient.prototype = {
 };
 
 /**
+ * A ArrayBufferClient provides a way to access ArrayBuffer from the
+ * debugger server.
+ *
+ * @param aClient DebuggerClient
+ *        The debugger client parent.
+ * @param aGrip Object
+ *        A pause-lifetime ArrayBuffer grip returned by the protocol.
+ */
+function ArrayBufferClient(aClient, aGrip) {
+  this._grip = aGrip;
+  this._client = aClient;
+  this.request = this._client.request;
+}
+exports.ArrayBufferClient = ArrayBufferClient;
+
+ArrayBufferClient.prototype = {
+  get actor() {
+    return this._grip.actor;
+  },
+  get length() {
+    return this._grip.length;
+  },
+  get _transport() {
+    return this._client._transport;
+  },
+
+  valid: true,
+
+  slice: DebuggerClient.requester(
+    {
+      type: "slice",
+      start: args(0),
+      count: args(1),
+    },
+    {
+      telemetry: "SLICE",
+    },
+  ),
+};
+
+/**
  * A LongStringClient provides a way to access "very long" strings from the
  * debugger server.
  *
@@ -3148,6 +3220,29 @@ SourceClient.prototype = {
     }
 
     let { contentType, source } = aResponse;
+
+    if (source.type === 'arrayBuffer') {
+      let arrayBuffer = this._activeThread.threadArrayBuffer(source);
+      return arrayBuffer.slice(0, arrayBuffer.length).then(function (resp) {
+        if (resp.error) {
+          aCallback(resp);
+          return resp;
+        }
+        // Keeping str as a string, ArrayBuffer/Uint8Array will not survive
+        // immutable operations.
+        const str = atob(resp.encoded);
+        let newResponse = {
+          source: {
+            "binary": str,
+            toString: "[wasm]",
+          },
+          contentType: contentType,
+        };
+        aCallback(newResponse);
+        return newResponse;
+      });
+    }
+
     let longString = this._activeThread.threadLongString(source);
     return longString.substring(0, longString.length).then(function(aResponse) {
       if (aResponse.error) {
