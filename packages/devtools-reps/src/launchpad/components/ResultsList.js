@@ -15,6 +15,8 @@ const ResultsList = React.createClass({
     expressions: ImPropTypes.map.isRequired,
     showResultPacket: PropTypes.func.isRequired,
     hideResultPacket: PropTypes.func.isRequired,
+    loadObjectProperties: PropTypes.func.isRequired,
+    loadedObjects: PropTypes.object.isRequired,
   },
 
   render: function () {
@@ -22,6 +24,8 @@ const ResultsList = React.createClass({
       expressions,
       showResultPacket,
       hideResultPacket,
+      loadObjectProperties,
+      loadedObjects,
     } = this.props;
 
     return dom.div({ className: "expressions" },
@@ -29,13 +33,15 @@ const ResultsList = React.createClass({
         .entrySeq()
         .toJS()
         .map(([ key, expression ]) =>
-          Result({
-            key,
-            expression: expression.toJS(),
-            showResultPacket: () => showResultPacket(key),
-            hideResultPacket: () => hideResultPacket(key),
-          })
-         )
+        Result({
+          key,
+          expression: expression.toJS(),
+          loadedObjects,
+          showResultPacket: () => showResultPacket(key),
+          hideResultPacket: () => hideResultPacket(key),
+          loadObjectProperties,
+        })
+      )
     );
   }
 });

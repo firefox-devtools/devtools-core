@@ -4,6 +4,8 @@
 
 const { MODE } = require("./reps/constants");
 const { REPS, getRep } = require("./reps/rep");
+const ObjectInspector = require("./object-inspector/");
+
 const {
   parseURLEncodedText,
   parseURLParams,
@@ -19,4 +21,5 @@ module.exports = {
   parseURLEncodedText,
   parseURLParams,
   getGripPreviewItems,
+  ObjectInspector,
 };

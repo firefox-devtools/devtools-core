@@ -13,7 +13,7 @@ const {
 } = require("./rep-utils");
 const { MODE } = require("./constants");
 const nodeConstants = require("../shared/dom-node-constants");
-const Svg = require("./images/Svg");
+const Svg = require("../shared/images/Svg");
 
 // Shortcuts
 const { span } = React.DOM;

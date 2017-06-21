@@ -6,8 +6,8 @@ const React = require("react");
 const { DOM: dom, PropTypes, createFactory } = React;
 
 const { MODE } = require("../../reps/constants");
-const Rep = createFactory(require("../../reps/rep").Rep);
-const Grip = require("../../reps/grip");
+const ObjectInspector = createFactory(require("../../index").ObjectInspector);
+const { Rep } = require("../../reps/rep");
 
 const Result = React.createClass({
   displayName: "Result",
@@ -16,6 +16,8 @@ const Result = React.createClass({
     expression: PropTypes.object.isRequired,
     showResultPacket: PropTypes.func.isRequired,
     hideResultPacket: PropTypes.func.isRequired,
+    loadObjectProperties: PropTypes.func.isRequired,
+    loadedObjects: PropTypes.object.isRequired,
   },
 
   copyPacketToClipboard: function (e, packet) {
@@ -45,15 +47,28 @@ const Result = React.createClass({
   },
 
   renderRep: function ({ object, modeKey }) {
+    const {
+      loadObjectProperties,
+      loadedObjects,
+    } = this.props;
+
+    const path = object.actor;
+
     return dom.div(
       {
-        className: `rep-element ${modeKey}`,
-        key: JSON.stringify(object) + modeKey,
-        "data-mode": modeKey,
+        className: `rep-element`,
+        key: `${path}${modeKey.toString()}`,
+        "data-mode": modeKey
       },
-      Rep({
-        object,
-        defaultRep: Grip,
+      ObjectInspector({
+        roots: [{
+          path,
+          contents: {
+            value: object
+          }
+        }],
+        getObjectProperties: actor => loadedObjects.get(actor),
+        loadObjectProperties,
         mode: MODE[modeKey],
         onInspectIconClick: nodeFront => console.log("inspectIcon click", nodeFront),
       })
@@ -77,8 +92,8 @@ const Result = React.createClass({
         }, "Copy as JSON")
       ),
       showPacket &&
-        dom.div({className: "packet-rep"}, Rep({object: packet}))
-      );
+      dom.div({className: "packet-rep"}, Rep({object: packet}))
+    );
   },
 
   render: function () {

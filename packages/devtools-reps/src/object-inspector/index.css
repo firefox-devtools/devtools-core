@@ -1,0 +1,55 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.tree {
+  white-space: nowrap;
+  overflow: auto;
+  min-width: 100%;
+}
+
+.tree.noselect {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.tree button {
+  display: block;
+}
+
+.tree .node {
+  padding: 0 0.25em;
+  position: relative;
+  cursor: pointer;
+}
+
+.tree .node.focused {
+  color: white;
+  background-color: var(--theme-selection-background);
+}
+
+.arrow svg {
+  --width: 10px;
+  fill: var(--theme-splitter-color);
+  /*margin-top: 3px;*/
+  transition: transform 0.125s ease;
+  width: var(--width);
+  /*margin-top: calc((16px - var(--width) / 2));*/
+}
+
+html:not([dir="rtl"]) .arrow svg {
+  margin-right: 5px;
+  transform: rotate(-90deg);
+}
+
+html[dir="rtl"] .arrow svg {
+  margin-left: 5px;
+  transform: rotate(90deg);
+}
+
+.arrow.expanded.expanded svg {
+  transform: rotate(0deg);
+}

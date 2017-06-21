@@ -14,7 +14,12 @@ function getCurrentInputValue(state) {
   return getInputState(state).get("currentValue");
 }
 
+function getLoadedObjects(state) {
+  return state.objects;
+}
+
 module.exports = {
   getCurrentInputValue,
   getExpressions,
+  getLoadedObjects,
 };

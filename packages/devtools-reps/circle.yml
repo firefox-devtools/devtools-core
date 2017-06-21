@@ -18,7 +18,7 @@ checkout:
 test:
   override:
     - ./bin/run-mochitests-docker
-    - echo "yo yo yo yo!"
+    - jest
   post:
     - npm run lint-js
     - npm run license-check

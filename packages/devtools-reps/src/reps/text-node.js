@@ -13,7 +13,7 @@ const {
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
-const Svg = require("./images/Svg");
+const Svg = require("../shared/images/Svg");
 
 // Shortcuts
 const DOM = React.DOM;
