@@ -35,7 +35,7 @@ GripRep.propTypes = {
 
 function GripRep(props) {
   let {
-    mode,
+    mode = MODE.SHORT,
     object,
   } = props;
 
@@ -47,7 +47,7 @@ function GripRep(props) {
     );
   }
 
-  let propsArray = safePropIterator(props, object, (mode === MODE.LONG) ? 10 : 3);
+  let propsArray = safePropIterator(props, object, maxLengthMap.get(mode));
 
   return (
     span({className: "objectBox objectBox-object"},
@@ -69,7 +69,7 @@ function getTitle(props, object) {
 }
 
 function safePropIterator(props, object, max) {
-  max = (typeof max === "undefined") ? 3 : max;
+  max = (typeof max === "undefined") ? maxLengthMap.get(MODE.SHORT) : max;
   try {
     return propIterator(props, object, max);
   } catch (err) {
@@ -249,10 +249,15 @@ function supportsObject(object, type) {
   return (object.preview && object.preview.ownProperties);
 }
 
+const maxLengthMap = new Map();
+maxLengthMap.set(MODE.SHORT, 3);
+maxLengthMap.set(MODE.LONG, 10);
+
 // Grip is used in propIterator and has to be defined here.
 let Grip = {
   rep: wrapRender(GripRep),
   supportsObject,
+  maxLengthMap,
 };
 
 // Exports from this module
