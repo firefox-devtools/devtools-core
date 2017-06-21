@@ -1,0 +1,302 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/* global jest */
+const React = require("react");
+const { shallow } = require("enzyme");
+const {
+  getRep,
+} = require("../rep");
+const GripMap = require("../grip-map");
+const { MODE } = require("../constants");
+const stubs = require("../stubs/grip-map");
+const {
+  getSelectableInInspectorGrips
+} = require("./test-helpers");
+const {maxLengthMap} = GripMap;
+
+function shallowRenderRep(object, props = {}) {
+  return shallow(GripMap.rep(Object.assign({
+    object,
+  }, props)));
+}
+
+describe("GripMap - empty map", () => {
+  const object = stubs.get("testEmptyMap");
+
+  it("correctly selects GripMap Rep", () => {
+    expect(getRep(object)).toBe(GripMap.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "Map {  }";
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+  });
+});
+
+describe("GripMap - Symbol-keyed Map", () => {
+  // Test object:
+  // `new Map([[Symbol("a"), "value-a"], [Symbol("b"), "value-b"]])`
+  const object = stubs.get("testSymbolKeyedMap");
+
+  it("correctly selects GripMap Rep", () => {
+    expect(getRep(object)).toBe(GripMap.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = `Map { Symbol(a): "value-a", Symbol(b): "value-b" }`;
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+  });
+});
+
+describe("GripMap - WeakMap", () => {
+  // Test object: `new WeakMap([[{a: "key-a"}, "value-a"]])`
+  const object = stubs.get("testWeakMap");
+
+  it("correctly selects GripMap Rep", () => {
+    expect(getRep(object)).toBe(GripMap.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = `WeakMap { Object: "value-a" }`;
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("WeakMap");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+    expect(renderRep({
+      mode: MODE.LONG,
+      title: "CustomTitle"
+    }).text()).toBe(`CustomTitle { Object: "value-a" }`);
+  });
+});
+
+describe("GripMap - max entries", () => {
+  // Test object:
+  // `new Map([["key-a","value-a"], ["key-b","value-b"], ["key-c","value-c"]])`
+  const object = stubs.get("testMaxEntries");
+
+  it("correctly selects GripMap Rep", () => {
+    expect(getRep(object)).toBe(GripMap.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput =
+      `Map { "key-a": "value-a", "key-b": "value-b", "key-c": "value-c" }`;
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+  });
+});
+
+describe("GripMap - more than max entries", () => {
+  // Test object = `new Map(
+  //   [["key-0", "value-0"], ["key-1", "value-1"]], …, ["key-100", "value-100"]]}`
+  const object = stubs.get("testMoreThanMaxEntries");
+
+  it("correctly selects GripMap Rep", () => {
+    expect(getRep(object)).toBe(GripMap.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput =
+      `Map { "key-0": "value-0", "key-1": "value-1", "key-2": "value-2", more… }`;
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+
+    let longString = Array.from({length: maxLengthMap.get(MODE.LONG)})
+      .map((_, i) => `"key-${i}": "value-${i}"`);
+    expect(renderRep({ mode: MODE.LONG }).text())
+      .toBe(`Map { ${longString.join(", ")}, more… }`);
+  });
+});
+
+describe("GripMap - uninteresting entries", () => {
+  // Test object:
+  // `new Map([["key-a",null], ["key-b",undefined], ["key-c","value-c"], ["key-d",4]])`
+  const object = stubs.get("testUninterestingEntries");
+
+  it("correctly selects GripMap Rep", () => {
+    expect(getRep(object)).toBe(GripMap.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput =
+      `Map { "key-a": null, "key-c": "value-c", "key-d": 4, more… }`;
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+
+    const longOutput =
+      `Map { "key-a": null, "key-b": undefined, "key-c": "value-c", "key-d": 4 }`;
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
+  });
+
+  it("renders as expected when passed an objectLink props", () => {
+    const renderRep = (props) => shallowRenderRep(object, Object.assign({
+      objectLink: (_, ...children) => React.DOM.span({}, "<", ...children, ">"),
+    }, props));
+    const defaultOutput =
+      `<Map>< { >"key-a": null, "key-c": "value-c", "key-d": 4, <more…>< }>`;
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("<Map>");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    const longOutput =
+      `<Map>< { >"key-a": null, "key-b": undefined, "key-c": "value-c", "key-d": 4< }>`;
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
+  });
+});
+
+describe("GripMap - Node-keyed entries", () => {
+  const object = stubs.get("testNodeKeyedMap");
+  const renderRep = (props) => shallowRenderRep(object, props);
+  const grips = getSelectableInInspectorGrips(object);
+
+  it("correctly selects GripMap Rep", () => {
+    expect(getRep(object)).toBe(GripMap.rep);
+  });
+
+  it("has the expected number of grips", () => {
+    expect(grips.length).toBe(3);
+  });
+
+  it("calls the expected function on mouseover", () => {
+    const onDOMNodeMouseOver = jest.fn();
+    const wrapper = renderRep({ onDOMNodeMouseOver });
+    const node = wrapper.find(".objectBox-node");
+
+    node.at(0).simulate("mouseover");
+    node.at(1).simulate("mouseover");
+    node.at(2).simulate("mouseover");
+
+    expect(onDOMNodeMouseOver.mock.calls.length).toBe(3);
+    expect(onDOMNodeMouseOver.mock.calls[0][0]).toBe(grips[0]);
+    expect(onDOMNodeMouseOver.mock.calls[1][0]).toBe(grips[1]);
+    expect(onDOMNodeMouseOver.mock.calls[2][0]).toBe(grips[2]);
+  });
+
+  it("calls the expected function on mouseout", () => {
+    const onDOMNodeMouseOut = jest.fn();
+    const wrapper = renderRep({ onDOMNodeMouseOut });
+    const node = wrapper.find(".objectBox-node");
+
+    node.at(0).simulate("mouseout");
+    node.at(1).simulate("mouseout");
+    node.at(2).simulate("mouseout");
+
+    expect(onDOMNodeMouseOut.mock.calls.length).toBe(3);
+  });
+
+  it("calls the expected function on click", () => {
+    const onInspectIconClick = jest.fn();
+    const wrapper = renderRep({ onInspectIconClick });
+    const node = wrapper.find(".open-inspector");
+
+    node.at(0).simulate("click");
+    node.at(1).simulate("click");
+    node.at(2).simulate("click");
+
+    expect(onInspectIconClick.mock.calls.length).toBe(3);
+    expect(onInspectIconClick.mock.calls[0][0]).toBe(grips[0]);
+    expect(onInspectIconClick.mock.calls[1][0]).toBe(grips[1]);
+    expect(onInspectIconClick.mock.calls[2][0]).toBe(grips[2]);
+  });
+});
+
+describe("GripMap - Node-valued entries", () => {
+  const object = stubs.get("testNodeValuedMap");
+  const renderRep = (props) => shallowRenderRep(object, props);
+  const grips = getSelectableInInspectorGrips(object);
+
+  it("correctly selects GripMap Rep", () => {
+    expect(getRep(object)).toBe(GripMap.rep);
+  });
+
+  it("has the expected number of grips", () => {
+    expect(grips.length).toBe(3);
+  });
+
+  it("calls the expected function on mouseover", () => {
+    const onDOMNodeMouseOver = jest.fn();
+    const wrapper = renderRep({ onDOMNodeMouseOver });
+    const node = wrapper.find(".objectBox-node");
+
+    node.at(0).simulate("mouseover");
+    node.at(1).simulate("mouseover");
+    node.at(2).simulate("mouseover");
+
+    expect(onDOMNodeMouseOver.mock.calls.length).toBe(3);
+    expect(onDOMNodeMouseOver.mock.calls[0][0]).toBe(grips[0]);
+    expect(onDOMNodeMouseOver.mock.calls[1][0]).toBe(grips[1]);
+    expect(onDOMNodeMouseOver.mock.calls[2][0]).toBe(grips[2]);
+  });
+
+  it("calls the expected function on mouseout", () => {
+    const onDOMNodeMouseOut = jest.fn();
+    const wrapper = renderRep({ onDOMNodeMouseOut });
+    const node = wrapper.find(".objectBox-node");
+
+    node.at(0).simulate("mouseout");
+    node.at(1).simulate("mouseout");
+    node.at(2).simulate("mouseout");
+
+    expect(onDOMNodeMouseOut.mock.calls.length).toBe(3);
+  });
+
+  it("calls the expected function on click", () => {
+    const onInspectIconClick = jest.fn();
+    const wrapper = renderRep({ onInspectIconClick });
+    const node = wrapper.find(".open-inspector");
+
+    node.at(0).simulate("click");
+    node.at(1).simulate("click");
+    node.at(2).simulate("click");
+
+    expect(onInspectIconClick.mock.calls.length).toBe(3);
+    expect(onInspectIconClick.mock.calls[0][0]).toBe(grips[0]);
+    expect(onInspectIconClick.mock.calls[1][0]).toBe(grips[1]);
+    expect(onInspectIconClick.mock.calls[2][0]).toBe(grips[2]);
+  });
+});
+
+describe("GripMap - Disconnected node-valued entries", () => {
+  const object = stubs.get("testDisconnectedNodeValuedMap");
+  const renderRep = (props) => shallowRenderRep(object, props);
+  const grips = getSelectableInInspectorGrips(object);
+
+  it("correctly selects GripMap Rep", () => {
+    expect(getRep(object)).toBe(GripMap.rep);
+  });
+
+  it("has the expected number of grips", () => {
+    expect(grips.length).toBe(3);
+  });
+
+  it("renders no inspect icon when nodes are not connected to the DOM tree", () => {
+    const onInspectIconClick = jest.fn();
+    const wrapper = renderRep({ onInspectIconClick });
+
+    const node = wrapper.find(".open-inspector");
+    expect(node.exists()).toBe(false);
+  });
+});
