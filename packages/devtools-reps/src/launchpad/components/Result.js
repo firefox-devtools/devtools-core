@@ -60,7 +60,7 @@ const Result = React.createClass({
         key: `${path}${modeKey.toString()}`,
         "data-mode": modeKey
       },
-      new ObjectInspector({
+      ObjectInspector({
         roots: [{
           path,
           contents: {

@@ -12,7 +12,7 @@ function loadObjectProperties(object) {
     // client.getProperties will return undefined.
     // Here we can have this kind of issue because we autoExpand the ObjectInspector,
     // and we have 3 times the same object represented (for all modes).
-    // So all of the 3 ObjectInspector try to load the object propery at the same time.
+    // So all of the 3 ObjectInspector try to load the object properties at the same time.
     if (!properties) {
       return;
     }
