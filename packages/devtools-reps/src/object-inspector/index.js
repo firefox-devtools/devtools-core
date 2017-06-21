@@ -5,7 +5,6 @@
 // @flow
 const {
   Component,
-  createClass,
   createFactory,
   DOM: dom,
   PropTypes,
@@ -17,19 +16,17 @@ require("./index.css");
 const classnames = require("classnames");
 const Svg = require("../shared/images/Svg");
 const {
-  REPS: { Rep, Grip },
+  REPS: { Rep },
 } = require("../reps/rep");
 const {
   MODE,
 } = require("../reps/constants");
 
 const {
-  createNode,
   getChildren,
   getValue,
   isDefault,
   nodeHasProperties,
-  nodeIsFunction,
   nodeIsMissingArguments,
   nodeIsOptimizedOut,
   nodeIsPrimitive,
@@ -46,14 +43,16 @@ type Props = {
   loadObjectProperties: () => any,
   onFocus: ?(ObjectInspectorItem) => any,
   onDoubleClick: ?(
-    ObjectInspectorItem, {
+    item: ObjectInspectorItem,
+    options: {
       depth: number,
       focused: boolean,
       expanded: boolean
     }
   ) => any,
   onLabelClick: ?(
-    ObjectInspectorItem, {
+    item: ObjectInspectorItem,
+    options: {
       depth: number,
       focused: boolean,
       expanded: boolean,
@@ -123,10 +122,6 @@ type DefaultProps = {
 
 class ObjectInspector extends Component {
   static defaultProps: DefaultProps;
-  actors: any;
-  props: Props;
-  state: State;
-
   constructor() {
     super();
 
@@ -145,16 +140,21 @@ class ObjectInspector extends Component {
     self.getRoots = this.getRoots.bind(this);
   }
 
+  state: State;
+  props: Props;
+  actors: any;
+
   isDefaultProperty(item: ObjectInspectorItem) {
     const roots = this.props.roots;
     return isDefault(item, roots);
   }
 
-  getParent(item: ObjectInspectorItem): ObjectInspectorItem | null {
+  getParent(item: ObjectInspectorItem) : ObjectInspectorItem | null {
     return null;
   }
 
-  getChildren(item: ObjectInspectorItem): Array<ObjectInspectorItem> | ObjectInspectorItemContents | null {
+  getChildren(item: ObjectInspectorItem)
+    : Array<ObjectInspectorItem> | ObjectInspectorItemContents | null {
     const { getObjectProperties } = this.props;
     const { actors } = this;
 
@@ -317,7 +317,6 @@ class ObjectInspector extends Component {
       autoExpandAll = true,
       disabledFocus,
       itemHeight = 20,
-      mode,
     } = this.props;
 
     const {

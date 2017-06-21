@@ -249,7 +249,7 @@ function getChildren({ getObjectProperties, actors, item }) {
   const actor = obj.value.actor;
 
   // Because we are dynamically creating the tree as the user
-  // expands it (not precalcuated tree structure), we cache child
+  // expands it (not precalculated tree structure), we cache child
   // arrays. This not only helps performance, but is necessary
   // because the expanded state depends on instances of nodes
   // being the same across renders. If we didn't do this, each
