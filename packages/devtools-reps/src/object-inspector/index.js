@@ -32,6 +32,10 @@ const {
   nodeIsPrimitive,
 } = require("./utils");
 
+type Grip = {
+  actor: string
+};
+
 type Props = {
   autoExpandAll: boolean,
   autoExpandDepth: number,
@@ -39,8 +43,8 @@ type Props = {
   itemHeight: number,
   mode: Object,
   roots: Array<ObjectInspectorItem>,
-  getObjectProperties: () => any,
-  loadObjectProperties: () => any,
+  getObjectProperties: (actor:string) => any,
+  loadObjectProperties: (value:Grip) => any,
   onFocus: ?(ObjectInspectorItem) => any,
   onDoubleClick: ?(
     item: ObjectInspectorItem,
