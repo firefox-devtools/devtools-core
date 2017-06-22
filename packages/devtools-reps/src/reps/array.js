@@ -46,8 +46,7 @@ function ArrayRep(props) {
     items = [DOM.span({className: "length"}, isEmpty ? "" : object.length)];
     brackets = needSpace(false);
   } else {
-    let max = (mode === MODE.SHORT) ? 3 : 10;
-    items = arrayIterator(props, object, max);
+    items = arrayIterator(props, object, maxLengthMap.get(mode));
     brackets = needSpace(items.length > 0);
   }
 
@@ -137,8 +136,13 @@ function supportsObject(object, type) {
     Object.prototype.toString.call(object) === "[object Arguments]";
 }
 
+const maxLengthMap = new Map();
+maxLengthMap.set(MODE.SHORT, 3);
+maxLengthMap.set(MODE.LONG, 10);
+
 // Exports from this module
 module.exports = {
   rep: wrapRender(ArrayRep),
   supportsObject,
+  maxLengthMap,
 };
