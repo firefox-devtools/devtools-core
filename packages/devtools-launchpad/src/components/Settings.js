@@ -4,7 +4,7 @@
 
 const React = require("react");
 const { DOM: dom } = React;
-const { showMenu, buildMenu } = require("./shared/menu");
+const { showMenu, buildMenu } = require("devtools-contextmenu");
 
 const Settings = React.createClass({
   displayName: "Settings",

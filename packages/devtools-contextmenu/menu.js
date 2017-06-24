@@ -3,9 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const { Menu, MenuItem } = require("devtools-modules");
-const { isFirefoxPanel } = require("devtools-config");
 
-if (!isFirefoxPanel()) {
+function inToolbox() {
+  return window.parent.document.documentURI == "about:devtools-toolbox";
+}
+
+if (!inToolbox()) {
   require("./menu.css");
 }
 
@@ -50,7 +53,7 @@ function createPopup(doc) {
   return popup;
 }
 
-if (!isFirefoxPanel()) {
+if (!inToolbox()) {
   Menu.prototype.createPopup = createPopup;
 }
 
@@ -83,7 +86,7 @@ function showMenu(evt, items) {
       menu.append(menuItem);
     });
 
-  if (isFirefoxPanel()) {
+  if (inToolbox()) {
     menu.popup(evt.screenX, evt.screenY, { doc: window.parent.document });
     return;
   }
