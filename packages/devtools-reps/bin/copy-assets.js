@@ -32,18 +32,6 @@ function start() {
 
   console.log("  output path is:", mcPath);
 
-  if (shouldSymlink) {
-    console.log("  copying tests...");
-    symlinkTests({ projectPath, mcModulePath });
-  } else {
-    console.log("  copying tests...");
-    copyFile(
-      path.resolve(projectPath, "src/test/mochitest/"),
-      path.join(mcPath, mcModulePath, "test/mochitest/"),
-      {cwd: projectPath}
-    );
-  }
-
   console.log("  copying reps.css...");
   copyFile(
     path.resolve(projectPath, "src/reps/reps.css"),
