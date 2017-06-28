@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   REPS,
@@ -45,31 +44,6 @@ describe("Error - Simple error", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("Error");
-  });
-
-  it("renders with expected text when an objectLink is passed as a prop", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      objectLink: (props, ...children) => React.DOM.span({},
-        "*", ...children, "*")
-    }));
-
-    expect(renderedComponent.text()).toEqual(
-      "*Error: Error message\n" +
-      "Stack trace:\n" +
-      "@debugger eval code:1:13\n*"
-    );
-  });
-
-  it("renders expected text when an objectLink is passed as a prop in tiny mode", () => {
-    const renderedComponent = shallow(ErrorRep.rep({
-      object: stub,
-      mode: MODE.TINY,
-      objectLink: (props, ...children) => React.DOM.span({},
-        "*", ...children, "*")
-    }));
-
-    expect(renderedComponent.text()).toEqual("*Error*");
   });
 });
 

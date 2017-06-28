@@ -6,7 +6,6 @@
 const React = require("react");
 const {
   isGrip,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 const Caption = require("./caption");
@@ -23,7 +22,6 @@ GripMap.propTypes = {
   object: React.PropTypes.object,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  objectLink: React.PropTypes.func,
   isInterestingEntry: React.PropTypes.func,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
@@ -53,11 +51,11 @@ function GripMap(props) {
   return (
     span(config,
       getTitle(props, object),
-      safeObjectLink(props, {
+      span({
         className: "objectLeftBrace",
       }, " { "),
       ...propsArray,
-      safeObjectLink(props, {
+      span({
         className: "objectRightBrace",
       }, " }")
     )
@@ -66,7 +64,7 @@ function GripMap(props) {
 
 function getTitle(props, object) {
   let title = props.title || (object && object.class ? object.class : "Map");
-  return safeObjectLink(props, {}, title);
+  return span({}, title);
 }
 
 function safeEntriesIterator(props, object, max) {
@@ -107,7 +105,7 @@ function entriesIterator(props, object, max) {
     // There are some undisplayed entries. Then display "more…".
     entries.push(Caption({
       key: "more",
-      object: safeObjectLink(props, {}, "more…")
+      object: span({}, "more…")
     }));
   }
 
@@ -140,7 +138,6 @@ function unfoldEntries(items) {
  */
 function getEntries(props, entries, indexes) {
   let {
-    objectLink,
     onDOMNodeMouseOver,
     onDOMNodeMouseOut,
     onInspectIconClick,
@@ -156,12 +153,10 @@ function getEntries(props, entries, indexes) {
     let value = entryValue.value !== undefined ? entryValue.value : entryValue;
 
     return PropRep({
-      // key,
       name: key,
       equal: ": ",
       object: value,
       mode: MODE.TINY,
-      objectLink,
       onDOMNodeMouseOver,
       onDOMNodeMouseOut,
       onInspectIconClick,

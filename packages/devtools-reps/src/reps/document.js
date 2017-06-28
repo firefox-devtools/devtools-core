@@ -9,7 +9,6 @@ const React = require("react");
 const {
   isGrip,
   getURLDisplayString,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -21,7 +20,6 @@ const { span } = React.DOM;
  */
 Document.propTypes = {
   object: React.PropTypes.object.isRequired,
-  objectLink: React.PropTypes.func,
 };
 
 function Document(props) {
@@ -32,7 +30,7 @@ function Document(props) {
       "data-link-actor-id": grip.actor,
       className: "objectBox objectBox-object"
     },
-      getTitle(props, grip),
+      getTitle(grip),
       span({className: "objectPropValue"},
         getLocation(grip)
       )
@@ -45,8 +43,8 @@ function getLocation(grip) {
   return location ? getURLDisplayString(location) : "";
 }
 
-function getTitle(props, grip) {
-  return safeObjectLink(props, {}, grip.class + " ");
+function getTitle(grip) {
+  return span({}, grip.class + " ");
 }
 
 // Registration

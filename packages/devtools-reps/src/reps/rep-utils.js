@@ -333,36 +333,6 @@ function getGripPreviewItems(grip) {
   return [];
 }
 
-/**
- * Returns a new element wrapped with a component, props.objectLink if it exists,
- * or a span if there are multiple children, or directly the child if only one is passed.
- *
- * @param {Object} props A Rep "props" object that may contain `objectLink`
- *                 and `object` properties.
- * @param {Object} config Object to pass as props to the `objectLink` component.
- * @param {...Element} children Elements to be wrapped with the `objectLink` component.
- * @return {Element} Element, wrapped or not, depending if `objectLink`
- *                   was supplied in props.
- */
-function safeObjectLink(props, config, ...children) {
-  const {
-    objectLink,
-    object,
-  } = props;
-
-  if (objectLink) {
-    return objectLink(Object.assign({
-      object
-    }, config), ...children);
-  }
-
-  if ((!config || Object.keys(config).length === 0) && children.length === 1) {
-    return children[0];
-  }
-
-  return React.DOM.span(config, ...children);
-}
-
 module.exports = {
   isGrip,
   cropString,
@@ -376,6 +346,5 @@ module.exports = {
   getFileName,
   getURLDisplayString,
   maybeEscapePropertyName,
-  safeObjectLink,
   getGripPreviewItems,
 };

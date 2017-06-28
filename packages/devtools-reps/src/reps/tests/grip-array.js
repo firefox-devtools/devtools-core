@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   getRep,
@@ -88,23 +87,6 @@ describe("GripArray - more than short mode max props", () => {
     expect(renderRep({ mode: MODE.TINY }).text()).toBe(`[${shortLength + 1}]`);
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(`Array [ ${longContent} ]`);
-  });
-
-  it("renders as expected when passed an objectLink prop", () => {
-    const renderRep = (props) => shallowRenderRep(object, Object.assign({
-      objectLink: (_, ...children) => React.DOM.span({},
-        "<", ...children, ">"),
-    }, props));
-
-    const shortLength = maxLengthMap.get(MODE.SHORT);
-    const shortContent = Array(shortLength).fill('"test string"').join(", ");
-    const longContent = Array(shortLength + 1).fill('"test string"').join(", ");
-    const defaultOutput = `<Array ><[ >${shortContent}, <more…>< ]>`;
-
-    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`<[>${shortLength + 1}<]>`);
-    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(`<Array ><[ >${longContent}< ]>`);
   });
 });
 

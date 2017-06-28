@@ -8,7 +8,6 @@ const React = require("react");
 // Reps
 const {
   isGrip,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -20,7 +19,6 @@ const { span } = React.DOM;
  */
 DateTime.propTypes = {
   object: React.PropTypes.object.isRequired,
-  objectLink: React.PropTypes.func,
 };
 
 function DateTime(props) {
@@ -31,7 +29,7 @@ function DateTime(props) {
       "data-link-actor-id": grip.actor,
       className: "objectBox",
     },
-      getTitle(props, grip),
+      getTitle(grip),
       span({className: "Date"},
         new Date(grip.preview.timestamp).toISOString()
       )
@@ -43,8 +41,8 @@ function DateTime(props) {
   return date;
 }
 
-function getTitle(props, grip) {
-  return safeObjectLink(props, {}, grip.class + " ");
+function getTitle(grip) {
+  return span({}, grip.class + " ");
 }
 
 // Registration

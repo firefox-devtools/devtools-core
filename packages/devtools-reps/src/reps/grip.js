@@ -7,7 +7,6 @@ const React = require("react");
 // Dependencies
 const {
   isGrip,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 const Caption = require("./caption");
@@ -27,7 +26,6 @@ GripRep.propTypes = {
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   isInterestingProp: React.PropTypes.func,
   title: React.PropTypes.string,
-  objectLink: React.PropTypes.func,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
@@ -56,11 +54,11 @@ function GripRep(props) {
   return (
     span(config,
       getTitle(props, object),
-      safeObjectLink(props, {
+      span({
         className: "objectLeftBrace",
       }, " { "),
       ...propsArray,
-      safeObjectLink(props, {
+      span({
         className: "objectRightBrace",
       }, " }")
     )
@@ -69,7 +67,7 @@ function GripRep(props) {
 
 function getTitle(props, object) {
   let title = props.title || object.class || "Object";
-  return safeObjectLink(props, {}, title);
+  return span({}, title);
 }
 
 function safePropIterator(props, object, max) {
@@ -133,7 +131,7 @@ function propIterator(props, object, max) {
   if (Object.keys(properties).length > max) {
     // There are some undisplayed props. Then display "more...".
     propsArray.push(Caption({
-      object: safeObjectLink(props, {}, "more…")
+      object: span({}, "more…")
     }));
   }
 
@@ -183,9 +181,7 @@ function getProps(componentProps, properties, indexes, suppressQuotes) {
       object: value,
       equal: ": ",
       defaultRep: Grip,
-      // Do not propagate title and objectLink to properties reps
       title: null,
-      objectLink: null,
       suppressQuotes,
     }));
   });

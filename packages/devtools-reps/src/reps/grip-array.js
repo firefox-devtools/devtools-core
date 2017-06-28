@@ -6,7 +6,6 @@
 const React = require("react");
 const {
   isGrip,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 const Caption = require("./caption");
@@ -24,7 +23,6 @@ GripArray.propTypes = {
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   provider: React.PropTypes.object,
-  objectLink: React.PropTypes.func,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
@@ -62,11 +60,11 @@ function GripArray(props) {
       "data-link-actor-id": object.actor,
       className: "objectBox objectBox-array"},
       title,
-      safeObjectLink(props, {
+      span({
         className: "arrayLeftBracket",
       }, brackets.left),
       ...interleaveCommas(items),
-      safeObjectLink(props, {
+      span({
         className: "arrayRightBracket",
       }, brackets.right),
       span({
@@ -94,13 +92,13 @@ function getLength(grip) {
   return grip.preview.length || grip.preview.childNodesLength || 0;
 }
 
-function getTitle(props, object, context) {
+function getTitle(props, object) {
   if (props.mode === MODE.TINY) {
     return "";
   }
 
   let title = props.title || object.class || "Array";
-  return safeObjectLink(props, {}, title + " ");
+  return span({}, title + " ");
 }
 
 function getPreviewItems(grip) {
@@ -176,7 +174,7 @@ function arrayIterator(props, grip, max) {
   const itemsShown = (items.length + foldedEmptySlots);
   if (gripLength > itemsShown) {
     items.push(Caption({
-      object: safeObjectLink(props, {}, "more…")
+      object: span({}, "more…")
     }));
   }
 

@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   REPS,
@@ -30,16 +29,5 @@ describe("Document", () => {
     expect(renderedComponent.text())
       .toEqual("HTMLDocument https://www.mozilla.org/en-US/firefox/new/");
     expectActorAttribute(renderedComponent, stub.actor);
-  });
-
-  it("renders with expected text content when passed an objectLink prop", () => {
-    const renderedComponent = shallow(Document.rep({
-      object: stub,
-      objectLink: (props, ...children) => React.DOM.span({},
-        "*", ...children, "*")
-    }));
-
-    expect(renderedComponent.text())
-      .toEqual("*HTMLDocument *https://www.mozilla.org/en-US/firefox/new/");
   });
 });

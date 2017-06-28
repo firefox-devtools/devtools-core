@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   REPS,
@@ -132,29 +131,5 @@ describe("Event - mouse event", () => {
 
     expect(onDOMNodeMouseOver.mock.calls.length).toEqual(1);
     expect(onDOMNodeMouseOver.mock.calls[0][0]).toEqual(grips[0]);
-  });
-
-  it("renders with expected text content when passed an objectLink prop", () => {
-    const renderedComponent = renderRep({
-      objectLink: (props, ...children) => React.DOM.span({
-        className: "object-link"
-      }, "<", ...children, ">")
-    });
-
-    expect(renderedComponent.text())
-      .toEqual("<click>< { >target: div#test, clientX: 62, clientY: 18, <more…>< }>");
-  });
-
-  it("renders expected text content when passed an objectLink prop in long mode", () => {
-    const renderedComponent = renderRep({
-      mode: MODE.LONG,
-      objectLink: (props, ...children) => React.DOM.span({
-        className: "object-link"
-      }, "<", ...children, ">")
-    });
-
-    expect(renderedComponent.text()).toEqual(
-      "<click>< { >target: div#test, buttons: 0, clientX: 62, clientY: 18, layerX: 0, " +
-      "layerY: 0< }>");
   });
 });

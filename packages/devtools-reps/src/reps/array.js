@@ -5,7 +5,6 @@
 // Dependencies
 const React = require("react");
 const {
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 const Caption = require("./caption");
@@ -25,7 +24,6 @@ const DOM = React.DOM;
  */
 ArrayRep.propTypes = {
   mode: ModePropType,
-  objectLink: React.PropTypes.func,
   object: React.PropTypes.array.isRequired,
 };
 
@@ -53,14 +51,12 @@ function ArrayRep(props) {
   return (
     DOM.span({
       className: "objectBox objectBox-array"},
-      safeObjectLink(props, {
+      DOM.span({
         className: "arrayLeftBracket",
-        object: object
       }, brackets.left),
       ...items,
-      safeObjectLink(props, {
+      DOM.span({
         className: "arrayRightBracket",
-        object: object
       }, brackets.right),
       DOM.span({
         className: "arrayProperties",
@@ -97,9 +93,7 @@ function arrayIterator(props, array, max) {
 
   if (array.length > max) {
     items.push(Caption({
-      object: safeObjectLink(props, {
-        object: props.object
-      }, "more…")
+      object: DOM.span({}, "more…")
     }));
   }
 

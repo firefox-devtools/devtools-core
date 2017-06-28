@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   REPS,
@@ -291,34 +290,5 @@ describe("ElementNode - Disconnected node", () => {
     }));
 
     expect(renderedComponent.find(".open-inspector").exists()).toBeFalsy();
-  });
-});
-
-describe("ElementNode - Object Link", () => {
-  const stub = stubs.get("BodyNode");
-
-  it("renders with expected text content when passed an objectLink prop", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      objectLink: (props, ...children) => React.DOM.span({
-        className: "object-link"
-      }, "*", ...children, "*")
-    }));
-
-    expect(renderedComponent.text())
-      .toEqual('*<body id="body-id" class="body-class">*');
-  });
-
-  it("renders expected text content when passed an objectLink prop in tiny mode", () => {
-    const renderedComponent = shallow(ElementNode.rep({
-      object: stub,
-      mode: MODE.TINY,
-      objectLink: (props, ...children) => React.DOM.span({
-        className: "object-link"
-      }, "*", ...children, "*")
-    }));
-
-    expect(renderedComponent.text())
-      .toEqual("*body#body-id.body-class*");
   });
 });

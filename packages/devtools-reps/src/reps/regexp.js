@@ -8,7 +8,6 @@ const React = require("react");
 // Reps
 const {
   isGrip,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -17,14 +16,13 @@ const {
  */
 RegExp.propTypes = {
   object: React.PropTypes.object.isRequired,
-  objectLink: React.PropTypes.func,
 };
 
 function RegExp(props) {
   let {object} = props;
 
   return (
-    safeObjectLink(props, {
+    React.DOM.span({
       "data-link-actor-id": object.actor,
       className: "objectBox objectBox-regexp regexpSource"
     }, getSource(object))

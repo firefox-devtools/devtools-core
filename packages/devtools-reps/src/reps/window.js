@@ -9,7 +9,6 @@ const React = require("react");
 const {
   isGrip,
   getURLDisplayString,
-  safeObjectLink,
   wrapRender
 } = require("./rep-utils");
 
@@ -25,7 +24,6 @@ WindowRep.propTypes = {
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   object: React.PropTypes.object.isRequired,
-  objectLink: React.PropTypes.func,
 };
 
 function WindowRep(props) {
@@ -41,13 +39,13 @@ function WindowRep(props) {
 
   if (mode === MODE.TINY) {
     return (
-      span(config, getTitle(props, object))
+      span(config, getTitle(object))
     );
   }
 
   return (
     span(config,
-      getTitle(props, object),
+      getTitle(object),
       " ",
       span({className: "objectPropValue"},
         getLocation(object)
@@ -56,9 +54,9 @@ function WindowRep(props) {
   );
 }
 
-function getTitle(props, object) {
+function getTitle(object) {
   let title = object.displayClass || object.class || "Window";
-  return safeObjectLink(props, {className: "objectBox"}, title);
+  return span({className: "objectBox"}, title);
 }
 
 function getLocation(object) {

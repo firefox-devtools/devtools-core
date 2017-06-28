@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const { shallow } = require("enzyme");
-const React = require("react");
 
 const {
   REPS,
@@ -31,13 +30,5 @@ describe("Attribute", () => {
     }));
     expect(renderedComponent.text()).toEqual("class=\"autocomplete-suggestions\"");
     expectActorAttribute(renderedComponent, stub.actor);
-  });
-
-  it("Attribute rep has expected text when an objectLink is passed as a prop", () => {
-    const renderedComponent = shallow(Rep({
-      object: stub,
-      objectLink: (props, ...children) => React.DOM.span({}, "*", ...children, "*")
-    }));
-    expect(renderedComponent.text()).toEqual("*class=\"autocomplete-suggestions\"*");
   });
 });
