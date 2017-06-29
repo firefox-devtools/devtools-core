@@ -36,12 +36,14 @@ type Grip = {
   actor: string
 };
 
+type Mode = MODE.TINY | MODE.SHORT | MODE.LONG;
+
 type Props = {
   autoExpandAll: boolean,
   autoExpandDepth: number,
   disabledFocus: boolean,
   itemHeight: number,
-  mode: Object,
+  mode: Mode,
   roots: Array<ObjectInspectorItem>,
   getObjectProperties: (actor:string) => any,
   loadObjectProperties: (value:Grip) => any,
@@ -236,7 +238,16 @@ class ObjectInspector extends Component {
     } else if (nodeIsMissingArguments(item) || unavailable) {
       objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
     } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
-      objectValue = this.renderGrip(item, this.props);
+      let mode;
+      if (depth === 0) {
+        mode = this.props.mode;
+      } else {
+        mode = this.props.mode === MODE.LONG
+          ? MODE.SHORT
+          : MODE.TINY;
+      }
+
+      objectValue = this.renderGrip(item, this.props, mode);
     }
 
     const SINGLE_INDENT_WIDTH = 15;
@@ -306,12 +317,13 @@ class ObjectInspector extends Component {
 
   renderGrip(
     item: ObjectInspectorItem,
-    props: Props
+    props: Props,
+    mode: Mode = MODE.TINY
   ) {
     const object = getValue(item);
     return Rep(Object.assign({}, props, {
       object,
-      mode: props.mode || MODE.TINY
+      mode,
     }));
   }
 
@@ -330,7 +342,7 @@ class ObjectInspector extends Component {
 
     let roots = this.getRoots();
     if (roots.length === 1 && nodeIsPrimitive(roots[0])) {
-      return this.renderGrip(roots[0], this.props);
+      return this.renderGrip(roots[0], this.props, this.props.mode);
     }
 
     return Tree({
