@@ -10,7 +10,10 @@ const {
   getRep
 } = require("../rep");
 const { Event } = REPS;
-const { getSelectableInInspectorGrips } = require("./test-helpers");
+const {
+  expectActorAttribute,
+  getSelectableInInspectorGrips,
+} = require("./test-helpers");
 
 const { MODE } = require("../constants");
 const stubs = require("../stubs/event");
@@ -26,6 +29,7 @@ describe("Event - beforeprint", () => {
     const renderedComponent = shallow(Event.rep({object}));
     expect(renderedComponent.text()).toEqual(
       "beforeprint { target: Window, isTrusted: true, currentTarget: Window, more… }");
+    expectActorAttribute(renderedComponent, object.actor);
   });
 });
 

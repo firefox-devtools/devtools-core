@@ -34,16 +34,19 @@ function WindowRep(props) {
     object,
   } = props;
 
+  const config = {
+    "data-link-actor-id": object.actor,
+    className: "objectBox objectBox-Window",
+  };
+
   if (mode === MODE.TINY) {
     return (
-      span({className: "objectBox objectBox-Window"},
-        getTitle(props, object)
-      )
+      span(config, getTitle(props, object))
     );
   }
 
   return (
-    span({className: "objectBox objectBox-Window"},
+    span(config,
       getTitle(props, object),
       " ",
       span({className: "objectPropValue"},

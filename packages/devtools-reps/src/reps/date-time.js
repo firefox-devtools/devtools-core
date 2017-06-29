@@ -27,7 +27,10 @@ function DateTime(props) {
   let grip = props.object;
   let date;
   try {
-    date = span({className: "objectBox"},
+    date = span({
+      "data-link-actor-id": grip.actor,
+      className: "objectBox",
+    },
       getTitle(props, grip),
       span({className: "Date"},
         new Date(grip.preview.timestamp).toISOString()

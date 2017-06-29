@@ -37,18 +37,21 @@ function GripMap(props) {
     object,
   } = props;
 
+  const config = {
+    "data-link-actor-id": object.actor,
+    className: "objectBox objectBox-object",
+  };
+
   if (mode === MODE.TINY) {
     return (
-      span({className: "objectBox objectBox-object"},
-        getTitle(props, object)
-      )
+      span(config, getTitle(props, object))
     );
   }
 
   let propsArray = safeEntriesIterator(props, object, maxLengthMap.get(mode));
 
   return (
-    span({className: "objectBox objectBox-object"},
+    span(config,
       getTitle(props, object),
       safeObjectLink(props, {
         className: "objectLeftBrace",

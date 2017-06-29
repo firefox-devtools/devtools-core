@@ -10,6 +10,10 @@ const {
   getRep,
 } = require("../rep");
 
+const {
+  expectActorAttribute
+} = require("./test-helpers");
+
 let { Attribute, Rep } = REPS;
 
 const stubs = require("../stubs/attribute");
@@ -26,6 +30,7 @@ describe("Attribute", () => {
       object: stub
     }));
     expect(renderedComponent.text()).toEqual("class=\"autocomplete-suggestions\"");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("Attribute rep has expected text when an objectLink is passed as a prop", () => {

@@ -11,6 +11,10 @@ const {
 } = require("../rep");
 
 const {
+  expectActorAttribute
+} = require("./test-helpers");
+
+const {
   DateTime,
   Rep
 } = REPS;
@@ -30,6 +34,7 @@ describe("test DateTime", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("Date 2016-03-30T21:17:24.859Z");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 });
 

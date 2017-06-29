@@ -25,6 +25,7 @@ function RegExp(props) {
 
   return (
     safeObjectLink(props, {
+      "data-link-actor-id": object.actor,
       className: "objectBox objectBox-regexp regexpSource"
     }, getSource(object))
   );

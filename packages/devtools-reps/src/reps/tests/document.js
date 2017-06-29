@@ -8,6 +8,11 @@ const {
   REPS,
   getRep,
 } = require("../rep");
+
+const {
+  expectActorAttribute
+} = require("./test-helpers");
+
 const { Document } = REPS;
 const stubs = require("../stubs/document");
 const stub = stubs.get("Document");
@@ -24,6 +29,7 @@ describe("Document", () => {
 
     expect(renderedComponent.text())
       .toEqual("HTMLDocument https://www.mozilla.org/en-US/firefox/new/");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders with expected text content when passed an objectLink prop", () => {

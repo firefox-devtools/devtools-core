@@ -18,6 +18,9 @@ let {
 } = REPS;
 
 const stubs = require("../stubs/text-node");
+const {
+  expectActorAttribute,
+} = require("./test-helpers");
 
 describe("TextNode", () => {
   it("selects TextNode Rep as expected", () => {
@@ -29,10 +32,22 @@ describe("TextNode", () => {
     const renderRep = props => shallow(TextNode.rep(Object.assign({object}, props)));
 
     const defaultOutput = `#text "hello world"`;
-    expect(renderRep({mode: undefined}).text()).toBe(defaultOutput);
-    expect(renderRep({mode: MODE.TINY}).text()).toBe("#text");
-    expect(renderRep({mode: MODE.SHORT}).text()).toBe(defaultOutput);
-    expect(renderRep({mode: MODE.LONG}).text()).toBe(defaultOutput);
+
+    let component = renderRep({mode: undefined});
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({mode: MODE.TINY});
+    expect(component.text()).toBe("#text");
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({mode: MODE.SHORT});
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({mode: MODE.LONG});
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
   });
 
   it("renders as expected with EOL", () => {

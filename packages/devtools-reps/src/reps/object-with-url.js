@@ -27,7 +27,10 @@ ObjectWithURL.propTypes = {
 function ObjectWithURL(props) {
   let grip = props.object;
   return (
-    span({className: "objectBox objectBox-" + getType(grip)},
+    span({
+      "data-link-actor-id": grip.actor,
+      className: "objectBox objectBox-" + getType(grip)
+    },
       getTitle(props, grip),
       span({className: "objectPropValue"}, getDescription(grip))
     )

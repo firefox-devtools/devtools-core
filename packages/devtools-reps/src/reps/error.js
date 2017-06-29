@@ -42,7 +42,10 @@ function ErrorRep(props) {
     content = `${content}\nStack trace:\n${preview.stack}`;
   }
 
-  return safeObjectLink(props, {className: "objectBox-stackTrace"}, content);
+  return safeObjectLink(props, {
+    "data-link-actor-id": object.actor,
+    className: "objectBox-stackTrace",
+  }, content);
 }
 
 // Registration

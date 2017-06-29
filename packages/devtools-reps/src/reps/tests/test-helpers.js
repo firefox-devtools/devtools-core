@@ -51,4 +51,14 @@ function getFlattenedGrips(grips) {
   }, []);
 }
 
-module.exports = { getSelectableInInspectorGrips };
+function expectActorAttribute(wrapper, expectedValue) {
+  const actorIdAttribute = "data-link-actor-id";
+  const attrElement = wrapper.find(`[${actorIdAttribute}]`);
+  expect(attrElement.exists()).toBeTruthy();
+  expect(attrElement.first().prop("data-link-actor-id")).toBe(expectedValue);
+}
+
+module.exports = {
+  expectActorAttribute,
+  getSelectableInInspectorGrips,
+};

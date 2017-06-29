@@ -18,9 +18,13 @@ InfinityRep.propTypes = {
 };
 
 function InfinityRep(props) {
+  const {
+    object,
+  } = props;
+
   return (
     span({className: "objectBox objectBox-number"},
-      props.object.type
+      object.type
     )
   );
 }

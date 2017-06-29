@@ -13,6 +13,9 @@ const {
 const { MODE } = require("../constants");
 const { Rep, Window } = REPS;
 const stubs = require("../stubs/window");
+const {
+  expectActorAttribute,
+} = require("./test-helpers");
 
 describe("test Window", () => {
   const stub = stubs.get("Window");
@@ -27,6 +30,7 @@ describe("test Window", () => {
     }));
 
     expect(renderedComponent.hasClass("objectBox-Window")).toBe(true);
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders with correct content", () => {

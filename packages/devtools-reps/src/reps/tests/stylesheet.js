@@ -10,6 +10,9 @@ const {
 } = require("../rep");
 const { StyleSheet, Rep } = REPS;
 const stubs = require("../stubs/stylesheet");
+const {
+  expectActorAttribute,
+} = require("./test-helpers");
 
 describe("Test StyleSheet", () => {
   const stub = stubs.get("StyleSheet");
@@ -24,6 +27,7 @@ describe("Test StyleSheet", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("StyleSheet https://example.com/styles.css");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders the expected text content when an objectLink is passed as a prop", () => {

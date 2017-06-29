@@ -9,6 +9,9 @@ const {
 
 const { shallow } = require("enzyme");
 const React = require("react");
+const {
+  expectActorAttribute,
+} = require("./test-helpers");
 
 const stubs = require("../stubs/object-with-text");
 const { ObjectWithText, Rep } = REPS;
@@ -28,6 +31,7 @@ describe("Object with text", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("\".Shadow\"");
+    expectActorAttribute(renderedComponent, gripStub.actor);
   });
 
   // Test rendering with objectLink
