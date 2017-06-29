@@ -42,6 +42,7 @@
     "fs-extra": "^2.0.0",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
+    "jest-flow-transform": "^1.0.1",
     "react-addons-test-utils": "=15.3.2"
   },
   "jest": {
@@ -58,6 +59,9 @@
     "transformIgnorePatterns": [
       "node_modules/(?!devtools-)"
     ],
+    "transform": {
+      "^.+\\.js(?:\\.flow)?$": "jest-flow-transform"
+    },
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
       "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`promises getPromiseProperties 1`] = `
+exports[`promises utils function getPromiseProperties 1`] = `
 Array [
   Object {
     "contents": Object {
