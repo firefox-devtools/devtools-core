@@ -4,6 +4,7 @@
 .*node_modules/npm.*
 .*node_modules/stylelint.*
 .*node_modules/config-chain.*
+.*node_modules/conventional-changelog-core.*
 .*flow-coverage-report/.*
 .*custom_format_broken.json
 
