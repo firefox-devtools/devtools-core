@@ -31,6 +31,7 @@ GripRep.propTypes = {
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
+  noGrip: React.PropTypes.bool,
 };
 
 function GripRep(props) {
@@ -242,8 +243,8 @@ function getPropValue(property) {
 }
 
 // Registration
-function supportsObject(object, type) {
-  if (!isGrip(object)) {
+function supportsObject(object, type, noGrip = false) {
+  if (noGrip === true || !isGrip(object)) {
     return false;
   }
   return (object.preview && object.preview.ownProperties);

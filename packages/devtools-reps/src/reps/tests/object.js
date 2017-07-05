@@ -191,3 +191,140 @@ describe("Object - Object link", () => {
       .toEqual(defaultOutput);
   });
 });
+
+// Test that object that might look like Grips are rendered as Object when passed
+// the `noGrip` property.
+describe("Object - noGrip prop", () => {
+  it("object with type property", () => {
+    expect(getRep({type: "string"}, undefined, true)).toBe(Obj.rep);
+  });
+
+  it("object with actor property", () => {
+    expect(getRep({actor: "fake/actorId"}, undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Attribute grip", () => {
+    const stubs = require("../stubs/attribute");
+    expect(getRep(stubs.get("Attribute"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("CommentNode grip", () => {
+    const stubs = require("../stubs/comment-node");
+    expect(getRep(stubs.get("Comment"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("DateTime grip", () => {
+    const stubs = require("../stubs/date-time");
+    expect(getRep(stubs.get("DateTime"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Document grip", () => {
+    const stubs = require("../stubs/document");
+    expect(getRep(stubs.get("Document"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("ElementNode grip", () => {
+    const stubs = require("../stubs/element-node");
+    expect(getRep(stubs.get("BodyNode"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Error grip", () => {
+    const stubs = require("../stubs/error");
+    expect(getRep(stubs.get("SimpleError"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Event grip", () => {
+    const stubs = require("../stubs/event");
+    expect(getRep(stubs.get("testEvent"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Function grip", () => {
+    const stubs = require("../stubs/function");
+    expect(getRep(stubs.get("Named"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Array grip", () => {
+    const stubs = require("../stubs/grip-array");
+    expect(getRep(stubs.get("testMaxProps"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Map grip", () => {
+    const stubs = require("../stubs/grip-map");
+    expect(getRep(stubs.get("testSymbolKeyedMap"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Object grip", () => {
+    const stubs = require("../stubs/grip");
+    expect(getRep(stubs.get("testMaxProps"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Infinity grip", () => {
+    const stubs = require("../stubs/infinity");
+    expect(getRep(stubs.get("Infinity"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("LongString grip", () => {
+    const stubs = require("../stubs/long-string");
+    expect(getRep(stubs.get("testMultiline"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("NaN grip", () => {
+    const stubs = require("../stubs/nan");
+    expect(getRep(stubs.get("NaN"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Null grip", () => {
+    const stubs = require("../stubs/null");
+    expect(getRep(stubs.get("Null"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Number grip", () => {
+    const stubs = require("../stubs/number");
+    expect(getRep(stubs.get("NegZeroGrip"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("ObjectWithText grip", () => {
+    const stubs = require("../stubs/object-with-text");
+    expect(getRep(stubs.get("ObjectWithText"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("ObjectWithURL grip", () => {
+    const stubs = require("../stubs/object-with-url");
+    expect(getRep(stubs.get("ObjectWithUrl"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Promise grip", () => {
+    const stubs = require("../stubs/promise");
+    expect(getRep(stubs.get("Pending"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("RegExp grip", () => {
+    const stubs = require("../stubs/regexp");
+    expect(getRep(stubs.get("RegExp"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Stylesheet grip", () => {
+    const stubs = require("../stubs/stylesheet");
+    expect(getRep(stubs.get("StyleSheet"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Symbol grip", () => {
+    const stubs = require("../stubs/symbol");
+    expect(getRep(stubs.get("Symbol"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("TextNode grip", () => {
+    const stubs = require("../stubs/text-node");
+    expect(getRep(stubs.get("testRendering"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Undefined grip", () => {
+    const stubs = require("../stubs/undefined");
+    expect(getRep(stubs.get("Undefined"), undefined, true)).toBe(Obj.rep);
+  });
+
+  it("Window grip", () => {
+    const stubs = require("../stubs/window");
+    expect(getRep(stubs.get("Window"), undefined, true)).toBe(Obj.rep);
+  });
+});

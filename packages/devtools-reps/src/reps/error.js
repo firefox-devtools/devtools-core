@@ -46,8 +46,8 @@ function ErrorRep(props) {
 }
 
 // Registration
-function supportsObject(object, type) {
-  if (!isGrip(object)) {
+function supportsObject(object, type, noGrip = false) {
+  if (noGrip === true || !isGrip(object)) {
     return false;
   }
   return (object.preview && type === "Error");
