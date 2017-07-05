@@ -36,7 +36,7 @@ function FunctionRep(props) {
       summarizeFunction(grip),
       "(",
       ...renderParams(props),
-      ")",
+      ")"
     )
   );
 }
