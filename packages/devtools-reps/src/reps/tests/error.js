@@ -28,7 +28,7 @@ describe("Error - Simple error", () => {
     expect(renderedComponent.text()).toEqual(
       "Error: Error message\n" +
       "Stack trace:\n" +
-      "@debugger eval code:1:13\n",
+      "@debugger eval code:1:13\n"
     );
   });
 
@@ -94,7 +94,7 @@ describe("Error - Multi line stack error", () => {
       "Stack trace:\n" +
       "errorBar@debugger eval code:6:15\n" +
       "errorFoo@debugger eval code:3:3\n" +
-      "@debugger eval code:8:1\n",
+      "@debugger eval code:8:1\n"
     );
   });
 
