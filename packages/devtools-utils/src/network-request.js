@@ -12,7 +12,7 @@ function networkRequest(url: string, opts: any) {
     fetch(`/get?url=${url}`).then(res => {
       if (res.status >= 200 && res.status < 300) {
         return res.text()
-          .then(text => ({ content: text }))
+          .then(text => ({ content: text }));
       }
       return Promise.reject(new Error(`failed to request ${url}`));
     }),
