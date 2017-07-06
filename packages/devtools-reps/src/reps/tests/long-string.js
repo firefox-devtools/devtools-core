@@ -7,6 +7,11 @@ const {
   REPS,
   getRep,
 } = require("../rep");
+
+const {
+  expectActorAttribute,
+} = require("./test-helpers");
+
 let { LongStringRep } = REPS;
 const stubs = require("../stubs/long-string");
 
@@ -28,6 +33,7 @@ describe("LongStringRep", () => {
     }));
 
     expect(renderedComponent.text()).toEqual(quoteNewlines(`"${stub.initial}…"`));
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders with expected text content for multiline string with " +
@@ -85,6 +91,7 @@ describe("LongStringRep", () => {
     }));
 
     expect(renderedComponent.html())
-      .toEqual('<span class="objectBox objectBox-string">a\naaaaaaaaaaaaaaaaaa…</span>');
+    .toEqual('<span data-link-actor-id="server1.conn1.child1/longString58" ' +
+             'class="objectBox objectBox-string">a\naaaaaaaaaaaaaaaaaa…</span>');
   });
 });

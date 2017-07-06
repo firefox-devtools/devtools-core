@@ -10,6 +10,9 @@ const {
 } = require("../rep");
 const { Rep, RegExp } = REPS;
 const stubs = require("../stubs/regexp");
+const {
+  expectActorAttribute,
+} = require("./test-helpers");
 
 describe("test RegExp", () => {
   const stub = stubs.get("RegExp");
@@ -24,6 +27,7 @@ describe("test RegExp", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("/ab+c/i");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders the expected text content when an objectLink is passed as a prop", () => {

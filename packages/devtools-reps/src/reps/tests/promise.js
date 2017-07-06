@@ -13,6 +13,7 @@ const { PromiseRep } = REPS;
 const { MODE } = require("../constants");
 const stubs = require("../stubs/promise");
 const {
+  expectActorAttribute,
   getSelectableInInspectorGrips
 } = require("./test-helpers");
 
@@ -29,14 +30,21 @@ describe("Promise - Pending", () => {
   });
 
   it("renders as expected", () => {
-    expect(renderRep(object, {mode: undefined}).text())
-      .toBe(defaultOutput);
-    expect(renderRep(object, {mode: MODE.TINY}).text())
-      .toBe('Promise { "pending" }');
-    expect(renderRep(object, {mode: MODE.SHORT}).text())
-      .toBe(defaultOutput);
-    expect(renderRep(object, {mode: MODE.LONG}).text())
-      .toBe(defaultOutput);
+    let component = renderRep(object, {mode: undefined});
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep(object, {mode: MODE.TINY});
+    expect(component.text()).toBe('Promise { "pending" }');
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep(object, {mode: MODE.SHORT});
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep(object, {mode: MODE.LONG});
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
   });
 });
 

@@ -45,7 +45,9 @@ function GripArray(props) {
   if (mode === MODE.TINY) {
     let objectLength = getLength(object);
     let isEmpty = objectLength === 0;
-    items = [span({className: "length"}, isEmpty ? "" : objectLength)];
+    items = [span({
+      className: "length",
+    }, isEmpty ? "" : objectLength)];
     brackets = needSpace(false);
   } else {
     let max = maxLengthMap.get(mode);
@@ -57,6 +59,7 @@ function GripArray(props) {
 
   return (
     span({
+      "data-link-actor-id": object.actor,
       className: "objectBox objectBox-array"},
       title,
       safeObjectLink(props, {

@@ -8,6 +8,11 @@ const {
   REPS,
   getRep
 } = require("../rep");
+
+const {
+  expectActorAttribute
+} = require("./test-helpers");
+
 const { ErrorRep } = REPS;
 const { MODE } = require("../constants");
 const stubs = require("../stubs/error");
@@ -30,6 +35,7 @@ describe("Error - Simple error", () => {
       "Stack trace:\n" +
       "@debugger eval code:1:13\n"
     );
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders with expected text for simple error in tiny mode", () => {

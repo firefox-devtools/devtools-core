@@ -29,9 +29,13 @@ function FunctionRep(props) {
   let grip = props.object;
 
   return (
-    // Set dir="ltr" to prevent function parentheses from
-    // appearing in the wrong direction
-    span({dir: "ltr", className: "objectBox objectBox-function"},
+    span({
+      "data-link-actor-id": grip.actor,
+      className: "objectBox objectBox-function",
+      // Set dir="ltr" to prevent function parentheses from
+      // appearing in the wrong direction
+      dir: "ltr",
+    },
       getTitle(props, grip),
       summarizeFunction(grip),
       "(",

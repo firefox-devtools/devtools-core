@@ -8,7 +8,9 @@ const { REPS } = require("../rep");
 const { MODE } = require("../constants");
 const { Func } = REPS;
 const stubs = require("../stubs/function");
-
+const {
+  expectActorAttribute
+} = require("./test-helpers");
 const renderRep = (object, props) => {
   return shallow(Func.rep(Object.assign({object}, props)));
 };
@@ -26,6 +28,8 @@ describe("Function - Named", () => {
       .toBe("function testName(a)");
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function testName(a, b, c)");
+
+    expectActorAttribute(renderRep(object), object.actor);
   });
 
   it("renders as expected with object link", () => {

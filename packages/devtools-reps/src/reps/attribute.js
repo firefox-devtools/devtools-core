@@ -31,7 +31,10 @@ function Attribute(props) {
   let value = object.preview.value;
 
   return (
-    safeObjectLink(props, {className: "objectLink-Attr"},
+    safeObjectLink(props, {
+      className: "objectLink-Attr",
+      "data-link-actor-id": object.actor,
+    },
       span({className: "attrTitle"},
         getTitle(object)
       ),

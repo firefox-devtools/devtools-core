@@ -9,6 +9,10 @@ const {
   getRep,
 } = require("../rep");
 
+const {
+  expectActorAttribute
+} = require("./test-helpers");
+
 const { MODE } = require("../constants");
 const { Rep, CommentNode } = REPS;
 const stubs = require("../stubs/comment-node");
@@ -32,11 +36,19 @@ describe("CommentNode", () => {
     const object = stubs.get("Comment");
     const renderRep = props => shallow(CommentNode.rep(Object.assign({object}, props)));
 
-    expect(renderRep({mode: undefined}).text())
+    let component = renderRep({mode: undefined});
+    expect(component.text())
       .toEqual(`<!-- test\nand test\nand test\nan…d test\nand test\nand test -->`);
-    expect(renderRep({mode: MODE.TINY}).text())
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({mode: MODE.TINY});
+    expect(component.text())
       .toEqual(`<!-- test\\nand test\\na… test\\nand test -->`);
-    expect(renderRep({mode: MODE.LONG}).text())
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({mode: MODE.LONG});
+    expect(component.text())
       .toEqual(`<!-- ${stub.preview.textContent} -->`);
+    expectActorAttribute(component, object.actor);
   });
 });

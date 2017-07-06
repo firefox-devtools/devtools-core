@@ -43,7 +43,10 @@ function ElementNode(props) {
 
   let isInTree = object.preview && object.preview.isConnected === true;
 
-  let baseConfig = {className: "objectBox objectBox-node"};
+  let baseConfig = {
+    "data-link-actor-id": object.actor,
+    className: "objectBox objectBox-node"
+  };
   let inspectIcon;
   if (isInTree) {
     if (onDOMNodeMouseOver) {

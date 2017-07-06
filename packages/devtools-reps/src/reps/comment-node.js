@@ -38,7 +38,10 @@ function CommentNode(props) {
     textContent = cropString(textContent, 50);
   }
 
-  return span({className: "objectBox theme-comment"}, `<!-- ${textContent} -->`);
+  return span({
+    className: "objectBox theme-comment",
+    "data-link-actor-id": object.actor,
+  }, `<!-- ${textContent} -->`);
 }
 
 // Registration

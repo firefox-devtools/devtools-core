@@ -36,7 +36,11 @@ function LongStringRep(props) {
   } = props;
   let {fullText, initial, length} = object;
 
-  let config = {className: "objectBox objectBox-string"};
+  let config = {
+    "data-link-actor-id": object.actor,
+    className: "objectBox objectBox-string"
+  };
+
   if (style) {
     config.style = style;
   }

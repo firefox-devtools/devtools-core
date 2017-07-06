@@ -23,8 +23,7 @@ function SymbolRep(props) {
 
   return (
     span({className: "objectBox objectBox-symbol"},
-      `Symbol(${name || ""})`
-    )
+      `Symbol(${name || ""})`)
   );
 }
 

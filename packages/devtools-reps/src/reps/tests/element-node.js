@@ -11,7 +11,10 @@ const {
 } = require("../rep");
 const { MODE } = require("../constants");
 const { ElementNode } = REPS;
-const { getSelectableInInspectorGrips } = require("./test-helpers");
+const {
+  expectActorAttribute,
+  getSelectableInInspectorGrips,
+} = require("./test-helpers");
 const stubs = require("../stubs/element-node");
 
 describe("ElementNode - BodyNode", () => {
@@ -28,6 +31,7 @@ describe("ElementNode - BodyNode", () => {
 
     expect(renderedComponent.text())
       .toEqual('<body id="body-id" class="body-class">');
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders with expected text content on tiny mode", () => {
@@ -38,6 +42,7 @@ describe("ElementNode - BodyNode", () => {
 
     expect(renderedComponent.text())
       .toEqual("body#body-id.body-class");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 });
 

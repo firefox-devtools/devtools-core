@@ -40,7 +40,10 @@ function TextNode(props) {
     onInspectIconClick,
   } = props;
 
-  let baseConfig = {className: "objectBox objectBox-textNode"};
+  let baseConfig = {
+    "data-link-actor-id": grip.actor,
+    className: "objectBox objectBox-textNode",
+  };
   let inspectIcon;
   let isInTree = grip.preview && grip.preview.isConnected === true;
 

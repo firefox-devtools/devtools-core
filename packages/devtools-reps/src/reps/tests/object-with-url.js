@@ -10,6 +10,9 @@ const {
 } = require("../rep");
 const { ObjectWithURL } = REPS;
 const stubs = require("../stubs/object-with-url");
+const {
+  expectActorAttribute,
+} = require("./test-helpers");
 
 describe("ObjectWithURL", () => {
   const stub = stubs.get("ObjectWithUrl");
@@ -26,6 +29,7 @@ describe("ObjectWithURL", () => {
 
     expect(renderedComponent.hasClass("objectBox-Location")).toBe(true);
     expect(innerNode.text()).toBe("https://www.mozilla.org/en-US/");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 
   it("renders correctly with an ObjectLink", () => {

@@ -12,7 +12,8 @@ const GripMap = require("../grip-map");
 const { MODE } = require("../constants");
 const stubs = require("../stubs/grip-map");
 const {
-  getSelectableInInspectorGrips
+  expectActorAttribute,
+  getSelectableInInspectorGrips,
 } = require("./test-helpers");
 const {maxLengthMap} = GripMap;
 
@@ -33,10 +34,21 @@ describe("GripMap - empty map", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
     const defaultOutput = "Map {  }";
 
-    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
-    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+    let component = renderRep({ mode: undefined });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.TINY });
+    expect(component.text()).toBe("Map");
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.SHORT });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.LONG });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
   });
 });
 

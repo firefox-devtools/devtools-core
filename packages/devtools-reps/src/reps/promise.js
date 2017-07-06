@@ -33,11 +33,16 @@ function PromiseRep(props) {
   const object = props.object;
   const {promiseState} = object;
 
+  const config = {
+    "data-link-actor-id": object.actor,
+    className: "objectBox objectBox-object",
+  };
+
   if (props.mode === MODE.TINY) {
     let { Rep } = require("./rep");
 
     return (
-      span({className: "objectBox objectBox-object"},
+      span(config,
         getTitle(props, object),
         safeObjectLink(props, {
           className: "objectLeftBrace",
@@ -52,7 +57,7 @@ function PromiseRep(props) {
 
   const propsArray = getProps(props, promiseState);
   return (
-    span({className: "objectBox objectBox-object"},
+    span(config,
       getTitle(props, object),
       safeObjectLink(props, {
         className: "objectLeftBrace",
