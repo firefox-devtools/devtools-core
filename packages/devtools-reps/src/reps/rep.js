@@ -80,7 +80,7 @@ const Rep = function (props) {
     object,
     defaultRep,
   } = props;
-  let rep = getRep(object, defaultRep);
+  let rep = getRep(object, defaultRep, props.noGrip);
   return rep(props);
 };
 
@@ -96,12 +96,14 @@ const Rep = function (props) {
  *
  * @param defaultObject {React.Component} The default template
  * that should be used to render given object if none is found.
+ *
+ * @param noGrip {Boolean} If true, will only check reps not made for remote objects.
  */
-function getRep(object, defaultRep = Obj) {
+function getRep(object, defaultRep = Obj, noGrip = false) {
   let type = typeof object;
   if (type == "object" && object instanceof String) {
     type = "string";
-  } else if (object && type == "object" && object.type) {
+  } else if (object && type == "object" && object.type && noGrip !== true) {
     type = object.type;
   }
 
@@ -115,7 +117,7 @@ function getRep(object, defaultRep = Obj) {
       // supportsObject could return weight (not only true/false
       // but a number), which would allow to priorities templates and
       // support better extensibility.
-      if (rep.supportsObject(object, type)) {
+      if (rep.supportsObject(object, type, noGrip)) {
         return rep.rep;
       }
     } catch (err) {

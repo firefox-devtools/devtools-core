@@ -75,8 +75,8 @@ function renderParams(props) {
 }
 
 // Registration
-function supportsObject(grip, type) {
-  if (!isGrip(grip)) {
+function supportsObject(grip, type, noGrip = false) {
+  if (noGrip === true || !isGrip(grip)) {
     return (type == "function");
   }
 

@@ -21,12 +21,12 @@ const Undefined = function () {
   );
 };
 
-function supportsObject(object, type) {
-  if (object && object.type && object.type == "undefined") {
-    return true;
+function supportsObject(object, type, noGrip = false) {
+  if (noGrip === true) {
+    return false;
   }
 
-  return (type == "undefined");
+  return (object && object.type && object.type == "undefined") || type == "undefined";
 }
 
 // Exports from this module

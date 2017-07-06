@@ -192,8 +192,8 @@ function getEntriesIndexes(entries, max, filter) {
     }, []);
 }
 
-function supportsObject(grip, type) {
-  if (!isGrip(grip)) {
+function supportsObject(grip, type, noGrip = false) {
+  if (noGrip === true || !isGrip(grip)) {
     return false;
   }
   return (grip.preview && grip.preview.kind == "MapLike");

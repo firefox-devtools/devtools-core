@@ -185,8 +185,8 @@ function getEmptySlotsElement(number) {
   return `<${number} empty slot${number > 1 ? "s" : ""}>`;
 }
 
-function supportsObject(grip, type) {
-  if (!isGrip(grip)) {
+function supportsObject(grip, type, noGrip = false) {
+  if (noGrip === true || !isGrip(grip)) {
     return false;
   }
 
