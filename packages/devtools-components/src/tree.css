@@ -1,0 +1,11 @@
+.arrow {
+  display: inline-block;
+}
+
+.arrow:before {
+  content: "▶︎ ";
+}
+
+.arrow.open:before {
+  content: "▼ ";
+}
