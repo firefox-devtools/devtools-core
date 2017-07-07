@@ -32,13 +32,6 @@ function start() {
 
   console.log("  output path is:", mcPath);
 
-  console.log("  copying reps.css...");
-  copyFile(
-    path.resolve(projectPath, "src/reps/reps.css"),
-    path.join(mcPath, mcModulePath, "reps.css"),
-    {cwd: projectPath}
-  );
-
   console.log("  creating reps.js bundle...");
   makeBundle({
     outputPath: path.join(mcPath, mcModulePath),
