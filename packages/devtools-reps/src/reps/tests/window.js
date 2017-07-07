@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const React = require("react");
 const { shallow } = require("enzyme");
 
 const {
@@ -84,27 +83,5 @@ describe("test Window", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("Custom about:newtab");
-  });
-
-  it("renders expected text in TINY mode when an objectLink is passed as a prop", () => {
-    const renderedComponent = shallow(Rep({
-      object: stub,
-      mode: MODE.TINY,
-      objectLink: (props, ...children) => React.DOM.span({},
-        "*", ...children, "*")
-    }));
-
-    expect(renderedComponent.text()).toEqual("*Window*");
-  });
-
-  it("renders expected text in LONG mode when an objectLink is passed as a prop", () => {
-    const renderedComponent = shallow(Rep({
-      object: stub,
-      mode: MODE.LONG,
-      objectLink: (props, ...children) => React.DOM.span({},
-        "*", ...children, "*")
-    }));
-
-    expect(renderedComponent.text()).toEqual("*Window* about:newtab");
   });
 });

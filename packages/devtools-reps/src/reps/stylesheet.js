@@ -9,7 +9,6 @@ const React = require("react");
 const {
   isGrip,
   getURLDisplayString,
-  safeObjectLink,
   wrapRender
 } = require("./rep-utils");
 
@@ -21,7 +20,6 @@ const {span} = React.DOM;
  */
 StyleSheet.propTypes = {
   object: React.PropTypes.object.isRequired,
-  objectLink: React.PropTypes.func,
 };
 
 function StyleSheet(props) {
@@ -32,15 +30,15 @@ function StyleSheet(props) {
       "data-link-actor-id": grip.actor,
       className: "objectBox objectBox-object",
     },
-      getTitle(props, grip),
+      getTitle(grip),
       span({className: "objectPropValue"}, getLocation(grip))
     )
   );
 }
 
-function getTitle(props, grip) {
+function getTitle(grip) {
   let title = "StyleSheet ";
-  return safeObjectLink(props, {className: "objectBox"}, title);
+  return span({className: "objectBox"}, title);
 }
 
 function getLocation(grip) {

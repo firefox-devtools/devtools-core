@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   getRep,
@@ -227,20 +226,6 @@ describe("Grip - Object with more than short mode max props", () => {
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
 
     const longOutput = `Object { a: undefined, b: 1, more: 2, d: 3 }`;
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
-  });
-
-  it("renders as expected when passed an objectLink prop", () => {
-    const renderRep = (props) => shallowRenderRep(object, Object.assign({
-      objectLink: (_, ...children) => React.DOM.span({}, "<", ...children, ">")
-    }, props));
-    const defaultOutput = `<Object>< { >b: 1, more: 2, d: 3, <more…>< }>`;
-
-    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("<Object>");
-    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-
-    const longOutput = `<Object>< { >a: undefined, b: 1, more: 2, d: 3< }>`;
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 });

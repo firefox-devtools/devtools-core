@@ -9,7 +9,6 @@ const React = require("react");
 const {
   isGrip,
   cropString,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
@@ -25,7 +24,6 @@ TextNode.propTypes = {
   object: React.PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  objectLink: React.PropTypes.func,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
@@ -72,12 +70,12 @@ function TextNode(props) {
   }
 
   if (mode === MODE.TINY) {
-    return DOM.span(baseConfig, getTitle(props, grip), inspectIcon);
+    return DOM.span(baseConfig, getTitle(grip), inspectIcon);
   }
 
   return (
     DOM.span(baseConfig,
-      getTitle(props, grip),
+      getTitle(grip),
       DOM.span({className: "nodeValue"},
         " ",
         `"${getTextContent(grip)}"`
@@ -91,9 +89,9 @@ function getTextContent(grip) {
   return cropString(grip.preview.textContent);
 }
 
-function getTitle(props, grip) {
+function getTitle(grip) {
   const title = "#text";
-  return safeObjectLink(props, {}, title);
+  return DOM.span({}, title);
 }
 
 // Registration

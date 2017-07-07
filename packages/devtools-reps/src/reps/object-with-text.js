@@ -19,7 +19,6 @@ const { span } = React.DOM;
  */
 ObjectWithText.propTypes = {
   object: React.PropTypes.object.isRequired,
-  objectLink: React.PropTypes.func,
 };
 
 function ObjectWithText(props) {
@@ -29,21 +28,9 @@ function ObjectWithText(props) {
       "data-link-actor-id": grip.actor,
       className: "objectBox objectBox-" + getType(grip)
     },
-      getTitle(props, grip),
       span({className: "objectPropValue"}, getDescription(grip))
     )
   );
-}
-
-function getTitle(props, grip) {
-  if (props.objectLink) {
-    return span({className: "objectBox"},
-      props.objectLink({
-        object: grip
-      }, getType(grip) + " ")
-    );
-  }
-  return "";
 }
 
 function getType(grip) {

@@ -8,7 +8,6 @@ const React = require("react");
 // Utils
 const {
   isGrip,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
@@ -28,7 +27,6 @@ ElementNode.propTypes = {
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
-  objectLink: React.PropTypes.func,
 };
 
 function ElementNode(props) {
@@ -73,7 +71,7 @@ function ElementNode(props) {
   }
 
   return span(baseConfig,
-    safeObjectLink(props, {}, ...elements),
+    ...elements,
     inspectIcon
   );
 }

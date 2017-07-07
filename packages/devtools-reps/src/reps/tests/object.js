@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   REPS,
@@ -165,30 +164,6 @@ describe("Object - Custom Title", () => {
     expect(renderComponent(
       object, { mode: MODE.LONG, title: customTitle}).text()
     ).toEqual(defaultOutput);
-  });
-});
-
-describe("Object - Object link", () => {
-  const object = {
-    a: undefined,
-    b: 1,
-    "more": 2,
-    d: 3
-  };
-  const defaultOutput = "*Object** { *b: 1, more: 2, d: 3, *more…** }*";
-
-  it("renders object with more properties as expected", () => {
-    const objectLink = (props, ...children) => React.DOM.span({},
-      "*", ...children, "*");
-
-    expect(renderComponent(object, { mode: undefined, objectLink }).text())
-      .toEqual(defaultOutput);
-    expect(renderComponent(object, { mode: MODE.TINY, objectLink }).text())
-      .toEqual("*Object*");
-    expect(renderComponent(object, { mode: MODE.SHORT, objectLink }).text())
-      .toEqual(defaultOutput);
-    expect(renderComponent(object, { mode: MODE.LONG, objectLink }).text())
-      .toEqual(defaultOutput);
   });
 });
 

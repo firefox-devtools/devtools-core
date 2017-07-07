@@ -5,7 +5,6 @@
 // Dependencies
 const React = require("react");
 const {
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 const Caption = require("./caption");
@@ -21,7 +20,6 @@ ObjectRep.propTypes = {
   object: React.PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  objectLink: React.PropTypes.func,
   title: React.PropTypes.string,
 };
 
@@ -40,11 +38,11 @@ function ObjectRep(props) {
   return (
     span({className: "objectBox objectBox-object"},
       getTitle(props, object),
-      safeObjectLink(props, {
+      span({
         className: "objectLeftBrace",
       }, " { "),
       ...propsArray,
-      safeObjectLink(props, {
+      span({
         className: "objectRightBrace",
       }, " }")
     )
@@ -53,7 +51,7 @@ function ObjectRep(props) {
 
 function getTitle(props, object) {
   let title = props.title || object.class || "Object";
-  return safeObjectLink(props, {className: "objectTitle"}, title);
+  return span({className: "objectTitle"}, title);
 }
 
 function safePropIterator(props, object, max) {
@@ -97,7 +95,7 @@ function propIterator(props, object, max) {
   let propsArray = getPropsArray(interestingObject);
   if (Object.keys(object).length > max) {
     propsArray.push(Caption({
-      object: safeObjectLink(props, {}, "more…")
+      object: span({}, "more…")
     }));
   }
 

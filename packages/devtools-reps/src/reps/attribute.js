@@ -8,7 +8,6 @@ const React = require("react");
 // Reps
 const {
   isGrip,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 const {rep: StringRep} = require("./string");
@@ -21,7 +20,6 @@ const { span } = React.DOM;
  */
 Attribute.propTypes = {
   object: React.PropTypes.object.isRequired,
-  objectLink: React.PropTypes.func,
 };
 
 function Attribute(props) {
@@ -31,9 +29,9 @@ function Attribute(props) {
   let value = object.preview.value;
 
   return (
-    safeObjectLink(props, {
-      className: "objectLink-Attr",
+    span({
       "data-link-actor-id": object.actor,
+      className: "objectLink-Attr"
     },
       span({className: "attrTitle"},
         getTitle(object)

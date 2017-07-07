@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   REPS,
@@ -30,16 +29,5 @@ describe("ObjectWithURL", () => {
     expect(renderedComponent.hasClass("objectBox-Location")).toBe(true);
     expect(innerNode.text()).toBe("https://www.mozilla.org/en-US/");
     expectActorAttribute(renderedComponent, stub.actor);
-  });
-
-  it("renders correctly with an ObjectLink", () => {
-    const renderedComponent = shallow(ObjectWithURL.rep({
-      object: stub,
-      objectLink: (props, ...children) => React.DOM.span({},
-        "*", ...children, "*"),
-    }));
-
-    expect(renderedComponent.text())
-      .toBe("*Location *https://www.mozilla.org/en-US/");
   });
 });

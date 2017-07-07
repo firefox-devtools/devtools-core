@@ -8,7 +8,6 @@ const {
 } = require("../rep");
 
 const { shallow } = require("enzyme");
-const React = require("react");
 const {
   expectActorAttribute,
 } = require("./test-helpers");
@@ -32,19 +31,5 @@ describe("Object with text", () => {
 
     expect(renderedComponent.text()).toEqual("\".Shadow\"");
     expectActorAttribute(renderedComponent, gripStub.actor);
-  });
-
-  // Test rendering with objectLink
-  it("renders with correct text content when an objectLink is passed as a prop", () => {
-    const renderedComponent = shallow(Rep({
-      object: gripStub,
-      objectLink: (props, ...children) => React.DOM.span(
-        {},
-        "*",
-        ...children, "*"
-      )
-    }));
-
-    expect(renderedComponent.text()).toEqual("*CSSStyleRule *\".Shadow\"");
   });
 });

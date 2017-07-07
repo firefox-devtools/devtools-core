@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   REPS,
@@ -155,23 +154,5 @@ describe("Promise - fulfilled with node", () => {
 
     expect(icon.exists()).toBe(true);
     expect(onInspectIconClick.mock.calls.length).toBe(1);
-  });
-});
-
-describe("Promise - objectLink", () => {
-  const object = stubs.get("Pending");
-  const defaultOutput = `*Promise** { *<state>: "pending"* }*`;
-  const objectLink = (props, ...children) => React.DOM.span({},
-      "*", ...children, "*");
-
-  it("should render as expected", () => {
-    expect(renderRep(object, {mode: undefined, objectLink}).text())
-      .toBe(defaultOutput);
-    expect(renderRep(object, {mode: MODE.TINY, objectLink}).text())
-      .toBe('*Promise** { *"pending"* }*');
-    expect(renderRep(object, {mode: MODE.SHORT, objectLink}).text())
-      .toBe(defaultOutput);
-    expect(renderRep(object, {mode: MODE.LONG, objectLink}).text())
-      .toBe(defaultOutput);
   });
 });

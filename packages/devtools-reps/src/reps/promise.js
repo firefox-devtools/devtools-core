@@ -7,7 +7,6 @@ const React = require("react");
 // Dependencies
 const {
   isGrip,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -23,7 +22,6 @@ PromiseRep.propTypes = {
   object: React.PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  objectLink: React.PropTypes.func,
   onDOMNodeMouseOver: React.PropTypes.func,
   onDOMNodeMouseOut: React.PropTypes.func,
   onInspectIconClick: React.PropTypes.func,
@@ -43,12 +41,12 @@ function PromiseRep(props) {
 
     return (
       span(config,
-        getTitle(props, object),
-        safeObjectLink(props, {
+        getTitle(object),
+        span({
           className: "objectLeftBrace",
         }, " { "),
         Rep({object: promiseState.state}),
-        safeObjectLink(props, {
+        span({
           className: "objectRightBrace",
         }, " }")
       )
@@ -58,21 +56,20 @@ function PromiseRep(props) {
   const propsArray = getProps(props, promiseState);
   return (
     span(config,
-      getTitle(props, object),
-      safeObjectLink(props, {
+      getTitle(object),
+      span({
         className: "objectLeftBrace",
       }, " { "),
       ...propsArray,
-      safeObjectLink(props, {
+      span({
         className: "objectRightBrace",
       }, " }")
     )
   );
 }
 
-function getTitle(props, object) {
-  const title = object.class;
-  return safeObjectLink(props, {}, title);
+function getTitle(object) {
+  return span({}, object.class);
 }
 
 function getProps(props, promiseState) {

@@ -9,7 +9,6 @@ const React = require("react");
 const {
   isGrip,
   cropString,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -21,7 +20,6 @@ const { span } = React.DOM;
  */
 FunctionRep.propTypes = {
   object: React.PropTypes.object.isRequired,
-  objectLink: React.PropTypes.func,
   parameterNames: React.PropTypes.array,
 };
 
@@ -54,7 +52,7 @@ function getTitle(props, grip) {
     title = "async " + title;
   }
 
-  return safeObjectLink(props, {}, title);
+  return span({}, title);
 }
 
 function summarizeFunction(grip) {

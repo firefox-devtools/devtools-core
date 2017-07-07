@@ -2,7 +2,6 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const React = require("react");
 const { shallow } = require("enzyme");
 const { REPS } = require("../rep");
 const { MODE } = require("../constants");
@@ -30,15 +29,6 @@ describe("Function - Named", () => {
       .toBe("function testName(a, b, c)");
 
     expectActorAttribute(renderRep(object), object.actor);
-  });
-
-  it("renders as expected with object link", () => {
-    const renderedComponent = renderRep(object, {
-      objectLink: (props, ...children) => React.DOM.span({},
-        "*", ...children, "*")
-    });
-
-    expect(renderedComponent.text()).toBe("*function *testName()");
   });
 });
 

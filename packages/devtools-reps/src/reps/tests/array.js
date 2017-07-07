@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const { shallow } = require("enzyme");
-const React = require("react");
 
 const {
   REPS,
@@ -94,21 +93,6 @@ describe("Array", () => {
     const defaultOutput = "[ Object ]";
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("[1]");
-    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
-  });
-
-  it("renders as expected when an objectLink is passed as a prop", () => {
-    const object = ["a", "b", "c"];
-    const renderRep = props => shallow(Rep(Object.assign({
-      object,
-      objectLink: (_, ...children) => React.DOM.span({},
-        "*", ...children, "*")
-    }, props)));
-
-    const defaultOutput = `*[ *"a", "b", "c"* ]*`;
-    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("*[*3*]*");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });

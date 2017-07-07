@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
-const React = require("react");
 const { shallow } = require("enzyme");
 const {
   getRep,
@@ -160,21 +159,6 @@ describe("GripMap - uninteresting entries", () => {
 
     const longOutput =
       `Map { "key-a": null, "key-b": undefined, "key-c": "value-c", "key-d": 4 }`;
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
-  });
-
-  it("renders as expected when passed an objectLink props", () => {
-    const renderRep = (props) => shallowRenderRep(object, Object.assign({
-      objectLink: (_, ...children) => React.DOM.span({}, "<", ...children, ">"),
-    }, props));
-    const defaultOutput =
-      `<Map>< { >"key-a": null, "key-c": "value-c", "key-d": 4, <more…>< }>`;
-
-    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("<Map>");
-    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    const longOutput =
-      `<Map>< { >"key-a": null, "key-b": undefined, "key-c": "value-c", "key-d": 4< }>`;
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 });

@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
-const React = require("react");
 const { shallow } = require("enzyme");
 
 const {
@@ -109,19 +108,5 @@ describe("TextNode", () => {
     const onInspectIconClick = jest.fn();
     const wrapper = shallow(TextNode.rep({ object, onInspectIconClick }));
     expect(wrapper.find(".open-inspector").length).toBe(0);
-  });
-
-  it("renders the expected text content when an objectLink is passed as a prop", () => {
-    const object = stubs.get("testRendering");
-    const renderRep = props => shallow(TextNode.rep(Object.assign({
-      object,
-      objectLink: (_, ...children) => React.DOM.span({}, "*", ...children, "*"),
-    }, props)));
-
-    const defaultOutput = `*#text* "hello world"`;
-    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("*#text*");
-    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
 });

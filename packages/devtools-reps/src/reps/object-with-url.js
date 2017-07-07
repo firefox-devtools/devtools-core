@@ -9,7 +9,6 @@ const React = require("react");
 const {
   isGrip,
   getURLDisplayString,
-  safeObjectLink,
   wrapRender,
 } = require("./rep-utils");
 
@@ -21,7 +20,6 @@ const { span } = React.DOM;
  */
 ObjectWithURL.propTypes = {
   object: React.PropTypes.object.isRequired,
-  objectLink: React.PropTypes.func,
 };
 
 function ObjectWithURL(props) {
@@ -37,8 +35,8 @@ function ObjectWithURL(props) {
   );
 }
 
-function getTitle(props, grip) {
-  return safeObjectLink(props, {className: "objectBox"}, getType(grip) + " ");
+function getTitle(grip) {
+  return span({className: "objectBox"}, getType(grip) + " ");
 }
 
 function getType(grip) {
