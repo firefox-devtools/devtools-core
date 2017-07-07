@@ -38,7 +38,7 @@ function StyleSheet(props) {
 
 function getTitle(grip) {
   let title = "StyleSheet ";
-  return span({className: "objectBox"}, title);
+  return span({className: "objectBoxTitle"}, title);
 }
 
 function getLocation(grip) {

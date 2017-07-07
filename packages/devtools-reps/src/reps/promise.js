@@ -69,7 +69,9 @@ function PromiseRep(props) {
 }
 
 function getTitle(object) {
-  return span({}, object.class);
+  return span({
+    className: "objectTitle",
+  }, object.class);
 }
 
 function getProps(props, promiseState) {

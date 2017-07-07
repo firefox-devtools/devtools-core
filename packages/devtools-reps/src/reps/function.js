@@ -52,7 +52,9 @@ function getTitle(props, grip) {
     title = "async " + title;
   }
 
-  return span({}, title);
+  return span({
+    className: "objectTitle",
+  }, title);
 }
 
 function summarizeFunction(grip) {

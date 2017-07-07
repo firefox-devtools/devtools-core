@@ -98,7 +98,9 @@ function getTitle(props, object) {
   }
 
   let title = props.title || object.class || "Array";
-  return span({}, title + " ");
+  return span({
+    className: "objectTitle",
+  }, title + " ");
 }
 
 function getPreviewItems(grip) {

@@ -44,7 +44,9 @@ function getLocation(grip) {
 }
 
 function getTitle(grip) {
-  return span({}, grip.class + " ");
+  return span({
+    className: "objectTitle",
+  }, grip.class + " ");
 }
 
 // Registration
