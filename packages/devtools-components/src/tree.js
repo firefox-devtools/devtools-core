@@ -2,8 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+ const { DOM: dom, createClass, createFactory, PropTypes } = require("react");
+ const InlineSVG = createFactory(require("svg-inline-react"));
+ const svgArrow = require("./images/arrow.svg");
  require("./tree.css");
-const { DOM: dom, createClass, createFactory, PropTypes } = require("react");
 
 const AUTO_EXPAND_DEPTH = 0; // depth
 
@@ -22,15 +24,13 @@ const ArrowExpander = createFactory(createClass({
 
   render() {
     const attrs = {
-      className: "arrow theme-twisty",
+      className: this.props.expanded
+        ? "expanded"
+        : null,
       onClick: this.props.expanded
         ? () => this.props.onCollapse(this.props.item)
         : e => this.props.onExpand(this.props.item, e.altKey)
     };
-
-    if (this.props.expanded) {
-      attrs.className += " open";
-    }
 
     if (!this.props.visible) {
       attrs.style = Object.assign({}, this.props.style || {}, {
@@ -38,7 +38,13 @@ const ArrowExpander = createFactory(createClass({
       });
     }
 
-    return dom.div(attrs, this.props.children);
+    return dom.span(attrs,
+      InlineSVG({
+        className: "arrow",
+        src: svgArrow
+      }),
+      this.props.children
+    );
   }
 }));
 
