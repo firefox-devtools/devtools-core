@@ -17,7 +17,6 @@ checkout:
 
 test:
   override:
-    - ./bin/run-mochitests-docker
     - jest
   post:
     - npm run lint-js

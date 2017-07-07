@@ -10,11 +10,10 @@ function start() {
   console.log("start: publish assets");
   const projectPath = path.resolve(__dirname, "..");
 
-  const mochiDir = path.resolve(projectPath, "assets/build/mochitest");
   const buildDir = path.resolve(projectPath, "assets/build");
   const assetsDir = path.resolve(projectPath, "assets");
 
-  console.log(assetsDir, buildDir, mochiDir);
+  console.log(assetsDir, buildDir);
   if (!fs.existsSync(assetsDir)) {
     fs.mkdirSync(assetsDir);
   }
@@ -23,19 +22,9 @@ function start() {
     fs.mkdirSync(buildDir);
   }
 
-  if (!fs.existsSync(mochiDir)) {
-    fs.mkdirSync(mochiDir);
-  }
-
   copyFile(
     path.resolve(projectPath, "src/reps/reps.css"),
     path.resolve(projectPath, "assets/build/reps.css"),
-    { cwd: projectPath }
-  );
-
-  copyFile(
-    path.resolve(projectPath, "src/test/mochitest"),
-    path.resolve(projectPath, "assets/build/mochitest"),
     { cwd: projectPath }
   );
 
