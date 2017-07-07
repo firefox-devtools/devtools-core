@@ -3,9 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 .tree {
-  white-space: nowrap;
   overflow: auto;
-  min-width: 100%;
+  display: inline-block;
+}
+
+.tree.nowrap {
+  white-space: nowrap;
 }
 
 .tree.noselect {
@@ -32,24 +35,23 @@
 }
 
 .arrow svg {
-  --width: 10px;
   fill: var(--theme-splitter-color);
-  /*margin-top: 3px;*/
   transition: transform 0.125s ease;
-  width: var(--width);
-  /*margin-top: calc((16px - var(--width) / 2));*/
-}
-
-html:not([dir="rtl"]) .arrow svg {
-  margin-right: 5px;
+  width: 10px;
+  margin-inline-end: 5px;
   transform: rotate(-90deg);
 }
 
-html[dir="rtl"] .arrow svg {
-  margin-left: 5px;
+html[dir="rtl"] .arrow svg,
+.arrow svg:dir(rtl),
+.arrow svg:-moz-locale-dir(rtl) {
   transform: rotate(90deg);
 }
 
 .arrow.expanded.expanded svg {
   transform: rotate(0deg);
+}
+
+.object-label {
+  color: var(--theme-highlight-blue);
 }

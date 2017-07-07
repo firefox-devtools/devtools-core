@@ -45,6 +45,7 @@ type Props = {
   itemHeight: number,
   mode: Mode,
   roots: Array<ObjectInspectorItem>,
+  disableWrap: boolean,
   getObjectProperties: (actor:string) => any,
   loadObjectProperties: (value:Grip) => any,
   onFocus: ?(ObjectInspectorItem) => any,
@@ -333,6 +334,7 @@ class ObjectInspector extends Component {
       autoExpandAll = true,
       disabledFocus,
       itemHeight = 20,
+      disableWrap = false,
     } = this.props;
 
     const {
@@ -346,6 +348,7 @@ class ObjectInspector extends Component {
     }
 
     return Tree({
+      className: disableWrap ? "nowrap" : "",
       autoExpandAll,
       autoExpandDepth,
       disabledFocus,
@@ -374,6 +377,7 @@ ObjectInspector.propTypes = {
   autoExpandAll: PropTypes.bool,
   autoExpandDepth: PropTypes.number,
   disabledFocus: PropTypes.bool,
+  disableWrap: PropTypes.bool,
   roots: PropTypes.array,
   getObjectProperties: PropTypes.func.isRequired,
   loadObjectProperties: PropTypes.func.isRequired,

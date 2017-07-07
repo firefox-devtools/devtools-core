@@ -277,7 +277,7 @@ const Tree = module.exports = createClass({
 
     return dom.div(
       {
-        className: "tree",
+        className: `tree ${this.props.className ? this.props.className : ""}`,
         ref: "tree",
         onKeyDown: this._onKeyDown,
         onKeyPress: this._preventArrowKeyScrolling,
