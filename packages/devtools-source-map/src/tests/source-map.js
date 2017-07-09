@@ -6,11 +6,26 @@ const fs = require("fs");
 const path = require("path");
 
 jest.mock("devtools-utils/src/network-request");
-const { getOriginalURLs } = require("../source-map");
+const { getOriginalURLs, hasMappedSource } = require("../source-map");
 
 function getMap(_path) {
   const mapPath = path.join(__dirname, _path);
   return fs.readFileSync(mapPath, "utf8");
+}
+
+async function setupBundleFixture() {
+  const source = {
+    id: "bundle.js",
+    sourceMapURL: "bundle.js.map",
+    url: "http:://example.com/bundle.js"
+  };
+
+  require("devtools-utils/src/network-request").mockImplementationOnce(() => {
+    const content = getMap("fixtures/bundle.js.map");
+    return { content };
+  });
+
+  await getOriginalURLs(source);
 }
 
 describe("source maps", () => {
@@ -18,7 +33,7 @@ describe("source maps", () => {
     const source = {
       id: "bundle.js",
       sourceMapURL: "bundle.js.map",
-      url: "http:://example.com/bundle.js",
+      url: "http:://example.com/bundle.js"
     };
 
     require("devtools-utils/src/network-request").mockImplementationOnce(() => {
@@ -87,5 +102,26 @@ describe("source maps", () => {
     expect(urls).toEqual([
       "http://example.com/whatever/heart.js"
     ]);
+  });
+
+  describe("hasMappedSource", async () => {
+    test("has original location", async () => {
+      await setupBundleFixture()
+      const location = {
+        sourceId: "bundle.js",
+        line: 49
+      };
+      const isMappaed = await hasMappedSource(location);
+      expect(isMappaed).toBe(true);
+    })
+
+    test("does not have original location", async () => {
+      const location = {
+        sourceId: "bundle.js",
+        line: 94
+      };
+      const isMappaed = await hasMappedSource(location);
+      expect(isMappaed).toBe(false);
+    })
   });
 });
