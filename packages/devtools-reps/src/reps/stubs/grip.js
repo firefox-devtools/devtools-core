@@ -70,7 +70,7 @@ stubs.set("testMoreThanMaxProps", {
   "ownPropertyLength": longModeMaxLength + 1,
   "preview": {
     "kind": "Object",
-    "ownProperties": Array.from({length: longModeMaxLength + 1})
+    "ownProperties": Array.from({length: longModeMaxLength})
       .reduce((res, item, index) => Object.assign(res, {
         ["p" + index]: {
           "configurable": true,
