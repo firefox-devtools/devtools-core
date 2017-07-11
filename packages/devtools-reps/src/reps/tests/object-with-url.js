@@ -24,10 +24,12 @@ describe("ObjectWithURL", () => {
     const renderedComponent = shallow(ObjectWithURL.rep({
       object: stub
     }));
-    const innerNode = renderedComponent.find(".objectPropValue");
-
+    expect(renderedComponent.text()).toBe("Location https://www.mozilla.org/en-US/");
     expect(renderedComponent.hasClass("objectBox-Location")).toBe(true);
+
+    const innerNode = renderedComponent.find(".objectPropValue");
     expect(innerNode.text()).toBe("https://www.mozilla.org/en-US/");
+
     expectActorAttribute(renderedComponent, stub.actor);
   });
 });
