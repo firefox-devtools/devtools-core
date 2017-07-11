@@ -29,7 +29,7 @@ function ObjectWithURL(props) {
       "data-link-actor-id": grip.actor,
       className: "objectBox objectBox-" + getType(grip)
     },
-      getTitle(props, grip),
+      getTitle(grip),
       span({className: "objectPropValue"}, getDescription(grip))
     )
   );
