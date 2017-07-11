@@ -128,7 +128,7 @@ function propIterator(props, object, max) {
   // unquoted.
   const suppressQuotes = object.class === "Proxy";
   let propsArray = getProps(props, properties, indexes, suppressQuotes);
-  if (Object.keys(properties).length > max) {
+  if (Object.keys(properties).length > max || propertiesLength > max) {
     // There are some undisplayed props. Then display "more...".
     propsArray.push(Caption({
       object: span({}, "more…")
