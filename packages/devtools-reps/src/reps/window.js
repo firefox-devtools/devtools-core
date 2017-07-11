@@ -56,7 +56,7 @@ function WindowRep(props) {
 
 function getTitle(object) {
   let title = object.displayClass || object.class || "Window";
-  return span({className: "objectBox"}, title);
+  return span({className: "objectBoxTitle"}, title);
 }
 
 function getLocation(object) {

@@ -67,7 +67,9 @@ function GripRep(props) {
 
 function getTitle(props, object) {
   let title = props.title || object.class || "Object";
-  return span({}, title);
+  return span({
+    className: "objectTitle",
+  }, title);
 }
 
 function safePropIterator(props, object, max) {

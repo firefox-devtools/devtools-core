@@ -36,7 +36,7 @@ function ObjectWithURL(props) {
 }
 
 function getTitle(grip) {
-  return span({className: "objectBox"}, getType(grip) + " ");
+  return span({className: "objectTitle"}, getType(grip) + " ");
 }
 
 function getType(grip) {

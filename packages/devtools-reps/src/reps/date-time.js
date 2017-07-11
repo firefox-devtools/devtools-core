@@ -42,7 +42,9 @@ function DateTime(props) {
 }
 
 function getTitle(grip) {
-  return span({}, grip.class + " ");
+  return span({
+    className: "objectTitle"
+  }, grip.class + " ");
 }
 
 // Registration

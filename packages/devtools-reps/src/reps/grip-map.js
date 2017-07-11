@@ -64,7 +64,9 @@ function GripMap(props) {
 
 function getTitle(props, object) {
   let title = props.title || (object && object.class ? object.class : "Map");
-  return span({}, title);
+  return span({
+    className: "objectTitle",
+  }, title);
 }
 
 function safeEntriesIterator(props, object, max) {
