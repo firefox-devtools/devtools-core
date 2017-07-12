@@ -36,7 +36,7 @@ function FunctionRep(props) {
       dir: "ltr",
     },
       getTitle(props, grip),
-      summarizeFunction(grip),
+      getFunctionName(grip, props),
       "(",
       ...renderParams(props),
       ")"
@@ -45,12 +45,26 @@ function FunctionRep(props) {
 }
 
 function getTitle(props, grip) {
-  let title = "function ";
-  if (grip.isGenerator) {
-    title = "function* ";
+  const {
+    simplified
+  } = props;
+
+  if (simplified === true && !grip.isGenerator && !grip.isAsync) {
+    return null;
   }
+
+  let title = simplified === true
+    ? ""
+    : "function ";
+
+  if (grip.isGenerator) {
+    title = simplified === true
+      ? "* "
+      : "function* ";
+  }
+
   if (grip.isAsync) {
-    title = "async " + title;
+    title = "async" + " " + title;
   }
 
   return span({
@@ -58,8 +72,12 @@ function getTitle(props, grip) {
   }, title);
 }
 
-function summarizeFunction(grip) {
-  let name = grip.userDisplayName || grip.displayName || grip.name || "";
+function getFunctionName(grip, props) {
+  let name = grip.userDisplayName
+    || grip.displayName
+    || grip.name
+    || props.functionName
+    || "";
   return cropString(name, 100);
 }
 

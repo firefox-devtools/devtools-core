@@ -151,6 +151,18 @@ function nodeIsWindow(
   return value.class == "Window";
 }
 
+function nodeIsGetter(
+  item: Node
+) : boolean {
+  return getType(item) === NODE_TYPES.GET;
+}
+
+function nodeIsSetter(
+  item: Node
+) : boolean {
+  return getType(item) === NODE_TYPES.SET;
+}
+
 function nodeHasAccessors(item: Node) : boolean {
   return !!getNodeGetter(item) || !!getNodeSetter(item);
 }
@@ -638,6 +650,7 @@ module.exports = {
   nodeIsDefaultProperties,
   nodeIsEntries,
   nodeIsFunction,
+  nodeIsGetter,
   nodeIsMapEntry,
   nodeIsMissingArguments,
   nodeIsObject,
@@ -645,6 +658,7 @@ module.exports = {
   nodeIsPrimitive,
   nodeIsPromise,
   nodeIsPrototype,
+  nodeIsSetter,
   nodeIsWindow,
   nodeSupportsBucketing,
   setNodeChildren,

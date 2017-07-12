@@ -27,6 +27,13 @@ describe("Function - Named", () => {
       .toBe("function testName(a)");
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function testName(a, b, c)");
+    expect(renderRep(object, {
+      simplified: true,
+    }).text()).toBe("testName()");
+    expect(renderRep(object, {
+      simplified: true,
+      parameterNames: ["a", "b", "c"]
+    }).text()).toBe("testName(a, b, c)");
 
     expectActorAttribute(renderRep(object), object.actor);
   });
@@ -45,6 +52,13 @@ describe("Function - User named", () => {
       .toBe("function testUserName(a)");
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function testUserName(a, b, c)");
+    expect(renderRep(object, {
+      simplified: true,
+    }).text()).toBe("testUserName()");
+    expect(renderRep(object, {
+      simplified: true,
+      parameterNames: ["a", "b", "c"]
+    }).text()).toBe("testUserName(a, b, c)");
   });
 });
 
@@ -61,6 +75,13 @@ describe("Function - Var named", () => {
       .toBe("function testVarName(a)");
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function testVarName(a, b, c)");
+    expect(renderRep(object, {
+      simplified: true,
+    }).text()).toBe("testVarName()");
+    expect(renderRep(object, {
+      simplified: true,
+      parameterNames: ["a", "b", "c"]
+    }).text()).toBe("testVarName(a, b, c)");
   });
 });
 
@@ -77,6 +98,13 @@ describe("Function - Anonymous", () => {
       .toBe("function (a)");
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function (a, b, c)");
+    expect(renderRep(object, {
+      simplified: true,
+    }).text()).toBe("()");
+    expect(renderRep(object, {
+      simplified: true,
+      parameterNames: ["a", "b", "c"]
+    }).text()).toBe("(a, b, c)");
   });
 });
 
@@ -96,6 +124,13 @@ describe("Function - Long name", () => {
       .toBe(`function ${functionName}(a)`);
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe(`function ${functionName}(a, b, c)`);
+    expect(renderRep(object, {
+      simplified: true,
+    }).text()).toBe(`${functionName}()`);
+    expect(renderRep(object, {
+      simplified: true,
+      parameterNames: ["a", "b", "c"]
+    }).text()).toBe(`${functionName}(a, b, c)`);
   });
 });
 
@@ -117,6 +152,13 @@ describe("Function - Async function", () => {
       .toBe("async function waitUntil2017(a)");
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("async function waitUntil2017(a, b, c)");
+    expect(renderRep(object, {
+      simplified: true,
+    }).text()).toBe("async waitUntil2017()");
+    expect(renderRep(object, {
+      simplified: true,
+      parameterNames: ["a", "b", "c"]
+    }).text()).toBe("async waitUntil2017(a, b, c)");
   });
 });
 
@@ -138,6 +180,13 @@ describe("Function - Anonymous async function", () => {
       .toBe("async function (a)");
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("async function (a, b, c)");
+    expect(renderRep(object, {
+      simplified: true,
+    }).text()).toBe("async ()");
+    expect(renderRep(object, {
+      simplified: true,
+      parameterNames: ["a", "b", "c"]
+    }).text()).toBe("async (a, b, c)");
   });
 });
 
@@ -159,6 +208,13 @@ describe("Function - Generator function", () => {
       .toBe("function* fib(a)");
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function* fib(a, b, c)");
+    expect(renderRep(object, {
+      simplified: true,
+    }).text()).toBe("* fib()");
+    expect(renderRep(object, {
+      simplified: true,
+      parameterNames: ["a", "b", "c"]
+    }).text()).toBe("* fib(a, b, c)");
   });
 });
 
@@ -180,5 +236,12 @@ describe("Function - Anonymous generator function", () => {
       .toBe("function* (a)");
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function* (a, b, c)");
+    expect(renderRep(object, {
+      simplified: true,
+    }).text()).toBe("* ()");
+    expect(renderRep(object, {
+      simplified: true,
+      parameterNames: ["a", "b", "c"]
+    }).text()).toBe("* (a, b, c)");
   });
 });
