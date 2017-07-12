@@ -16,7 +16,7 @@ const renderComponent = (object, props) => {
 
 describe("Object - Basic", () => {
   const object = {};
-  const defaultOutput = "Object";
+  const defaultOutput = "Object {  }";
 
   it("selects the correct rep", () => {
     expect(getRep(object)).toBe(Obj.rep);
@@ -25,8 +25,7 @@ describe("Object - Basic", () => {
   it("renders basic object as expected", () => {
     expect(renderComponent(object, { mode: undefined }).text())
       .toEqual(defaultOutput);
-    expect(renderComponent(object, { mode: MODE.TINY }).text())
-      .toEqual(defaultOutput);
+    expect(renderComponent(object, { mode: MODE.TINY }).text()).toEqual("{}");
     expect(renderComponent(object, { mode: MODE.SHORT }).text())
       .toEqual(defaultOutput);
     expect(renderComponent(object, { mode: MODE.LONG }).text())
@@ -41,8 +40,7 @@ describe("Object - Max props", () => {
   it("renders object with max props as expected", () => {
     expect(renderComponent(object, { mode: undefined }).text())
       .toEqual(defaultOutput);
-    expect(renderComponent(object, { mode: MODE.TINY }).text())
-      .toEqual("Object");
+    expect(renderComponent(object, { mode: MODE.TINY }).text()).toEqual("{…}");
     expect(renderComponent(object, { mode: MODE.SHORT }).text())
       .toEqual(defaultOutput);
     expect(renderComponent(object, { mode: MODE.LONG }).text())
@@ -55,13 +53,12 @@ describe("Object - Many props", () => {
   for (let i = 0; i < 100; i++) {
     object[`p${i}`] = i;
   }
-  const defaultOutput = "Object { p0: 0, p1: 1, p2: 2, more… }";
+  const defaultOutput = "Object { p0: 0, p1: 1, p2: 2, … }";
 
   it("renders object with many props as expected", () => {
     expect(renderComponent(object, { mode: undefined }).text())
       .toEqual(defaultOutput);
-    expect(renderComponent(object, { mode: MODE.TINY }).text())
-      .toEqual("Object");
+    expect(renderComponent(object, { mode: MODE.TINY }).text()).toEqual("{…}");
     expect(renderComponent(object, { mode: MODE.SHORT }).text())
       .toEqual(defaultOutput);
     expect(renderComponent(object, { mode: MODE.LONG }).text())
@@ -71,13 +68,12 @@ describe("Object - Many props", () => {
 
 describe("Object - Uninteresting props", () => {
   const object = {a: undefined, b: undefined, c: "c", d: 0};
-  const defaultOutput = "Object { c: \"c\", d: 0, a: undefined, more… }";
+  const defaultOutput = "Object { c: \"c\", d: 0, a: undefined, … }";
 
   it("renders object with uninteresting props as expected", () => {
     expect(renderComponent(object, { mode: undefined }).text())
       .toEqual(defaultOutput);
-    expect(renderComponent(object, { mode: MODE.TINY }).text())
-      .toEqual("Object");
+    expect(renderComponent(object, { mode: MODE.TINY }).text()).toEqual("{…}");
     expect(renderComponent(object, { mode: MODE.SHORT }).text())
       .toEqual(defaultOutput);
     expect(renderComponent(object, { mode: MODE.LONG }).text())
@@ -92,8 +88,7 @@ describe("Object - Escaped property names", () => {
   it("renders object with escaped property names as expected", () => {
     expect(renderComponent(object, { mode: undefined }).text())
       .toEqual(defaultOutput);
-    expect(renderComponent(object, { mode: MODE.TINY }).text())
-      .toEqual("Object");
+    expect(renderComponent(object, { mode: MODE.TINY }).text()).toEqual("{…}");
     expect(renderComponent(object, { mode: MODE.SHORT }).text())
       .toEqual(defaultOutput);
     expect(renderComponent(object, { mode: MODE.LONG }).text())
@@ -110,14 +105,13 @@ describe("Object - Nested", () => {
     strProp: "test string",
     arrProp: [1]
   };
-  const defaultOutput = "Object { strProp: \"test string\", objProp: Object," +
-    " arrProp: [1] }";
+  const defaultOutput = "Object { strProp: \"test string\", objProp: {…}," +
+    " arrProp: […] }";
 
   it("renders nested object as expected", () => {
     expect(renderComponent(object, { mode: undefined }).text())
       .toEqual(defaultOutput);
-    expect(renderComponent(object, { mode: MODE.TINY }).text())
-      .toEqual("Object");
+    expect(renderComponent(object, { mode: MODE.TINY }).text()).toEqual("{…}");
     expect(renderComponent(object, { mode: MODE.SHORT }).text())
       .toEqual(defaultOutput);
     expect(renderComponent(object, { mode: MODE.LONG }).text())
@@ -132,13 +126,12 @@ describe("Object - More prop", () => {
     "more": 2,
     d: 3
   };
-  const defaultOutput = "Object { b: 1, more: 2, d: 3, more… }";
+  const defaultOutput = "Object { b: 1, more: 2, d: 3, … }";
 
   it("renders object with more properties as expected", () => {
     expect(renderComponent(object, { mode: undefined }).text())
       .toEqual(defaultOutput);
-    expect(renderComponent(object, { mode: MODE.TINY }).text())
-      .toEqual("Object");
+    expect(renderComponent(object, { mode: MODE.TINY }).text()).toEqual("{…}");
     expect(renderComponent(object, { mode: MODE.SHORT }).text())
       .toEqual(defaultOutput);
     expect(renderComponent(object, { mode: MODE.LONG }).text())

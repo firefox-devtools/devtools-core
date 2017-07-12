@@ -7,7 +7,6 @@ const React = require("react");
 const {
   wrapRender,
 } = require("./rep-utils");
-const Caption = require("./caption");
 const { MODE } = require("./constants");
 
 const ModePropType = React.PropTypes.oneOf(
@@ -41,7 +40,14 @@ function ArrayRep(props) {
 
   if (mode === MODE.TINY) {
     let isEmpty = object.length === 0;
-    items = [DOM.span({className: "length"}, isEmpty ? "" : object.length)];
+    if (isEmpty) {
+      items = [];
+    } else {
+      items = [DOM.span({
+        className: "more-ellipsis",
+        title: "more…"
+      }, "…")];
+    }
     brackets = needSpace(false);
   } else {
     items = arrayIterator(props, object, maxLengthMap.get(mode));
@@ -92,9 +98,10 @@ function arrayIterator(props, array, max) {
   }
 
   if (array.length > max) {
-    items.push(Caption({
-      object: DOM.span({}, "more…")
-    }));
+    items.push(DOM.span({
+      className: "more-ellipsis",
+      title: "more…"
+    }, "…"));
   }
 
   return items;

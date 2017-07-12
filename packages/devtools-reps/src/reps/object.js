@@ -7,11 +7,13 @@ const React = require("react");
 const {
   wrapRender,
 } = require("./rep-utils");
-const Caption = require("./caption");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
 // Shortcuts
 const { span } = React.DOM;
+
+const DEFAULT_TITLE = "Object";
+
 /**
  * Renders an object. An object is represented by a list of its
  * properties enclosed in curly brackets.
@@ -27,17 +29,34 @@ function ObjectRep(props) {
   let object = props.object;
   let propsArray = safePropIterator(props, object);
 
-  if (props.mode === MODE.TINY || !propsArray.length) {
-    return (
-      span({className: "objectBox objectBox-object"},
-        getTitle(props, object)
-      )
-    );
+  if (props.mode === MODE.TINY) {
+    const tinyModeItems = [];
+    if (getTitle(props, object) !== DEFAULT_TITLE) {
+      tinyModeItems.push(getTitleElement(props, object));
+    } else {
+      tinyModeItems.push(
+        span({
+          className: "objectLeftBrace",
+        }, "{"),
+        propsArray.length > 0
+          ? span({
+            key: "more",
+            className: "more-ellipsis",
+            title: "more…"
+          }, "…")
+          : null,
+        span({
+          className: "objectRightBrace",
+        }, "}")
+      );
+    }
+
+    return span({className: "objectBox objectBox-object"}, ...tinyModeItems);
   }
 
   return (
     span({className: "objectBox objectBox-object"},
-      getTitle(props, object),
+      getTitleElement(props, object),
       span({
         className: "objectLeftBrace",
       }, " { "),
@@ -49,9 +68,12 @@ function ObjectRep(props) {
   );
 }
 
+function getTitleElement(props, object) {
+  return span({className: "objectTitle"}, getTitle(props, object));
+}
+
 function getTitle(props, object) {
-  let title = props.title || object.class || "Object";
-  return span({className: "objectTitle"}, title);
+  return props.title || object.class || DEFAULT_TITLE;
 }
 
 function safePropIterator(props, object, max) {
@@ -94,9 +116,10 @@ function propIterator(props, object, max) {
 
   let propsArray = getPropsArray(interestingObject);
   if (Object.keys(object).length > max) {
-    propsArray.push(Caption({
-      object: span({}, "more…")
-    }));
+    propsArray.push(span({
+      className: "more-ellipsis",
+      title: "more…"
+    }, "…"));
   }
 
   return unfoldProps(propsArray);

@@ -27,7 +27,7 @@ describe("Event - beforeprint", () => {
   it("renders with expected text", () => {
     const renderedComponent = shallow(Event.rep({object}));
     expect(renderedComponent.text()).toEqual(
-      "beforeprint { target: Window, isTrusted: true, currentTarget: Window, more… }");
+      "beforeprint { target: Window, isTrusted: true, currentTarget: Window, … }");
     expectActorAttribute(renderedComponent, object.actor);
   });
 });
@@ -42,7 +42,7 @@ describe("Event - keyboard event", () => {
   it("renders with expected text", () => {
     const renderRep = props => shallow(Event.rep(Object.assign({object}, props)));
     expect(renderRep().text()).toEqual(
-      "keyup { target: body, key: \"Control\", charCode: 0, more… }");
+      "keyup { target: body, key: \"Control\", charCode: 0, … }");
     expect(renderRep({mode: MODE.LONG}).text()).toEqual(
       "keyup { target: body, key: \"Control\", charCode: 0, keyCode: 17 }");
   });
@@ -72,11 +72,11 @@ describe("Event - message event", () => {
   it("renders with expected text", () => {
     const renderRep = props => shallow(Event.rep(Object.assign({object}, props)));
     expect(renderRep().text()).toEqual(
-      "message { target: Window, isTrusted: false, data: \"test data\", more… }");
+      "message { target: Window, isTrusted: false, data: \"test data\", … }");
     expect(renderRep({mode: MODE.LONG}).text()).toEqual(
       `message { target: Window, isTrusted: false, data: "test data", ` +
       `origin: "null", lastEventId: "", source: Window, ports: Array, ` +
-      `currentTarget: Window, eventPhase: 2, bubbles: false, more… }`);
+      `currentTarget: Window, eventPhase: 2, bubbles: false, … }`);
   });
 });
 
@@ -93,7 +93,7 @@ describe("Event - mouse event", () => {
 
   it("renders with expected text", () => {
     expect(renderRep().text()).toEqual(
-      "click { target: div#test, clientX: 62, clientY: 18, more… }");
+      "click { target: div#test, clientX: 62, clientY: 18, … }");
     expect(renderRep({mode: MODE.LONG}).text()).toEqual(
       "click { target: div#test, buttons: 0, clientX: 62, clientY: 18, layerX: 0, " +
       "layerY: 0 }");

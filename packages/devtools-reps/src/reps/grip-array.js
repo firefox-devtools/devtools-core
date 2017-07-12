@@ -8,7 +8,6 @@ const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
-const Caption = require("./caption");
 const { MODE } = require("./constants");
 
 // Shortcuts
@@ -43,9 +42,14 @@ function GripArray(props) {
   if (mode === MODE.TINY) {
     let objectLength = getLength(object);
     let isEmpty = objectLength === 0;
-    items = [span({
-      className: "length",
-    }, isEmpty ? "" : objectLength)];
+    if (isEmpty) {
+      items = [];
+    } else {
+      items = [span({
+        className: "more-ellipsis",
+        title: "more…"
+      }, "…")];
+    }
     brackets = needSpace(false);
   } else {
     let max = maxLengthMap.get(mode);
@@ -175,9 +179,10 @@ function arrayIterator(props, grip, max) {
 
   const itemsShown = (items.length + foldedEmptySlots);
   if (gripLength > itemsShown) {
-    items.push(Caption({
-      object: span({}, "more…")
-    }));
+    items.push(span({
+      className: "more-ellipsis",
+      title: "more…"
+    }, "…"));
   }
 
   return items;

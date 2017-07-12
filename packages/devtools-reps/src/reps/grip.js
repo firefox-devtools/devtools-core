@@ -9,7 +9,6 @@ const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
-const Caption = require("./caption");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
 // Shortcuts
@@ -32,6 +31,8 @@ GripRep.propTypes = {
   noGrip: React.PropTypes.bool,
 };
 
+const DEFAULT_TITLE = "Object";
+
 function GripRep(props) {
   let {
     mode = MODE.SHORT,
@@ -44,16 +45,43 @@ function GripRep(props) {
   };
 
   if (mode === MODE.TINY) {
-    return (
-      span(config, getTitle(props, object))
-    );
+    let propertiesLength = object.preview && object.preview.ownPropertiesLength
+      ? object.preview.ownPropertiesLength
+      : object.ownPropertyLength;
+
+    if (object.preview && object.preview.safeGetterValues) {
+      propertiesLength += Object.keys(object.preview.safeGetterValues).length;
+    }
+
+    const tinyModeItems = [];
+    if (getTitle(props, object) !== DEFAULT_TITLE) {
+      tinyModeItems.push(getTitleElement(props, object));
+    } else {
+      tinyModeItems.push(
+        span({
+          className: "objectLeftBrace",
+        }, "{"),
+        propertiesLength > 0
+          ? span({
+              key: "more",
+              className: "more-ellipsis",
+              title: "more…"
+          }, "…")
+          : null,
+        span({
+          className: "objectRightBrace",
+        }, "}")
+      );
+    }
+
+    return span(config, ...tinyModeItems);
   }
 
   let propsArray = safePropIterator(props, object, maxLengthMap.get(mode));
 
   return (
     span(config,
-      getTitle(props, object),
+      getTitleElement(props, object),
       span({
         className: "objectLeftBrace",
       }, " { "),
@@ -65,11 +93,14 @@ function GripRep(props) {
   );
 }
 
-function getTitle(props, object) {
-  let title = props.title || object.class || "Object";
+function getTitleElement(props, object) {
   return span({
     className: "objectTitle",
-  }, title);
+  }, getTitle(props, object));
+}
+
+function getTitle(props, object) {
+  return props.title || object.class || DEFAULT_TITLE;
 }
 
 function safePropIterator(props, object, max) {
@@ -130,11 +161,19 @@ function propIterator(props, object, max) {
   // unquoted.
   const suppressQuotes = object.class === "Proxy";
   let propsArray = getProps(props, properties, indexes, suppressQuotes);
-  if (Object.keys(properties).length > max || propertiesLength > max) {
+  if (
+    Object.keys(properties).length > max
+    || propertiesLength > max
+    // When the object has non-enumerable properties, we don't have them in the packet,
+    // but we might want to show there's something in the object.
+    || propertiesLength > propsArray.length
+  ) {
     // There are some undisplayed props. Then display "more...".
-    propsArray.push(Caption({
-      object: span({}, "more…")
-    }));
+    propsArray.push(span({
+      key: "more",
+      className: "more-ellipsis",
+      title: "more…"
+    }, "…"));
   }
 
   return unfoldProps(propsArray);
