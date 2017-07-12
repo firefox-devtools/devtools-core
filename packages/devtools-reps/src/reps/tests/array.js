@@ -34,9 +34,9 @@ describe("Array", () => {
     const object = [1, "foo", {}];
     const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
 
-    const defaultOutput = `[ 1, "foo", Object ]`;
+    const defaultOutput = `[ 1, "foo", {} ]`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[3]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -46,10 +46,10 @@ describe("Array", () => {
     const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
 
     const defaultShortOutput =
-      `[ ${Array(maxLengthMap.get(MODE.SHORT)).fill("\"foo\"").join(", ")}, more… ]`;
+      `[ ${Array(maxLengthMap.get(MODE.SHORT)).fill("\"foo\"").join(", ")}, … ]`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultShortOutput);
     expect(renderRep({ mode: MODE.TINY }).text())
-      .toBe(`[${maxLengthMap.get(MODE.SHORT) + 1}]`);
+      .toBe(`[…]`);
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultShortOutput);
     expect(renderRep({ mode: MODE.LONG }).text())
       .toBe(`[ ${Array(maxLengthMap.get(MODE.SHORT) + 1).fill("\"foo\"").join(", ")} ]`);
@@ -60,13 +60,12 @@ describe("Array", () => {
     const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
 
     const defaultShortOutput =
-      `[ ${Array(maxLengthMap.get(MODE.SHORT)).fill("\"foo\"").join(", ")}, more… ]`;
+      `[ ${Array(maxLengthMap.get(MODE.SHORT)).fill("\"foo\"").join(", ")}, … ]`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultShortOutput);
-    expect(renderRep({ mode: MODE.TINY }).text())
-      .toBe(`[${maxLengthMap.get(MODE.LONG) + 1}]`);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultShortOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(
-      `[ ${Array(maxLengthMap.get(MODE.LONG)).fill("\"foo\"").join(", ")}, more… ]`);
+      `[ ${Array(maxLengthMap.get(MODE.LONG)).fill("\"foo\"").join(", ")}, … ]`);
   });
 
   it("renders recursive array as expected", () => {
@@ -74,9 +73,9 @@ describe("Array", () => {
     object.push(object);
     const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
 
-    const defaultOutput = "[ 1, [2] ]";
+    const defaultOutput = "[ 1, […] ]";
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[2]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -90,9 +89,9 @@ describe("Array", () => {
     }];
     const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
 
-    const defaultOutput = "[ Object ]";
+    const defaultOutput = "[ {…} ]";
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[1]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });

@@ -81,7 +81,7 @@ describe("GripMap - WeakMap", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput = `WeakMap { Object: "value-a" }`;
+    const defaultOutput = `WeakMap { {…}: "value-a" }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("WeakMap");
@@ -90,7 +90,7 @@ describe("GripMap - WeakMap", () => {
     expect(renderRep({
       mode: MODE.LONG,
       title: "CustomTitle"
-    }).text()).toBe(`CustomTitle { Object: "value-a" }`);
+    }).text()).toBe(`CustomTitle { {…}: "value-a" }`);
   });
 });
 
@@ -127,7 +127,7 @@ describe("GripMap - more than max entries", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
     const defaultOutput =
-      `Map { "key-0": "value-0", "key-1": "value-1", "key-2": "value-2", more… }`;
+      `Map { "key-0": "value-0", "key-1": "value-1", "key-2": "value-2", … }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
@@ -136,7 +136,7 @@ describe("GripMap - more than max entries", () => {
     let longString = Array.from({length: maxLengthMap.get(MODE.LONG)})
       .map((_, i) => `"key-${i}": "value-${i}"`);
     expect(renderRep({ mode: MODE.LONG }).text())
-      .toBe(`Map { ${longString.join(", ")}, more… }`);
+      .toBe(`Map { ${longString.join(", ")}, … }`);
   });
 });
 
@@ -152,7 +152,7 @@ describe("GripMap - uninteresting entries", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
     const defaultOutput =
-      `Map { "key-a": null, "key-c": "value-c", "key-d": 4, more… }`;
+      `Map { "key-a": null, "key-c": "value-c", "key-d": 4, … }`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);

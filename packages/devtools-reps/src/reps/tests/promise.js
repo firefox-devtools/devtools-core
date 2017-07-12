@@ -69,7 +69,7 @@ describe("Promise - fulfilled with string", () => {
 
 describe("Promise - fulfilled with object", () => {
   const object = stubs.get("FulfilledWithObject");
-  const defaultOutput = `Promise { <state>: "fulfilled", <value>: Object }`;
+  const defaultOutput = `Promise { <state>: "fulfilled", <value>: {…} }`;
 
   it("correctly selects PromiseRep Rep for Promise fulfilled with an object", () => {
     expect(getRep(object)).toBe(PromiseRep.rep);
@@ -89,7 +89,7 @@ describe("Promise - fulfilled with object", () => {
 
 describe("Promise - fulfilled with array", () => {
   const object = stubs.get("FulfilledWithArray");
-  const defaultOutput = `Promise { <state>: "fulfilled", <value>: [3] }`;
+  const defaultOutput = `Promise { <state>: "fulfilled", <value>: […] }`;
 
   it("correctly selects PromiseRep Rep for Promise fulfilled with an array", () => {
     expect(getRep(object)).toBe(PromiseRep.rep);

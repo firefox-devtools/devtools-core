@@ -8,7 +8,6 @@ const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
-const Caption = require("./caption");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
 // Shortcuts
@@ -105,10 +104,11 @@ function entriesIterator(props, object, max) {
   let entries = getEntries(props, mapEntries, indexes);
   if (entries.length < mapEntries.length) {
     // There are some undisplayed entries. Then display "more…".
-    entries.push(Caption({
+    entries.push(span({
       key: "more",
-      object: span({}, "more…")
-    }));
+      className: "more-ellipsis",
+      title: "more…"
+    }, "…"));
   }
 
   return unfoldEntries(entries);

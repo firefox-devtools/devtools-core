@@ -57,9 +57,9 @@ describe("GripArray - max props", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = `Array [ 1, "foo", Object ]`;
+    const defaultOutput = `Array [ 1, "foo", {…} ]`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[3]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
 
@@ -68,7 +68,7 @@ describe("GripArray - max props", () => {
     expect(renderRep({
       mode: MODE.LONG,
       title: "CustomTitle",
-    }).text()).toBe(`CustomTitle [ 1, "foo", Object ]`);
+    }).text()).toBe(`CustomTitle [ 1, "foo", {…} ]`);
   });
 });
 
@@ -81,10 +81,10 @@ describe("GripArray - more than short mode max props", () => {
     const shortLength = maxLengthMap.get(MODE.SHORT);
     const shortContent = Array(shortLength).fill('"test string"').join(", ");
     const longContent = Array(shortLength + 1).fill('"test string"').join(", ");
-    const defaultOutput = `Array [ ${shortContent}, more… ]`;
+    const defaultOutput = `Array [ ${shortContent}, … ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`[${shortLength + 1}]`);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(`Array [ ${longContent} ]`);
   });
@@ -99,14 +99,14 @@ describe("GripArray - more than long mode max props", () => {
     const shortLength = maxLengthMap.get(MODE.SHORT);
     const longLength = maxLengthMap.get(MODE.LONG);
     const shortContent = Array(shortLength).fill('"test string"').join(", ");
-    const defaultOutput = `Array [ ${shortContent}, more… ]`;
+    const defaultOutput = `Array [ ${shortContent}, … ]`;
     const longContent = Array(longLength).fill('"test string"').join(", ");
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`[${longLength + 1}]`);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text())
-      .toBe(`Array [ ${longContent}, more… ]`);
+      .toBe(`Array [ ${longContent}, … ]`);
   });
 });
 
@@ -116,10 +116,10 @@ describe("GripArray - recursive array", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = `Array [ [1] ]`;
+    const defaultOutput = `Array [ […] ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[1]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -131,11 +131,11 @@ describe("GripArray - preview limit", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const shortOutput = "Array [ 0, 1, 2, more… ]";
-    const longOutput = "Array [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, more… ]";
+    const shortOutput = "Array [ 0, 1, 2, … ]";
+    const longOutput = "Array [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, … ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(shortOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[11]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(shortOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
@@ -149,7 +149,7 @@ describe("GripArray - empty slots", () => {
     const defaultOutput = "Array [ <5 empty slots> ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[5]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -158,11 +158,11 @@ describe("GripArray - empty slots", () => {
     const object = stubs.get("[,1,2,3]");
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = "Array [ <1 empty slot>, 1, 2, more… ]";
+    const defaultOutput = "Array [ <1 empty slot>, 1, 2, … ]";
     const longOutput = "Array [ <1 empty slot>, 1, 2, 3 ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[4]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
@@ -172,11 +172,11 @@ describe("GripArray - empty slots", () => {
       const object = stubs.get("[,,,3,4,5]");
       const renderRep = (props) => shallowRenderRep(object, props);
 
-      const defaultOutput = "Array [ <3 empty slots>, 3, 4, more… ]";
+      const defaultOutput = "Array [ <3 empty slots>, 3, 4, … ]";
       const longOutput = "Array [ <3 empty slots>, 3, 4, 5 ]";
 
       expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-      expect(renderRep({ mode: MODE.TINY }).text()).toBe("[6]");
+      expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
       expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
       expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
     }
@@ -186,11 +186,11 @@ describe("GripArray - empty slots", () => {
     const object = stubs.get("[0,1,,3,4,5]");
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = "Array [ 0, 1, <1 empty slot>, more… ]";
+    const defaultOutput = "Array [ 0, 1, <1 empty slot>, … ]";
     const longOutput = "Array [ 0, 1, <1 empty slot>, 3, 4, 5 ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[6]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
@@ -199,11 +199,11 @@ describe("GripArray - empty slots", () => {
     const object = stubs.get("[0,1,,,,5]");
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = "Array [ 0, 1, <3 empty slots>, more… ]";
+    const defaultOutput = "Array [ 0, 1, <3 empty slots>, … ]";
     const longOutput = "Array [ 0, 1, <3 empty slots>, 5 ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[6]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
@@ -212,11 +212,11 @@ describe("GripArray - empty slots", () => {
     const object = stubs.get("[0,,2,,4,5]");
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = "Array [ 0, <1 empty slot>, 2, more… ]";
+    const defaultOutput = "Array [ 0, <1 empty slot>, 2, … ]";
     const longOutput = "Array [ 0, <1 empty slot>, 2, <1 empty slot>, 4, 5 ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[6]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
@@ -225,11 +225,11 @@ describe("GripArray - empty slots", () => {
     const object = stubs.get("[0,,,3,,,,7,8]");
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = "Array [ 0, <2 empty slots>, 3, more… ]";
+    const defaultOutput = "Array [ 0, <2 empty slots>, 3, … ]";
     const longOutput = "Array [ 0, <2 empty slots>, 3, <3 empty slots>, 7, 8 ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[9]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
@@ -238,11 +238,11 @@ describe("GripArray - empty slots", () => {
     const object = stubs.get("[0,1,2,3,4,,]");
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = "Array [ 0, 1, 2, more… ]";
+    const defaultOutput = "Array [ 0, 1, 2, … ]";
     const longOutput = "Array [ 0, 1, 2, 3, 4, <1 empty slot> ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[6]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
@@ -251,11 +251,11 @@ describe("GripArray - empty slots", () => {
     const object = stubs.get("[0,1,2,,,,]");
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = "Array [ 0, 1, 2, more… ]";
+    const defaultOutput = "Array [ 0, 1, 2, … ]";
     const longOutput = "Array [ 0, 1, 2, <3 empty slots> ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[6]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
@@ -270,7 +270,7 @@ describe("GripArray - NamedNodeMap", () => {
     const defaultOutput = 'NamedNodeMap [ class="myclass", cellpadding="7", border="3" ]';
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[3]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -286,7 +286,7 @@ describe("GripArray - NodeList", () => {
       "button#btn-2.btn.btn-err, button#btn-3.btn.btn-count ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[3]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -353,13 +353,13 @@ describe("GripArray - DocumentFragment", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
 
     const defaultOutput = "DocumentFragment [ li#li-0.list-element, " +
-      "li#li-1.list-element, li#li-2.list-element, more… ]";
+      "li#li-1.list-element, li#li-2.list-element, … ]";
     const longOutput = "DocumentFragment [ " +
       "li#li-0.list-element, li#li-1.list-element, li#li-2.list-element, " +
       "li#li-3.list-element, li#li-4.list-element ]";
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[5]");
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });

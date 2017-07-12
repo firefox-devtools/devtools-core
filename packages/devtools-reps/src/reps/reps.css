@@ -191,3 +191,9 @@
 .open-inspector svg:hover {
   fill: rgb(65, 175, 230);
 }
+
+/******************************************************************************/
+/* "more…" ellipsis */
+.more-ellipsis {
+  color: var(--theme-comment);
+}
