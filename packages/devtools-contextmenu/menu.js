@@ -109,7 +109,8 @@ function createSubMenu(subItems) {
 function showSubMenu(subMenu, menuItemNode, popup) {
   if (subMenu) {
     let subMenuNode = menuItemNode.querySelector("menupopup");
-    let { left, top, width } = popup.getBoundingClientRect();
+    let { top } = menuItemNode.getBoundingClientRect();
+    let { left, width } = popup.getBoundingClientRect();
     subMenuNode.style.setProperty("left", `${left + width}px`);
     subMenuNode.style.setProperty("top", `${top}px`);
 
