@@ -11,7 +11,7 @@ function networkRequest(url, opts) {
         if (req.status === 200) {
           resolve({ content: req.responseText });
         } else {
-          resolve(req.statusText);
+          reject(req.statusText);
         }
       }
     });
