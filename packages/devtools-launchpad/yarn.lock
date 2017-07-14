@@ -1851,13 +1851,13 @@ devtools-config@^0.0.15:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.15.tgz#1fbe75be3f4dc1159603927fc1dfa64d1d9f1202"
 
-devtools-connection@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.5.tgz#5684508ccbeb45643510b536a62c9952afdbaf0c"
+devtools-connection@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.6.tgz#06431a8e4882033409a9d90c2720832cb51b86eb"
 
-devtools-contextmenu@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.1.tgz#225e9ff2154445514b39098a8d5054dcb3f39c07"
+devtools-contextmenu@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.3.tgz#be5183abcaeb728b6c5e2fe60fa9f0525fc959e0"
   dependencies:
     devtools-modules "^0.0.28"
 
@@ -1869,9 +1869,9 @@ devtools-sprintf-js@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/devtools-sprintf-js/-/devtools-sprintf-js-1.0.3.tgz#c2aa3c39d4047525e60410325c86770620281b87"
 
-devtools-utils@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.2.tgz#8e711f276920f75785cdd9ae061d7d45752c6d44"
+devtools-utils@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.3.tgz#b49973c148532d530212d77ba390f0be5f4343af"
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-stage-3 "^6.22.0"
