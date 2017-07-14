@@ -53,6 +53,8 @@ const VALID_LICENSES = [
   'BSD-3-Clause',
   'BSD*',
 
+  'LGPL-2.1+',
+
   'WTFPL',
   'Unlicense',
   'Public Domain',
