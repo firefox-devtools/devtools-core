@@ -119,7 +119,7 @@ stubs.set("testMoreThanMaxEntries", {
   "preview": {
     "kind": "MapLike",
     "size": maxLengthMap.get(MODE.LONG) + 1,
-    "entries": Array.from({length: maxLengthMap.get(MODE.LONG) + 1}).map((_, i) => {
+    "entries": Array.from({length: 10}).map((_, i) => {
       return [`key-${i}`, `value-${i}`];
     })
   }

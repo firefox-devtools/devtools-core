@@ -102,8 +102,8 @@ function entriesIterator(props, object, max) {
   }
 
   let entries = getEntries(props, mapEntries, indexes);
-  if (entries.length < mapEntries.length) {
-    // There are some undisplayed entries. Then display "more…".
+  if (entries.length < object.preview.size) {
+    // There are some undisplayed entries. Then display "…".
     entries.push(span({
       key: "more",
       className: "more-ellipsis",
