@@ -1,6 +1,6 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.88",
+  "version": "0.0.89",
   "license": "MPL-2.0",
   "description": "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
   "repository": {
@@ -30,12 +30,12 @@
     "node": ">=6.9.0"
   },
   "dependencies": {
-    "amd-loader": "0.0.5",
-    "autoprefixer": "^6.7.6",
+    "amd-loader": "0.0.8",
+    "autoprefixer": "^7.1.2",
     "babel-cli": "^6.7.5",
-    "babel-core": "^6.17.0",
+    "babel-core": "^6.25.0",
     "babel-eslint": "^7.1.0",
-    "babel-loader": "^6.2.4",
+    "babel-loader": "^7.1.1",
     "babel-plugin-module-resolver": "^2.2.0",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-plugin-transform-es2015-block-scoping": "^6.7.1",
@@ -66,7 +66,7 @@
     "eslint-plugin-mozilla": "0.2.3",
     "eslint-plugin-react": "^6.7.1",
     "express": "^4.13.4",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^3.0.0",
     "fs-extra": "^2.0.0",
     "fuzzaldrin-plus": "^0.4.0",
     "geckodriver": "=1.4.0",
@@ -75,9 +75,9 @@
     "minimist": "^1.2.0",
     "mustache": "^2.2.1",
     "node-static": "^0.7.7",
-    "postcss": "^5.2.12",
-    "postcss-bidirection": "=2.3.0",
-    "postcss-loader": "^1.2.2",
+    "postcss": "^6.0.6",
+    "postcss-bidirection": "^2.4.0",
+    "postcss-loader": "^2.0.6",
     "properties-parser": "^0.3.1",
     "ps-node": "^0.1.4",
     "raw-loader": "^0.5.1",
@@ -89,19 +89,19 @@
     "react-redux": "4.4.5",
     "redux": "3.5.2",
     "selenium-webdriver": "=3.3.0",
-    "style-loader": "^0.13.1",
-    "svg-inline-loader": "^0.7.1",
-    "webpack": "1.14.0",
-    "webpack-dev-middleware": "^1.6.1",
-    "webpack-env-loader-plugin": "^0.1.4",
-    "webpack-hot-middleware": "^2.12.0",
+    "style-loader": "^0.18.2",
+    "svg-inline-loader": "^0.8.0",
+    "webpack": "^3.3.0",
+    "webpack-dev-middleware": "^1.11.0",
+    "webpack-env-loader-plugin": "^1.0.0",
+    "webpack-hot-middleware": "^2.18.2",
     "ws": "^1.0.1"
   },
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
     "ipaddr": "^0.0.9",
-    "yarn": "^0.20.3",
-    "jest": "^19.0.2"
+    "jest": "^19.0.2",
+    "yarn": "^0.20.3"
   },
   "files": [
     "bin",
@@ -114,14 +114,8 @@
   ],
   "jest": {
     "rootDir": "src",
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!devtools-)"
-    ]
+    "testMatch": ["**/tests/**/*.js"],
+    "testPathIgnorePatterns": ["/node_modules/"],
+    "transformIgnorePatterns": ["node_modules/(?!devtools-)"]
   }
 }

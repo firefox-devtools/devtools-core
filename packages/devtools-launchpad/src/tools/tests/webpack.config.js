@@ -20,8 +20,8 @@ describe("Webpack config", () => {
       path.normalize("/packages/devtools-launchpad/src")
     );
 
-    const roots = config.resolveLoader.root;
-    expect(getLocalPath(roots[0])).toBe(
+    const roots = config.resolveLoader.modules;
+    expect(getLocalPath(roots[1])).toBe(
       path.normalize("/packages/devtools-launchpad/node_modules")
     );
   });
@@ -33,7 +33,7 @@ describe("Webpack config", () => {
     const envConfig = {};
     const config = toolbox.toolboxConfig(webpackConfig, envConfig);
 
-    const loaders = config.module.loaders;
+    const loaders = config.module.rules;
     const jsLoader = loaders[1];
     const jsExclude = jsLoader.exclude;
     // console.log(Object.values(loaders).map(l => l.test));
