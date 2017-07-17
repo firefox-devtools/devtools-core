@@ -420,3 +420,57 @@ describe("Grip - Object with disconnected nodes", () => {
     expect(node.exists()).toBe(false);
   });
 });
+
+describe("Grip - Object with getter", () => {
+  const object = stubs.get("TestObjectWithGetter");
+
+  it("correctly selects Grip Rep", () => {
+    expect(getRep(object)).toBe(Grip.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "Object { x: Getter }";
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("{…}");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+  });
+});
+
+describe("Grip - Object with setter", () => {
+  const object = stubs.get("TestObjectWithSetter");
+
+  it("correctly selects Grip Rep", () => {
+    expect(getRep(object)).toBe(Grip.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "Object { x: Setter }";
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("{…}");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+  });
+});
+
+describe("Grip - Object with getter and setter", () => {
+  const object = stubs.get("TestObjectWithGetterAndSetter");
+
+  it("correctly selects Grip Rep", () => {
+    expect(getRep(object)).toBe(Grip.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "Object { x: Getter & Setter }";
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("{…}");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+  });
+});

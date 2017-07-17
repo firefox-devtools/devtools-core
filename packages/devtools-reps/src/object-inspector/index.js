@@ -26,6 +26,7 @@ const {
   getChildren,
   getValue,
   isDefault,
+  nodeHasAccessors,
   nodeHasProperties,
   nodeIsMissingArguments,
   nodeIsOptimizedOut,
@@ -228,8 +229,10 @@ class ObjectInspector extends Component {
     let label = item.name;
     let itemValue = getValue(item);
 
+    const isPrimitive = nodeIsPrimitive(item);
+
     const unavailable =
-      nodeIsPrimitive(item) &&
+      isPrimitive &&
       itemValue &&
       itemValue.hasOwnProperty &&
       itemValue.hasOwnProperty("unavailable");
@@ -238,21 +241,19 @@ class ObjectInspector extends Component {
       objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
     } else if (nodeIsMissingArguments(item) || unavailable) {
       objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
-    } else if (nodeHasProperties(item) || nodeIsPrimitive(item)) {
-      let mode;
-      if (depth === 0) {
-        mode = this.props.mode;
-      } else {
-        mode = this.props.mode === MODE.LONG
+    } else if (nodeHasProperties(item) || nodeHasAccessors(item) || isPrimitive) {
+      let repsProp = Object.assign({}, this.props);
+      if (depth > 0) {
+        repsProp.mode = this.props.mode === MODE.LONG
           ? MODE.SHORT
           : MODE.TINY;
       }
 
-      objectValue = this.renderGrip(item, this.props, mode);
+      objectValue = this.renderGrip(item, repsProp);
     }
 
     const SINGLE_INDENT_WIDTH = 15;
-    const indentWidth = (depth + (nodeIsPrimitive(item) ? 1 : 0)) * SINGLE_INDENT_WIDTH;
+    const indentWidth = (depth + (isPrimitive ? 1 : 0)) * SINGLE_INDENT_WIDTH;
 
     const {
       onDoubleClick,
@@ -268,10 +269,12 @@ class ObjectInspector extends Component {
         style: {
           marginLeft: indentWidth
         },
-        onClick: e => {
-          e.stopPropagation();
-          this.setExpanded(item, !expanded);
-        },
+        onClick: isPrimitive === false
+          ? e => {
+            e.stopPropagation();
+            this.setExpanded(item, !expanded);
+          }
+          : null,
         onDoubleClick: onDoubleClick
           ? e => {
             e.stopPropagation();
@@ -283,7 +286,7 @@ class ObjectInspector extends Component {
           }
           : null
       },
-      nodeIsPrimitive(item) === false
+      isPrimitive === false
         ? Svg("arrow", {
           className: classnames({
             expanded: expanded
@@ -318,13 +321,12 @@ class ObjectInspector extends Component {
 
   renderGrip(
     item: ObjectInspectorItem,
-    props: Props,
-    mode: Mode = MODE.TINY
+    props: Props
   ) {
     const object = getValue(item);
     return Rep(Object.assign({}, props, {
       object,
-      mode,
+      mode: props.mode || MODE.TINY
     }));
   }
 
@@ -344,7 +346,7 @@ class ObjectInspector extends Component {
 
     let roots = this.getRoots();
     if (roots.length === 1 && nodeIsPrimitive(roots[0])) {
-      return this.renderGrip(roots[0], this.props, this.props.mode);
+      return this.renderGrip(roots[0], this.props);
     }
 
     return Tree({

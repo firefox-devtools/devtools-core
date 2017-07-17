@@ -11,8 +11,11 @@ const ObjectInspector = createFactory(require("../index"));
 const { MODE } = require("../../reps/constants");
 const { Rep } = require("../../reps/rep");
 const gripStubs = require("../../reps/stubs/grip");
+const accessorStubs = require("../../reps/stubs/accessor");
 
 const {
+  createNode,
+  getChildren,
   getPromiseProperties,
   isDefault,
   isPromise,
@@ -52,12 +55,53 @@ describe("makeNodesForProperties", () => {
     expect(paths).toEqual(["root/0", "root/length", "root/__proto__"]);
   });
 
-  it("excludes getters", () => {
+  it("includes getters and setters", () => {
     const nodes = makeNodesForProperties(
       {
         ownProperties: {
           foo: { value: "foo" },
-          bar: {}
+          bar: {
+            "configurable": true,
+            "enumerable": true,
+            "get": {
+              "type": "object",
+              "actor": "server2.conn1.child1/obj106",
+              "class": "Function",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "name": "get x",
+              "displayName": "get x",
+              "location": {
+                "url": "debugger eval code",
+                "line": 1
+              }
+            },
+            "set": {
+              "type": "undefined"
+            }
+          },
+          baz: {
+            "configurable": true,
+            "enumerable": true,
+            "get": {
+              "type": "undefined"
+            },
+            "set": {
+              "type": "object",
+              "actor": "server2.conn1.child1/obj116",
+              "class": "Function",
+              "extensible": true,
+              "frozen": false,
+              "sealed": false,
+              "name": "set x",
+              "displayName": "set x",
+              "location": {
+                "url": "debugger eval code",
+                "line": 1
+              }
+            }
+          }
         },
         prototype: {
           class: "bla"
@@ -69,8 +113,8 @@ describe("makeNodesForProperties", () => {
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
 
-    expect(names).toEqual(["foo", "__proto__"]);
-    expect(paths).toEqual(["root/foo", "root/__proto__"]);
+    expect(names).toEqual(["bar", "baz", "foo", "__proto__"]);
+    expect(paths).toEqual(["root/bar", "root/baz", "root/foo", "root/__proto__"]);
   });
 
   it("sorts keys", () => {
@@ -454,6 +498,94 @@ describe("ObjectInspector", () => {
     expect(oi.find(".node").at(1).contains(renderRep(MODE.TINY))).toBeTruthy();
   });
 
+  it.only("renders getters as expected", () => {
+    const stub = accessorStubs.get("getter");
+    const oi = mount(ObjectInspector({
+      autoExpandDepth: 1,
+      roots: [{
+        path: "root",
+        name: "x",
+        contents: stub
+      }],
+      getObjectProperties: () => {},
+      loadObjectProperties: () => {},
+      mode: MODE.LONG,
+    }));
+
+    const nodes = oi.find(".node");
+    // There should be the root and a leaf.
+    expect(nodes.length).toBe(2);
+
+    // The root should be expandable.
+    const rootLeaf = nodes.first();
+    expect(rootLeaf.find(".arrow").exists()).toBeTruthy();
+    expect(rootLeaf.text()).toBe("x : Getter");
+
+    const getLeaf = nodes.last();
+    expect(getLeaf.find(".arrow").exists()).toBeTruthy();
+    expect(getLeaf.text()).toBe("<get> : function get x()");
+  });
+
+  it.only("renders setters as expected", () => {
+    const stub = accessorStubs.get("setter");
+    const oi = mount(ObjectInspector({
+      autoExpandDepth: 1,
+      roots: [{
+        path: "root",
+        name: "x",
+        contents: stub
+      }],
+      getObjectProperties: () => {},
+      loadObjectProperties: () => {},
+      mode: MODE.LONG,
+    }));
+
+    const nodes = oi.find(".node");
+    // There should be the root and a leaf.
+    expect(nodes.length).toBe(2);
+
+    // The root should be expandable.
+    const rootLeaf = nodes.first();
+    expect(rootLeaf.find(".arrow").exists()).toBeTruthy();
+    expect(rootLeaf.text()).toBe("x : Setter");
+
+    const getLeaf = nodes.last();
+    expect(getLeaf.find(".arrow").exists()).toBeTruthy();
+    expect(getLeaf.text()).toBe("<set> : function set x()");
+  });
+
+  it("renders getters and setters as expected", () => {
+    const stub = accessorStubs.get("getter setter");
+    const oi = mount(ObjectInspector({
+      autoExpandDepth: 1,
+      roots: [{
+        path: "root",
+        name: "x",
+        contents: stub
+      }],
+      getObjectProperties: () => {},
+      loadObjectProperties: () => {},
+      mode: MODE.LONG,
+    }));
+
+    const nodes = oi.find(".node");
+    // There should be the root and 2 leaves.
+    expect(nodes.length).toBe(3);
+
+    // The root should be expandable.
+    const rootLeaf = nodes.first();
+    expect(rootLeaf.find(".arrow").exists()).toBeTruthy();
+    expect(rootLeaf.text()).toBe("x : Getter & Setter");
+
+    const getLeaf = nodes.at(1);
+    expect(getLeaf.find(".arrow").exists()).toBeTruthy();
+    expect(getLeaf.text()).toBe("<get> : function get x()");
+
+    const setLeaf = nodes.at(2);
+    expect(setLeaf.find(".arrow").exists()).toBeTruthy();
+    expect(setLeaf.text()).toBe("<set> : function set x()");
+  });
+
   it("does not load properties if getObjectProperties returns a truthy element", () => {
     const stub = gripStubs.get("testMaxProps");
     const loadObjectProperties = jest.fn();
@@ -570,5 +702,43 @@ describe("ObjectInspector", () => {
     label.simulate("click");
 
     expect(onLabelClick.mock.calls.length).toBe(1);
+  });
+});
+
+describe("getChildren", () => {
+  it("accessors - getter", () => {
+    const nodes = getChildren({
+      item: createNode("root", "rootpath", accessorStubs.get("getter"))
+    });
+
+    const names = nodes.map(n => n.name);
+    const paths = nodes.map(n => n.path);
+
+    expect(names).toEqual(["<get>"]);
+    expect(paths).toEqual(["rootpath/get"]);
+  });
+
+  it("accessors - setter", () => {
+    const nodes = getChildren({
+      item: createNode("root", "rootpath", accessorStubs.get("setter"))
+    });
+
+    const names = nodes.map(n => n.name);
+    const paths = nodes.map(n => n.path);
+
+    expect(names).toEqual(["<set>"]);
+    expect(paths).toEqual(["rootpath/set"]);
+  });
+
+  it("accessors - getter & setter", () => {
+    const nodes = getChildren({
+      item: createNode("root", "rootpath", accessorStubs.get("getter setter"))
+    });
+
+    const names = nodes.map(n => n.name);
+    const paths = nodes.map(n => n.path);
+
+    expect(names).toEqual(["<get>", "<set>"]);
+    expect(paths).toEqual(["rootpath/get", "rootpath/set"]);
   });
 });
