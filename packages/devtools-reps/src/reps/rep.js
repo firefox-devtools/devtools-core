@@ -16,6 +16,7 @@ const Obj = require("./object");
 const SymbolRep = require("./symbol");
 const InfinityRep = require("./infinity");
 const NaNRep = require("./nan");
+const Accessor = require("./accessor");
 
 // DOM types (grips)
 const Attribute = require("./attribute");
@@ -68,6 +69,7 @@ let reps = [
   SymbolRep,
   InfinityRep,
   NaNRep,
+  Accessor,
 ];
 
 /**
@@ -132,6 +134,7 @@ function getRep(object, defaultRep = Obj, noGrip = false) {
 module.exports = {
   Rep,
   REPS: {
+    Accessor,
     ArrayRep,
     Attribute,
     CommentNode,

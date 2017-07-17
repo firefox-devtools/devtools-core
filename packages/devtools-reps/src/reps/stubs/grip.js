@@ -617,4 +617,132 @@ stubs.set("testObjectWithDisconnectedNodes", {
   }
 });
 
+// Packet for `({get x(){}})`
+stubs.set("TestObjectWithGetter", {
+  "type": "object",
+  "actor": "server2.conn1.child1/obj105",
+  "class": "Object",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 1,
+  "preview": {
+    "kind": "Object",
+    "ownProperties": {
+      "x": {
+        "configurable": true,
+        "enumerable": true,
+        "get": {
+          "type": "object",
+          "actor": "server2.conn1.child1/obj106",
+          "class": "Function",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "name": "get x",
+          "displayName": "get x",
+          "location": {
+            "url": "debugger eval code",
+            "line": 1
+          }
+        },
+        "set": {
+          "type": "undefined"
+        }
+      }
+    },
+    "ownPropertiesLength": 1,
+    "safeGetterValues": {}
+  }
+});
+
+// Packet for `({set x(s){}})`
+stubs.set("TestObjectWithSetter", {
+  "type": "object",
+  "actor": "server2.conn1.child1/obj115",
+  "class": "Object",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 1,
+  "preview": {
+    "kind": "Object",
+    "ownProperties": {
+      "x": {
+        "configurable": true,
+        "enumerable": true,
+        "get": {
+          "type": "undefined"
+        },
+        "set": {
+          "type": "object",
+          "actor": "server2.conn1.child1/obj116",
+          "class": "Function",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "name": "set x",
+          "displayName": "set x",
+          "location": {
+            "url": "debugger eval code",
+            "line": 1
+          }
+        }
+      }
+    },
+    "ownPropertiesLength": 1,
+    "safeGetterValues": {}
+  }
+});
+
+// Packet for `({get x(){}, set x(s){}})`
+stubs.set("TestObjectWithGetterAndSetter", {
+  "type": "object",
+  "actor": "server2.conn1.child1/obj126",
+  "class": "Object",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 1,
+  "preview": {
+    "kind": "Object",
+    "ownProperties": {
+      "x": {
+        "configurable": true,
+        "enumerable": true,
+        "get": {
+          "type": "object",
+          "actor": "server2.conn1.child1/obj127",
+          "class": "Function",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "name": "get x",
+          "displayName": "get x",
+          "location": {
+            "url": "debugger eval code",
+            "line": 1
+          }
+        },
+        "set": {
+          "type": "object",
+          "actor": "server2.conn1.child1/obj128",
+          "class": "Function",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "name": "set x",
+          "displayName": "set x",
+          "location": {
+            "url": "debugger eval code",
+            "line": 1
+          }
+        }
+      }
+    },
+    "ownPropertiesLength": 1,
+    "safeGetterValues": {}
+  }
+});
+
 module.exports = stubs;

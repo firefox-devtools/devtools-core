@@ -12,7 +12,13 @@ if (typeof window === "object") {
 }
 
 function getValue(item) {
-  return get(item, "contents.value", undefined);
+  let value = get(item, "contents.value", undefined);
+
+  if (!value && nodeHasAccessors(item)) {
+    value = item.contents;
+  }
+
+  return value;
 }
 
 function isBucket(item) {
@@ -52,7 +58,9 @@ function nodeHasProperties(item) {
 }
 
 function nodeIsPrimitive(item) {
-  return !nodeHasChildren(item) && !nodeHasProperties(item);
+  return !nodeHasChildren(item)
+    && !nodeHasProperties(item)
+    && !nodeHasAccessors(item);
 }
 
 function isPromise(item) {
@@ -84,6 +92,34 @@ function getPromiseProperties(item) {
   }
 
   return properties;
+}
+
+function getNodeGetter(item) {
+  return get(item, "contents.get", undefined);
+}
+
+function getNodeSetter(item) {
+  return get(item, "contents.set", undefined);
+}
+
+function nodeHasAccessors(item) {
+  return !!getNodeGetter(item) || !!getNodeSetter(item);
+}
+
+function getAccessors(item) {
+  const accessors = [];
+
+  const getter = getNodeGetter(item);
+  if (getter && getter.type !== "undefined") {
+    accessors.push(createNode("<get>", `${item.path}/get`, { value: getter }));
+  }
+
+  const setter = getNodeSetter(item);
+  if (setter && setter.type !== "undefined") {
+    accessors.push(createNode("<set>", `${item.path}/set`, { value: setter }));
+  }
+
+  return accessors;
 }
 
 function isDefault(item, roots) {
@@ -170,8 +206,7 @@ function makeNodesForOwnProps(properties, parentPath, ownProperties) {
 }
 
 /*
- * Ignore non-concrete values like getters and setters
- * for now by making sure we have a value.
+ * Ignore properties that are neither non-concrete nor getters/setters.
 */
 function makeNodesForProperties(objProps, parent, { bucketSize = 100 } = {}) {
   const { ownProperties, prototype, ownSymbols } = objProps;
@@ -179,6 +214,8 @@ function makeNodesForProperties(objProps, parent, { bucketSize = 100 } = {}) {
   const parentValue = getValue(parent);
   const properties = sortProperties(Object.keys(ownProperties)).filter(name =>
     ownProperties[name].hasOwnProperty("value")
+    || ownProperties[name].hasOwnProperty("get")
+    || ownProperties[name].hasOwnProperty("set")
   );
 
   const numProperties = properties.length;
@@ -234,10 +271,13 @@ function createNode(name, path, contents) {
 }
 
 function getChildren({ getObjectProperties, actors, item }) {
-  const obj = item.contents;
-
   // Nodes can either have children already, or be an object with
   // properties that we need to go and fetch.
+
+  if (nodeHasAccessors(item)) {
+    return getAccessors(item);
+  }
+
   if (nodeHasChildren(item)) {
     return item.contents;
   }
@@ -245,8 +285,6 @@ function getChildren({ getObjectProperties, actors, item }) {
   if (!nodeHasProperties(item)) {
     return [];
   }
-
-  const actor = obj.value.actor;
 
   // Because we are dynamically creating the tree as the user
   // expands it (not precalculated tree structure), we cache child
@@ -263,6 +301,7 @@ function getChildren({ getObjectProperties, actors, item }) {
     return item.contents.children;
   }
 
+  const actor = get(item, "contents.value.actor", undefined);
   const loadedProps = getObjectProperties(actor);
   const { ownProperties, prototype } = loadedProps || {};
 
@@ -283,6 +322,7 @@ module.exports = {
   isDefault,
   isPromise,
   makeNodesForProperties,
+  nodeHasAccessors,
   nodeHasChildren,
   nodeHasProperties,
   nodeIsFunction,
