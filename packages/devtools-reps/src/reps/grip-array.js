@@ -112,7 +112,7 @@ function getPreviewItems(grip) {
     return null;
   }
 
-  return grip.preview.items || grip.preview.childNodes || null;
+  return grip.preview.items || grip.preview.childNodes || [];
 }
 
 function arrayIterator(props, grip, max) {
@@ -126,9 +126,9 @@ function arrayIterator(props, grip, max) {
   }
 
   const previewItems = getPreviewItems(grip);
-  if (!previewItems) {
-    return items;
-  }
+  // if (!previewItems) {
+  //   return items;
+  // }
 
   let provider = props.provider;
 

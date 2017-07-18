@@ -652,4 +652,20 @@ stubs.set("[0,1,2,,,,]", {
   }
 });
 
+// We can have cases where we don't have the array items in the preview,
+// (e.g. in the packet for `Promise.resolve([1, 2, 3])`), but we have the
+// length of the array.
+stubs.set("testItemsNotInPreview", {
+  "type": "object",
+  "actor": "server2.conn0.child1/obj135",
+  "class": "Array",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 4,
+  "preview": {
+    "kind": "ArrayLike",
+    "length": 3
+  }
+});
 module.exports = stubs;

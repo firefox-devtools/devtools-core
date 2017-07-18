@@ -364,3 +364,32 @@ describe("GripArray - DocumentFragment", () => {
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 });
+
+describe("GripArray - Items not in preview", () => {
+  const object = stubs.get("testItemsNotInPreview");
+
+  it("correctly selects GripArray Rep", () => {
+    expect(getRep(object)).toBe(GripArray.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "Array [ … ]";
+
+    let component = renderRep({ mode: undefined });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.TINY });
+    expect(component.text()).toBe("[…]");
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.SHORT });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.LONG });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+  });
+});
