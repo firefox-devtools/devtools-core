@@ -126,10 +126,6 @@ function arrayIterator(props, grip, max) {
   }
 
   const previewItems = getPreviewItems(grip);
-  // if (!previewItems) {
-  //   return items;
-  // }
-
   let provider = props.provider;
 
   let emptySlots = 0;
