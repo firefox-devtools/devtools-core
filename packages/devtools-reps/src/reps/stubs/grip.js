@@ -745,4 +745,211 @@ stubs.set("TestObjectWithGetterAndSetter", {
   }
 });
 
+// Packet for :
+// ({
+//   [Symbol()]: "first unnamed symbol",
+//   [Symbol()]: "second unnamed symbol",
+//   [Symbol("named")] : "named symbol",
+//   [Symbol.iterator] : function* () {yield 1;yield 2;},
+//   x: 10,
+// })
+stubs.set("TestObjectWithSymbolProperties", {
+  "type": "object",
+  "actor": "server2.conn1.child1/obj30",
+  "class": "Object",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 1,
+  "preview": {
+    "kind": "Object",
+    "ownProperties": {
+      "x": {
+        "configurable": true,
+        "enumerable": true,
+        "writable": true,
+        "value": 10
+      }
+    },
+    "ownSymbols": [
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "first unnamed symbol"
+        },
+        "type": "symbol"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "second unnamed symbol"
+        },
+        "type": "symbol"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "named symbol"
+        },
+        "type": "symbol",
+        "name": "named"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": {
+            "type": "object",
+            "actor": "server2.conn1.child1/obj31",
+            "class": "Function",
+            "extensible": true,
+            "frozen": false,
+            "sealed": false,
+            "location": {
+              "url": "debugger eval code",
+              "line": 1
+            }
+          }
+        },
+        "type": "symbol",
+        "name": "Symbol.iterator"
+      }
+    ],
+    "ownPropertiesLength": 1,
+    "ownSymbolsLength": 4,
+    "safeGetterValues": {}
+  }
+});
+
+// Packet for :
+// x = {};
+// for(let i = 0; i < 11; i++) {
+//   x[Symbol(`i-${i}`)] = `value-${i}`
+// }
+// x;
+stubs.set("TestObjectWithMoreThanMaxSymbolProperties", {
+  "type": "object",
+  "actor": "server2.conn1.child1/obj39",
+  "class": "Object",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "Object",
+    "ownProperties": {},
+    "ownSymbols": [
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-0"
+        },
+        "type": "symbol",
+        "name": "i-0"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-1"
+        },
+        "type": "symbol",
+        "name": "i-1"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-2"
+        },
+        "type": "symbol",
+        "name": "i-2"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-3"
+        },
+        "type": "symbol",
+        "name": "i-3"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-4"
+        },
+        "type": "symbol",
+        "name": "i-4"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-5"
+        },
+        "type": "symbol",
+        "name": "i-5"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-6"
+        },
+        "type": "symbol",
+        "name": "i-6"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-7"
+        },
+        "type": "symbol",
+        "name": "i-7"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-8"
+        },
+        "type": "symbol",
+        "name": "i-8"
+      },
+      {
+        "descriptor": {
+          "configurable": true,
+          "enumerable": true,
+          "writable": true,
+          "value": "value-9"
+        },
+        "type": "symbol",
+        "name": "i-9"
+      }
+    ],
+    "ownPropertiesLength": 0,
+    "ownSymbolsLength": 11
+  }
+});
+
 module.exports = stubs;

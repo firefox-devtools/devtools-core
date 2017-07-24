@@ -45,13 +45,7 @@ function GripRep(props) {
   };
 
   if (mode === MODE.TINY) {
-    let propertiesLength = object.preview && object.preview.ownPropertiesLength
-      ? object.preview.ownPropertiesLength
-      : object.ownPropertyLength;
-
-    if (object.preview && object.preview.safeGetterValues) {
-      propertiesLength += Object.keys(object.preview.safeGetterValues).length;
-    }
+    let propertiesLength = getPropertiesLength(object);
 
     const tinyModeItems = [];
     if (getTitle(props, object) !== DEFAULT_TITLE) {
@@ -103,6 +97,22 @@ function getTitle(props, object) {
   return props.title || object.class || DEFAULT_TITLE;
 }
 
+function getPropertiesLength(object) {
+  let propertiesLength = object.preview && object.preview.ownPropertiesLength
+    ? object.preview.ownPropertiesLength
+    : object.ownPropertyLength;
+
+  if (object.preview && object.preview.safeGetterValues) {
+    propertiesLength += Object.keys(object.preview.safeGetterValues).length;
+  }
+
+  if (object.preview && object.preview.ownSymbols) {
+    propertiesLength += object.preview.ownSymbolsLength;
+  }
+
+  return propertiesLength;
+}
+
 function safePropIterator(props, object, max) {
   max = (typeof max === "undefined") ? maxLengthMap.get(MODE.SHORT) : max;
   try {
@@ -136,13 +146,10 @@ function propIterator(props, object, max) {
   let properties = object.preview
     ? object.preview.ownProperties
     : {};
-  let propertiesLength = object.preview && object.preview.ownPropertiesLength
-    ? object.preview.ownPropertiesLength
-    : object.ownPropertyLength;
+  let propertiesLength = getPropertiesLength(object);
 
   if (object.preview && object.preview.safeGetterValues) {
     properties = Object.assign({}, properties, object.preview.safeGetterValues);
-    propertiesLength += Object.keys(object.preview.safeGetterValues).length;
   }
 
   let indexes = getPropIndexes(properties, max, isInterestingProp);
@@ -161,6 +168,27 @@ function propIterator(props, object, max) {
   // unquoted.
   const suppressQuotes = object.class === "Proxy";
   let propsArray = getProps(props, properties, indexes, suppressQuotes);
+
+  // Show symbols.
+  if (object.preview && object.preview.ownSymbols) {
+    const {ownSymbols} = object.preview;
+    const length = max - indexes.length;
+
+    const symbolsProps = ownSymbols.slice(0, length).map(symbolItem => {
+      return PropRep(Object.assign({}, props, {
+        mode: MODE.TINY,
+        name: symbolItem,
+        object: symbolItem.descriptor.value,
+        equal: ": ",
+        defaultRep: Grip,
+        title: null,
+        suppressQuotes,
+      }));
+    });
+
+    propsArray.push(...symbolsProps);
+  }
+
   if (
     Object.keys(properties).length > max
     || propertiesLength > max
