@@ -111,8 +111,14 @@ class SourceEditor {
    */
   alignLine(line: number, align: AlignOpts = "top") {
     let cm = this.editor;
-    let from = cm.lineAtHeight(0, "page");
-    let to = cm.lineAtHeight(cm.getWrapperElement().clientHeight, "page");
+    let editorClientRect = cm.getWrapperElement().getBoundingClientRect();
+
+    let from = cm.lineAtHeight(editorClientRect.top, "page");
+    let to = cm.lineAtHeight(
+      editorClientRect.height + editorClientRect.top,
+      "page"
+    );
+
     let linesVisible = to - from;
     let halfVisible = Math.round(linesVisible / 2);
 
