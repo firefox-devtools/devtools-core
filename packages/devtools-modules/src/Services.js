@@ -58,12 +58,19 @@ PrefBranch.prototype = {
   },
 
   /** @see nsIPrefBranch.getBoolPref.  */
-  getBoolPref: function(prefName) {
-    let thePref = this._findPref(prefName);
-    if (thePref._type !== PREF_BOOL) {
-      throw new Error(`${prefName} does not have bool type`);
+  getBoolPref: function(prefName, defaultValue) {
+    try {
+      let thePref = this._findPref(prefName);
+      if (thePref._type !== PREF_BOOL) {
+        throw new Error(`${prefName} does not have bool type`);
+      }
+      return thePref._get();
+    } catch (e) {
+      if (typeof defaultValue !== "undefined") {
+        return defaultValue;
+      }
+      throw e;
     }
-    return thePref._get();
   },
 
   /** @see nsIPrefBranch.setBoolPref.  */
@@ -79,12 +86,19 @@ PrefBranch.prototype = {
   },
 
   /** @see nsIPrefBranch.getCharPref.  */
-  getCharPref: function(prefName) {
-    let thePref = this._findPref(prefName);
-    if (thePref._type !== PREF_STRING) {
-      throw new Error(`${prefName} does not have string type`);
+  getCharPref: function(prefName, defaultValue) {
+    try {
+      let thePref = this._findPref(prefName);
+      if (thePref._type !== PREF_STRING) {
+        throw new Error(`${prefName} does not have string type`);
+      }
+      return thePref._get();
+    } catch (e) {
+      if (typeof defaultValue !== "undefined") {
+        return defaultValue;
+      }
+      throw e;
     }
-    return thePref._get();
   },
 
   /** @see nsIPrefBranch.setCharPref.  */
@@ -100,12 +114,19 @@ PrefBranch.prototype = {
   },
 
   /** @see nsIPrefBranch.getIntPref.  */
-  getIntPref: function(prefName) {
-    let thePref = this._findPref(prefName);
-    if (thePref._type !== PREF_INT) {
-      throw new Error(`${prefName} does not have int type`);
+  getIntPref: function(prefName, defaultValue) {
+    try {
+      let thePref = this._findPref(prefName);
+      if (thePref._type !== PREF_INT) {
+        throw new Error(`${prefName} does not have int type`);
+      }
+      return thePref._get();
+    } catch (e) {
+      if (typeof defaultValue !== "undefined") {
+        return defaultValue;
+      }
+      throw e;
     }
-    return thePref._get();
   },
 
   /** @see nsIPrefBranch.setIntPref.  */
@@ -313,8 +334,14 @@ PrefBranch.prototype = {
         let localList = this._observers[domain].slice();
         for (let observer of localList) {
           try {
-            observer.observe(this, NS_PREFBRANCH_PREFCHANGE_TOPIC_ID,
-                             relativeName);
+            if ("observe" in observer) {
+              observer.observe(this, NS_PREFBRANCH_PREFCHANGE_TOPIC_ID,
+                               relativeName);
+            } else {
+              // Function-style observer -- these aren't mentioned in
+              // the IDL, but they're accepted and devtools uses them.
+              observer(this, NS_PREFBRANCH_PREFCHANGE_TOPIC_ID, relativeName);
+            }
           } catch (e) {
             console.error(e);
           }

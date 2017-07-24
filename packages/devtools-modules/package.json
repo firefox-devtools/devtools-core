@@ -5,10 +5,25 @@
   "main": "index.js",
   "scripts": {
     "license-check": "devtools-license-check",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "MPL-2.0",
   "dependencies": {
+    "jest": "^19.0.2"
+  },
+  "jest": {
+    "rootDir": "src",
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/tests/helpers/local-storage-mock.js"
+    ],
+    "transformIgnorePatterns": [],
+    "setupFiles": [
+      "<rootDir>/tests/helpers/local-storage-mock.js"
+    ],
+    "moduleNameMapper": {}
   }
 }
