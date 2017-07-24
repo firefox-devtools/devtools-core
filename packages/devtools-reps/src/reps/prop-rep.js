@@ -64,6 +64,7 @@ function PropRep(props) {
     key = span({"className": "nodeName"}, name);
   } else {
     key = Rep(Object.assign({}, props, {
+      className: "nodeName",
       object: name,
       mode: mode || MODE.TINY,
       defaultRep: Grip,

@@ -18,13 +18,13 @@ SymbolRep.propTypes = {
 };
 
 function SymbolRep(props) {
-  let {object} = props;
+  let {
+    className = "objectBox objectBox-symbol",
+    object,
+  } = props;
   let {name} = object;
 
-  return (
-    span({className: "objectBox objectBox-symbol"},
-      `Symbol(${name || ""})`)
-  );
+  return span({className}, `Symbol(${name || ""})`);
 }
 
 function supportsObject(object, type) {
