@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { WorkerDispatcher } = require("../worker-utils")
+const { WorkerDispatcher, workerHandler } = require("../worker-utils")
 
 describe("worker utils", () => {
   it("starts a worker", () => {
@@ -56,6 +56,22 @@ describe("worker utils", () => {
     });
 
     expect(addEventListenerMock.mock.calls.length).toEqual(1);
-  })
+  });
 
+  it("test workerHandler error case", () => {
+    const postMessageMock = jest.fn();
+    self.postMessage = postMessageMock;
+
+    let callee = {
+      doSomething: () => { throw new Error("failed"); }
+    };
+
+    let handler = workerHandler(callee);
+    handler({data: {id: 53, method: "doSomething", args: []}});
+
+    expect(postMessageMock.mock.calls[0][0]).toEqual({
+      id: 53,
+      error: new Error("failed"),
+    });
+  });
 })
