@@ -10,6 +10,6 @@
   "devDependencies": {
   },
   "dependencies": {
-    "devtools-modules": "^0.0.28"
+    "devtools-modules": "^0.0.29"
   }
 }
