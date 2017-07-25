@@ -12,11 +12,13 @@ const { MODE } = require("../../reps/constants");
 const { Rep } = require("../../reps/rep");
 const gripStubs = require("../../reps/stubs/grip");
 const accessorStubs = require("../../reps/stubs/accessor");
+const performanceStubs = require("../stubs/performance");
 
 const {
   createNode,
   getChildren,
   getPromiseProperties,
+  getValue,
   isDefault,
   isPromise,
   makeNodesForProperties,
@@ -498,7 +500,7 @@ describe("ObjectInspector", () => {
     expect(oi.find(".node").at(1).contains(renderRep(MODE.TINY))).toBeTruthy();
   });
 
-  it.only("renders getters as expected", () => {
+  it("renders getters as expected", () => {
     const stub = accessorStubs.get("getter");
     const oi = mount(ObjectInspector({
       autoExpandDepth: 1,
@@ -526,7 +528,7 @@ describe("ObjectInspector", () => {
     expect(getLeaf.text()).toBe("<get> : function get x()");
   });
 
-  it.only("renders setters as expected", () => {
+  it("renders setters as expected", () => {
     const stub = accessorStubs.get("setter");
     const oi = mount(ObjectInspector({
       autoExpandDepth: 1,
@@ -740,5 +742,77 @@ describe("getChildren", () => {
 
     expect(names).toEqual(["<get>", "<set>"]);
     expect(paths).toEqual(["rootpath/get", "rootpath/set"]);
+  });
+
+  it("uses the expected actor to get properties", () => {
+    const stub = performanceStubs.get("performance");
+    const getObjectProperties = jest.fn();
+
+    // Test that the function gets the actor from the value.
+    getChildren({
+      actors: {},
+      item: createNode("root", "rootpath", stub.ownProperties.timing),
+      getObjectProperties
+    });
+    expect(getObjectProperties.mock.calls[0][0]).toBe("server2.conn4.child1/obj44");
+
+    // Test that the function gets the actor from the getterValue.
+    getChildren({
+      actors: {},
+      item: createNode("root", "rootpath", stub.safeGetterValues.timing),
+      getObjectProperties
+    });
+    expect(getObjectProperties.mock.calls[1][0]).toBe("server2.conn4.child1/obj44");
+  });
+
+  it("safeGetterValues", () => {
+    const stub = performanceStubs.get("timing");
+    const nodes = getChildren({
+      actors: {},
+      item: createNode("root", "rootpath", {
+        value: {
+          actor: "rootactor",
+          type: "object"
+        }
+      }),
+      getObjectProperties: actor => {
+        if (actor === "rootactor") {
+          return stub;
+        }
+        return null;
+      }
+    });
+
+    const nodeEntries = nodes.map(n => [n.name, getValue(n)]);
+    const nodePaths = nodes.map(n => n.path);
+
+    const childrenEntries = [
+      ["connectEnd", 1500967716401],
+      ["connectStart", 1500967716401],
+      ["domComplete", 1500967716719],
+      ["domContentLoadedEventEnd", 1500967716715],
+      ["domContentLoadedEventStart", 1500967716696],
+      ["domInteractive", 1500967716552],
+      ["domLoading", 1500967716426],
+      ["domainLookupEnd", 1500967716401],
+      ["domainLookupStart", 1500967716401],
+      ["fetchStart", 1500967716401],
+      ["loadEventEnd", 1500967716720],
+      ["loadEventStart", 1500967716719],
+      ["navigationStart", 1500967716401],
+      ["redirectEnd", 0],
+      ["redirectStart", 0],
+      ["requestStart", 1500967716401],
+      ["responseEnd", 1500967716401],
+      ["responseStart", 1500967716401],
+      ["secureConnectionStart", 1500967716401],
+      ["unloadEventEnd", 0],
+      ["unloadEventStart", 0],
+      ["__proto__", stub.prototype]
+    ];
+    const childrenPaths = childrenEntries.map(([name]) => `rootpath/${name}`);
+
+    expect(nodeEntries).toEqual(childrenEntries);
+    expect(nodePaths).toEqual(childrenPaths);
   });
 });
