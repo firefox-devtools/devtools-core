@@ -12,7 +12,8 @@ if (typeof window === "object") {
 }
 
 function getValue(item) {
-  let value = get(item, "contents.value", undefined);
+  let value = get(item, "contents.value", undefined)
+    || get(item, "contents.getterValue", undefined);
 
   if (!value && nodeHasAccessors(item)) {
     value = item.contents;
@@ -209,13 +210,22 @@ function makeNodesForOwnProps(properties, parentPath, ownProperties) {
  * Ignore properties that are neither non-concrete nor getters/setters.
 */
 function makeNodesForProperties(objProps, parent, { bucketSize = 100 } = {}) {
-  const { ownProperties, prototype, ownSymbols } = objProps;
+  const {
+    ownProperties,
+    ownSymbols,
+    prototype,
+    safeGetterValues,
+  } = objProps;
+
   const parentPath = parent.path;
   const parentValue = getValue(parent);
-  const properties = sortProperties(Object.keys(ownProperties)).filter(name =>
-    ownProperties[name].hasOwnProperty("value")
-    || ownProperties[name].hasOwnProperty("get")
-    || ownProperties[name].hasOwnProperty("set")
+
+  let allProperties = Object.assign({}, ownProperties, safeGetterValues);
+  const properties = sortProperties(Object.keys(allProperties)).filter(name =>
+    allProperties[name].hasOwnProperty("value")
+    || allProperties[name].hasOwnProperty("getterValue")
+    || allProperties[name].hasOwnProperty("get")
+    || allProperties[name].hasOwnProperty("set")
   );
 
   const numProperties = properties.length;
@@ -226,12 +236,12 @@ function makeNodesForProperties(objProps, parent, { bucketSize = 100 } = {}) {
       properties,
       bucketSize,
       parentPath,
-      ownProperties
+      allProperties
     );
   } else if (parentValue.class == "Window") {
-    nodes = makeDefaultPropsBucket(properties, parentPath, ownProperties);
+    nodes = makeDefaultPropsBucket(properties, parentPath, allProperties);
   } else {
-    nodes = makeNodesForOwnProps(properties, parentPath, ownProperties);
+    nodes = makeNodesForOwnProps(properties, parentPath, allProperties);
   }
 
   for (let index in ownSymbols) {
@@ -273,7 +283,6 @@ function createNode(name, path, contents) {
 function getChildren({ getObjectProperties, actors, item }) {
   // Nodes can either have children already, or be an object with
   // properties that we need to go and fetch.
-
   if (nodeHasAccessors(item)) {
     return getAccessors(item);
   }
@@ -301,11 +310,16 @@ function getChildren({ getObjectProperties, actors, item }) {
     return item.contents.children;
   }
 
-  const actor = get(item, "contents.value.actor", undefined);
+  const actor = get(getValue(item), "actor", undefined);
   const loadedProps = getObjectProperties(actor);
-  const { ownProperties, prototype } = loadedProps || {};
+  const {
+    ownProperties,
+    ownSymbols,
+    safeGetterValues,
+    prototype
+  } = loadedProps || {};
 
-  if (!ownProperties && !prototype) {
+  if (!ownProperties && !ownSymbols && !safeGetterValues && !prototype) {
     return [];
   }
 
