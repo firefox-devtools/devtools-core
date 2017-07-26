@@ -13,17 +13,19 @@ if (typeof window === "object") {
 }
 
 function getValue(item) {
-  let value;
-
   if (has(item, "contents.value")) {
-    value = get(item, "contents.value");
-  } else if (has(item, "contents.getterValue")) {
-    value = get(item, "contents.getterValue", undefined);
-  } else if (nodeHasAccessors(item)) {
-    value = item.contents;
+    return get(item, "contents.value");
   }
 
-  return value;
+  if (has(item, "contents.getterValue")) {
+    return get(item, "contents.getterValue", undefined);
+  }
+
+  if (nodeHasAccessors(item)) {
+    return item.contents;
+  }
+
+  return undefined;
 }
 
 function isBucket(item) {

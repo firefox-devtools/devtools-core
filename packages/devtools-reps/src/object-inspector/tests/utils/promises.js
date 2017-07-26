@@ -14,29 +14,16 @@ describe("promises utils function", () => {
         enumerable: true,
         configurable: false,
         value: {
-          frozen: false,
-          ownPropertyLength: 0,
-          preview: {
-            kind: "Object",
-            ownProperties: {},
-            ownPropertiesLength: 0,
-            safeGetterValues: {}
-          },
           actor: "server2.conn2.child1/pausedobj36",
           promiseState: {
             state: "rejected",
             reason: {
               type: "undefined"
             },
-            creationTimestamp: 1486584316133.3994,
-            timeToSettle: 0.001713000237941742
           },
           class: "Promise",
           type: "object",
-          extensible: true,
-          sealed: false
         },
-        writable: true
       }
     };
 
@@ -47,32 +34,17 @@ describe("promises utils function", () => {
     const promise = {
       path: "root",
       contents: {
-        enumerable: true,
-        configurable: false,
         value: {
-          frozen: false,
-          ownPropertyLength: 0,
-          preview: {
-            kind: "Object",
-            ownProperties: {},
-            ownPropertiesLength: 0,
-            safeGetterValues: {}
-          },
           actor: "server2.conn2.child1/pausedobj36",
           promiseState: {
             state: "rejected",
             reason: {
               type: "3"
             },
-            creationTimestamp: 1486584316133.3994,
-            timeToSettle: 0.001713000237941742
           },
           class: "Promise",
           type: "object",
-          extensible: true,
-          sealed: false
         },
-        writable: true
       }
     };
 
