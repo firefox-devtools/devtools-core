@@ -115,7 +115,7 @@ function _fetchSourceMap(generatedSource: Source) {
   }
 
   // Fire off the request, set it in the cache, and return it.
-  const req = _resolveAndFetch(generatedSource).catch(e => console.error(e));
+  const req = _resolveAndFetch(generatedSource);
   sourceMapRequests.set(generatedSource.id, req);
   return req;
 }
