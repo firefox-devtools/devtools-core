@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const get = require("lodash/get");
+const has = require("lodash/has");
 const { maybeEscapePropertyName } = require("../reps/rep-utils");
 
 let WINDOW_PROPERTIES = {};
@@ -12,10 +13,13 @@ if (typeof window === "object") {
 }
 
 function getValue(item) {
-  let value = get(item, "contents.value", undefined)
-    || get(item, "contents.getterValue", undefined);
+  let value;
 
-  if (!value && nodeHasAccessors(item)) {
+  if (has(item, "contents.value")) {
+    value = get(item, "contents.value");
+  } else if (has(item, "contents.getterValue")) {
+    value = get(item, "contents.getterValue", undefined);
+  } else if (nodeHasAccessors(item)) {
     value = item.contents;
   }
 
