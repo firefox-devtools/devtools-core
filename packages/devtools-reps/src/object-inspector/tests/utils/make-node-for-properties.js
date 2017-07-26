@@ -46,45 +46,19 @@ describe("makeNodesForProperties", () => {
         ownProperties: {
           foo: { value: "foo" },
           bar: {
-            "configurable": true,
-            "enumerable": true,
             "get": {
               "type": "object",
-              "actor": "server2.conn1.child1/obj106",
-              "class": "Function",
-              "extensible": true,
-              "frozen": false,
-              "sealed": false,
-              "name": "get x",
-              "displayName": "get x",
-              "location": {
-                "url": "debugger eval code",
-                "line": 1
-              }
             },
             "set": {
               "type": "undefined"
             }
           },
           baz: {
-            "configurable": true,
-            "enumerable": true,
             "get": {
               "type": "undefined"
             },
             "set": {
               "type": "object",
-              "actor": "server2.conn1.child1/obj116",
-              "class": "Function",
-              "extensible": true,
-              "frozen": false,
-              "sealed": false,
-              "name": "set x",
-              "displayName": "set x",
-              "location": {
-                "url": "debugger eval code",
-                "line": 1
-              }
             }
           }
         },
