@@ -33,13 +33,7 @@ function onConnect(connection) {
     },
     getProperties: async function (grip) {
       const objClient = connection.tabConnection.threadClient.pauseGrip(grip);
-
       const resp = await objClient.getPrototypeAndProperties();
-      const { ownProperties, safeGetterValues } = resp;
-      for (const name in safeGetterValues) {
-        const { enumerable, writable, getterValue } = safeGetterValues[name];
-        ownProperties[name] = { enumerable, writable, value: getterValue };
-      }
       return resp;
     }
   };
