@@ -5,21 +5,23 @@
 const React = require("react");
 
 require("./Tabs.css");
-const { DOM: dom } = React;
+const dom = require("react-dom-factories");
 const classnames = require("classnames");
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
 
 function getTabURL(tab, paramName) {
   const tabID = tab.get("id");
   return `/?${paramName}=${tabID}`;
 }
 
-const Tabs = React.createClass({
+const Tabs = createReactClass({
   displayName: "Tabs",
 
   propTypes: {
-    targets: React.PropTypes.object.isRequired,
-    paramName: React.PropTypes.string.isRequired,
-    onTabClick: React.PropTypes.func.isRequired,
+    targets: PropTypes.object.isRequired,
+    paramName: PropTypes.string.isRequired,
+    onTabClick: PropTypes.func.isRequired,
   },
 
   onTabClick(tab, paramName) {

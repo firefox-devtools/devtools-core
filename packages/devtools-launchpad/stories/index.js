@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
+const dom = require("react-dom-factories");
 const { storiesOf, action } = require("@kadira/storybook");
 const LandingPage = require("../src/components/LandingPage");
 
@@ -41,7 +42,7 @@ const getTabs = (tabs, state) => {
 };
 
 const renderLandingPage = (props) => {
-  return React.DOM.div({}, React.createElement(LandingPage, Object.assign({
+  return dom.div({}, React.createElement(LandingPage, Object.assign({
     onFilterChange: action("onFilterChange"),
     onTabClick: action("onTabClick"),
     title: "Storybook test",

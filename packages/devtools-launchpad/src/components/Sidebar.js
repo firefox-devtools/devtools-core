@@ -5,18 +5,20 @@
 const React = require("react");
 
 require("./Sidebar.css");
-const { DOM: dom } = React;
+const dom = require("react-dom-factories");
 const classnames = require("classnames");
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
 
-const Sidebar = React.createClass({
+const Sidebar = createReactClass({
   displayName: "Sidebar",
 
   propTypes: {
-    supportsFirefox: React.PropTypes.bool.isRequired,
-    supportsChrome: React.PropTypes.bool.isRequired,
-    title: React.PropTypes.string.isRequired,
-    selectedPane: React.PropTypes.string.isRequired,
-    onSideBarItemClick: React.PropTypes.func.isRequired
+    supportsFirefox: PropTypes.bool.isRequired,
+    supportsChrome: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired,
+    selectedPane: PropTypes.string.isRequired,
+    onSideBarItemClick: PropTypes.func.isRequired
   },
 
   render() {

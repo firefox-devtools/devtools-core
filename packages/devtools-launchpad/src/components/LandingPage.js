@@ -5,12 +5,14 @@
 const React = require("react");
 
 require("./LandingPage.css");
-const { DOM: dom } = React;
+const dom = require("react-dom-factories");
 const ImPropTypes = require("react-immutable-proptypes");
 const configMap = require("../constants").sidePanelItems;
 const Tabs = React.createFactory(require("./Tabs"));
 const Sidebar = React.createFactory(require("./Sidebar"));
 const Settings = React.createFactory(require("./Settings"));
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
 
 const githubUrl = "https://github.com/devtools-html/debugger.html/blob/master";
 
@@ -32,19 +34,19 @@ function firstTimeMessage(title, urlPart) {
   );
 }
 
-const LandingPage = React.createClass({
+const LandingPage = createReactClass({
   displayName: "LandingPage",
 
   propTypes: {
     tabs: ImPropTypes.map.isRequired,
-    supportsFirefox: React.PropTypes.bool.isRequired,
-    supportsChrome: React.PropTypes.bool.isRequired,
-    title: React.PropTypes.string.isRequired,
-    filterString: React.PropTypes.string,
-    onFilterChange: React.PropTypes.func.isRequired,
-    onTabClick: React.PropTypes.func.isRequired,
-    config: React.PropTypes.object.isRequired,
-    setValue: React.PropTypes.func.isRequired
+    supportsFirefox: PropTypes.bool.isRequired,
+    supportsChrome: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired,
+    filterString: PropTypes.string,
+    onFilterChange: PropTypes.func.isRequired,
+    onTabClick: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
+    setValue: PropTypes.func.isRequired
   },
 
   getInitialState() {

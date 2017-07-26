@@ -4,17 +4,19 @@
 
 const React = require("react");
 const ReactDOM = require("react-dom");
+const dom = require("react-dom-factories");
 const { combineReducers } = require("redux");
 const configureStore = require("./utils/create-store");
 const reducers = require("./reducers");
+const createReactClass = require("create-react-class");
 
 const { bootstrap } = require("./index");
 
-const App = React.createClass({
+const App = createReactClass({
   displayName: "App",
   propTypes: {},
   render() {
-    return React.DOM.div({
+    return dom.div({
       style: {
         margin: "100px auto",
         "text-align": "center"
