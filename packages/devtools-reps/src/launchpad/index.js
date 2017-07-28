@@ -35,6 +35,19 @@ function onConnect(connection) {
       const objClient = connection.tabConnection.threadClient.pauseGrip(grip);
       const resp = await objClient.getPrototypeAndProperties();
       return resp;
+    },
+    getEntries: async function (grip) {
+      const objClient = connection.tabConnection.threadClient.pauseGrip(grip);
+
+      const {iterator} = await new Promise(resolve =>
+        objClient.enumEntries(enumResponse => resolve(enumResponse))
+      );
+
+      const response = await new Promise(resolve =>
+        iterator.slice(0, iterator.count, sliceResponse => resolve(sliceResponse))
+      );
+
+      return response;
     }
   };
 

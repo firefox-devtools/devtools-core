@@ -43,7 +43,8 @@
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
     "jest-flow-transform": "^1.0.1",
-    "react-addons-test-utils": "=15.3.2"
+    "react-addons-test-utils": "=15.3.2",
+    "redux-logger": "=3.0.6"
   },
   "jest": {
     "rootDir": "src",

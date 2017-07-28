@@ -14,12 +14,21 @@ function getCurrentInputValue(state) {
   return getInputState(state).get("currentValue");
 }
 
-function getLoadedObjects(state) {
+function getObjectState(state) {
   return state.objects;
+}
+
+function getLoadedObjectProperties(state) {
+  return getObjectState(state).properties;
+}
+
+function getLoadedObjectEntries(state) {
+  return getObjectState(state).entries;
 }
 
 module.exports = {
   getCurrentInputValue,
   getExpressions,
-  getLoadedObjects,
+  getLoadedObjectEntries,
+  getLoadedObjectProperties,
 };
