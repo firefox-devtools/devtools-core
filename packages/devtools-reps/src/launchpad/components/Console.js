@@ -29,8 +29,10 @@ const Console = React.createClass({
     hideResultPacket: PropTypes.func.isRequired,
     navigateInputHistory: PropTypes.func.isRequired,
     showResultPacket: PropTypes.func.isRequired,
+    loadObjectEntries: PropTypes.func.isRequired,
     loadObjectProperties: PropTypes.func.isRequired,
-    loadedObjects: PropTypes.object.isRequired
+    loadedEntriesMap: PropTypes.object.isRequired,
+    loadedPropertiesMap: PropTypes.object.isRequired,
   },
 
   componentDidMount: function () {
@@ -52,8 +54,10 @@ const Console = React.createClass({
       hideResultPacket,
       navigateInputHistory,
       showResultPacket,
+      loadObjectEntries,
       loadObjectProperties,
-      loadedObjects,
+      loadedEntriesMap,
+      loadedPropertiesMap,
     } = this.props;
 
     return dom.main(
@@ -68,10 +72,12 @@ const Console = React.createClass({
       }),
       ResultsList({
         expressions: expressions.reverse(),
-        loadedObjects,
         hideResultPacket,
         showResultPacket,
-        loadObjectProperties
+        loadObjectEntries,
+        loadObjectProperties,
+        loadedEntriesMap,
+        loadedPropertiesMap,
       })
     );
   }
@@ -80,7 +86,8 @@ const Console = React.createClass({
 function mapStateToProps(state) {
   return {
     expressions: selectors.getExpressions(state),
-    loadedObjects: selectors.getLoadedObjects(state),
+    loadedEntriesMap: selectors.getLoadedObjectEntries(state),
+    loadedPropertiesMap: selectors.getLoadedObjectProperties(state),
     currentInputValue: selectors.getCurrentInputValue(state),
   };
 }

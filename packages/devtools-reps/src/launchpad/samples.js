@@ -38,6 +38,58 @@ let samples = {
      x;`
   ],
 
+  "map & sets": [
+    `
+      ({
+        "small set": new Set([1,2,3,4]),
+        "small map": new Map([
+          ["a", {suba: 1}],
+          [{bkey: "b"}, 2]]
+        ),
+        "medium set": new Set(
+          Array.from({length: 20})
+            .map((el, i) => ({
+              [String.fromCharCode(65 + i)]: i + 1,
+              test: {
+                [i] : "item" + i
+              }
+            })
+          )),
+        "medium map": new Map(
+          Array
+          .from({length: 20})
+          .map((el, i) => [
+            {
+              [String.fromCharCode(65 + i)]: i + 1,
+              test: {[i] : "item" + i, body: document.body}
+            },
+            Symbol(i + 1)
+          ])
+        ),
+        "large set": new Set(
+          Array.from({length: 2000})
+          .map((el, i) => ({
+            [String.fromCharCode(65 + i)]: i + 1,
+            test: {
+              [i] : "item" + i
+            }
+          })
+        )),
+        "large map": new Map(
+          Array
+          .from({length: 2000})
+          .map((el, i) => [
+            {
+              [String.fromCharCode(65 + i)]: i + 1,
+              document
+            },
+            Symbol(i + 1)
+          ])
+        ),
+      })
+    `
+  ],
+
   number: [
     "1",
     "-1",

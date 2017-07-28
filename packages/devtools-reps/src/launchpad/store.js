@@ -8,6 +8,7 @@ const {
     createStore
 } = require("redux");
 
+const {logger} = require("redux-logger");
 const {promise} = require("./utils/redux/middleware/promise");
 const {thunk} = require("./utils/redux/middleware/thunk");
 const reducers = require("./reducers");
@@ -17,7 +18,8 @@ function configureStore(options) {
     combineReducers(reducers),
     applyMiddleware(
       thunk(options.makeThunkArgs),
-      promise
+      promise,
+      logger
     )
   );
 }

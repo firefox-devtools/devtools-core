@@ -16,8 +16,10 @@ const Result = React.createClass({
     expression: PropTypes.object.isRequired,
     showResultPacket: PropTypes.func.isRequired,
     hideResultPacket: PropTypes.func.isRequired,
+    loadObjectEntries: PropTypes.func.isRequired,
     loadObjectProperties: PropTypes.func.isRequired,
-    loadedObjects: PropTypes.object.isRequired,
+    loadedEntriesMap: PropTypes.object.isRequired,
+    loadedPropertiesMap: PropTypes.object.isRequired,
   },
 
   copyPacketToClipboard: function (e, packet) {
@@ -48,8 +50,10 @@ const Result = React.createClass({
 
   renderRep: function ({ object, modeKey }) {
     const {
+      loadObjectEntries,
       loadObjectProperties,
-      loadedObjects,
+      loadedEntriesMap,
+      loadedPropertiesMap,
     } = this.props;
 
     const path = object.actor;
@@ -67,7 +71,9 @@ const Result = React.createClass({
             value: object
           }
         }],
-        getObjectProperties: actor => loadedObjects.get(actor),
+        getObjectEntries: actor => loadedEntriesMap.get(actor),
+        getObjectProperties: actor => loadedPropertiesMap.get(actor),
+        loadObjectEntries,
         loadObjectProperties,
         mode: MODE[modeKey],
         onInspectIconClick: nodeFront => console.log("inspectIcon click", nodeFront),
