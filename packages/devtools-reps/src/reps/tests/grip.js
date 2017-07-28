@@ -10,6 +10,8 @@ const {
 const Grip = require("../grip");
 const { MODE } = require("../constants");
 const stubs = require("../stubs/grip");
+const gripArrayStubs = require("../stubs/grip-array");
+
 const {
   expectActorAttribute,
   getSelectableInInspectorGrips,
@@ -517,6 +519,36 @@ describe("Grip - Object with more than max symbol properties", () => {
             `Symbol(i-2): "value-2", Symbol(i-3): "value-3", Symbol(i-4): "value-4", ` +
             `Symbol(i-5): "value-5", Symbol(i-6): "value-6", Symbol(i-7): "value-7", ` +
             `Symbol(i-8): "value-8", Symbol(i-9): "value-9", … }`);
+  });
+});
+
+describe("Grip - Without preview", () => {
+  // Test object: `[1, "foo", {}]`
+  const object = gripArrayStubs.get("testMaxProps").preview.items[2];
+
+  it("correctly selects Grip Rep", () => {
+    expect(getRep(object)).toBe(Grip.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "Object {  }";
+
+    let component = renderRep({ mode: undefined });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.TINY });
+    expect(component.text()).toBe("{}");
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.SHORT });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.LONG });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
   });
 });
 

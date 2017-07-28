@@ -57,7 +57,7 @@ describe("GripArray - max props", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
 
-    const defaultOutput = `Array [ 1, "foo", {…} ]`;
+    const defaultOutput = `Array [ 1, "foo", {} ]`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("[…]");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
@@ -68,7 +68,7 @@ describe("GripArray - max props", () => {
     expect(renderRep({
       mode: MODE.LONG,
       title: "CustomTitle",
-    }).text()).toBe(`CustomTitle [ 1, "foo", {…} ]`);
+    }).text()).toBe(`CustomTitle [ 1, "foo", {} ]`);
   });
 });
 
