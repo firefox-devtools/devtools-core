@@ -62,7 +62,7 @@ describe("GripMap - Symbol-keyed Map", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput = `Map { Symbol(a): "value-a", Symbol(b): "value-b" }`;
+    const defaultOutput = `Map { Symbol(a) → "value-a", Symbol(b) → "value-b" }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
@@ -81,7 +81,7 @@ describe("GripMap - WeakMap", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput = `WeakMap { {…}: "value-a" }`;
+    const defaultOutput = `WeakMap { {…} → "value-a" }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("WeakMap");
@@ -90,7 +90,7 @@ describe("GripMap - WeakMap", () => {
     expect(renderRep({
       mode: MODE.LONG,
       title: "CustomTitle"
-    }).text()).toBe(`CustomTitle { {…}: "value-a" }`);
+    }).text()).toBe(`CustomTitle { {…} → "value-a" }`);
   });
 });
 
@@ -106,7 +106,7 @@ describe("GripMap - max entries", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
     const defaultOutput =
-      `Map { "key-a": "value-a", "key-b": "value-b", "key-c": "value-c" }`;
+      `Map { "key-a" → "value-a", "key-b" → "value-b", "key-c" → "value-c" }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
@@ -127,14 +127,14 @@ describe("GripMap - more than max entries", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
     const defaultOutput =
-      `Map { "key-0": "value-0", "key-1": "value-1", "key-2": "value-2", … }`;
+      `Map { "key-0" → "value-0", "key-1" → "value-1", "key-2" → "value-2", … }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
 
     let longString = Array.from({length: maxLengthMap.get(MODE.LONG)})
-      .map((_, i) => `"key-${i}": "value-${i}"`);
+      .map((_, i) => `"key-${i}" → "value-${i}"`);
     expect(renderRep({ mode: MODE.LONG }).text())
       .toBe(`Map { ${longString.join(", ")}, … }`);
   });
@@ -152,13 +152,13 @@ describe("GripMap - uninteresting entries", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
     const defaultOutput =
-      `Map { "key-a": null, "key-c": "value-c", "key-d": 4, … }`;
+      `Map { "key-a" → null, "key-c" → "value-c", "key-d" → 4, … }`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
 
     const longOutput =
-      `Map { "key-a": null, "key-b": undefined, "key-c": "value-c", "key-d": 4 }`;
+      `Map { "key-a" → null, "key-b" → undefined, "key-c" → "value-c", "key-d" → 4 }`;
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 });

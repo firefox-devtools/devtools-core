@@ -36,6 +36,7 @@ const ObjectWithText = require("./object-with-text");
 const ObjectWithURL = require("./object-with-url");
 const GripArray = require("./grip-array");
 const GripMap = require("./grip-map");
+const GripMapEntry = require("./grip-map-entry");
 const Grip = require("./grip");
 
 // List of all registered template.
@@ -61,6 +62,7 @@ let reps = [
   ErrorRep,
   GripArray,
   GripMap,
+  GripMapEntry,
   Grip,
   Undefined,
   Null,
@@ -147,6 +149,7 @@ module.exports = {
     Grip,
     GripArray,
     GripMap,
+    GripMapEntry,
     InfinityRep,
     LongStringRep,
     NaNRep,
