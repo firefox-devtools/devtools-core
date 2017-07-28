@@ -315,7 +315,12 @@ function supportsObject(object, type, noGrip = false) {
   if (noGrip === true || !isGrip(object)) {
     return false;
   }
-  return (object.preview && object.preview.ownProperties);
+
+  return (
+    object.preview
+    ? typeof object.preview.ownProperties !== "undefined"
+    : typeof object.ownPropertyLength !== "undefined"
+  );
 }
 
 const maxLengthMap = new Map();
