@@ -1,0 +1,11 @@
+[ignore]
+.*node_modules/cjson.*
+.*node_modules/fbjs.*
+.*node_modules/npm.*
+.*node_modules/stylelint.*
+.*node_modules/config-chain.*
+.*node_modules/documentation.*
+.*custom_format_broken.json
+
+[options]
+suppress_comment=\\(.\\|\n\\)*\\$FlowIgnore
