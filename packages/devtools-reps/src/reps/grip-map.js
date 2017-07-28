@@ -156,7 +156,7 @@ function getEntries(props, entries, indexes) {
 
     return PropRep({
       name: key,
-      equal: ": ",
+      equal: " \u2192 ",
       object: value,
       mode: MODE.TINY,
       onDOMNodeMouseOver,
