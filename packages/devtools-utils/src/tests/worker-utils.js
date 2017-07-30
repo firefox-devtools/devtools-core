@@ -2,8 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { WorkerDispatcher, workerHandler, streamingWorkerHandler } = require("../worker-utils")
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+const { WorkerDispatcher, workerHandler, streamingWorkerHandler } = require("../worker-utils");
 
 describe("worker utils", () => {
   it("starts a worker", () => {
@@ -76,35 +75,55 @@ describe("worker utils", () => {
 });
 
 it("streams a task", async () => {
-  const postMessageMock = jest.fn((...args) => console.log(args));
+  jest.useRealTimers();
+
+  const dispatcher = new WorkerDispatcher();
+  global.Worker = jest.fn();
+
+  const postMessageMock = jest.fn();
 
   const worker = {
     postMessage: postMessageMock
   };
 
-  function Promisify(result) {
-    return new Promise(resolve => resolve(result));
-  }
-  const promise = Promisify(1);
-
   function makeTasks() {
     return [
       {
-        callback: () => promise.then(v => v * 20)
+        callback: () => new Promise(resolve => setTimeout(() => resolve(1), 50))
       },
       {
-        callback: () => promise.then(v => v * -10)
+        callback: () => new Promise(resolve => setTimeout(() => resolve(2), 50))
       }
     ];
   }
 
   const workerHandler = streamingWorkerHandler(
     { makeTasks },
-    { timeout: 1000 },
+    { timeout: 25 },
     worker
   );
-  const task = workerHandler({ data: { id: 1, method: "makeTasks", args: [] }});
+
+  const id = 1;
+  const task = workerHandler({ data: { id, method: "makeTasks", args: [] }});
   await task;
 
-  expect(postMessageMock.mock.calls.length).toBe(3);
+  expect(postMessageMock.mock.calls.length).toBe(4);
+  expect(postMessageMock.mock.calls[0][0]).toEqual({
+    id,
+    status: "start"
+  });
+  expect(postMessageMock.mock.calls[1][0]).toEqual({
+    id,
+    status: "pending",
+    data: [2]
+  });
+  expect(postMessageMock.mock.calls[2][0]).toEqual({
+    id,
+    status: "pending",
+    data: [1]
+  });
+  expect(postMessageMock.mock.calls[3][0]).toEqual({
+    id,
+    status: "done"
+  });
 });
