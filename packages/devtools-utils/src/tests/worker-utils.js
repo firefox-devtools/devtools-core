@@ -77,9 +77,6 @@ describe("worker utils", () => {
 it("streams a task", async () => {
   jest.useRealTimers();
 
-  const dispatcher = new WorkerDispatcher();
-  global.Worker = jest.fn();
-
   const postMessageMock = jest.fn();
 
   const worker = {
