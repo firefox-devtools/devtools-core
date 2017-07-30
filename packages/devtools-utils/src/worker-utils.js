@@ -78,10 +78,11 @@ function workerHandler(publicInterface: Object) {
   };
 }
 
-function streamingWorkerHandler(publicInterface: Object, { timeout = 100 } = {}, worker) {
-  if (!worker) {
-    worker = self;
-  }
+function streamingWorkerHandler(
+  publicInterface: Object,
+  { timeout = 100 }: Object = {},
+  worker: Object = self
+) {
   async function streamingWorker(id, tasks) {
     let isWorking = true;
 
@@ -95,7 +96,7 @@ function streamingWorkerHandler(publicInterface: Object, { timeout = 100 } = {},
       const result = await callback.call(context, args);
       results.push(result);
     }
-    worker.postMessage({ id, results });
+    worker.postMessage({ id, status: "pending", data: results });
     clearInterval(intervalId);
 
     if (tasks.length !== 0) {
