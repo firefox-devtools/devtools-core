@@ -111,8 +111,8 @@ describe("source maps", () => {
         sourceId: "bundle.js",
         line: 49
       };
-      const isMappaed = await hasMappedSource(location);
-      expect(isMappaed).toBe(true);
+      const isMapped = await hasMappedSource(location);
+      expect(isMapped).toBe(true);
     })
 
     test("does not have original location", async () => {
@@ -120,8 +120,8 @@ describe("source maps", () => {
         sourceId: "bundle.js",
         line: 94
       };
-      const isMappaed = await hasMappedSource(location);
-      expect(isMappaed).toBe(false);
+      const isMapped = await hasMappedSource(location);
+      expect(isMapped).toBe(false);
     })
   });
 });
