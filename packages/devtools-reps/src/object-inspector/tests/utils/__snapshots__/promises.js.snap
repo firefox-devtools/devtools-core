@@ -1,13 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`promises utils function getPromiseProperties 1`] = `
+exports[`promises utils function makeNodesForPromiseProperties 1`] = `
 Array [
   Object {
     "contents": Object {
       "value": "rejected",
     },
     "name": "<state>",
-    "path": "root/state",
+    "parent": Object {
+      "contents": Object {
+        "value": Object {
+          "actor": "server2.conn2.child1/pausedobj36",
+          "class": "Promise",
+          "promiseState": Object {
+            "reason": Object {
+              "type": "3",
+            },
+            "state": "rejected",
+          },
+          "type": "object",
+        },
+      },
+      "path": "root",
+    },
+    "path": "root/##-state",
+    "type": Symbol(<state>),
   },
   Object {
     "contents": Object {
@@ -16,7 +33,24 @@ Array [
       },
     },
     "name": "<reason>",
-    "path": "root/reason",
+    "parent": Object {
+      "contents": Object {
+        "value": Object {
+          "actor": "server2.conn2.child1/pausedobj36",
+          "class": "Promise",
+          "promiseState": Object {
+            "reason": Object {
+              "type": "3",
+            },
+            "state": "rejected",
+          },
+          "type": "object",
+        },
+      },
+      "path": "root",
+    },
+    "path": "root/##-reason",
+    "type": Symbol(<reason>),
   },
 ]
 `;
