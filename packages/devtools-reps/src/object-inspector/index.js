@@ -24,8 +24,9 @@ const {
 
 const {
   getChildren,
+  getParent,
   getValue,
-  isDefault,
+  nodeIsDefault,
   nodeHasAccessors,
   nodeHasProperties,
   nodeIsMissingArguments,
@@ -33,9 +34,11 @@ const {
   nodeIsPrimitive,
 } = require("./utils");
 
-type Grip = {
-  actor: string
-};
+import type {
+  ObjectInspectorItemContentsValue,
+  ObjectInspectorItemContents,
+  ObjectInspectorItem,
+} from "./types";
 
 type Mode = MODE.TINY | MODE.SHORT | MODE.LONG;
 
@@ -48,7 +51,7 @@ type Props = {
   roots: Array<ObjectInspectorItem>,
   disableWrap: boolean,
   getObjectProperties: (actor:string) => any,
-  loadObjectProperties: (value:Grip) => any,
+  loadObjectProperties: (value:ObjectInspectorItemContentsValue) => any,
   onFocus: ?(ObjectInspectorItem) => any,
   onDoubleClick: ?(
     item: ObjectInspectorItem,
@@ -72,28 +75,6 @@ type Props = {
 type State = {
   expandedKeys: any,
   focusedItem: ?ObjectInspectorItem
-};
-
-type ObjectInspectorItemContentsValue = {
-  actor: string,
-  class: string,
-  displayClass: string,
-  extensible: boolean,
-  frozen: boolean,
-  ownPropertyLength: number,
-  preview: Object,
-  sealed: boolean,
-  type: string,
-};
-
-type ObjectInspectorItemContents = {
-  value: ObjectInspectorItemContentsValue,
-};
-
-type ObjectInspectorItem = {
-  contents: Array<ObjectInspectorItem> | ObjectInspectorItemContents,
-  name: string,
-  path: string,
 };
 
 type DefaultProps = {
@@ -154,11 +135,7 @@ class ObjectInspector extends Component {
 
   isDefaultProperty(item: ObjectInspectorItem) {
     const roots = this.props.roots;
-    return isDefault(item, roots);
-  }
-
-  getParent(item: ObjectInspectorItem) : ObjectInspectorItem | null {
-    return null;
+    return nodeIsDefault(item, roots);
   }
 
   getChildren(item: ObjectInspectorItem)
@@ -360,7 +337,7 @@ class ObjectInspector extends Component {
       focused: focusedItem,
 
       getRoots: this.getRoots,
-      getParent: this.getParent,
+      getParent,
       getChildren: this.getChildren,
       getKey: this.getKey,
 

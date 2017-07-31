@@ -10,43 +10,45 @@ const {
   createNode,
   getChildren,
   getValue,
+  SAFE_PATH_PREFIX,
 } = require("../../utils");
 
 describe("getChildren", () => {
   it("accessors - getter", () => {
     const nodes = getChildren({
-      item: createNode("root", "rootpath", accessorStubs.get("getter"))
+      item: createNode(null, "root", "rootpath", accessorStubs.get("getter"))
     });
 
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
 
     expect(names).toEqual(["<get>"]);
-    expect(paths).toEqual(["rootpath/get"]);
+    expect(paths).toEqual([`rootpath/${SAFE_PATH_PREFIX}get`]);
   });
 
   it("accessors - setter", () => {
     const nodes = getChildren({
-      item: createNode("root", "rootpath", accessorStubs.get("setter"))
+      item: createNode(null, "root", "rootpath", accessorStubs.get("setter"))
     });
 
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
 
     expect(names).toEqual(["<set>"]);
-    expect(paths).toEqual(["rootpath/set"]);
+    expect(paths).toEqual([`rootpath/${SAFE_PATH_PREFIX}set`]);
   });
 
   it("accessors - getter & setter", () => {
     const nodes = getChildren({
-      item: createNode("root", "rootpath", accessorStubs.get("getter setter"))
+      item: createNode(null, "root", "rootpath", accessorStubs.get("getter setter"))
     });
 
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
 
     expect(names).toEqual(["<get>", "<set>"]);
-    expect(paths).toEqual(["rootpath/get", "rootpath/set"]);
+    expect(paths).toEqual(
+      [`rootpath/${SAFE_PATH_PREFIX}get`, `rootpath/${SAFE_PATH_PREFIX}set`]);
   });
 
   it("uses the expected actor to get properties", () => {
@@ -56,7 +58,7 @@ describe("getChildren", () => {
     // Test that the function gets the actor from the value.
     getChildren({
       actors: {},
-      item: createNode("root", "rootpath", stub.ownProperties.timing),
+      item: createNode(null, "root", "rootpath", stub.ownProperties.timing),
       getObjectProperties
     });
     expect(getObjectProperties.mock.calls[0][0]).toBe("server2.conn4.child1/obj44");
@@ -64,7 +66,7 @@ describe("getChildren", () => {
     // Test that the function gets the actor from the getterValue.
     getChildren({
       actors: {},
-      item: createNode("root", "rootpath", stub.safeGetterValues.timing),
+      item: createNode(null, "root", "rootpath", stub.safeGetterValues.timing),
       getObjectProperties
     });
     expect(getObjectProperties.mock.calls[1][0]).toBe("server2.conn4.child1/obj44");
@@ -74,7 +76,7 @@ describe("getChildren", () => {
     const stub = performanceStubs.get("timing");
     const nodes = getChildren({
       actors: {},
-      item: createNode("root", "rootpath", {
+      item: createNode(null, "root", "rootpath", {
         value: {
           actor: "rootactor",
           type: "object"

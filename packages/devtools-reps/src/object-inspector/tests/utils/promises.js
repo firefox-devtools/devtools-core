@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const {
-  getPromiseProperties,
-  isPromise,
+  makeNodesForPromiseProperties,
+  nodeIsPromise,
 } = require("../../utils");
 
 describe("promises utils function", () => {
@@ -27,10 +27,10 @@ describe("promises utils function", () => {
       }
     };
 
-    expect(isPromise(promise)).toEqual(true);
+    expect(nodeIsPromise(promise)).toEqual(true);
   });
 
-  it("getPromiseProperties", () => {
+  it("makeNodesForPromiseProperties", () => {
     const promise = {
       path: "root",
       contents: {
@@ -48,7 +48,7 @@ describe("promises utils function", () => {
       }
     };
 
-    const properties = getPromiseProperties(promise);
+    const properties = makeNodesForPromiseProperties(promise);
     expect(properties).toMatchSnapshot();
   });
 });

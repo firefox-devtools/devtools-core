@@ -3,13 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const {
-  isDefault,
+  nodeIsDefault,
   makeNodesForProperties,
+  SAFE_PATH_PREFIX,
 } = require("../../utils");
 
 const root = {
   path: "root",
-  contents: { value: {} }
+  contents: { value: {
+    class: "Array"
+  }}
 };
 
 const objProperties = {
@@ -162,13 +165,13 @@ describe("makeNodesForProperties", () => {
 
     const item = { name: "location" };
 
-    expect(isDefault(item, windowRoots)).toEqual(true);
-    expect(isDefault(item, objectRoots)).toEqual(false);
+    expect(nodeIsDefault(item, windowRoots)).toEqual(true);
+    expect(nodeIsDefault(item, objectRoots)).toEqual(false);
   });
 
   // For large arrays
   it("numerical buckets", () => {
-    let objProps = { ownProperties: {}, prototype: { class: "Array" } };
+    let objProps = { ownProperties: {}, prototype: {} };
     for (let i = 0; i < 331; i++) {
       objProps.ownProperties[i] = { value: {} };
     }
@@ -186,10 +189,10 @@ describe("makeNodesForProperties", () => {
     ]);
 
     expect(paths).toEqual([
-      "root/bucket1",
-      "root/bucket2",
-      "root/bucket3",
-      "root/bucket4",
+      `root/${SAFE_PATH_PREFIX}bucket1`,
+      `root/${SAFE_PATH_PREFIX}bucket2`,
+      `root/${SAFE_PATH_PREFIX}bucket3`,
+      `root/${SAFE_PATH_PREFIX}bucket4`,
       "root/__proto__"
     ]);
   });
