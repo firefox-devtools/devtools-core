@@ -8,6 +8,10 @@ const { mount } = require("enzyme");
 const React = require("react");
 const { createFactory } = React;
 const ObjectInspector = createFactory(require("../index"));
+const {
+  createNode,
+  NODE_TYPES,
+} = require("../utils");
 const { MODE } = require("../../reps/constants");
 const { Rep } = require("../../reps/rep");
 const gripStubs = require("../../reps/stubs/grip");
@@ -251,6 +255,66 @@ describe("ObjectInspector", () => {
     const setLeaf = nodes.at(2);
     expect(setLeaf.find(".arrow").exists()).toBeTruthy();
     expect(setLeaf.text()).toBe("<set> : function set x()");
+  });
+
+  it("renders less-important nodes as expected", () => {
+    const defaultPropertiesNode = createNode(
+      null,
+      "root",
+      "rootpath",
+      [],
+      NODE_TYPES.DEFAULT_PROPERTIES
+    );
+
+    // The [default properties] node should have the "lessen" class only when collapsed.
+    let oi = mount(ObjectInspector({
+      autoExpandDepth: 0,
+      roots: [defaultPropertiesNode],
+      getObjectProperties: () => {},
+      loadObjectProperties: () => {},
+    }));
+
+    let defaultPropertiesElementNode = oi.find(".node");
+    expect(defaultPropertiesElementNode.hasClass("lessen")).toBe(true);
+
+    oi = mount(ObjectInspector({
+      autoExpandDepth: 1,
+      roots: [defaultPropertiesNode],
+      getObjectProperties: () => {},
+      loadObjectProperties: () => {},
+    }));
+
+    defaultPropertiesElementNode = oi.find(".node");
+    expect(defaultPropertiesElementNode.hasClass("lessen")).toBe(false);
+
+    const prototypeNode = createNode(
+      null,
+      "root",
+      "rootpath",
+      [],
+      NODE_TYPES.PROTOTYPE
+    );
+
+    // The __proto__ node should have the "lessen" class only when collapsed.
+    oi = mount(ObjectInspector({
+      autoExpandDepth: 0,
+      roots: [prototypeNode],
+      getObjectProperties: () => {},
+      loadObjectProperties: () => {},
+    }));
+
+    let protoElementNode = oi.find(".node");
+    expect(protoElementNode.hasClass("lessen")).toBe(true);
+
+    oi = mount(ObjectInspector({
+      autoExpandDepth: 1,
+      roots: [prototypeNode],
+      getObjectProperties: () => {},
+      loadObjectProperties: () => {},
+    }));
+
+    protoElementNode = oi.find(".node");
+    expect(protoElementNode.hasClass("lessen")).toBe(false);
   });
 
   it("does not load properties if getObjectProperties returns a truthy element", () => {

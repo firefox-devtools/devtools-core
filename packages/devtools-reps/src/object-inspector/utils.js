@@ -16,6 +16,7 @@ const NODE_TYPES = {
   PROMISE_STATE: Symbol("<state>"),
   PROMISE_VALUE: Symbol("<value>"),
   SET: Symbol("<set>"),
+  PROTOTYPE: Symbol("__proto__"),
 };
 
 import type {
@@ -99,15 +100,10 @@ function nodeIsPrimitive(item: Node) : boolean {
     && !nodeHasAccessors(item);
 }
 
-function nodeIsDefault(
-  item: Node,
-  roots: Array<Node>
+function nodeIsDefaultProperties(
+  item: Node
 ) : boolean {
-  if (roots && roots.length === 1) {
-    const value = getValue(roots[0]);
-    return value.class === "Window";
-  }
-  return WINDOW_PROPERTIES.includes(item.name);
+  return getType(item) === NODE_TYPES.DEFAULT_PROPERTIES;
 }
 
 function isDefaultWindowProperty(name:string) : boolean {
@@ -121,6 +117,12 @@ function nodeIsPromise(item: Node) : boolean {
   }
 
   return value.class == "Promise";
+}
+
+function nodeIsPrototype(
+  item: Node
+) : boolean {
+  return getType(item) === NODE_TYPES.PROTOTYPE;
 }
 
 function nodeHasAccessors(item: Node) : boolean {
@@ -389,7 +391,13 @@ function makeNodesForProperties(
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {
     nodes.push(
-      createNode(parent, "__proto__", `${parentPath}/__proto__`, { value: prototype })
+      createNode(
+        parent,
+        "__proto__",
+        `${parentPath}/__proto__`,
+        { value: prototype },
+        NODE_TYPES.PROTOTYPE
+      )
     );
   }
 
@@ -502,12 +510,13 @@ module.exports = {
   nodeHasAccessors,
   nodeHasChildren,
   nodeHasProperties,
-  nodeIsDefault,
+  nodeIsDefaultProperties,
   nodeIsFunction,
   nodeIsMissingArguments,
   nodeIsObject,
   nodeIsOptimizedOut,
   nodeIsPrimitive,
+  nodeIsPrototype,
   nodeIsPromise,
   nodeSupportsBucketing,
   sortProperties,

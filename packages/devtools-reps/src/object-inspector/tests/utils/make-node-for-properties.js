@@ -3,8 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const {
-  nodeIsDefault,
   makeNodesForProperties,
+  nodeIsDefaultProperties,
+  nodeIsPrototype,
   SAFE_PATH_PREFIX,
 } = require("../../utils");
 
@@ -126,6 +127,8 @@ describe("makeNodesForProperties", () => {
 
     expect(names).toEqual(["bar", "__proto__"]);
     expect(paths).toEqual(["root/bar", "root/__proto__"]);
+
+    expect(nodeIsPrototype(nodes[1])).toBe(true);
   });
 
   it("window object", () => {
@@ -148,25 +151,8 @@ describe("makeNodesForProperties", () => {
 
     expect(names).toEqual(["bar", "[default properties]"]);
     expect(paths).toEqual(["root/bar", "root/##-default"]);
-  });
 
-  it("window prop on normal object", () => {
-    const windowRoots = [
-      {
-        contents: { value: { class: "Window" } }
-      }
-    ];
-
-    const objectRoots = [
-      {
-        contents: { value: { class: "Object" } }
-      }
-    ];
-
-    const item = { name: "location" };
-
-    expect(nodeIsDefault(item, windowRoots)).toEqual(true);
-    expect(nodeIsDefault(item, objectRoots)).toEqual(false);
+    expect(nodeIsDefaultProperties(nodes[1])).toBe(true);
   });
 
   // For large arrays

@@ -26,12 +26,13 @@ const {
   getChildren,
   getParent,
   getValue,
-  nodeIsDefault,
   nodeHasAccessors,
   nodeHasProperties,
+  nodeIsDefaultProperties,
   nodeIsMissingArguments,
   nodeIsOptimizedOut,
   nodeIsPrimitive,
+  nodeIsPrototype,
 } = require("./utils");
 
 import type {
@@ -132,11 +133,6 @@ class ObjectInspector extends Component {
   state: State;
   props: Props;
   actors: any;
-
-  isDefaultProperty(item: Node) {
-    const roots = this.props.roots;
-    return nodeIsDefault(item, roots);
-  }
 
   getChildren(item: Node)
     : Array<Node> | NodeContents | null {
@@ -241,7 +237,10 @@ class ObjectInspector extends Component {
       {
         className: classnames("node object-node", {
           focused,
-          "default-property": this.isDefaultProperty(item)
+          lessen: !expanded && (
+            nodeIsDefaultProperties(item)
+            || nodeIsPrototype(item)
+          )
         }),
         style: {
           marginLeft: indentWidth
