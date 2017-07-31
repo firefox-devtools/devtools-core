@@ -6,7 +6,7 @@ const fs = require("fs");
 const path = require("path");
 
 jest.mock("devtools-utils/src/network-request");
-const { getOriginalURLs, hasMappedSource } = require("../source-map");
+const { getOriginalURLs, hasMappedSource, getOriginalLocation } = require("../source-map");
 
 function getMap(_path) {
   const mapPath = path.join(__dirname, _path);
@@ -111,8 +111,8 @@ describe("source maps", () => {
         sourceId: "bundle.js",
         line: 49
       };
-      const isMappaed = await hasMappedSource(location);
-      expect(isMappaed).toBe(true);
+      const isMapped = await hasMappedSource(location);
+      expect(isMapped).toBe(true);
     })
 
     test("does not have original location", async () => {
@@ -120,8 +120,41 @@ describe("source maps", () => {
         sourceId: "bundle.js",
         line: 94
       };
-      const isMappaed = await hasMappedSource(location);
-      expect(isMappaed).toBe(false);
+      const isMapped = await hasMappedSource(location);
+      expect(isMapped).toBe(false);
     })
+  });
+
+  describe("Error handling", async () => {
+    const source = {
+      id: "missingmap.js",
+      sourceMapURL: "missingmap.js.map",
+      url: "http:://example.com/missingmap.js"
+    };
+
+    require("devtools-utils/src/network-request").mockImplementationOnce(() => {
+      throw new Error("Not found");
+    });
+
+    let thrown = false;
+    try {
+      await getOriginalURLs(source);
+    } catch (e) {
+      thrown = true;
+    }
+    expect(thrown).toBe(true);
+
+    const location = {
+      sourceId: "missingmap.js",
+      line: 49
+    };
+
+    thrown = false;
+    try {
+      await getOriginalLocation(location);
+    } catch (e) {
+      thrown = true;
+    }
+    expect(thrown).toBe(false);
   });
 });
