@@ -35,9 +35,9 @@ const {
 } = require("./utils");
 
 import type {
-  ObjectInspectorItemContentsValue,
-  ObjectInspectorItemContents,
-  ObjectInspectorItem,
+  RdpGrip,
+  NodeContents,
+  Node,
 } from "./types";
 
 type Mode = MODE.TINY | MODE.SHORT | MODE.LONG;
@@ -48,13 +48,13 @@ type Props = {
   disabledFocus: boolean,
   itemHeight: number,
   mode: Mode,
-  roots: Array<ObjectInspectorItem>,
+  roots: Array<Node>,
   disableWrap: boolean,
   getObjectProperties: (actor:string) => any,
-  loadObjectProperties: (value:ObjectInspectorItemContentsValue) => any,
-  onFocus: ?(ObjectInspectorItem) => any,
+  loadObjectProperties: (value:RdpGrip) => any,
+  onFocus: ?(Node) => any,
   onDoubleClick: ?(
-    item: ObjectInspectorItem,
+    item: Node,
     options: {
       depth: number,
       focused: boolean,
@@ -62,19 +62,19 @@ type Props = {
     }
   ) => any,
   onLabelClick: ?(
-    item: ObjectInspectorItem,
+    item: Node,
     options: {
       depth: number,
       focused: boolean,
       expanded: boolean,
-      setExpanded: (ObjectInspectorItem, boolean) => any,
+      setExpanded: (Node, boolean) => any,
     }
   ) => any,
 };
 
 type State = {
   expandedKeys: any,
-  focusedItem: ?ObjectInspectorItem
+  focusedItem: ?Node
 };
 
 type DefaultProps = {
@@ -133,13 +133,13 @@ class ObjectInspector extends Component {
   props: Props;
   actors: any;
 
-  isDefaultProperty(item: ObjectInspectorItem) {
+  isDefaultProperty(item: Node) {
     const roots = this.props.roots;
     return nodeIsDefault(item, roots);
   }
 
-  getChildren(item: ObjectInspectorItem)
-    : Array<ObjectInspectorItem> | ObjectInspectorItemContents | null {
+  getChildren(item: Node)
+    : Array<Node> | NodeContents | null {
     const { getObjectProperties } = this.props;
     const { actors } = this;
 
@@ -150,15 +150,15 @@ class ObjectInspector extends Component {
     });
   }
 
-  getRoots(): Array<ObjectInspectorItem> {
+  getRoots(): Array<Node> {
     return this.props.roots;
   }
 
-  getKey(item: ObjectInspectorItem) : string {
+  getKey(item: Node) : string {
     return item.path;
   }
 
-  setExpanded(item: ObjectInspectorItem, expand: boolean) {
+  setExpanded(item: Node, expand: boolean) {
     const { expandedKeys } = this.state;
     const key = this.getKey(item);
 
@@ -183,7 +183,7 @@ class ObjectInspector extends Component {
     }
   }
 
-  focusItem(item: ObjectInspectorItem) {
+  focusItem(item: Node) {
     if (!this.props.disabledFocus && this.state.focusedItem !== item) {
       this.setState({
         focusedItem: item
@@ -196,7 +196,7 @@ class ObjectInspector extends Component {
   }
 
   renderTreeItem(
-    item: ObjectInspectorItem,
+    item: Node,
     depth: number,
     focused: boolean,
     arrow: Object,
@@ -297,7 +297,7 @@ class ObjectInspector extends Component {
   }
 
   renderGrip(
-    item: ObjectInspectorItem,
+    item: Node,
     props: Props
   ) {
     const object = getValue(item);

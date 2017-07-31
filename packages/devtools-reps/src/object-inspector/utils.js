@@ -19,17 +19,11 @@ const NODE_TYPES = {
 };
 
 import type {
-  ObjectInspectorItemContentsValue,
-  ObjectInspectorItemContents,
-  ObjectInspectorItem,
+  LoadedProperties,
+  NodeContents,
+  Node,
+  RdpGrip,
 } from "./types";
-
-type LoadedProperties = {
-  ownProperties?: Object,
-  ownSymbols?: Array<Object>,
-  safeGetterValues?: Object,
-  prototype?: Object
-};
 
 let WINDOW_PROPERTIES = {};
 
@@ -39,13 +33,13 @@ if (typeof window === "object") {
 
 const SAFE_PATH_PREFIX = "##-";
 
-function getType(item: ObjectInspectorItem): Symbol {
+function getType(item: Node): Symbol {
   return item.type;
 }
 
 function getValue(
-  item: ObjectInspectorItem
-) : ObjectInspectorItemContentsValue | ObjectInspectorItemContents {
+  item: Node
+) : RdpGrip | NodeContents {
   if (has(item, "contents.value")) {
     return get(item, "contents.value");
   }
@@ -61,53 +55,53 @@ function getValue(
   return undefined;
 }
 
-function nodeIsBucket(item: ObjectInspectorItem) : boolean {
+function nodeIsBucket(item: Node) : boolean {
   return getType(item) === NODE_TYPES.BUCKET;
 }
 
-function nodeHasChildren(item: ObjectInspectorItem) : boolean {
+function nodeHasChildren(item: Node) : boolean {
   return Array.isArray(item.contents)
     || nodeIsBucket(item);
 }
 
-function nodeIsObject(item: ObjectInspectorItem) : boolean {
+function nodeIsObject(item: Node) : boolean {
   const value = getValue(item);
   return value && value.type === "object";
 }
 
-function nodeIsArray(item: ObjectInspectorItem) : boolean {
+function nodeIsArray(item: Node) : boolean {
   const value = getValue(item);
   return (value && value.class === "Array");
 }
 
-function nodeIsFunction(item: ObjectInspectorItem) : boolean {
+function nodeIsFunction(item: Node) : boolean {
   const value = getValue(item);
   return value && value.class === "Function";
 }
 
-function nodeIsOptimizedOut(item: ObjectInspectorItem) : boolean {
+function nodeIsOptimizedOut(item: Node) : boolean {
   const value = getValue(item);
   return !nodeHasChildren(item) && value && value.optimizedOut;
 }
 
-function nodeIsMissingArguments(item: ObjectInspectorItem) : boolean {
+function nodeIsMissingArguments(item: Node) : boolean {
   const value = getValue(item);
   return !nodeHasChildren(item) && value && value.missingArguments;
 }
 
-function nodeHasProperties(item: ObjectInspectorItem) : boolean {
+function nodeHasProperties(item: Node) : boolean {
   return !nodeHasChildren(item) && nodeIsObject(item);
 }
 
-function nodeIsPrimitive(item: ObjectInspectorItem) : boolean {
+function nodeIsPrimitive(item: Node) : boolean {
   return !nodeHasChildren(item)
     && !nodeHasProperties(item)
     && !nodeHasAccessors(item);
 }
 
 function nodeIsDefault(
-  item: ObjectInspectorItem,
-  roots: Array<ObjectInspectorItem>
+  item: Node,
+  roots: Array<Node>
 ) : boolean {
   if (roots && roots.length === 1) {
     const value = getValue(roots[0]);
@@ -120,7 +114,7 @@ function isDefaultWindowProperty(name:string) : boolean {
   return WINDOW_PROPERTIES.includes(name);
 }
 
-function nodeIsPromise(item: ObjectInspectorItem) : boolean {
+function nodeIsPromise(item: Node) : boolean {
   const value = getValue(item);
   if (!value) {
     return false;
@@ -129,17 +123,17 @@ function nodeIsPromise(item: ObjectInspectorItem) : boolean {
   return value.class == "Promise";
 }
 
-function nodeHasAccessors(item: ObjectInspectorItem) : boolean {
+function nodeHasAccessors(item: Node) : boolean {
   return !!getNodeGetter(item) || !!getNodeSetter(item);
 }
 
-function nodeSupportsBucketing(item: ObjectInspectorItem) : boolean {
+function nodeSupportsBucketing(item: Node) : boolean {
   return nodeIsArray(item);
 }
 
 function makeNodesForPromiseProperties(
-  item: ObjectInspectorItem
-) : Array<ObjectInspectorItem> {
+  item: Node
+) : Array<Node> {
   const { promiseState: { reason, value, state } } = getValue(item);
 
   const properties = [];
@@ -183,15 +177,15 @@ function makeNodesForPromiseProperties(
   return properties;
 }
 
-function getNodeGetter(item: ObjectInspectorItem): ?Object {
+function getNodeGetter(item: Node): ?Object {
   return get(item, "contents.get", undefined);
 }
 
-function getNodeSetter(item: ObjectInspectorItem): ?Object {
+function getNodeSetter(item: Node): ?Object {
   return get(item, "contents.set", undefined);
 }
 
-function makeNodesForAccessors(item: ObjectInspectorItem) : Array<ObjectInspectorItem> {
+function makeNodesForAccessors(item: Node) : Array<Node> {
   const accessors = [];
 
   const getter = getNodeGetter(item);
@@ -236,9 +230,9 @@ function sortProperties(properties: Array<any>) : Array<any> {
 function makeNumericalBuckets(
   propertiesNames: Array<string>,
   bucketSize: number,
-  parent: ObjectInspectorItem,
+  parent: Node,
   ownProperties: Object
-) : Array<ObjectInspectorItem> {
+) : Array<Node> {
   const parentPath = parent.path;
   const numProperties = propertiesNames.length;
   const numBuckets = Math.ceil(numProperties / bucketSize);
@@ -274,19 +268,21 @@ function makeNumericalBuckets(
 
 function makeDefaultPropsBucket(
   propertiesNames: Array<string>,
-  parent: ObjectInspectorItem,
+  parent: Node,
   ownProperties: Object
-) : Array<ObjectInspectorItem> {
+) : Array<Node> {
   const parentPath = parent.path;
 
-  const [
-    userPropertiesNames,
-    defaultProperties
-  ] = propertiesNames.reduce((res, name) => {
-    const [userProps, defaultProps] = res;
-    (isDefaultWindowProperty(name) ? defaultProps : userProps).push(name);
-    return res;
-  }, [[], []]);
+  const userPropertiesNames = [];
+  const defaultProperties = [];
+
+  propertiesNames.forEach(name => {
+    if (isDefaultWindowProperty(name)) {
+      defaultProperties.push(name);
+    } else {
+      userPropertiesNames.push(name);
+    }
+  });
 
   let nodes = makeNodesForOwnProps(userPropertiesNames, parent, ownProperties);
 
@@ -316,9 +312,9 @@ function makeDefaultPropsBucket(
 
 function makeNodesForOwnProps(
   propertiesNames: Array<string>,
-  parent: ObjectInspectorItem,
+  parent: Node,
   ownProperties: Object
-) : Array<ObjectInspectorItem> {
+) : Array<Node> {
   const parentPath = parent.path;
   return propertiesNames.map(name =>
     createNode(
@@ -332,11 +328,11 @@ function makeNodesForOwnProps(
 
 function makeNodesForProperties(
   objProps: LoadedProperties,
-  parent: ObjectInspectorItem,
+  parent: Node,
   {
     bucketSize = 100
   } : Object = {}
-) : Array<ObjectInspectorItem> {
+) : Array<Node> {
   const {
     ownProperties = {},
     ownSymbols,
@@ -401,12 +397,12 @@ function makeNodesForProperties(
 }
 
 function createNode(
-  parent: ObjectInspectorItem,
+  parent: Node,
   name: string,
   path: string,
   contents: any,
   type: ?Symbol = NODE_TYPES.GRIP
-) : ?ObjectInspectorItem {
+) : ?Node {
   if (contents === undefined) {
     return null;
   }
@@ -426,18 +422,18 @@ function createNode(
 }
 
 function setNodeChildren(
-  node: ObjectInspectorItem,
-  children: Array<ObjectInspectorItem>
-) : ObjectInspectorItem {
+  node: Node,
+  children: Array<Node>
+) : Node {
   node.contents = children;
   return node;
 }
 
 function getChildren(options: {
   actors: Object,
-  getObjectProperties: (ObjectInspectorItemContentsValue) => LoadedProperties,
-  item: ObjectInspectorItem
-}) : Array<ObjectInspectorItem> {
+  getObjectProperties: (RdpGrip) => LoadedProperties,
+  item: Node
+}) : Array<Node> {
   const {
     actors = {},
     getObjectProperties,
@@ -492,7 +488,7 @@ function getChildren(options: {
   return children;
 }
 
-function getParent(item: ObjectInspectorItem) : ObjectInspectorItem | null {
+function getParent(item: Node) : Node | null {
   return item.parent;
 }
 
