@@ -16,7 +16,10 @@ require("./index.css");
 const classnames = require("classnames");
 const Svg = require("../shared/images/Svg");
 const {
-  REPS: { Rep },
+  REPS: {
+    Rep,
+    Grip,
+  },
 } = require("../reps/rep");
 const {
   MODE,
@@ -27,8 +30,11 @@ const {
   getParent,
   getValue,
   nodeHasAccessors,
+  nodeHasAllEntriesInPreview,
   nodeHasProperties,
   nodeIsDefaultProperties,
+  nodeIsEntries,
+  nodeIsMapEntry,
   nodeIsMissingArguments,
   nodeIsOptimizedOut,
   nodeIsPrimitive,
@@ -36,9 +42,11 @@ const {
 } = require("./utils");
 
 import type {
-  RdpGrip,
-  NodeContents,
+  LoadedEntries,
+  LoadedProperties,
   Node,
+  NodeContents,
+  RdpGrip,
 } from "./types";
 
 type Mode = MODE.TINY | MODE.SHORT | MODE.LONG;
@@ -51,8 +59,10 @@ type Props = {
   mode: Mode,
   roots: Array<Node>,
   disableWrap: boolean,
-  getObjectProperties: (actor:string) => any,
-  loadObjectProperties: (value:RdpGrip) => any,
+  getObjectEntries: (actor:string) => ?LoadedEntries,
+  getObjectProperties: (actor:string) => ?LoadedProperties,
+  loadObjectEntries: (value:RdpGrip) => void,
+  loadObjectProperties: (value:RdpGrip) => void,
   onFocus: ?(Node) => any,
   onDoubleClick: ?(
     item: Node,
@@ -136,10 +146,14 @@ class ObjectInspector extends Component {
 
   getChildren(item: Node)
     : Array<Node> | NodeContents | null {
-    const { getObjectProperties } = this.props;
+    const {
+      getObjectEntries,
+      getObjectProperties,
+    } = this.props;
     const { actors } = this;
 
     return getChildren({
+      getObjectEntries,
       getObjectProperties,
       actors,
       item
@@ -169,12 +183,29 @@ class ObjectInspector extends Component {
     if (expand === true) {
       const {
         getObjectProperties,
+        getObjectEntries,
         loadObjectProperties,
+        loadObjectEntries,
       } = this.props;
 
       const value = getValue(item);
+      const parent = getParent(item);
+      const parentValue = getValue(parent);
+      const parentActor = parentValue
+        ? parentValue.actor
+        : null;
+
       if (nodeHasProperties(item) && value && !getObjectProperties(value.actor)) {
         loadObjectProperties(value);
+      }
+
+      if (
+        nodeIsEntries(item)
+        && !nodeHasAllEntriesInPreview(parent)
+        && parentActor
+        && !getObjectEntries(parentActor)
+      ) {
+        loadObjectEntries(parentValue);
       }
     }
   }
@@ -214,7 +245,12 @@ class ObjectInspector extends Component {
       objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
     } else if (nodeIsMissingArguments(item) || unavailable) {
       objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
-    } else if (nodeHasProperties(item) || nodeHasAccessors(item) || isPrimitive) {
+    } else if (
+      nodeHasProperties(item)
+      || nodeHasAccessors(item)
+      || nodeIsMapEntry(item)
+      || isPrimitive
+    ) {
       let repsProp = Object.assign({}, this.props);
       if (depth > 0) {
         repsProp.mode = this.props.mode === MODE.LONG
@@ -224,6 +260,9 @@ class ObjectInspector extends Component {
 
       objectValue = this.renderGrip(item, repsProp);
     }
+
+    const hasLabel = label !== null && typeof label !== "undefined";
+    const hasValue = typeof objectValue !== "undefined";
 
     const SINGLE_INDENT_WIDTH = 15;
     const indentWidth = (depth + (isPrimitive ? 1 : 0)) * SINGLE_INDENT_WIDTH;
@@ -269,7 +308,7 @@ class ObjectInspector extends Component {
           })
         })
         : null,
-      label
+      hasLabel
         ? dom.span(
           {
             className: "object-label",
@@ -288,10 +327,12 @@ class ObjectInspector extends Component {
           label
         )
         : null,
-      label && objectValue
+      hasLabel && hasValue
         ? dom.span({ className: "object-delimiter" }, " : ")
         : null,
-      objectValue
+      hasValue
+        ? objectValue
+        : null
     );
   }
 
@@ -302,7 +343,8 @@ class ObjectInspector extends Component {
     const object = getValue(item);
     return Rep(Object.assign({}, props, {
       object,
-      mode: props.mode || MODE.TINY
+      mode: props.mode || MODE.TINY,
+      defaultRep: Grip,
     }));
   }
 
