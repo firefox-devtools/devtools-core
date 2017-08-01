@@ -3,7 +3,7 @@ require("babel-register");
 const path = require("path");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const { isDevelopment, isFirefoxPanel, getValue } = require("devtools-config");
+const { isDevelopment, isFirefoxPanel, getValue, setConfig } = require("devtools-config");
 const NODE_ENV = process.env.NODE_ENV || "development";
 const TARGET = process.env.TARGET || "local";
 
@@ -13,16 +13,18 @@ const defaultBabelPlugins = [
 ];
 
 module.exports = (webpackConfig, envConfig) => {
+  setConfig(envConfig);
+
   webpackConfig.context = path.resolve(__dirname, "src");
   webpackConfig.devtool = "source-map";
 
   webpackConfig.module = webpackConfig.module || {};
-  webpackConfig.module.loaders = webpackConfig.module.loaders || [];
-  webpackConfig.module.loaders.push({
+  webpackConfig.module.rules = webpackConfig.module.rules || [];
+  webpackConfig.module.rules.push({
     test: /\.json$/,
-    loader: "json"
+    loader: "json-loader"
   });
-  webpackConfig.module.loaders.push({
+  webpackConfig.module.rules.push({
     test: /\.js$/,
     exclude: request => {
       // Some paths are excluded from Babel
@@ -36,25 +38,24 @@ module.exports = (webpackConfig, envConfig) => {
       }
       return excluded && !request.match(/node_modules(\/|\\)devtools-/);
     },
-    loaders: [
-      `babel?${defaultBabelPlugins.map(p => `plugins[]=${p}`)}&ignore=src/lib`
-    ],
-    isJavaScriptLoader: true
+    loader: `babel-loader?${defaultBabelPlugins.map(p => `plugins[]=${p}`)}&ignore=src/lib`,
+    // isJavaScriptLoader: true
   });
-  webpackConfig.module.loaders.push({
+  webpackConfig.module.rules.push({
     test: /\.svg$/,
-    loader: "svg-inline"
+    loader: "svg-inline-loader"
   });
 
-  webpackConfig.module.loaders.push({
+  webpackConfig.module.rules.push({
     test: /\.properties$/,
-    loader: "raw"
+    loader: "raw-loader"
   });
 
   // Add resolveLoader for ./node_modules to fix issues when synlinked.
   webpackConfig.resolveLoader = webpackConfig.resolveLoader || {};
-  webpackConfig.resolveLoader.root = webpackConfig.resolveLoader.root || [];
-  webpackConfig.resolveLoader.root.push(path.resolve("./node_modules"));
+  webpackConfig.resolveLoader.modules = webpackConfig.resolveLoader.modules || [];
+  webpackConfig.resolveLoader.modules.push("node_modules");
+  webpackConfig.resolveLoader.modules.push(path.resolve(__dirname, "./node_modules"));
 
   // Add a resolve alias for React if the target is UMD
   if (webpackConfig.output && webpackConfig.output.libraryTarget === "umd") {
@@ -79,9 +80,9 @@ module.exports = (webpackConfig, envConfig) => {
   );
 
   if (isDevelopment()) {
-    webpackConfig.module.loaders.push({
+    webpackConfig.module.rules.push({
       test: /\.css$/,
-      loader: "style!css!postcss"
+      loader: "style-loader!css-loader!postcss-loader"
     });
 
     if (getValue("hotReloading")) {
@@ -94,15 +95,15 @@ module.exports = (webpackConfig, envConfig) => {
         new webpack.NoErrorsPlugin()
       ]);
 
-      webpackConfig.module.loaders.forEach(spec => {
+      webpackConfig.module.rules.forEach(spec => {
         if (spec.isJavaScriptLoader) {
-          spec.loaders.unshift("react-hot");
+          spec.rules.unshift("react-hot-loader");
         }
       });
     }
   } else {
     // Extract CSS into a single file
-    webpackConfig.module.loaders.push({
+    webpackConfig.module.rules.push({
       test: /\.css$/,
       exclude: request => {
         // If the tool defines an exclude regexp for CSS files.
@@ -110,20 +111,24 @@ module.exports = (webpackConfig, envConfig) => {
           webpackConfig.cssExcludes && request.match(webpackConfig.cssExcludes)
         );
       },
-      loader: ExtractTextPlugin.extract(
-        "style-loader",
-        "css-loader",
-        "postcss-loader"
-      )
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: [
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: "postcss-loader",
+            options: {
+              config: {
+                path: path.resolve(__dirname, "postcss.config.js")
+              }
+            }
+          }
+        ]
+      })
     });
 
     webpackConfig.plugins.push(new ExtractTextPlugin("[name].css"));
   }
-
-  webpackConfig.postcss = () => [
-    require("postcss-bidirection"),
-    require("autoprefixer")
-  ];
 
   if (isFirefoxPanel()) {
     webpackConfig = require("./webpack.config.devtools")(
@@ -135,10 +140,10 @@ module.exports = (webpackConfig, envConfig) => {
   // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
   // destructuring params https://github.com/devtools-html/debugger.html/issues/67
   if (getValue("transformParameters")) {
-    webpackConfig.module.loaders.forEach(spec => {
+    webpackConfig.module.rules.forEach(spec => {
       if (spec.isJavaScriptLoader) {
-        const idx = spec.loaders.findIndex(loader => loader.includes("babel"));
-        spec.loaders[idx] += "&plugins[]=transform-es2015-parameters";
+        const idx = spec.rules.findIndex(loader => loader.includes("babel-loader"));
+        spec.rules[idx] += "&plugins[]=transform-es2015-parameters";
       }
     });
   }

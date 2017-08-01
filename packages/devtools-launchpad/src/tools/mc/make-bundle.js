@@ -17,7 +17,7 @@ function makeBundle({ outputPath, projectPath, watch = false }) {
 
     const postRun = (error, stats) => {
       if (stats.hasErrors()) {
-        reject(stats.toJson("errors-only"));
+        reject(stats.toJson("verbose"));
       }
 
       resolve();

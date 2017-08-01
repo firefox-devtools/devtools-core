@@ -11,7 +11,6 @@ const nativeMapping = {
   "react-dom": "devtools/client/shared/vendor/react-dom",
 };
 
-let packagesPath = path.join(__dirname, "../");
 const rootDir = path.join(__dirname, "../..");
 const outputPath = process.env.OUTPUT_PATH;
 
