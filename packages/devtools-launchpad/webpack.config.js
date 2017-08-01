@@ -61,7 +61,7 @@ module.exports = (webpackConfig, envConfig) => {
     webpackConfig.resolve = webpackConfig.resolve || {};
     webpackConfig.resolve.alias = webpackConfig.resolve.alias || {};
     if (!webpackConfig.resolve.alias.react) {
-      webpackConfig.resolve.alias.react = "react/lib/ReactUMDEntry";
+      webpackConfig.resolve.alias.react = "react/umd/react.development";
     }
   }
 

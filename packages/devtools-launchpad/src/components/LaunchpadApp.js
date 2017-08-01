@@ -3,15 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { PropTypes } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getTabs, getFilterString, getConfig } = require("../selectors");
 const { getValue } = require("devtools-config");
 const LandingPage = React.createFactory(require("./LandingPage"));
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
 
-const LaunchpadApp = React.createClass({
+const LaunchpadApp = createReactClass({
   displayName: "LaunchpadApp",
 
   propTypes: {

@@ -26,7 +26,7 @@ function buildwebpackConfig(envConfig) {
 
     resolve: {
       alias: {
-        "react-dom": "react-dom/dist/react-dom"
+        "react-dom": "react-dom/umd/react-dom.development"
       }
     }
   }
