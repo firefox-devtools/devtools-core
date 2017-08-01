@@ -5,11 +5,13 @@
  /* global jest */
 const accessorStubs = require("../../../reps/stubs/accessor");
 const performanceStubs = require("../../stubs/performance");
+const gripMapStubs = require("../../../reps/stubs/grip-map");
 
 const {
   createNode,
   getChildren,
   getValue,
+  makeNodesForEntries,
   SAFE_PATH_PREFIX,
 } = require("../../utils");
 
@@ -70,6 +72,40 @@ describe("getChildren", () => {
       getObjectProperties
     });
     expect(getObjectProperties.mock.calls[1][0]).toBe("server2.conn4.child1/obj44");
+  });
+
+  it("uses the expected actor to get entries", () => {
+    const getObjectEntries = jest.fn();
+    const actor = Symbol();
+    const mapNode = createNode(null, "map", "/", {value: {actor}});
+    // Test that the function gets the actor from the value.
+    getChildren({
+      actors: {},
+      item: makeNodesForEntries(mapNode),
+      getObjectEntries
+    });
+    expect(getObjectEntries.mock.calls[0][0]).toBe(actor);
+  });
+
+  it("gets data from the cache when it exists", () => {
+    const getObjectEntries = jest.fn();
+    const getObjectProperties = jest.fn();
+    const mapNode = createNode(null, "map", "rootpath", {
+      value: gripMapStubs.get("testSymbolKeyedMap")
+    });
+    const cachedData = Symbol();
+    // Test that the function gets the actor from the value.
+    const children = getChildren({
+      actors: {
+        "rootpath": cachedData
+      },
+      item: mapNode,
+      getObjectEntries,
+      getObjectProperties,
+    });
+    expect(children).toBe(cachedData);
+    expect(getObjectEntries.mock.calls.length).toBe(0);
+    expect(getObjectProperties.mock.calls.length).toBe(0);
   });
 
   it("safeGetterValues", () => {
