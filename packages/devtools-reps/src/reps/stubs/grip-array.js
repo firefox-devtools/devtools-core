@@ -668,4 +668,363 @@ stubs.set("testItemsNotInPreview", {
     "length": 3
   }
 });
+
+stubs.set("new Set([1,2,3,4])", {
+  "type": "object",
+  "actor": "server2.conn8.child18/obj30",
+  "class": "Set",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "ArrayLike",
+    "length": 4,
+    "items": [
+      1,
+      2,
+      3,
+      4
+    ]
+  }
+});
+
+stubs.set("new Set([0,1,2,…,19])", {
+  "type": "object",
+  "actor": "server2.conn8.child18/obj42",
+  "class": "Set",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "ArrayLike",
+    "length": 20,
+    "items": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  }
+});
+
+stubs.set("new WeakSet(document.querySelectorAll('button:nth-child(3n)'))", {
+  "type": "object",
+  "actor": "server2.conn11.child18/obj107",
+  "class": "WeakSet",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "ArrayLike",
+    "length": 4,
+    "items": [
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj108",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "g"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj109",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "E"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj110",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "l"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj111",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "r"
+          },
+          "attributesLength": 2
+        }
+      }
+    ]
+  }
+});
+
+stubs.set("new WeakSet(document.querySelectorAll('div, button'))", {
+  "type": "object",
+  "actor": "server2.conn11.child18/obj172",
+  "class": "WeakSet",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "ArrayLike",
+    "length": 12,
+    "items": [
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj173",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "L"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj174",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "E"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj175",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "t"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj176",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "G"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj177",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "g"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj178",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "e"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj179",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "T"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj180",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "l"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj181",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "C"
+          },
+          "attributesLength": 2
+        }
+      },
+      {
+        "type": "object",
+        "actor": "server2.conn11.child18/obj182",
+        "class": "HTMLButtonElement",
+        "extensible": true,
+        "frozen": false,
+        "sealed": false,
+        "ownPropertyLength": 0,
+        "preview": {
+          "kind": "DOMNode",
+          "nodeType": 1,
+          "nodeName": "button",
+          "isConnected": true,
+          "attributes": {
+            "type": "button",
+            "data-key": "c"
+          },
+          "attributesLength": 2
+        }
+      }
+    ]
+  }
+});
+
 module.exports = stubs;

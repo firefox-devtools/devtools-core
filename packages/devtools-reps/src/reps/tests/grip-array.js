@@ -393,3 +393,116 @@ describe("GripArray - Items not in preview", () => {
     expectActorAttribute(component, object.actor);
   });
 });
+
+describe("GripArray - Set", () => {
+  it("correctly selects GripArray Rep", () => {
+    const object = stubs.get("new Set([1,2,3,4])");
+    expect(getRep(object)).toBe(GripArray.rep);
+  });
+
+  it("renders short sets as expected", () => {
+    const object = stubs.get("new Set([1,2,3,4])");
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "Set [ 1, 2, 3, … ]";
+
+    let component = renderRep({ mode: undefined });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.TINY });
+    // FIXME: Tiny mode should render Set as "Set" and not "[…]".
+    // See LINKTOGITHUBISSUE
+    expect(component.text()).toBe("[…]");
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.SHORT });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.LONG });
+    expect(component.text()).toBe("Set [ 1, 2, 3, 4 ]");
+    expectActorAttribute(component, object.actor);
+  });
+
+  it("renders larger sets as expected", () => {
+    const object = stubs.get("new Set([0,1,2,…,19])");
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "Set [ 0, 1, 2, … ]";
+
+    let component = renderRep({ mode: undefined });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.TINY });
+    // FIXME: Tiny mode should render Set as "Set" and not "[…]".
+    // See LINKTOGITHUBISSUE
+    expect(component.text()).toBe("[…]");
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.SHORT });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.LONG });
+    expect(component.text()).toBe("Set [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, … ]");
+    expectActorAttribute(component, object.actor);
+  });
+});
+
+describe("GripArray - WeakSet", () => {
+  it("correctly selects GripArray Rep", () => {
+    const object = stubs.get(
+      "new WeakSet(document.querySelectorAll('button:nth-child(3n)'))"
+    );
+    expect(getRep(object)).toBe(GripArray.rep);
+  });
+
+  it("renders short WeakSets as expected", () => {
+    const object = stubs.get(
+      "new WeakSet(document.querySelectorAll('button:nth-child(3n)'))");
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "WeakSet [ button, button, button, … ]";
+
+    let component = renderRep({ mode: undefined });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.TINY });
+    // FIXME: Tiny mode should render WeakSet as "WeakSet" and not "[…]".
+    // See LINKTOGITHUBISSUE
+    expect(component.text()).toBe("[…]");
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.SHORT });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.LONG });
+    expect(component.text()).toBe("WeakSet [ button, button, button, button ]");
+    expectActorAttribute(component, object.actor);
+  });
+
+  it("renders larger WeakSets as expected", () => {
+    const object = stubs.get("new WeakSet(document.querySelectorAll('div, button'))");
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "WeakSet [ button, button, button, … ]";
+
+    let component = renderRep({ mode: undefined });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.TINY });
+    // FIXME: Tiny mode should render WeakSet as "WeakSet" and not "[…]".
+    // See LINKTOGITHUBISSUE
+    expect(component.text()).toBe("[…]");
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.SHORT });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.LONG });
+    expect(component.text()).toBe(`WeakSet [ ${"button, ".repeat(10)}… ]`);
+    expectActorAttribute(component, object.actor);
+  });
+});
