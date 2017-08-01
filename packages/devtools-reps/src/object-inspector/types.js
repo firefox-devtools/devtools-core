@@ -9,6 +9,10 @@ export type LoadedProperties = {
   prototype?: Object
 };
 
+export type LoadedEntries = {
+  ownProperties: Object,
+};
+
 export type NodeContents = {
   value: ObjectInspectorItemContentsValue,
 };

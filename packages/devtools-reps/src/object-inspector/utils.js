@@ -6,12 +6,16 @@
 const get = require("lodash/get");
 const has = require("lodash/has");
 const { maybeEscapePropertyName } = require("../reps/rep-utils");
+const GripMapEntry = require("../reps/grip-map-entry");
 
 const NODE_TYPES = {
-  BUCKET: Symbol("[n…m]"),
+  BUCKET: Symbol("[n…n]"),
   DEFAULT_PROPERTIES: Symbol("[default properties]"),
+  ENTRIES: Symbol("<entries>"),
   GET: Symbol("<get>"),
   GRIP: Symbol("GRIP"),
+  MAP_ENTRY_KEY: Symbol("<key>"),
+  MAP_ENTRY_VALUE: Symbol("<value>"),
   PROMISE_REASON: Symbol("<reason>"),
   PROMISE_STATE: Symbol("<state>"),
   PROMISE_VALUE: Symbol("<value>"),
@@ -20,9 +24,10 @@ const NODE_TYPES = {
 };
 
 import type {
+  LoadedEntries,
   LoadedProperties,
-  NodeContents,
   Node,
+  NodeContents,
   RdpGrip,
 } from "./types";
 
@@ -34,7 +39,7 @@ if (typeof window === "object") {
 
 const SAFE_PATH_PREFIX = "##-";
 
-function getType(item: Node): Symbol {
+function getType(item: Node) : Symbol {
   return item.type;
 }
 
@@ -58,6 +63,14 @@ function getValue(
 
 function nodeIsBucket(item: Node) : boolean {
   return getType(item) === NODE_TYPES.BUCKET;
+}
+
+function nodeIsEntries(item: Node) : boolean {
+  return getType(item) === NODE_TYPES.ENTRIES;
+}
+
+function nodeIsMapEntry(item: Node) : boolean {
+  return GripMapEntry.supportsObject(getValue(item));
 }
 
 function nodeHasChildren(item: Node) : boolean {
@@ -97,6 +110,8 @@ function nodeHasProperties(item: Node) : boolean {
 function nodeIsPrimitive(item: Node) : boolean {
   return !nodeHasChildren(item)
     && !nodeHasProperties(item)
+    && !nodeIsEntries(item)
+    && !nodeIsMapEntry(item)
     && !nodeHasAccessors(item);
 }
 
@@ -130,7 +145,40 @@ function nodeHasAccessors(item: Node) : boolean {
 }
 
 function nodeSupportsBucketing(item: Node) : boolean {
-  return nodeIsArray(item);
+  return nodeIsArray(item)
+    || nodeIsEntries(item);
+}
+
+function nodeHasEntries(
+  item : Node
+) : boolean {
+  const value = getValue(item);
+  if (!value) {
+    return false;
+  }
+
+  return value.class === "Map"
+    || value.class === "Set"
+    || value.class === "WeakMap"
+    || value.class === "WeakSet";
+}
+
+function nodeHasAllEntriesInPreview(item : Node) : boolean {
+  const { preview } = getValue(item) || {};
+  if (!preview) {
+    return false;
+  }
+
+  const {
+    entries,
+    items,
+    length,
+    size,
+  } = preview;
+
+  return entries
+    ? entries.length === size
+    : items.length === length;
 }
 
 function makeNodesForPromiseProperties(
@@ -177,6 +225,49 @@ function makeNodesForPromiseProperties(
   }
 
   return properties;
+}
+
+function makeNodesForEntries(
+  item : Node
+) : Node {
+  const {path} = item;
+  const { preview } = getValue(item);
+  const nodeName = "<entries>";
+  const entriesPath = `${path}/${SAFE_PATH_PREFIX}entries`;
+
+  if (nodeHasAllEntriesInPreview(item)) {
+    let entriesNodes = [];
+    if (preview.entries) {
+      entriesNodes = preview.entries.map(([key, value], index) => {
+        return createNode(item, index, `${entriesPath}/${index}`, {
+          value: GripMapEntry.createGripMapEntry(key, value)
+        });
+      });
+    } else if (preview.items) {
+      entriesNodes = preview.items.map((value, index) => {
+        return createNode(item, index, `${entriesPath}/${index}`, {value});
+      });
+    }
+    return createNode(item, nodeName, entriesPath, entriesNodes, NODE_TYPES.ENTRIES);
+  }
+  return createNode(item, nodeName, entriesPath, null, NODE_TYPES.ENTRIES);
+}
+
+function makeNodesForMapEntry(
+  item: Node
+) : Array<Node> {
+  const nodeValue = getValue(item);
+  if (!nodeValue || !nodeValue.preview) {
+    return [];
+  }
+
+  const {key, value} = nodeValue.preview;
+  const path = item.path;
+
+  return [
+    createNode(item, "<key>", `${path}/##key`, {value: key}, NODE_TYPES.MAP_ENTRY_KEY),
+    createNode(item, "<value>", `${path}/##value`, {value}, NODE_TYPES.MAP_ENTRY_VALUE),
+  ];
 }
 
 function getNodeGetter(item: Node): ?Object {
@@ -388,6 +479,10 @@ function makeNodesForProperties(
     nodes.push(...makeNodesForPromiseProperties(parent));
   }
 
+  if (nodeHasEntries(parent)) {
+    nodes.push(makeNodesForEntries(parent));
+  }
+
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {
     nodes.push(
@@ -439,11 +534,13 @@ function setNodeChildren(
 
 function getChildren(options: {
   actors: Object,
-  getObjectProperties: (RdpGrip) => LoadedProperties,
+  getObjectEntries: (RdpGrip) => ?LoadedEntries,
+  getObjectProperties: (RdpGrip) => ?LoadedProperties,
   item: Node
 }) : Array<Node> {
   const {
     actors = {},
+    getObjectEntries,
     getObjectProperties,
     item
   } = options;
@@ -453,11 +550,15 @@ function getChildren(options: {
     return makeNodesForAccessors(item);
   }
 
+  if (nodeIsMapEntry(item)) {
+    return makeNodesForMapEntry(item);
+  }
+
   if (nodeHasChildren(item)) {
     return item.contents;
   }
 
-  if (!nodeHasProperties(item)) {
+  if (!nodeHasProperties(item) && !nodeIsEntries(item)) {
     return [];
   }
 
@@ -476,9 +577,19 @@ function getChildren(options: {
     return item.contents.children;
   }
 
-  let loadedProps = getObjectProperties(
-    get(getValue(item), "actor", undefined)
-  );
+  let loadedProps;
+  if (nodeIsEntries(item)) {
+    // If `item` is an <entries> node, we need to get the entries
+    // matching the parent node actor.
+    const parent = getParent(item);
+    loadedProps = getObjectEntries(
+      get(getValue(parent), "actor", undefined)
+    );
+  } else {
+    loadedProps = getObjectProperties(
+      get(getValue(item), "actor", undefined)
+    );
+  }
 
   const {
     ownProperties,
@@ -505,19 +616,24 @@ module.exports = {
   getChildren,
   getParent,
   getValue,
+  makeNodesForEntries,
   makeNodesForPromiseProperties,
   makeNodesForProperties,
   nodeHasAccessors,
+  nodeHasAllEntriesInPreview,
   nodeHasChildren,
+  nodeHasEntries,
   nodeHasProperties,
   nodeIsDefaultProperties,
+  nodeIsEntries,
   nodeIsFunction,
+  nodeIsMapEntry,
   nodeIsMissingArguments,
   nodeIsObject,
   nodeIsOptimizedOut,
   nodeIsPrimitive,
-  nodeIsPrototype,
   nodeIsPromise,
+  nodeIsPrototype,
   nodeSupportsBucketing,
   sortProperties,
   NODE_TYPES,
