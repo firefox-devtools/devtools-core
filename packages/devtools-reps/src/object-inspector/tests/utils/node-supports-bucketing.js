@@ -4,6 +4,7 @@
 
 const {
   createNode,
+  makeNodesForEntries,
   nodeSupportsBucketing,
 } = require("../../utils");
 
@@ -16,6 +17,7 @@ const createRootNode = (stub) => createNode(
 );
 
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
+const gripMapStubs = require("../../../reps/stubs/grip-map");
 
 describe("nodeSupportsBucketing", () => {
   it("returns true for Arrays", () => {
@@ -45,19 +47,9 @@ describe("nodeSupportsBucketing", () => {
     )).toBe(true);
   });
 
-  // Should pass when https://github.com/devtools-html/devtools-core/issues/494 is fixed.
-  it.skip("returns true for Maps", () => {
-  });
-
-  // Should pass when https://github.com/devtools-html/devtools-core/issues/494 is fixed.
-  it.skip("returns true for Sets", () => {
-  });
-
-  // Should pass when https://github.com/devtools-html/devtools-core/issues/494 is fixed.
-  it.skip("returns true for WeakMaps", () => {
-  });
-
-  // Should pass when https://github.com/devtools-html/devtools-core/issues/494 is fixed.
-  it.skip("returns true for WeakSets", () => {
+  it("returns true for <entries> node", () => {
+    expect(nodeSupportsBucketing(
+      makeNodesForEntries(createRootNode(gripMapStubs.get("testSymbolKeyedMap")))
+    )).toBe(true);
   });
 });

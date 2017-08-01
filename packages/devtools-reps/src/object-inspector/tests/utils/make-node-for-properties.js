@@ -3,8 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const {
+  createNode,
   makeNodesForProperties,
   nodeIsDefaultProperties,
+  nodeIsEntries,
+  nodeIsMapEntry,
   nodeIsPrototype,
   SAFE_PATH_PREFIX,
 } = require("../../utils");
@@ -153,6 +156,49 @@ describe("makeNodesForProperties", () => {
     expect(paths).toEqual(["root/bar", "root/##-default"]);
 
     expect(nodeIsDefaultProperties(nodes[1])).toBe(true);
+  });
+
+  it("object with entries", () => {
+    const gripMapStubs = require("../../../reps/stubs/grip-map");
+
+    const mapNode = createNode(null, "map", "root", {
+      value: gripMapStubs.get("testSymbolKeyedMap")
+    });
+
+    const nodes = makeNodesForProperties({
+      ownProperties: {
+        size: {value: 1},
+        custom: {value: "customValue"}
+      }
+    }, mapNode);
+
+    const names = nodes.map(n => n.name);
+    const paths = nodes.map(n => n.path);
+
+    expect(names).toEqual(["custom", "size", "<entries>"]);
+    expect(paths).toEqual([
+      "root/custom",
+      "root/size",
+      `root/${SAFE_PATH_PREFIX}entries`
+    ]);
+
+    const entriesNode = nodes[2];
+    expect(nodeIsEntries(entriesNode)).toBe(true);
+
+    const children = entriesNode.contents;
+
+    // There are 2 entries in the map.
+    expect(children.length).toBe(2);
+    // And the 2 nodes created are typed as map entries.
+    expect(children.every(child => nodeIsMapEntry(child))).toBe(true);
+
+    const childrenNames = children.map(n => n.name);
+    const childrenPaths = children.map(n => n.path);
+    expect(childrenNames).toEqual([0, 1]);
+    expect(childrenPaths).toEqual([
+      `root/${SAFE_PATH_PREFIX}entries/0`,
+      `root/${SAFE_PATH_PREFIX}entries/1`
+    ]);
   });
 
   // For large arrays
