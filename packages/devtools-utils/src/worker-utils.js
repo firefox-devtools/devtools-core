@@ -92,7 +92,7 @@ function streamingWorkerHandler(
 
     const results = [];
     while (tasks.length !== 0 && isWorking) {
-      const { callback, context, args } = tasks.pop();
+      const { callback, context, args } = tasks.shift();
       const result = await callback.call(context, args);
       results.push(result);
     }
