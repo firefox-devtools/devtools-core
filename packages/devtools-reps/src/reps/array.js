@@ -74,27 +74,24 @@ function ArrayRep(props) {
 
 function arrayIterator(props, array, max) {
   let items = [];
-  let delim;
 
   for (let i = 0; i < array.length && i < max; i++) {
+    let config = {
+      mode: MODE.TINY,
+      delim: (i == array.length - 1 ? "" : ", ")
+    };
+    let item;
+
     try {
-      let value = array[i];
-
-      delim = (i == array.length - 1 ? "" : ", ");
-
-      items.push(ItemRep({
-        object: value,
-        // Hardcode tiny mode to avoid recursive handling.
-        mode: MODE.TINY,
-        delim: delim
+      item = ItemRep(Object.assign({}, props, config, {
+        object: array[i],
       }));
     } catch (exc) {
-      items.push(ItemRep({
+      item = ItemRep(Object.assign({}, props, config, {
         object: exc,
-        mode: MODE.TINY,
-        delim: delim
       }));
     }
+    items.push(item);
   }
 
   if (array.length > max) {
@@ -126,7 +123,10 @@ function ItemRep(props) {
   } = props;
   return (
     DOM.span({},
-      Rep({object: object, mode: mode}),
+      Rep(Object.assign({}, props, {
+        object: object,
+        mode: mode
+      })),
       delim
     )
   );

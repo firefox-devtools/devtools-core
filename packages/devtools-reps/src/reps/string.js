@@ -6,15 +6,18 @@
 const React = require("react");
 
 const {
+  containsURL,
+  isURL,
   escapeString,
   getGripType,
   rawCropString,
   sanitizeString,
   wrapRender,
+  tokenSplitRegex,
 } = require("./rep-utils");
 
 // Shortcuts
-const { span } = React.DOM;
+const { a, span } = React.DOM;
 
 /**
  * Renders a string. String value is enclosed within quotes.
@@ -26,6 +29,7 @@ StringRep.propTypes = {
   object: React.PropTypes.string.isRequired,
   member: React.PropTypes.any,
   cropLimit: React.PropTypes.number,
+  openLink: React.PropTypes.func,
 };
 
 function StringRep(props) {
@@ -36,6 +40,7 @@ function StringRep(props) {
     style,
     useQuotes = true,
     escapeWhitespace = true,
+    openLink,
   } = props;
 
   let config = {className: "objectBox objectBox-string"};
@@ -53,7 +58,38 @@ function StringRep(props) {
     text = rawCropString(text, cropLimit);
   }
 
-  return span(config, text);
+  if (!containsURL(text)) {
+    return span(config, text);
+  }
+
+  const items = [];
+
+  // As we walk through the tokens of the source string, we make sure to preserve
+  // the original whitespace that separated the tokens.
+  let tokens = text.split(tokenSplitRegex);
+  let textIndex = 0;
+  let tokenStart;
+  tokens.forEach((token, i) => {
+    tokenStart = text.indexOf(token, textIndex);
+    if (isURL(token)) {
+      items.push(text.slice(textIndex, tokenStart));
+      textIndex = tokenStart + token.length;
+
+      items.push(a({
+        className: "url",
+        title: token,
+        href: token,
+        draggable: false,
+        onClick: openLink
+          ? () => openLink(token)
+          : null
+      }, token));
+    }
+  });
+
+  // Clean up any non-URL text at the end of the source string.
+  items.push(text.slice(textIndex, text.length));
+  return span(config, ...items);
 }
 
 function supportsObject(object, noGrip = false) {

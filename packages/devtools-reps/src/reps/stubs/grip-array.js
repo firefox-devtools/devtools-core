@@ -1027,4 +1027,21 @@ stubs.set("new WeakSet(document.querySelectorAll('div, button'))", {
   }
 });
 
+stubs.set(`["http://example.com/abcdefghijabcdefghij some other text"]`, {
+  "type": "object",
+  "actor": "server2.conn3.child17/obj37",
+  "class": "Array",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 2,
+  "preview": {
+    "kind": "ArrayLike",
+    "length": 1,
+    "items": [
+      "http://example.com/abcdefghijabcdefghij some other text"
+    ]
+  }
+});
+
 module.exports = stubs;

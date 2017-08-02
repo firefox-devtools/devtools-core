@@ -4,7 +4,8 @@
 
 // Dependencies
 const React = require("react");
-
+const validProtocols = /^(http|https|ftp|data|javascript|resource|chrome):/i;
+const tokenSplitRegex = /(\s|\'|\"|\\)+/;
 /**
  * Returns true if the given object is a grip (see RDP protocol)
  */
@@ -355,9 +356,48 @@ function getGripType(object, noGrip) {
   return type;
 }
 
+/**
+ * Determines whether a grip is a string containing a URL.
+ *
+ * @param string grip
+ *        The grip, which may contain a URL.
+ * @return boolean
+ *         Whether the grip is a string containing a URL.
+ */
+function containsURL(grip) {
+  if (typeof grip !== "string") {
+    return false;
+  }
+
+  let tokens = grip.split(tokenSplitRegex);
+  return tokens.some(isURL);
+}
+
+/**
+ * Determines whether a string token is a valid URL.
+ *
+ * @param string token
+ *        The token.
+ * @return boolean
+ *         Whenther the token is a URL.
+ */
+function isURL(token) {
+  try {
+    if (!validProtocols.test(token)) {
+      return false;
+    }
+    new URL(token);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 module.exports = {
   isGrip,
+  isURL,
   cropString,
+  containsURL,
   rawCropString,
   sanitizeString,
   escapeString,
@@ -370,4 +410,5 @@ module.exports = {
   maybeEscapePropertyName,
   getGripPreviewItems,
   getGripType,
+  tokenSplitRegex,
 };
