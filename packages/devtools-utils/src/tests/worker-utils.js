@@ -112,12 +112,12 @@ it("streams a task", async () => {
   expect(postMessageMock.mock.calls[1][0]).toEqual({
     id,
     status: "pending",
-    data: [2]
+    data: [1]
   });
   expect(postMessageMock.mock.calls[2][0]).toEqual({
     id,
     status: "pending",
-    data: [1]
+    data: [2]
   });
   expect(postMessageMock.mock.calls[3][0]).toEqual({
     id,
