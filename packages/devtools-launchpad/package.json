@@ -109,6 +109,7 @@
     "configs",
     "index.html",
     "index.js",
+    "postcss.config.js",
     "webpack.config.js",
     "webpack.config.devtools.js"
   ],

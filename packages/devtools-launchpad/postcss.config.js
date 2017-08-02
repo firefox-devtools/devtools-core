@@ -1,6 +1,3 @@
 module.exports = {
-  plugins: [
-    require("postcss-bidirection"),
-    require("autoprefixer")
-  ]
-}
+  plugins: [require("postcss-bidirection"), require("autoprefixer")]
+};
