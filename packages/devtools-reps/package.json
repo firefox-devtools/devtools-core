@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "devtools-config": "^0.0.15",
-    "devtools-launchpad": "^0.0.87",
+    "devtools-launchpad": "^0.0.89",
     "devtools-license-check": "^0.2.0",
     "enzyme": "^2.8.2",
     "eslint": "^3.12.0",
@@ -48,18 +48,14 @@
   },
   "jest": {
     "rootDir": "src",
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
+    "testMatch": ["**/tests/**/*.js"],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/test/",
       "<rootDir>/reps/tests/test-helpers",
       "<rootDir>/utils/tests/fixtures/"
     ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!devtools-)"
-    ],
+    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
     "transform": {
       "^.+\\.js(?:\\.flow)?$": "jest-flow-transform"
     },

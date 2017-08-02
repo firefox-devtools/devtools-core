@@ -38,7 +38,9 @@ module.exports = (webpackConfig, envConfig) => {
       }
       return excluded && !request.match(/node_modules(\/|\\)devtools-/);
     },
-    loader: `babel-loader?${defaultBabelPlugins.map(p => `plugins[]=${p}`)}&ignore=src/lib`,
+    loader: `babel-loader?${defaultBabelPlugins.map(
+      p => `plugins[]=${p}`
+    )}&ignore=src/lib`
     // isJavaScriptLoader: true
   });
   webpackConfig.module.rules.push({
@@ -82,7 +84,18 @@ module.exports = (webpackConfig, envConfig) => {
   if (isDevelopment()) {
     webpackConfig.module.rules.push({
       test: /\.css$/,
-      loader: "style-loader!css-loader!postcss-loader"
+      use: [
+        { loader: "style-loader" },
+        { loader: "css-loader", options: { importLoaders: 1 } },
+        {
+          loader: "postcss-loader",
+          options: {
+            config: {
+              path: path.resolve(__dirname, "./postcss.config.js")
+            }
+          }
+        }
+      ]
     });
 
     if (getValue("hotReloading")) {
@@ -107,14 +120,12 @@ module.exports = (webpackConfig, envConfig) => {
       test: /\.css$/,
       exclude: request => {
         // If the tool defines an exclude regexp for CSS files.
-        return (
-          webpackConfig.cssExcludes && request.match(webpackConfig.cssExcludes)
-        );
+        return webpackConfig.cssExcludes && request.match(webpackConfig.cssExcludes);
       },
       use: ExtractTextPlugin.extract({
         fallback: "style-loader",
         use: [
-          { loader: 'css-loader', options: { importLoaders: 1 } },
+          { loader: "css-loader", options: { importLoaders: 1 } },
           {
             loader: "postcss-loader",
             options: {
@@ -131,10 +142,7 @@ module.exports = (webpackConfig, envConfig) => {
   }
 
   if (isFirefoxPanel()) {
-    webpackConfig = require("./webpack.config.devtools")(
-      webpackConfig,
-      envConfig
-    );
+    webpackConfig = require("./webpack.config.devtools")(webpackConfig, envConfig);
   }
 
   // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
