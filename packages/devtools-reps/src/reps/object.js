@@ -114,7 +114,7 @@ function propIterator(props, object, max) {
     );
   }
 
-  let propsArray = getPropsArray(interestingObject);
+  let propsArray = getPropsArray(interestingObject, props);
   if (Object.keys(object).length > max) {
     propsArray.push(span({
       className: "more-ellipsis",
@@ -145,9 +145,10 @@ function unfoldProps(items) {
  * Get an array of components representing the properties of the object
  *
  * @param {Object} object
+ * @param {Object} props
  * @return {Array} Array of PropRep.
  */
-function getPropsArray(object) {
+function getPropsArray(object, props) {
   let propsArray = [];
 
   if (!object) {
@@ -157,12 +158,12 @@ function getPropsArray(object) {
   // Hardcode tiny mode to avoid recursive handling.
   let mode = MODE.TINY;
   const objectKeys = Object.keys(object);
-  return objectKeys.map((name, i) => PropRep({
+  return objectKeys.map((name, i) => PropRep(Object.assign({}, props, {
     mode,
     name,
     object: object[name],
     equal: ": ",
-  }));
+  })));
 }
 
 /**

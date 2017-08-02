@@ -952,4 +952,29 @@ stubs.set("TestObjectWithMoreThanMaxSymbolProperties", {
   }
 });
 
+stubs.set(`{test: "http://example.com/ some other text"}`, {
+  "type": "object",
+  "actor": "server2.conn4.child17/obj30",
+  "class": "Object",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 1,
+  "preview": {
+    "kind": "Object",
+    "ownProperties": {
+      "test": {
+        "configurable": true,
+        "enumerable": true,
+        "writable": true,
+        "value": "http://example.com/ some other text"
+      }
+    },
+    "ownSymbols": [],
+    "ownPropertiesLength": 1,
+    "ownSymbolsLength": 0,
+    "safeGetterValues": {}
+  }
+});
+
 module.exports = stubs;
