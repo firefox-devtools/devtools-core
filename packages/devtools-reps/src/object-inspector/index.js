@@ -39,6 +39,7 @@ const {
   nodeIsOptimizedOut,
   nodeIsPrimitive,
   nodeIsPrototype,
+  nodeIsWindow,
 } = require("./utils");
 
 import type {
@@ -59,6 +60,7 @@ type Props = {
   mode: Mode,
   roots: Array<Node>,
   disableWrap: boolean,
+  dimTopLevelWindow: boolean,
   getObjectEntries: (actor:string) => ?LoadedEntries,
   getObjectProperties: (actor:string) => ?LoadedProperties,
   loadObjectEntries: (value:RdpGrip) => void,
@@ -270,6 +272,7 @@ class ObjectInspector extends Component {
     const {
       onDoubleClick,
       onLabelClick,
+      dimTopLevelWindow,
     } = this.props;
 
     return dom.div(
@@ -279,6 +282,11 @@ class ObjectInspector extends Component {
           lessen: !expanded && (
             nodeIsDefaultProperties(item)
             || nodeIsPrototype(item)
+            || (
+                dimTopLevelWindow === true
+                && nodeIsWindow(item)
+                && depth === 0
+              )
           )
         }),
         style: {

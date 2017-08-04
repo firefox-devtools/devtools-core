@@ -140,6 +140,17 @@ function nodeIsPrototype(
   return getType(item) === NODE_TYPES.PROTOTYPE;
 }
 
+function nodeIsWindow(
+  item: Node
+) : boolean {
+  const value = getValue(item);
+  if (!value) {
+    return false;
+  }
+
+  return value.class == "Window";
+}
+
 function nodeHasAccessors(item: Node) : boolean {
   return !!getNodeGetter(item) || !!getNodeSetter(item);
 }
@@ -634,7 +645,9 @@ module.exports = {
   nodeIsPrimitive,
   nodeIsPromise,
   nodeIsPrototype,
+  nodeIsWindow,
   nodeSupportsBucketing,
+  setNodeChildren,
   sortProperties,
   NODE_TYPES,
   // Export for testing purpose.
