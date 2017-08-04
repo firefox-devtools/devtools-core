@@ -1,6 +1,6 @@
 {
   "name": "devtools-utils",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "DevTools Utils",
   "main": "index.js",
   "scripts": {
@@ -16,9 +16,7 @@
   },
   "jest": {
     "rootDir": "src",
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
+    "testMatch": ["**/tests/**/*.js"],
     "testPathIgnorePatterns": [],
     "transformIgnorePatterns": [],
     "setupFiles": [],
