@@ -56,6 +56,10 @@ html[dir="rtl"] .arrow svg,
   color: var(--theme-highlight-blue);
 }
 
+.tree .node .unavailable {
+  color: var(--theme-content-color3);
+}
+
 .lessen {
   opacity: 0.6;
 }
