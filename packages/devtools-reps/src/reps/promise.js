@@ -105,7 +105,7 @@ function supportsObject(object, noGrip = false) {
   if (noGrip === true || !isGrip(object)) {
     return false;
   }
-  return getGripType(object, noGrip) === "Promise";
+  return getGripType(object, noGrip) == "Promise";
 }
 
 // Exports from this module
