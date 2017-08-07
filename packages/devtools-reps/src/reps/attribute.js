@@ -7,6 +7,7 @@ const React = require("react");
 
 // Reps
 const {
+  getGripType,
   isGrip,
   wrapRender,
 } = require("./rep-utils");
@@ -49,12 +50,12 @@ function getTitle(grip) {
 }
 
 // Registration
-function supportsObject(grip, type, noGrip = false) {
+function supportsObject(grip, noGrip = false) {
   if (noGrip === true || !isGrip(grip)) {
     return false;
   }
 
-  return (type == "Attr" && grip.preview);
+  return (getGripType(grip, noGrip) == "Attr" && grip.preview);
 }
 
 module.exports = {

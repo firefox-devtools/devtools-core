@@ -7,6 +7,7 @@ const React = require("react");
 
 // Reps
 const {
+  getGripType,
   isGrip,
   getURLDisplayString,
   wrapRender
@@ -64,12 +65,12 @@ function getLocation(object) {
 }
 
 // Registration
-function supportsObject(object, type, noGrip = false) {
+function supportsObject(object, noGrip = false) {
   if (noGrip === true || !isGrip(object)) {
     return false;
   }
 
-  return (object.preview && type == "Window");
+  return (object.preview && getGripType(object, noGrip) == "Window");
 }
 
 // Exports from this module

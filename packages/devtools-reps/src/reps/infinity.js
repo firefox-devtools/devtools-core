@@ -5,7 +5,10 @@
 // Dependencies
 const React = require("react");
 
-const { wrapRender } = require("./rep-utils");
+const {
+  getGripType,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -29,7 +32,8 @@ function InfinityRep(props) {
   );
 }
 
-function supportsObject(object, type) {
+function supportsObject(object, noGrip = false) {
+  const type = getGripType(object, noGrip);
   return type == "Infinity" || type == "-Infinity";
 }
 

@@ -333,6 +333,28 @@ function getGripPreviewItems(grip) {
   return [];
 }
 
+/**
+ * Get the type of an object.
+ *
+ * @param {Object} Grip from which we want the type.
+ * @param {boolean} noGrip true if the object is not a grip.
+ * @return {boolean}
+ */
+function getGripType(object, noGrip) {
+  let type = typeof object;
+  if (type == "object" && object instanceof String) {
+    type = "string";
+  } else if (object && type == "object" && object.type && noGrip !== true) {
+    type = object.type;
+  }
+
+  if (isGrip(object)) {
+    type = object.class;
+  }
+
+  return type;
+}
+
 module.exports = {
   isGrip,
   cropString,
@@ -347,4 +369,5 @@ module.exports = {
   getURLDisplayString,
   maybeEscapePropertyName,
   getGripPreviewItems,
+  getGripType,
 };

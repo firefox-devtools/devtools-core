@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 require("./reps.css");
-const { isGrip } = require("./rep-utils");
 
 // Load all existing rep templates
 const Undefined = require("./undefined");
@@ -105,24 +104,13 @@ const Rep = function (props) {
  * @param noGrip {Boolean} If true, will only check reps not made for remote objects.
  */
 function getRep(object, defaultRep = Obj, noGrip = false) {
-  let type = typeof object;
-  if (type == "object" && object instanceof String) {
-    type = "string";
-  } else if (object && type == "object" && object.type && noGrip !== true) {
-    type = object.type;
-  }
-
-  if (isGrip(object)) {
-    type = object.class;
-  }
-
   for (let i = 0; i < reps.length; i++) {
     let rep = reps[i];
     try {
       // supportsObject could return weight (not only true/false
       // but a number), which would allow to priorities templates and
       // support better extensibility.
-      if (rep.supportsObject(object, type, noGrip)) {
+      if (rep.supportsObject(object, noGrip)) {
         return rep.rep;
       }
     } catch (err) {

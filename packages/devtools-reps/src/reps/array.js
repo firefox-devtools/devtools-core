@@ -132,7 +132,7 @@ function ItemRep(props) {
   );
 }
 
-function supportsObject(object, type) {
+function supportsObject(object) {
   return Array.isArray(object) ||
     Object.prototype.toString.call(object) === "[object Arguments]";
 }

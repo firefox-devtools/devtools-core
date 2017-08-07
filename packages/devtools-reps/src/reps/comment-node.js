@@ -45,7 +45,7 @@ function CommentNode(props) {
 }
 
 // Registration
-function supportsObject(object, type, noGrip = false) {
+function supportsObject(object, noGrip = false) {
   if (noGrip === true || !isGrip(object)) {
     return false;
   }

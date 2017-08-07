@@ -5,7 +5,10 @@
 // Dependencies
 const React = require("react");
 
-const { wrapRender } = require("./rep-utils");
+const {
+  getGripType,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -21,12 +24,13 @@ const Undefined = function () {
   );
 };
 
-function supportsObject(object, type, noGrip = false) {
+function supportsObject(object, noGrip = false) {
   if (noGrip === true) {
     return false;
   }
 
-  return (object && object.type && object.type == "undefined") || type == "undefined";
+  return (object && object.type && object.type == "undefined")
+    || getGripType(object, noGrip) == "undefined";
 }
 
 // Exports from this module

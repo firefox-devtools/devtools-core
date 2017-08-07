@@ -7,6 +7,7 @@ const React = require("react");
 
 // Reps
 const {
+  getGripType,
   isGrip,
   getURLDisplayString,
   wrapRender
@@ -48,12 +49,12 @@ function getLocation(grip) {
 }
 
 // Registration
-function supportsObject(object, type, noGrip = false) {
+function supportsObject(object, noGrip = false) {
   if (noGrip === true || !isGrip(object)) {
     return false;
   }
 
-  return (type == "CSSStyleSheet");
+  return getGripType(object, noGrip) == "CSSStyleSheet";
 }
 
 // Exports from this module
