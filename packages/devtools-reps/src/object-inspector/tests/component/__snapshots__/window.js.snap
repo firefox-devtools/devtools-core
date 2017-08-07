@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window when dimTopLevelWindow is false 1`] = `
+<ObjectInspector
+  autoExpandDepth={0}
+  getObjectProperties={[Function]}
+  loadObjectProperties={[Function]}
+  roots={
+    Array [
+      Object {
+        "contents": Object {
+          "value": Object {
+            "actor": "server1.conn3.obj198",
+            "class": "Window",
+            "extensible": true,
+            "frozen": false,
+            "ownPropertyLength": 887,
+            "preview": Object {
+              "kind": "ObjectWithURL",
+              "url": "about:newtab",
+            },
+            "sealed": false,
+            "type": "object",
+          },
+        },
+        "name": "window",
+        "parent": null,
+        "path": "windowpath",
+        "type": Symbol(GRIP),
+      },
+    ]
+  }
+/>
+`;
+
+exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window when dimTopLevelWindow is true 1`] = `
+<ObjectInspector
+  autoExpandDepth={0}
+  dimTopLevelWindow={true}
+  getObjectProperties={[Function]}
+  loadObjectProperties={[Function]}
+  roots={
+    Array [
+      Object {
+        "contents": Object {
+          "value": Object {
+            "actor": "server1.conn3.obj198",
+            "class": "Window",
+            "extensible": true,
+            "frozen": false,
+            "ownPropertyLength": 887,
+            "preview": Object {
+              "kind": "ObjectWithURL",
+              "url": "about:newtab",
+            },
+            "sealed": false,
+            "type": "object",
+          },
+        },
+        "name": "window",
+        "parent": null,
+        "path": "windowpath",
+        "type": Symbol(GRIP),
+      },
+    ]
+  }
+/>
+`;
+
+exports[`ObjectInspector - dimTopLevelWindow renders expanded top-level window when dimTopLevelWindow is true 1`] = `
+<ObjectInspector
+  autoExpandDepth={1}
+  dimTopLevelWindow={true}
+  getObjectProperties={[Function]}
+  loadObjectProperties={[Function]}
+  roots={
+    Array [
+      Object {
+        "contents": Object {
+          "value": Object {
+            "actor": "server1.conn3.obj198",
+            "class": "Window",
+            "extensible": true,
+            "frozen": false,
+            "ownPropertyLength": 887,
+            "preview": Object {
+              "kind": "ObjectWithURL",
+              "url": "about:newtab",
+            },
+            "sealed": false,
+            "type": "object",
+          },
+        },
+        "name": "window",
+        "parent": null,
+        "path": "windowpath",
+        "type": Symbol(GRIP),
+      },
+    ]
+  }
+/>
+`;
+
+exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `
+<ObjectInspector
+  autoExpandDepth={1}
+  dimTopLevelWindow={true}
+  getObjectProperties={[Function]}
+  loadObjectProperties={[Function]}
+  roots={
+    Array [
+      Object {
+        "contents": Array [
+          Object {
+            "contents": Object {
+              "value": Object {
+                "actor": "server1.conn3.obj198",
+                "class": "Window",
+                "extensible": true,
+                "frozen": false,
+                "ownPropertyLength": 887,
+                "preview": Object {
+                  "kind": "ObjectWithURL",
+                  "url": "about:newtab",
+                },
+                "sealed": false,
+                "type": "object",
+              },
+            },
+            "name": "window",
+            "parent": null,
+            "path": "windowpath",
+            "type": Symbol(GRIP),
+          },
+        ],
+        "name": "root",
+        "parent": null,
+        "path": "rootpath",
+        "type": Symbol(GRIP),
+      },
+    ]
+  }
+/>
+`;
