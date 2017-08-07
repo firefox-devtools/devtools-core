@@ -11,12 +11,13 @@ const {
   nodeIsPrototype,
   SAFE_PATH_PREFIX,
 } = require("../../utils");
+const gripArrayStubs = require("../../../reps/stubs/grip-array");
 
 const root = {
   path: "root",
-  contents: { value: {
-    class: "Array"
-  }}
+  contents: {
+    value: gripArrayStubs.get("testBasic")
+  }
 };
 
 const objProperties = {
