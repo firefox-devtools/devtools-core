@@ -6,7 +6,9 @@
 const get = require("lodash/get");
 const has = require("lodash/has");
 const { maybeEscapePropertyName } = require("../reps/rep-utils");
-const GripMapEntry = require("../reps/grip-map-entry");
+const ArrayRep = require("../reps/array");
+const GripArrayRep = require("../reps/grip-array");
+const GripMapEntryRep = require("../reps/grip-map-entry");
 
 const NODE_TYPES = {
   BUCKET: Symbol("[n…n]"),
@@ -70,7 +72,7 @@ function nodeIsEntries(item: Node) : boolean {
 }
 
 function nodeIsMapEntry(item: Node) : boolean {
-  return GripMapEntry.supportsObject(getValue(item));
+  return GripMapEntryRep.supportsObject(getValue(item));
 }
 
 function nodeHasChildren(item: Node) : boolean {
@@ -83,9 +85,10 @@ function nodeIsObject(item: Node) : boolean {
   return value && value.type === "object";
 }
 
-function nodeIsArray(item: Node) : boolean {
+function nodeIsArrayLike(item: Node) : boolean {
   const value = getValue(item);
-  return (value && value.class === "Array");
+  return GripArrayRep.supportsObject(value)
+    || ArrayRep.supportsObject(value);
 }
 
 function nodeIsFunction(item: Node) : boolean {
@@ -168,7 +171,7 @@ function nodeHasAccessors(item: Node) : boolean {
 }
 
 function nodeSupportsBucketing(item: Node) : boolean {
-  return nodeIsArray(item)
+  return nodeIsArrayLike(item)
     || nodeIsEntries(item);
 }
 
@@ -263,7 +266,7 @@ function makeNodesForEntries(
     if (preview.entries) {
       entriesNodes = preview.entries.map(([key, value], index) => {
         return createNode(item, index, `${entriesPath}/${index}`, {
-          value: GripMapEntry.createGripMapEntry(key, value)
+          value: GripMapEntryRep.createGripMapEntry(key, value)
         });
       });
     } else if (preview.items) {
