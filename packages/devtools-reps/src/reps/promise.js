@@ -6,6 +6,7 @@
 const React = require("react");
 // Dependencies
 const {
+  getGripType,
   isGrip,
   wrapRender,
 } = require("./rep-utils");
@@ -100,11 +101,11 @@ function getProps(props, promiseState) {
 }
 
 // Registration
-function supportsObject(object, type, noGrip = false) {
+function supportsObject(object, noGrip = false) {
   if (noGrip === true || !isGrip(object)) {
     return false;
   }
-  return type === "Promise";
+  return getGripType(object, noGrip) === "Promise";
 }
 
 // Exports from this module

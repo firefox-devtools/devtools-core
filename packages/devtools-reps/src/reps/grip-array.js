@@ -5,6 +5,7 @@
 // Dependencies
 const React = require("react");
 const {
+  getGripType,
   isGrip,
   wrapRender,
 } = require("./rep-utils");
@@ -189,14 +190,14 @@ function getEmptySlotsElement(number) {
   return `<${number} empty slot${number > 1 ? "s" : ""}>`;
 }
 
-function supportsObject(grip, type, noGrip = false) {
+function supportsObject(grip, noGrip = false) {
   if (noGrip === true || !isGrip(grip)) {
     return false;
   }
 
   return (grip.preview && (
       grip.preview.kind == "ArrayLike" ||
-      type === "DocumentFragment"
+      getGripType(grip, noGrip) === "DocumentFragment"
     )
   );
 }

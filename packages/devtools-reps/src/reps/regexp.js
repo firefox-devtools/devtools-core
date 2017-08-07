@@ -7,6 +7,7 @@ const React = require("react");
 
 // Reps
 const {
+  getGripType,
   isGrip,
   wrapRender,
 } = require("./rep-utils");
@@ -34,12 +35,12 @@ function getSource(grip) {
 }
 
 // Registration
-function supportsObject(object, type, noGrip = false) {
+function supportsObject(object, noGrip = false) {
   if (noGrip === true || !isGrip(object)) {
     return false;
   }
 
-  return (type == "RegExp");
+  return getGripType(object, noGrip) == "RegExp";
 }
 
 // Exports from this module

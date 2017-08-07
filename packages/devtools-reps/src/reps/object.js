@@ -200,7 +200,7 @@ function getFilteredObject(object, max, filter) {
   return filteredObject;
 }
 
-function supportsObject(object, type) {
+function supportsObject(object) {
   return true;
 }
 

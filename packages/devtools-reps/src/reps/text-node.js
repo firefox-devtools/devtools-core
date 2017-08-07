@@ -95,7 +95,7 @@ function getTitle(grip) {
 }
 
 // Registration
-function supportsObject(grip, type, noGrip = false) {
+function supportsObject(grip, noGrip = false) {
   if (noGrip === true || !isGrip(grip)) {
     return false;
   }

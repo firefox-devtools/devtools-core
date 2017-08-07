@@ -7,6 +7,7 @@ const React = require("react");
 
 // Reps
 const {
+  getGripType,
   isGrip,
   cropString,
   wrapRender,
@@ -79,7 +80,8 @@ function renderParams(props) {
 }
 
 // Registration
-function supportsObject(grip, type, noGrip = false) {
+function supportsObject(grip, noGrip = false) {
+  const type = getGripType(grip, noGrip);
   if (noGrip === true || !isGrip(grip)) {
     return (type == "function");
   }

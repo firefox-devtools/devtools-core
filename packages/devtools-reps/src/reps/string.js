@@ -7,6 +7,7 @@ const React = require("react");
 
 const {
   escapeString,
+  getGripType,
   rawCropString,
   sanitizeString,
   wrapRender,
@@ -55,8 +56,8 @@ function StringRep(props) {
   return span(config, text);
 }
 
-function supportsObject(object, type) {
-  return (type == "string");
+function supportsObject(object, noGrip = false) {
+  return getGripType(object, noGrip) == "string";
 }
 
 // Exports from this module

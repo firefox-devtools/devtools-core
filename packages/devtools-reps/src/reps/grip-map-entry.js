@@ -44,7 +44,7 @@ function GripMapEntry(props) {
   })));
 }
 
-function supportsObject(grip, type, noGrip = false) {
+function supportsObject(grip, noGrip = false) {
   if (noGrip === true) {
     return false;
   }

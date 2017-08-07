@@ -7,6 +7,7 @@ const React = require("react");
 
 // Reps
 const {
+  getGripType,
   isGrip,
   getURLDisplayString,
   wrapRender,
@@ -50,12 +51,12 @@ function getTitle(grip) {
 }
 
 // Registration
-function supportsObject(object, type, noGrip = false) {
+function supportsObject(object, noGrip = false) {
   if (noGrip === true || !isGrip(object)) {
     return false;
   }
 
-  return (object.preview && type == "HTMLDocument");
+  return (object.preview && getGripType(object, noGrip) == "HTMLDocument");
 }
 
 // Exports from this module

@@ -5,7 +5,10 @@
 // Dependencies
 const React = require("react");
 
-const { wrapRender } = require("./rep-utils");
+const {
+  getGripType,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -27,8 +30,8 @@ function SymbolRep(props) {
   return span({className}, `Symbol(${name || ""})`);
 }
 
-function supportsObject(object, type) {
-  return (type == "symbol");
+function supportsObject(object, noGrip = false) {
+  return getGripType(object, noGrip) == "symbol";
 }
 
 // Exports from this module
