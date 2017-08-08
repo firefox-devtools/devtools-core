@@ -202,34 +202,6 @@ describe("makeNodesForProperties", () => {
     ]);
   });
 
-  // For large arrays
-  it("numerical buckets", () => {
-    let objProps = { ownProperties: {}, prototype: {} };
-    for (let i = 0; i < 331; i++) {
-      objProps.ownProperties[i] = { value: {} };
-    }
-    const nodes = makeNodesForProperties(objProps, root);
-
-    const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
-
-    expect(names).toEqual([
-      "[0…99]",
-      "[100…199]",
-      "[200…299]",
-      "[300…330]",
-      "__proto__"
-    ]);
-
-    expect(paths).toEqual([
-      `root/${SAFE_PATH_PREFIX}bucket1`,
-      `root/${SAFE_PATH_PREFIX}bucket2`,
-      `root/${SAFE_PATH_PREFIX}bucket3`,
-      `root/${SAFE_PATH_PREFIX}bucket4`,
-      "root/__proto__"
-    ]);
-  });
-
   it("quotes property names", () => {
     const nodes = makeNodesForProperties(
       {
