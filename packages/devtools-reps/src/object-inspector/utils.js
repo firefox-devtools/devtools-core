@@ -348,39 +348,66 @@ function sortProperties(properties: Array<any>) : Array<any> {
 
 function makeNumericalBuckets(
   propertiesNames: Array<string>,
-  bucketSize: number,
   parent: Node,
-  ownProperties: Object
+  ownProperties: Object,
+  startIndex: number = 0
 ) : Array<Node> {
   const parentPath = parent.path;
   const numProperties = propertiesNames.length;
+
+  // We want to have at most a hundred slices.
+  const bucketSize = 10 ** Math.max(2, Math.ceil(Math.log10(numProperties)) - 2);
   const numBuckets = Math.ceil(numProperties / bucketSize);
+
   let buckets = [];
   for (let i = 1; i <= numBuckets; i++) {
-    const bucketKey = `${SAFE_PATH_PREFIX}bucket${i}`;
     const minKey = (i - 1) * bucketSize;
     const maxKey = Math.min(i * bucketSize - 1, numProperties - 1);
-    const bucketName = `[${minKey}…${maxKey}]`;
-    const bucketProperties = propertiesNames.slice(minKey, maxKey);
 
-    const bucketNodes = bucketProperties.map(name =>
-      createNode(
+    if (maxKey === minKey) {
+      const name = propertiesNames[maxKey];
+      buckets.push(createNode(
         parent,
         name,
-        `${parentPath}/${bucketKey}/${name}`,
+        `${parentPath}/${name}`,
         ownProperties[name]
-      )
-    );
+      ));
+    } else {
+      const minIndex = startIndex + minKey;
+      const maxIndex = startIndex + maxKey;
+      const bucketKey = `${SAFE_PATH_PREFIX}bucket_${minIndex}-${maxIndex}`;
+      const bucketName = `[${minIndex}…${maxIndex}]`;
 
-    buckets.push(
-      createNode(
+      const bucketRoot = createNode(
         parent,
         bucketName,
         `${parentPath}/${bucketKey}`,
-        bucketNodes,
+        [],
         NODE_TYPES.BUCKET
-      )
-    );
+      );
+
+      const bucketProperties = propertiesNames.slice(minKey, maxKey + 1);
+      let bucketNodes;
+      if (bucketProperties.length <= 100) {
+        bucketNodes = bucketProperties.map(name =>
+          createNode(
+            bucketRoot,
+            name,
+            `${parentPath}/${bucketKey}/${name}`,
+            ownProperties[name]
+          )
+        );
+      } else {
+        bucketNodes = makeNumericalBuckets(
+          bucketProperties,
+          bucketRoot,
+          ownProperties,
+          minIndex,
+        );
+      }
+      setNodeChildren(bucketRoot, bucketNodes);
+      buckets.push(bucketRoot);
+    }
   }
   return buckets;
 }
@@ -447,10 +474,7 @@ function makeNodesForOwnProps(
 
 function makeNodesForProperties(
   objProps: LoadedProperties,
-  parent: Node,
-  {
-    bucketSize = 100
-  } : Object = {}
+  parent: Node
 ) : Array<Node> {
   const {
     ownProperties = {},
@@ -475,10 +499,9 @@ function makeNodesForProperties(
   const numProperties = propertiesNames.length;
 
   let nodes = [];
-  if (nodeSupportsBucketing(parent) && numProperties > bucketSize) {
+  if (nodeSupportsBucketing(parent) && numProperties > 100) {
     nodes = makeNumericalBuckets(
       propertiesNames,
-      bucketSize,
       parent,
       allProperties
     );
