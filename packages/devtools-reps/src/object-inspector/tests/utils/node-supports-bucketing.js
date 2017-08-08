@@ -26,21 +26,18 @@ describe("nodeSupportsBucketing", () => {
     )).toBe(true);
   });
 
-  // Should pass (see https://github.com/devtools-html/devtools-core/issues/496)
   it("returns true for NodeMap", () => {
     expect(nodeSupportsBucketing(
       createRootNode(gripArrayStubs.get("testNamedNodeMap"))
     )).toBe(true);
   });
 
-  // Should pass (see https://github.com/devtools-html/devtools-core/issues/496)
   it("returns true for NodeList", () => {
     expect(nodeSupportsBucketing(
       createRootNode(gripArrayStubs.get("testNodeList"))
     )).toBe(true);
   });
 
-  // Should pass (see https://github.com/devtools-html/devtools-core/issues/496)
   it("returns true for DocumentFragment", () => {
     expect(nodeSupportsBucketing(
       createRootNode(gripArrayStubs.get("testDocumentFragment"))
