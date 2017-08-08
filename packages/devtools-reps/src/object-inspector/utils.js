@@ -6,7 +6,9 @@
 const get = require("lodash/get");
 const has = require("lodash/has");
 const { maybeEscapePropertyName } = require("../reps/rep-utils");
-const GripMapEntry = require("../reps/grip-map-entry");
+const ArrayRep = require("../reps/array");
+const GripArrayRep = require("../reps/grip-array");
+const GripMapEntryRep = require("../reps/grip-map-entry");
 
 const NODE_TYPES = {
   BUCKET: Symbol("[n…n]"),
@@ -70,7 +72,7 @@ function nodeIsEntries(item: Node) : boolean {
 }
 
 function nodeIsMapEntry(item: Node) : boolean {
-  return GripMapEntry.supportsObject(getValue(item));
+  return GripMapEntryRep.supportsObject(getValue(item));
 }
 
 function nodeHasChildren(item: Node) : boolean {
@@ -83,9 +85,10 @@ function nodeIsObject(item: Node) : boolean {
   return value && value.type === "object";
 }
 
-function nodeIsArray(item: Node) : boolean {
+function nodeIsArrayLike(item: Node) : boolean {
   const value = getValue(item);
-  return (value && value.class === "Array");
+  return GripArrayRep.supportsObject(value)
+    || ArrayRep.supportsObject(value);
 }
 
 function nodeIsFunction(item: Node) : boolean {
@@ -140,12 +143,35 @@ function nodeIsPrototype(
   return getType(item) === NODE_TYPES.PROTOTYPE;
 }
 
+function nodeIsWindow(
+  item: Node
+) : boolean {
+  const value = getValue(item);
+  if (!value) {
+    return false;
+  }
+
+  return value.class == "Window";
+}
+
+function nodeIsGetter(
+  item: Node
+) : boolean {
+  return getType(item) === NODE_TYPES.GET;
+}
+
+function nodeIsSetter(
+  item: Node
+) : boolean {
+  return getType(item) === NODE_TYPES.SET;
+}
+
 function nodeHasAccessors(item: Node) : boolean {
   return !!getNodeGetter(item) || !!getNodeSetter(item);
 }
 
 function nodeSupportsBucketing(item: Node) : boolean {
-  return nodeIsArray(item)
+  return nodeIsArrayLike(item)
     || nodeIsEntries(item);
 }
 
@@ -240,7 +266,7 @@ function makeNodesForEntries(
     if (preview.entries) {
       entriesNodes = preview.entries.map(([key, value], index) => {
         return createNode(item, index, `${entriesPath}/${index}`, {
-          value: GripMapEntry.createGripMapEntry(key, value)
+          value: GripMapEntryRep.createGripMapEntry(key, value)
         });
       });
     } else if (preview.items) {
@@ -322,39 +348,66 @@ function sortProperties(properties: Array<any>) : Array<any> {
 
 function makeNumericalBuckets(
   propertiesNames: Array<string>,
-  bucketSize: number,
   parent: Node,
-  ownProperties: Object
+  ownProperties: Object,
+  startIndex: number = 0
 ) : Array<Node> {
   const parentPath = parent.path;
   const numProperties = propertiesNames.length;
+
+  // We want to have at most a hundred slices.
+  const bucketSize = 10 ** Math.max(2, Math.ceil(Math.log10(numProperties)) - 2);
   const numBuckets = Math.ceil(numProperties / bucketSize);
+
   let buckets = [];
   for (let i = 1; i <= numBuckets; i++) {
-    const bucketKey = `${SAFE_PATH_PREFIX}bucket${i}`;
     const minKey = (i - 1) * bucketSize;
-    const maxKey = Math.min(i * bucketSize - 1, numProperties);
-    const bucketName = `[${minKey}..${maxKey}]`;
-    const bucketProperties = propertiesNames.slice(minKey, maxKey);
+    const maxKey = Math.min(i * bucketSize - 1, numProperties - 1);
 
-    const bucketNodes = bucketProperties.map(name =>
-      createNode(
+    if (maxKey === minKey) {
+      const name = propertiesNames[maxKey];
+      buckets.push(createNode(
         parent,
         name,
-        `${parentPath}/${bucketKey}/${name}`,
+        `${parentPath}/${name}`,
         ownProperties[name]
-      )
-    );
+      ));
+    } else {
+      const minIndex = startIndex + minKey;
+      const maxIndex = startIndex + maxKey;
+      const bucketKey = `${SAFE_PATH_PREFIX}bucket_${minIndex}-${maxIndex}`;
+      const bucketName = `[${minIndex}…${maxIndex}]`;
 
-    buckets.push(
-      createNode(
+      const bucketRoot = createNode(
         parent,
         bucketName,
         `${parentPath}/${bucketKey}`,
-        bucketNodes,
+        [],
         NODE_TYPES.BUCKET
-      )
-    );
+      );
+
+      const bucketProperties = propertiesNames.slice(minKey, maxKey + 1);
+      let bucketNodes;
+      if (bucketProperties.length <= 100) {
+        bucketNodes = bucketProperties.map(name =>
+          createNode(
+            bucketRoot,
+            name,
+            `${parentPath}/${bucketKey}/${name}`,
+            ownProperties[name]
+          )
+        );
+      } else {
+        bucketNodes = makeNumericalBuckets(
+          bucketProperties,
+          bucketRoot,
+          ownProperties,
+          minIndex
+        );
+      }
+      setNodeChildren(bucketRoot, bucketNodes);
+      buckets.push(bucketRoot);
+    }
   }
   return buckets;
 }
@@ -421,10 +474,7 @@ function makeNodesForOwnProps(
 
 function makeNodesForProperties(
   objProps: LoadedProperties,
-  parent: Node,
-  {
-    bucketSize = 100
-  } : Object = {}
+  parent: Node
 ) : Array<Node> {
   const {
     ownProperties = {},
@@ -449,10 +499,9 @@ function makeNodesForProperties(
   const numProperties = propertiesNames.length;
 
   let nodes = [];
-  if (nodeSupportsBucketing(parent) && numProperties > bucketSize) {
+  if (nodeSupportsBucketing(parent) && numProperties > 100) {
     nodes = makeNumericalBuckets(
       propertiesNames,
-      bucketSize,
       parent,
       allProperties
     );
@@ -627,6 +676,7 @@ module.exports = {
   nodeIsDefaultProperties,
   nodeIsEntries,
   nodeIsFunction,
+  nodeIsGetter,
   nodeIsMapEntry,
   nodeIsMissingArguments,
   nodeIsObject,
@@ -634,7 +684,10 @@ module.exports = {
   nodeIsPrimitive,
   nodeIsPromise,
   nodeIsPrototype,
+  nodeIsSetter,
+  nodeIsWindow,
   nodeSupportsBucketing,
+  setNodeChildren,
   sortProperties,
   NODE_TYPES,
   // Export for testing purpose.

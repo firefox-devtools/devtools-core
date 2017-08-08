@@ -5,7 +5,10 @@
 // Dependencies
 const React = require("react");
 
-const { wrapRender } = require("./rep-utils");
+const {
+  getGripType,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -38,8 +41,8 @@ function stringify(object) {
   return (isNegativeZero ? "-0" : String(object));
 }
 
-function supportsObject(object, type) {
-  return ["boolean", "number", "-0"].includes(type);
+function supportsObject(object, noGrip = false) {
+  return ["boolean", "number", "-0"].includes(getGripType(object, noGrip));
 }
 
 // Exports from this module

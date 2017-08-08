@@ -63,6 +63,10 @@
   color: var(--string-color);
 }
 
+.objectBox-string a, .objectBox-string a:visited {
+  color: currentColor;
+}
+
 .objectBox-function,
 .objectBox-stackTrace,
 .objectBox-profile {

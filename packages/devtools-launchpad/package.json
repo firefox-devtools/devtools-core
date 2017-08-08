@@ -59,7 +59,7 @@
     "devtools-contextmenu": "^0.0.3",
     "devtools-modules": "^0.0.28",
     "devtools-sprintf-js": "^1.0.3",
-    "devtools-utils": "^0.0.3",
+    "devtools-utils": "^0.0.5",
     "eslint": "^3.12.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flowtype": "^2.20.0",

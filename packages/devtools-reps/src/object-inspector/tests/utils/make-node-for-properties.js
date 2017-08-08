@@ -11,12 +11,13 @@ const {
   nodeIsPrototype,
   SAFE_PATH_PREFIX,
 } = require("../../utils");
+const gripArrayStubs = require("../../../reps/stubs/grip-array");
 
 const root = {
   path: "root",
-  contents: { value: {
-    class: "Array"
-  }}
+  contents: {
+    value: gripArrayStubs.get("testBasic")
+  }
 };
 
 const objProperties = {
@@ -198,34 +199,6 @@ describe("makeNodesForProperties", () => {
     expect(childrenPaths).toEqual([
       `root/${SAFE_PATH_PREFIX}entries/0`,
       `root/${SAFE_PATH_PREFIX}entries/1`
-    ]);
-  });
-
-  // For large arrays
-  it("numerical buckets", () => {
-    let objProps = { ownProperties: {}, prototype: {} };
-    for (let i = 0; i < 331; i++) {
-      objProps.ownProperties[i] = { value: {} };
-    }
-    const nodes = makeNodesForProperties(objProps, root);
-
-    const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
-
-    expect(names).toEqual([
-      "[0..99]",
-      "[100..199]",
-      "[200..299]",
-      "[300..331]",
-      "__proto__"
-    ]);
-
-    expect(paths).toEqual([
-      `root/${SAFE_PATH_PREFIX}bucket1`,
-      `root/${SAFE_PATH_PREFIX}bucket2`,
-      `root/${SAFE_PATH_PREFIX}bucket3`,
-      `root/${SAFE_PATH_PREFIX}bucket4`,
-      "root/__proto__"
     ]);
   });
 

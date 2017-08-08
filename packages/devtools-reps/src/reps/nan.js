@@ -5,7 +5,10 @@
 // Dependencies
 const React = require("react");
 
-const { wrapRender } = require("./rep-utils");
+const {
+  getGripType,
+  wrapRender,
+} = require("./rep-utils");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -21,8 +24,8 @@ function NaNRep(props) {
   );
 }
 
-function supportsObject(object, type) {
-  return type == "NaN";
+function supportsObject(object, noGrip = false) {
+  return getGripType(object, noGrip) == "NaN";
 }
 
 // Exports from this module

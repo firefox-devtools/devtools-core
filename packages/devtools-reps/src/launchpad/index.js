@@ -8,14 +8,12 @@ require("../reps/reps.css");
 const React = require("react");
 const ReactDOM = require("react-dom");
 
-const { bootstrap, L10N, renderRoot } = require("devtools-launchpad");
+const { bootstrap, renderRoot } = require("devtools-launchpad");
 
 const RepsConsole = require("./components/Console");
 const { configureStore } = require("./store");
 
 require("./launchpad.css");
-// L10N.setBundle(require("../strings.js"));
-window.l10n = L10N;
 
 function onConnect(connection) {
   if (!connection) {

@@ -4,7 +4,8 @@
 
 // Dependencies
 const React = require("react");
-
+const validProtocols = /^(http|https|ftp|data|javascript|resource|chrome):/i;
+const tokenSplitRegex = /(\s|\'|\"|\\)+/;
 /**
  * Returns true if the given object is a grip (see RDP protocol)
  */
@@ -333,9 +334,70 @@ function getGripPreviewItems(grip) {
   return [];
 }
 
+/**
+ * Get the type of an object.
+ *
+ * @param {Object} Grip from which we want the type.
+ * @param {boolean} noGrip true if the object is not a grip.
+ * @return {boolean}
+ */
+function getGripType(object, noGrip) {
+  let type = typeof object;
+  if (type == "object" && object instanceof String) {
+    type = "string";
+  } else if (object && type == "object" && object.type && noGrip !== true) {
+    type = object.type;
+  }
+
+  if (isGrip(object)) {
+    type = object.class;
+  }
+
+  return type;
+}
+
+/**
+ * Determines whether a grip is a string containing a URL.
+ *
+ * @param string grip
+ *        The grip, which may contain a URL.
+ * @return boolean
+ *         Whether the grip is a string containing a URL.
+ */
+function containsURL(grip) {
+  if (typeof grip !== "string") {
+    return false;
+  }
+
+  let tokens = grip.split(tokenSplitRegex);
+  return tokens.some(isURL);
+}
+
+/**
+ * Determines whether a string token is a valid URL.
+ *
+ * @param string token
+ *        The token.
+ * @return boolean
+ *         Whenther the token is a URL.
+ */
+function isURL(token) {
+  try {
+    if (!validProtocols.test(token)) {
+      return false;
+    }
+    new URL(token);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 module.exports = {
   isGrip,
+  isURL,
   cropString,
+  containsURL,
   rawCropString,
   sanitizeString,
   escapeString,
@@ -347,4 +409,6 @@ module.exports = {
   getURLDisplayString,
   maybeEscapePropertyName,
   getGripPreviewItems,
+  getGripType,
+  tokenSplitRegex,
 };

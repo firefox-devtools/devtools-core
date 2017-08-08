@@ -34,11 +34,15 @@ const {
   nodeHasProperties,
   nodeIsDefaultProperties,
   nodeIsEntries,
+  nodeIsGetter,
   nodeIsMapEntry,
+  nodeIsFunction,
   nodeIsMissingArguments,
   nodeIsOptimizedOut,
   nodeIsPrimitive,
   nodeIsPrototype,
+  nodeIsSetter,
+  nodeIsWindow,
 } = require("./utils");
 
 import type {
@@ -59,6 +63,7 @@ type Props = {
   mode: Mode,
   roots: Array<Node>,
   disableWrap: boolean,
+  dimTopLevelWindow: boolean,
   getObjectEntries: (actor:string) => ?LoadedEntries,
   getObjectProperties: (actor:string) => ?LoadedProperties,
   loadObjectEntries: (value:RdpGrip) => void,
@@ -245,6 +250,15 @@ class ObjectInspector extends Component {
       objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
     } else if (nodeIsMissingArguments(item) || unavailable) {
       objectValue = dom.span({ className: "unavailable" }, "(unavailable)");
+    } else if (nodeIsFunction(item) && !nodeIsGetter(item) && !nodeIsSetter(item)) {
+      objectValue = undefined;
+      label = this.renderGrip(
+        item,
+        Object.assign({}, this.props, {
+          simplified: depth !== 0,
+          functionName: label
+        })
+      );
     } else if (
       nodeHasProperties(item)
       || nodeHasAccessors(item)
@@ -270,6 +284,7 @@ class ObjectInspector extends Component {
     const {
       onDoubleClick,
       onLabelClick,
+      dimTopLevelWindow,
     } = this.props;
 
     return dom.div(
@@ -279,6 +294,11 @@ class ObjectInspector extends Component {
           lessen: !expanded && (
             nodeIsDefaultProperties(item)
             || nodeIsPrototype(item)
+            || (
+                dimTopLevelWindow === true
+                && nodeIsWindow(item)
+                && depth === 0
+              )
           )
         }),
         style: {

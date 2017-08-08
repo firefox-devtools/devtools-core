@@ -52,8 +52,12 @@ html[dir="rtl"] .arrow svg,
   transform: rotate(0deg);
 }
 
-.object-label {
+.object-label, .object-label * {
   color: var(--theme-highlight-blue);
+}
+
+.tree .node .unavailable {
+  color: var(--theme-content-color3);
 }
 
 .lessen {

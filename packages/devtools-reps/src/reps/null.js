@@ -21,7 +21,7 @@ function Null(props) {
   );
 }
 
-function supportsObject(object, type, noGrip = false) {
+function supportsObject(object, noGrip = false) {
   if (noGrip === true) {
     return false;
   }
