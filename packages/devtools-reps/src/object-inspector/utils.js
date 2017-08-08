@@ -402,7 +402,7 @@ function makeNumericalBuckets(
           bucketProperties,
           bucketRoot,
           ownProperties,
-          minIndex,
+          minIndex
         );
       }
       setNodeChildren(bucketRoot, bucketNodes);
