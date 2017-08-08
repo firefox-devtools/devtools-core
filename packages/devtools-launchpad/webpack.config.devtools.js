@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const { NormalModuleReplacementPlugin } = webpack;
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const { DefinePlugin } = webpack;
 
@@ -62,6 +63,10 @@ module.exports = (webpackConfig, envConfig) => {
         TARGET: JSON.stringify("firefox-panel")
       },
       "DebuggerConfig": JSON.stringify(envConfig)
+    }),
+    new UglifyJsPlugin({
+      include: /\.js$/i,
+      uglifyOptions: { compress: true, mangle: false }
     })
   ]);
 
