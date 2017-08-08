@@ -359,8 +359,8 @@ function makeNumericalBuckets(
   for (let i = 1; i <= numBuckets; i++) {
     const bucketKey = `${SAFE_PATH_PREFIX}bucket${i}`;
     const minKey = (i - 1) * bucketSize;
-    const maxKey = Math.min(i * bucketSize - 1, numProperties);
-    const bucketName = `[${minKey}..${maxKey}]`;
+    const maxKey = Math.min(i * bucketSize - 1, numProperties - 1);
+    const bucketName = `[${minKey}…${maxKey}]`;
     const bucketProperties = propertiesNames.slice(minKey, maxKey);
 
     const bucketNodes = bucketProperties.map(name =>

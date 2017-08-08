@@ -214,10 +214,10 @@ describe("makeNodesForProperties", () => {
     const paths = nodes.map(n => n.path);
 
     expect(names).toEqual([
-      "[0..99]",
-      "[100..199]",
-      "[200..299]",
-      "[300..331]",
+      "[0…99]",
+      "[100…199]",
+      "[200…299]",
+      "[300…330]",
       "__proto__"
     ]);
 
