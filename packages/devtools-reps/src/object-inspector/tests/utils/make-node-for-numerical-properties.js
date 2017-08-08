@@ -130,10 +130,10 @@ describe("makeNodesForProperties", () => {
       "[900…999]",
     ]);
     expect(firstBucketPaths[0]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_0-999/${SAFE_PATH_PREFIX}bucket_0-99`,
+      `root/${SAFE_PATH_PREFIX}bucket_0-999/${SAFE_PATH_PREFIX}bucket_0-99`
     );
     expect(firstBucketPaths[firstBucketPaths.length - 1]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_0-999/${SAFE_PATH_PREFIX}bucket_900-999`,
+      `root/${SAFE_PATH_PREFIX}bucket_0-999/${SAFE_PATH_PREFIX}bucket_900-999`
     );
 
     const lastBucketNodes = nodes[nodes.length - 2].contents;
@@ -145,10 +145,10 @@ describe("makeNodesForProperties", () => {
       "10200",
     ]);
     expect(lastBucketPaths[0]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_10000-10200/${SAFE_PATH_PREFIX}bucket_10000-10099`,
+      `root/${SAFE_PATH_PREFIX}bucket_10000-10200/${SAFE_PATH_PREFIX}bucket_10000-10099`
     );
     expect(lastBucketPaths[lastBucketPaths.length - 1]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_10000-10200/10200`,
+      `root/${SAFE_PATH_PREFIX}bucket_10000-10200/10200`
     );
   });
 });
