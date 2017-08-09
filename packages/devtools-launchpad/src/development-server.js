@@ -25,12 +25,13 @@ const {
 } = require("devtools-config");
 const isDevelopment = require("devtools-config").isDevelopment;
 const { handleLaunchRequest } = require("./server/launch");
+const NODE_VERSION = require("../package.json").engines.node;
 let root;
 
 function httpOrHttpsGet(url, onResponse) {
   let protocol = url.startsWith("https:") ? https : http;
 
-  return protocol.get(url, (response) => {
+  return protocol.get(url, response => {
     if (response.statusCode !== 200) {
       console.error(`error response: ${response.statusCode} to ${url}`);
       response.emit("statusCode", new Error(response.statusCode));
@@ -59,16 +60,17 @@ function getFavicon() {
 function serveRoot(req, res) {
   const tplPath = path.join(__dirname, "../index.html");
   const tplFile = fs.readFileSync(tplPath, "utf8");
-  const bundleName = getValue("title") ?
-    getValue("title").toLocaleLowerCase() : "bundle";
+  const bundleName = getValue("title") ? getValue("title").toLocaleLowerCase() : "bundle";
 
-  res.send(Mustache.render(tplFile, {
-    isDevelopment: isDevelopment(),
-    dir: getValue("dir") || "ltr",
-    bundleName,
-    title: getValue("title") || "Launchpad",
-    favicon: getFavicon()
-  }));
+  res.send(
+    Mustache.render(tplFile, {
+      isDevelopment: isDevelopment(),
+      dir: getValue("dir") || "ltr",
+      bundleName,
+      title: getValue("title") || "Launchpad",
+      favicon: getFavicon()
+    })
+  );
 }
 
 function handleNetworkRequest(req, res) {
@@ -77,16 +79,13 @@ function handleNetworkRequest(req, res) {
     const _path = url.replace("file://", "");
     res.json(JSON.parse(fs.readFileSync(_path, "utf8")));
   } else {
-    const httpReq = httpOrHttpsGet(
-      req.query.url,
-      body => {
-        try {
-          res.send(body);
-        } catch (e) {
-          res.status(500).send("Malformed json");
-        }
+    const httpReq = httpOrHttpsGet(req.query.url, body => {
+      try {
+        res.send(body);
+      } catch (e) {
+        res.status(500).send("Malformed json");
       }
-    );
+    });
 
     httpReq.on("error", err => res.status(500).send(err.code));
     httpReq.on("statusCode", err => res.status(err.message).send(err.message));
@@ -118,11 +117,11 @@ function onRequest(err, result) {
 function startDevServer(devConfig, webpackConfig, rootDir) {
   setConfig(devConfig);
   root = rootDir;
-  checkNode(">=6.9.0", function (_, opts) {
+  checkNode(NODE_VERSION, function (_, opts) {
     if (!opts.nodeSatisfied) {
       const version = opts.node.raw;
       console.log(`Sorry, Your version of node is ${version}.`);
-      console.log("The minimum requirement is >=6.9.0");
+      console.log(`The minimum requirement is ${NODE_VERSION}`);
       process.exit();
     }
   });
@@ -144,9 +143,11 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
 
   app.use(express.static(faviconDir));
 
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }));
+  app.use(
+    bodyParser.urlencoded({
+      extended: true
+    })
+  );
 
   app.use(bodyParser.json());
 
@@ -163,19 +164,23 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   app.listen(serverPort, "0.0.0.0", onRequest);
 
   const compiler = webpack(webpackConfig);
-  app.use(webpackDevMiddleware(compiler, {
-    publicPath: webpackConfig.output.publicPath,
-    noInfo: true,
-    stats: {
-      colors: true,
-      chunks: false
-    }
-  }));
+  app.use(
+    webpackDevMiddleware(compiler, {
+      publicPath: webpackConfig.output.publicPath,
+      noInfo: true,
+      stats: {
+        colors: true,
+        chunks: false
+      }
+    })
+  );
 
   if (getValue("hotReloading")) {
     app.use(webpackHotMiddleware(compiler));
   } else {
-    console.log("Hot Reloading - https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#hot-reloading");
+    console.log(
+      "Hot Reloading - https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#hot-reloading"
+    );
   }
 
   return { express, app };
