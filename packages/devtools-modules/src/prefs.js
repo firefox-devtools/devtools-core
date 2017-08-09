@@ -105,7 +105,7 @@ function map(self, cache, accessorName, prefType, prefsRoot, prefName,
                     "on the instance.");
   }
   if (prefType == "Json") {
-    map(self, cache, accessorName, "Char", prefsRoot, prefName, {
+    map(self, cache, accessorName, "String", prefsRoot, prefName, {
       in: JSON.parse,
       out: JSON.stringify
     });
