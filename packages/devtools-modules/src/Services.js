@@ -101,6 +101,11 @@ PrefBranch.prototype = {
     }
   },
 
+  /** @see nsIPrefBranch.getStringPref.  */
+  getStringPref: function() {
+    return this.getCharPref.apply(this, arguments);
+  },
+
   /** @see nsIPrefBranch.setCharPref.  */
   setCharPref: function(prefName, value) {
     if (typeof value !== "string") {
@@ -111,6 +116,11 @@ PrefBranch.prototype = {
       throw new Error(`${prefName} does not have string type`);
     }
     thePref._set(value);
+  },
+
+  /** @see nsIPrefBranch.setStringPref.  */
+  setStringPref: function() {
+    return this.setCharPref.apply(this, arguments);
   },
 
   /** @see nsIPrefBranch.getIntPref.  */
