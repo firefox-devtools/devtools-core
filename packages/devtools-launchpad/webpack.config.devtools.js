@@ -62,6 +62,10 @@ module.exports = (webpackConfig, envConfig) => {
         TARGET: JSON.stringify("firefox-panel")
       },
       "DebuggerConfig": JSON.stringify(envConfig)
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      include: /.*.js/,
+      uglifyOptions: { compress: true, mangle: false }
     })
   ]);
 

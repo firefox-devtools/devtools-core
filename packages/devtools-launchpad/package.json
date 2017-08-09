@@ -101,6 +101,7 @@
     "@kadira/storybook": "^2.35.3",
     "ipaddr": "^0.0.9",
     "jest": "^19.0.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "yarn": "^0.20.3"
   },
   "files": [
