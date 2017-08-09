@@ -383,8 +383,12 @@ class ObjectInspector extends Component {
     } = this.state;
 
     let roots = this.getRoots();
-    if (roots.length === 1 && nodeIsPrimitive(roots[0])) {
-      return this.renderGrip(roots[0], this.props);
+    if (roots.length === 1) {
+      const root = roots[0];
+      const name = root && root.name;
+      if (nodeIsPrimitive(root) && (name === null || typeof name === "undefined")) {
+        return this.renderGrip(root, this.props);
+      }
     }
 
     return Tree({

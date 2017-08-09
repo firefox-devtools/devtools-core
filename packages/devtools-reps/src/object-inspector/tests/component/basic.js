@@ -87,7 +87,7 @@ describe("ObjectInspector - renders", () => {
     expect(oi.html()).toEqual(renderRep(MODE.TINY).html());
   });
 
-  it("renders as expected when provided a name", () => {
+  it("renders objects as expected when provided a name", () => {
     const object = gripRepStubs.get("testMoreThanMaxProps");
     const name = "myproperty";
 
@@ -99,6 +99,25 @@ describe("ObjectInspector - renders", () => {
         contents: {
           value: object
         }
+      }],
+      getObjectProperties: () => {},
+      loadObjectProperties: () => {},
+      mode: MODE.SHORT,
+    }));
+
+    expect(oi.find(".object-label").text()).toEqual(name);
+  });
+
+  it("renders primitives as expected when provided a name", () => {
+    const value = 42;
+    const name = "myproperty";
+
+    const oi = mount(ObjectInspector({
+      autoExpandDepth: 0,
+      roots: [{
+        path: "root",
+        name,
+        contents: {value}
       }],
       getObjectProperties: () => {},
       loadObjectProperties: () => {},
