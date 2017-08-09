@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectInspector - classnames has the expected class 1`] = `
+<ObjectInspector
+  autoExpandDepth={0}
+  getObjectProperties={[Function]}
+  loadObjectProperties={[Function]}
+  roots={
+    Array [
+      Object {
+        "contents": Object {
+          "value": 42,
+        },
+        "name": "root",
+        "path": "root",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`ObjectInspector - classnames has the inline class when inline prop is true 1`] = `
+<ObjectInspector
+  autoExpandDepth={0}
+  getObjectProperties={[Function]}
+  inline={true}
+  loadObjectProperties={[Function]}
+  roots={
+    Array [
+      Object {
+        "contents": Object {
+          "value": 42,
+        },
+        "name": "root",
+        "path": "root",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop is true 1`] = `
+<ObjectInspector
+  autoExpandDepth={0}
+  disableWrap={true}
+  getObjectProperties={[Function]}
+  loadObjectProperties={[Function]}
+  roots={
+    Array [
+      Object {
+        "contents": Object {
+          "value": 42,
+        },
+        "name": "root",
+        "path": "root",
+      },
+    ]
+  }
+/>
+`;
