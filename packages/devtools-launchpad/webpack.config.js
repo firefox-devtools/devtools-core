@@ -41,7 +41,6 @@ module.exports = (webpackConfig, envConfig) => {
     loader: `babel-loader?${defaultBabelPlugins.map(
       p => `plugins[]=${p}`
     )}&ignore=src/lib`
-    // isJavaScriptLoader: true
   });
   webpackConfig.module.rules.push({
     test: /\.svg$/,
@@ -143,17 +142,6 @@ module.exports = (webpackConfig, envConfig) => {
 
   if (isFirefoxPanel()) {
     webpackConfig = require("./webpack.config.devtools")(webpackConfig, envConfig);
-  }
-
-  // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
-  // destructuring params https://github.com/devtools-html/debugger.html/issues/67
-  if (getValue("transformParameters")) {
-    webpackConfig.module.rules.forEach(spec => {
-      if (spec.isJavaScriptLoader) {
-        const idx = spec.rules.findIndex(loader => loader.includes("babel-loader"));
-        spec.rules[idx] += "&plugins[]=transform-es2015-parameters";
-      }
-    });
   }
 
   return webpackConfig;

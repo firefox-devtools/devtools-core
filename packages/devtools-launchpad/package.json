@@ -91,6 +91,7 @@
     "selenium-webdriver": "=3.3.0",
     "style-loader": "^0.18.2",
     "svg-inline-loader": "^0.8.0",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
     "webpack": "^3.3.0",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-env-loader-plugin": "^1.0.0",
