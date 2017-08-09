@@ -4,6 +4,9 @@
 
 .tree {
   overflow: auto;
+}
+
+.tree.inline {
   display: inline-block;
 }
 
