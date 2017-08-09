@@ -6,13 +6,17 @@ const path = require("path");
 const webpack = require("webpack");
 const process = require("process");
 
-function makeBundle({ outputPath, projectPath, watch = false }) {
+function makeBundle({ outputPath, projectPath, watch = false, updateAssets = false }) {
   process.env.TARGET = "firefox-panel";
   process.env.OUTPUT_PATH = outputPath;
 
   const webpackConfig = require(path.resolve(projectPath, "webpack.config.js"));
 
   return new Promise((resolve, reject) => {
+    if (updateAssets) {
+      delete webpackConfig.recordsPath;
+    }
+
     const webpackCompiler = webpack(webpackConfig);
 
     const postRun = (error, stats) => {
