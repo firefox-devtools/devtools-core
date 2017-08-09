@@ -29,7 +29,7 @@ const EventEmitter = require("./utils/event-emitter");
  * @param string prefsRoot
  *        The root path to the required preferences branch.
  * @param object prefsBlueprint
- *        An object containing { accessorName: [prefType, prefName] } keys.
+ *        An object containing { accessorName: [prefType, prefName, prefDefault] } keys.
  */
 function PrefsHelper(prefsRoot = "", prefsBlueprint = {}) {
   EventEmitter.decorate(this);
@@ -37,8 +37,8 @@ function PrefsHelper(prefsRoot = "", prefsBlueprint = {}) {
   let cache = new Map();
 
   for (let accessorName in prefsBlueprint) {
-    let [prefType, prefName] = prefsBlueprint[accessorName];
-    map(this, cache, accessorName, prefType, prefsRoot, prefName);
+    let [prefType, prefName, prefDefault] = prefsBlueprint[accessorName];
+    map(this, cache, accessorName, prefType, prefsRoot, prefName, prefDefault);
   }
 
   let observer = makeObserver(this, cache, prefsRoot, prefsBlueprint);
@@ -96,23 +96,24 @@ function set(cache, prefType, prefsRoot, prefName, value) {
  * @param string prefType
  * @param string prefsRoot
  * @param string prefName
+ * @param string prefDefault
  * @param array serializer [optional]
  */
-function map(self, cache, accessorName, prefType, prefsRoot, prefName,
+function map(self, cache, accessorName, prefType, prefsRoot, prefName, prefDefault,
              serializer = { in: e => e, out: e => e }) {
   if (prefName in self) {
     throw new Error(`Can't use ${prefName} because it overrides a property` +
                     "on the instance.");
   }
   if (prefType == "Json") {
-    map(self, cache, accessorName, "String", prefsRoot, prefName, {
+    map(self, cache, accessorName, "String", prefsRoot, prefName, prefDefault, {
       in: JSON.parse,
       out: JSON.stringify
     });
     return;
   }
   if (prefType == "Float") {
-    map(self, cache, accessorName, "Char", prefsRoot, prefName, {
+    map(self, cache, accessorName, "Char", prefsRoot, prefName, prefDefault, {
       in: Number.parseFloat,
       out: (n) => n + ""
     });
@@ -120,7 +121,16 @@ function map(self, cache, accessorName, prefType, prefsRoot, prefName,
   }
 
   Object.defineProperty(self, accessorName, {
-    get: () => serializer.in(get(cache, prefType, prefsRoot, prefName)),
+    get: () => {
+      try {
+        return serializer.in(get(cache, prefType, prefsRoot, prefName));
+      } catch (e) {
+        if (typeof prefDefault !== 'undefined') {
+          return prefDefault;
+        }
+        throw e;
+      }
+    },
     set: (e) => set(cache, prefType, prefsRoot, prefName, serializer.out(e))
   });
 }
