@@ -74,7 +74,7 @@ storiesOf("Tree", module)
       },
         arrow,
         x,
-        focused ? "(focused)" : null
+        focused ? " (focused)" : null
       ),
       getRoots: () => ["A"],
       getKey: x => "key-" + x,

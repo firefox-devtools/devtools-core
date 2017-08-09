@@ -2,9 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { DOM: dom, createClass, createFactory, PropTypes } = require("react");
-const InlineSVG = createFactory(require("svg-inline-react"));
+const { DOM: dom, createClass, createFactory, createElement, PropTypes } = require("react");
+const InlineSVG = require("svg-inline-react");
 const svgArrow = require("./images/arrow.svg");
+
+const arrowElement = createElement(InlineSVG, {
+  className: "arrow",
+  src: svgArrow
+});
 require("./tree.css");
 
 const AUTO_EXPAND_DEPTH = 0; // depth
@@ -49,10 +54,7 @@ const ArrowExpander = createFactory(createClass({
     }
 
     return dom.span(attrs,
-      InlineSVG({
-        className: "arrow",
-        src: svgArrow
-      }),
+      arrowElement,
       this.props.children
     );
   }
@@ -96,16 +98,9 @@ const TreeNode = createFactory(createClass({
   _buttonAttrs: {
     ref: "button",
     style: {
-      opacity: 0,
-      width: "0 !important",
-      height: "0 !important",
-      padding: "0 !important",
-      outline: "none",
-      MozAppearance: "none",
-      // XXX: Despite resetting all of the above properties (and margin), the
-      // button still ends up with ~79px width, so we set a large negative
-      // margin to completely hide it.
-      MozMarginStart: "-1000px !important",
+      border: "none",
+      padding: 0,
+      float: "left",
     }
   },
 
@@ -118,17 +113,12 @@ const TreeNode = createFactory(createClass({
       onCollapse: this.props.onCollapse,
     });
 
-    let isOddRow = this.props.index % 2;
     return dom.div(
       {
-        className: `tree-node div ${isOddRow ? "tree-node-odd" : ""}`,
+        className: "tree-node",
         onFocus: this.props.onFocus,
         onClick: this.props.onFocus,
         onBlur: this.props.onBlur,
-        style: {
-          padding: 0,
-          margin: 0
-        }
       },
 
       this.props.renderItem(this.props.item,
