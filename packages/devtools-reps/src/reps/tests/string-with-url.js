@@ -3,11 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
  /* global jest */
-const { shallow } = require("enzyme");
+const { mount } = require("enzyme");
 const { REPS } = require("../rep");
 const { Rep } = REPS;
 
-const renderRep = (string, props) => shallow(
+const renderRep = (string, props) => mount(
   Rep(Object.assign({
     object: string
   }, props))
@@ -25,6 +25,19 @@ describe("test String with URL", () => {
 
     link.simulate("click");
     expect(openLink).toBeCalledWith(url);
+  });
+
+  it("prevent defaults behavior on click", () => {
+    const url = "http://example.com";
+    const openLink = jest.fn();
+    const preventDefault = jest.fn();
+    const element = renderRep(url, {openLink, useQuotes: false});
+    expect(element.text()).toEqual(url);
+    const link = element.find("a");
+
+    link.simulate("click", {preventDefault});
+    expect(openLink).toBeCalledWith(url);
+    expect(preventDefault).toBeCalled();
   });
 
   it("renders a simple quoted URL", () => {
@@ -127,10 +140,7 @@ describe("test String with URL", () => {
     const string = `foo\n${url}\nbar\n`;
     const openLink = jest.fn();
     const element = renderRep(string, {openLink, useQuotes: false});
-
-    // Using wrapper.html() because of weirdness on .text()
-    // See https://github.com/airbnb/enzyme/issues/326.
-    expect(element.html()).toMatch(/foo\n<a.*<\/a>\nbar/);
+    expect(element.text()).toEqual(string);
 
     const link = element.find("a");
     expect(link.prop("href")).toBe(url);
