@@ -2069,15 +2069,15 @@ devtools-connection@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.6.tgz#06431a8e4882033409a9d90c2720832cb51b86eb"
 
-devtools-contextmenu@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.4.tgz#cd89bae003243b7829df4816d105f5fffff03082"
+devtools-contextmenu@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.5.tgz#12e5bf4829fe03b5b226ebc26630ca90ba6da229"
   dependencies:
-    devtools-modules "^0.0.29"
+    devtools-modules "^0.0.30"
 
-devtools-modules@^0.0.29:
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.29.tgz#fb7c11ccf38de49a89f2213f25bf9068cb75d79b"
+devtools-modules@^0.0.30:
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.30.tgz#ea15e73a51f2965455df007ade8e440653f29637"
   dependencies:
     jest "^19.0.2"
 
