@@ -22,12 +22,12 @@ function onConnect(connection) {
 
   const client = {
     clientCommands: {
-      evaluate: input => new Promise(resolve => {
-        connection.tabConnection.tabTarget.activeConsole.evaluateJS(
-          input,
-          result => resolve(result)
-        );
-      })
+      evaluate: input =>
+        new Promise(resolve => {
+          connection.tabConnection.tabTarget.activeConsole.evaluateJS(input, result =>
+            resolve(result)
+          );
+        })
     },
     getProperties: async function (grip) {
       const objClient = connection.tabConnection.threadClient.pauseGrip(grip);
@@ -37,7 +37,7 @@ function onConnect(connection) {
     getEntries: async function (grip) {
       const objClient = connection.tabConnection.threadClient.pauseGrip(grip);
 
-      const {iterator} = await new Promise(resolve =>
+      const { iterator } = await new Promise(resolve =>
         objClient.enumEntries(enumResponse => resolve(enumResponse))
       );
 
@@ -62,6 +62,4 @@ function onConnectionError(e) {
   renderRoot(React, ReactDOM, h1);
 }
 
-bootstrap(React, ReactDOM)
-  .then(onConnect, onConnectionError)
-  .catch(onConnectionError);
+bootstrap(React, ReactDOM).then(onConnect, onConnectionError).catch(onConnectionError);
