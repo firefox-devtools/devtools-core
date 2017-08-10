@@ -24,7 +24,7 @@ const ArrowExpander = createFactory(createClass({
   propTypes: {
     children: PropTypes.array,
     expanded: PropTypes.bool.isRequired,
-    item: PropTypes.object.isRequired,
+    item: PropTypes.any.isRequired,
     onCollapse: PropTypes.func.isRequired,
     onExpand: PropTypes.func.isRequired,
     style: PropTypes.object,

@@ -1,0 +1,17 @@
+{
+  "plugins": [
+    "transform-es2015-modules-commonjs",
+    "transform-es2015-block-scoping",
+    "transform-es2015-destructuring",
+    "transform-es2015-parameters",
+    "transform-es2015-spread",
+    "transform-flow-strip-types",
+    ["module-resolver", {
+      "alias": {
+        "react-dom": "react-dom/dist/react-dom",
+        "devtools/client/shared/vendor/react": "react",
+        "devtools/client/shared/vendor/react-dom": "react-dom"
+      }
+    }]
+  ]
+}
