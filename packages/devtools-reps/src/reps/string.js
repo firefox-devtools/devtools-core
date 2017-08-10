@@ -81,7 +81,10 @@ function StringRep(props) {
         href: token,
         draggable: false,
         onClick: openLink
-          ? () => openLink(token)
+          ? e => {
+            e.preventDefault();
+            openLink(token);
+          }
           : null
       }, token));
     }

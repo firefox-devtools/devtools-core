@@ -6,7 +6,9 @@ const Menu = require("./src/menu");
 const MenuItem = require("./src/menu/menu-item");
 const { PrefsHelper } = require("./src/prefs");
 const Services = require("./src/Services");
-const { KeyShortcuts } = require("./src/key-shortcuts");
+const KeyShortcuts = require("./src/key-shortcuts");
+const { ZoomKeys } = require("./src/zoom-keys");
+const EventEmitter = require("./src/utils/event-emitter");
 
 module.exports = {
   KeyShortcuts,
@@ -14,4 +16,6 @@ module.exports = {
   MenuItem,
   PrefsHelper,
   Services,
+  ZoomKeys,
+  EventEmitter
 };

@@ -1,6 +1,6 @@
 {
   "name": "devtools-contextmenu",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "DevTools Contextmenu",
   "main": "menu.js",
   "scripts": {
@@ -10,6 +10,6 @@
   "devDependencies": {
   },
   "dependencies": {
-    "devtools-modules": "^0.0.28"
+    "devtools-modules": "^0.0.30"
   }
 }

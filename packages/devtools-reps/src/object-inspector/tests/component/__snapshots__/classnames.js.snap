@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectInspector - classnames has the expected class 1`] = `
+"<ObjectInspector autoExpandDepth={0} roots={{...}} getObjectProperties={[Function]} loadObjectProperties={[Function]}>
+  <Tree className=\\"\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
+    <div className=\\"tree \\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
+      <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
+        <div className=\\"tree-node div \\" onFocus={[Function]} onClick={[Function]} onBlur={[undefined]} style={{...}}>
+          <div className=\\"node object-node\\" style={{...}} onClick={{...}} onDoubleClick={{...}}>
+            <span className=\\"object-label\\" onClick={{...}}>
+              root
+            </span>
+            <span className=\\"object-delimiter\\">
+               : 
+            </span>
+            <span className=\\"objectBox objectBox-number\\">
+              42
+            </span>
+          </div>
+          <button style={{...}} />
+        </div>
+      </TreeNode>
+    </div>
+  </Tree>
+</ObjectInspector>"
+`;
+
+exports[`ObjectInspector - classnames has the inline class when inline prop is true 1`] = `
+"<ObjectInspector autoExpandDepth={0} roots={{...}} getObjectProperties={[Function]} loadObjectProperties={[Function]} inline={true}>
+  <Tree className=\\"inline\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
+    <div className=\\"tree inline\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
+      <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
+        <div className=\\"tree-node div \\" onFocus={[Function]} onClick={[Function]} onBlur={[undefined]} style={{...}}>
+          <div className=\\"node object-node\\" style={{...}} onClick={{...}} onDoubleClick={{...}}>
+            <span className=\\"object-label\\" onClick={{...}}>
+              root
+            </span>
+            <span className=\\"object-delimiter\\">
+               : 
+            </span>
+            <span className=\\"objectBox objectBox-number\\">
+              42
+            </span>
+          </div>
+          <button style={{...}} />
+        </div>
+      </TreeNode>
+    </div>
+  </Tree>
+</ObjectInspector>"
+`;
+
+exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop is true 1`] = `
+"<ObjectInspector autoExpandDepth={0} roots={{...}} getObjectProperties={[Function]} loadObjectProperties={[Function]} disableWrap={true}>
+  <Tree className=\\"nowrap\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
+    <div className=\\"tree nowrap\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
+      <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
+        <div className=\\"tree-node div \\" onFocus={[Function]} onClick={[Function]} onBlur={[undefined]} style={{...}}>
+          <div className=\\"node object-node\\" style={{...}} onClick={{...}} onDoubleClick={{...}}>
+            <span className=\\"object-label\\" onClick={{...}}>
+              root
+            </span>
+            <span className=\\"object-delimiter\\">
+               : 
+            </span>
+            <span className=\\"objectBox objectBox-number\\">
+              42
+            </span>
+          </div>
+          <button style={{...}} />
+        </div>
+      </TreeNode>
+    </div>
+  </Tree>
+</ObjectInspector>"
+`;

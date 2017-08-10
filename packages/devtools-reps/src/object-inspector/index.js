@@ -60,6 +60,7 @@ type Props = {
   autoExpandDepth: number,
   disabledFocus: boolean,
   itemHeight: number,
+  inline: boolean,
   mode: Mode,
   roots: Array<Node>,
   disableWrap: boolean,
@@ -373,6 +374,7 @@ class ObjectInspector extends Component {
       autoExpandDepth = 1,
       autoExpandAll = true,
       disabledFocus,
+      inline,
       itemHeight = 20,
       disableWrap = false,
     } = this.props;
@@ -383,12 +385,19 @@ class ObjectInspector extends Component {
     } = this.state;
 
     let roots = this.getRoots();
-    if (roots.length === 1 && nodeIsPrimitive(roots[0])) {
-      return this.renderGrip(roots[0], this.props);
+    if (roots.length === 1) {
+      const root = roots[0];
+      const name = root && root.name;
+      if (nodeIsPrimitive(root) && (name === null || typeof name === "undefined")) {
+        return this.renderGrip(root, this.props);
+      }
     }
 
     return Tree({
-      className: disableWrap ? "nowrap" : "",
+      className: classnames({
+        inline,
+        nowrap: disableWrap,
+      }),
       autoExpandAll,
       autoExpandDepth,
       disabledFocus,
@@ -418,6 +427,7 @@ ObjectInspector.propTypes = {
   autoExpandDepth: PropTypes.number,
   disabledFocus: PropTypes.bool,
   disableWrap: PropTypes.bool,
+  inline: PropTypes.bool,
   roots: PropTypes.array,
   getObjectProperties: PropTypes.func.isRequired,
   loadObjectProperties: PropTypes.func.isRequired,

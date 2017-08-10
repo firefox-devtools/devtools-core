@@ -45,6 +45,11 @@ describe("services prefs shim", () => {
       "bool pref has user value");
     expect(Services.prefs.prefHasUserValue("devtools.branch1.somestring")).toBe(false,
       "string pref does not have user value");
+
+    // String prefs actually differ from Char prefs in the real implementation of
+    // Services.prefs, but for this shim, both are using the same implementation.
+    Services.prefs.setStringPref("devtools.branch1.somerealstring", "abcdef");
+    expect(Services.prefs.getStringPref("devtools.branch1.somerealstring")).toBe("abcdef");
   });
 
   it("can call savePrefFile without crashing", () => {
