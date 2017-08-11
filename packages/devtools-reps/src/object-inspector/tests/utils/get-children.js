@@ -6,6 +6,7 @@
 const accessorStubs = require("../../../reps/stubs/accessor");
 const performanceStubs = require("../../stubs/performance");
 const gripMapStubs = require("../../../reps/stubs/grip-map");
+const gripStubs = require("../../../reps/stubs/grip");
 
 const {
   createNode,
@@ -51,6 +52,19 @@ describe("getChildren", () => {
     expect(names).toEqual(["<get>", "<set>"]);
     expect(paths).toEqual(
       [`rootpath/${SAFE_PATH_PREFIX}get`, `rootpath/${SAFE_PATH_PREFIX}set`]);
+  });
+
+  it("returns the expected nodes for Proxy", () => {
+    const nodes = getChildren({
+      item: createNode(null, "root", "rootpath", { value: gripStubs.get("testProxy")})
+    });
+
+    const names = nodes.map(n => n.name);
+    const paths = nodes.map(n => n.path);
+
+    expect(names).toEqual(["<target>", "<handler>"]);
+    expect(paths).toEqual(
+      [`rootpath/${SAFE_PATH_PREFIX}target`, `rootpath/${SAFE_PATH_PREFIX}handler`]);
   });
 
   it("uses the expected actor to get properties", () => {
