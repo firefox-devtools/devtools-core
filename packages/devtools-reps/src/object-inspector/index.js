@@ -41,6 +41,7 @@ const {
   nodeIsOptimizedOut,
   nodeIsPrimitive,
   nodeIsPrototype,
+  nodeIsProxy,
   nodeIsSetter,
   nodeIsWindow,
 } = require("./utils");
@@ -188,32 +189,50 @@ class ObjectInspector extends Component {
 
     if (expand === true) {
       const {
-        getObjectProperties,
-        getObjectEntries,
         loadObjectProperties,
         loadObjectEntries,
       } = this.props;
 
-      const value = getValue(item);
-      const parent = getParent(item);
-      const parentValue = getValue(parent);
-      const parentActor = parentValue
-        ? parentValue.actor
-        : null;
-
-      if (nodeHasProperties(item) && value && !getObjectProperties(value.actor)) {
+      if (this.shouldLoadItemProperties(item)) {
+        const value = getValue(item);
         loadObjectProperties(value);
       }
 
-      if (
-        nodeIsEntries(item)
-        && !nodeHasAllEntriesInPreview(parent)
-        && parentActor
-        && !getObjectEntries(parentActor)
-      ) {
+      if (this.shouldLoadItemEntries(item)) {
+        const parent = getParent(item);
+        const parentValue = getValue(parent);
         loadObjectEntries(parentValue);
       }
     }
+  }
+
+  shouldLoadItemProperties(item: Node) : boolean {
+    const value = getValue(item);
+    const {
+      getObjectProperties
+    } = this.props;
+
+    return nodeHasProperties(item)
+      && value
+      && !getObjectProperties(value.actor)
+      && !nodeIsProxy(item);
+  }
+
+  shouldLoadItemEntries(item: Node) : boolean {
+    const parent = getParent(item);
+    const parentValue = getValue(parent);
+    const parentActor = parentValue
+      ? parentValue.actor
+      : null;
+
+    const {
+      getObjectEntries
+    } = this.props;
+
+    return nodeIsEntries(item)
+      && !nodeHasAllEntriesInPreview(parent)
+      && !!parentActor
+      && !getObjectEntries(parentActor);
   }
 
   focusItem(item: Node) {

@@ -21,6 +21,8 @@ const NODE_TYPES = {
   PROMISE_REASON: Symbol("<reason>"),
   PROMISE_STATE: Symbol("<state>"),
   PROMISE_VALUE: Symbol("<value>"),
+  PROXY_HANDLER: Symbol("<handler>"),
+  PROXY_TARGET: Symbol("<target>"),
   SET: Symbol("<set>"),
   PROTOTYPE: Symbol("__proto__"),
 };
@@ -137,6 +139,15 @@ function nodeIsPromise(item: Node) : boolean {
   return value.class == "Promise";
 }
 
+function nodeIsProxy(item: Node) : boolean {
+  const value = getValue(item);
+  if (!value) {
+    return false;
+  }
+
+  return value.class == "Proxy";
+}
+
 function nodeIsPrototype(
   item: Node
 ) : boolean {
@@ -251,6 +262,32 @@ function makeNodesForPromiseProperties(
   }
 
   return properties;
+}
+
+function makeNodesForProxyProperties(
+  item: Node
+) : Array<Node> {
+  const {
+    proxyHandler,
+    proxyTarget,
+  } = getValue(item);
+
+  return [
+    createNode(
+      item,
+      "<target>",
+      `${item.path}/${SAFE_PATH_PREFIX}target`,
+      { value: proxyTarget },
+      NODE_TYPES.PROXY_TARGET
+    ),
+    createNode(
+      item,
+      "<handler>",
+      `${item.path}/${SAFE_PATH_PREFIX}handler`,
+      { value: proxyHandler },
+      NODE_TYPES.PROXY_HANDLER
+    ),
+  ];
 }
 
 function makeNodesForEntries(
@@ -603,6 +640,10 @@ function getChildren(options: {
     return makeNodesForMapEntry(item);
   }
 
+  if (nodeIsProxy(item)) {
+    return makeNodesForProxyProperties(item);
+  }
+
   if (nodeHasChildren(item)) {
     return item.contents;
   }
@@ -684,6 +725,7 @@ module.exports = {
   nodeIsPrimitive,
   nodeIsPromise,
   nodeIsPrototype,
+  nodeIsProxy,
   nodeIsSetter,
   nodeIsWindow,
   nodeSupportsBucketing,
