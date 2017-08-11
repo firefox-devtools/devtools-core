@@ -53,10 +53,14 @@ describe("Boolean", () => {
 
 describe("Negative Zero", () => {
   const stubNegativeZeroGrip = stubs.get("NegZeroGrip");
-  const stubNegativeZeroValue = stubs.get("NegZeroGrip");
+  const stubNegativeZeroValue = stubs.get("NegZeroValue");
+
+  it("correctly selects Number Rep for negative zero grip", () => {
+    expect(getRep(stubNegativeZeroGrip)).toBe(Number.rep);
+  });
 
   it("correctly selects Number Rep for negative zero value", () => {
-    expect(getRep(stubNegativeZeroGrip)).toBe(Number.rep);
+    expect(getRep(stubNegativeZeroValue)).toBe(Number.rep);
   });
 
   it("renders with expected text content for negative zero grip", () => {
@@ -73,6 +77,20 @@ describe("Negative Zero", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("-0");
+  });
+});
+
+describe("Zero", () => {
+  it("correctly selects Number Rep for zero value", () => {
+    expect(getRep(0)).toBe(Number.rep);
+  });
+
+  it("renders with expected text content for zero value", () => {
+    const renderedComponent = shallow(Rep({
+      object: 0
+    }));
+
+    expect(renderedComponent.text()).toEqual("0");
   });
 });
 
