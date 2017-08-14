@@ -10,11 +10,19 @@ const { MODE } = require("../../../reps/constants");
 
 const functionStubs = require("../../../reps/stubs/function");
 
+function generateDefaults(overrides) {
+  return Object.assign({
+    autoExpandDepth: 1,
+    getObjectProperties: () => {},
+    loadObjectProperties: () => {},
+    mode: MODE.TINY,
+  }, overrides);
+}
+
 describe("ObjectInspector - functions", () => {
   it("renders named function properties as expected", () => {
     const stub = functionStubs.get("Named");
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 1,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         name: "x",
@@ -24,10 +32,7 @@ describe("ObjectInspector - functions", () => {
           contents: {value: stub}
         }]
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-      mode: MODE.LONG,
-    }));
+    })));
 
     const nodes = oi.find(".node");
 
@@ -37,8 +42,7 @@ describe("ObjectInspector - functions", () => {
 
   it("renders anon function properties as expected", () => {
     const stub = functionStubs.get("Anon");
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 1,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         name: "x",
@@ -48,10 +52,7 @@ describe("ObjectInspector - functions", () => {
           contents: {value: stub}
         }]
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-      mode: MODE.LONG,
-    }));
+    })));
 
     const nodes = oi.find(".node");
 
@@ -60,24 +61,21 @@ describe("ObjectInspector - functions", () => {
     expect(functionNode.text()).toBe("fn()");
   });
 
-  it("renders top-level functions as expected", () => {
+  it("renders non-TINY mode functions as expected", () => {
     const stub = functionStubs.get("Named");
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 1,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         name: "x",
         contents: {value: stub}
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
       mode: MODE.LONG,
-    }));
+    })));
 
     const nodes = oi.find(".node");
 
     const functionNode = nodes.first();
     // It should have the name of the property.
-    expect(functionNode.text()).toBe("function testName()");
+    expect(functionNode.text()).toBe("x : function testName()");
   });
 });

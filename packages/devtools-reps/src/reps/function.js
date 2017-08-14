@@ -12,6 +12,7 @@ const {
   cropString,
   wrapRender,
 } = require("./rep-utils");
+const { MODE } = require("./constants");
 
 // Shortcuts
 const { span } = React.DOM;
@@ -35,7 +36,7 @@ function FunctionRep(props) {
       // appearing in the wrong direction
       dir: "ltr",
     },
-      getTitle(props, grip),
+      getTitle(grip, props),
       getFunctionName(grip, props),
       "(",
       ...renderParams(props),
@@ -44,21 +45,21 @@ function FunctionRep(props) {
   );
 }
 
-function getTitle(props, grip) {
+function getTitle(grip, props) {
   const {
-    simplified
+    mode
   } = props;
 
-  if (simplified === true && !grip.isGenerator && !grip.isAsync) {
+  if (mode === MODE.TINY && !grip.isGenerator && !grip.isAsync) {
     return null;
   }
 
-  let title = simplified === true
+  let title = mode === MODE.TINY
     ? ""
     : "function ";
 
   if (grip.isGenerator) {
-    title = simplified === true
+    title = mode === MODE.TINY
       ? "* "
       : "function* ";
   }

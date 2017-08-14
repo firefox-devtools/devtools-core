@@ -28,10 +28,10 @@ describe("Function - Named", () => {
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function testName(a, b, c)");
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
     }).text()).toBe("testName()");
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe("testName(a, b, c)");
 
@@ -53,10 +53,10 @@ describe("Function - User named", () => {
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function testUserName(a, b, c)");
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
     }).text()).toBe("testUserName()");
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe("testUserName(a, b, c)");
   });
@@ -76,10 +76,10 @@ describe("Function - Var named", () => {
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function testVarName(a, b, c)");
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
     }).text()).toBe("testVarName()");
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe("testVarName(a, b, c)");
   });
@@ -99,10 +99,10 @@ describe("Function - Anonymous", () => {
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function (a, b, c)");
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
     }).text()).toBe("()");
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe("(a, b, c)");
   });
@@ -125,10 +125,10 @@ describe("Function - Long name", () => {
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe(`function ${functionName}(a, b, c)`);
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
     }).text()).toBe(`${functionName}()`);
     expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe(`${functionName}(a, b, c)`);
   });
@@ -141,7 +141,7 @@ describe("Function - Async function", () => {
     expect(renderRep(object, { mode: undefined }).text())
       .toBe("async function waitUntil2017()");
     expect(renderRep(object, { mode: MODE.TINY }).text())
-      .toBe("async function waitUntil2017()");
+      .toBe("async waitUntil2017()");
     expect(renderRep(object, { mode: MODE.SHORT }).text())
       .toBe("async function waitUntil2017()");
     expect(renderRep(object, { mode: MODE.LONG }).text())
@@ -153,10 +153,7 @@ describe("Function - Async function", () => {
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("async function waitUntil2017(a, b, c)");
     expect(renderRep(object, {
-      simplified: true,
-    }).text()).toBe("async waitUntil2017()");
-    expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe("async waitUntil2017(a, b, c)");
   });
@@ -169,7 +166,7 @@ describe("Function - Anonymous async function", () => {
     expect(renderRep(object, { mode: undefined }).text())
       .toBe("async function ()");
     expect(renderRep(object, { mode: MODE.TINY }).text())
-      .toBe("async function ()");
+      .toBe("async ()");
     expect(renderRep(object, { mode: MODE.SHORT }).text())
       .toBe("async function ()");
     expect(renderRep(object, { mode: MODE.LONG }).text())
@@ -181,10 +178,7 @@ describe("Function - Anonymous async function", () => {
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("async function (a, b, c)");
     expect(renderRep(object, {
-      simplified: true,
-    }).text()).toBe("async ()");
-    expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe("async (a, b, c)");
   });
@@ -197,7 +191,7 @@ describe("Function - Generator function", () => {
     expect(renderRep(object, { mode: undefined }).text())
       .toBe("function* fib()");
     expect(renderRep(object, { mode: MODE.TINY }).text())
-      .toBe("function* fib()");
+      .toBe("* fib()");
     expect(renderRep(object, { mode: MODE.SHORT }).text())
       .toBe("function* fib()");
     expect(renderRep(object, { mode: MODE.LONG }).text())
@@ -209,10 +203,7 @@ describe("Function - Generator function", () => {
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function* fib(a, b, c)");
     expect(renderRep(object, {
-      simplified: true,
-    }).text()).toBe("* fib()");
-    expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe("* fib(a, b, c)");
   });
@@ -225,7 +216,7 @@ describe("Function - Anonymous generator function", () => {
     expect(renderRep(object, { mode: undefined }).text())
       .toBe("function* ()");
     expect(renderRep(object, { mode: MODE.TINY }).text())
-      .toBe("function* ()");
+      .toBe("* ()");
     expect(renderRep(object, { mode: MODE.SHORT }).text())
       .toBe("function* ()");
     expect(renderRep(object, { mode: MODE.LONG }).text())
@@ -237,10 +228,7 @@ describe("Function - Anonymous generator function", () => {
     expect(renderRep(object, { parameterNames: ["a", "b", "c"] }).text())
       .toBe("function* (a, b, c)");
     expect(renderRep(object, {
-      simplified: true,
-    }).text()).toBe("* ()");
-    expect(renderRep(object, {
-      simplified: true,
+      mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe("* (a, b, c)");
   });
