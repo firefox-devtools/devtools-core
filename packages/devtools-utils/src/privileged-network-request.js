@@ -12,7 +12,7 @@ function networkRequest(url: string, opts: any) {
       return res.text()
         .then(text => ({ content: text }));
     }
-    return Promise.reject(new Error(`failed to fetch ${url}`));
+    return Promise.reject(`request failed with status ${res.status}`);
   });
 }
 
