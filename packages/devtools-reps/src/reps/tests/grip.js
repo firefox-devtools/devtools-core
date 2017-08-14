@@ -495,7 +495,7 @@ describe("Grip - Object with symbol properties", () => {
     expect(renderRep({ mode: MODE.LONG }).text())
       .toBe(`Object { x: 10, Symbol(): "first unnamed symbol", ` +
             `Symbol(): "second unnamed symbol", Symbol(named): "named symbol", ` +
-            `Symbol(Symbol.iterator): function () }`);
+            `Symbol(Symbol.iterator): () }`);
   });
 });
 
