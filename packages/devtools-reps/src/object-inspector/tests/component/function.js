@@ -15,7 +15,6 @@ function generateDefaults(overrides) {
     autoExpandDepth: 1,
     getObjectProperties: () => {},
     loadObjectProperties: () => {},
-    mode: MODE.TINY,
   }, overrides);
 }
 
