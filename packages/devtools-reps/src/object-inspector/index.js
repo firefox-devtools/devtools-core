@@ -255,7 +255,10 @@ class ObjectInspector extends Component {
       nodeIsFunction(item)
       && !nodeIsGetter(item)
       && !nodeIsSetter(item)
-      && this.props.mode === MODE.TINY
+      && (
+        this.props.mode === MODE.TINY
+        || !this.props.mode
+      )
     ) {
       objectValue = undefined;
       label = this.renderGrip(
