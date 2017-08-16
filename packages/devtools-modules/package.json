@@ -12,18 +12,13 @@
   "dependencies": {
     "jest": "^19.0.2"
   },
+  "files": ["src"],
   "jest": {
     "rootDir": "src",
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/tests/helpers/local-storage-mock.js"
-    ],
+    "testMatch": ["**/tests/**/*.js"],
+    "testPathIgnorePatterns": ["<rootDir>/tests/helpers/local-storage-mock.js"],
     "transformIgnorePatterns": [],
-    "setupFiles": [
-      "<rootDir>/tests/helpers/local-storage-mock.js"
-    ],
+    "setupFiles": ["<rootDir>/tests/helpers/local-storage-mock.js"],
     "moduleNameMapper": {}
   }
 }
