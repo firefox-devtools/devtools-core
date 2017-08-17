@@ -26,9 +26,9 @@ const Root = require("./components/Root");
 // Using this static variable allows webpack to know at compile-time
 // to avoid this require and not include it at all in the output.
 if (process.env.TARGET !== "firefox-panel") {
-  require("./lib/themes/dark-theme.css");
-  require("./lib/themes/light-theme.css");
-  require("./lib/themes/firebug-theme.css");
+  require("devtools-modules/src/themes/light-theme.css");
+  require("devtools-modules/src/themes/dark-theme.css");
+  require("devtools-modules/src/themes/firebug-theme.css");
 }
 
 function updateTheme() {
@@ -53,7 +53,7 @@ function updateDir() {
 
 async function updateConfig() {
   const response = await fetch("/getconfig", {
-    method: "get",
+    method: "get"
   });
 
   const config = await response.json();
@@ -70,7 +70,7 @@ async function initApp() {
     log: getValue("logging.actions"),
     makeThunkArgs: (args, state) => {
       return Object.assign({}, args, {});
-    },
+    }
   });
 
   const store = createStore(combineReducers(reducers));
@@ -102,7 +102,7 @@ function renderRoot(_React, _ReactDOM, component, _store) {
   if (component.props || component.propTypes) {
     _ReactDOM.render(
       createElement(Provider, { store: _store }, createElement(component)),
-      root,
+      root
     );
   } else {
     root.appendChild(component);
@@ -184,5 +184,5 @@ module.exports = {
   showMenu,
   unmountRoot,
   updateTheme,
-  updateDir,
+  updateDir
 };
