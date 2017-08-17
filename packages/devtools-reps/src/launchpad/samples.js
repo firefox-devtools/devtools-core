@@ -111,6 +111,17 @@ let samples = {
     "new Promise(() => {})"
   ],
 
+  proxy: [`
+    var handler = {
+        get: function(target, name) {
+            return name in target ?
+                target[name] :
+                37;
+        }
+    };
+    new Proxy({a: 1}, handler);
+  `],
+
   regexp: [
     "new RegExp('^[-]?[0-9]+[\.]?[0-9]+$')"
   ],
