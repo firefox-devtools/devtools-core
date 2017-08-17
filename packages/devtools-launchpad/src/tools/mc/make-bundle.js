@@ -11,12 +11,11 @@ function makeBundle({ outputPath, projectPath, watch = false, updateAssets = fal
   process.env.OUTPUT_PATH = outputPath;
 
   const webpackConfig = require(path.resolve(projectPath, "webpack.config.js"));
+  if (!updateAssets) {
+    delete webpackConfig.recordsPath;
+  }
 
   return new Promise((resolve, reject) => {
-    if (updateAssets) {
-      delete webpackConfig.recordsPath;
-    }
-
     const webpackCompiler = webpack(webpackConfig);
 
     const postRun = (error, stats) => {
