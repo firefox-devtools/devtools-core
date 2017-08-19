@@ -55,7 +55,7 @@
   justify-content: center;
 }
 
-.landing-page .panel input[type=button] {
+.landing-page button {
   background-color: var(--theme-tab-toolbar-background);
   color: var(--theme-comment);
   font-size: var(--ui-element-font-size);
@@ -63,6 +63,7 @@
   padding: calc(var(--base-spacing) / 2);
   margin: 0 var(--base-spacing);
   transition: var(--base-transition);
+  cursor: pointer;
 }
 
 .landing-page .panel header h1 {
@@ -102,4 +103,25 @@
   text-align: center;
   font-size: 14px;
   color: var(--theme-comment);
+}
+
+.landing-page .panel .launch-action-container {
+  text-align: center;
+}
+
+.landing-page .panel .under-construction {
+  display: flex;
+  width: 417px;
+  color: var(--theme-comment);
+  font-size: calc(var(--ui-element-font-size ) /1);
+  margin: var(--base-spacing) auto;
+  line-height: 1.4em;
+}
+
+.landing-page .panel .under-construction .under-construction-message {
+  max-width: 350px;
+}
+
+.landing-page .panel .under-construction .github-link {
+  display: block;
 }

@@ -24,7 +24,8 @@ function firstTimeMessage(title, urlPart) {
     `First time connecting to ${title}? Checkout out the `,
     dom.a(
       {
-        href: `${githubUrl}/docs/getting-setup.md#starting-${urlPart}`
+        href: `${githubUrl}/docs/getting-setup.md#starting-${urlPart}`,
+        target: '_blank'
       },
       "docs"
     ),
@@ -71,9 +72,9 @@ const LandingPage = React.createClass({
     }
   },
 
-  renderLaunchButton() {
+  renderLaunchOptions() {
     const { selectedPane } = this.state;
-    const { name } = configMap[selectedPane];
+    const { name, isUnderConstruction } = configMap[selectedPane];
 
     const isConnected = name === configMap.Firefox.name
       ? this.state.firefoxConnected
@@ -81,7 +82,10 @@ const LandingPage = React.createClass({
     const isNodeSelected = name === configMap.Node.name;
 
     if (isNodeSelected) {
-      return dom.h3({}, "Run a node script in the terminal with `--inspect`");
+      return dom.div({className: "launch-action-container"},
+                    dom.h3({}, "Run a node script in the terminal with `--inspect`"),
+                    isUnderConstruction ? this.renderExperimentalMessage(name)
+                                        : null);
     }
 
     const connectedStateText = isNodeSelected
@@ -90,11 +94,28 @@ const LandingPage = React.createClass({
 
     return isConnected
       ? connectedStateText
-      : dom.input({
-        type: "button",
-        value: `Launch ${configMap[selectedPane].name}`,
-        onClick: () => this.launchBrowser(configMap[selectedPane].name)
-      });
+      : this.renderLaunchButton(name, isUnderConstruction);
+  },
+
+  renderLaunchButton(browserName, isUnderConstruction) {
+    return dom.div({className: "launch-action-container"},
+                   dom.button({onClick: (() => this.launchBrowser(browserName))},
+                              `Launch ${browserName}`),
+                              isUnderConstruction ? this.renderExperimentalMessage(browserName) // eslint-disable-line max-len
+                                                  : null);
+  },
+
+  renderExperimentalMessage(browserName) {
+    const underConstructionMessage = "Debugging is experimental and certain features won't work (i.e, seeing variables, attaching breakpoints)";  // eslint-disable-line max-len
+    const githubIssuesUrl = "https://github.com/devtools-html/debugger.html/issues?q=is%3Aopen+is%3Aissue+label%3A";
+    const underConstructionImageSrc = require("../../assets/under_construction.png");
+    return dom.div({className: "under-construction"},
+                  dom.img({src: underConstructionImageSrc}),
+                  dom.div({className: "under-construction-message"}, underConstructionMessage, // eslint-disable-line max-len
+                            dom.a({className: "github-link",
+                                   href: `${githubIssuesUrl}${browserName}`,
+                                   target: "_blank"},
+                                   "Help us make it happen")));
   },
 
   launchBrowser(browser) {
@@ -118,7 +139,7 @@ const LandingPage = React.createClass({
   },
 
   renderEmptyPanel() {
-    return dom.div({ className: "hero" }, this.renderLaunchButton());
+    return dom.div({ className: "hero" }, this.renderLaunchOptions());
   },
 
   renderSettings() {

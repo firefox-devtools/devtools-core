@@ -91,6 +91,7 @@
     "selenium-webdriver": "=3.3.0",
     "style-loader": "^0.18.2",
     "svg-inline-loader": "^0.8.0",
+    "url-loader": "^0.5.9",
     "webpack": "^3.3.0",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-env-loader-plugin": "^1.0.0",
@@ -115,8 +116,14 @@
   ],
   "jest": {
     "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
-    "testPathIgnorePatterns": ["/node_modules/"],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"]
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ]
   }
 }
