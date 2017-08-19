@@ -113,7 +113,7 @@
   display: flex;
   width: 417px;
   color: var(--theme-comment);
-  font-size: calc(var(--ui-element-font-size ) /1);
+  font-size: calc(var(--ui-element-font-size) / 1);
   margin: var(--base-spacing) auto;
   line-height: 1.4em;
 }

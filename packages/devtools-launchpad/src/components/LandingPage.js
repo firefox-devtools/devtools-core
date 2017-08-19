@@ -25,7 +25,7 @@ function firstTimeMessage(title, urlPart) {
     dom.a(
       {
         href: `${githubUrl}/docs/getting-setup.md#starting-${urlPart}`,
-        target: '_blank'
+        target: "_blank"
       },
       "docs"
     ),
