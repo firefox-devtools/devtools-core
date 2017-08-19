@@ -12,7 +12,7 @@ const defaultBabelPlugins = [
   "transform-async-to-generator"
 ];
 
-module.exports = (webpackConfig, envConfig) => {
+module.exports = (webpackConfig, envConfig, options) => {
   setConfig(envConfig);
 
   webpackConfig.context = path.resolve(__dirname, "src");
@@ -126,14 +126,6 @@ module.exports = (webpackConfig, envConfig) => {
         fallback: "style-loader",
         use: [
           { loader: "css-loader", options: { importLoaders: 1 } },
-          {
-            loader: "postcss-loader",
-            options: {
-              config: {
-                path: path.resolve(__dirname, "postcss.config.js")
-              }
-            }
-          }
         ]
       })
     });
@@ -142,7 +134,7 @@ module.exports = (webpackConfig, envConfig) => {
   }
 
   if (isFirefoxPanel()) {
-    webpackConfig = require("./webpack.config.devtools")(webpackConfig, envConfig);
+    webpackConfig = require("./webpack.config.devtools")(webpackConfig, envConfig, options);
   }
 
   // NOTE: This is only needed to fix a bug with chrome devtools' debugger and

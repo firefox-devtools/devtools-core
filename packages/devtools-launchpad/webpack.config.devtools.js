@@ -5,8 +5,6 @@ const { NormalModuleReplacementPlugin } = webpack;
 const { DefinePlugin } = webpack;
 
 const nativeMapping = {
-  "./src/source-editor": "devtools/client/sourceeditor/editor",
-  "./test-flag": "devtools/shared/flags",
   react: "devtools/client/shared/vendor/react",
   "react-dom": "devtools/client/shared/vendor/react-dom",
 };
@@ -14,7 +12,7 @@ const nativeMapping = {
 const rootDir = path.join(__dirname, "../..");
 const outputPath = process.env.OUTPUT_PATH;
 
-module.exports = (webpackConfig, envConfig) => {
+module.exports = (webpackConfig, envConfig, options) => {
   if (outputPath) {
     webpackConfig.output.path = outputPath;
   }
@@ -31,8 +29,9 @@ module.exports = (webpackConfig, envConfig) => {
     }
 
     // Any matching paths here won't be included in the bundle.
-    if (nativeMapping[mod]) {
-      const mapping = nativeMapping[mod];
+    const excludeMap = (options && options.excludeMap) || nativeMapping;
+    if (excludeMap[mod]) {
+      const mapping = excludeMap[mod];
 
       if (webpackConfig.externalsRequire) {
         // If the tool defines "externalsRequire" in the webpack config, wrap
