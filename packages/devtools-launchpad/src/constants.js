@@ -14,13 +14,15 @@ const sidePanelItems = {
     name: "Chrome",
     clientType: "chrome",
     paramName: "chrome-tab",
-    docsUrlPart: "chrome"
+    docsUrlPart: "chrome",
+    isUnderConstruction: true
   },
   Node: {
     name: "Node",
     clientType: "node",
     paramName: "node-tab",
-    docsUrlPart: "node"
+    docsUrlPart: "node",
+    isUnderConstruction: true
   },
   Settings: {
     name: "Settings",

@@ -52,6 +52,10 @@ module.exports = (webpackConfig, envConfig) => {
     test: /\.properties$/,
     loader: "raw-loader"
   });
+  webpackConfig.module.rules.push({
+    test: /\.(png|jpg|)$/,
+    loader: "url-loader"
+  });
 
   // Add resolveLoader for ./node_modules to fix issues when synlinked.
   webpackConfig.resolveLoader = webpackConfig.resolveLoader || {};
