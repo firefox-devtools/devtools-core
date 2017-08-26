@@ -3,9 +3,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-import mySvg from "../../assets/rocket.svg";
 
 require("./Sidebar.css");
+import rocketSvg from "../../assets/rocket.svg";
+
 const { DOM: dom } = React;
 const classnames = require("classnames");
 
@@ -21,11 +22,11 @@ const Sidebar = React.createClass({
   },
 
   renderTitle(title) {
+
     return dom.div({className: "title-wrapper"},
                     dom.h1({}, "Debugger"),
                     dom.div({className: "launchpad-container"},
-                            // dom.span({className: "launchpad-container-icon"}),
-                            dom.div({className: "launchpad-container-icon", dangerouslySetInnerHTML: {__html: mySvg }}),
+                            dom.div({className: "launchpad-container-icon", dangerouslySetInnerHTML: {__html: rocketSvg }}),
                             dom.h2({className: "launchpad-container-title"}, "Launchpad")));
   },
 
