@@ -4,7 +4,7 @@
 
 const React = require("react");
 
-require("./Sidebar.css");
+require("./Sidebar.scss");
 import rocketSvg from "../../assets/rocket.svg";
 
 const { DOM: dom } = React;
@@ -26,7 +26,8 @@ const Sidebar = React.createClass({
     return dom.div({className: "title-wrapper"},
                     dom.h1({}, "Debugger"),
                     dom.div({className: "launchpad-container"},
-                            dom.div({className: "launchpad-container-icon", dangerouslySetInnerHTML: {__html: rocketSvg }}),
+                            dom.div({className: "launchpad-container-icon",
+                                     dangerouslySetInnerHTML: {__html: rocketSvg }}),
                             dom.h2({className: "launchpad-container-title"}, "Launchpad")));
   },
 

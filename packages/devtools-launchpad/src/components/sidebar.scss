@@ -1,0 +1,84 @@
+$sidebar-width: 200px;
+
+.landing-page {
+  .sidebar {
+    background-color: var(--theme-tab-toolbar-background);
+    border-right: 1px solid var(--theme-splitter-color);
+    display: flex;
+    flex-direction: column;
+    width: $sidebar-width;
+
+    h1 {
+      color: var(--theme-body-color);
+      font-size: var(--title-font-size);
+      font-weight: bold;
+      line-height: var(--primary-line-height);
+      margin: 0;
+      padding: calc(var(--base-spacing)) var(--base-spacing);
+    }
+
+    ul {
+      font-size: var(--ui-element-font-size);
+      line-height: var(--primary-line-height);
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: (calc(var(--base-spacing) / 4) var(--base-spacing));
+
+      &:last-child {
+        border-top: 2px solid var(--theme-splitter-color);
+        margin: 2px;
+      }
+
+      &:hover,
+      &:focus {
+        background: var(--theme-selection-background);
+        color: var(--theme-selection-color);
+        cursor: pointer;
+      }
+
+      &.selected {
+        background: var(--theme-highlight-bluegrey);
+        color: var(--theme-selection-color);
+        transition: var(--base-transition);
+
+        a {
+          color: inherit;
+        }
+       }
+
+      a {
+        color: var(--theme-body-color);
+
+        &:hover {
+          color: inherit;
+        }
+       }
+    }
+
+    .title-wrapper {
+      .launchpad-container {
+        padding-left: 24px;
+
+        .launchpad-container-icon {
+          display: inline-block;
+        }
+
+        .launchpad-container-title {
+          display: inline;
+        }
+
+        svg {
+          height: 24px;
+          width: 24px;
+
+          path {
+            fill: var(--theme-body-color);
+          }
+        }
+      }
+    }
+  }
+}

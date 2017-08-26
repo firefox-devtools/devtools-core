@@ -15,6 +15,7 @@ test:
     - cd ./packages/devtools-reps; yarn test
     - cd ./packages/devtools-modules; yarn test
     - yarn lint-css
+    - yarn sass-lint
     - yarn lint-js
     - yarn flow
     - yarn license-check
