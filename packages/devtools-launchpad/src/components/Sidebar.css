@@ -9,7 +9,6 @@
   width: var(--sidebar-width);
   flex-direction: column;
   border-right: 1px solid var(--theme-splitter-color);
-  
 }
 
 .landing-page .sidebar h1 {
@@ -63,7 +62,7 @@
   margin: 2px;
 }
 
-.landing-page .sidebar .title-wrapper .launchpad-container  {
+.landing-page .sidebar .title-wrapper .launchpad-container {
   padding-left: 24px;
 }
 
@@ -73,14 +72,15 @@
 
 .landing-page .sidebar .title-wrapper  .launchpad-container svg {
   width: 24px;
-  height:24px;
+  height: 24px;
 }
 
 .landing-page .sidebar .title-wrapper  .launchpad-container svg path {
   width: 24px;
-  height:24px;
+  height: 24px;
   fill: var(--theme-body-color);
 }
+
 .landing-page .sidebar .title-wrapper .launchpad-container .launchpad-container-title {
   display: inline;
 }
