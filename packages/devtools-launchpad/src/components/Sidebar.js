@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
+import mySvg from "../../assets/rocket.svg";
 
 require("./Sidebar.css");
 const { DOM: dom } = React;
@@ -19,6 +20,35 @@ const Sidebar = React.createClass({
     onSideBarItemClick: React.PropTypes.func.isRequired
   },
 
+  renderTitle(title) {
+    return dom.div({className: "title-wrapper"},
+                    dom.h1({}, "Debugger"),
+                    dom.div({className: "launchpad-container"},
+                            // dom.span({className: "launchpad-container-icon"}),
+                            dom.div({className: "launchpad-container-icon", dangerouslySetInnerHTML: {__html: mySvg }}),
+                            dom.h2({className: "launchpad-container-title"}, "Launchpad")));
+  },
+
+  renderItem(title) {
+    return dom.li(
+      {
+        className: classnames({
+          selected: title == this.props.selectedPane
+        }),
+        key: title,
+        tabIndex: 0,
+        role: "button",
+        onClick: () => this.props.onSideBarItemClick(title),
+        onKeyDown: e => {
+          if (e.keyCode === 13) {
+            this.props.onSideBarItemClick(title);
+          }
+        }
+      },
+      dom.a({}, title)
+    );
+  },
+
   render() {
     let connections = [];
 
@@ -30,34 +60,15 @@ const Sidebar = React.createClass({
       connections.push("Chrome", "Node");
     }
 
-    connections.push("Settings");
-
     return dom.aside(
       {
         className: "sidebar"
       },
-      dom.h1({}, this.props.title),
+      this.renderTitle(this.props.title),
       dom.ul(
         {},
-        connections.map(title => dom.li(
-          {
-            className: classnames({
-              selected: title == this.props.selectedPane
-            }),
-            key: title,
-            tabIndex: 0,
-            role: "button",
-            onClick: () => this.props.onSideBarItemClick(title),
-            onKeyDown: e => {
-              if (e.keyCode === 13) {
-                this.props.onSideBarItemClick(title);
-              }
-            }
-          },
-          dom.a({}, title)
-        )))
-    );
-  }
-});
+        connections.map(title => this.renderItem(title)),
+        this.renderItem("Settings")));
+  }});
 
 module.exports = Sidebar;
