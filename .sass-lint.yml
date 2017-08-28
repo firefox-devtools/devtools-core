@@ -1,0 +1,2 @@
+files:
+  include: './packages/devtools-launchpad/src/components/*.scss'
