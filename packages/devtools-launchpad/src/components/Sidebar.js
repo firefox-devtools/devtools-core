@@ -5,6 +5,8 @@
 const React = require("react");
 
 require("./Sidebar.css");
+import rocketSvg from "../../assets/rocket.svg";
+
 const { DOM: dom } = React;
 const classnames = require("classnames");
 
@@ -19,6 +21,35 @@ const Sidebar = React.createClass({
     onSideBarItemClick: React.PropTypes.func.isRequired
   },
 
+  renderTitle(title) {
+
+    return dom.div({className: "title-wrapper"},
+                    dom.h1({}, title),
+                    dom.div({className: "launchpad-container"},
+                            dom.div({className: "launchpad-container-icon", dangerouslySetInnerHTML: {__html: rocketSvg }}),
+                            dom.h2({className: "launchpad-container-title"}, "Launchpad")));
+  },
+
+  renderItem(title) {
+    return dom.li(
+      {
+        className: classnames({
+          selected: title == this.props.selectedPane
+        }),
+        key: title,
+        tabIndex: 0,
+        role: "button",
+        onClick: () => this.props.onSideBarItemClick(title),
+        onKeyDown: e => {
+          if (e.keyCode === 13) {
+            this.props.onSideBarItemClick(title);
+          }
+        }
+      },
+      dom.a({}, title)
+    );
+  },
+
   render() {
     let connections = [];
 
@@ -30,34 +61,15 @@ const Sidebar = React.createClass({
       connections.push("Chrome", "Node");
     }
 
-    connections.push("Settings");
-
     return dom.aside(
       {
         className: "sidebar"
       },
-      dom.h1({}, this.props.title),
+      this.renderTitle(this.props.title),
       dom.ul(
         {},
-        connections.map(title => dom.li(
-          {
-            className: classnames({
-              selected: title == this.props.selectedPane
-            }),
-            key: title,
-            tabIndex: 0,
-            role: "button",
-            onClick: () => this.props.onSideBarItemClick(title),
-            onKeyDown: e => {
-              if (e.keyCode === 13) {
-                this.props.onSideBarItemClick(title);
-              }
-            }
-          },
-          dom.a({}, title)
-        )))
-    );
-  }
-});
+        connections.map(title => this.renderItem(title)),
+        this.renderItem("Settings")));
+  }});
 
 module.exports = Sidebar;
