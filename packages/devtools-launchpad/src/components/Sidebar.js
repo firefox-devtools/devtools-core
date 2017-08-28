@@ -27,7 +27,7 @@ const Sidebar = React.createClass({
                     dom.h1({}, title),
                     dom.div({className: "launchpad-container"},
                             dom.div({className: "launchpad-container-icon", dangerouslySetInnerHTML: {__html: rocketSvg }}),
-                            dom.h2({className: "launchpad-container-title"}, title)));
+                            dom.h2({className: "launchpad-container-title"}, "Launchpad")));
   },
 
   renderItem(title) {
