@@ -24,10 +24,10 @@ const Sidebar = React.createClass({
   renderTitle(title) {
 
     return dom.div({className: "title-wrapper"},
-                    dom.h1({}, "Debugger"),
+                    dom.h1({}, title),
                     dom.div({className: "launchpad-container"},
                             dom.div({className: "launchpad-container-icon", dangerouslySetInnerHTML: {__html: rocketSvg }}),
-                            dom.h2({className: "launchpad-container-title"}, "Launchpad")));
+                            dom.h2({className: "launchpad-container-title"}, title)));
   },
 
   renderItem(title) {

@@ -17,7 +17,7 @@
   margin: 0;
   line-height: var(--primary-line-height);
   font-weight: bold;
-  padding: calc(var(--base-spacing)) var(--base-spacing);
+  padding: var(--base-spacing) var(--base-spacing);
 }
 
 .landing-page .sidebar ul {
@@ -63,7 +63,7 @@
 }
 
 .landing-page .sidebar .title-wrapper .launchpad-container {
-  padding-left: 24px;
+  padding-left: var(--base-spacing);
 }
 
 .landing-page .sidebar .title-wrapper  .launchpad-container .launchpad-container-icon {
@@ -83,4 +83,5 @@
 
 .landing-page .sidebar .title-wrapper .launchpad-container .launchpad-container-title {
   display: inline;
+  padding-left: 3px;
 }
