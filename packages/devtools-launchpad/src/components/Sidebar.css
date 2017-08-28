@@ -3,9 +3,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 .landing-page .sidebar {
+  --sidebar-width: 200px;
   display: flex;
   background-color: var(--theme-tab-toolbar-background);
-  width: 200px;
+  width: var(--sidebar-width);
   flex-direction: column;
   border-right: 1px solid var(--theme-splitter-color);
 }
@@ -15,8 +16,8 @@
   font-size: var(--title-font-size);
   margin: 0;
   line-height: var(--primary-line-height);
-  font-weight: normal;
-  padding: calc(2 * var(--base-spacing)) var(--base-spacing);
+  font-weight: bold;
+  padding: calc(var(--base-spacing)) var(--base-spacing);
 }
 
 .landing-page .sidebar ul {
@@ -54,4 +55,32 @@
 .landing-page .sidebar li:hover a,
 .landing-page .sidebar li:focus a {
   color: inherit;
+}
+
+.landing-page .sidebar li:last-child {
+  border-top: 2px solid var(--theme-splitter-color);
+  margin: 2px;
+}
+
+.landing-page .sidebar .title-wrapper .launchpad-container {
+  padding-left: 24px;
+}
+
+.landing-page .sidebar .title-wrapper  .launchpad-container .launchpad-container-icon {
+  display: inline-block;
+}
+
+.landing-page .sidebar .title-wrapper  .launchpad-container svg {
+  width: 24px;
+  height: 24px;
+}
+
+.landing-page .sidebar .title-wrapper  .launchpad-container svg path {
+  width: 24px;
+  height: 24px;
+  fill: var(--theme-body-color);
+}
+
+.landing-page .sidebar .title-wrapper .launchpad-container .launchpad-container-title {
+  display: inline;
 }

@@ -57,6 +57,11 @@ module.exports = (webpackConfig, envConfig) => {
     loader: "url-loader"
   });
 
+  webpackConfig.module.rules.push({
+    test: /\.scss$/,
+    loaders: ["style-loader", "css-loader", "sass-loader"]
+  });
+
   // Add resolveLoader for ./node_modules to fix issues when synlinked.
   webpackConfig.resolveLoader = webpackConfig.resolveLoader || {};
   webpackConfig.resolveLoader.modules = webpackConfig.resolveLoader.modules || [];
