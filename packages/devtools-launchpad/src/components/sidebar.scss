@@ -14,7 +14,7 @@ $sidebar-width: 200px;
       font-weight: bold;
       line-height: var(--primary-line-height);
       margin: 0;
-      padding: calc(var(--base-spacing)) var(--base-spacing);
+      padding: var(--base-spacing) var(--base-spacing);
     }
 
     ul {
@@ -60,7 +60,7 @@ $sidebar-width: 200px;
 
     .title-wrapper {
       .launchpad-container {
-        padding-left: 24px;
+        padding-left: var(--base-spacing);
 
         .launchpad-container-icon {
           display: inline-block;
@@ -68,6 +68,7 @@ $sidebar-width: 200px;
 
         .launchpad-container-title {
           display: inline;
+          padding-left: 3px;
         }
 
         svg {
