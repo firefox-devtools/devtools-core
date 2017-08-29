@@ -27,11 +27,11 @@ describe("Webpack config", () => {
   });
 
   it("JS excludes rules", () => {
-    const webpackConfig = {
+    const options = {
       babelExcludes: /poop/
     };
     const envConfig = {};
-    const config = toolbox.toolboxConfig(webpackConfig, envConfig);
+    const config = toolbox.toolboxConfig({}, envConfig, options);
 
     const loaders = config.module.rules;
     const jsLoader = loaders[1];
