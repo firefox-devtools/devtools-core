@@ -4,9 +4,9 @@
 
 const SourceEditor = require("../src/source-editor");
 
-require("devtools-launchpad/src/lib/themes/light-theme.css");
-require("devtools-launchpad/src/lib/themes/dark-theme.css");
-require("devtools-launchpad/src/lib/themes/firebug-theme.css");
+require("devtools-modules/src/themes/light-theme.css");
+require("devtools-modules/src/themes/dark-theme.css");
+require("devtools-modules/src/themes/firebug-theme.css");
 require("./index.css");
 require("../src/source-editor.css");
 
