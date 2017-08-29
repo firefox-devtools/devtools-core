@@ -5,6 +5,7 @@
 // Dependencies
 const validProtocols = /^(http|https|ftp|data|javascript|resource|chrome):/i;
 const tokenSplitRegex = /(\s|\'|\"|\\)+/;
+const ELLIPSIS = "\u2026";
 const dom = require("react-dom-factories");
 const { span } = dom;
 
@@ -138,11 +139,7 @@ function cropMultipleLines(text, limit) {
   return escapeNewLines(cropString(text, limit));
 }
 
-function rawCropString(text, limit, alternativeText) {
-  if (!alternativeText) {
-    alternativeText = "\u2026";
-  }
-
+function rawCropString(text, limit, alternativeText = ELLIPSIS) {
   // Crop the string only if a limit is actually specified.
   if (!limit || limit <= 0) {
     return text;
@@ -413,4 +410,5 @@ module.exports = {
   getGripPreviewItems,
   getGripType,
   tokenSplitRegex,
+  ELLIPSIS,
 };
