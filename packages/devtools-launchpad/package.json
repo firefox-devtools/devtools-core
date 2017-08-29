@@ -104,6 +104,7 @@
     "yarn": "^0.20.3"
   },
   "files": [
+    "assets",
     "bin",
     "src",
     "configs",
