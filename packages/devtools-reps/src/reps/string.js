@@ -14,6 +14,7 @@ const {
   sanitizeString,
   wrapRender,
   tokenSplitRegex,
+  ELLIPSIS,
 } = require("./rep-utils");
 
 const dom = require("react-dom-factories");
@@ -62,47 +63,125 @@ function StringRep(props) {
     text = sanitizeString(text);
   }
 
-  if ((!member || !member.open) && cropLimit) {
-    text = rawCropString(text, cropLimit);
-  }
-
+  const shouldCrop = (!member || !member.open) && cropLimit;
   if (!containsURL(text)) {
+    if (shouldCrop) {
+      text = rawCropString(text, cropLimit);
+    }
     return span(config, text);
   }
 
-  const items = [];
+  return span(config,
+    ...getLinkifiedElements(text, shouldCrop && cropLimit, omitLinkHref, openLink));
+}
+
+/**
+ * Get an array of the elements representing the string, cropped if needed,
+ * with actual links.
+ *
+ * @param {String} text: The actual string to linkify.
+ * @param {Integer | null} cropLimit
+ * @param {Boolean} omitLinkHref: Do not create an href attribute if true.
+ * @param {Function} openLink: Function handling the link opening.
+ * @returns {Array<String|ReactElement>}
+ */
+function getLinkifiedElements(text, cropLimit, omitLinkHref, openLink) {
+  const halfLimit = Math.ceil((cropLimit - ELLIPSIS.length) / 2);
+  const startCropIndex = halfLimit;
+  const endCropIndex = text.length - halfLimit;
 
   // As we walk through the tokens of the source string, we make sure to preserve
   // the original whitespace that separated the tokens.
-  let tokens = text.split(tokenSplitRegex);
-  let textIndex = 0;
-  let tokenStart;
-  tokens.forEach((token, i) => {
-    tokenStart = text.indexOf(token, textIndex);
+  let currentIndex = 0;
+  const items = [];
+  for (let token of text.split(tokenSplitRegex)) {
     if (isURL(token)) {
-      items.push(text.slice(textIndex, tokenStart));
-      textIndex = tokenStart + token.length;
+      // Let's grab all the non-url strings before the link.
+      const tokenStart = text.indexOf(token, currentIndex);
+      let nonUrlText = text.slice(currentIndex, tokenStart);
+      nonUrlText = getCroppedString(
+          nonUrlText, currentIndex, startCropIndex, endCropIndex);
+      if (nonUrlText) {
+        items.push(nonUrlText);
+      }
 
-      items.push(a({
-        className: "url",
-        title: token,
-        href: omitLinkHref === true
-          ? null
-          : token,
-        draggable: false,
-        onClick: openLink
-          ? e => {
-            e.preventDefault();
-            openLink(token);
-          }
-          : null
-      }, token));
+      // Update the index to match the beginning of the token.
+      currentIndex = tokenStart;
+
+      let linkText = getCroppedString(token, currentIndex, startCropIndex, endCropIndex);
+      if (linkText) {
+        items.push(a({
+          className: "url",
+          title: token,
+          href: omitLinkHref === true
+            ? null
+            : token,
+          draggable: false,
+          onClick: openLink
+            ? e => {
+              e.preventDefault();
+              openLink(token);
+            }
+            : null
+        }, linkText));
+      }
+
+      currentIndex = tokenStart + token.length;
     }
-  });
+  }
 
-  // Clean up any non-URL text at the end of the source string.
-  items.push(text.slice(textIndex, text.length));
-  return span(config, ...items);
+  // Clean up any non-URL text at the end of the source string,
+  // i.e. not handled in the loop.
+  if (currentIndex !== text.length) {
+    let nonUrlText = text.slice(currentIndex, text.length);
+    if (currentIndex < endCropIndex) {
+      const cutIndex = endCropIndex - currentIndex;
+      nonUrlText = nonUrlText.substring(cutIndex);
+    }
+    items.push(nonUrlText);
+  }
+
+  return items;
+}
+
+/**
+ * Returns a cropped substring given an offset, start and end crop indices in a parent
+ * string.
+ *
+ * @param {String} text: The substring to crop.
+ * @param {Integer} offset: The offset corresponding to the index at which the substring
+ *                          is in the parent string.
+ * @param {Integer} startCropIndex: the index where the start of the crop should happen
+ *                                  in the parent string
+ * @param {Integer} endCropIndex: the index where the end of the crop should happen
+ *                                  in the parent string
+ * @returns {String|null} The cropped substring, or null if the text is completly cropped.
+ */
+function getCroppedString(text, offset = 0, startCropIndex, endCropIndex) {
+  const start = offset;
+  const end = offset + text.length;
+
+  const shouldBeVisible = !(start >= startCropIndex && end <= endCropIndex);
+  if (!shouldBeVisible) {
+    return null;
+  }
+
+  const shouldCropEnd = start < startCropIndex && end > startCropIndex;
+  const shouldCropStart = start < endCropIndex && end > endCropIndex;
+  if (shouldCropEnd) {
+    const cutIndex = startCropIndex - start;
+    return text.substring(0, cutIndex) +
+      ELLIPSIS +
+      (shouldCropStart ? text.substring(endCropIndex - start) : "");
+  }
+
+  if (shouldCropStart) {
+    // The string should be cropped at the beginning.
+    const cutIndex = endCropIndex - start;
+    return text.substring(cutIndex);
+  }
+
+  return text;
 }
 
 function supportsObject(object, noGrip = false) {

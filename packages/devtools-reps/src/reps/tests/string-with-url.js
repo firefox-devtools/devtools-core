@@ -174,6 +174,163 @@ describe("test String with URL", () => {
     expect(openLink).toBeCalledWith(url2);
   });
 
+  it("renders multiple URLs with various spacing", () => {
+    const url1 = "http://example.com";
+    const url2 = "https://example.com/foo";
+    const string = `  ${url1}      ${url2}  ${url2}     ${url1}    `;
+    const element = renderRep(string, {useQuotes: false});
+    expect(element.text()).toEqual(string);
+    const links = element.find("a");
+    expect(links.length).toBe(4);
+  });
+
+  it("renders a cropped URL", () => {
+    const url = "http://example.com";
+    const openLink = jest.fn();
+    const element = renderRep(url, {
+      openLink,
+      useQuotes: false,
+      cropLimit: 15
+    });
+
+    expect(element.text()).toEqual("http://…ple.com");
+    const link = element.find("a");
+    expect(link.prop("href")).toBe(url);
+    expect(link.prop("title")).toBe(url);
+
+    link.simulate("click");
+    expect(openLink).toBeCalledWith(url);
+  });
+
+  it("renders URLs with a stripped string between", () => {
+    const text = "- http://example.fr --- http://example.us -";
+    const openLink = jest.fn();
+    const element = renderRep(text, {
+      openLink,
+      useQuotes: false,
+      cropLimit: 41
+    });
+
+    expect(element.text()).toEqual("- http://example.fr … http://example.us -");
+    const linkFr = element.find("a").at(0);
+    expect(linkFr.prop("href")).toBe("http://example.fr");
+    expect(linkFr.prop("title")).toBe("http://example.fr");
+
+    const linkUs = element.find("a").at(1);
+    expect(linkUs.prop("href")).toBe("http://example.us");
+    expect(linkUs.prop("title")).toBe("http://example.us");
+  });
+
+  it("renders URLs with a cropped string between", () => {
+    const text = "- http://example.fr ---- http://example.us -";
+    const openLink = jest.fn();
+    const element = renderRep(text, {
+      openLink,
+      useQuotes: false,
+      cropLimit: 42
+    });
+
+    expect(element.text()).toEqual("- http://example.fr -…- http://example.us -");
+    const linkFr = element.find("a").at(0);
+    expect(linkFr.prop("href")).toBe("http://example.fr");
+    expect(linkFr.prop("title")).toBe("http://example.fr");
+
+    const linkUs = element.find("a").at(1);
+    expect(linkUs.prop("href")).toBe("http://example.us");
+    expect(linkUs.prop("title")).toBe("http://example.us");
+  });
+
+  it("renders successive cropped URLs, one at the start, one at the end", () => {
+    const text = "- http://example-long.fr http://example.us -";
+    const openLink = jest.fn();
+    const element = renderRep(text, {
+      openLink,
+      useQuotes: false,
+      cropLimit: 20
+    });
+
+    expect(element.text()).toEqual("- http://e…ample.us -");
+    const linkFr = element.find("a").at(0);
+    expect(linkFr.prop("href")).toBe("http://example-long.fr");
+    expect(linkFr.prop("title")).toBe("http://example-long.fr");
+
+    const linkUs = element.find("a").at(1);
+    expect(linkUs.prop("href")).toBe("http://example.us");
+    expect(linkUs.prop("title")).toBe("http://example.us");
+  });
+
+  it("renders successive URLs, one cropped in the middle", () => {
+    const text = "- http://example-long.fr http://example.com http://example.us -";
+    const openLink = jest.fn();
+    const element = renderRep(text, {
+      openLink,
+      useQuotes: false,
+      cropLimit: 60
+    });
+
+    expect(element.text()).toEqual("- http://example-long.fr http:…xample.com http://example.us -");
+    const linkFr = element.find("a").at(0);
+    expect(linkFr.prop("href")).toBe("http://example-long.fr");
+    expect(linkFr.prop("title")).toBe("http://example-long.fr");
+
+    const linkCom = element.find("a").at(1);
+    expect(linkCom.prop("href")).toBe("http://example.com");
+    expect(linkCom.prop("title")).toBe("http://example.com");
+
+    const linkUs = element.find("a").at(2);
+    expect(linkUs.prop("href")).toBe("http://example.us");
+    expect(linkUs.prop("title")).toBe("http://example.us");
+  });
+
+  it("renders successive cropped URLs with cropped elements between", () => {
+    const text = "- http://example.fr test http://example.fr test http://example.us -";
+    const openLink = jest.fn();
+    const element = renderRep(text, {
+      openLink,
+      useQuotes: false,
+      cropLimit: 20
+    });
+
+    expect(element.text()).toEqual("- http://e…ample.us -");
+    const linkFr = element.find("a").at(0);
+    expect(linkFr.prop("href")).toBe("http://example.fr");
+    expect(linkFr.prop("title")).toBe("http://example.fr");
+
+    const linkUs = element.find("a").at(1);
+    expect(linkUs.prop("href")).toBe("http://example.us");
+    expect(linkUs.prop("title")).toBe("http://example.us");
+  });
+
+  it("renders a cropped URL followed by a cropped string", () => {
+    const text = "http://example.fr abcdefghijkl";
+    const openLink = jest.fn();
+    const element = renderRep(text, {
+      openLink,
+      useQuotes: false,
+      cropLimit: 20
+    });
+
+    expect(element.text()).toEqual("http://exa…cdefghijkl");
+    const linkFr = element.find("a").at(0);
+    expect(linkFr.prop("href")).toBe("http://example.fr");
+    expect(linkFr.prop("title")).toBe("http://example.fr");
+  });
+
+  it("renders a cropped string followed by a cropped URL", () => {
+    const text = "abcdefghijkl stripped http://example.fr ";
+    const openLink = jest.fn();
+    const element = renderRep(text, {
+      openLink,
+      useQuotes: false,
+      cropLimit: 20
+    });
+
+    expect(element.text()).toEqual("abcdefghij…xample.fr ");
+    const linkFr = element.find("a").at(0);
+    expect(linkFr.prop("href")).toBe("http://example.fr");
+    expect(linkFr.prop("title")).toBe("http://example.fr");
+  });
+
   it("does not render a link if the URL has no scheme", () => {
     const url = "example.com";
     const element = renderRep(url, {useQuotes: false});
