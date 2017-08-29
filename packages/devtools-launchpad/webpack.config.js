@@ -32,9 +32,9 @@ module.exports = (webpackConfig, envConfig, options) => {
       let excludedRe = new RegExp(`(${excludedPaths.join("|")})`);
       let excluded = !!request.match(excludedRe);
 
-      if (webpackConfig.babelExcludes) {
+      if (options.babelExcludes) {
         // If the tool defines an additional exclude regexp for Babel.
-        excluded = excluded || !!request.match(webpackConfig.babelExcludes);
+        excluded = excluded || !!request.match(options.babelExcludes);
       }
       return excluded && !request.match(/node_modules(\/|\\)devtools-/);
     },
