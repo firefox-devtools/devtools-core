@@ -2049,9 +2049,9 @@ devtools-config@^0.0.15:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.15.tgz#1fbe75be3f4dc1159603927fc1dfa64d1d9f1202"
 
-devtools-connection@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.6.tgz#06431a8e4882033409a9d90c2720832cb51b86eb"
+devtools-connection@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.7.tgz#1ec211018dc863079adb5422cf398f1201078c39"
 
 devtools-contextmenu@^0.0.6:
   version "0.0.6"
