@@ -20,11 +20,9 @@ describe("worker utils", () => {
     const dispatcher = new WorkerDispatcher();
     const terminateMock = jest.fn();
 
-    global.Worker = jest.fn(() => {
-      return {
-        terminate: terminateMock
-      };
-    });
+    global.Worker = jest.fn(() => ({
+      terminate: terminateMock
+    }));
 
     dispatcher.start();
     dispatcher.stop();
@@ -75,7 +73,7 @@ describe("worker utils", () => {
 
     expect(postMessageMock.mock.calls[0][0]).toEqual({
       id: 53,
-      error: "Error: failed",
+      error: "Error: failed"
     });
   });
 
@@ -124,7 +122,11 @@ it("streams a task", async () => {
     ];
   }
 
-  const workerHandler = streamingWorkerHandler({ makeTasks }, { timeout: 25 }, worker);
+  const workerHandler = streamingWorkerHandler(
+    { makeTasks },
+    { timeout: 25 },
+    worker
+  );
 
   const id = 1;
   const task = workerHandler({ data: { id, method: "makeTasks", args: [] } });
