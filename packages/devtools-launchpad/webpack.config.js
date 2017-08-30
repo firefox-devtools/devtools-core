@@ -12,7 +12,7 @@ const defaultBabelPlugins = [
   "transform-async-to-generator"
 ];
 
-module.exports = (webpackConfig, envConfig, options) => {
+module.exports = (webpackConfig, envConfig, options = {}) => {
   setConfig(envConfig);
 
   webpackConfig.context = path.resolve(__dirname, "src");
@@ -32,7 +32,7 @@ module.exports = (webpackConfig, envConfig, options) => {
       let excludedRe = new RegExp(`(${excludedPaths.join("|")})`);
       let excluded = !!request.match(excludedRe);
 
-      if (options.babelExcludes) {
+      if (options && options.babelExcludes) {
         // If the tool defines an additional exclude regexp for Babel.
         excluded = excluded || !!request.match(options.babelExcludes);
       }
