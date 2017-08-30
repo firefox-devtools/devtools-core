@@ -5,7 +5,7 @@
 const React = require("react");
 
 require("./Sidebar.css");
-import rocketSvg from "../../assets/rocket.svg";
+const rocketSvg = require("../../assets/rocket.svg");
 
 const { DOM: dom } = React;
 const classnames = require("classnames");
