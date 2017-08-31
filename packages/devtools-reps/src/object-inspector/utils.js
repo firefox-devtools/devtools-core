@@ -3,8 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
  // @flow
-const get = require("lodash/get");
-const has = require("lodash/has");
+const { get, has } = require("lodash");
 const { maybeEscapePropertyName } = require("../reps/rep-utils");
 const ArrayRep = require("../reps/array");
 const GripArrayRep = require("../reps/grip-array");

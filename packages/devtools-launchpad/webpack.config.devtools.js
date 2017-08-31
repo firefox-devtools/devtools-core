@@ -7,6 +7,7 @@ const { DefinePlugin } = webpack;
 const nativeMapping = {
   react: "devtools/client/shared/vendor/react",
   "react-dom": "devtools/client/shared/vendor/react-dom",
+  lodash: "devtools/client/shared/vendor/lodash"
 };
 
 const rootDir = path.join(__dirname, "../..");
