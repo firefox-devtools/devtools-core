@@ -69,7 +69,7 @@ describe("worker utils", () => {
 
     expect(postMessageMock.mock.calls[0][0]).toEqual({
       id: 53,
-      error: new Error("failed"),
+      error: "Error: failed",
     });
   });
 });
