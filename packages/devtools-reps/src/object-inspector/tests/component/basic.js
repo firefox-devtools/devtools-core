@@ -9,64 +9,72 @@ const ObjectInspector = createFactory(require("../../index"));
 const {
   createNode,
   NODE_TYPES,
-} = require("../../utils");
+} = require("../../utils/node");
 const repsPath = "../../../reps";
 const { MODE } = require(`${repsPath}/constants`);
 const { Rep } = require(`${repsPath}/rep`);
-
+const { formatObjectInspector } = require("../test-utils");
+const ObjectClient = require("../__mocks__/object-client");
 const gripRepStubs = require(`${repsPath}/stubs/grip`);
+
+function generateDefaults(overrides) {
+  return Object.assign({
+    autoExpandDepth: 0,
+    createObjectClient: grip => ObjectClient(grip)
+  }, overrides);
+}
 
 describe("ObjectInspector - renders", () => {
   it("renders as expected", () => {
     const stub = gripRepStubs.get("testMoreThanMaxProps");
 
-    const renderObjectInspector = mode => mount(ObjectInspector({
-      autoExpandDepth: 0,
-      roots: [{
-        path: "root",
-        contents: {
-          value: stub
-        }
-      }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-      mode,
-    }));
+    const renderObjectInspector = mode =>
+      mount(ObjectInspector(generateDefaults({
+        roots: [{
+          path: "root",
+          contents: {
+            value: stub
+          }
+        }],
+        mode,
+      })));
     const renderRep = mode => Rep({object: stub, mode});
 
     const tinyOi = renderObjectInspector(MODE.TINY);
     expect(tinyOi.find(".arrow").exists()).toBeTruthy();
     expect(tinyOi.contains(renderRep(MODE.TINY))).toBeTruthy();
+    expect(formatObjectInspector(tinyOi)).toMatchSnapshot();
 
     const shortOi = renderObjectInspector(MODE.SHORT);
     expect(shortOi.find(".arrow").exists()).toBeTruthy();
     expect(shortOi.contains(renderRep(MODE.SHORT))).toBeTruthy();
+    expect(formatObjectInspector(shortOi)).toMatchSnapshot();
 
     const longOi = renderObjectInspector(MODE.LONG);
     expect(longOi.find(".arrow").exists()).toBeTruthy();
     expect(longOi.contains(renderRep(MODE.LONG))).toBeTruthy();
+    expect(formatObjectInspector(longOi)).toMatchSnapshot();
 
     const oi = renderObjectInspector();
     expect(oi.find(".arrow").exists()).toBeTruthy();
     // When no mode is provided, it defaults to TINY mode to render the Rep.
     expect(oi.contains(renderRep(MODE.TINY))).toBeTruthy();
+    expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
   it("directly renders a Rep with the stub is not expandable", () => {
     const object = 42;
 
-    const renderObjectInspector = mode => mount(ObjectInspector({
-      autoExpandDepth: 0,
-      roots: [{
-        path: "root",
-        contents: {
-          value: object
-        }
-      }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-      mode,
-    }));
+    const renderObjectInspector = mode =>
+      mount(ObjectInspector(generateDefaults({
+        roots: [{
+          path: "root",
+          contents: {
+            value: object
+          }
+        }],
+        mode,
+      })));
     const renderRep = mode => mount(Rep({object, mode}));
 
     const tinyOi = renderObjectInspector(MODE.TINY);
@@ -91,8 +99,7 @@ describe("ObjectInspector - renders", () => {
     const object = gripRepStubs.get("testMoreThanMaxProps");
     const name = "myproperty";
 
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 0,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         name,
@@ -100,77 +107,73 @@ describe("ObjectInspector - renders", () => {
           value: object
         }
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
       mode: MODE.SHORT,
-    }));
+    })));
 
     expect(oi.find(".object-label").text()).toEqual(name);
+    expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
   it("renders primitives as expected when provided a name", () => {
     const value = 42;
     const name = "myproperty";
 
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 0,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         name,
         contents: {value}
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
       mode: MODE.SHORT,
-    }));
+    })));
 
     expect(oi.find(".object-label").text()).toEqual(name);
+    expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
   it("renders as expected when not provided a name", () => {
     const object = gripRepStubs.get("testMoreThanMaxProps");
 
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 0,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         contents: {
           value: object
         }
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
       mode: MODE.SHORT,
-    }));
+    })));
 
     expect(oi.find(".object-label").exists()).toBeFalsy();
+    expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
-  it("renders leaves with a shorter mode than the root", () => {
+  it("renders leaves with a shorter mode than the root", async () => {
     const stub = gripRepStubs.get("testMaxProps");
 
-    const renderObjectInspector = mode => mount(ObjectInspector({
-      autoExpandDepth: 1,
-      roots: [{
-        path: "root",
-        contents: {
-          value: stub
-        }
-      }],
-      getObjectProperties: actor => {
-        return {
-          ownProperties: Object.keys(stub.preview.ownProperties).reduce((res, key) => {
-            return Object.assign({
-              [key]: {
-                value: stub
-              },
-            }, res);
-          }, {}),
-        };
-      },
-      loadObjectProperties: () => {},
-      mode,
-    }));
+    const renderObjectInspector = mode => mount(ObjectInspector(generateDefaults({
+        autoExpandDepth: 1,
+        roots: [{
+          path: "root",
+          contents: {
+            value: stub
+          }
+        }],
+        mode,
+        loadedProperties: new Map([[
+          "root",
+          {
+            ownProperties: Object.keys(stub.preview.ownProperties)
+              .reduce((res, key) =>
+                Object.assign({
+                  [key]: {
+                    value: stub
+                  },
+                }, res), {})
+          }
+        ]])
+    })));
+
     const renderRep = mode => Rep({object: stub, mode});
 
     const tinyOi = renderObjectInspector(MODE.TINY);
@@ -197,22 +200,17 @@ describe("ObjectInspector - renders", () => {
     );
 
     // The [default properties] node should have the "lessen" class only when collapsed.
-    let oi = mount(ObjectInspector({
-      autoExpandDepth: 0,
+    let oi = mount(ObjectInspector(generateDefaults({
       roots: [defaultPropertiesNode],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-    }));
+    })));
 
     let defaultPropertiesElementNode = oi.find(".node");
     expect(defaultPropertiesElementNode.hasClass("lessen")).toBe(true);
 
-    oi = mount(ObjectInspector({
+    oi = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 1,
       roots: [defaultPropertiesNode],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-    }));
+    })));
 
     defaultPropertiesElementNode = oi.find(".node");
     expect(defaultPropertiesElementNode.hasClass("lessen")).toBe(false);
@@ -226,22 +224,17 @@ describe("ObjectInspector - renders", () => {
     );
 
     // The __proto__ node should have the "lessen" class only when collapsed.
-    oi = mount(ObjectInspector({
-      autoExpandDepth: 0,
+    oi = mount(ObjectInspector(generateDefaults({
       roots: [prototypeNode],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-    }));
+    })));
 
     let protoElementNode = oi.find(".node");
     expect(protoElementNode.hasClass("lessen")).toBe(true);
 
-    oi = mount(ObjectInspector({
+    oi = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 1,
       roots: [prototypeNode],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-    }));
+    })));
 
     protoElementNode = oi.find(".node");
     expect(protoElementNode.hasClass("lessen")).toBe(false);

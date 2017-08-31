@@ -3,25 +3,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const {
-  makeNodesForProperties,
+  createNode,
+  makeNumericalBuckets,
   SAFE_PATH_PREFIX,
-} = require("../../utils");
+} = require("../../utils/node");
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
 
-const root = {
-  path: "root",
-  contents: {
-    value: gripArrayStubs.get("testBasic")
-  }
-};
-
-describe("makeNodesForProperties", () => {
+describe("makeNumericalBuckets", () => {
   it("handles simple numerical buckets", () => {
-    let objProps = { ownProperties: {}, prototype: {} };
-    for (let i = 0; i < 331; i++) {
-      objProps.ownProperties[i] = { value: {} };
-    }
-    const nodes = makeNodesForProperties(objProps, root);
+    const node = createNode(null, "root", "root", {
+      value: gripArrayStubs.get("Array(234)")
+    });
+    const nodes = makeNumericalBuckets(node);
 
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
@@ -29,26 +22,22 @@ describe("makeNodesForProperties", () => {
     expect(names).toEqual([
       "[0…99]",
       "[100…199]",
-      "[200…299]",
-      "[300…330]",
-      "__proto__"
+      "[200…233]",
     ]);
 
     expect(paths).toEqual([
       `root/${SAFE_PATH_PREFIX}bucket_0-99`,
       `root/${SAFE_PATH_PREFIX}bucket_100-199`,
-      `root/${SAFE_PATH_PREFIX}bucket_200-299`,
-      `root/${SAFE_PATH_PREFIX}bucket_300-330`,
-      "root/__proto__"
+      `root/${SAFE_PATH_PREFIX}bucket_200-233`,
     ]);
   });
 
-  it("does not create a numerical bucket for a single node", () => {
-    let objProps = { ownProperties: {}, prototype: {} };
-    for (let i = 0; i <= 100; i++) {
-      objProps.ownProperties[i] = { value: {} };
-    }
-    const nodes = makeNodesForProperties(objProps, root);
+  // TODO: Re-enable when we have support for lonely node.
+  it.skip("does not create a numerical bucket for a single node", () => {
+    const node = createNode(null, "root", "/", {
+      value: gripArrayStubs.get("Array(101)")
+    });
+    const nodes = makeNumericalBuckets(node);
 
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
@@ -56,22 +45,20 @@ describe("makeNodesForProperties", () => {
     expect(names).toEqual([
       "[0…99]",
       "100",
-      "__proto__"
     ]);
 
     expect(paths).toEqual([
       `root/${SAFE_PATH_PREFIX}bucket_0-99`,
       `root/100`,
-      "root/__proto__"
     ]);
   });
 
-  it("does create a numerical bucket for two node", () => {
-    let objProps = { ownProperties: {}, prototype: {} };
-    for (let i = 0; i <= 101; i++) {
-      objProps.ownProperties[i] = { value: {} };
-    }
-    const nodes = makeNodesForProperties(objProps, root);
+  // TODO: Re-enable when we have support for lonely node.
+  it.skip("does create a numerical bucket for two node", () => {
+    const node = createNode(null, "root", "/", {
+      value: gripArrayStubs.get("Array(234)")
+    });
+    const nodes = makeNumericalBuckets(node);
 
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
@@ -79,23 +66,19 @@ describe("makeNodesForProperties", () => {
     expect(names).toEqual([
       "[0…99]",
       "[100…101]",
-      "__proto__"
     ]);
 
     expect(paths).toEqual([
       `root/${SAFE_PATH_PREFIX}bucket_0-99`,
       `root/${SAFE_PATH_PREFIX}bucket_100-101`,
-      "root/__proto__"
     ]);
   });
 
   it("creates sub-buckets when needed", () => {
-    let objProps = { ownProperties: {}, prototype: {} };
-    for (let i = 0; i <= 10200; i++) {
-      objProps.ownProperties[i] = { value: {} };
-    }
-    const nodes = makeNodesForProperties(objProps, root);
-
+    const node = createNode(null, "root", "root", {
+      value: gripArrayStubs.get("Array(23456)")
+    });
+    const nodes = makeNumericalBuckets(node);
     const names = nodes.map(n => n.name);
 
     expect(names).toEqual([
@@ -109,11 +92,23 @@ describe("makeNodesForProperties", () => {
       "[7000…7999]",
       "[8000…8999]",
       "[9000…9999]",
-      "[10000…10200]",
-      "__proto__"
+      "[10000…10999]",
+      "[11000…11999]",
+      "[12000…12999]",
+      "[13000…13999]",
+      "[14000…14999]",
+      "[15000…15999]",
+      "[16000…16999]",
+      "[17000…17999]",
+      "[18000…18999]",
+      "[19000…19999]",
+      "[20000…20999]",
+      "[21000…21999]",
+      "[22000…22999]",
+      "[23000…23455]",
     ]);
 
-    const firstBucketNodes = nodes[0].contents;
+    const firstBucketNodes = makeNumericalBuckets(nodes[0]);
     const firstBucketNames = firstBucketNodes.map(n => n.name);
     const firstBucketPaths = firstBucketNodes.map(n => n.path);
 
@@ -136,19 +131,21 @@ describe("makeNodesForProperties", () => {
       `root/${SAFE_PATH_PREFIX}bucket_0-999/${SAFE_PATH_PREFIX}bucket_900-999`
     );
 
-    const lastBucketNodes = nodes[nodes.length - 2].contents;
+    const lastBucketNodes = makeNumericalBuckets(nodes[nodes.length - 1]);
     const lastBucketNames = lastBucketNodes.map(n => n.name);
     const lastBucketPaths = lastBucketNodes.map(n => n.path);
     expect(lastBucketNames).toEqual([
-      "[10000…10099]",
-      "[10100…10199]",
-      "10200",
+      "[23000…23099]",
+      "[23100…23199]",
+      "[23200…23299]",
+      "[23300…23399]",
+      "[23400…23455]",
     ]);
     expect(lastBucketPaths[0]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_10000-10200/${SAFE_PATH_PREFIX}bucket_10000-10099`
+      `root/${SAFE_PATH_PREFIX}bucket_23000-23455/${SAFE_PATH_PREFIX}bucket_23000-23099`
     );
     expect(lastBucketPaths[lastBucketPaths.length - 1]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_10000-10200/10200`
+      `root/${SAFE_PATH_PREFIX}bucket_23000-23455/${SAFE_PATH_PREFIX}bucket_23400-23455`
     );
   });
 });

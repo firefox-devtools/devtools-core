@@ -5,7 +5,7 @@
 const {
   makeNodesForPromiseProperties,
   nodeIsPromise,
-} = require("../../utils");
+} = require("../../utils/node");
 
 describe("promises utils function", () => {
   it("is promise", () => {

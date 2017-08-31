@@ -4,7 +4,7 @@
 
 const {
   getValue,
-} = require("../../utils");
+} = require("../../utils/node");
 
 describe("getValue", () => {
   it("get the value from contents.value", () => {
