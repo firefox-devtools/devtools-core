@@ -1,6 +1,6 @@
 {
   "name": "devtools-source-map",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "DevTools utilities for working with source maps",
   "license": "MPL-2.0",
   "author": "J. Ryan Stinnett <jryans@gmail.com>",
@@ -16,7 +16,7 @@
   "dependencies": {
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "devtools-utils": "0.0.7",
+    "devtools-utils": "0.0.8",
     "jest": "^19.0.2",
     "md5": "^2.2.1",
     "regenerator-runtime": "^0.10.3",
