@@ -9,12 +9,12 @@ const ObjectInspector = createFactory(require("../../index"));
 const { MODE } = require("../../../reps/constants");
 
 const functionStubs = require("../../../reps/stubs/function");
+const ObjectClient = require("../__mocks__/object-client");
 
 function generateDefaults(overrides) {
   return Object.assign({
     autoExpandDepth: 1,
-    getObjectProperties: () => {},
-    loadObjectProperties: () => {},
+    createObjectClient: grip => ObjectClient(grip)
   }, overrides);
 }
 

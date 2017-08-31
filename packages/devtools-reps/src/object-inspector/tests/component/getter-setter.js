@@ -9,21 +9,26 @@ const ObjectInspector = createFactory(require("../../index"));
 const { MODE } = require("../../../reps/constants");
 
 const accessorStubs = require("../../../reps/stubs/accessor");
+const ObjectClient = require("../__mocks__/object-client");
+
+function generateDefaults(overrides) {
+  return Object.assign({
+    autoExpandDepth: 1,
+    createObjectClient: grip => ObjectClient(grip),
+    mode: MODE.LONG,
+  }, overrides);
+}
 
 describe("ObjectInspector - getters & setters", () => {
   it("renders getters as expected", () => {
     const stub = accessorStubs.get("getter");
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 1,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         name: "x",
         contents: stub
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-      mode: MODE.LONG,
-    }));
+    })));
 
     const nodes = oi.find(".node");
     // There should be the root and a leaf.
@@ -41,17 +46,14 @@ describe("ObjectInspector - getters & setters", () => {
 
   it("renders setters as expected", () => {
     const stub = accessorStubs.get("setter");
-    const oi = mount(ObjectInspector({
+    const oi = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 1,
       roots: [{
         path: "root",
         name: "x",
         contents: stub
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-      mode: MODE.LONG,
-    }));
+    })));
 
     const nodes = oi.find(".node");
     // There should be the root and a leaf.
@@ -69,17 +71,13 @@ describe("ObjectInspector - getters & setters", () => {
 
   it("renders getters and setters as expected", () => {
     const stub = accessorStubs.get("getter setter");
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 1,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         name: "x",
         contents: stub
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
-      mode: MODE.LONG,
-    }));
+    })));
 
     const nodes = oi.find(".node");
     // There should be the root and 2 leaves.

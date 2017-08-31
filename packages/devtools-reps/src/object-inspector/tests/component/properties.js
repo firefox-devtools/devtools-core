@@ -10,13 +10,21 @@ const { createFactory } = React;
 const ObjectInspector = createFactory(require("../../index"));
 
 const gripRepStubs = require("../../../reps/stubs/grip");
+const ObjectClient = require("../__mocks__/object-client");
+
+function generateDefaults(overrides) {
+  return Object.assign({
+    autoExpandDepth: 0,
+    createObjectClient: grip => ObjectClient(grip),
+  }, overrides);
+}
 
 describe("ObjectInspector - properties", () => {
-  it("does not load properties if getObjectProperties returns a truthy element", () => {
+  it("does not load properties if properties are already loaded", () => {
     const stub = gripRepStubs.get("testMaxProps");
-    const loadObjectProperties = jest.fn();
+    const enumProperties = jest.fn();
 
-    mount(ObjectInspector({
+    mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 1,
       roots: [{
         path: "root",
@@ -24,36 +32,35 @@ describe("ObjectInspector - properties", () => {
           value: stub
         }
       }],
-      getObjectProperties: actor => {
-        return {
-          ownProperties: stub.preview.ownProperties,
-        };
-      },
-      loadObjectProperties,
-    }));
+      createObjectClient: grip => ObjectClient(grip, {enumProperties}),
+      loadedProperties: new Map([
+        ["root", {ownProperties: stub.preview.ownProperties}]
+      ]),
+    })));
 
-    expect(loadObjectProperties.mock.calls.length).toBe(0);
+    expect(enumProperties.mock.calls.length).toBe(0);
   });
 
-  it("calls loadObjectProperties when expandable leaf is clicked", () => {
+  it("calls enumProperties when expandable leaf is clicked", () => {
     const stub = gripRepStubs.get("testMaxProps");
-    const loadObjectProperties = jest.fn();
+    const enumProperties = jest.fn();
 
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 0,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         contents: {
           value: stub
         }
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties,
-    }));
+      createObjectClient: grip => ObjectClient(grip, {enumProperties}),
+    })));
 
     const node = oi.find(".node");
     node.simulate("click");
 
-    expect(loadObjectProperties.mock.calls.length).toBe(1);
+    // The function is called twice,  to get  both non-indexed and indexed properties.
+    expect(enumProperties.mock.calls.length).toBe(2);
+    expect(enumProperties.mock.calls[0][0]).toEqual({ignoreNonIndexedProperties: true});
+    expect(enumProperties.mock.calls[1][0]).toEqual({ignoreIndexedProperties: true});
   });
 });

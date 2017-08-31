@@ -8,7 +8,7 @@ const gripMapStubs = require("../../../reps/stubs/grip-map");
 const {
   createNode,
   nodeHasAllEntriesInPreview,
-} = require("../../utils");
+} = require("../../utils/node");
 
 const createRootNode = value => createNode(null, "root", "/", {value});
 describe("nodeHasEntries", () => {

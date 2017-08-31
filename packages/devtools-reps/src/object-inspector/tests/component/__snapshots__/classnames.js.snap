@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ObjectInspector - classnames has the expected class 1`] = `
-"<ObjectInspector autoExpandDepth={0} roots={{...}} getObjectProperties={[Function]} loadObjectProperties={[Function]}>
+"<ObjectInspector autoExpandDepth={0} roots={{...}} createObjectClient={[Function]}>
   <Tree className=\\"\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
     <div className=\\"tree \\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
       <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
@@ -26,7 +26,7 @@ exports[`ObjectInspector - classnames has the expected class 1`] = `
 `;
 
 exports[`ObjectInspector - classnames has the inline class when inline prop is true 1`] = `
-"<ObjectInspector autoExpandDepth={0} roots={{...}} getObjectProperties={[Function]} loadObjectProperties={[Function]} inline={true}>
+"<ObjectInspector autoExpandDepth={0} roots={{...}} createObjectClient={[Function]} inline={true}>
   <Tree className=\\"inline\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
     <div className=\\"tree inline\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
       <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
@@ -51,7 +51,7 @@ exports[`ObjectInspector - classnames has the inline class when inline prop is t
 `;
 
 exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop is true 1`] = `
-"<ObjectInspector autoExpandDepth={0} roots={{...}} getObjectProperties={[Function]} loadObjectProperties={[Function]} disableWrap={true}>
+"<ObjectInspector autoExpandDepth={0} roots={{...}} createObjectClient={[Function]} disableWrap={true}>
   <Tree className=\\"nowrap\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
     <div className=\\"tree nowrap\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
       <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>

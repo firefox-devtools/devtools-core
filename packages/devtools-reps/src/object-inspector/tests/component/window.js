@@ -8,10 +8,10 @@ const { createFactory } = React;
 const ObjectInspector = createFactory(require("../../index"));
 const {
   createNode,
-} = require("../../utils");
+} = require("../../utils/node");
 
 const gripWindowStubs = require("../../../reps/stubs/window");
-
+const ObjectClient = require("../__mocks__/object-client");
 const windowNode = createNode(
   null,
   "window",
@@ -23,8 +23,7 @@ function generateDefaults(overrides) {
   return Object.assign({
     autoExpandDepth: 0,
     roots: [windowNode],
-    getObjectProperties: () => {},
-    loadObjectProperties: () => {},
+    createObjectClient: grip => ObjectClient(grip)
   }, overrides);
 }
 

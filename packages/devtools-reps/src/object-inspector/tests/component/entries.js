@@ -12,30 +12,38 @@ const { MODE } = require("../../../reps/constants");
 
 const gripMapRepStubs = require("../../../reps/stubs/grip-map");
 const mapStubs = require("../../stubs/map");
+const ObjectClient = require("../__mocks__/object-client");
+const { SAFE_PATH_PREFIX } = require("../../utils/node");
+
+function generateDefaults(overrides) {
+  return Object.assign({
+    autoExpandDepth: 0,
+    createObjectClient: grip => ObjectClient(grip)
+  }, overrides);
+}
 
 describe("ObjectInspector - entries", () => {
-  it("renders Object with entries as expected", () => {
+  it("renders Object with entries as expected", async () => {
     const stub = gripMapRepStubs.get("testSymbolKeyedMap");
-    const loadObjectEntries = jest.fn();
-    const loadObjectProperties = jest.fn();
+    const enumEntries = jest.fn();
 
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: Infinity,
+    let oi = mount(ObjectInspector(generateDefaults({
+      autoExpandDepth: 3,
       roots: [{
         path: "root",
         contents: {value: stub}
       }],
-      getObjectEntries: () => {},
-      getObjectProperties: actor => {
-        if (actor === stub.actor) {
-          return mapStubs.get("properties");
-        }
-        return null;
-      },
-      loadObjectEntries,
-      loadObjectProperties,
       mode: MODE.LONG,
-    }));
+      createObjectClient: (grip) => {
+        return ObjectClient(grip, {
+          enumEntries,
+        });
+      },
+      loadedProperties: new Map([
+        ["root", mapStubs.get("properties")],
+        ["root/__proto__", true]
+      ])
+    })));
 
     const nodes = oi.find(".node");
     /*
@@ -94,44 +102,66 @@ describe("ObjectInspector - entries", () => {
     expect(protoNode.find(".arrow").exists()).toBeTruthy();
     expect(protoNode.text()).toMatch(/^__proto__/);
 
-    // loadEntries shouldn't have been called since everything
+    // enumEntries shouldn't have been called since everything
     // is already in the preview property.
-    expect(loadObjectEntries.mock.calls.length).toBe(0);
+    expect(enumEntries.mock.calls.length).toBe(0);
   });
 
-  it("does not load entries if getObjectEntries returns a truthy element", () => {
-    const stub = gripMapRepStubs.get("testSymbolKeyedMap");
-    const loadObjectEntries = jest.fn();
-    const loadObjectProperties = jest.fn();
-
-    mount(ObjectInspector({
-      autoExpandDepth: 2,
-      roots: [{
-        path: "root",
-        contents: {
-          value: stub
-        }
-      }],
-      getObjectEntries: () => {},
-      getObjectProperties: actor => {
-        return {
-          ownProperties: stub.preview.entries,
-        };
-      },
-      loadObjectEntries,
-      loadObjectProperties,
-    }));
-
-    expect(loadObjectEntries.mock.calls.length).toBe(0);
-    expect(loadObjectProperties.mock.calls.length).toBe(0);
-  });
-
-  it("calls loadObjectEntries when an <entries> node is clicked", () => {
+  it("does not call enumEntries if entries are already loaded", () => {
     const stub = gripMapRepStubs.get("testMoreThanMaxEntries");
-    const loadObjectEntries = jest.fn();
-    const loadObjectProperties = jest.fn();
+    const enumEntries = jest.fn();
 
-    const oi = mount(ObjectInspector({
+    const wrapper = mount(ObjectInspector(generateDefaults({
+      autoExpandDepth: 3,
+      roots: [{
+        path: "root",
+        contents: {
+          value: stub
+        }
+      }],
+      createObjectClient: (grip) => ObjectClient(grip, {enumEntries}),
+      loadedProperties: new Map([
+        ["root", mapStubs.get("properties")],
+        [`root/${SAFE_PATH_PREFIX}entries`, mapStubs.get("11-entries")],
+        ["root/__proto__", true]
+      ])
+    })));
+
+    const nodes = wrapper.find(".node");
+    /*
+     * The OI should look like:
+     * ▶︎ Map
+     *     size : 11
+     *   ▶︎ <entries>
+     *     ▶︎ 0: "key-0" → "value-0"
+     *       ▶︎ <key>: "key-0"
+     *       ▶︎ <value>: "value-0"
+     *     ▶︎ 1: "key-1" → "value-1"
+     *       ▶︎ <key>: "key-1"
+     *       ▶︎ <value>: "value-1"
+     *     ▶︎ 2: "key-2" → "value-2"
+     *       ▶︎ <key>: "key-2"
+     *       ▶︎ <value>: "value-2"
+     *     […]
+     *     ▶︎ 10: "key-10" → "value-10"
+     *       ▶︎ <key>: "key-10"
+     *       ▶︎ <value>: "value-10"
+     *   ▶︎ __proto__
+     */
+    expect(nodes.length).toBe(
+      4 // Map, size, entries and proto
+      + (11 * 3) // 11 entries * 3 nodes (mapEntry, key node, value node)
+    );
+
+    // enumEntries was not called.
+    expect(enumEntries.mock.calls.length).toBe(0);
+  });
+
+  it("calls ObjectClient.enumEntries when an <entries> node is clicked", () => {
+    const stub = gripMapRepStubs.get("testMoreThanMaxEntries");
+    const enumEntries = jest.fn();
+
+    const oi = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 2,
       roots: [{
         path: "root",
@@ -139,21 +169,17 @@ describe("ObjectInspector - entries", () => {
           value: stub
         }
       }],
-      getObjectEntries: () => {},
-      getObjectProperties: actor => {
-        return {
-          ownProperties: stub.preview.entries,
-        };
-      },
-      loadObjectEntries,
-      loadObjectProperties,
-    }));
+      createObjectClient: (grip) => ObjectClient(grip, {enumEntries}),
+      loadedProperties: new Map([
+        ["root", {ownProperties: stub.preview.entries}],
+      ]),
+    })));
 
     const node = oi.find(".node");
     const entriesNode = node.at(1);
     expect(entriesNode.text()).toBe("<entries>");
     entriesNode.simulate("click");
 
-    expect(loadObjectEntries.mock.calls.length).toBe(1);
+    expect(enumEntries.mock.calls.length).toBe(1);
   });
 });

@@ -7,7 +7,7 @@ const gripWindowStubs = require("../../../reps/stubs/window");
 const {
   createNode,
   nodeIsWindow,
-} = require("../../utils");
+} = require("../../utils/node");
 
 const createRootNode = value => createNode(null, "root", "/", {value});
 describe("nodeIsWindow", () => {

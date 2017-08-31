@@ -6,6 +6,7 @@ const { mount } = require("enzyme");
 const React = require("react");
 const { createFactory } = React;
 const ObjectInspector = createFactory(require("../../index"));
+const ObjectClient = require("../__mocks__/object-client");
 
 function generateDefaults(overrides) {
   return Object.assign({
@@ -15,8 +16,7 @@ function generateDefaults(overrides) {
       name: "root",
       contents: {value: 42}
     }],
-    getObjectProperties: () => {},
-    loadObjectProperties: () => {},
+    createObjectClient: grip => ObjectClient(grip)
   }, overrides);
 }
 

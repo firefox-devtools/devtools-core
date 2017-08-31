@@ -5,7 +5,7 @@
 const {
   createNode,
   NODE_TYPES,
-} = require("../../utils");
+} = require("../../utils/node");
 
 describe("createNode", () => {
   it("returns null when contents is undefined", () => {

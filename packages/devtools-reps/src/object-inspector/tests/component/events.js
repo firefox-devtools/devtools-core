@@ -10,24 +10,29 @@ const { createFactory } = React;
 const ObjectInspector = createFactory(require("../../index"));
 
 const gripRepStubs = require("../../../reps/stubs/grip");
+const ObjectClient = require("../__mocks__/object-client");
+
+function generateDefaults(overrides) {
+  return Object.assign({
+    autoExpandDepth: 0,
+    createObjectClient: grip => ObjectClient(grip)
+  }, overrides);
+}
 
 describe("ObjectInspector - properties", () => {
   it("calls the onFocus prop function when provided one and given focus", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onFocus = jest.fn();
 
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 0,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         contents: {
           value: stub
         }
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
       onFocus,
-    }));
+    })));
 
     const node = oi.find(".node").first();
     node.simulate("focus");
@@ -39,18 +44,15 @@ describe("ObjectInspector - properties", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onDoubleClick = jest.fn();
 
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 0,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
         contents: {
           value: stub
         }
       }],
-      getObjectProperties: () => {},
-      loadObjectProperties: () => {},
       onDoubleClick,
-    }));
+    })));
 
     const node = oi.find(".node").first();
     node.simulate("doubleclick");
@@ -62,22 +64,16 @@ describe("ObjectInspector - properties", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onLabelClick = jest.fn();
 
-    const oi = mount(ObjectInspector({
-      autoExpandDepth: 1,
+    const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
+        name: "Label",
         contents: {
           value: stub
         }
       }],
-      getObjectProperties: actor => {
-        return {
-          ownProperties: stub.preview.ownProperties,
-        };
-      },
-      loadObjectProperties: () => {},
       onLabelClick,
-    }));
+    })));
 
     const label = oi.find(".object-label").first();
     label.simulate("click");
