@@ -132,6 +132,10 @@ function ItemRep(props) {
   );
 }
 
+function getLength(object) {
+  return object.length;
+}
+
 function supportsObject(object) {
   return Array.isArray(object) ||
     Object.prototype.toString.call(object) === "[object Arguments]";
@@ -146,4 +150,5 @@ module.exports = {
   rep: wrapRender(ArrayRep),
   supportsObject,
   maxLengthMap,
+  getLength,
 };
