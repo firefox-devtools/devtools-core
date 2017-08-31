@@ -4,10 +4,13 @@
 
  // @flow
 const { get, has } = require("lodash");
-const { maybeEscapePropertyName } = require("../reps/rep-utils");
-const ArrayRep = require("../reps/array");
-const GripArrayRep = require("../reps/grip-array");
-const GripMapEntryRep = require("../reps/grip-map-entry");
+const { maybeEscapePropertyName } = require("../../reps/rep-utils");
+const ArrayRep = require("../../reps/array");
+const GripArrayRep = require("../../reps/grip-array");
+const GripMap = require("../../reps/grip-map");
+const GripMapEntryRep = require("../../reps/grip-map-entry");
+
+const MAX_NUMERICAL_PROPERTIES = 100;
 
 const NODE_TYPES = {
   BUCKET: Symbol("[n…n]"),
@@ -27,12 +30,13 @@ const NODE_TYPES = {
 };
 
 import type {
-  LoadedEntries,
+  CachedNodes,
+  GripProperties,
   LoadedProperties,
   Node,
   NodeContents,
   RdpGrip,
-} from "./types";
+} from "../types";
 
 let WINDOW_PROPERTIES = {};
 
@@ -77,8 +81,7 @@ function nodeIsMapEntry(item: Node) : boolean {
 }
 
 function nodeHasChildren(item: Node) : boolean {
-  return Array.isArray(item.contents)
-    || nodeIsBucket(item);
+  return Array.isArray(item.contents);
 }
 
 function nodeIsObject(item: Node) : boolean {
@@ -116,7 +119,8 @@ function nodeIsPrimitive(item: Node) : boolean {
     && !nodeHasProperties(item)
     && !nodeIsEntries(item)
     && !nodeIsMapEntry(item)
-    && !nodeHasAccessors(item);
+    && !nodeHasAccessors(item)
+    && !nodeIsBucket(item);
 }
 
 function nodeIsDefaultProperties(
@@ -180,9 +184,12 @@ function nodeHasAccessors(item: Node) : boolean {
   return !!getNodeGetter(item) || !!getNodeSetter(item);
 }
 
-function nodeSupportsBucketing(item: Node) : boolean {
-  return nodeIsArrayLike(item)
-    || nodeIsEntries(item);
+function nodeSupportsNumericalBucketing(item: Node) : boolean {
+  // We exclude elements with entries since it's the <entries> node
+  // itself that can have buckets.
+  return (nodeIsArrayLike(item) && !nodeHasEntries(item))
+    || nodeIsEntries(item)
+    || nodeIsBucket(item);
 }
 
 function nodeHasEntries(
@@ -215,6 +222,11 @@ function nodeHasAllEntriesInPreview(item : Node) : boolean {
   return entries
     ? entries.length === size
     : items.length === length;
+}
+
+function nodeNeedsNumericalBuckets(item : Node) : boolean {
+  return nodeSupportsNumericalBucketing(item)
+    && getNumericalPropertiesCount(item) > MAX_NUMERICAL_PROPERTIES;
 }
 
 function makeNodesForPromiseProperties(
@@ -293,12 +305,12 @@ function makeNodesForEntries(
   item : Node
 ) : Node {
   const {path} = item;
-  const { preview } = getValue(item);
   const nodeName = "<entries>";
   const entriesPath = `${path}/${SAFE_PATH_PREFIX}entries`;
 
   if (nodeHasAllEntriesInPreview(item)) {
     let entriesNodes = [];
+    const { preview } = getValue(item);
     if (preview.entries) {
       entriesNodes = preview.entries.map(([key, value], index) => {
         return createNode(item, index, `${entriesPath}/${index}`, {
@@ -383,13 +395,10 @@ function sortProperties(properties: Array<any>) : Array<any> {
 }
 
 function makeNumericalBuckets(
-  propertiesNames: Array<string>,
-  parent: Node,
-  ownProperties: Object,
-  startIndex: number = 0
+  parent: Node
 ) : Array<Node> {
   const parentPath = parent.path;
-  const numProperties = propertiesNames.length;
+  const numProperties = getNumericalPropertiesCount(parent);
 
   // We want to have at most a hundred slices.
   const bucketSize = 10 ** Math.max(2, Math.ceil(Math.log10(numProperties)) - 2);
@@ -399,51 +408,23 @@ function makeNumericalBuckets(
   for (let i = 1; i <= numBuckets; i++) {
     const minKey = (i - 1) * bucketSize;
     const maxKey = Math.min(i * bucketSize - 1, numProperties - 1);
+    const startIndex = nodeIsBucket(parent) ? parent.meta.startIndex : 0;
+    const minIndex = startIndex + minKey;
+    const maxIndex = startIndex + maxKey;
+    const bucketKey = `${SAFE_PATH_PREFIX}bucket_${minIndex}-${maxIndex}`;
+    const bucketName = `[${minIndex}…${maxIndex}]`;
 
-    if (maxKey === minKey) {
-      const name = propertiesNames[maxKey];
-      buckets.push(createNode(
-        parent,
-        name,
-        `${parentPath}/${name}`,
-        ownProperties[name]
-      ));
-    } else {
-      const minIndex = startIndex + minKey;
-      const maxIndex = startIndex + maxKey;
-      const bucketKey = `${SAFE_PATH_PREFIX}bucket_${minIndex}-${maxIndex}`;
-      const bucketName = `[${minIndex}…${maxIndex}]`;
-
-      const bucketRoot = createNode(
-        parent,
-        bucketName,
-        `${parentPath}/${bucketKey}`,
-        [],
-        NODE_TYPES.BUCKET
-      );
-
-      const bucketProperties = propertiesNames.slice(minKey, maxKey + 1);
-      let bucketNodes;
-      if (bucketProperties.length <= 100) {
-        bucketNodes = bucketProperties.map(name =>
-          createNode(
-            bucketRoot,
-            name,
-            `${parentPath}/${bucketKey}/${name}`,
-            ownProperties[name]
-          )
-        );
-      } else {
-        bucketNodes = makeNumericalBuckets(
-          bucketProperties,
-          bucketRoot,
-          ownProperties,
-          minIndex
-        );
+    buckets.push(createNode(
+      parent,
+      bucketName,
+      `${parentPath}/${bucketKey}`,
+      null,
+      NODE_TYPES.BUCKET,
+      {
+        startIndex: minIndex,
+        endIndex: maxIndex,
       }
-      setNodeChildren(bucketRoot, bucketNodes);
-      buckets.push(bucketRoot);
-    }
+    ));
   }
   return buckets;
 }
@@ -509,7 +490,7 @@ function makeNodesForOwnProps(
 }
 
 function makeNodesForProperties(
-  objProps: LoadedProperties,
+  objProps: GripProperties,
   parent: Node
 ) : Array<Node> {
   const {
@@ -532,16 +513,8 @@ function makeNodesForProperties(
     || allProperties[name].hasOwnProperty("set")
   );
 
-  const numProperties = propertiesNames.length;
-
   let nodes = [];
-  if (nodeSupportsBucketing(parent) && numProperties > 100) {
-    nodes = makeNumericalBuckets(
-      propertiesNames,
-      parent,
-      allProperties
-    );
-  } else if (parentValue && parentValue.class == "Window") {
+  if (parentValue && parentValue.class == "Window") {
     nodes = makeDefaultPropsBucket(propertiesNames, parent, allProperties);
   } else {
     nodes = makeNodesForOwnProps(propertiesNames, parent, allProperties);
@@ -554,7 +527,7 @@ function makeNodesForProperties(
           parent,
           ownSymbol.name,
           `${parentPath}/${SAFE_PATH_PREFIX}symbol-${index}`,
-          ownSymbol.descriptor
+          ownSymbol.descriptor || null
         )
       );
     }, this);
@@ -570,18 +543,32 @@ function makeNodesForProperties(
 
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {
-    nodes.push(
-      createNode(
-        parent,
-        "__proto__",
-        `${parentPath}/__proto__`,
-        { value: prototype },
-        NODE_TYPES.PROTOTYPE
-      )
-    );
+    nodes.push(makeNodeForPrototype(objProps, parent));
   }
 
   return nodes;
+}
+
+function makeNodeForPrototype(
+  objProps: GripProperties,
+  parent: Node
+) : ?Node {
+  const {
+    prototype,
+  } = objProps || {};
+
+  // Add the prototype if it exists and is not null
+  if (prototype && prototype.type !== "null") {
+    return createNode(
+      parent,
+      "__proto__",
+      `${parent.path}/__proto__`,
+      { value: prototype },
+      NODE_TYPES.PROTOTYPE
+    );
+  }
+
+  return null;
 }
 
 function createNode(
@@ -589,7 +576,8 @@ function createNode(
   name: string,
   path: string,
   contents: any,
-  type: ?Symbol = NODE_TYPES.GRIP
+  type: ?Symbol = NODE_TYPES.GRIP,
+  meta: ?Object
 ) : ?Node {
   if (contents === undefined) {
     return null;
@@ -606,6 +594,7 @@ function createNode(
     path,
     contents,
     type,
+    meta,
   };
 }
 
@@ -618,38 +607,29 @@ function setNodeChildren(
 }
 
 function getChildren(options: {
-  actors: Object,
-  getObjectEntries: (RdpGrip) => ?LoadedEntries,
-  getObjectProperties: (RdpGrip) => ?LoadedProperties,
+  cachedNodes: CachedNodes,
+  loadedProperties: LoadedProperties,
   item: Node
 }) : Array<Node> {
   const {
-    actors = {},
-    getObjectEntries,
-    getObjectProperties,
-    item
+    cachedNodes,
+    loadedProperties = new Map(),
+    item,
   } = options;
-  // Nodes can either have children already, or be an object with
-  // properties that we need to go and fetch.
-  if (nodeHasAccessors(item)) {
-    return makeNodesForAccessors(item);
+
+  const key = item.path;
+  if (cachedNodes && cachedNodes.has(key)) {
+    return cachedNodes.get(key);
   }
 
-  if (nodeIsMapEntry(item)) {
-    return makeNodesForMapEntry(item);
-  }
-
-  if (nodeIsProxy(item)) {
-    return makeNodesForProxyProperties(item);
-  }
-
-  if (nodeHasChildren(item)) {
-    return item.contents;
-  }
-
-  if (!nodeHasProperties(item) && !nodeIsEntries(item)) {
-    return [];
-  }
+  const loadedProps = loadedProperties.get(key);
+  const {
+    ownProperties,
+    ownSymbols,
+    safeGetterValues,
+    prototype
+  } = loadedProps || {};
+  const hasLoadedProps = ownProperties || ownSymbols || safeGetterValues || prototype;
 
   // Because we are dynamically creating the tree as the user
   // expands it (not precalculated tree structure), we cache child
@@ -657,62 +637,223 @@ function getChildren(options: {
   // because the expanded state depends on instances of nodes
   // being the same across renders. If we didn't do this, each
   // node would be a new instance every render.
-  const key = item.path;
-  if (actors && actors[key]) {
-    return actors[key];
+  // If the node needs properties, we only add children to
+  // the cache if the properties are loaded.
+  const addToCache = (children: Array<Node>) => {
+    if (cachedNodes) {
+      cachedNodes.set(item.path, children);
+    }
+    return children;
+  };
+
+  // Nodes can either have children already, or be an object with
+  // properties that we need to go and fetch.
+  if (nodeHasChildren(item)) {
+    return addToCache(item.contents);
   }
 
-  if (nodeIsBucket(item)) {
-    return item.contents.children;
+  if (nodeHasAccessors(item)) {
+    return addToCache(makeNodesForAccessors(item));
   }
 
-  let loadedProps;
-  if (nodeIsEntries(item)) {
-    // If `item` is an <entries> node, we need to get the entries
-    // matching the parent node actor.
-    const parent = getParent(item);
-    loadedProps = getObjectEntries(
-      get(getValue(parent), "actor", undefined)
-    );
-  } else {
-    loadedProps = getObjectProperties(
-      get(getValue(item), "actor", undefined)
-    );
+  if (nodeIsMapEntry(item)) {
+    return addToCache(makeNodesForMapEntry(item));
   }
 
-  const {
-    ownProperties,
-    ownSymbols,
-    safeGetterValues,
-    prototype
-  } = loadedProps || {};
+  if (nodeIsProxy(item)) {
+    const nodes = makeNodesForProxyProperties(item);
+    const protoNode = makeNodeForPrototype(loadedProps, item);
+    if (protoNode) {
+      return addToCache(nodes.concat(protoNode));
+    }
+    return nodes;
+  }
 
-  if (!ownProperties && !ownSymbols && !safeGetterValues && !prototype) {
+  if (nodeNeedsNumericalBuckets(item)) {
+    const bucketNodes = makeNumericalBuckets(item);
+    // Even if we have numerical buckets, we might have loaded non indexed properties,
+    // like length for example.
+    if (hasLoadedProps) {
+      return addToCache(bucketNodes.concat(makeNodesForProperties(loadedProps, item)));
+    }
+
+    // We don't cache the result here so we can have the prototype, properties and symbols
+    // when they are loaded.
+    return bucketNodes;
+  }
+
+  if (!nodeIsEntries(item) && !nodeIsBucket(item) && !nodeHasProperties(item)) {
     return [];
   }
 
-  let children = makeNodesForProperties(loadedProps, item);
-  actors[key] = children;
-  return children;
+  if (!hasLoadedProps) {
+    return [];
+  }
+
+  return addToCache(makeNodesForProperties(loadedProps, item));
 }
 
 function getParent(item: Node) : Node | null {
   return item.parent;
 }
 
+function getNumericalPropertiesCount(item: Node) : number {
+  if (nodeIsBucket(item)) {
+    return item.meta.endIndex - item.meta.startIndex + 1;
+  }
+
+  const value = getValue(getClosestGripNode(item));
+  if (!value) {
+    return 0;
+  }
+
+  if (GripArrayRep.supportsObject(value)) {
+    return GripArrayRep.getLength(value);
+  }
+
+  if (GripMap.supportsObject(value)) {
+    return GripMap.getLength(value);
+  }
+
+  // TODO: We can also have numerical properties on Objects, but at the
+  // moment we don't have a way to distinguish them from non-indexed properties,
+  // as they are all computed in a ownPropertiesLength property.
+
+  return 0;
+}
+
+function getClosestGripNode(item: Node) : Node | null {
+  const type = getType(item);
+  if (
+    type !== NODE_TYPES.BUCKET
+    && type !== NODE_TYPES.DEFAULT_PROPERTIES
+    && type !== NODE_TYPES.ENTRIES
+  ) {
+    return item;
+  }
+
+  const parent = getParent(item);
+  if (!parent) {
+    return null;
+  }
+
+  return getClosestGripNode(parent);
+}
+
+function getClosestNonBucketNode(item: Node) : Node | null {
+  const type = getType(item);
+
+  if (type !== NODE_TYPES.BUCKET) {
+    return item;
+  }
+
+  const parent = getParent(item);
+  if (!parent) {
+    return null;
+  }
+
+  return getClosestNonBucketNode(parent);
+}
+
+function shouldLoadItemIndexedProperties(
+  item: Node,
+  loadedProperties: LoadedProperties = new Map()
+) : boolean {
+  const gripItem = getClosestGripNode(item);
+  const value = getValue(gripItem);
+
+  return value
+    && nodeHasProperties(gripItem)
+    && !loadedProperties.has(item.path)
+    && !nodeIsProxy(item)
+    && !nodeNeedsNumericalBuckets(item)
+    && !nodeIsEntries(getClosestNonBucketNode(item))
+    // The data is loaded when expanding the window node.
+    && !nodeIsDefaultProperties(item);
+}
+
+function shouldLoadItemNonIndexedProperties(
+  item: Node,
+  loadedProperties: LoadedProperties = new Map()
+) : boolean {
+  const gripItem = getClosestGripNode(item);
+  const value = getValue(gripItem);
+
+  return value
+    && nodeHasProperties(gripItem)
+    && !loadedProperties.has(item.path)
+    && !nodeIsProxy(item)
+    && !nodeIsEntries(getClosestNonBucketNode(item))
+    && !nodeIsBucket(item)
+    // The data is loaded when expanding the window node.
+    && !nodeIsDefaultProperties(item);
+}
+
+function shouldLoadItemEntries(
+  item: Node,
+  loadedProperties: LoadedProperties = new Map()
+) : boolean {
+  const gripItem = getClosestGripNode(item);
+  const value = getValue(gripItem);
+
+  return value
+    && nodeIsEntries(getClosestNonBucketNode(item))
+    && !nodeHasAllEntriesInPreview(gripItem)
+    && !loadedProperties.has(item.path)
+    && !nodeNeedsNumericalBuckets(item);
+}
+
+function shouldLoadItemPrototype(
+  item: Node,
+  loadedProperties: LoadedProperties = new Map()
+) : boolean {
+  const value = getValue(item);
+
+  return value
+    && !loadedProperties.has(item.path)
+    && !nodeIsBucket(item)
+    && !nodeIsMapEntry(item)
+    && !nodeIsEntries(item)
+    && !nodeIsDefaultProperties(item)
+    && !nodeHasAccessors(item)
+    && !nodeIsPrimitive(item);
+}
+
+function shouldLoadItemSymbols(
+  item: Node,
+  loadedProperties: LoadedProperties = new Map()
+) : boolean {
+  const value = getValue(item);
+
+  return value
+    && !loadedProperties.has(item.path)
+    && !nodeIsBucket(item)
+    && !nodeIsMapEntry(item)
+    && !nodeIsEntries(item)
+    && !nodeIsDefaultProperties(item)
+    && !nodeHasAccessors(item)
+    && !nodeIsPrimitive(item)
+    && !nodeIsProxy(item);
+}
+
 module.exports = {
   createNode,
   getChildren,
+  getClosestGripNode,
+  getClosestNonBucketNode,
   getParent,
+  getNumericalPropertiesCount,
   getValue,
   makeNodesForEntries,
   makeNodesForPromiseProperties,
   makeNodesForProperties,
+  makeNumericalBuckets,
   nodeHasAccessors,
   nodeHasAllEntriesInPreview,
   nodeHasChildren,
   nodeHasEntries,
   nodeHasProperties,
+  nodeIsBucket,
   nodeIsDefaultProperties,
   nodeIsEntries,
   nodeIsFunction,
@@ -727,8 +868,14 @@ module.exports = {
   nodeIsProxy,
   nodeIsSetter,
   nodeIsWindow,
-  nodeSupportsBucketing,
+  nodeNeedsNumericalBuckets,
+  nodeSupportsNumericalBucketing,
   setNodeChildren,
+  shouldLoadItemEntries,
+  shouldLoadItemIndexedProperties,
+  shouldLoadItemNonIndexedProperties,
+  shouldLoadItemPrototype,
+  shouldLoadItemSymbols,
   sortProperties,
   NODE_TYPES,
   // Export for testing purpose.

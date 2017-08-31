@@ -28,30 +28,43 @@ const {
 
 const {
   getChildren,
+  getClosestGripNode,
   getParent,
   getValue,
   nodeHasAccessors,
-  nodeHasAllEntriesInPreview,
   nodeHasProperties,
   nodeIsDefaultProperties,
-  nodeIsEntries,
+  nodeIsFunction,
   nodeIsGetter,
   nodeIsMapEntry,
-  nodeIsFunction,
   nodeIsMissingArguments,
   nodeIsOptimizedOut,
   nodeIsPrimitive,
   nodeIsPrototype,
-  nodeIsProxy,
   nodeIsSetter,
   nodeIsWindow,
-} = require("./utils");
+  shouldLoadItemEntries,
+  shouldLoadItemIndexedProperties,
+  shouldLoadItemNonIndexedProperties,
+  shouldLoadItemPrototype,
+  shouldLoadItemSymbols,
+} = require("./utils/node");
+
+const {
+  enumEntries,
+  enumIndexedProperties,
+  enumNonIndexedProperties,
+  getPrototype,
+  enumSymbols,
+} = require("./utils/client");
 
 import type {
-  LoadedEntries,
+  CachedNodes,
   LoadedProperties,
+  GripProperties,
   Node,
   NodeContents,
+  ObjectClient,
   RdpGrip,
 } from "./types";
 
@@ -67,10 +80,9 @@ type Props = {
   roots: Array<Node>,
   disableWrap: boolean,
   dimTopLevelWindow: boolean,
-  getObjectEntries: (actor:string) => ?LoadedEntries,
-  getObjectProperties: (actor:string) => ?LoadedProperties,
-  loadObjectEntries: (value:RdpGrip) => void,
-  loadObjectProperties: (value:RdpGrip) => void,
+  releaseActor: string => void,
+  createObjectClient: RdpGrip => ObjectClient,
+  releaseActor: RdpGrip => void,
   onFocus: ?(Node) => any,
   onDoubleClick: ?(
     item: Node,
@@ -89,11 +101,15 @@ type Props = {
       setExpanded: (Node, boolean) => any,
     }
   ) => any,
+  loadedProperties: LoadedProperties
 };
 
 type State = {
-  expandedKeys: any,
-  focusedItem: ?Node
+  actors: Set<string>,
+  expandedPaths: Set<string>,
+  focusedItem: ?Node,
+  loadedProperties: LoadedProperties,
+  loading: Map<string, Array<Promise<GripProperties>>>,
 };
 
 type DefaultProps = {
@@ -130,13 +146,16 @@ type DefaultProps = {
 
 class ObjectInspector extends Component {
   static defaultProps: DefaultProps;
-  constructor() {
+  constructor(props : Props) {
     super();
+    this.cachedNodes = new Map();
 
-    this.actors = {};
     this.state = {
-      expandedKeys: new Set(),
-      focusedItem: null
+      actors: new Set(),
+      expandedPaths: new Set(),
+      focusedItem: null,
+      loadedProperties: props.loadedProperties || new Map(),
+      loading: new Map(),
     };
 
     const self: any = this;
@@ -149,21 +168,43 @@ class ObjectInspector extends Component {
   }
 
   state: State;
+
+  shouldComponentUpdate(nextProps : Props, nextState: State) {
+    const {
+      expandedPaths,
+      loadedProperties
+    } = this.state;
+
+    return expandedPaths.size !== nextState.expandedPaths.size
+      || loadedProperties.size !== nextState.loadedProperties.size
+      || [...expandedPaths].some(key => !nextState.expandedPaths.has(key));
+  }
+
+  componentWillUnmount() {
+    const { releaseActor } = this.props;
+    if (typeof releaseActor !== "function") {
+      return;
+    }
+
+    const { actors } = this.state;
+    for (let actor of actors) {
+      releaseActor(actor);
+    }
+  }
+
   props: Props;
-  actors: any;
+  cachedNodes: CachedNodes;
 
   getChildren(item: Node)
     : Array<Node> | NodeContents | null {
     const {
-      getObjectEntries,
-      getObjectProperties,
-    } = this.props;
-    const { actors } = this;
+      loadedProperties
+    } = this.state;
+    const { cachedNodes } = this;
 
     return getChildren({
-      getObjectEntries,
-      getObjectProperties,
-      actors,
+      loadedProperties,
+      cachedNodes,
       item
     });
   }
@@ -176,64 +217,107 @@ class ObjectInspector extends Component {
     return item.path;
   }
 
-  setExpanded(item: Node, expand: boolean) {
-    const { expandedKeys } = this.state;
+  async setExpanded(item: Node, expand: boolean) {
+    if (nodeIsPrimitive(item)) {
+      return;
+    }
+
+    const {
+      loadedProperties,
+    } = this.state;
+
     const key = this.getKey(item);
 
+    this.setState((prevState, props) => {
+      const newPaths = new Set(prevState.expandedPaths);
+      if (expand === true) {
+        newPaths.add(key);
+      } else {
+        newPaths.delete(key);
+      }
+      return {
+        expandedPaths: newPaths
+      };
+    });
+
     if (expand === true) {
-      expandedKeys.add(key);
-    } else {
-      expandedKeys.delete(key);
-    }
+      const gripItem = getClosestGripNode(item);
+      const value = getValue(gripItem);
 
-    this.setState({ expandedKeys });
+      const path = item.path;
+      const [start, end] = item.meta
+        ? [item.meta.startIndex, item.meta.endIndex]
+        : [];
 
-    if (expand === true) {
-      const {
-        loadObjectProperties,
-        loadObjectEntries,
-      } = this.props;
+      let promises = [];
+      let objectClient;
+      const getObjectClient = () => {
+        if (objectClient) {
+          return objectClient;
+        }
+        return this.props.createObjectClient(value);
+      };
 
-      if (this.shouldLoadItemProperties(item)) {
-        const value = getValue(item);
-        loadObjectProperties(value);
+      if (shouldLoadItemIndexedProperties(item, loadedProperties)) {
+        promises.push(enumIndexedProperties(getObjectClient(), start, end));
       }
 
-      if (this.shouldLoadItemEntries(item)) {
-        const parent = getParent(item);
-        const parentValue = getValue(parent);
-        loadObjectEntries(parentValue);
+      if (shouldLoadItemNonIndexedProperties(item, loadedProperties)) {
+        promises.push(enumNonIndexedProperties(getObjectClient(), start, end));
+      }
+
+      if (shouldLoadItemEntries(item, loadedProperties)) {
+        promises.push(enumEntries(getObjectClient(), start, end));
+      }
+
+      if (shouldLoadItemPrototype(item, loadedProperties)) {
+        promises.push(getPrototype(getObjectClient()));
+      }
+
+      if (shouldLoadItemSymbols(item, loadedProperties)) {
+        promises.push(enumSymbols(getObjectClient(), start, end));
+      }
+
+      if (promises.length > 0) {
+        // Set the loading state with the pending promises.
+        this.setState((prevState, props) => {
+          const nextLoading = new Map(prevState.loading);
+          nextLoading.set(path, promises);
+          return {
+            loading: nextLoading
+          };
+        });
+
+        const responses = await Promise.all(promises);
+
+        // Let's loop through the responses to build a single response object.
+        const response = responses.reduce((accumulator, res) => {
+          Object.entries(res).forEach(([k, v]) => {
+            if (accumulator.hasOwnProperty(k)) {
+              if (Array.isArray(accumulator[k])) {
+                accumulator[k].push(...v);
+              } else if (typeof accumulator[k] === "object") {
+                accumulator[k] = Object.assign({}, accumulator[k], v);
+              }
+            } else {
+              accumulator[k] = v;
+            }
+          });
+          return accumulator;
+        }, {});
+
+        this.setState((prevState, props) => {
+          const nextLoading = new Map(prevState.loading);
+          nextLoading.delete(path);
+
+          return {
+            actors: (new Set(prevState.actors)).add(value.actor),
+            loadedProperties: (new Map(prevState.loadedProperties)).set(path, response),
+            loading: nextLoading,
+          };
+        });
       }
     }
-  }
-
-  shouldLoadItemProperties(item: Node) : boolean {
-    const value = getValue(item);
-    const {
-      getObjectProperties
-    } = this.props;
-
-    return nodeHasProperties(item)
-      && value
-      && !getObjectProperties(value.actor)
-      && !nodeIsProxy(item);
-  }
-
-  shouldLoadItemEntries(item: Node) : boolean {
-    const parent = getParent(item);
-    const parentValue = getValue(parent);
-    const parentActor = parentValue
-      ? parentValue.actor
-      : null;
-
-    const {
-      getObjectEntries
-    } = this.props;
-
-    return nodeIsEntries(item)
-      && !nodeHasAllEntriesInPreview(parent)
-      && !!parentActor
-      && !getObjectEntries(parentActor);
   }
 
   focusItem(item: Node) {
@@ -407,7 +491,7 @@ class ObjectInspector extends Component {
     } = this.props;
 
     const {
-      expandedKeys,
+      expandedPaths,
       focusedItem,
     } = this.state;
 
@@ -430,7 +514,7 @@ class ObjectInspector extends Component {
       disabledFocus,
       itemHeight,
 
-      isExpanded: item => expandedKeys.has(this.getKey(item)),
+      isExpanded: item => expandedPaths.has(this.getKey(item)),
       focused: focusedItem,
 
       getRoots: this.getRoots,
@@ -456,10 +540,9 @@ ObjectInspector.propTypes = {
   disableWrap: PropTypes.bool,
   inline: PropTypes.bool,
   roots: PropTypes.array,
-  getObjectProperties: PropTypes.func.isRequired,
-  loadObjectProperties: PropTypes.func.isRequired,
   itemHeight: PropTypes.number,
   mode: PropTypes.oneOf(Object.values(MODE)),
+  createObjectClient: PropTypes.func.isRequired,
   onFocus: PropTypes.func,
   onDoubleClick: PropTypes.func,
   onLabelClick: PropTypes.func,
