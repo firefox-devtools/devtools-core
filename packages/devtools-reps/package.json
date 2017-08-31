@@ -60,7 +60,8 @@
       "<rootDir>/test/",
       "<rootDir>/reps/tests/test-helpers",
       "<rootDir>/utils/tests/fixtures/",
-      "<rootDir>/object-inspector/tests/__mocks__/"
+      "<rootDir>/object-inspector/tests/__mocks__/",
+      "<rootDir>/object-inspector/tests/test-utils"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!devtools-)"

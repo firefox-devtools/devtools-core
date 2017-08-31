@@ -10,7 +10,7 @@ const {
   nodeIsMapEntry,
   nodeIsPrototype,
   SAFE_PATH_PREFIX,
-} = require("../../utils");
+} = require("../../utils/node");
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
 
 const root = {

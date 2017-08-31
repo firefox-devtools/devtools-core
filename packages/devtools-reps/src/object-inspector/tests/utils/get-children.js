@@ -2,19 +2,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
- /* global jest */
 const accessorStubs = require("../../../reps/stubs/accessor");
 const performanceStubs = require("../../stubs/performance");
 const gripMapStubs = require("../../../reps/stubs/grip-map");
+const gripArrayStubs = require("../../../reps/stubs/grip-array");
+const gripMapEntryStubs = require("../../../reps/stubs/grip-map-entry");
 const gripStubs = require("../../../reps/stubs/grip");
 
 const {
   createNode,
   getChildren,
   getValue,
-  makeNodesForEntries,
   SAFE_PATH_PREFIX,
-} = require("../../utils");
+} = require("../../utils/node");
 
 describe("getChildren", () => {
   it("accessors - getter", () => {
@@ -67,77 +67,16 @@ describe("getChildren", () => {
       [`rootpath/${SAFE_PATH_PREFIX}target`, `rootpath/${SAFE_PATH_PREFIX}handler`]);
   });
 
-  it("uses the expected actor to get properties", () => {
-    const stub = performanceStubs.get("performance");
-    const getObjectProperties = jest.fn();
-
-    // Test that the function gets the actor from the value.
-    getChildren({
-      actors: {},
-      item: createNode(null, "root", "rootpath", stub.ownProperties.timing),
-      getObjectProperties
-    });
-    expect(getObjectProperties.mock.calls[0][0]).toBe("server2.conn4.child1/obj44");
-
-    // Test that the function gets the actor from the getterValue.
-    getChildren({
-      actors: {},
-      item: createNode(null, "root", "rootpath", stub.safeGetterValues.timing),
-      getObjectProperties
-    });
-    expect(getObjectProperties.mock.calls[1][0]).toBe("server2.conn4.child1/obj44");
-  });
-
-  it("uses the expected actor to get entries", () => {
-    const getObjectEntries = jest.fn();
-    const actor = Symbol();
-    const mapNode = createNode(null, "map", "/", {value: {actor}});
-    // Test that the function gets the actor from the value.
-    getChildren({
-      actors: {},
-      item: makeNodesForEntries(mapNode),
-      getObjectEntries
-    });
-    expect(getObjectEntries.mock.calls[0][0]).toBe(actor);
-  });
-
-  it("gets data from the cache when it exists", () => {
-    const getObjectEntries = jest.fn();
-    const getObjectProperties = jest.fn();
-    const mapNode = createNode(null, "map", "rootpath", {
-      value: gripMapStubs.get("testSymbolKeyedMap")
-    });
-    const cachedData = Symbol();
-    // Test that the function gets the actor from the value.
-    const children = getChildren({
-      actors: {
-        "rootpath": cachedData
-      },
-      item: mapNode,
-      getObjectEntries,
-      getObjectProperties,
-    });
-    expect(children).toBe(cachedData);
-    expect(getObjectEntries.mock.calls.length).toBe(0);
-    expect(getObjectProperties.mock.calls.length).toBe(0);
-  });
-
   it("safeGetterValues", () => {
     const stub = performanceStubs.get("timing");
     const nodes = getChildren({
-      actors: {},
       item: createNode(null, "root", "rootpath", {
         value: {
           actor: "rootactor",
           type: "object"
         }
       }),
-      getObjectProperties: actor => {
-        if (actor === "rootactor") {
-          return stub;
-        }
-        return null;
-      }
+      loadedProperties: new Map([["rootpath", stub]]),
     });
 
     const nodeEntries = nodes.map(n => [n.name, getValue(n)]);
@@ -171,5 +110,120 @@ describe("getChildren", () => {
 
     expect(nodeEntries).toEqual(childrenEntries);
     expect(nodePaths).toEqual(childrenPaths);
+  });
+
+  it("gets data from the cache when it exists", () => {
+    const mapNode = createNode(null, "map", "rootpath", {
+      value: gripMapStubs.get("testSymbolKeyedMap")
+    });
+    const cachedData = Symbol();
+    const children = getChildren({
+      cachedNodes: new Map([["rootpath", cachedData]]),
+      item: mapNode,
+    });
+    expect(children).toBe(cachedData);
+  });
+
+  it("returns an empty array if the node does not represent an object", () => {
+    const node = createNode(null, "root", "/", {value: 42});
+    expect(getChildren({
+      item: node
+    })).toEqual([]);
+  });
+
+  it("returns an empty array if a grip node has no loaded properties", () => {
+    const node = createNode(null, "root", "/", {value: gripMapStubs.get("testMaxProps")});
+    expect(getChildren({
+      item: node,
+    })).toEqual([]);
+  });
+
+  it("adds children to cache when a grip node has loaded properties", () => {
+    const stub = performanceStubs.get("timing");
+    const cachedNodes = new Map();
+
+    const children = getChildren({
+      cachedNodes,
+      item: createNode(null, "root", "/", {
+        value: {
+          actor: "rootactor",
+          type: "object"
+        }
+      }),
+      loadedProperties: new Map([["/", stub]]),
+    });
+    expect(cachedNodes.get("/")).toBe(children);
+  });
+
+  it("adds children to cache when it already has some", () => {
+    const cachedNodes = new Map();
+    const children = [Symbol()];
+    getChildren({
+      cachedNodes,
+      item: createNode(null, "root", "/", children),
+    });
+    expect(cachedNodes.get("/")).toBe(children);
+  });
+
+  it("adds children to cache on a node with accessors", () => {
+    const cachedNodes = new Map();
+    const node = createNode(null, "root", "/", accessorStubs.get("getter setter"));
+    const children = getChildren({
+      cachedNodes,
+      item: node,
+    });
+    expect(cachedNodes.get("/")).toBe(children);
+  });
+
+  it("adds children to cache on a map entry node", () => {
+    const cachedNodes = new Map();
+    const node = createNode(null, "root", "/", {value: gripMapEntryStubs.get("A → 0")});
+    const children = getChildren({
+      cachedNodes,
+      item: node,
+    });
+    expect(cachedNodes.get("/")).toBe(children);
+  });
+
+  it("does not adds children to cache on a proxy node and no loaded props", () => {
+    const cachedNodes = new Map();
+    const node = createNode(null, "root", "/", {value: gripStubs.get("testProxy")});
+    getChildren({
+      cachedNodes,
+      item: node,
+    });
+    expect(cachedNodes.has("/")).toBeFalsy();
+  });
+
+  it("adds children to cache on a proxy node having loaded props", () => {
+    const cachedNodes = new Map();
+    const node = createNode(null, "root", "/", {value: gripStubs.get("testProxy")});
+    const children = getChildren({
+      cachedNodes,
+      item: node,
+      loadedProperties: new Map([["/", {prototype: {}}]])
+    });
+    expect(cachedNodes.get("/")).toBe(children);
+  });
+
+  it("does not adds children to cache on a node with buckets and no loaded props", () => {
+    const cachedNodes = new Map();
+    const node = createNode(null, "root", "/", {value: gripArrayStubs.get("Array(234)")});
+    getChildren({
+      cachedNodes,
+      item: node,
+    });
+    expect(cachedNodes.has("/")).toBeFalsy();
+  });
+
+  it("adds children to cache on a node with buckets having loaded props", () => {
+    const cachedNodes = new Map();
+    const node = createNode(null, "root", "/", {value: gripArrayStubs.get("Array(234)")});
+    const children = getChildren({
+      cachedNodes,
+      item: node,
+      loadedProperties: new Map([["/", {prototype: {}}]])
+    });
+    expect(cachedNodes.get("/")).toBe(children);
   });
 });
