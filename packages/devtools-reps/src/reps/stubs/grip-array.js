@@ -1044,4 +1044,56 @@ stubs.set(`["http://example.com/abcdefghijabcdefghij some other text"]`, {
   }
 });
 
+stubs.set("Array(234)", {
+  "type": "object",
+  "actor": "server4.conn2.child19/obj668",
+  "class": "Array",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 235,
+  "preview": {
+    "kind": "ArrayLike",
+    "length": 234,
+    "items": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  }
+});
+
+stubs.set("Array(23456)", {
+  "type": "object",
+  "actor": "server4.conn2.child19/obj668",
+  "class": "Array",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 23457,
+  "preview": {
+    "kind": "ArrayLike",
+    "length": 23456,
+    "items": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  }
+});
+
 module.exports = stubs;

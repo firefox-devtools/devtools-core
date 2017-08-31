@@ -416,4 +416,502 @@ stubs.set("testNodeKeyedMap", {
   }
 });
 
+stubs.set("20-entries Map", {
+  "type": "object",
+  "actor": "server4.conn2.child19/obj777",
+  "class": "Map",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "MapLike",
+    "size": 20,
+    "entries": [
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj778",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "1"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj779",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "2"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj780",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "3"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj781",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "4"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj782",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "5"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj783",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "6"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj784",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "7"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj785",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "8"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj786",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "9"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj787",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "10"
+        }
+      ]
+    ]
+  }
+});
+
+stubs.set("234-entries Map", {
+  "type": "object",
+  "actor": "server4.conn2.child19/obj789",
+  "class": "Map",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "MapLike",
+    "size": 234,
+    "entries": [
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj790",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "1"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj791",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "2"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj792",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "3"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj793",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "4"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj794",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "5"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj795",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "6"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj796",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "7"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj797",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "8"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj798",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "9"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj799",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "10"
+        }
+      ]
+    ]
+  }
+});
+
+stubs.set("23456-entries Map", {
+  "type": "object",
+  "actor": "server4.conn2.child19/obj803",
+  "class": "Map",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "MapLike",
+    "size": 23456,
+    "entries": [
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj804",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "1"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj805",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "2"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj806",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "3"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj807",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "4"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj808",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "5"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj809",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "6"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj810",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "7"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj811",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "8"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj812",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "9"
+        }
+      ],
+      [
+        {
+          "type": "object",
+          "actor": "server4.conn2.child19/obj813",
+          "class": "Object",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 2
+        },
+        {
+          "type": "symbol",
+          "name": "10"
+        }
+      ]
+    ]
+  }
+});
+
 module.exports = stubs;
