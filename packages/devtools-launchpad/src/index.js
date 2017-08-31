@@ -99,6 +99,11 @@ function renderRoot(_React, _ReactDOM, component, _store) {
   const root = Root("launchpad-root theme-body");
   mount.appendChild(root);
 
+  if (isDevelopment()) {
+    updateConfig();
+    updateTheme();
+  }
+
   if (component.props || component.propTypes) {
     _ReactDOM.render(
       createElement(Provider, { store: _store }, createElement(component)),
@@ -106,11 +111,6 @@ function renderRoot(_React, _ReactDOM, component, _store) {
     );
   } else {
     root.appendChild(component);
-  }
-
-  if (isDevelopment()) {
-    updateConfig();
-    updateTheme();
   }
 }
 
