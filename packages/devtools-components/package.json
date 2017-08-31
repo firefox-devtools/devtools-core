@@ -5,10 +5,37 @@
   "main": "index.js",
   "scripts": {
     "license-check": "devtools-license-check",
+    "storybook": "start-storybook -p 9002 -c .storybook",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jason Laster",
   "license": "MPL-2.0",
   "dependencies": {
+    "react-dom": "=15.3.2",
+    "react": "=15.3.2",
+    "svg-inline-react": "^1.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-core": "^6.17.0",
+    "babel-eslint": "^7.1.0",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-module-resolver": "^2.2.0",
+    "babel-plugin-transform-flow-strip-types": "^6.14.0",
+    "babel-plugin-transform-runtime": "^6.7.5",
+    "babel-plugin-webpack-alias": "^2.1.1",
+    "babel-polyfill": "^6.7.4",
+    "babel-register": "^6.18.0",
+    "devtools-config": "^0.0.15",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "json-loader": "^0.5.4",
+    "css-loader": "^0.26.1",
+    "style-loader": "^0.18.2",
+    "svg-inline-loader": "^0.8.0",
+    "@kadira/storybook": "^2.35.3",
+    "webpack-dev-middleware": "^1.11.0",
+    "webpack-env-loader-plugin": "^1.0.0",
+    "webpack-hot-middleware": "^2.18.2",
+    "webpack": "^3.3.0"
   }
 }

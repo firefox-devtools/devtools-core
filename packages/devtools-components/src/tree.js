@@ -2,7 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { DOM: dom, createClass, createFactory, PropTypes } = require("react");
+const { DOM: dom, createClass, createFactory, createElement, PropTypes } = require("react");
+const InlineSVG = require("svg-inline-react");
+const svgArrow = require("./images/arrow.svg");
+
+const arrowElement = createElement(InlineSVG, {
+  className: "arrow",
+  src: svgArrow
+});
+require("./tree.css");
 
 const AUTO_EXPAND_DEPTH = 0; // depth
 
@@ -13,6 +21,16 @@ const AUTO_EXPAND_DEPTH = 0; // depth
 const ArrowExpander = createFactory(createClass({
   displayName: "ArrowExpander",
 
+  propTypes: {
+    children: PropTypes.array,
+    expanded: PropTypes.bool.isRequired,
+    item: PropTypes.any.isRequired,
+    onCollapse: PropTypes.func.isRequired,
+    onExpand: PropTypes.func.isRequired,
+    style: PropTypes.object,
+    visible: PropTypes.bool.isRequired,
+  },
+
   shouldComponentUpdate(nextProps, nextState) {
     return this.props.item !== nextProps.item
       || this.props.visible !== nextProps.visible
@@ -21,15 +39,13 @@ const ArrowExpander = createFactory(createClass({
 
   render() {
     const attrs = {
-      className: "arrow theme-twisty",
+      className: this.props.expanded
+        ? "expanded"
+        : null,
       onClick: this.props.expanded
         ? () => this.props.onCollapse(this.props.item)
         : e => this.props.onExpand(this.props.item, e.altKey)
     };
-
-    if (this.props.expanded) {
-      attrs.className += " open";
-    }
 
     if (!this.props.visible) {
       attrs.style = Object.assign({}, this.props.style || {}, {
@@ -37,20 +53,31 @@ const ArrowExpander = createFactory(createClass({
       });
     }
 
-    return dom.div(attrs, this.props.children);
+    return dom.span(attrs,
+      arrowElement,
+      this.props.children
+    );
   }
 }));
 
 const TreeNode = createFactory(createClass({
   displayName: "TreeNode",
 
-  componentDidMount() {
-    if (this.props.focused) {
-      this.refs.button.focus();
-    }
+  propTypes: {
+    expanded: PropTypes.bool.isRequired,
+    focused: PropTypes.bool.isRequired,
+    index: PropTypes.number.isRequired,
+    depth: PropTypes.number.isRequired,
+    item: PropTypes.object.isRequired,
+    hasChildren: PropTypes.func.isRequired,
+    onCollapse: PropTypes.func.isRequired,
+    onExpand: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
+    renderItem: PropTypes.func.isRequired,
   },
 
-  componentDidUpdate() {
+  componentDidMount() {
     if (this.props.focused) {
       this.refs.button.focus();
     }
@@ -62,6 +89,21 @@ const TreeNode = createFactory(createClass({
       this.props.expanded !== nextProps.expanded;
   },
 
+  componentDidUpdate() {
+    if (this.props.focused) {
+      this.refs.button.focus();
+    }
+  },
+
+  _buttonAttrs: {
+    ref: "button",
+    style: {
+      border: "none",
+      padding: 0,
+      float: "left",
+    }
+  },
+
   render() {
     const arrow = ArrowExpander({
       item: this.props.item,
@@ -71,17 +113,12 @@ const TreeNode = createFactory(createClass({
       onCollapse: this.props.onCollapse,
     });
 
-    let isOddRow = this.props.index % 2;
     return dom.div(
       {
-        className: `tree-node div ${isOddRow ? "tree-node-odd" : ""}`,
+        className: "tree-node",
         onFocus: this.props.onFocus,
         onClick: this.props.onFocus,
         onBlur: this.props.onBlur,
-        style: {
-          padding: 0,
-          margin: 0
-        }
       },
 
       this.props.renderItem(this.props.item,
@@ -94,22 +131,6 @@ const TreeNode = createFactory(createClass({
       // unless there is an input/button child.
       dom.button(this._buttonAttrs)
     );
-  },
-
-  _buttonAttrs: {
-    ref: "button",
-    style: {
-      opacity: 0,
-      width: "0 !important",
-      height: "0 !important",
-      padding: "0 !important",
-      outline: "none",
-      MozAppearance: "none",
-      // XXX: Despite resetting all of the above properties (and margin), the
-      // button still ends up with ~79px width, so we set a large negative
-      // margin to completely hide it.
-      MozMarginStart: "-1000px !important",
-    }
   }
 }));
 
@@ -123,7 +144,7 @@ const TreeNode = createFactory(createClass({
 function oncePerAnimationFrame(fn) {
   let animationId = null;
   let argsToPass = null;
-  return function(...args) {
+  return function (...args) {
     argsToPass = args;
     if (animationId !== null) {
       return;
@@ -137,15 +158,13 @@ function oncePerAnimationFrame(fn) {
   };
 }
 
-const NUMBER_OF_OFFSCREEN_ITEMS = 1;
-
 /**
  * A generic tree component. See propTypes for the public API.
  *
  * @see `devtools/client/memory/components/test/mochitest/head.js` for usage
  * @see `devtools/client/memory/components/heap.js` for usage
  */
-const Tree = module.exports = createClass({
+const Tree = createClass({
   displayName: "Tree",
 
   propTypes: {
@@ -183,6 +202,10 @@ const Tree = module.exports = createClass({
     // Optional event handlers for when items are expanded or collapsed.
     onExpand: PropTypes.func,
     onCollapse: PropTypes.func,
+    // Additional classes to add to the root element.
+    className: PropTypes.string,
+    // style object to be applied to the root element.
+    style: PropTypes.object,
   },
 
   getDefaultProps() {
@@ -206,13 +229,13 @@ const Tree = module.exports = createClass({
     this._updateHeight();
   },
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this._updateHeight);
-  },
-
   componentWillReceiveProps(nextProps) {
     this._autoExpand(nextProps);
     this._updateHeight();
+  },
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this._updateHeight);
   },
 
   _autoExpand(props) {
@@ -248,45 +271,6 @@ const Tree = module.exports = createClass({
     } else if (length != 0) {
       autoExpand(roots[0], 0);
     }
-  },
-
-  render() {
-    const traversal = this._dfsFromRoots();
-
-    const renderItem = i => {
-      let { item, depth } = traversal[i];
-      return TreeNode({
-        key: this.props.getKey(item, i),
-        index: i,
-        item: item,
-        depth: depth,
-        renderItem: this.props.renderItem,
-        focused: this.props.focused === item,
-        expanded: this.props.isExpanded(item),
-        hasChildren: !!this.props.getChildren(item).length,
-        onExpand: this._onExpand,
-        onCollapse: this._onCollapse,
-        onFocus: () => this._focus(i, item),
-      });
-    };
-
-    const style = Object.assign({}, this.props.style || {}, {
-      padding: 0,
-      margin: 0
-    });
-
-    return dom.div(
-      {
-        className: `tree ${this.props.className ? this.props.className : ""}`,
-        ref: "tree",
-        onKeyDown: this._onKeyDown,
-        onKeyPress: this._preventArrowKeyScrolling,
-        onKeyUp: this._preventArrowKeyScrolling,
-        onScroll: this._onScroll,
-        style
-      },
-      traversal.map((v, i) => renderItem(i))
-    );
   },
 
   _preventArrowKeyScrolling(e) {
@@ -363,7 +347,7 @@ const Tree = module.exports = createClass({
    * @param {Object} item
    * @param {Boolean} expandAllChildren
    */
-  _onExpand: oncePerAnimationFrame(function(item, expandAllChildren) {
+  _onExpand: oncePerAnimationFrame(function (item, expandAllChildren) {
     if (this.props.onExpand) {
       this.props.onExpand(item);
 
@@ -382,7 +366,7 @@ const Tree = module.exports = createClass({
    *
    * @param {Object} item
    */
-  _onCollapse: oncePerAnimationFrame(function(item) {
+  _onCollapse: oncePerAnimationFrame(function (item) {
     if (this.props.onCollapse) {
       this.props.onCollapse(item);
     }
@@ -434,7 +418,7 @@ const Tree = module.exports = createClass({
    *
    * @param {Event} e
    */
-  _onScroll: oncePerAnimationFrame(function(e) {
+  _onScroll: oncePerAnimationFrame(function (e) {
     this.setState({
       scroll: Math.max(this.refs.tree.scrollTop, 0),
       height: this.refs.tree.clientHeight
@@ -480,14 +464,13 @@ const Tree = module.exports = createClass({
         if (!this.props.isExpanded(this.props.focused)) {
           this._onExpand(this.props.focused);
         }
-        return;
     }
   },
 
   /**
    * Sets the previous node relative to the currently focused item, to focused.
    */
-  _focusPrevNode: oncePerAnimationFrame(function() {
+  _focusPrevNode: oncePerAnimationFrame(function () {
     // Start a depth first search and keep going until we reach the currently
     // focused node. Focus the previous node in the DFS, if it exists. If it
     // doesn't exist, we're at the first node already.
@@ -517,7 +500,7 @@ const Tree = module.exports = createClass({
    * Handles the down arrow key which will focus either the next child
    * or sibling row.
    */
-  _focusNextNode: oncePerAnimationFrame(function() {
+  _focusNextNode: oncePerAnimationFrame(function () {
     // Start a depth first search and keep going until we reach the currently
     // focused node. Focus the next node in the DFS, if it exists. If it
     // doesn't exist, we're at the last node already.
@@ -542,7 +525,7 @@ const Tree = module.exports = createClass({
    * Handles the left arrow key, going back up to the current rows'
    * parent row.
    */
-  _focusParentNode: oncePerAnimationFrame(function() {
+  _focusParentNode: oncePerAnimationFrame(function () {
     const parent = this.props.getParent(this.props.focused);
     if (!parent) {
       return;
@@ -559,4 +542,45 @@ const Tree = module.exports = createClass({
 
     this._focus(parentIndex, parent);
   }),
+
+  render() {
+    const traversal = this._dfsFromRoots();
+
+    const renderItem = i => {
+      let { item, depth } = traversal[i];
+      return TreeNode({
+        key: this.props.getKey(item, i),
+        index: i,
+        item: item,
+        depth: depth,
+        renderItem: this.props.renderItem,
+        focused: this.props.focused === item,
+        expanded: this.props.isExpanded(item),
+        hasChildren: !!this.props.getChildren(item).length,
+        onExpand: this._onExpand,
+        onCollapse: this._onCollapse,
+        onFocus: () => this._focus(i, item),
+      });
+    };
+
+    const style = Object.assign({}, this.props.style || {}, {
+      padding: 0,
+      margin: 0
+    });
+
+    return dom.div(
+      {
+        className: `tree ${this.props.className ? this.props.className : ""}`,
+        ref: "tree",
+        onKeyDown: this._onKeyDown,
+        onKeyPress: this._preventArrowKeyScrolling,
+        onKeyUp: this._preventArrowKeyScrolling,
+        onScroll: this._onScroll,
+        style
+      },
+      traversal.map((v, i) => renderItem(i))
+    );
+  },
 });
+
+module.exports = Tree;
