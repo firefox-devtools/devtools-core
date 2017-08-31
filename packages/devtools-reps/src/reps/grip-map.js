@@ -102,7 +102,7 @@ function entriesIterator(props, object, max) {
   }
 
   let entries = getEntries(props, mapEntries, indexes);
-  if (entries.length < object.preview.size) {
+  if (entries.length < getLength(object)) {
     // There are some undisplayed entries. Then display "…".
     entries.push(span({
       key: "more",
@@ -192,6 +192,10 @@ function getEntriesIndexes(entries, max, filter) {
     }, []);
 }
 
+function getLength(grip) {
+  return grip.preview.size || 0;
+}
+
 function supportsObject(grip, noGrip = false) {
   if (noGrip === true || !isGrip(grip)) {
     return false;
@@ -208,4 +212,5 @@ module.exports = {
   rep: wrapRender(GripMap),
   supportsObject,
   maxLengthMap,
+  getLength,
 };

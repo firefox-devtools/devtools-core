@@ -211,4 +211,5 @@ module.exports = {
   rep: wrapRender(GripArray),
   supportsObject,
   maxLengthMap,
+  getLength,
 };
