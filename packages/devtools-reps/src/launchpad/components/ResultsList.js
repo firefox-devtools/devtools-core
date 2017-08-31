@@ -15,10 +15,8 @@ const ResultsList = React.createClass({
     expressions: ImPropTypes.map.isRequired,
     showResultPacket: PropTypes.func.isRequired,
     hideResultPacket: PropTypes.func.isRequired,
-    loadObjectEntries: PropTypes.func.isRequired,
-    loadObjectProperties: PropTypes.func.isRequired,
-    loadedEntriesMap: PropTypes.object.isRequired,
-    loadedPropertiesMap: PropTypes.object.isRequired,
+    createObjectClient: PropTypes.func.isRequired,
+    releaseActor: PropTypes.func.isRequired,
   },
 
   render: function () {
@@ -26,10 +24,8 @@ const ResultsList = React.createClass({
       expressions,
       showResultPacket,
       hideResultPacket,
-      loadObjectEntries,
-      loadObjectProperties,
-      loadedEntriesMap,
-      loadedPropertiesMap,
+      createObjectClient,
+      releaseActor,
     } = this.props;
 
     return dom.div({ className: "expressions" },
@@ -42,10 +38,8 @@ const ResultsList = React.createClass({
           expression: expression.toJS(),
           showResultPacket: () => showResultPacket(key),
           hideResultPacket: () => hideResultPacket(key),
-          loadObjectEntries,
-          loadObjectProperties,
-          loadedEntriesMap,
-          loadedPropertiesMap,
+          createObjectClient,
+          releaseActor,
         })
       )
     );

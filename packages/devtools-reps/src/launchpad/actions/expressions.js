@@ -47,10 +47,23 @@ function hideResultPacket(key) {
   };
 }
 
+function createObjectClient(grip) {
+  return function ({dispatch, client}) {
+    return client.getObjectClient(grip);
+  };
+}
+
+function releaseActor(actor) {
+  return function ({dispatch, client}) {
+    client.releaseActor(actor);
+  };
+}
 module.exports = {
   addExpression,
   clearExpressions,
   evaluateInput,
   showResultPacket,
   hideResultPacket,
+  createObjectClient,
+  releaseActor,
 };
