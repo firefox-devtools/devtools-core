@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "devtools-config": "^0.0.15",
-    "devtools-launchpad": "^0.0.92",
+    "devtools-launchpad": "^0.0.96",
     "devtools-license-check": "^0.2.0",
     "enzyme": "^2.8.2",
     "eslint": "^3.12.0",
@@ -44,7 +44,8 @@
     "jest-cli": "^20.0.4",
     "jest-flow-transform": "^1.0.1",
     "react-addons-test-utils": "=15.3.2",
-    "redux-logger": "=3.0.6"
+    "redux-logger": "=3.0.6",
+    "svg-inline-loader": "^0.8.0"
   },
   "jest": {
     "rootDir": "src",
@@ -53,7 +54,8 @@
       "/node_modules/",
       "<rootDir>/test/",
       "<rootDir>/reps/tests/test-helpers",
-      "<rootDir>/utils/tests/fixtures/"
+      "<rootDir>/utils/tests/fixtures/",
+      "<rootDir>/object-inspector/tests/__mocks__/"
     ],
     "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
     "transform": {
