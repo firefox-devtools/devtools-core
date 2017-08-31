@@ -67,13 +67,17 @@ function workerHandler(publicInterface: Object) {
       if (response instanceof Promise) {
         response.then(
           val => self.postMessage({ id, response: val }),
-          err => self.postMessage({ id, error: err })
+          // Error can't be sent via postMessage, so be sure to
+          // convert to string.
+          err => self.postMessage({ id, error: err.toString() })
         );
       } else {
         self.postMessage({ id, response });
       }
     } catch (error) {
-      self.postMessage({ id, error });
+      // Error can't be sent via postMessage, so be sure to convert to
+      // string.
+      self.postMessage({ id, error: error.toString() });
     }
   };
 }
