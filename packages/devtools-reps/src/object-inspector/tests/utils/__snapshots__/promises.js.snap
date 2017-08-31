@@ -6,6 +6,7 @@ Array [
     "contents": Object {
       "value": "rejected",
     },
+    "meta": undefined,
     "name": "<state>",
     "parent": Object {
       "contents": Object {
@@ -32,6 +33,7 @@ Array [
         "type": "3",
       },
     },
+    "meta": undefined,
     "name": "<reason>",
     "parent": Object {
       "contents": Object {

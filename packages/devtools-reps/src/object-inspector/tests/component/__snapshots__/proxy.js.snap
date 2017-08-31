@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ObjectInspector - Proxy renders Proxy as expected 1`] = `
-"<ObjectInspector roots={{...}} autoExpandDepth={1} mode={[symbol]} getObjectProperties={[Function]} loadObjectProperties={[Function]}>
+"<ObjectInspector roots={{...}} autoExpandDepth={1} mode={[symbol]} createObjectClient={[Function]} loadedProperties={{...}}>
   <Tree className=\\"\\" autoExpandAll={true} autoExpandDepth={1} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
     <div className=\\"tree \\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
       <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={true} hasChildren={true} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
@@ -117,6 +117,30 @@ exports[`ObjectInspector - Proxy renders Proxy as expected 1`] = `
                  ]
               </span>
               <span className=\\"arrayProperties\\" role=\\"group\\" />
+            </span>
+          </div>
+          <button style={{...}} />
+        </div>
+      </TreeNode>
+      <TreeNode index={3} item={{...}} depth={1} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
+        <div className=\\"tree-node div tree-node-odd\\" onFocus={[Function]} onClick={[Function]} onBlur={[undefined]} style={{...}}>
+          <div className=\\"node object-node lessen\\" style={{...}} onClick={{...}} onDoubleClick={{...}}>
+            <span className=\\"object-label\\" onClick={{...}}>
+              __proto__
+            </span>
+            <span className=\\"object-delimiter\\">
+               : 
+            </span>
+            <span data-link-actor-id={[undefined]} className=\\"objectBox objectBox-object\\">
+              <span className=\\"objectTitle\\">
+                Object
+              </span>
+              <span className=\\"objectLeftBrace\\">
+                 { 
+              </span>
+              <span className=\\"objectRightBrace\\">
+                 }
+              </span>
             </span>
           </div>
           <button style={{...}} />

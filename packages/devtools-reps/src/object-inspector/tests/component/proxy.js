@@ -11,6 +11,7 @@ const ObjectInspector = createFactory(require("../../index"));
 const { MODE } = require("../../../reps/constants");
 const stub = require("../../../reps/stubs/grip").get("testProxy");
 
+const ObjectClient = require("../__mocks__/object-client");
 function generateDefaults(overrides) {
   return Object.assign({
     roots: [{
@@ -19,16 +20,21 @@ function generateDefaults(overrides) {
     }],
     autoExpandDepth: 1,
     mode: MODE.LONG,
-    getObjectProperties: actor => null,
+    createObjectClient: grip => ObjectClient(grip),
+    // Have the prototype already loaded so the component does not call
+    // enumProperties for the root's properties.
+    loadedProperties: new Map([
+      ["root", {prototype: {}}]
+    ])
   }, overrides);
 }
 
 describe("ObjectInspector - Proxy", () => {
   it("renders Proxy as expected", () => {
-    const loadObjectProperties = jest.fn();
+    const enumProperties = jest.fn();
 
     const props = generateDefaults({
-      loadObjectProperties,
+      createObjectClient: grip => ObjectClient(grip, {enumProperties}),
     });
     const oi = mount(ObjectInspector(props));
     expect(oi.debug()).toMatchSnapshot();
@@ -39,8 +45,9 @@ describe("ObjectInspector - Proxy", () => {
      * ▶︎ Proxy
      *   ▶︎ <target> : Object { … }
      *   ▶︎ <handler> : Array [ … ]
+     *   ▶︎ __proto__ : Object {…}
      */
-    expect(nodes.length).toBe(3);
+    expect(nodes.length).toBe(4);
 
     // The root should be expandable.
     const rootNode = nodes.first();
@@ -55,28 +62,36 @@ describe("ObjectInspector - Proxy", () => {
     expect(handlerNode.find(".arrow").exists()).toBeTruthy();
     expect(handlerNode.text()).toBe("<handler> : Array [ … ]");
 
-    // loadObjectProperties should not have been called.
-    expect(loadObjectProperties.mock.calls.length).toBe(0);
+    const protoNode = nodes.at(3);
+    expect(protoNode.text()).toBe("__proto__ : Object {  }");
+
+    // enumProperties should not have been called.
+    expect(enumProperties.mock.calls.length).toBe(0);
   });
 
-  it("calls loadObjectProperties when <target> and <handler> nodes are clicked", () => {
-    const loadObjectProperties = jest.fn();
+  it("calls enumProperties when <target> and <handler> nodes are clicked", () => {
+    const enumProperties = jest.fn();
 
     const props = generateDefaults({
-      loadObjectProperties,
+      createObjectClient: grip => ObjectClient(grip, {enumProperties}),
     });
     const oi = mount(ObjectInspector(props));
+
     const nodes = oi.find(".node");
 
     const targetNode = nodes.at(1);
-    targetNode.simulate("click");
-    expect(loadObjectProperties.mock.calls.length).toBe(1);
-    expect(loadObjectProperties).toHaveBeenCalledWith(stub.proxyTarget);
-
     const handlerNode = nodes.at(2);
-    handlerNode.simulate("click");
 
-    expect(loadObjectProperties.mock.calls.length).toBe(2);
-    expect(loadObjectProperties).toHaveBeenCalledWith(stub.proxyHandler);
+    targetNode.simulate("click");
+    // The function is called twice,  to get  both non-indexed and indexed properties.
+    expect(enumProperties.mock.calls.length).toBe(2);
+    expect(enumProperties.mock.calls[0][0]).toEqual({ignoreNonIndexedProperties: true});
+    expect(enumProperties.mock.calls[1][0]).toEqual({ignoreIndexedProperties: true});
+
+    handlerNode.simulate("click");
+    // The function is called twice,  to get  both non-indexed and indexed properties.
+    expect(enumProperties.mock.calls.length).toBe(4);
+    expect(enumProperties.mock.calls[2][0]).toEqual({ignoreNonIndexedProperties: true});
+    expect(enumProperties.mock.calls[3][0]).toEqual({ignoreIndexedProperties: true});
   });
 });

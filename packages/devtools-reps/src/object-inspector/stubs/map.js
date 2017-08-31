@@ -35,4 +35,120 @@ stubs.set("properties", {
   }
 });
 
+stubs.set("11-entries", {
+  "ownProperties": {
+    "0": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-0",
+          "value": "value-0"
+        }
+      }
+    },
+    "1": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-1",
+          "value": "value-1"
+        }
+      }
+    },
+    "2": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-2",
+          "value": "value-2"
+        }
+      }
+    },
+    "3": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-3",
+          "value": "value-3"
+        }
+      }
+    },
+    "4": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-4",
+          "value": "value-4"
+        }
+      }
+    },
+    "5": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-5",
+          "value": "value-5"
+        }
+      }
+    },
+    "6": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-6",
+          "value": "value-6"
+        }
+      }
+    },
+    "7": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-7",
+          "value": "value-7"
+        }
+      }
+    },
+    "8": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-8",
+          "value": "value-8"
+        }
+      }
+    },
+    "9": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-9",
+          "value": "value-9"
+        }
+      }
+    },
+    "10": {
+      "enumerable": true,
+      "value": {
+        "type": "mapEntry",
+        "preview": {
+          "key": "key-10",
+          "value": "value-10"
+        }
+      }
+    }
+  },
+  "from": "server4.conn4.child19/propertyIterator54"
+});
+
 module.exports = stubs;

@@ -5,8 +5,8 @@
 const {
   createNode,
   makeNodesForEntries,
-  nodeSupportsBucketing,
-} = require("../../utils");
+  nodeSupportsNumericalBucketing,
+} = require("../../utils/node");
 
 const createRootNode = (stub) => createNode(
   null,
@@ -19,33 +19,39 @@ const createRootNode = (stub) => createNode(
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
 const gripMapStubs = require("../../../reps/stubs/grip-map");
 
-describe("nodeSupportsBucketing", () => {
+describe("nodeSupportsNumericalBucketing", () => {
   it("returns true for Arrays", () => {
-    expect(nodeSupportsBucketing(
+    expect(nodeSupportsNumericalBucketing(
       createRootNode(gripArrayStubs.get("testBasic"))
     )).toBe(true);
   });
 
   it("returns true for NodeMap", () => {
-    expect(nodeSupportsBucketing(
+    expect(nodeSupportsNumericalBucketing(
       createRootNode(gripArrayStubs.get("testNamedNodeMap"))
     )).toBe(true);
   });
 
   it("returns true for NodeList", () => {
-    expect(nodeSupportsBucketing(
+    expect(nodeSupportsNumericalBucketing(
       createRootNode(gripArrayStubs.get("testNodeList"))
     )).toBe(true);
   });
 
   it("returns true for DocumentFragment", () => {
-    expect(nodeSupportsBucketing(
+    expect(nodeSupportsNumericalBucketing(
       createRootNode(gripArrayStubs.get("testDocumentFragment"))
     )).toBe(true);
   });
 
   it("returns true for <entries> node", () => {
-    expect(nodeSupportsBucketing(
+    expect(nodeSupportsNumericalBucketing(
+      makeNodesForEntries(createRootNode(gripMapStubs.get("testSymbolKeyedMap")))
+    )).toBe(true);
+  });
+
+  it("returns true for buckets node", () => {
+    expect(nodeSupportsNumericalBucketing(
       makeNodesForEntries(createRootNode(gripMapStubs.get("testSymbolKeyedMap")))
     )).toBe(true);
   });
