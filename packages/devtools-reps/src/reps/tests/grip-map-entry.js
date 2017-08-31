@@ -46,7 +46,7 @@ describe("GripMapEntry - createGripMapEntry", () => {
 });
 
 describe("GripMapEntry - complex", () => {
-  it.only("Handles complex objects as key and value", () => {
+  it("Handles complex objects as key and value", () => {
     let stub = gripArrayStubs.get("testBasic");
     let entry = createGripMapEntry("A", stub);
     expect(renderRep(entry, MODE.TINY).text()).toEqual("A → []");
