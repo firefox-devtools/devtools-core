@@ -16,10 +16,8 @@ const Result = React.createClass({
     expression: PropTypes.object.isRequired,
     showResultPacket: PropTypes.func.isRequired,
     hideResultPacket: PropTypes.func.isRequired,
-    loadObjectEntries: PropTypes.func.isRequired,
-    loadObjectProperties: PropTypes.func.isRequired,
-    loadedEntriesMap: PropTypes.object.isRequired,
-    loadedPropertiesMap: PropTypes.object.isRequired,
+    createObjectClient: PropTypes.func.isRequired,
+    releaseActor: PropTypes.func.isRequired,
   },
 
   copyPacketToClipboard: function (e, packet) {
@@ -50,18 +48,15 @@ const Result = React.createClass({
 
   renderRep: function ({ object, modeKey }) {
     const {
-      loadObjectEntries,
-      loadObjectProperties,
-      loadedEntriesMap,
-      loadedPropertiesMap,
+      createObjectClient,
+      releaseActor,
     } = this.props;
-
     const path = object.actor;
 
     return dom.div(
       {
         className: `rep-element`,
-        key: `${path}${modeKey.toString()}`,
+        key: `${path}${modeKey}`,
         "data-mode": modeKey
       },
       ObjectInspector({
@@ -71,10 +66,9 @@ const Result = React.createClass({
             value: object
           }
         }],
-        getObjectEntries: actor => loadedEntriesMap.get(actor),
-        getObjectProperties: actor => loadedPropertiesMap.get(actor),
-        loadObjectEntries,
-        loadObjectProperties,
+        autoExpandDepth: 0,
+        createObjectClient,
+        releaseActor,
         mode: MODE[modeKey],
         onInspectIconClick: nodeFront => console.log("inspectIcon click", nodeFront),
       })

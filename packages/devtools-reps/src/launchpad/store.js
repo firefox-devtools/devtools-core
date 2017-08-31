@@ -13,9 +13,9 @@ const {promise} = require("./utils/redux/middleware/promise");
 const {thunk} = require("./utils/redux/middleware/thunk");
 const reducers = require("./reducers");
 
-function configureStore(options) {
+function configureStore(options, client) {
   return createStore(
-    combineReducers(reducers),
+    combineReducers(Object.assign({client}, reducers)),
     applyMiddleware(
       thunk(options.makeThunkArgs),
       promise,
