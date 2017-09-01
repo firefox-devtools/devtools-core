@@ -5,10 +5,18 @@
   "main": "index.js",
   "scripts": {
     "license-check": "devtools-license-check",
+    "storybook": "start-storybook -p 9002 -c .storybook",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jason Laster",
   "license": "MPL-2.0",
   "dependencies": {
+    "react-dom": "=15.3.2",
+    "react": "=15.3.2",
+    "svg-inline-loader": "^0.8.0",
+    "svg-inline-react": "^1.0.2"
+  },
+  "devDependencies": {
+    "@storybook/react": "^3.2.5"
   }
 }
