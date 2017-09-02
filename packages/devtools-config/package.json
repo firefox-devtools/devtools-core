@@ -4,12 +4,23 @@
   "description": "Devtools Local Configuration System",
   "main": "index.js",
   "directories": {
-    "test": "tests"
+    "test": "jest"
   },
   "scripts": {
     "license-check": "devtools-license-check",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
-  "license": "MPL-2.0"
+  "license": "MPL-2.0",
+  "jest": {
+    "rootDir": "",
+    "testMatch": [
+      "**/tests/*.js"
+    ],
+    "setupFiles": [],
+    "moduleNameMapper": {}
+  },
+  "devDependencies": {
+    "jest": "^20.0.4"
+  }
 }
