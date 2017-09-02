@@ -9,7 +9,7 @@ const {
   generatedToOriginalId,
   isGeneratedId,
   isOriginalId,
-} = require("./util");
+} = require("./utils");
 
 const { workerUtils: { WorkerDispatcher }} = require("devtools-utils");
 
