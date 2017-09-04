@@ -33,6 +33,9 @@
     "svg-inline-react": "^1.0.2"
   },
   "devDependencies": {
+    "babel-jest": "^20.0.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
     "devtools-config": "^0.0.15",
     "devtools-launchpad": "^0.0.96",
     "devtools-license-check": "^0.2.0",
@@ -49,7 +52,9 @@
   },
   "jest": {
     "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/test/",
@@ -57,10 +62,9 @@
       "<rootDir>/utils/tests/fixtures/",
       "<rootDir>/object-inspector/tests/__mocks__/"
     ],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
-    "transform": {
-      "^.+\\.js(?:\\.flow)?$": "jest-flow-transform"
-    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ],
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
       "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"
