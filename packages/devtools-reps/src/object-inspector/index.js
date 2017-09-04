@@ -10,7 +10,8 @@ const {
   PropTypes,
 } = require("react");
 
-const Tree = createFactory(require("devtools-components").Tree);
+import Components from "devtools-components";
+const Tree = createFactory(Components.Tree);
 require("./index.css");
 
 const classnames = require("classnames");
