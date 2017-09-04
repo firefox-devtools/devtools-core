@@ -2,7 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { WorkerDispatcher, workerHandler, streamingWorkerHandler } = require("../worker-utils");
+const {
+  WorkerDispatcher,
+  workerHandler,
+  streamingWorkerHandler
+} = require("../worker-utils");
 
 describe("worker utils", () => {
   it("starts a worker", () => {
@@ -16,11 +20,9 @@ describe("worker utils", () => {
     const dispatcher = new WorkerDispatcher();
     const terminateMock = jest.fn();
 
-    global.Worker = jest.fn(() => {
-      return {
-        terminate: terminateMock
-      };
-    });
+    global.Worker = jest.fn(() => ({
+      terminate: terminateMock
+    }));
 
     dispatcher.start();
     dispatcher.stop();
@@ -61,16 +63,42 @@ describe("worker utils", () => {
     self.postMessage = postMessageMock;
 
     let callee = {
-      doSomething: () => { throw new Error("failed"); }
+      doSomething: () => {
+        throw new Error("failed");
+      }
     };
 
     let handler = workerHandler(callee);
-    handler({data: {id: 53, method: "doSomething", args: []}});
+    handler({ data: { id: 53, method: "doSomething", args: [] } });
 
     expect(postMessageMock.mock.calls[0][0]).toEqual({
       id: 53,
-      error: "Error: failed",
+      error: "Error: failed"
     });
+  });
+
+  it("test a task completing when the worker has shutdown", () => {
+    const dispatcher = new WorkerDispatcher();
+    const postMessageMock = jest.fn();
+    const addEventListenerMock = jest.fn();
+    const terminateMock = jest.fn();
+
+    global.Worker = jest.fn(() => {
+      return {
+        postMessage: postMessageMock,
+        addEventListener: addEventListenerMock,
+        terminate: terminateMock
+      };
+    });
+
+    dispatcher.start();
+    const task = dispatcher.task("foo");
+    const resp = task("bar");
+    resp.catch(e => expect(e).toEqual("Oops, The worker has shutdown!"));
+
+    const listener = addEventListenerMock.mock.calls[0][1];
+    dispatcher.stop();
+    listener({ data: { id: 1 } });
   });
 });
 
@@ -101,7 +129,7 @@ it("streams a task", async () => {
   );
 
   const id = 1;
-  const task = workerHandler({ data: { id, method: "makeTasks", args: [] }});
+  const task = workerHandler({ data: { id, method: "makeTasks", args: [] } });
   await task;
 
   expect(postMessageMock.mock.calls.length).toBe(4);
