@@ -128,7 +128,12 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
 
   if (!getValue("firefox.webSocketConnection")) {
     const firefoxProxy = require("../bin/firefox-proxy");
-    firefoxProxy({ logging: getValue("logging.firefoxProxy") });
+    firefoxProxy({
+      host: getValue("firefox.host"),
+      webSocketPort: getValue("firefox.webSocketPort"),
+      tcpPort: getValue("firefox.tcpPort"),
+      logging: getValue("logging.firefoxProxy")
+    });
   }
 
   // setup app

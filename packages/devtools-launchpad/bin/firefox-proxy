@@ -10,16 +10,15 @@ const minimist = require("minimist");
 const ws = require("ws");
 const net = require("net");
 
-function proxy(webSocketPort, tcpPort, logging) {
-  console.log("Listening for WS on *:" + webSocketPort + ". " +
-      "Will proxy to TCP on *:" + tcpPort + " on first WS connection");
+function proxy(host, webSocketPort, tcpPort, logging) {
+  console.log(`Listening for WS on localhost:${webSocketPort}, all traffic is proxied to ${host}:${tcpPort}`);
   if (!logging) {
     console.log("Protocol messages can be logged by enabling " +
     "logging.firefoxProtocol in your local.json config");
   }
   let wsServer = new ws.Server({ port: webSocketPort });
   wsServer.on("connection", function onConnection(wsConnection) {
-    let tcpClient = net.connect({ port: tcpPort });
+    let tcpClient = net.connect({ host, port: tcpPort });
     tcpClient.setEncoding("utf8");
 
     tcpClient.on("connect", () => {
@@ -64,15 +63,21 @@ function proxy(webSocketPort, tcpPort, logging) {
 
 const args = minimist(process.argv.slice(2));
 
-const WEB_SOCKET_PORT = args["web-socket-port"] || 9000;
-const TCP_PORT = args["tcp-port"] || 6080;
+const _startDefaultOptions = {
+  host: "localhost",
+  webSocketPort: 9000,
+  tcpPort: 6080,
+  logging: false
+};
+
+const WEB_SOCKET_PORT = args["web-socket-port"] || _startDefaultOptions.webSocketPort;
+const TCP_PORT = args["tcp-port"] || _startDefaultOptions.tcpPort;
 const shouldStart = args.start;
 
-function start(options) {
-  const webSocketPort = options.webSocketPort || 9000;
-  const tcpPort = options.tcpPort || 6080;
-  const logging = !!options.logging;
-  proxy(webSocketPort, tcpPort, logging);
+function start(options = {}) {
+  const _options = Object.assign({}, _startDefaultOptions, options);
+  const { webSocketPort, tcpPort, logging, host } = _options;
+  proxy(host, webSocketPort, tcpPort, logging);
 }
 
 if (shouldStart) {
