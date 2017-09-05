@@ -30,6 +30,13 @@ storiesOf("Tree", module)
       autoExpandDepth: Infinity,
       getRoots: () => ["A", "W"],
     });
+  })
+  .add("focused node", () => {
+    return renderTree({
+      focused: "W",
+      getRoots: () => ["A", "W"],
+      expanded: new Set(["A"])
+    });
   });
 
 // Encoding of the following tree/forest:
@@ -98,7 +105,12 @@ function renderTree(props) {
   return createFactory(createClass({
     displayName: "container",
     getInitialState() {
-      return {expanded: new Set()};
+      const state = {
+        expanded: props.expanded || new Set(),
+        focused: props.focused
+      };
+      delete props.focused;
+      return state;
     },
     render() {
       return Tree(Object.assign({
@@ -106,12 +118,18 @@ function renderTree(props) {
         getChildren: x => TEST_TREE.children[x],
         renderItem: (x, depth, focused, arrow, expanded) => dom.div({},
           arrow,
+          focused ? "[" : null,
           x,
-          focused ? " (focused)" : null
+          focused ? "]" : null
         ),
         getRoots: () => ["A"],
         getKey: x => "key-" + x,
         itemHeight: 1,
+        onFocus: x => {
+          this.setState(previousState => {
+            return {focused: x};
+          });
+        },
         onExpand: x => {
           this.setState(previousState => {
             const expanded = new Set(previousState.expanded);
@@ -127,6 +145,7 @@ function renderTree(props) {
           });
         },
         isExpanded: x => this.state && this.state.expanded.has(x),
+        focused: this.state.focused,
       }, props));
     }
   }))();
