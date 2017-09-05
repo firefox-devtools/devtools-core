@@ -118,9 +118,7 @@ function renderTree(props) {
         getChildren: x => TEST_TREE.children[x],
         renderItem: (x, depth, focused, arrow, expanded) => dom.div({},
           arrow,
-          focused ? "[" : null,
           x,
-          focused ? "]" : null
         ),
         getRoots: () => ["A"],
         getKey: x => "key-" + x,
