@@ -3,11 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 .tree {
-  --tree-indent-width: 1em;
   --arrow-width: 10px;
   --arrow-single-margin: 5px;
   --arrow-total-width: calc(var(--arrow-width) + var(--arrow-single-margin));
-  --arrow-fill-color: var(--theme-splitter-color);
+  --arrow-fill-color: var(--theme-splitter-color, #9B9B9B);
+  --tree-indent-width: 1em;
+  --tree-indent-border-color: #A2D1FF;
+  --tree-indent-border-width: 1px;
+  --tree-node-hover-background-color: #F0F9FE;
+  --tree-node-focus-color: white;
+  --tree-node-focus-background-color: var(--theme-selection-background, #0a84ff);
   overflow: auto;
 }
 
@@ -32,14 +37,17 @@
 }
 
 .tree .tree-node {
-  padding: 0 0.25em;
-  position: relative;
   cursor: pointer;
 }
 
+.tree .tree-node:not(.focused):hover {
+  background-color: var(--tree-node-hover-background-color);
+}
+
 .tree .tree-node.focused {
-  color: white;
-  background-color: var(--theme-selection-background);
+  color: var(--tree-node-focus-color);
+  background-color: var(--tree-node-focus-background-color);
+  --arrow-fill-color: currentColor;
 }
 
 .arrow svg {
