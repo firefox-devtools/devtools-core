@@ -82,7 +82,6 @@ type Props = {
   dimTopLevelWindow: boolean,
   releaseActor: string => void,
   createObjectClient: RdpGrip => ObjectClient,
-  releaseActor: RdpGrip => void,
   onFocus: ?(Node) => any,
   onDoubleClick: ?(
     item: Node,
@@ -146,7 +145,7 @@ type DefaultProps = {
 
 class ObjectInspector extends Component {
   static defaultProps: DefaultProps;
-  constructor(props : Props) {
+  constructor(props: Props) {
     super();
     this.cachedNodes = new Map();
 
@@ -169,7 +168,7 @@ class ObjectInspector extends Component {
 
   state: State;
 
-  shouldComponentUpdate(nextProps : Props, nextState: State) {
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
     const {
       expandedPaths,
       loadedProperties
@@ -195,8 +194,7 @@ class ObjectInspector extends Component {
   props: Props;
   cachedNodes: CachedNodes;
 
-  getChildren(item: Node)
-    : Array<Node> | NodeContents | null {
+  getChildren(item: Node) : Array<Node> | NodeContents | null {
     const {
       loadedProperties
     } = this.state;
@@ -217,6 +215,13 @@ class ObjectInspector extends Component {
     return item.path;
   }
 
+  /**
+   * This function is responsible for expanding/collapsing a given node,
+   * which also means that it will check if we need to fetch properties,
+   * entries, prototype and symbols for the said node. If we do, it will call
+   * the appropriate ObjectClient functions, and change the state of the component
+   * with the results it gets from those functions.
+   */
   async setExpanded(item: Node, expand: boolean) {
     if (nodeIsPrimitive(item)) {
       return;
