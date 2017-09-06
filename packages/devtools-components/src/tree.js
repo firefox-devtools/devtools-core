@@ -51,7 +51,7 @@ const TreeNode = createFactory(createClass({
     focused: PropTypes.bool.isRequired,
     expanded: PropTypes.bool.isRequired,
     item: PropTypes.any.isRequired,
-    hasChildren: PropTypes.bool.isRequired,
+    isExpandable: PropTypes.bool.isRequired,
     onClick: PropTypes.func,
     renderItem: PropTypes.func.isRequired,
   },
@@ -69,10 +69,10 @@ const TreeNode = createFactory(createClass({
       focused,
       expanded,
       renderItem,
-      hasChildren,
+      isExpandable,
     } = this.props;
 
-    const arrow = hasChildren
+    const arrow = isExpandable
       ? ArrowExpander({
         item,
         expanded,
@@ -85,7 +85,7 @@ const TreeNode = createFactory(createClass({
 
     const paddingInlineStart = `calc(
       (${treeIndentWidthVar} * ${depth})
-      ${(hasChildren ? "" : "+ var(--arrow-total-width)")}
+      ${(isExpandable ? "" : "+ var(--arrow-total-width)")}
     )`;
 
     // This is the computed border that will mimic a border on tree nodes.
@@ -112,7 +112,7 @@ const TreeNode = createFactory(createClass({
         ")";
 
     let ariaExpanded;
-    if (this.props.hasChildren) {
+    if (this.props.isExpandable) {
       ariaExpanded = false;
     }
     if (this.props.expanded) {
@@ -372,6 +372,7 @@ const Tree = createClass({
     //     onExpand: item => dispatchExpandActionToRedux(item)
     onExpand: PropTypes.func,
     onCollapse: PropTypes.func,
+    isExpandable: PropTypes.func,
     // Additional classes to add to the root element.
     className: PropTypes.string,
     // style object to be applied to the root element.
@@ -623,7 +624,7 @@ const Tree = createClass({
 
       case "ArrowLeft":
         if (this.props.isExpanded(this.props.focused)
-            && this.props.getChildren(this.props.focused).length) {
+            && this._nodeIsExpandable(this.props.focused)) {
           this._onCollapse(this.props.focused);
         } else {
           this._focusParentNode();
@@ -715,6 +716,12 @@ const Tree = createClass({
     this._focus(parentIndex, parent);
   }),
 
+  _nodeIsExpandable: function (item) {
+    return this.props.isExpandable
+      ? this.props.isExpandable(item)
+      : !!this.props.getChildren(item).length;
+  },
+
   render() {
     const traversal = this._dfsFromRoots();
     const {
@@ -731,7 +738,7 @@ const Tree = createClass({
         renderItem: this.props.renderItem,
         focused: focused === item,
         expanded: this.props.isExpanded(item),
-        hasChildren: !!this.props.getChildren(item).length,
+        isExpandable: this._nodeIsExpandable(item),
         onExpand: this._onExpand,
         onCollapse: this._onCollapse,
         onClick: (e) => {
