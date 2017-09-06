@@ -19,9 +19,9 @@
  *
  */
 function formatObjectInspector(wrapper) {
-  return wrapper.find(".node")
+  return wrapper.find(".tree-node")
     .map(node => {
-      const indentStr = "|  ".repeat(node.prop("data-depth") || 0);
+      const indentStr = "|  ".repeat(node.prop("aria-level") || 0);
       const arrow = node.find(".arrow");
       let arrowStr = "  ";
       if (arrow.exists()) {

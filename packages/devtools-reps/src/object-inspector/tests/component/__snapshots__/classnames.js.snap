@@ -2,11 +2,11 @@
 
 exports[`ObjectInspector - classnames has the expected class 1`] = `
 "<ObjectInspector autoExpandDepth={0} roots={{...}} createObjectClient={[Function]}>
-  <Tree className=\\"\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
-    <div className=\\"tree \\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
-      <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
-        <div className=\\"tree-node div \\" onFocus={[Function]} onClick={[Function]} onBlur={[undefined]} style={{...}}>
-          <div className=\\"node object-node\\" data-depth={0} style={{...}} onClick={{...}} onDoubleClick={{...}}>
+  <Tree className=\\"object-inspector\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} isExpandable={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
+    <div className=\\"tree object-inspector\\" role=\\"tree\\" tabIndex=\\"0\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} onFocus={[Function]} onBlur={[Function]} onClick={[Function]} aria-label={[undefined]} aria-labelledby={[undefined]} aria-activedescendant={{...}} style={{...}}>
+      <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} isExpandable={false} onExpand={[Function]} onCollapse={[Function]} onClick={[Function]}>
+        <div className=\\"tree-node\\" style={{...}} onClick={[Function]} role=\\"treeitem\\" aria-level={0} aria-expanded={[undefined]}>
+          <div className=\\"node object-node\\" onClick={[Function]} onDoubleClick={{...}}>
             <span className=\\"object-label\\" onClick={{...}}>
               root
             </span>
@@ -17,7 +17,6 @@ exports[`ObjectInspector - classnames has the expected class 1`] = `
               42
             </span>
           </div>
-          <button style={{...}} />
         </div>
       </TreeNode>
     </div>
@@ -27,11 +26,11 @@ exports[`ObjectInspector - classnames has the expected class 1`] = `
 
 exports[`ObjectInspector - classnames has the inline class when inline prop is true 1`] = `
 "<ObjectInspector autoExpandDepth={0} roots={{...}} createObjectClient={[Function]} inline={true}>
-  <Tree className=\\"inline\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
-    <div className=\\"tree inline\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
-      <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
-        <div className=\\"tree-node div \\" onFocus={[Function]} onClick={[Function]} onBlur={[undefined]} style={{...}}>
-          <div className=\\"node object-node\\" data-depth={0} style={{...}} onClick={{...}} onDoubleClick={{...}}>
+  <Tree className=\\"inline object-inspector\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} isExpandable={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
+    <div className=\\"tree inline object-inspector\\" role=\\"tree\\" tabIndex=\\"0\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} onFocus={[Function]} onBlur={[Function]} onClick={[Function]} aria-label={[undefined]} aria-labelledby={[undefined]} aria-activedescendant={{...}} style={{...}}>
+      <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} isExpandable={false} onExpand={[Function]} onCollapse={[Function]} onClick={[Function]}>
+        <div className=\\"tree-node\\" style={{...}} onClick={[Function]} role=\\"treeitem\\" aria-level={0} aria-expanded={[undefined]}>
+          <div className=\\"node object-node\\" onClick={[Function]} onDoubleClick={{...}}>
             <span className=\\"object-label\\" onClick={{...}}>
               root
             </span>
@@ -42,7 +41,6 @@ exports[`ObjectInspector - classnames has the inline class when inline prop is t
               42
             </span>
           </div>
-          <button style={{...}} />
         </div>
       </TreeNode>
     </div>
@@ -52,11 +50,11 @@ exports[`ObjectInspector - classnames has the inline class when inline prop is t
 
 exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop is true 1`] = `
 "<ObjectInspector autoExpandDepth={0} roots={{...}} createObjectClient={[Function]} disableWrap={true}>
-  <Tree className=\\"nowrap\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
-    <div className=\\"tree nowrap\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} style={{...}}>
-      <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} hasChildren={false} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]}>
-        <div className=\\"tree-node div \\" onFocus={[Function]} onClick={[Function]} onBlur={[undefined]} style={{...}}>
-          <div className=\\"node object-node\\" data-depth={0} style={{...}} onClick={{...}} onDoubleClick={{...}}>
+  <Tree className=\\"nowrap object-inspector\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} isExpandable={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
+    <div className=\\"tree nowrap object-inspector\\" role=\\"tree\\" tabIndex=\\"0\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onScroll={[Function]} onFocus={[Function]} onBlur={[Function]} onClick={[Function]} aria-label={[undefined]} aria-labelledby={[undefined]} aria-activedescendant={{...}} style={{...}}>
+      <TreeNode index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} isExpandable={false} onExpand={[Function]} onCollapse={[Function]} onClick={[Function]}>
+        <div className=\\"tree-node\\" style={{...}} onClick={[Function]} role=\\"treeitem\\" aria-level={0} aria-expanded={[undefined]}>
+          <div className=\\"node object-node\\" onClick={[Function]} onDoubleClick={{...}}>
             <span className=\\"object-label\\" onClick={{...}}>
               root
             </span>
@@ -67,7 +65,6 @@ exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop
               42
             </span>
           </div>
-          <button style={{...}} />
         </div>
       </TreeNode>
     </div>

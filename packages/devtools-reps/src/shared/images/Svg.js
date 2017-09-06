@@ -6,7 +6,6 @@ const React = require("react");
 const InlineSVG = require("svg-inline-react");
 
 const svg = {
-  "arrow": require("./arrow.svg"),
   "open-inspector": require("./open-inspector.svg"),
 };
 

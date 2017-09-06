@@ -15,7 +15,7 @@ const Tree = createFactory(Components.Tree);
 require("./index.css");
 
 const classnames = require("classnames");
-const Svg = require("../shared/images/Svg");
+
 const {
   REPS: {
     Rep,
@@ -395,9 +395,6 @@ class ObjectInspector extends Component {
     const hasLabel = label !== null && typeof label !== "undefined";
     const hasValue = typeof objectValue !== "undefined";
 
-    const SINGLE_INDENT_WIDTH = 15;
-    const indentWidth = (depth + (isPrimitive ? 1 : 0)) * SINGLE_INDENT_WIDTH;
-
     const {
       onDoubleClick,
       onLabelClick,
@@ -418,15 +415,12 @@ class ObjectInspector extends Component {
               )
           )
         }),
-        style: {
-          marginLeft: indentWidth
-        },
-        onClick: isPrimitive === false
-          ? e => {
-            e.stopPropagation();
+        onClick: e => {
+          e.stopPropagation();
+          if (isPrimitive === false) {
             this.setExpanded(item, !expanded);
           }
-          : null,
+        },
         onDoubleClick: onDoubleClick
           ? e => {
             e.stopPropagation();
@@ -438,13 +432,7 @@ class ObjectInspector extends Component {
           }
           : null
       },
-      isPrimitive === false
-        ? Svg("arrow", {
-          className: classnames({
-            expanded: expanded
-          })
-        })
-        : null,
+      arrow,
       hasLabel
         ? dom.span(
           {
@@ -513,6 +501,7 @@ class ObjectInspector extends Component {
       className: classnames({
         inline,
         nowrap: disableWrap,
+        "object-inspector": true,
       }),
       autoExpandAll,
       autoExpandDepth,
@@ -520,6 +509,7 @@ class ObjectInspector extends Component {
       itemHeight,
 
       isExpanded: item => expandedPaths.has(this.getKey(item)),
+      isExpandable: item => nodeIsPrimitive(item) === false,
       focused: focusedItem,
 
       getRoots: this.getRoots,
