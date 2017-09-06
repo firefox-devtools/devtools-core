@@ -691,3 +691,8 @@ exports[`Tree renders as expected with collapsed nodes 1`] = `
 |  ▼ N
 |  |    O"
 `;
+
+exports[`Tree uses isExpandable prop if it exists to render tree nodes 1`] = `
+"▶︎ A
+  M"
+`;

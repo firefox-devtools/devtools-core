@@ -295,6 +295,13 @@ describe("Tree", () => {
       expect(arrow.hasClass("expanded")).toBe(false);
     });
   });
+
+  it("uses isExpandable prop if it exists to render tree nodes", () => {
+    const wrapper = mountTree({
+      isExpandable: item => item === "A"
+    });
+    expect(formatTree(wrapper)).toMatchSnapshot();
+  });
 });
 
 function getTreeNodes(wrapper) {
