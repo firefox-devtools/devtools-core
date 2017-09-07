@@ -7,6 +7,7 @@ const {
   getGeneratedLocation,
   getOriginalLocation,
   getOriginalSourceText,
+  getLocationScopes,
   hasMappedSource,
   applySourceMap,
   clearSourceMaps
@@ -20,6 +21,7 @@ self.onmessage = workerHandler({
   getOriginalURLs,
   getGeneratedLocation,
   getOriginalLocation,
+  getLocationScopes,
   getOriginalSourceText,
   hasMappedSource,
   applySourceMap,
