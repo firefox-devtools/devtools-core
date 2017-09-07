@@ -25,6 +25,8 @@ const WAIVED_DEPENDENCIES = [
   // fixed by
   // https://github.com/Daplie/node-walk/commit/d0859da355db6b8fb6bac26311732e84d23686db
   "walk@2.3.9",
+  // The package is included in https://www.npmjs.com/package/eslint-plugin-mozilla
+  "ini-parser@0.0.2"
 ];
 
 const VALID_LICENSES = [
