@@ -76,7 +76,9 @@ declare module "debugger-html" {
     url?: string,
     sourceMapURL?: string,
     isWasm: boolean,
-  };
+    text?: string,
+    contentType?: string,
+};
 
   /**
    * Frame ID

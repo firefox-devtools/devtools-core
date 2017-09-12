@@ -1,0 +1,256 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseScopes parses es6 source 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "e": Array [
+        Object {
+          "column": 12,
+          "line": 9,
+          "sourceId": "es6",
+        },
+      ],
+      "f": Array [
+        Object {
+          "column": 13,
+          "line": 8,
+          "sourceId": "es6",
+        },
+      ],
+      "g": Array [
+        Object {
+          "column": 16,
+          "line": 8,
+          "sourceId": "es6",
+        },
+        Object {
+          "column": 16,
+          "line": 8,
+          "sourceId": "es6",
+        },
+      ],
+      "item": Array [
+        Object {
+          "column": 10,
+          "line": 4,
+          "sourceId": "es6",
+        },
+        Object {
+          "column": 13,
+          "line": 6,
+          "sourceId": "es6",
+        },
+      ],
+    },
+    "end": Object {
+      "column": 3,
+      "line": 10,
+      "sourceId": "es6",
+    },
+    "start": Object {
+      "column": 24,
+      "line": 3,
+      "sourceId": "es6",
+    },
+    "type": "block",
+  },
+  Object {
+    "bindings": Object {
+      "a": Array [
+        Object {
+          "column": 12,
+          "line": 2,
+          "sourceId": "es6",
+        },
+        Object {
+          "column": 17,
+          "line": 4,
+          "sourceId": "es6",
+        },
+      ],
+      "b": Array [
+        Object {
+          "column": 17,
+          "line": 2,
+          "sourceId": "es6",
+        },
+        Object {
+          "column": 17,
+          "line": 2,
+          "sourceId": "es6",
+        },
+        Object {
+          "column": 26,
+          "line": 8,
+          "sourceId": "es6",
+        },
+      ],
+      "c": Array [
+        Object {
+          "column": 25,
+          "line": 2,
+          "sourceId": "es6",
+        },
+        Object {
+          "column": 18,
+          "line": 9,
+          "sourceId": "es6",
+        },
+      ],
+      "i": Array [
+        Object {
+          "column": 11,
+          "line": 3,
+          "sourceId": "es6",
+        },
+        Object {
+          "column": 21,
+          "line": 4,
+          "sourceId": "es6",
+        },
+      ],
+    },
+    "end": Object {
+      "column": 1,
+      "line": 11,
+      "sourceId": "es6",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 2,
+      "sourceId": "es6",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {
+      "sum": Array [
+        Object {
+          "column": 4,
+          "line": 1,
+          "sourceId": "es6",
+        },
+        Object {
+          "column": 25,
+          "line": 4,
+          "sourceId": "es6",
+        },
+        Object {
+          "column": 6,
+          "line": 6,
+          "sourceId": "es6",
+        },
+      ],
+    },
+    "end": Object {
+      "column": 0,
+      "line": 12,
+      "sourceId": "es6",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "es6",
+    },
+    "type": "script",
+  },
+]
+`;
+
+exports[`parseScopes parses simple generated/minified es5 source 1`] = `
+Array [
+  Object {
+    "bindings": Object {
+      "e": Array [
+        Object {
+          "column": 36,
+          "line": 1,
+          "sourceId": "es5",
+        },
+        Object {
+          "column": 54,
+          "line": 1,
+          "sourceId": "es5",
+        },
+        Object {
+          "column": 71,
+          "line": 1,
+          "sourceId": "es5",
+        },
+      ],
+      "n": Array [
+        Object {
+          "column": 23,
+          "line": 1,
+          "sourceId": "es5",
+        },
+        Object {
+          "column": 43,
+          "line": 1,
+          "sourceId": "es5",
+        },
+      ],
+      "r": Array [
+        Object {
+          "column": 25,
+          "line": 1,
+          "sourceId": "es5",
+        },
+        Object {
+          "column": 48,
+          "line": 1,
+          "sourceId": "es5",
+        },
+      ],
+      "u": Array [
+        Object {
+          "column": 41,
+          "line": 1,
+          "sourceId": "es5",
+        },
+        Object {
+          "column": 45,
+          "line": 1,
+          "sourceId": "es5",
+        },
+        Object {
+          "column": 50,
+          "line": 1,
+          "sourceId": "es5",
+        },
+        Object {
+          "column": 61,
+          "line": 1,
+          "sourceId": "es5",
+        },
+      ],
+    },
+    "end": Object {
+      "column": 83,
+      "line": 1,
+      "sourceId": "es5",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "es5",
+    },
+    "type": "function",
+  },
+  Object {
+    "bindings": Object {},
+    "end": Object {
+      "column": 0,
+      "line": 3,
+      "sourceId": "es5",
+    },
+    "start": Object {
+      "column": 0,
+      "line": 1,
+      "sourceId": "es5",
+    },
+    "type": "script",
+  },
+]
+`;
