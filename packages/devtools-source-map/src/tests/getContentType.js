@@ -4,12 +4,17 @@
 
 const { getContentType, contentMapForTesting } = require("../utils");
 
-test("getContentType", () => {
+describe("getContentType", () => {
   for (let ext in contentMapForTesting) {
-    expect(getContentType(`whatever.${ext}`))
-      .toEqual(contentMapForTesting[ext]);
-    expect(getContentType(`whatever${ext}`))
-      .toEqual("text/plain");
+    test(`extension - ${ext}`, () => {
+      expect(getContentType(`whatever.${ext}`)).toEqual(
+        contentMapForTesting[ext]
+      );
+      expect(getContentType(`whatever${ext}`)).toEqual("text/plain");
+    });
   }
-  expect(getContentType("whatever.platypus")).toEqual("text/plain");
+
+  test("bad extension", () => {
+    expect(getContentType("whatever.platypus")).toEqual("text/plain");
+  });
 });

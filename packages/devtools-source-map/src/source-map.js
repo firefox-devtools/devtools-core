@@ -14,12 +14,12 @@ const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
 const path = require("./utils/path");
 
 const assert = require("./utils/assert");
-const { fetchSourceMap } = require("./utils/fetchSourceMap")
+const { fetchSourceMap } = require("./utils/fetchSourceMap");
 const {
   getSourceMap,
   setSourceMap,
   clearSourceMaps
-} = require("./utils/sourceMapRequests")
+} = require("./utils/sourceMapRequests");
 const {
   originalToGeneratedId,
   generatedToOriginalId,
@@ -28,21 +28,27 @@ const {
   getContentType
 } = require("./utils");
 const {
-
   getLocationScopes: getLocationScopesFromMap
 } = require("devtools-map-bindings/src/scopes");
 
 const { WasmRemap } = require("./utils/wasmRemap");
 
-import type { Location, Source, SourceScope, MappedScopeBindings } from "debugger-html";
+import type {
+  Location,
+  Source,
+  SourceScope,
+  MappedScopeBindings
+} from "debugger-html";
 
 async function getOriginalURLs(generatedSource: Source) {
   const map = await fetchSourceMap(generatedSource);
   return map && map.sources;
 }
 
-async function getGeneratedLocation(location: Location, originalSource: Source)
-    : Promise<Location> {
+async function getGeneratedLocation(
+  location: Location,
+  originalSource: Source
+): Promise<Location> {
   if (!isOriginalId(location.sourceId)) {
     return location;
   }
@@ -68,7 +74,7 @@ async function getGeneratedLocation(location: Location, originalSource: Source)
   };
 }
 
-async function getOriginalLocation(location: Location) : Promise<Location> {
+async function getOriginalLocation(location: Location): Promise<Location> {
   if (!isGeneratedId(location.sourceId)) {
     return location;
   }
@@ -97,8 +103,7 @@ async function getOriginalLocation(location: Location) : Promise<Location> {
 }
 
 async function getOriginalSourceText(originalSource: Source) {
-  assert(isOriginalId(originalSource.id),
-         "Source is not an original source");
+  assert(isOriginalId(originalSource.id), "Source is not an original source");
 
   const generatedSourceId = originalToGeneratedId(originalSource.id);
   const map = await getSourceMap(generatedSourceId);
@@ -108,9 +113,8 @@ async function getOriginalSourceText(originalSource: Source) {
 
   let text = map.sourceContentFor(originalSource.url);
   if (!text) {
-    text = (await networkRequest(
-      originalSource.url, { loadFromCache: false }
-    )).content;
+    text = (await networkRequest(originalSource.url, { loadFromCache: false }))
+      .content;
   }
 
   return {
@@ -129,8 +133,8 @@ async function getOriginalSourceText(originalSource: Source) {
  */
 async function getLocationScopes(
   location: Location,
-  generatedSourceScopes: SourceScope[],
-): Promise<MappedScopeBindings[]|null> {
+  generatedSourceScopes: SourceScope[]
+): Promise<MappedScopeBindings[] | null> {
   if (!isGeneratedId(location.sourceId)) {
     return null;
   }
@@ -153,13 +157,17 @@ async function hasMappedSource(location: Location): Promise<boolean> {
 }
 
 function applySourceMap(
-  generatedId: string, url: string, code: string, mappings: Object) {
+  generatedId: string,
+  url: string,
+  code: string,
+  mappings: Object
+) {
   const generator = new SourceMapGenerator({ file: url });
   mappings.forEach(mapping => generator.addMapping(mapping));
   generator.setSourceContent(url, code);
 
   const map = SourceMapConsumer(generator.toJSON());
-  setSourceMap(generatedId, Promise.resolve(map))
+  setSourceMap(generatedId, Promise.resolve(map));
 }
 
 module.exports = {
@@ -170,5 +178,5 @@ module.exports = {
   getLocationScopes,
   applySourceMap,
   clearSourceMaps,
-  hasMappedSource,
+  hasMappedSource
 };

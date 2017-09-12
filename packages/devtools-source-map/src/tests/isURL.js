@@ -4,8 +4,15 @@
 
 const { isURL } = require("../utils/path");
 
-test("isURL", () => {
-  expect(isURL("http://www.example.com/")).toEqual(true);
-  expect(isURL("www.example.com/")).toEqual(false);
-  expect(isURL("data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D")).toEqual(true);
+describe("isURL", () => {
+  test("valid url", () =>
+    expect(isURL("http://www.example.com/")).toEqual(true));
+
+  test("missing protocol", () =>
+    expect(isURL("www.example.com/")).toEqual(false));
+
+  test("data protocol", () =>
+    expect(isURL("data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D")).toEqual(
+      true
+    ));
 });
