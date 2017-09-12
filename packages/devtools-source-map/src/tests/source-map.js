@@ -6,7 +6,12 @@ const fs = require("fs");
 const path = require("path");
 
 jest.mock("devtools-utils/src/network-request");
-const { getOriginalURLs, hasMappedSource, getOriginalLocation } = require("../source-map");
+const {
+  getOriginalURLs,
+  hasMappedSource,
+  getOriginalLocation,
+  getGeneratedLocation
+} = require("../source-map");
 
 function getMap(_path) {
   const mapPath = path.join(__dirname, _path);
@@ -63,9 +68,7 @@ describe("source maps", () => {
     });
 
     const urls = await getOriginalURLs(source);
-    expect(urls).toEqual([
-      "http://example.com/cheese/heart.js"
-    ]);
+    expect(urls).toEqual(["http://example.com/cheese/heart.js"]);
   });
 
   test("Empty sourceRoot resolution", async () => {
@@ -81,9 +84,7 @@ describe("source maps", () => {
     });
 
     const urls = await getOriginalURLs(source);
-    expect(urls).toEqual([
-      "http://example.com/whatever/heart.js"
-    ]);
+    expect(urls).toEqual(["http://example.com/whatever/heart.js"]);
   });
 
   test("Non-existing sourceRoot resolution", async () => {
@@ -99,21 +100,19 @@ describe("source maps", () => {
     });
 
     const urls = await getOriginalURLs(source);
-    expect(urls).toEqual([
-      "http://example.com/whatever/heart.js"
-    ]);
+    expect(urls).toEqual(["http://example.com/whatever/heart.js"]);
   });
 
   describe("hasMappedSource", async () => {
     test("has original location", async () => {
-      await setupBundleFixture()
+      await setupBundleFixture();
       const location = {
         sourceId: "bundle.js",
         line: 49
       };
       const isMapped = await hasMappedSource(location);
       expect(isMapped).toBe(true);
-    })
+    });
 
     test("does not have original location", async () => {
       const location = {
@@ -122,7 +121,75 @@ describe("source maps", () => {
       };
       const isMapped = await hasMappedSource(location);
       expect(isMapped).toBe(false);
-    })
+    });
+  });
+
+  describe("getOriginalLocation", async () => {
+    test("maps a generated location", async () => {
+      await setupBundleFixture();
+      const location = {
+        sourceId: "bundle.js",
+        line: 49
+      };
+
+      const originalLocation = await getOriginalLocation(location);
+      expect(originalLocation).toEqual({
+        column: 0,
+        line: 3,
+        sourceId: "bundle.js/originalSource-fe2c41d3535b76c158e39ba4f3ff826a",
+        sourceUrl: "webpack:///entry.js"
+      });
+    });
+
+    test("does not map an original location", async () => {
+      const location = {
+        column: 0,
+        line: 3,
+        sourceId: "bundle.js/originalSource-fe2c41d3535b76c158e39ba4f3ff826a",
+        sourceUrl: "webpack:///entry.js"
+      };
+      const originalLocation = await getOriginalLocation(location);
+      expect(originalLocation).toEqual(originalLocation);
+    });
+  });
+
+  describe("getGeneratedLocation", async () => {
+    test("maps an original location", async () => {
+      await setupBundleFixture();
+      const location = {
+        column: 0,
+        line: 3,
+        sourceId: "bundle.js/originalSource-fe2c41d3535b76c158e39ba4f3ff826a"
+      };
+
+      const source = {
+        url: "webpack:///entry.js",
+        id: "bundle.js/originalSource-fe2c41d3535b76c158e39ba4f3ff826a"
+      };
+
+      const generatedLocation = await getGeneratedLocation(location, source);
+      expect(generatedLocation).toEqual({
+        sourceId: "bundle.js",
+        line: 49
+      });
+    });
+
+    test("does not map an original location", async () => {
+      const location = {
+        column: 0,
+        line: 3,
+        sourceId: "bundle.js/originalSource-fe2c41d3535b76c158e39ba4f3ff826a",
+        sourceUrl: "webpack:///entry.js"
+      };
+
+      const source = {
+        url: "webpack:///entry.js",
+        id: "bundle.js/originalSource-fe2c41d3535b76c158e39ba4f3ff826a"
+      };
+
+      const generatedLocation = await getGeneratedLocation(location, source);
+      expect(generatedLocation).toEqual(generatedLocation);
+    });
   });
 
   describe("Error handling", async () => {
