@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 // @flow
 
 const { networkRequest } = require("devtools-utils");
@@ -8,16 +12,22 @@ const { SourceMapConsumer } = require("source-map");
 const path = require("./path");
 
 import type {
-  Location, Source, SourceScope, MappedScopeBindings
+  Location,
+  Source,
+  SourceScope,
+  MappedScopeBindings
 } from "debugger-html";
-
 
 /**
  * Sets the source map's sourceRoot to be relative to the source map url.
  * @memberof utils/source-map-worker
  * @static
  */
-function _setSourceMapRoot(sourceMap, absSourceMapURL, source) {
+function _setSourceMapRoot(
+  sourceMap: Object,
+  absSourceMapURL: string,
+  source: Source
+) {
   // No need to do this fiddling if we won't be fetching any sources over the
   // wire.
   if (sourceMap.hasContentsOfAllSources()) {
@@ -35,8 +45,10 @@ function _setSourceMapRoot(sourceMap, absSourceMapURL, source) {
     }
 
     parsedSourceMapURL.pathname = path.dirname(parsedSourceMapURL.pathname);
-    sourceMap.sourceRoot = new URL(sourceMap.sourceRoot || "",
-                                   parsedSourceMapURL).toString();
+    sourceMap.sourceRoot = new URL(
+      sourceMap.sourceRoot || "",
+      parsedSourceMapURL
+    ).toString();
   }
   return sourceMap.sourceRoot;
 }
@@ -47,24 +59,24 @@ function _resolveSourceMapURL(source: Source) {
     // If it's already a full URL or the source doesn't have a URL,
     // don't resolve anything.
     return sourceMapURL;
-  } else if (path.isAbsolute(sourceMapURL)) {
+  }
+
+  if (path.isAbsolute(sourceMapURL)) {
     // If it's an absolute path, it should be resolved relative to the
     // host of the source.
     const { protocol = "", host = "" } = new URL(url);
     return `${protocol}//${host}${sourceMapURL}`;
   }
+
   // Otherwise, it's a relative path and should be resolved relative
   // to the source.
   return `${path.dirname(url)}/${sourceMapURL}`;
 }
 
-
-async function _resolveAndFetch(generatedSource: Source) : SourceMapConsumer {
+async function _resolveAndFetch(generatedSource: Source): SourceMapConsumer {
   // Fetch the sourcemap over the network and create it.
   const sourceMapURL = _resolveSourceMapURL(generatedSource);
-  const fetched = await networkRequest(
-    sourceMapURL, { loadFromCache: false }
-  );
+  const fetched = await networkRequest(sourceMapURL, { loadFromCache: false });
 
   // Create the source map and fix it up.
   let map = new SourceMapConsumer(fetched.content);
@@ -78,16 +90,19 @@ async function _resolveAndFetch(generatedSource: Source) : SourceMapConsumer {
 
 function fetchSourceMap(generatedSource: Source) {
   const existingRequest = getSourceMap(generatedSource.id);
+
+  // If it has already been requested, return the request. Make sure
+  // to do this even if sourcemapping is turned off, because
+  // pretty-printing uses sourcemaps.
+  //
+  // An important behavior here is that if it's in the middle of
+  // requesting it, all subsequent calls will block on the initial
+  // request.
   if (existingRequest) {
-    // If it has already been requested, return the request. Make sure
-    // to do this even if sourcemapping is turned off, because
-    // pretty-printing uses sourcemaps.
-    //
-    // An important behavior here is that if it's in the middle of
-    // requesting it, all subsequent calls will block on the initial
-    // request.
     return existingRequest;
-  } else if (!generatedSource.sourceMapURL) {
+  }
+
+  if (!generatedSource.sourceMapURL) {
     return Promise.resolve(null);
   }
 
@@ -99,4 +114,4 @@ function fetchSourceMap(generatedSource: Source) {
   return req;
 }
 
-module.exports = { fetchSourceMap }
+module.exports = { fetchSourceMap };
