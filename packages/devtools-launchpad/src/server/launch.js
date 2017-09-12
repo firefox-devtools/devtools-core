@@ -6,6 +6,9 @@ const ps = require("child_process");
 const path = require("path");
 const { isFirefoxRunning } = require("./utils/firefox");
 const firefoxDriver = require("../../bin/firefox-driver");
+const {
+  getValue
+} = require("devtools-config");
 
 function handleLaunchRequest(req, res) {
   const browser = req.body.browser;
@@ -14,9 +17,13 @@ function handleLaunchRequest(req, res) {
   process.env.PATH += `:${__dirname}`;
   if (browser == "Firefox") {
     isFirefoxRunning().then((isRunning) => {
-      console.log("running", isRunning);
+      const options = {
+        useWebSocket: getValue("firefox.webSocketConnection"),
+        webSocketPort: getValue("firefox.webSocketPort"),
+        tcpPort: getValue("firefox.tcpPort")
+      };
       if (!isRunning) {
-        firefoxDriver.start(location);
+        firefoxDriver.start(location, options);
         res.end("launched firefox");
       } else {
         res.end("already running firefox");

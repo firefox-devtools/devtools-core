@@ -25,7 +25,8 @@ const args = minimist(process.argv.slice(2),
 
 const shouldStart = args.start;
 const isTests = args.tests;
-const useWebSocket = args.websocket;
+let useWebSocket = args.websocket;
+let connectionPort = 6080;
 
 function addGeckoDriverToPath() {
   // NOTE: when the launchpad is symlinked we ned to check for
@@ -38,11 +39,11 @@ function addGeckoDriverToPath() {
 }
 
 function binaryArgs() {
-	if (isWindows) {
-		return [ "-start-debugger-server", useWebSocket ? "ws:6080" : "6080" ]  // e.g. -start-debugger-server 6080
-  }
-	else {
-		return ["--start-debugger-server=" + (useWebSocket ? "ws:6080" : "6080")] // e.g. --start-debugger-server=6080
+  const connectionString = useWebSocket ? `ws:${connectionPort}` : `${connectionPort}`;
+  if (isWindows) {
+    return ["-start-debugger-server", connectionString];  // e.g. -start-debugger-server 6080
+  } else {
+    return ["--start-debugger-server=" + connectionString]; // e.g. --start-debugger-server=6080
   }
 }
 
@@ -57,7 +58,7 @@ function firefoxBinary() {
 function firefoxProfile() {
   let profile = new firefox.Profile();
 
-  profile.setPreference("devtools.debugger.remote-port", 6080);
+  profile.setPreference("devtools.debugger.remote-port", connectionPort);
   profile.setPreference("devtools.debugger.remote-enabled", true);
   profile.setPreference("devtools.chrome.enabled", true);
   profile.setPreference("devtools.debugger.prompt-connection", false);
@@ -67,7 +68,14 @@ function firefoxProfile() {
   return profile;
 }
 
-function start(_url) {
+function start(_url, _options = {}) {
+  if (_options.useWebSocket) {
+    useWebSocket = true;
+    connectionPort = _options.webSocketPort ? _options.webSocketPort : connectionPort;
+  } else {
+    connectionPort = _options.tcpPort ? _options.tcpPort : connectionPort;
+  }
+
   let options = new firefox.Options();
 
   options.setProfile(firefoxProfile());
@@ -88,8 +96,7 @@ function start(_url) {
 }
 
 if (shouldStart) {
-  const location = args.location || 'about:blank';
-  const driver = start(location);
+  start(args.location || 'about:blank');
   setInterval(() => {}, 100);
 }
 
