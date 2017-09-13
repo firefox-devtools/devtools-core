@@ -172,6 +172,34 @@ describe("ElementNode - Node with leading and trailing spaces class name", () =>
   });
 });
 
+describe("ElementNode - Node with spaces in the class name", () => {
+  const stub = stubs.get("NodeWithSpacesInClassName");
+
+  it("selects ElementNode Rep", () => {
+    expect(getRep(stub)).toBe(ElementNode.rep);
+  });
+
+  it("renders with expected text content", () => {
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub
+    }));
+
+    // Using snapshot testing here, because enzyme -> shallow -> text() is not returning
+    // the correct text representation of this React component.
+    expect(renderedComponent).toMatchSnapshot();
+  });
+
+  it("renders with expected text content in tiny mode", () => {
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub,
+      mode: MODE.TINY
+    }));
+
+    expect(renderedComponent.text())
+      .toEqual("body.a.b.c");
+  });
+});
+
 describe("ElementNode - Node without attributes", () => {
   const stub = stubs.get("NodeWithoutAttributes");
 

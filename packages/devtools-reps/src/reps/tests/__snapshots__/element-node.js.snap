@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ElementNode - Node with spaces in the class name renders with expected text content 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <span
+    className="objectBox objectBox-node"
+    data-link-actor-id="server1.conn3.child1/obj59"
+>
+    &lt;
+    <span
+        className="tag-name theme-fg-color3"
+    >
+        body
+    </span>
+     
+    <span>
+        <span
+            className="attr-name theme-fg-color2"
+        >
+            class
+        </span>
+        ="
+        <span
+            className="attr-value theme-fg-color6"
+        >
+            a  b   c
+        </span>
+        "
+    </span>
+    &gt;
+</span>,
+  "nodes": Array [
+    <span
+      className="objectBox objectBox-node"
+      data-link-actor-id="server1.conn3.child1/obj59"
+>
+      &lt;
+      <span
+            className="tag-name theme-fg-color3"
+      >
+            body
+      </span>
+       
+      <span>
+            <span
+                  className="attr-name theme-fg-color2"
+            >
+                  class
+            </span>
+            ="
+            <span
+                  className="attr-value theme-fg-color6"
+            >
+                  a  b   c
+            </span>
+            "
+      </span>
+      &gt;
+</span>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": null,
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <span
+    className="objectBox objectBox-node"
+    data-link-actor-id="server1.conn3.child1/obj59"
+>
+    &lt;
+    <span
+        className="tag-name theme-fg-color3"
+    >
+        body
+    </span>
+     
+    <span>
+        <span
+            className="attr-name theme-fg-color2"
+        >
+            class
+        </span>
+        ="
+        <span
+            className="attr-value theme-fg-color6"
+        >
+            a  b   c
+        </span>
+        "
+    </span>
+    &gt;
+</span>,
+}
+`;

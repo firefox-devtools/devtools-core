@@ -107,6 +107,25 @@ stubs.set("NodeWithLeadingAndTrailingSpacesClassName", {
   }
 });
 
+stubs.set("NodeWithSpacesInClassName", {
+  "type": "object",
+  "actor": "server1.conn3.child1/obj59",
+  "class": "HTMLBodyElement",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "DOMNode",
+    "nodeType": 1,
+    "nodeName": "body",
+    "attributes": {
+      "class": "a  b   c"
+    },
+    "attributesLength": 1
+  }
+});
+
 stubs.set("NodeWithoutAttributes", {
   "type": "object",
   "actor": "server1.conn1.child1/obj32",
