@@ -92,8 +92,8 @@ function getElements(grip, mode) {
       elements.push(
         span({className: "attr-name theme-fg-color2"},
           attributes.class
-            .replace(/(^\s+)|(\s+$)/g, "")
-            .split(" ")
+            .trim()
+            .split(/\s+/)
             .map(cls => `.${cls}`)
             .join("")
         )
