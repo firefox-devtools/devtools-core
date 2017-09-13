@@ -26,7 +26,7 @@ const Undefined = function () {
 
 function supportsObject(object, noGrip = false) {
   if (noGrip === true) {
-    return false;
+    return object === undefined;
   }
 
   return (object && object.type && object.type == "undefined")

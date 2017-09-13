@@ -23,7 +23,7 @@ function Null(props) {
 
 function supportsObject(object, noGrip = false) {
   if (noGrip === true) {
-    return false;
+    return object === null;
   }
 
   if (object && object.type && object.type == "null") {
