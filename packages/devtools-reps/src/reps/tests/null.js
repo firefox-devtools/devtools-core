@@ -20,6 +20,10 @@ describe("testNull", () => {
     expect(getRep(stub)).toBe(Null.rep);
   });
 
+  it("Rep correctly selects Null Rep for plain JS null object", () => {
+    expect(getRep(null, undefined, true)).toBe(Null.rep);
+  });
+
   it("Null rep has expected text content", () => {
     const renderedComponent = shallow(Rep({
       object: stub

@@ -23,6 +23,10 @@ describe("Test Undefined", () => {
     expect(getRep(stub)).toBe(Undefined.rep);
   });
 
+  it("Rep correctly selects Undefined Rep for plain JS undefined", () => {
+    expect(getRep(undefined, undefined, true)).toBe(Undefined.rep);
+  });
+
   it("Undefined rep has expected text content", () => {
     const renderedComponent = shallow(Rep({
       object: stub
