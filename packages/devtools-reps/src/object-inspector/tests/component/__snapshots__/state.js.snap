@@ -6,7 +6,7 @@ exports[`ObjectInspector - state has the expected expandedPaths state 1`] = `
 `;
 
 exports[`ObjectInspector - state has the expected expandedPaths state 2`] = `
-"▼ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
+"▼ {…}
 |    a : 1
 |    Symbol() : \\"hello\\"
 |  ▶︎ __proto__ : Object { … }
@@ -20,17 +20,17 @@ exports[`ObjectInspector - state has the expected expandedPaths state 3`] = `
 
 exports[`ObjectInspector - state has the expected expandedPaths state 4`] = `
 "▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
-▼ Proxy { <target>: {…}, <handler>: […] }
+▼ Proxy
 |  ▶︎ <target> : Object { … }
 |  ▶︎ <handler> : Array [ … ]"
 `;
 
 exports[`ObjectInspector - state has the expected expandedPaths state 5`] = `
-"▼ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
+"▼ {…}
 |    a : 1
 |    Symbol() : \\"hello\\"
 |  ▶︎ __proto__ : Object { … }
-▼ Proxy { <target>: {…}, <handler>: […] }
+▼ Proxy
 |  ▶︎ <target> : Object { … }
 |  ▶︎ <handler> : Array [ … ]"
 `;
@@ -41,7 +41,7 @@ exports[`ObjectInspector - state has the expected state when expanding a node 1`
 `;
 
 exports[`ObjectInspector - state has the expected state when expanding a node 2`] = `
-"▼ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
+"▼ {…}
 |    __proto__ : Object {  }
 ▶︎ Proxy { <target>: {…}, <handler>: […] }"
 `;
@@ -53,7 +53,7 @@ exports[`ObjectInspector - state has the expected state when expanding a proxy n
 
 exports[`ObjectInspector - state has the expected state when expanding a proxy node 2`] = `
 "▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
-▼ Proxy { <target>: {…}, <handler>: […] }
+▼ Proxy
 |  ▶︎ <target> : Object { … }
 |  ▶︎ <handler> : Array [ … ]
 |  ▶︎ __proto__ : Object {  }"
@@ -61,9 +61,9 @@ exports[`ObjectInspector - state has the expected state when expanding a proxy n
 
 exports[`ObjectInspector - state has the expected state when expanding a proxy node 3`] = `
 "▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
-▼ Proxy { <target>: {…}, <handler>: […] }
+▼ Proxy
 |  ▶︎ <target> : Object { … }
 |  ▶︎ <handler> : Array [ … ]
-|  ▼ __proto__ : Object {  }
+|  ▼ __proto__ : {}
 |  |  ▶︎ __proto__ : Object {  }"
 `;

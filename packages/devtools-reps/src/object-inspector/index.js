@@ -388,6 +388,9 @@ class ObjectInspector extends Component {
           ? MODE.SHORT
           : MODE.TINY;
       }
+      if (expanded) {
+        repsProp.mode = MODE.TINY;
+      }
 
       objectValue = this.renderGrip(item, repsProp);
     }
