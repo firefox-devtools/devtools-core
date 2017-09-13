@@ -10,6 +10,7 @@ const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
+const {rep: StringRep} = require("./string");
 const { MODE } = require("./constants");
 const nodeConstants = require("../shared/dom-node-constants");
 const Svg = require("../shared/images/Svg");
@@ -79,18 +80,18 @@ function ElementNode(props) {
 function getElements(grip, mode) {
   let {attributes, nodeName} = grip.preview;
   const nodeNameElement = span({
-    className: "tag-name theme-fg-color3"
+    className: "tag-name"
   }, nodeName);
 
   if (mode === MODE.TINY) {
     let elements = [nodeNameElement];
     if (attributes.id) {
       elements.push(
-        span({className: "attr-name theme-fg-color2"}, `#${attributes.id}`));
+        span({className: "attrName"}, `#${attributes.id}`));
     }
     if (attributes.class) {
       elements.push(
-        span({className: "attr-name theme-fg-color2"},
+        span({className: "attrName"},
           attributes.class
             .trim()
             .split(/\s+/)
@@ -113,20 +114,19 @@ function getElements(grip, mode) {
   const attributeElements = attributeKeys.reduce((arr, name, i, keys) => {
     let value = attributes[name];
     let attribute = span({},
-      span({className: "attr-name theme-fg-color2"}, `${name}`),
-      `="`,
-      span({className: "attr-value theme-fg-color6"}, `${value}`),
-      `"`
+      span({className: "attrName"}, name),
+      span({className: "attrEqual"}, "="),
+      StringRep({className: "attrValue", object: value}),
     );
 
     return arr.concat([" ", attribute]);
   }, []);
 
   return [
-    "<",
+    span({className: "angleBracket"}, "<"),
     nodeNameElement,
     ...attributeElements,
-    ">",
+    span({className: "angleBracket"}, ">"),
   ];
 }
 

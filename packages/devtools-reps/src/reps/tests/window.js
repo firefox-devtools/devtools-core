@@ -45,7 +45,7 @@ describe("test Window", () => {
       object: stub
     }));
 
-    expect(renderedComponent.find(".objectPropValue").text()).toEqual("about:newtab");
+    expect(renderedComponent.find(".location").text()).toEqual("about:newtab");
   });
 
   it("renders with expected text in TINY mode", () => {

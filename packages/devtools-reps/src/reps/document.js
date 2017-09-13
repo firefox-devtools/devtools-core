@@ -29,10 +29,10 @@ function Document(props) {
   return (
     span({
       "data-link-actor-id": grip.actor,
-      className: "objectBox objectBox-object"
+      className: "objectBox objectBox-document"
     },
       getTitle(grip),
-      span({className: "objectPropValue"},
+      span({className: "location"},
         getLocation(grip)
       )
     )

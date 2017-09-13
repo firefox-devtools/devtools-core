@@ -1,14 +1,19 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-.tree.object-inspector .object-label, .object-label * {
+
+.tree.object-inspector .object-label,
+.tree.object-inspector .object-label * {
   color: var(--theme-highlight-blue);
 }
 
 .tree.object-inspector .node .unavailable {
-  color: var(--theme-content-color3);
+  color: var(--theme-comment);
 }
 
-.lessen {
-  opacity: 0.6;
+.tree.object-inspector .lessen,
+.tree.object-inspector .lessen *,
+.tree.object-inspector .lessen .object-label,
+.tree.object-inspector .lessen .object-label * {
+  color: var(--theme-comment);
 }
