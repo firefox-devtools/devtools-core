@@ -30,10 +30,12 @@ StringRep.propTypes = {
   member: React.PropTypes.any,
   cropLimit: React.PropTypes.number,
   openLink: React.PropTypes.func,
+  className: React.PropTypes.string,
 };
 
 function StringRep(props) {
   let {
+    className,
     cropLimit,
     object: text,
     member,
@@ -43,7 +45,11 @@ function StringRep(props) {
     openLink,
   } = props;
 
-  let config = {className: "objectBox objectBox-string"};
+  const classNames = ["objectBox", "objectBox-string"];
+  if (className) {
+    classNames.push(className);
+  }
+  let config = {className: classNames.join(" ")};
   if (style) {
     config.style = style;
   }

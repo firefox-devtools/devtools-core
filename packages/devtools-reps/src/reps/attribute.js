@@ -32,15 +32,11 @@ function Attribute(props) {
   return (
     span({
       "data-link-actor-id": object.actor,
-      className: "objectLink-Attr"
+      className: "objectBox-Attr"
     },
-      span({className: "attrTitle"},
-        getTitle(object)
-      ),
-      span({className: "attrEqual"},
-        "="
-      ),
-      StringRep({object: value})
+      span({className: "attrName"}, getTitle(object)),
+      span({className: "attrEqual"}, "="),
+      StringRep({className: "attrValue", object: value})
     )
   );
 }
