@@ -63,6 +63,7 @@ describe("ObjectInspector - functions", () => {
   it("renders non-TINY mode functions as expected", () => {
     const stub = functionStubs.get("Named");
     const oi = mount(ObjectInspector(generateDefaults({
+      autoExpandDepth: 0,
       roots: [{
         path: "root",
         name: "x",
