@@ -68,9 +68,8 @@ async function getGeneratedLocation(
 
   return {
     sourceId: generatedSourceId,
-    line: line,
-    // Treat 0 as no column so that line breakpoints work correctly.
-    column: column === 0 ? undefined : column
+    line,
+    column
   };
 }
 
@@ -84,19 +83,19 @@ async function getOriginalLocation(location: Location): Promise<Location> {
     return location;
   }
 
-  const { source: url, line, column } = map.originalPositionFor({
+  const { source: sourceUrl, line, column } = map.originalPositionFor({
     line: location.line,
-    column: location.column == null ? Infinity : location.column
+    column: location.column == null ? 0 : location.column
   });
 
-  if (url == null) {
+  if (sourceUrl == null) {
     // No url means the location didn't map.
     return location;
   }
 
   return {
-    sourceId: generatedToOriginalId(location.sourceId, url),
-    sourceUrl: url,
+    sourceId: generatedToOriginalId(location.sourceId, sourceUrl),
+    sourceUrl,
     line,
     column
   };

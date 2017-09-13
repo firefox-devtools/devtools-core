@@ -40,6 +40,7 @@ function _setSourceMapRoot(
     // not contain the full sources, fall back to using the source's
     // URL, if possible.
     let parsedSourceMapURL = new URL(absSourceMapURL);
+
     if (parsedSourceMapURL.protocol === "data:" && source.url) {
       parsedSourceMapURL = new URL(source.url);
     }
@@ -76,6 +77,7 @@ function _resolveSourceMapURL(source: Source) {
 async function _resolveAndFetch(generatedSource: Source): SourceMapConsumer {
   // Fetch the sourcemap over the network and create it.
   const sourceMapURL = _resolveSourceMapURL(generatedSource);
+
   const fetched = await networkRequest(sourceMapURL, { loadFromCache: false });
 
   // Create the source map and fix it up.
