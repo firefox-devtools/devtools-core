@@ -9,9 +9,10 @@ const {
   getOriginalSourceText,
   getLocationScopes,
   hasMappedSource,
-  applySourceMap,
-  clearSourceMaps
+  applySourceMap
 } = require("./source-map");
+
+const { clearSourceMaps } = require("./utils/sourceMapRequests")
 
 const { workerUtils: { workerHandler }} = require("devtools-utils");
 

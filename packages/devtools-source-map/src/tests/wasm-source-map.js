@@ -4,7 +4,7 @@
 
 // Test WasmRemap
 
-const { WasmRemap } = require("../wasm-source-map");
+const { WasmRemap } = require("../utils/wasmRemap");
 const { SourceMapConsumer } = require("source-map");
 
 jest.mock("devtools-utils/src/network-request");
