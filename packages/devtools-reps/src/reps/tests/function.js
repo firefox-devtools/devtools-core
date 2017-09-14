@@ -7,6 +7,7 @@ const { shallow } = require("enzyme");
 const { REPS } = require("../rep");
 const { MODE } = require("../constants");
 const { Func } = REPS;
+const { getFunctionName } = Func;
 const stubs = require("../stubs/function");
 const {
   expectActorAttribute
@@ -282,5 +283,47 @@ describe("Function - Jump to definition", () => {
 
     const node = renderedComponent.find(".jump-definition");
     expect(node.exists()).toBeFalsy();
+  });
+});
+
+describe("Function - Anonymous generator function", () => {
+  const cases = {
+    defaultCase: [["define", "define"]],
+
+    objectProperty: [
+      ["z.foz", "foz"],
+      ["z.foz/baz", "baz"],
+      ["z.foz/baz/y.bay", "bay"],
+      ["outer/x.fox.bax.nx", "nx"],
+      ["outer/fow.baw", "baw"],
+      ["fromYUI._attach", "_attach"],
+      ["Y.ClassNameManager</getClassName", "getClassName"],
+      ["orion.textview.TextView</addHandler", "addHandler"],
+      ["this.eventPool_.createObject", "createObject"]
+    ],
+
+    arrayProperty: [
+      ["this.eventPool_[createObject]", "createObject"],
+      ["jQuery.each(^)/jQuery.fn[o]", "o"],
+      ["viewport[get+D]", "get+D"],
+      ["arr[0]", "0"]
+    ],
+
+    functionProperty: [
+      ["fromYUI._attach/<.", "_attach"],
+      ["Y.ClassNameManager<", "ClassNameManager"],
+      ["fromExtJS.setVisible/cb<", "cb"],
+      ["fromDojo.registerWin/<", "registerWin"]
+    ],
+
+    annonymousProperty: [["jQuery.each(^)", "each"]]
+  };
+
+  Object.keys(cases).forEach(type => {
+    for (const [kase, expected] of cases[type]) {
+      it(`${type} - ${kase}`, () => expect(
+        getFunctionName({displayName: kase})).toEqual(expected)
+      );
+    }
   });
 });
