@@ -42,7 +42,14 @@ exports[`ObjectInspector - state has the expected state when expanding a node 1`
 
 exports[`ObjectInspector - state has the expected state when expanding a node 2`] = `
 "▼ {…}
-|    __proto__: Object {  }
+|  ▶︎ __proto__: Object {  }
+▶︎ Proxy { <target>: {…}, <handler>: […] }"
+`;
+
+exports[`ObjectInspector - state has the expected state when expanding a node 3`] = `
+"▼ {…}
+|  ▼ __proto__: {}
+|  |  ▶︎ __proto__: Object {  }
 ▶︎ Proxy { <target>: {…}, <handler>: […] }"
 `;
 

@@ -85,7 +85,19 @@ describe("ObjectInspector - state", () => {
   });
 
   it("has the expected state when expanding a node", async () => {
-    const wrapper = mount(ObjectInspector(generateDefaults({})));
+    const protoStub = {
+      "prototype": {
+        "type": "object",
+        "actor": "server2.conn0.child1/obj628",
+        "class": "Object",
+      }
+    };
+
+    const wrapper = mount(ObjectInspector(generateDefaults({
+      createObjectClient: grip => ObjectClient(grip, {
+        getPrototype: () => Promise.resolve(protoStub)
+      }),
+    })));
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     let nodes = wrapper.find(".node");
 
@@ -104,9 +116,28 @@ describe("ObjectInspector - state", () => {
     state = wrapper.state();
     expect(state.loading.has("root-1")).toBeFalsy();
     expect(state.loadedProperties.has("root-1")).toBeTruthy();
+    // We don't want to track root actors.
     expect(state.actors.has(gripRepStubs.get("testMoreThanMaxProps").actor))
-      .toBeTruthy();
+      .toBeFalsy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    nodes = wrapper.find(".node");
+    const protoNode = nodes.at(1);
+    protoNode.simulate("click");
+
+    state = wrapper.state();
+    expect(state.loading.has("root-1/__proto__")).toBeTruthy();
+
+    // Once all the loading promises are resolved, the loading
+    // state property should be cleaned up, and actors and loadedProperties
+    // should have the expected values.
+    await Promise.all(state.loading.get("root-1/__proto__"));
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+    state = wrapper.state();
+
+    expect(state.loading.has("root-1/__proto__")).toBeFalsy();
+    expect(state.loadedProperties.has("root-1/__proto__")).toBeTruthy();
+    expect(state.actors.has(protoStub.prototype.actor)).toBeTruthy();
   });
 
   it("has the expected state when expanding a proxy node", async () => {
@@ -143,7 +174,8 @@ describe("ObjectInspector - state", () => {
     state = wrapper.state();
     expect(state.loading.has("root-2")).toBeFalsy();
     expect(state.loadedProperties.get("root-2")).toEqual(protoStub);
-    expect(state.actors.has(gripRepStubs.get("testProxy").actor)).toBeTruthy();
+    // We don't want to track root actors.
+    expect(state.actors.has(gripRepStubs.get("testProxy").actor)).toBeFalsy();
 
     nodes = wrapper.find(".node");
     const protoNode = nodes.at(4);

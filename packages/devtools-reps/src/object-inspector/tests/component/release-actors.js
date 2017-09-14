@@ -11,9 +11,9 @@ const ObjectInspector = createFactory(require("../../index"));
 const repsPath = "../../../reps";
 const gripRepStubs = require(`${repsPath}/stubs/grip`);
 const ObjectClient = require("../__mocks__/object-client");
+const stub = gripRepStubs.get("testMoreThanMaxProps");
 
 function generateDefaults(overrides) {
-  const stub = gripRepStubs.get("testMoreThanMaxProps");
   return Object.assign({
     autoExpandDepth: 0,
     roots: [{
@@ -29,7 +29,6 @@ function generateDefaults(overrides) {
 describe("release actors", () => {
   it("release actors when unmount", () => {
     const releaseActor = jest.fn();
-    // The window node should have the "lessen" class when collapsed.
     const props = generateDefaults({
       releaseActor,
     });
