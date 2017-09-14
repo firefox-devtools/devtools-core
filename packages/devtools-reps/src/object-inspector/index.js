@@ -315,8 +315,15 @@ class ObjectInspector extends Component {
           const nextLoading = new Map(prevState.loading);
           nextLoading.delete(path);
 
+          const isRoot = this.props.roots.some(root => {
+            const rootValue = getValue(root);
+            return rootValue && rootValue.actor === value.actor;
+          });
+
           return {
-            actors: (new Set(prevState.actors)).add(value.actor),
+            actors: isRoot
+              ? prevState.actors
+              : (new Set(prevState.actors)).add(value.actor),
             loadedProperties: (new Map(prevState.loadedProperties)).set(path, response),
             loading: nextLoading,
           };
