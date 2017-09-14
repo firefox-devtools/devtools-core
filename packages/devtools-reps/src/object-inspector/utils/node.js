@@ -506,12 +506,15 @@ function makeNodesForProperties(
   let allProperties = Object.assign({}, ownProperties, safeGetterValues);
 
   // Ignore properties that are neither non-concrete nor getters/setters.
-  const propertiesNames = sortProperties(Object.keys(allProperties)).filter(name =>
-    allProperties[name].hasOwnProperty("value")
-    || allProperties[name].hasOwnProperty("getterValue")
-    || allProperties[name].hasOwnProperty("get")
-    || allProperties[name].hasOwnProperty("set")
-  );
+  const propertiesNames = sortProperties(Object.keys(allProperties)).filter(name => {
+    if (!allProperties[name]) {
+      return false;
+    }
+
+    const properties = Object.getOwnPropertyNames(allProperties[name]);
+    return properties
+      .some(property => ["value", "getterValue", "get", "set"].includes(property));
+  });
 
   let nodes = [];
   if (parentValue && parentValue.class == "Window") {

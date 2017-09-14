@@ -84,6 +84,25 @@ describe("makeNodesForProperties", () => {
     expect(paths).toEqual(["root/bar", "root/baz", "root/foo", "root/__proto__"]);
   });
 
+  it("does not include unrelevant properties", () => {
+    const nodes = makeNodesForProperties(
+      {
+        ownProperties: {
+          foo: undefined,
+          bar: null,
+          baz: {}
+        },
+      },
+      root
+    );
+
+    const names = nodes.map(n => n.name);
+    const paths = nodes.map(n => n.path);
+
+    expect(names).toEqual([]);
+    expect(paths).toEqual([]);
+  });
+
   it("sorts keys", () => {
     const nodes = makeNodesForProperties(
       {
