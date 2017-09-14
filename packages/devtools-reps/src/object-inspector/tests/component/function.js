@@ -76,6 +76,6 @@ describe("ObjectInspector - functions", () => {
 
     const functionNode = nodes.first();
     // It should have the name of the property.
-    expect(functionNode.text()).toBe("x : function testName()");
+    expect(functionNode.text()).toBe("x: function testName()");
   });
 });

@@ -11,7 +11,7 @@ exports[`ObjectInspector - classnames has the expected class 1`] = `
               root
             </span>
             <span className=\\"object-delimiter\\">
-               : 
+              : 
             </span>
             <span className=\\"objectBox objectBox-number\\">
               42
@@ -35,7 +35,7 @@ exports[`ObjectInspector - classnames has the inline class when inline prop is t
               root
             </span>
             <span className=\\"object-delimiter\\">
-               : 
+              : 
             </span>
             <span className=\\"objectBox objectBox-number\\">
               42
@@ -59,7 +59,7 @@ exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop
               root
             </span>
             <span className=\\"object-delimiter\\">
-               : 
+              : 
             </span>
             <span className=\\"objectBox objectBox-number\\">
               42

@@ -456,7 +456,7 @@ class ObjectInspector extends Component {
         )
         : null,
       hasLabel && hasValue
-        ? dom.span({ className: "object-delimiter" }, " : ")
+        ? dom.span({ className: "object-delimiter" }, ": ")
         : null,
       hasValue
         ? objectValue
