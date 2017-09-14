@@ -93,12 +93,37 @@ function getTitle(grip, props) {
   }, title);
 }
 
+// Decodes an anonymous naming scheme that
+// spider monkey implements based on "Naming Anonymous JavaScript Functions"
+// http://johnjbarton.github.io/nonymous/index.html
+const objectProperty = /([\w\d]+)$/;
+const arrayProperty = /\[(.*?)\]$/;
+const functionProperty = /([\w\d]+)[\/\.<]*?$/;
+const annonymousProperty = /([\w\d]+)\(\^\)$/;
+
 function getFunctionName(grip, props) {
   let name = grip.userDisplayName
     || grip.displayName
     || grip.name
     || props.functionName
     || "";
+
+  const scenarios = [
+    objectProperty,
+    arrayProperty,
+    functionProperty,
+    annonymousProperty
+  ];
+
+  scenarios.some(reg => {
+    const match = reg.exec(name);
+    if (match) {
+      name = match[1];
+      return true;
+    }
+    return false;
+  });
+
   return cropString(name, 100);
 }
 
@@ -133,4 +158,6 @@ function supportsObject(grip, noGrip = false) {
 module.exports = {
   rep: wrapRender(FunctionRep),
   supportsObject,
+  // exported for testing purpose.
+  getFunctionName,
 };
