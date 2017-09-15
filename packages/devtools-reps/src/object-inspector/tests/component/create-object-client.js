@@ -81,4 +81,16 @@ describe("createObjectClient", () => {
     }));
     expect(createObjectClient.mock.calls[0][0]).toBe(grip);
   });
+
+  it("does not fail if the ObjectClient does not have the expected functions", () => {
+    const stub = gripRepStubs.get("testMoreThanMaxProps");
+    const root = createNode(null, "root", "/", {value: stub});
+
+    const createObjectClient = x => ({});
+    mount(ObjectInspector({
+      autoExpandDepth: 1,
+      roots: [root],
+      createObjectClient,
+    }));
+  });
 });

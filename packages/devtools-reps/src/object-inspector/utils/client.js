@@ -13,47 +13,70 @@ async function enumIndexedProperties(
   objectClient: ObjectClient,
   start: ?number,
   end: ?number
-) : Promise<{ownProperties: Object}> {
-  const {iterator} = await objectClient
-    .enumProperties({ignoreNonIndexedProperties: true});
-  const response = await iteratorSlice(iterator, start, end);
-  return response;
+) : Promise<{ownProperties?: Object}> {
+  try {
+    const {iterator} = await objectClient
+      .enumProperties({ignoreNonIndexedProperties: true});
+    const response = await iteratorSlice(iterator, start, end);
+    return response;
+  } catch (e) {
+    console.warn("Error in enumIndexedProperties", e);
+    return {};
+  }
 }
 
 async function enumNonIndexedProperties(
   objectClient: ObjectClient,
   start: ?number,
   end: ?number
-) : Promise<{ownProperties: Object}> {
-  const {iterator} = await objectClient.enumProperties({ignoreIndexedProperties: true});
-
-  const response = await iteratorSlice(iterator, start, end);
-  return response;
+) : Promise<{ownProperties?: Object}> {
+  try {
+    const {iterator} = await objectClient.enumProperties({ignoreIndexedProperties: true});
+    const response = await iteratorSlice(iterator, start, end);
+    return response;
+  } catch (e) {
+    console.warn("Error in enumNonIndexedProperties", e);
+    return {};
+  }
 }
 
 async function enumEntries(
   objectClient: ObjectClient,
   start: ?number,
   end: ?number
-) : Promise<{ownProperties: Object}> {
-  const {iterator} = await objectClient.enumEntries();
-  const response = await iteratorSlice(iterator, start, end);
-  return response;
+) : Promise<{ownProperties?: Object}> {
+  try {
+    const {iterator} = await objectClient.enumEntries();
+    const response = await iteratorSlice(iterator, start, end);
+    return response;
+  } catch (e) {
+    console.warn("Error in enumEntries", e);
+    return {};
+  }
 }
 
 async function enumSymbols(
   objectClient: ObjectClient,
   start: ?number,
   end: ?number
-) : Promise<{ownSymbols: Array<Object>}> {
-  const {iterator} = await objectClient.enumSymbols();
-  const response = await iteratorSlice(iterator, start, end);
-  return response;
+) : Promise<{ownSymbols?: Array<Object>}> {
+  try {
+    const {iterator} = await objectClient.enumSymbols();
+    const response = await iteratorSlice(iterator, start, end);
+    return response;
+  } catch (e) {
+    console.warn("Error in enumSymbols", e);
+    return {};
+  }
 }
 
-function getPrototype(
+async function getPrototype(
   objectClient: ObjectClient
-) : ?Promise<{prototype: Object}> {
+) : ?Promise<{prototype?: Object}> {
+  if (typeof objectClient.getPrototype !== "function") {
+    console.warn("objectClient.getPrototype is not a function");
+    return Promise.resolve({});
+  }
   return objectClient.getPrototype();
 }
 
