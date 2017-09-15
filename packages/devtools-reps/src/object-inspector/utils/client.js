@@ -20,7 +20,7 @@ async function enumIndexedProperties(
     const response = await iteratorSlice(iterator, start, end);
     return response;
   } catch (e) {
-    console.warn("Error in enumIndexedProperties", e);
+    console.error("Error in enumIndexedProperties", e);
     return {};
   }
 }
@@ -35,7 +35,7 @@ async function enumNonIndexedProperties(
     const response = await iteratorSlice(iterator, start, end);
     return response;
   } catch (e) {
-    console.warn("Error in enumNonIndexedProperties", e);
+    console.error("Error in enumNonIndexedProperties", e);
     return {};
   }
 }
@@ -50,7 +50,7 @@ async function enumEntries(
     const response = await iteratorSlice(iterator, start, end);
     return response;
   } catch (e) {
-    console.warn("Error in enumEntries", e);
+    console.error("Error in enumEntries", e);
     return {};
   }
 }
@@ -65,7 +65,7 @@ async function enumSymbols(
     const response = await iteratorSlice(iterator, start, end);
     return response;
   } catch (e) {
-    console.warn("Error in enumSymbols", e);
+    console.error("Error in enumSymbols", e);
     return {};
   }
 }
@@ -74,7 +74,7 @@ async function getPrototype(
   objectClient: ObjectClient
 ) : ?Promise<{prototype?: Object}> {
   if (typeof objectClient.getPrototype !== "function") {
-    console.warn("objectClient.getPrototype is not a function");
+    console.error("objectClient.getPrototype is not a function");
     return Promise.resolve({});
   }
   return objectClient.getPrototype();
