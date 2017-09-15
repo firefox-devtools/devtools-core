@@ -19,10 +19,18 @@ function generateDefaults(overrides) {
   }, overrides);
 }
 
+function getEnumPropertiesMock() {
+  return jest.fn(() => ({
+    iterator: {
+      slice: () => ({})
+    }
+  }));
+}
+
 describe("ObjectInspector - properties", () => {
   it("does not load properties if properties are already loaded", () => {
     const stub = gripRepStubs.get("testMaxProps");
-    const enumProperties = jest.fn();
+    const enumProperties = getEnumPropertiesMock();
 
     mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 1,
@@ -43,7 +51,7 @@ describe("ObjectInspector - properties", () => {
 
   it("calls enumProperties when expandable leaf is clicked", () => {
     const stub = gripRepStubs.get("testMaxProps");
-    const enumProperties = jest.fn();
+    const enumProperties = getEnumPropertiesMock();
 
     const oi = mount(ObjectInspector(generateDefaults({
       roots: [{

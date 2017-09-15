@@ -22,10 +22,18 @@ function generateDefaults(overrides) {
   }, overrides);
 }
 
+function getEnumEntriesMock() {
+  return jest.fn(() => ({
+    iterator: {
+      slice: () => ({})
+    }
+  }));
+}
+
 describe("ObjectInspector - entries", () => {
   it("renders Object with entries as expected", async () => {
     const stub = gripMapRepStubs.get("testSymbolKeyedMap");
-    const enumEntries = jest.fn();
+    const enumEntries = getEnumEntriesMock();
 
     let oi = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 3,
@@ -54,7 +62,7 @@ describe("ObjectInspector - entries", () => {
 
   it("does not call enumEntries if entries are already loaded", () => {
     const stub = gripMapRepStubs.get("testMoreThanMaxEntries");
-    const enumEntries = jest.fn();
+    const enumEntries = getEnumEntriesMock();
 
     const wrapper = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 3,
@@ -79,7 +87,7 @@ describe("ObjectInspector - entries", () => {
 
   it("calls ObjectClient.enumEntries when an <entries> node is clicked", () => {
     const stub = gripMapRepStubs.get("testMoreThanMaxEntries");
-    const enumEntries = jest.fn();
+    const enumEntries = getEnumEntriesMock();
 
     const oi = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 1,

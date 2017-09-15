@@ -30,9 +30,17 @@ function generateDefaults(overrides) {
   }, overrides);
 }
 
+function getEnumPropertiesMock() {
+  return jest.fn(() => ({
+    iterator: {
+      slice: () => ({})
+    }
+  }));
+}
+
 describe("ObjectInspector - Proxy", () => {
   it("renders Proxy as expected", () => {
-    const enumProperties = jest.fn();
+    const enumProperties = getEnumPropertiesMock();
 
     const props = generateDefaults({
       createObjectClient: grip => ObjectClient(grip, {enumProperties}),
@@ -45,7 +53,7 @@ describe("ObjectInspector - Proxy", () => {
   });
 
   it("calls enumProperties when <target> and <handler> nodes are clicked", () => {
-    const enumProperties = jest.fn();
+    const enumProperties = getEnumPropertiesMock();
 
     const props = generateDefaults({
       createObjectClient: grip => ObjectClient(grip, {enumProperties}),
