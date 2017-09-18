@@ -333,10 +333,6 @@ const Tree = createClass({
     //     isExpanded: item => item.expanded,
     isExpanded: PropTypes.func.isRequired,
 
-    // The height of an item in the tree including margin and padding, in
-    // pixels.
-    itemHeight: PropTypes.number.isRequired,
-
     // Optional props
 
     // The currently focused item, if any such item exists.
@@ -388,25 +384,16 @@ const Tree = createClass({
 
   getInitialState() {
     return {
-      scroll: 0,
-      height: window.innerHeight,
       seen: new Set(),
     };
   },
 
   componentDidMount() {
-    window.addEventListener("resize", this._updateHeight);
     this._autoExpand();
-    this._updateHeight();
   },
 
   componentWillReceiveProps(nextProps) {
     this._autoExpand();
-    this._updateHeight();
-  },
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this._updateHeight);
   },
 
   _autoExpand() {
@@ -461,15 +448,6 @@ const Tree = createClass({
           }
         }
     }
-  },
-
-  /**
-   * Updates the state's height based on clientHeight.
-   */
-  _updateHeight() {
-    this.setState({
-      height: this.refs.tree.clientHeight
-    });
   },
 
   /**
@@ -554,22 +532,23 @@ const Tree = createClass({
    *        The item to be focused, or undefined to focus no item.
    */
   _focus(index, item) {
-    if (item !== undefined) {
-      const itemStartPosition = index * this.props.itemHeight;
-      const itemEndPosition = (index + 1) * this.props.itemHeight;
+    // TODO: Revisit how we should handle focus without having fixed item height.
+    // if (item !== undefined) {
+    //   const itemStartPosition = index * this.props.itemHeight;
+    //   const itemEndPosition = (index + 1) * this.props.itemHeight;
 
-      // Note that if the height of the viewport (this.state.height) is less than
-      // `this.props.itemHeight`, we could accidentally try and scroll both up and
-      // down in a futile attempt to make both the item's start and end positions
-      // visible. Instead, give priority to the start of the item by checking its
-      // position first, and then using an "else if", rather than a separate "if",
-      // for the end position.
-      if (this.state.scroll > itemStartPosition) {
-        this.refs.tree.scrollTop = itemStartPosition;
-      } else if ((this.state.scroll + this.state.height) < itemEndPosition) {
-        this.refs.tree.scrollTop = itemEndPosition - this.state.height;
-      }
-    }
+    //   // Note that if the height of the viewport (this.state.height) is less than
+    //   // `this.props.itemHeight`, we could accidentally try and scroll both up and
+    //   // down in a futile attempt to make both the item's start and end positions
+    //   // visible. Instead, give priority to the start of the item by checking its
+    //   // position first, and then using an "else if", rather than a separate "if",
+    //   // for the end position.
+    //   if (this.state.scroll > itemStartPosition) {
+    //     this.refs.tree.scrollTop = itemStartPosition;
+    //   } else if ((this.state.scroll + this.state.height) < itemEndPosition) {
+    //     this.refs.tree.scrollTop = itemEndPosition - this.state.height;
+    //   }
+    // }
 
     if (this.props.onFocus) {
       this.props.onFocus(item);
@@ -582,19 +561,6 @@ const Tree = createClass({
   _onBlur() {
     this._focus(0, undefined);
   },
-
-  /**
-   * Fired on a scroll within the tree's container, updates
-   * the stored position of the view port to handle virtual view rendering.
-   *
-   * @param {Event} e
-   */
-  _onScroll: oncePerAnimationFrame(function (e) {
-    this.setState({
-      scroll: Math.max(this.refs.tree.scrollTop, 0),
-      height: this.refs.tree.clientHeight
-    });
-  }),
 
   /**
    * Handles key down events in the tree's container.
@@ -766,7 +732,6 @@ const Tree = createClass({
         onKeyDown: this._onKeyDown,
         onKeyPress: this._preventArrowKeyScrolling,
         onKeyUp: this._preventArrowKeyScrolling,
-        onScroll: this._onScroll,
         onFocus: ({nativeEvent}) => {
           if (focused || !nativeEvent || !this.refs.tree) {
             return;
