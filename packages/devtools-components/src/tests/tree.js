@@ -302,6 +302,15 @@ describe("Tree", () => {
     });
     expect(formatTree(wrapper)).toMatchSnapshot();
   });
+
+  it("adds the expected data-expandable attribute", () => {
+    const wrapper = mountTree({
+      isExpandable: item => item === "A"
+    });
+    const nodes = getTreeNodes(wrapper);
+    expect(nodes.at(0).prop("data-expandable")).toBe(true);
+    expect(nodes.at(1).prop("data-expandable")).toBe(false);
+  });
 });
 
 function getTreeNodes(wrapper) {
