@@ -43,11 +43,11 @@ const testCases = [{
 }, {
   name: "testQuoting",
   props: {
-    object: "\t\n\r\"'\\\x1f\x9f\ufeff\ufffe\ud8000\u2063\ufffc\u2028\ueeee",
+    object: "\t\n\r\"'\\\x1f\x9f\ufeff\ufffe\ud8000\u2063\ufffc\u2028\ueeee\ufffd",
     useQuotes: true
   },
   // eslint-disable-next-line max-len
-  result: "\"\\t\\n\\r\\\"'\\\\\\u001f\\u009f\\ufeff\\ufffe\\ud8000\\u2063\\ufffc\\u2028\\ueeee\""
+  result: "\"\\t\\n\\r\\\"'\\\\\\u001f\\u009f\\ufeff\\ufffe\\ud8000\\u2063\\ufffc\\u2028\\ueeee\ufffd\""
 }, {
   name: "testUnpairedSurrogate",
   props: {
