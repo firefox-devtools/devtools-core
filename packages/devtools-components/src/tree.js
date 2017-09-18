@@ -130,6 +130,7 @@ const TreeNode = createFactory(createClass({
         role: "treeitem",
         "aria-level": depth,
         "aria-expanded": ariaExpanded,
+        "data-expandable": this.props.isExpandable,
       },
       renderItem(item, depth, focused, arrow, expanded)
     );
