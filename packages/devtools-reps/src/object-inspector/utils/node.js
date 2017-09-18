@@ -219,6 +219,10 @@ function nodeHasAllEntriesInPreview(item : Node) : boolean {
     size,
   } = preview;
 
+  if (!entries && !items) {
+    return false;
+  }
+
   return entries
     ? entries.length === size
     : items.length === length;

@@ -12,29 +12,53 @@ const {
 
 const createRootNode = value => createNode(null, "root", "/", {value});
 describe("nodeHasEntries", () => {
-  it("returns true when expected", () => {
+  it("returns true for a Map with every entries in the preview", () => {
     expect(nodeHasAllEntriesInPreview(
       createRootNode(gripMapStubs.get("testSymbolKeyedMap")))
     ).toBe(true);
-
+  });
+  it("returns true for a WeakMap with every entries in the preview", () => {
     expect(nodeHasAllEntriesInPreview(
       createRootNode(gripMapStubs.get("testWeakMap"))
     )).toBe(true);
-
+  });
+  it("returns true for a Set with every entries in the preview", () => {
     expect(nodeHasAllEntriesInPreview(
       createRootNode(gripArrayStubs.get("new Set([1,2,3,4])")))
     ).toBe(true);
   });
 
-  it("returns false when expected", () => {
+  it("returns false for a Map with nore than 10 items", () => {
     expect(nodeHasAllEntriesInPreview(
       createRootNode(gripMapStubs.get("testMoreThanMaxEntries"))
     )).toBe(false);
+  });
 
+  it("returns false for a WeakSet with nore than 10 items", () => {
     expect(nodeHasAllEntriesInPreview(
       createRootNode(
         gripArrayStubs.get("new WeakSet(document.querySelectorAll('div, button'))")
       )
     )).toBe(false);
+  });
+
+  it("returns false for a null value", () => {
+    expect(nodeHasAllEntriesInPreview(createRootNode(null))).toBe(false);
+  });
+
+  it("returns false for an undefined value", () => {
+    expect(nodeHasAllEntriesInPreview(createRootNode(null))).toBe(false);
+  });
+
+  it("returns false for an empty object", () => {
+    expect(nodeHasAllEntriesInPreview(createRootNode({}))).toBe(false);
+  });
+
+  it("returns false for an object with a preview without items", () => {
+    expect(nodeHasAllEntriesInPreview(createRootNode({
+      preview: {
+        size: 1
+      }
+    }))).toBe(false);
   });
 });
