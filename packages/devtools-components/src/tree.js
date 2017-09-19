@@ -46,6 +46,7 @@ const TreeNode = createFactory(createClass({
   displayName: "TreeNode",
 
   propTypes: {
+    id: PropTypes.any.isRequired,
     index: PropTypes.number.isRequired,
     depth: PropTypes.number.isRequired,
     focused: PropTypes.bool.isRequired,
@@ -65,6 +66,7 @@ const TreeNode = createFactory(createClass({
   render() {
     const {
       depth,
+      id,
       item,
       focused,
       expanded,
@@ -121,6 +123,7 @@ const TreeNode = createFactory(createClass({
 
     return dom.div(
       {
+        id,
         className: "tree-node" + (focused ? " focused" : ""),
         style: {
           paddingInlineStart,
@@ -731,8 +734,10 @@ const Tree = createClass({
 
     const nodes = traversal.map((v, i) => {
       const { item, depth } = traversal[i];
+      const key = this.props.getKey(item, i);
       return TreeNode({
-        key: this.props.getKey(item, i),
+        key,
+        id: key,
         index: i,
         item,
         depth,
