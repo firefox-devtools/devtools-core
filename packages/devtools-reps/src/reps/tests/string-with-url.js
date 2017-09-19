@@ -9,7 +9,8 @@ const { Rep } = REPS;
 
 const renderRep = (string, props) => mount(
   Rep(Object.assign({
-    object: string
+    object: string,
+    omitLinkHref: false,
   }, props))
 );
 
@@ -254,5 +255,21 @@ describe("test String with URL", () => {
 
     link.simulate("click");
     expect(openLink).toBeCalledWith(url);
+  });
+
+  it("does not create an href attribute if omitLinkHref is true", () => {
+    const url = "http://example.com";
+    const element = renderRep(url, {omitLinkHref: true, useQuotes: false});
+    expect(element.text()).toEqual(url);
+    const link = element.find("a");
+    expect(link.prop("href")).toBe(null);
+  });
+
+  it("does not create an href attribute if omitLinkHref is undefined", () => {
+    const url = "http://example.com";
+    const element = mount(Rep({ object: url, useQuotes: false }));
+    expect(element.text()).toEqual(url);
+    const link = element.find("a");
+    expect(link.prop("href")).toBe(null);
   });
 });
