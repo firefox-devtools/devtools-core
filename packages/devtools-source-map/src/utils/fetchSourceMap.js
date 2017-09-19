@@ -11,6 +11,8 @@ const { SourceMapConsumer } = require("source-map");
 
 const path = require("./path");
 
+const URL_ISH = new RegExp("^[a-z]+:/");
+
 import type {
   Location,
   Source,
@@ -28,10 +30,17 @@ function _setSourceMapRoot(
   absSourceMapURL: string,
   source: Source
 ) {
-  // No need to do this fiddling if we won't be fetching any sources over the
-  // wire.
+  // No need to do this fiddling if we won't be fetching any sources
+  // over the wire.  However, we do still want to if any of the source
+  // URLs are relative.  What's difficult is that we want to pretend
+  // that some non-URLs, like "webpack:/whatever", are actually URLs.
   if (sourceMap.hasContentsOfAllSources()) {
-    return;
+    const allURLsAreAbsolute = sourceMap.sources.every(sourceName => {
+      return URL_ISH.test(sourceName);
+    });
+    if (allURLsAreAbsolute) {
+      return;
+    }
   }
 
   // If it's already a URL, just leave it alone.

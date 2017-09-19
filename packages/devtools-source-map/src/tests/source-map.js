@@ -50,6 +50,11 @@ describe("source maps", () => {
       const urls = await setupBundleFixture("noroot");
       expect(urls).toEqual(["http://example.com/heart.js"]);
     });
+
+    test("Non-existing sourceRoot resolution with relative URLs", async () => {
+      const urls = await setupBundleFixture("noroot2");
+      expect(urls).toEqual(["http://example.com/heart.js"]);
+    });
   });
 
   describe("hasMappedSource", async () => {
