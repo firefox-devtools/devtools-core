@@ -28,13 +28,13 @@ describe("nodeHasEntries", () => {
     ).toBe(true);
   });
 
-  it("returns false for a Map with nore than 10 items", () => {
+  it("returns false for a Map with more than 10 items", () => {
     expect(nodeHasAllEntriesInPreview(
       createRootNode(gripMapStubs.get("testMoreThanMaxEntries"))
     )).toBe(false);
   });
 
-  it("returns false for a WeakSet with nore than 10 items", () => {
+  it("returns false for a WeakSet with more than 10 items", () => {
     expect(nodeHasAllEntriesInPreview(
       createRootNode(
         gripArrayStubs.get("new WeakSet(document.querySelectorAll('div, button'))")
