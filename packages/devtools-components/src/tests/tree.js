@@ -66,7 +66,7 @@ describe("Tree", () => {
     expect(mountTree()).toBeTruthy();
   });
 
-  it.only("is accessible", () => {
+  it("is accessible", () => {
     const wrapper = mountTree({
       expanded: new Set("ABCDEFGHIJKLMNO".split("")),
     });
@@ -143,18 +143,22 @@ describe("Tree", () => {
     });
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-G");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-G");
 
     getTreeNodes(wrapper).first().simulate("click");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-A");
 
     getTreeNodes(wrapper).first().simulate("click");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-A");
 
     wrapper.simulate("blur");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().hasAttribute("aria-activedescendant")).toBe(false);
+    expect(wrapper.find(".focused").exists()).toBe(false);
   });
 
   it("renders as expected when navigating up with the keyboard", () => {
@@ -164,14 +168,17 @@ describe("Tree", () => {
     });
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-L");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-L");
 
     simulateKeyDown(wrapper, "ArrowUp");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-K");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-K");
 
     simulateKeyDown(wrapper, "ArrowUp");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-E");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-E");
   });
 
   it("renders as expected when navigating up with the keyboard on a root", () => {
@@ -181,10 +188,12 @@ describe("Tree", () => {
     });
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-A");
 
     simulateKeyDown(wrapper, "ArrowUp");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-A");
   });
 
   it("renders as expected when navigating down with the keyboard", () => {
@@ -194,14 +203,17 @@ describe("Tree", () => {
     });
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-K");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-K");
 
     simulateKeyDown(wrapper, "ArrowDown");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-L");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-L");
 
     simulateKeyDown(wrapper, "ArrowDown");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-F");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-F");
   });
 
   it("renders as expected when navigating down with the keyboard on last node", () => {
@@ -211,10 +223,12 @@ describe("Tree", () => {
     });
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-O");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-O");
 
     simulateKeyDown(wrapper, "ArrowDown");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-O");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-O");
   });
 
   it("renders as expected when navigating with right/left arrows", () => {
@@ -224,22 +238,27 @@ describe("Tree", () => {
     });
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-L");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-L");
 
     simulateKeyDown(wrapper, "ArrowLeft");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-E");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-E");
 
     simulateKeyDown(wrapper, "ArrowLeft");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-E");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-E");
 
     simulateKeyDown(wrapper, "ArrowRight");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-E");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-E");
 
     simulateKeyDown(wrapper, "ArrowRight");
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-K");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-K");
   });
 
   it("ignores key strokes when pressing modifiers", () => {
@@ -249,6 +268,7 @@ describe("Tree", () => {
     });
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-L");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-L");
 
     let testKeys = [
       { key: "ArrowDown"},
