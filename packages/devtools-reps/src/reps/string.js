@@ -30,6 +30,7 @@ StringRep.propTypes = {
   member: React.PropTypes.any,
   cropLimit: React.PropTypes.number,
   openLink: React.PropTypes.func,
+  omitLinkHref: React.PropTypes.bool,
 };
 
 function StringRep(props) {
@@ -41,6 +42,7 @@ function StringRep(props) {
     useQuotes = true,
     escapeWhitespace = true,
     openLink,
+    omitLinkHref = true,
   } = props;
 
   let config = {className: "objectBox objectBox-string"};
@@ -78,7 +80,9 @@ function StringRep(props) {
       items.push(a({
         className: "url",
         title: token,
-        href: token,
+        href: omitLinkHref === true
+          ? null
+          : token,
         draggable: false,
         onClick: openLink
           ? e => {
