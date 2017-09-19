@@ -49,8 +49,8 @@ const escapeRegexp = new RegExp(
   "\x7f-\x9f" +
   // BOM
   "\ufeff" +
-  // Replacement characters and non-characters.
-  "\ufffc-\uffff" +
+  // Specials, except for the replacement character.
+  "\ufff0-\ufffc\ufffe\uffff" +
   // Surrogates.
   "\ud800-\udfff" +
   // Mathematical invisibles.
