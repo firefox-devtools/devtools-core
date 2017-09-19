@@ -66,17 +66,19 @@ describe("Tree", () => {
     expect(mountTree()).toBeTruthy();
   });
 
-  it("is accessible", () => {
-    const wrapper = mountTree();
+  it.only("is accessible", () => {
+    const wrapper = mountTree({
+      expanded: new Set("ABCDEFGHIJKLMNO".split("")),
+    });
     expect(wrapper.getDOMNode().getAttribute("role")).toBe("tree");
     expect(wrapper.getDOMNode().getAttribute("tabIndex")).toBe("0");
 
     getTreeNodes(wrapper)
-      .everyWhere(node => {
-        return typeof node.prop("id") !== "undefined"
-          && node.prop("role") === "treeitem"
-          && typeof node.prop("aria-level") !== "undefined";
-      });
+      .everyWhere(node => expect(
+        node.prop("id").startsWith("key-")
+        && node.prop("role") === "treeitem"
+        && typeof node.prop("aria-level") !== "undefined"
+      ).toBe(true));
   });
 
   it("renders as expected", () => {
