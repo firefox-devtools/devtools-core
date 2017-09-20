@@ -55,10 +55,13 @@ function _setSourceMapRoot(
     }
 
     parsedSourceMapURL.pathname = path.dirname(parsedSourceMapURL.pathname);
-    sourceMap.sourceRoot = new URL(
-      sourceMap.sourceRoot || "",
-      parsedSourceMapURL
-    ).toString();
+    // Gecko's URL constructor can fail if the empty string is passed
+    // as the first parameter.  See
+    // https://github.com/devtools-html/debugger.html/issues/3816
+    if (sourceMap.sourceRoot) {
+      parsedSourceMapURL = new URL(sourceMap.sourceRoot, parsedSourceMapURL);
+    }
+    sourceMap.sourceRoot = parsedSourceMapURL.toString();
   }
 }
 
