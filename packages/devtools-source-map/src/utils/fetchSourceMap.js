@@ -60,7 +60,6 @@ function _setSourceMapRoot(
       parsedSourceMapURL
     ).toString();
   }
-  return sourceMap.sourceRoot;
 }
 
 function _resolveSourceMapURL(source: Source) {
