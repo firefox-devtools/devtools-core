@@ -86,11 +86,18 @@ describe("createObjectClient", () => {
     const stub = gripRepStubs.get("testMoreThanMaxProps");
     const root = createNode(null, "root", "/", {value: stub});
 
+    // Override console.error so we don't spam test results.
+    const originalConsoleError = console.error;
+    console.error = () => {};
+
     const createObjectClient = x => ({});
     mount(ObjectInspector({
       autoExpandDepth: 1,
       roots: [root],
       createObjectClient,
     }));
+
+    // rollback console.error.
+    console.error = originalConsoleError;
   });
 });
