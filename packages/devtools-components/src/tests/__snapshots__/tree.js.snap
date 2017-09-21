@@ -588,6 +588,36 @@ exports[`Tree renders as expected when navigating up with the keyboard on a root
 |  |    O"
 `;
 
+exports[`Tree renders as expected when navigating with arrows on unexpandable roots 1`] = `
+"  [A]
+  M"
+`;
+
+exports[`Tree renders as expected when navigating with arrows on unexpandable roots 2`] = `
+"  A
+  [M]"
+`;
+
+exports[`Tree renders as expected when navigating with arrows on unexpandable roots 3`] = `
+"  [A]
+  M"
+`;
+
+exports[`Tree renders as expected when navigating with left arrows on roots 1`] = `
+"▶︎ A
+▶︎ [M]"
+`;
+
+exports[`Tree renders as expected when navigating with left arrows on roots 2`] = `
+"▶︎ [A]
+▶︎ M"
+`;
+
+exports[`Tree renders as expected when navigating with left arrows on roots 3`] = `
+"▶︎ [A]
+▶︎ M"
+`;
+
 exports[`Tree renders as expected when navigating with right/left arrows 1`] = `
 "▼ A
 |  ▼ B

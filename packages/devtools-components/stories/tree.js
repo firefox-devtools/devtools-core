@@ -3,7 +3,7 @@
 * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React from "react";
-const { DOM: dom, createClass, createFactory } = React;
+const { DOM: dom, createClass, createFactory, createElement } = React;
 
 import Components from "../index";
 const Tree = createFactory(Components.Tree);
@@ -37,6 +37,50 @@ storiesOf("Tree", module)
       getRoots: () => ["A", "W"],
       expanded: new Set(["A"])
     });
+  })
+  .add("scrollable tree", () => {
+    const nodes = Array.from({length: 500}).map((_, i) => (i + 1).toString());
+
+    return createFactory(createClass({
+      displayName: "container",
+      getInitialState() {
+        const state = {
+          expanded: new Set(),
+          focused: null
+        };
+        return state;
+      },
+      render() {
+        return createElement("div", {},
+          createElement("label", {
+            style: {position: "fixed", right: 0},
+          },
+            "Enter node number to set focus on: ",
+            createElement("input", {
+              type: "number",
+              min: 1,
+              max: 500,
+              onInput: e => {
+                // Storing balue since `e` can be reused by the time the setState
+                // callback is called.
+                const value = e.target.value.toString();
+                this.setState(previousState => {
+                  return {focused: value};
+                });
+              }
+            }),
+          ),
+          createTreeElement({getRoots: () => nodes}, this, {})
+        );
+      }
+    }))();
+  })
+  .add("scrollable tree with focused node", () => {
+    const nodes = Array.from({length: 500}).map((_, i) => `item ${i + 1}`);
+    return renderTree({
+      focused: "item 250",
+      getRoots: () => nodes,
+    }, {});
   });
 
 // Encoding of the following tree/forest:
@@ -101,7 +145,7 @@ const TEST_TREE = {
   },
 };
 
-function renderTree(props) {
+function renderTree(props, tree = TEST_TREE) {
   return createFactory(createClass({
     displayName: "container",
     getInitialState() {
@@ -113,38 +157,44 @@ function renderTree(props) {
       return state;
     },
     render() {
-      return Tree(Object.assign({
-        getParent: x => TEST_TREE.parent[x],
-        getChildren: x => TEST_TREE.children[x],
-        renderItem: (x, depth, focused, arrow, expanded) => dom.div({},
-          arrow,
-          x,
-        ),
-        getRoots: () => ["A"],
-        getKey: x => "key-" + x,
-        itemHeight: 1,
-        onFocus: x => {
-          this.setState(previousState => {
-            return {focused: x};
-          });
-        },
-        onExpand: x => {
-          this.setState(previousState => {
-            const expanded = new Set(previousState.expanded);
-            expanded.add(x);
-            return {expanded};
-          });
-        },
-        onCollapse: x => {
-          this.setState(previousState => {
-            const expanded = new Set(previousState.expanded);
-            expanded.delete(x);
-            return {expanded};
-          });
-        },
-        isExpanded: x => this.state && this.state.expanded.has(x),
-        focused: this.state.focused,
-      }, props));
+      return createTreeElement(props, this, tree);
     }
   }))();
+}
+
+function createTreeElement(props, context, tree) {
+  return Tree(Object.assign({
+    getParent: x => tree.parent && tree.parent[x],
+    getChildren: x => tree.children
+      ? tree.children[x]
+      : [],
+    renderItem: (x, depth, focused, arrow, expanded) => dom.div({},
+      arrow,
+      x,
+    ),
+    getRoots: () => ["A"],
+    getKey: x => "key-" + x,
+    itemHeight: 1,
+    onFocus: x => {
+      context.setState(previousState => {
+        return {focused: x};
+      });
+    },
+    onExpand: x => {
+      context.setState(previousState => {
+        const expanded = new Set(previousState.expanded);
+        expanded.add(x);
+        return {expanded};
+      });
+    },
+    onCollapse: x => {
+      context.setState(previousState => {
+        const expanded = new Set(previousState.expanded);
+        expanded.delete(x);
+        return {expanded};
+      });
+    },
+    isExpanded: x => context.state && context.state.expanded.has(x),
+    focused: context.state.focused,
+  }, props));
 }

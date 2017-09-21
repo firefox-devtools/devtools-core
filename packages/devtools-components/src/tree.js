@@ -394,10 +394,19 @@ const Tree = createClass({
 
   componentDidMount() {
     this._autoExpand();
+    if (this.props.focused) {
+      this._scrollNodeIntoView(this.props.focused);
+    }
   },
 
   componentWillReceiveProps(nextProps) {
     this._autoExpand();
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.focused !== this.props.focused) {
+      this._scrollNodeIntoView(this.props.focused);
+    }
   },
 
   _autoExpand() {
@@ -528,34 +537,64 @@ const Tree = createClass({
   /**
    * Sets the passed in item to be the focused item.
    *
-   * @param {Number} index
-   *        The index of the item in a full DFS traversal (ignoring collapsed
-   *        nodes). Ignored if `item` is undefined.
-   *
    * @param {Object|undefined} item
    *        The item to be focused, or undefined to focus no item.
+   *
+   * @param {Object|undefined} options
+   *        An options object which can contain:
+   *          - dir: "up" or "down" to indicate if we should scroll the element to the
+   *                 top or the bottom of the scrollable container when the element is
+   *                 off canvas.
    */
-  _focus(index, item) {
-    // TODO: Revisit how we should handle focus without having fixed item height.
-    // if (item !== undefined) {
-    //   const itemStartPosition = index * this.props.itemHeight;
-    //   const itemEndPosition = (index + 1) * this.props.itemHeight;
-
-    //   // Note that if the height of the viewport (this.state.height) is less than
-    //   // `this.props.itemHeight`, we could accidentally try and scroll both up and
-    //   // down in a futile attempt to make both the item's start and end positions
-    //   // visible. Instead, give priority to the start of the item by checking its
-    //   // position first, and then using an "else if", rather than a separate "if",
-    //   // for the end position.
-    //   if (this.state.scroll > itemStartPosition) {
-    //     this.refs.tree.scrollTop = itemStartPosition;
-    //   } else if ((this.state.scroll + this.state.height) < itemEndPosition) {
-    //     this.refs.tree.scrollTop = itemEndPosition - this.state.height;
-    //   }
-    // }
-
+  _focus(item, options) {
+    this._scrollNodeIntoView(item, options);
     if (this.props.onFocus) {
       this.props.onFocus(item);
+    }
+  },
+
+  /**
+   * Sets the passed in item to be the focused item.
+   *
+   * @param {Object|undefined} item
+   *        The item to be scrolled to.
+   *
+   * @param {Object|undefined} options
+   *        An options object which can contain:
+   *          - dir: "up" or "down" to indicate if we should scroll the element to the
+   *                 top or the bottom of the scrollable container when the element is
+   *                 off canvas.
+   */
+  _scrollNodeIntoView(item, options = {}) {
+    if (item !== undefined) {
+      const treeElement = this.refs.tree;
+      const element = document.getElementById(this.props.getKey(item));
+      if (element) {
+        const {top, bottom} = element.getBoundingClientRect();
+        const closestScrolledParent = node => {
+          if (node == null) {
+            return null;
+          }
+
+          if (node.scrollHeight > node.clientHeight) {
+            return node;
+          }
+          return closestScrolledParent(node.parentNode);
+        };
+        const scrolledParent = closestScrolledParent(treeElement);
+        const isVisible = !scrolledParent
+          || (
+            top >= 0
+            && bottom <= scrolledParent.clientHeight
+          );
+
+        if (!isVisible) {
+          let scrollToTop =
+            (!options.alignTo && top < 0)
+            || options.alignTo === "top";
+          element.scrollIntoView(scrollToTop);
+        }
+      }
     }
   },
 
@@ -563,7 +602,7 @@ const Tree = createClass({
    * Sets the state to have no focused item.
    */
   _onBlur() {
-    this._focus(0, undefined);
+    this._focus(undefined);
   },
 
   /**
@@ -602,7 +641,8 @@ const Tree = createClass({
         return;
 
       case "ArrowRight":
-        if (!this.props.isExpanded(this.props.focused)) {
+        if (this._nodeIsExpandable(this.props.focused)
+            && !this.props.isExpanded(this.props.focused)) {
           this._onExpand(this.props.focused);
         } else {
           this._focusNextNode();
@@ -619,7 +659,6 @@ const Tree = createClass({
     // doesn't exist, we're at the first node already.
 
     let prev;
-    let prevIndex;
 
     const traversal = this._dfsFromRoots();
     const length = traversal.length;
@@ -629,14 +668,12 @@ const Tree = createClass({
         break;
       }
       prev = item;
-      prevIndex = i;
     }
-
     if (prev === undefined) {
       return;
     }
 
-    this._focus(prevIndex, prev);
+    this._focus(prev, {alignTo: "top"});
   }),
 
   /**
@@ -647,7 +684,6 @@ const Tree = createClass({
     // Start a depth first search and keep going until we reach the currently
     // focused node. Focus the next node in the DFS, if it exists. If it
     // doesn't exist, we're at the last node already.
-
     const traversal = this._dfsFromRoots();
     const length = traversal.length;
     let i = 0;
@@ -660,7 +696,7 @@ const Tree = createClass({
     }
 
     if (i + 1 < traversal.length) {
-      this._focus(i + 1, traversal[i + 1].item);
+      this._focus(traversal[i + 1].item, {alignTo: "bottom"});
     }
   }),
 
@@ -671,6 +707,7 @@ const Tree = createClass({
   _focusParentNode: oncePerAnimationFrame(function () {
     const parent = this.props.getParent(this.props.focused);
     if (!parent) {
+      this._focusPrevNode(this.props.focused);
       return;
     }
 
@@ -683,7 +720,7 @@ const Tree = createClass({
       }
     }
 
-    this._focus(parentIndex, parent);
+    this._focus(parent, {alignTo: "top"});
   }),
 
   _nodeIsExpandable: function (item) {
@@ -714,7 +751,7 @@ const Tree = createClass({
         onExpand: this._onExpand,
         onCollapse: this._onCollapse,
         onClick: (e) => {
-          this._focus(i, item);
+          this._focus(item);
           if (this.props.isExpanded(item)) {
             this.props.onCollapse(item);
           } else {
@@ -749,7 +786,7 @@ const Tree = createClass({
           // external elements).
           if (explicitOriginalTarget !== this.refs.tree &&
               !this.refs.tree.contains(explicitOriginalTarget)) {
-            this._focus(0, traversal[0].item);
+            this._focus(traversal[0].item);
           }
         },
         onBlur: this._onBlur,
