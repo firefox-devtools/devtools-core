@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/* global jest */
+
 import React from "react";
 import { mount } from "enzyme";
 import Components from "../../index";
@@ -259,6 +261,71 @@ describe("Tree", () => {
     expect(formatTree(wrapper)).toMatchSnapshot();
     expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-K");
     expect(wrapper.find(".focused").prop("id")).toBe("key-K");
+  });
+
+  it("renders as expected when navigating with left arrows on roots", () => {
+    const wrapper = mountTree({
+      focused: "M"
+    });
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-M");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-M");
+
+    simulateKeyDown(wrapper, "ArrowLeft");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-A");
+
+    simulateKeyDown(wrapper, "ArrowLeft");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-A");
+  });
+
+  it("renders as expected when navigating with arrows on unexpandable roots", () => {
+    const wrapper = mountTree({
+      focused: "A",
+      isExpandable: item => false
+    });
+    expect(formatTree(wrapper)).toMatchSnapshot();
+
+    simulateKeyDown(wrapper, "ArrowRight");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-M");
+
+    simulateKeyDown(wrapper, "ArrowLeft");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+  });
+
+  it("calls onFocus when expected", () => {
+    const onFocus = jest.fn(x => {
+      wrapper && wrapper.setState(() => {
+        return {focused: x};
+      });
+    });
+
+    const wrapper = mountTree({
+      expanded: new Set("ABCDEFGHIJKLMNO".split("")),
+      focused: "I",
+      onFocus,
+    });
+
+    simulateKeyDown(wrapper, "ArrowUp");
+    expect(onFocus.mock.calls[0][0]).toBe("H");
+
+    simulateKeyDown(wrapper, "ArrowUp");
+    expect(onFocus.mock.calls[1][0]).toBe("C");
+
+    simulateKeyDown(wrapper, "ArrowLeft");
+    simulateKeyDown(wrapper, "ArrowLeft");
+    expect(onFocus.mock.calls[2][0]).toBe("A");
+
+    simulateKeyDown(wrapper, "ArrowRight");
+    expect(onFocus.mock.calls[3][0]).toBe("B");
+
+    simulateKeyDown(wrapper, "ArrowDown");
+    expect(onFocus.mock.calls[4][0]).toBe("E");
   });
 
   it("ignores key strokes when pressing modifiers", () => {
