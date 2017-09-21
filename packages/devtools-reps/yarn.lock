@@ -1604,9 +1604,9 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-devtools-components@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.4.tgz#68ae84d5a5fb73b05b842380eed48d77a997576c"
+devtools-components@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.5.tgz#1b0c1718a9c0b6e3415f05377f0e5093aef82d9f"
   dependencies:
     svg-inline-loader "^0.8.0"
     svg-inline-react "^1.0.2"
