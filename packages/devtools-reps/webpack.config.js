@@ -4,7 +4,7 @@
 
 const { toolboxConfig } = require("devtools-launchpad/index");
 const getConfig = require("./bin/getConfig");
-const {isFirefoxPanel} = require("devtools-config");
+const {isDevelopment, isFirefoxPanel} = require("devtools-config");
 
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
@@ -38,5 +38,17 @@ webpackConfig.resolve = {
   }
 };
 
+const extra = {};
+webpackConfig.plugins = [];
+if (!isDevelopment()) {
+  webpackConfig.output.libraryTarget = "umd";
+
+  extra.excludeMap = {
+    react: "devtools/client/shared/vendor/react",
+    "react-dom": "devtools/client/shared/vendor/react-dom",
+    lodash: "devtools/client/shared/vendor/lodash",
+  };
+}
+
 const envConfig = getConfig();
-module.exports = toolboxConfig(webpackConfig, envConfig);
+module.exports = toolboxConfig(webpackConfig, envConfig, extra);
