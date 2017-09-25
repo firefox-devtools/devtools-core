@@ -66,15 +66,13 @@ describe("ObjectInspector - Proxy", () => {
     const handlerNode = nodes.at(2);
 
     targetNode.simulate("click");
-    // The function is called twice,  to get  both non-indexed and indexed properties.
-    expect(enumProperties.mock.calls.length).toBe(2);
-    expect(enumProperties.mock.calls[0][0]).toEqual({ignoreNonIndexedProperties: true});
-    expect(enumProperties.mock.calls[1][0]).toEqual({ignoreIndexedProperties: true});
+    expect(enumProperties.mock.calls.length).toBe(1);
+    expect(enumProperties.mock.calls[0][0]).toEqual({});
 
     handlerNode.simulate("click");
     // The function is called twice,  to get  both non-indexed and indexed properties.
-    expect(enumProperties.mock.calls.length).toBe(4);
-    expect(enumProperties.mock.calls[2][0]).toEqual({ignoreNonIndexedProperties: true});
-    expect(enumProperties.mock.calls[3][0]).toEqual({ignoreIndexedProperties: true});
+    expect(enumProperties.mock.calls.length).toBe(3);
+    expect(enumProperties.mock.calls[1][0]).toEqual({ignoreNonIndexedProperties: true});
+    expect(enumProperties.mock.calls[2][0]).toEqual({ignoreIndexedProperties: true});
   });
 });

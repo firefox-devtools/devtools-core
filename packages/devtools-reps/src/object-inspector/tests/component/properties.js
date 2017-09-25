@@ -67,8 +67,7 @@ describe("ObjectInspector - properties", () => {
     node.simulate("click");
 
     // The function is called twice,  to get  both non-indexed and indexed properties.
-    expect(enumProperties.mock.calls.length).toBe(2);
-    expect(enumProperties.mock.calls[0][0]).toEqual({ignoreNonIndexedProperties: true});
-    expect(enumProperties.mock.calls[1][0]).toEqual({ignoreIndexedProperties: true});
+    expect(enumProperties.mock.calls.length).toBe(1);
+    expect(enumProperties.mock.calls[0][0]).toEqual({});
   });
 });

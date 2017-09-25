@@ -7,7 +7,7 @@ const {
   getChildren,
   makeNodesForEntries,
   nodeIsDefaultProperties,
-  shouldLoadItemIndexedProperties,
+  shouldLoadAllItemProperties,
 } = require("../../utils/node");
 
 const GripMapEntryRep = require("../../../reps/grip-map-entry");
@@ -17,12 +17,12 @@ const gripArrayStubs = require("../../../reps/stubs/grip-array");
 const gripStubs = require("../../../reps/stubs/grip");
 const windowStubs = require("../../../reps/stubs/window");
 
-describe("shouldLoadItemIndexedProperties", () => {
-  it("returns true for an array", () => {
+describe("shouldLoadAllItemProperties", () => {
+  it("returns false for an array", () => {
     const node = createNode(null, "root", "/", {
       value: gripArrayStubs.get("testMaxProps")
     });
-    expect(shouldLoadItemIndexedProperties(node)).toBeTruthy();
+    expect(shouldLoadAllItemProperties(node)).toBeFalsy();
   });
 
   it("returns false for an already loaded item", () => {
@@ -30,17 +30,17 @@ describe("shouldLoadItemIndexedProperties", () => {
       value: gripArrayStubs.get("testMaxProps")
     });
     const loadedProperties = new Map([[node.path, true]]);
-    expect(shouldLoadItemIndexedProperties(node, loadedProperties)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(node, loadedProperties)).toBeFalsy();
   });
 
   it("returns false for an array node with buckets", () => {
     const node = createNode(null, "root", "/", {
       value: gripArrayStubs.get("Array(234)")
     });
-    expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(node)).toBeFalsy();
   });
 
-  it("returns true for an array bucket node", () => {
+  it("returns false for an array bucket node", () => {
     const node = createNode(null, "root", "/", {
       value: gripArrayStubs.get("Array(234)")
     });
@@ -48,33 +48,7 @@ describe("shouldLoadItemIndexedProperties", () => {
 
     // Make sure we do have a bucket.
     expect(bucketNodes[0].name).toBe("[0…99]");
-    expect(shouldLoadItemIndexedProperties(bucketNodes[0])).toBeTruthy();
-  });
-
-  it("returns false for an array bucket node with sub-buckets", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("Array(23456)")
-    });
-    const bucketNodes = getChildren({item: node});
-
-    // Make sure we do have a bucket.
-    expect(bucketNodes[0].name).toBe("[0…999]");
-    expect(shouldLoadItemIndexedProperties(bucketNodes[0])).toBeFalsy();
-  });
-
-  it("returns true for an array sub-bucket node", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("Array(23456)")
-    });
-    const bucketNodes = getChildren({item: node});
-    // Make sure we do have a bucket.
-    expect(bucketNodes[0].name).toBe("[0…999]");
-
-    // Get the sub-buckets
-    const subBucketNodes = getChildren({item: bucketNodes[0]});
-    // Make sure we do have a bucket.
-    expect(subBucketNodes[0].name).toBe("[0…99]");
-    expect(shouldLoadItemIndexedProperties(subBucketNodes[0])).toBeTruthy();
+    expect(shouldLoadAllItemProperties(bucketNodes[0])).toBeFalsy();
   });
 
   it("returns false for an entries node", () => {
@@ -82,35 +56,35 @@ describe("shouldLoadItemIndexedProperties", () => {
       value: gripMapStubs.get("20-entries Map")
     });
     const entriesNode = makeNodesForEntries(mapStubNode);
-    expect(shouldLoadItemIndexedProperties(entriesNode)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(entriesNode)).toBeFalsy();
   });
 
-  it("returns false for an Object", () => {
+  it("returns true for an Object", () => {
     const node = createNode(null, "root", "/", {
       value: gripStubs.get("testMaxProps")
     });
-    expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(node)).toBeTruthy();
   });
 
-  it("returns false for a Map", () => {
+  it("returns true for a Map", () => {
     const node = createNode(null, "root", "/", {
       value: gripMapStubs.get("20-entries Map")
     });
-    expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(node)).toBeTruthy();
   });
 
-  it("returns true for a Set", () => {
+  it("returns false for a Set", () => {
     const node = createNode(null, "root", "/", {
       value: gripArrayStubs.get("new Set([1,2,3,4])")
     });
-    expect(shouldLoadItemIndexedProperties(node)).toBeTruthy();
+    expect(shouldLoadAllItemProperties(node)).toBeFalsy();
   });
 
-  it("returns false for a Window", () => {
+  it("returns true for a Window", () => {
     const node = createNode(null, "root", "/", {
       value: windowStubs.get("Window")
     });
-    expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(node)).toBeTruthy();
   });
 
   it("returns false for a [default properties] node", () => {
@@ -128,54 +102,54 @@ describe("shouldLoadItemIndexedProperties", () => {
     ]]);
     const [, defaultPropertiesNode] = getChildren({item: windowNode, loadedProperties});
     expect(nodeIsDefaultProperties(defaultPropertiesNode)).toBe(true);
-    expect(shouldLoadItemIndexedProperties(defaultPropertiesNode)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(defaultPropertiesNode)).toBeFalsy();
   });
 
   it("returns false for a MapEntry node", () => {
     const node = GripMapEntryRep.createGripMapEntry("key", "value");
-    expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(node)).toBeFalsy();
   });
 
   it("returns false for a Proxy node", () => {
     const node = createNode(null, "root", "/", {
       value: gripStubs.get("testProxy")
     });
-    expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(node)).toBeFalsy();
   });
 
-  it("returns false for a Proxy target node", () => {
+  it("returns true for a Proxy target node", () => {
     const proxyNode = createNode(null, "root", "/", {
       value: gripStubs.get("testProxy")
     });
     const [targetNode] = getChildren({item: proxyNode});
     // Make sure we have the target node.
     expect(targetNode.name).toBe("<target>");
-    expect(shouldLoadItemIndexedProperties(targetNode)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(targetNode)).toBeTruthy();
   });
 
   it("returns false for an accessor node", () => {
     const accessorNode = createNode(null, "root", "/", {
       value: accessorStubs.get("getter")
     });
-    expect(shouldLoadItemIndexedProperties(accessorNode)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(accessorNode)).toBeFalsy();
   });
 
-  it("returns false for an accessor <get> node", () => {
+  it("returns true for an accessor <get> node", () => {
     const accessorNode = createNode(null, "root", "/", accessorStubs.get("getter"));
     const [getNode] = getChildren({item: accessorNode});
     expect(getNode.name).toBe("<get>");
-    expect(shouldLoadItemIndexedProperties(getNode)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(getNode)).toBeTruthy();
   });
 
-  it("returns false for an accessor <set> node", () => {
+  it("returns true for an accessor <set> node", () => {
     const accessorNode = createNode(null, "root", "/", accessorStubs.get("setter"));
     const [setNode] = getChildren({item: accessorNode});
     expect(setNode.name).toBe("<set>");
-    expect(shouldLoadItemIndexedProperties(setNode)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(setNode)).toBeTruthy();
   });
 
   it("returns false for a primitive node", () => {
     const node = createNode(null, "root", "/", {value: 42});
-    expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
+    expect(shouldLoadAllItemProperties(node)).toBeFalsy();
   });
 });

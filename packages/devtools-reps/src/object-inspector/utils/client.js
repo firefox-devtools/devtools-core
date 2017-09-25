@@ -9,6 +9,21 @@ import type {
   PropertiesIterator,
 } from "../types";
 
+async function enumAllProperties(
+  objectClient: ObjectClient,
+  start: ?number,
+  end: ?number
+) : Promise<{ownProperties?: Object}> {
+  try {
+    const {iterator} = await objectClient.enumProperties({});
+    const response = await iteratorSlice(iterator, start, end);
+    return response;
+  } catch (e) {
+    console.error("Error in enumAllProperties", e);
+    return {};
+  }
+}
+
 async function enumIndexedProperties(
   objectClient: ObjectClient,
   start: ?number,
@@ -93,6 +108,7 @@ function iteratorSlice(
 }
 
 module.exports = {
+  enumAllProperties,
   enumEntries,
   enumIndexedProperties,
   enumNonIndexedProperties,

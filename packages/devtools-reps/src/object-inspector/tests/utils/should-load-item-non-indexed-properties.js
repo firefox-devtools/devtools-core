@@ -59,18 +59,18 @@ describe("shouldLoadItemNonIndexedProperties", () => {
     expect(shouldLoadItemNonIndexedProperties(entriesNode)).toBeFalsy();
   });
 
-  it("returns true for an Object", () => {
+  it("returns false for an Object", () => {
     const node = createNode(null, "root", "/", {
       value: gripStubs.get("testMaxProps")
     });
-    expect(shouldLoadItemNonIndexedProperties(node)).toBeTruthy();
+    expect(shouldLoadItemNonIndexedProperties(node)).toBeFalsy();
   });
 
-  it("returns true for a Map", () => {
+  it("returns false for a Map", () => {
     const node = createNode(null, "root", "/", {
       value: gripMapStubs.get("20-entries Map")
     });
-    expect(shouldLoadItemNonIndexedProperties(node)).toBeTruthy();
+    expect(shouldLoadItemNonIndexedProperties(node)).toBeFalsy();
   });
 
   it("returns true for a Set", () => {
@@ -80,11 +80,11 @@ describe("shouldLoadItemNonIndexedProperties", () => {
     expect(shouldLoadItemNonIndexedProperties(node)).toBeTruthy();
   });
 
-  it("returns true for a Window", () => {
+  it("returns false for a Window", () => {
     const node = createNode(null, "root", "/", {
       value: windowStubs.get("Window")
     });
-    expect(shouldLoadItemNonIndexedProperties(node)).toBeTruthy();
+    expect(shouldLoadItemNonIndexedProperties(node)).toBeFalsy();
   });
 
   it("returns false for a [default properties] node", () => {
@@ -117,14 +117,14 @@ describe("shouldLoadItemNonIndexedProperties", () => {
     expect(shouldLoadItemNonIndexedProperties(node)).toBeFalsy();
   });
 
-  it("returns true for a Proxy target node", () => {
+  it("returns false for a Proxy target node", () => {
     const proxyNode = createNode(null, "root", "/", {
       value: gripStubs.get("testProxy")
     });
     const [targetNode] = getChildren({item: proxyNode});
     // Make sure we have the target node.
     expect(targetNode.name).toBe("<target>");
-    expect(shouldLoadItemNonIndexedProperties(targetNode)).toBeTruthy();
+    expect(shouldLoadItemNonIndexedProperties(targetNode)).toBeFalsy();
   });
 
   it("returns false for an accessor node", () => {
@@ -134,18 +134,18 @@ describe("shouldLoadItemNonIndexedProperties", () => {
     expect(shouldLoadItemNonIndexedProperties(accessorNode)).toBeFalsy();
   });
 
-  it("returns true for an accessor <get> node", () => {
+  it("returns false for an accessor <get> node", () => {
     const accessorNode = createNode(null, "root", "/", accessorStubs.get("getter"));
     const [getNode] = getChildren({item: accessorNode});
     expect(getNode.name).toBe("<get>");
-    expect(shouldLoadItemNonIndexedProperties(getNode)).toBeTruthy();
+    expect(shouldLoadItemNonIndexedProperties(getNode)).toBeFalsy();
   });
 
-  it("returns true for an accessor <set> node", () => {
+  it("returns false for an accessor <set> node", () => {
     const accessorNode = createNode(null, "root", "/", accessorStubs.get("setter"));
     const [setNode] = getChildren({item: accessorNode});
     expect(setNode.name).toBe("<set>");
-    expect(shouldLoadItemNonIndexedProperties(setNode)).toBeTruthy();
+    expect(shouldLoadItemNonIndexedProperties(setNode)).toBeFalsy();
   });
 
   it("returns false for a primitive node", () => {
