@@ -1,8 +1,9 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.99",
+  "version": "0.0.100",
   "license": "MPL-2.0",
-  "description": "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
+  "description":
+    "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
   "repository": {
     "url": "git://github.com/devtools-html/devtools-core.git",
     "type": "git"
@@ -10,7 +11,8 @@
   "bugs": {
     "url": "https://github.com/devtools-html/devtools-core/issues"
   },
-  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
+  "homepage":
+    "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -103,6 +105,7 @@
     "eslint-plugin-react": "^6.7.1",
     "ipaddr": "^0.0.9",
     "jest": "^19.0.2",
+    "react-addons-perf": "^15.4.2",
     "yarn": "^0.20.3"
   },
   "files": [
@@ -118,14 +121,8 @@
   ],
   "jest": {
     "rootDir": "src",
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!devtools-)"
-    ]
+    "testMatch": ["**/tests/**/*.js"],
+    "testPathIgnorePatterns": ["/node_modules/"],
+    "transformIgnorePatterns": ["node_modules/(?!devtools-)"]
   }
 }

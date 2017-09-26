@@ -3,7 +3,12 @@ require("babel-register");
 const path = require("path");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const { isDevelopment, isFirefoxPanel, getValue, setConfig } = require("devtools-config");
+const {
+  isDevelopment,
+  isFirefoxPanel,
+  getValue,
+  setConfig
+} = require("devtools-config");
 const NODE_ENV = process.env.NODE_ENV || "development";
 const TARGET = process.env.TARGET || "local";
 
@@ -41,8 +46,8 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
     loader: `babel-loader?${defaultBabelPlugins.map(
       p => `plugins[]=${p}`
     )}&ignore=src/lib`
-    // isJavaScriptLoader: true
   });
+
   webpackConfig.module.rules.push({
     test: /\.svg$/,
     loader: "svg-inline-loader"
@@ -56,21 +61,6 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
     test: /\.(png|jpg|)$/,
     loader: "url-loader"
   });
-
-  // Add resolveLoader for ./node_modules to fix issues when synlinked.
-  webpackConfig.resolveLoader = webpackConfig.resolveLoader || {};
-  webpackConfig.resolveLoader.modules = webpackConfig.resolveLoader.modules || [];
-  webpackConfig.resolveLoader.modules.push("node_modules");
-  webpackConfig.resolveLoader.modules.push(path.resolve(__dirname, "./node_modules"));
-
-  // Add a resolve alias for React if the target is UMD
-  if (webpackConfig.output && webpackConfig.output.libraryTarget === "umd") {
-    webpackConfig.resolve = webpackConfig.resolve || {};
-    webpackConfig.resolve.alias = webpackConfig.resolve.alias || {};
-    if (!webpackConfig.resolve.alias.react) {
-      webpackConfig.resolve.alias.react = "react/lib/ReactUMDEntry";
-    }
-  }
 
   webpackConfig.node = { fs: "empty" };
 
@@ -124,13 +114,13 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
       test: /\.css$/,
       exclude: request => {
         // If the tool defines an exclude regexp for CSS files.
-        return webpackConfig.cssExcludes && request.match(webpackConfig.cssExcludes);
+        return (
+          webpackConfig.cssExcludes && request.match(webpackConfig.cssExcludes)
+        );
       },
       use: ExtractTextPlugin.extract({
         fallback: "style-loader",
-        use: [
-          { loader: "css-loader", options: { importLoaders: 1 } },
-        ]
+        use: [{ loader: "css-loader", options: { importLoaders: 1 } }]
       })
     });
 
@@ -138,7 +128,11 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
   }
 
   if (isFirefoxPanel()) {
-    webpackConfig = require("./webpack.config.devtools")(webpackConfig, envConfig, options);
+    webpackConfig = require("./webpack.config.devtools")(
+      webpackConfig,
+      envConfig,
+      options
+    );
   }
 
   // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
@@ -146,7 +140,9 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
   if (getValue("transformParameters")) {
     webpackConfig.module.rules.forEach(spec => {
       if (spec.isJavaScriptLoader) {
-        const idx = spec.rules.findIndex(loader => loader.includes("babel-loader"));
+        const idx = spec.rules.findIndex(loader =>
+          loader.includes("babel-loader")
+        );
         spec.rules[idx] += "&plugins[]=transform-es2015-parameters";
       }
     });
