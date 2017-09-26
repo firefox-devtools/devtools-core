@@ -9,11 +9,15 @@
   --searchbox-border-color: #ffbf00;
   --searcbox-no-match-background-color: #ffe5e5;
   --searcbox-no-match-border-color: #e52e2e;
+
   /*--magnifying-glass-image: url(chrome://devtools/skin/images/search.svg);*/
   /*--filter-image: url(chrome://devtools/skin/images/filter.svg);*/
   /*--tool-options-image: url(chrome://devtools/skin/images/tool-options.svg);*/
+
   --icon-filter: none;
   /*--checked-icon-filter: url(chrome://devtools/skin/images/filters.svg#checked-icon-state);*/
+
+  --separator-border-image: linear-gradient(transparent 4px, rgba(0,0,0,.1) 4px, rgba(0,0,0,.1) calc(100% - 4px), transparent calc(100% - 4px));
 }
 
 .theme-dark {
@@ -21,16 +25,21 @@
   --searchbox-border-color: #d99f2b;
   --searcbox-no-match-background-color: #402325;
   --searcbox-no-match-border-color: #cc3d3d;
+
   /*--magnifying-glass-image: url(chrome://devtools/skin/images/search.svg);*/
   /*--filter-image: url(chrome://devtools/skin/images/filter.svg);*/
   /*--tool-options-image: url(chrome://devtools/skin/images/tool-options.svg);*/
+
   --icon-filter: invert(1);
   /*--checked-icon-filter: url(chrome://devtools/skin/images/filters.svg#dark-theme-checked-icon-state);*/
+
+  --separator-border-image: linear-gradient(transparent 4px, rgba(100%,100%,100%,.2) 4px, rgba(100%,100%,100%,.2) calc(100% - 4px), transparent calc(100% - 4px))
 }
 
 .theme-firebug {
   /*--magnifying-glass-image: url(chrome://devtools/skin/images/search.svg);*/
   /*--tool-options-image: url(chrome://devtools/skin/images/firebug/tool-options.svg);*/
+
   --icon-filter: none;
   --checked-icon-filter: none;
 }
@@ -39,7 +48,7 @@
 /* Toolbars */
 .devtools-toolbar,
 .devtools-sidebar-tabs tabs {
-  -moz-appearance: none; appearance: none;
+  -moz-appearance: none;
   padding: 0;
   border-width: 0;
   border-bottom-width: 1px;
@@ -74,24 +83,27 @@
   padding: 0;
 }
 
+.devtools-toolbar-bottom {
+  border-top-width: 1px;
+  border-bottom: none;
+}
+
 .devtools-separator {
-  margin: 0 2px;
-  width: 2px;
-  background-image: linear-gradient(transparent 15%, var(--theme-splitter-color) 15%, var(--theme-splitter-color) 85%, transparent 85%);
-  background-size: 1px 100%;
-  background-repeat: no-repeat;
-  background-position: 0, 1px, 2px;
+  border-inline-start: 1px solid;
+  border-image: var(--separator-border-image);
+  border-image-slice: 1;
+  height: inherit;
 }
 
 /* In-tools sidebar */
 .devtools-sidebar-tabs {
-  -moz-appearance: none; appearance: none;
+  -moz-appearance: none;
   margin: 0;
   height: 100%;
 }
 
 .devtools-sidebar-tabs > tabpanels {
-  -moz-appearance: none; appearance: none;
+  -moz-appearance: none;
   background: transparent;
   padding: 0;
   border: 0;
@@ -110,7 +122,7 @@
 }
 
 .devtools-sidebar-alltabs {
-  -moz-appearance: none; appearance: none;
+  -moz-appearance: none;
   height: 24px;
   line-height: 24px;
   padding: 0 4px;
@@ -130,7 +142,7 @@
 }
 
 .devtools-sidebar-tabs tabs > tab {
-  -moz-appearance: none; appearance: none;
+  -moz-appearance: none;
   /* We want to match the height of a toolbar with a toolbarbutton
    * First, we need to replicated the padding of toolbar (4px),
    * then we need to take the border of the buttons into account (1px).

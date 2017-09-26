@@ -10,24 +10,23 @@
 
 @namespace theme-dark;
 
-:root {
-  background: var(--theme-body-background);
+body {
   margin: 0;
+}
+
+.theme-body {
+  background: var(--theme-body-background);
   color: var(--theme-body-color);
 }
 
 .theme-sidebar {
   background: var(--theme-sidebar-background);
-  color: var(--theme-content-color1);
+  color: var(--theme-toolbar-color);
 }
 
 ::-moz-selection {
   background-color: var(--theme-selection-background);
   color: var(--theme-selection-color);
-}
-
-.theme-bg-darker {
-  background-color: var(--theme-selection-background-semitransparent);
 }
 
 .theme-selected,
@@ -43,8 +42,8 @@
 
 .theme-link,
 .cm-s-mozilla .cm-link,
-.cm-s-mozilla .cm-keyword {
-  color: var(--theme-highlight-green);
+.CodeMirror-Tern-type {
+  color: var(--grey-50);
 }
 
 /*
@@ -52,11 +51,9 @@
  * failures in debug builds.
  */
 .theme-link:visited,
-.cm-s-mozilla .cm-link:visited,
-.CodeMirror-Tern-type {
+.cm-s-mozilla .cm-link:visited {
   color: var(--theme-highlight-blue);
 }
-
 
 .theme-comment,
 .cm-s-mozilla .cm-meta,
@@ -68,41 +65,6 @@
   color: var(--theme-comment);
 }
 
-.theme-gutter {
-  background-color: var(--theme-tab-toolbar-background);
-  color: var(--theme-content-color3);
-  border-color: var(--theme-splitter-color);
-}
-
-.theme-separator {
-  border-color: var(--theme-splitter-color);
-}
-
-.theme-fg-color1,
-.cm-s-mozilla .cm-number,
-.variable-or-property .token-number,
-.variable-or-property[return] > .title > .name,
-.variable-or-property[scope] > .title > .name {
-  color: var(--theme-highlight-red);
-}
-
-.CodeMirror-Tern-completion-number:before {
-  background-color: #5c9966;
-}
-
-.theme-fg-color2,
-.cm-s-mozilla .cm-attribute,
-.cm-s-mozilla .cm-def,
-.cm-s-mozilla .cm-property,
-.cm-s-mozilla .cm-qualifier,
-.variables-view-variable > .title > .name {
-  color: var(--theme-highlight-purple);
-}
-
-.CodeMirror-Tern-completion-object:before {
-  background-color: #3689b2;
-}
-
 .cm-s-mozilla .cm-unused-line {
   text-decoration: line-through;
   text-decoration-color: #0072ab;
@@ -112,34 +74,67 @@
   background-color: #133c26;
 }
 
-.theme-fg-color3,
+.cm-s-mozilla .cm-number,
+.variable-or-property .token-number,
+.variable-or-property[return] > .title > .name,
+.variable-or-property[scope] > .title > .name {
+  color: #6B89FF;
+}
+
+.CodeMirror-Tern-completion-number:before {
+  background-color: #5c9966;
+}
+
+.theme-fg-color1,
+.theme-fg-color2,
+.cm-s-mozilla .cm-attribute,
 .cm-s-mozilla .cm-builtin,
+.cm-s-mozilla .cm-keyword,
+.variables-view-variable > .title > .name {
+  color: var(--theme-highlight-red);
+}
+
+.cm-s-mozilla .cm-def,
+.cm-s-mozilla .cm-variable-2 {
+  color: var(--theme-highlight-blue);
+}
+
+.cm-s-mozilla .cm-variable {
+  color: var(--theme-highlight-purple);
+}
+
+.cm-s-mozilla .cm-property {
+  color: var(--theme-highlight-green);
+}
+
+.CodeMirror-Tern-completion-object:before {
+  background-color: #3689b2;
+}
+
+.theme-fg-color3,
+.theme-fg-color5,
 .cm-s-mozilla .cm-tag,
 .cm-s-mozilla .cm-header,
 .cm-s-mozilla .cm-bracket,
+.cm-s-mozilla .cm-qualifier,
 .variables-view-property > .title > .name {
-  color: var(--theme-highlight-green);
+  color: var(--theme-highlight-blue);
 }
 
 .CodeMirror-Tern-completion-array:before {
   background-color: var(--theme-highlight-bluegrey);
 }
 
-.theme-fg-color4 {
+.theme-fg-color4,
+.theme-fg-color6 {
   color: var(--theme-highlight-purple);
 }
 
-.theme-fg-color5 {
-  color: var(--theme-highlight-purple);
-}
-
-.theme-fg-color6,
 .cm-s-mozilla .cm-string,
 .cm-s-mozilla .cm-string-2,
 .variable-or-property .token-string,
-.cm-s-mozilla .cm-variable,
 .CodeMirror-Tern-farg {
-  color: var(--theme-highlight-gray);
+  color: #6B89FF;
 }
 
 .CodeMirror-Tern-completion-string:before,
@@ -170,7 +165,7 @@
 .devtools-sidebar-tabs tabs,
 .devtools-sidebar-alltabs,
 .cm-s-mozilla .CodeMirror-dialog { /* General toolbar styling */
-  color: var(--theme-body-color-alt);
+  color: var(--theme-body-color);
   background-color: var(--theme-toolbar-background);
   border-color: var(--theme-splitter-color);
 }
@@ -180,7 +175,7 @@
 }
 
 .ruleview-swatch,
-.computedview-colorswatch {
+.computed-colorswatch {
   box-shadow: 0 0 0 1px #818181;
 }
 
@@ -194,10 +189,15 @@
   background: transparent;
 }
 
-.CodeMirror.cm-s-mozilla  pre,
-.cm-s-mozilla .cm-variable-2,
+.CodeMirror.cm-s-mozilla  pre {
+  color: var(--theme-content-color1);
+}
+
+.cm-s-mozilla .cm-operator {
+  color: var(--theme-body-color);
+}
+
 .cm-s-mozilla .cm-variable-3,
-.cm-s-mozilla .cm-operator,
 .cm-s-mozilla .cm-special {
   color: var(--theme-content-color1);
 }
@@ -218,18 +218,18 @@
   background: rgba(185, 215, 253, .15);
 }
 
-.div.cm-s-mozilla span.CodeMirror-matchingbracket { /* highlight brackets */
+div.cm-s-mozilla span.CodeMirror-matchingbracket { /* highlight brackets */
   outline: solid 1px rgba(255, 255, 255, .25);
   color: white;
 }
 
 /* Highlight for a line that contains an error. */
-.div.CodeMirror div.error-line {
+div.CodeMirror div.error-line {
   background: rgba(255,0,0,0.2);
 }
 
 /* Generic highlighted text */
-.div.CodeMirror span.marked-text {
+div.CodeMirror span.marked-text {
   background: rgba(255,255,0,0.2);
   border: 1px dashed rgba(192,192,0,0.6);
   margin-inline-start: -1px;
@@ -237,7 +237,7 @@
 }
 
 /* Highlight for evaluating current statement. */
-.div.CodeMirror span.eval-text {
+div.CodeMirror span.eval-text {
   background-color: #556;
 }
 
@@ -245,56 +245,17 @@
   color: var(--theme-content-color3);
 }
 
+.cm-s-mozilla .CodeMirror-gutters { /* vertical line next to line numbers */
+  border-right-color: var(--theme-toolbar-background);
+  background-color: var(--theme-sidebar-background);
+}
+
 .cm-s-markup-view pre {
   line-height: 1.4em;
   min-height: 1.4em;
 }
 
-/* Twisty and checkbox controls */
-.theme-twisty, .theme-checkbox {
-  width: 14px;
-  height: 14px;
-  background-repeat: no-repeat;
-  /*background-image: url("chrome://devtools/skin/images/controls.png");*/
-  background-size: 56px 28px;
-}
-
-.theme-twisty {
-  cursor: pointer;
-  background-position: -28px -14px;
-}
-
-.theme-twisty:-moz-focusring {
-  outline-style: none;
-}
-
-.theme-twisty[open], .theme-twisty.open  {
-  background-position: -42px -14px;
-}
-
-.theme-twisty[invisible] {
-  visibility: hidden;
-}
-
-.theme-checkbox {
-  display: inline-block;
-  border: 0;
-  padding: 0;
-  outline: none;
-  background-position: -28px 0;
-}
-
-.theme-checkbox[checked] {
-  background-position: -42px 0;
-}
-
-@media (min-resolution: 1.1dppx) {
-  ..theme-twisty, .theme-checkbox {
-    /*background-image: url("chrome://devtools/skin/images/controls@2x.png");*/
-  }
-}
-
-/* XUL panel styling (see devtools/client/shared/widgets/Tooltip.js) */
+/* XUL panel styling (see devtools/client/shared/widgets/tooltip/Tooltip.js) */
 
 .theme-tooltip-panel .panel-arrowcontent {
   padding: 5px;
@@ -310,13 +271,13 @@
   --arrow-margin: -4px;
 }
 
-:root[platform="win"]..theme-tooltip-panel .panel-arrow {
+:root[platform="win"] .theme-tooltip-panel .panel-arrow {
   --arrow-margin: -7px;
 }
 
 .theme-tooltip-panel .panel-arrow[side="top"],
 .theme-tooltip-panel .panel-arrow[side="bottom"] {
-  /*list-style-image: url("chrome://devtools/skin/tooltip/arrow-vertical-dark.png");*/
+  /* list-style-image: url("chrome://devtools/skin/tooltip/arrow-vertical-dark.png"); */
   /* !important is needed to override the popup.css rules in toolkit/themes */
   width: 39px !important;
   height: 16px !important;
@@ -324,7 +285,7 @@
 
 .theme-tooltip-panel .panel-arrow[side="left"],
 .theme-tooltip-panel .panel-arrow[side="right"] {
-  /*list-style-image: url("chrome://devtools/skin/tooltip/arrow-horizontal-dark.png");*/
+  /* list-style-image: url("chrome://devtools/skin/tooltip/arrow-horizontal-dark.png"); */
   /* !important is needed to override the popup.css rules in toolkit/themes */
   width: 16px !important;
   height: 39px !important;
@@ -347,14 +308,14 @@
 }
 
 @media (min-resolution: 1.1dppx) {
-  ..theme-tooltip-panel .panel-arrow[side="top"],
-  ..theme-tooltip-panel .panel-arrow[side="bottom"] {
-    /*list-style-image: url("chrome://devtools/skin/tooltip/arrow-vertical-dark@2x.png");*/
+  .theme-tooltip-panel .panel-arrow[side="top"],
+  .theme-tooltip-panel .panel-arrow[side="bottom"] {
+    /* list-style-image: url("chrome://devtools/skin/tooltip/arrow-vertical-dark@2x.png"); */
   }
 
-  ..theme-tooltip-panel .panel-arrow[side="left"],
-  ..theme-tooltip-panel .panel-arrow[side="right"] {
-    /*list-style-image: url("chrome://devtools/skin/tooltip/arrow-horizontal-dark@2x.png");*/
+  .theme-tooltip-panel .panel-arrow[side="left"],
+  .theme-tooltip-panel .panel-arrow[side="right"] {
+    /* list-style-image: url("chrome://devtools/skin/tooltip/arrow-horizontal-dark@2x.png"); */
   }
 }
 
