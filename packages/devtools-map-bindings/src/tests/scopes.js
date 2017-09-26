@@ -7,7 +7,7 @@ const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
 
 jest.mock("devtools-utils/src/network-request");
 
-test("getLocationScopes", async () => {
+test("getLocationScopes", () => {
   const source = {
     id: "source-mapped.js",
     sourceMapURL: "source-mapped.js.map",
@@ -79,7 +79,7 @@ test("getLocationScopes", async () => {
 
   // Testing two scopes. The location of interest located somewhere at
   // `... { /* here */ let one = 1 ...`.
-  const mapped1 = await getLocationScopes(
+  const mapped1 = getLocationScopes(
     map,
     [
       {
@@ -114,7 +114,7 @@ test("getLocationScopes", async () => {
 
   // Testing outer scope. The location of interest located somewhere at
   // `... one++; } zero = 0; /* here */ }`.
-  const mapped2 = await getLocationScopes(
+  const mapped2 = getLocationScopes(
     map,
     [
       {
@@ -136,7 +136,7 @@ test("getLocationScopes", async () => {
   ]);
 
   // Testing non-existent binding that appeared in the generated code.
-  const mapped3 = await getLocationScopes(
+  const mapped3 = getLocationScopes(
     map,
     [
       {

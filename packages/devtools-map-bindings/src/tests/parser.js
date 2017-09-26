@@ -2,18 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { createParseJSScopeVisitor, findScopes } = require("../parser");
-const { getSource, traverseAst } = require("./helpers");
+const { getSource, parseScopes } = require("./helpers");
 
 import type { Source, Location, SourceScope } from "debugger-html";
-
-function parseScopes(location, source) {
-  const { sourceId } = location;
-  const visitor = createParseJSScopeVisitor(sourceId);
-  traverseAst(source, visitor.traverseVisitor);
-  const parsedScopes = visitor.toParsedScopes();
-  return findScopes(parsedScopes, location);
-}
 
 describe("parseScopes", () => {
   it("parses simple generated/minified es5 source", () => {
