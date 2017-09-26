@@ -36,7 +36,7 @@
   padding-bottom: var(--base-spacing);
 }
 
-.landing-page .panel header input[type=search] {
+.landing-page .panel header input[type="search"] {
   flex: 1;
   background-color: var(--theme-tab-toolbar-background);
   color: var(--theme-comment);
@@ -115,11 +115,9 @@
   color: var(--theme-comment);
   font-size: calc(var(--ui-element-font-size) / 1);
   margin: var(--base-spacing) auto;
-  line-height: 1.4em;
-}
-
-.landing-page .panel .under-construction .under-construction-message {
   max-width: 350px;
+
+  line-height: 1.4em;
 }
 
 .landing-page .panel .under-construction .github-link {
