@@ -19,11 +19,6 @@ describe("Webpack config", () => {
     expect(getLocalPath(config.context)).toBe(
       path.normalize("/packages/devtools-launchpad/src")
     );
-
-    const roots = config.resolveLoader.modules;
-    expect(getLocalPath(roots[1])).toBe(
-      path.normalize("/packages/devtools-launchpad/node_modules")
-    );
   });
 
   it("JS excludes rules", () => {

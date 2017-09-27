@@ -13,8 +13,8 @@
   "license": "MPL-2.0",
   "devDependencies": {
     "@kadira/storybook": "^2.35.3",
-    "react": "=15.3.2",
-    "react-dom": "=15.3.2"
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2"
   },
   "dependencies": {
     "@percy-io/react-percy-storybook": "^0.1.2"

@@ -26,8 +26,8 @@
   },
   "firefox": {
     "webSocketConnection": false,
-    "host": "localhost.rollout.io",
-    "webSocketPort": 9001,
-    "tcpPort": 6081
+    "host": "localhost",
+    "webSocketPort": 9000,
+    "tcpPort": 6080
   }
 }

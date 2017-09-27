@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node bin/dev-server.js",
     "lint-js": "eslint src",
-    "firefox": "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
+    "firefox":
+      "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "./node_modules/.bin/start-chrome",
     "copy-assets": "node bin/copy-assets",
     "copy-assets-watch": "node bin/copy-assets --watch",
@@ -28,8 +29,8 @@
     "classnames": "^2.2.5",
     "devtools-components": "^0.0.5",
     "lodash": "^4.17.2",
-    "react": "=15.3.2",
-    "react-dom": "=15.3.2",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
     "svg-inline-react": "^1.0.2"
   },
   "devDependencies": {
@@ -37,7 +38,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "devtools-config": "^0.0.15",
-    "devtools-launchpad": "^0.0.96",
+    "devtools-launchpad": "^0.0.100",
     "devtools-license-check": "^0.2.0",
     "enzyme": "^2.8.2",
     "eslint": "^3.12.0",
@@ -46,15 +47,13 @@
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
     "jest-flow-transform": "^1.0.1",
-    "react-addons-test-utils": "=15.3.2",
+    "react-addons-test-utils": "^15.6.2",
     "redux-logger": "=3.0.6",
     "svg-inline-loader": "^0.8.0"
   },
   "jest": {
     "rootDir": "src",
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
+    "testMatch": ["**/tests/**/*.js"],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/test/",
@@ -63,9 +62,7 @@
       "<rootDir>/object-inspector/tests/__mocks__/",
       "<rootDir>/object-inspector/tests/test-utils"
     ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!devtools-)"
-    ],
+    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
       "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"

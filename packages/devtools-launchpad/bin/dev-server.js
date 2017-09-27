@@ -18,14 +18,7 @@ function buildwebpackConfig(envConfig) {
     output: {
       path: path.join(__dirname, "assets/build"),
       filename: "[name].js",
-      publicPath: "/assets/build",
-      libraryTarget: "umd"
-    },
-
-    resolve: {
-      alias: {
-        "react-dom": "react-dom/dist/react-dom"
-      }
+      publicPath: "/assets/build"
     }
   };
 

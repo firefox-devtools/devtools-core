@@ -38,7 +38,7 @@ function httpOrHttpsGet(url, onResponse) {
       return onResponse("{}");
     }
     let body = "";
-    response.on("data", function (d) {
+    response.on("data", function(d) {
       body += d;
     });
     response.on("end", () => onResponse(body));
@@ -60,7 +60,9 @@ function getFavicon() {
 function serveRoot(req, res) {
   const tplPath = path.join(__dirname, "../index.html");
   const tplFile = fs.readFileSync(tplPath, "utf8");
-  const bundleName = getValue("title") ? getValue("title").toLocaleLowerCase() : "bundle";
+  const bundleName = getValue("title")
+    ? getValue("title").toLocaleLowerCase()
+    : "bundle";
 
   res.send(
     Mustache.render(tplFile, {
@@ -110,14 +112,16 @@ function onRequest(err, result) {
   if (err) {
     console.log(err);
   } else {
-    console.log(`Development Server Listening at http://localhost:${serverPort}`);
+    console.log(
+      `Development Server Listening at http://localhost:${serverPort}`
+    );
   }
 }
 
 function startDevServer(devConfig, webpackConfig, rootDir) {
   setConfig(devConfig);
   root = rootDir;
-  checkNode(NODE_VERSION, function (_, opts) {
+  checkNode(NODE_VERSION, function(_, opts) {
     if (!opts.nodeSatisfied) {
       const version = opts.node.raw;
       console.log(`Sorry, Your version of node is ${version}.`);
@@ -172,7 +176,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   app.use(
     webpackDevMiddleware(compiler, {
       publicPath: webpackConfig.output.publicPath,
-      noInfo: true,
+      noInfo: false,
       stats: {
         colors: true,
         chunks: false
