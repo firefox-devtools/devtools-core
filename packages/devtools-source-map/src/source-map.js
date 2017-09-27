@@ -11,7 +11,6 @@
 
 const { networkRequest } = require("devtools-utils");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
-const path = require("./utils/path");
 
 const assert = require("./utils/assert");
 const { fetchSourceMap } = require("./utils/fetchSourceMap");
