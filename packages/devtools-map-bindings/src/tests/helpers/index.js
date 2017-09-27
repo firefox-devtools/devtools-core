@@ -4,9 +4,9 @@
 
 const fs = require("fs");
 const path = require("path");
+const { SourceMapConsumer } = require("source-map");
 
-const babylon = require("babylon");
-const { default: traverse } = require("babel-traverse");
+const { parseScopes } = require("./parseScopes");
 
 function getSource(name, type = "js") {
   const text = fs.readFileSync(
@@ -21,20 +21,17 @@ function getSource(name, type = "js") {
   };
 }
 
-function traverseAst(source, visitor) {
-  const code = source.text;
-  const ast = babylon.parse(
-    code,
-    {
-      sourceType: "module",
-      plugins: ["jsx", "flow", "objectRestSpread"]
-    }
+function getSourceMap(source) {
+  const name = source.id;
+  const json = fs.readFileSync(
+    path.join(__dirname, `../fixtures/${name}.js.map`),
+    "utf8"
   );
-
-  traverse(ast, visitor);
+  return new SourceMapConsumer(JSON.parse(json));
 }
 
 module.exports = {
   getSource,
-  traverseAst,
+  getSourceMap,
+  parseScopes,
 }
