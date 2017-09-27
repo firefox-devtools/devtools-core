@@ -1,6 +1,6 @@
 {
   "name": "devtools-map-bindings",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "DevTools utilities in support of original source scopes and names",
   "repository": "github:devtools-html/devtools-core",
   "bugs": "https://github.com/devtools-html/devtools-core/issues",
