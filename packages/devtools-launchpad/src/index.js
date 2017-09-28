@@ -87,7 +87,7 @@ async function initApp() {
   return { store, actions, LaunchpadApp };
 }
 
-function renderRoot(_React, _ReactDOM, component, _store) {
+function renderRoot(_React, _ReactDOM, component, _store, props) {
   const { createElement } = _React;
   const mount = document.querySelector("#mount");
 
@@ -106,7 +106,7 @@ function renderRoot(_React, _ReactDOM, component, _store) {
 
   if (component.props || component.propTypes) {
     _ReactDOM.render(
-      createElement(Provider, { store: _store }, createElement(component)),
+      createElement(Provider, { store: _store }, createElement(component, props)),
       root
     );
   } else {
