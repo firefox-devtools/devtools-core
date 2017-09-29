@@ -22,7 +22,7 @@
     "jest": "^19.0.2",
     "md5": "^2.2.1",
     "regenerator-runtime": "^0.10.3",
-    "source-map": "^0.6.0"
+    "source-map": "^0.6.1"
   },
   "devDependencies": {
     "devtools-launchpad": "^0.0.85"
