@@ -35,11 +35,6 @@ describe("wasm source maps", () => {
     expect(remap1.sources[0]).toEqual("/the/root/one.js");
     expect(remap1.sources[1]).toEqual("/the/root/two.js");
 
-    remap1.sourceRoot = "/newroot";
-    expect(remap1.sources.length).toEqual(2);
-    expect(remap1.sources[0]).toEqual("/newroot/one.js");
-    expect(remap1.sources[1]).toEqual("/newroot/two.js");
-
     let expectedEntries = testMap1Entries.slice(0);
     remap1.eachMapping(function (entry) {
       let expected = expectedEntries.shift();
@@ -53,10 +48,10 @@ describe("wasm source maps", () => {
     let pos1 = remap1.originalPositionFor({line: 5, column: 0});
     expect(pos1.line).toEqual(1);
     expect(pos1.column).toEqual(7);
-    expect(pos1.source).toEqual("/newroot/one.js");
+    expect(pos1.source).toEqual("/the/root/one.js");
 
     let pos2 = remap1.generatedPositionFor({
-      source: "/newroot/one.js",
+      source: "/the/root/one.js",
       line: 2,
       column: 18
     });
@@ -66,7 +61,7 @@ describe("wasm source maps", () => {
 
     remap1.computeColumnSpans();
     let pos3 = remap1.allGeneratedPositionsFor({
-      source: "/newroot/one.js",
+      source: "/the/root/one.js",
       line: 2,
       column: 17
     });

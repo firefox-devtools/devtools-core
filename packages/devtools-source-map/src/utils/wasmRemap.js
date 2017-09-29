@@ -27,13 +27,6 @@ class WasmRemap {
     return this._map.sourceRoot;
   }
 
-  /**
-   * @param url string
-   */
-  set sourceRoot(url) { // important, since sources are using this.
-    this._map.sourceRoot = url;
-  }
-
   get names() {
     return this._map.names;
   }
