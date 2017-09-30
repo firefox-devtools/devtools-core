@@ -43,6 +43,7 @@ const {
   nodeIsPrototype,
   nodeIsSetter,
   nodeIsWindow,
+  shouldLoadAllItemProperties,
   shouldLoadItemEntries,
   shouldLoadItemIndexedProperties,
   shouldLoadItemNonIndexedProperties,
@@ -51,6 +52,7 @@ const {
 } = require("./utils/node");
 
 const {
+  enumAllProperties,
   enumEntries,
   enumIndexedProperties,
   enumNonIndexedProperties,
@@ -269,6 +271,10 @@ class ObjectInspector extends Component {
 
       if (shouldLoadItemNonIndexedProperties(item, loadedProperties)) {
         promises.push(enumNonIndexedProperties(getObjectClient(), start, end));
+      }
+
+      if (shouldLoadAllItemProperties(item, loadedProperties)) {
+        promises.push(enumAllProperties(getObjectClient(), start, end));
       }
 
       if (shouldLoadItemEntries(item, loadedProperties)) {

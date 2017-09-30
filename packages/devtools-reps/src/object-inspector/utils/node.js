@@ -776,7 +776,8 @@ function shouldLoadItemIndexedProperties(
     && !nodeNeedsNumericalBuckets(item)
     && !nodeIsEntries(getClosestNonBucketNode(item))
     // The data is loaded when expanding the window node.
-    && !nodeIsDefaultProperties(item);
+    && !nodeIsDefaultProperties(item)
+    && nodeIsArrayLike(gripItem);
 }
 
 function shouldLoadItemNonIndexedProperties(
@@ -793,7 +794,26 @@ function shouldLoadItemNonIndexedProperties(
     && !nodeIsEntries(getClosestNonBucketNode(item))
     && !nodeIsBucket(item)
     // The data is loaded when expanding the window node.
-    && !nodeIsDefaultProperties(item);
+    && !nodeIsDefaultProperties(item)
+    && nodeIsArrayLike(gripItem);
+}
+
+function shouldLoadAllItemProperties(
+  item: Node,
+  loadedProperties: LoadedProperties = new Map()
+) : boolean {
+  const gripItem = getClosestGripNode(item);
+  const value = getValue(gripItem);
+
+  return value
+    && nodeHasProperties(gripItem)
+    && !loadedProperties.has(item.path)
+    && !nodeIsProxy(item)
+    && !nodeIsEntries(getClosestNonBucketNode(item))
+    && !nodeIsBucket(item)
+    // The data is loaded when expanding the window node.
+    && !nodeIsDefaultProperties(item)
+    && !nodeIsArrayLike(gripItem);
 }
 
 function shouldLoadItemEntries(
@@ -878,6 +898,7 @@ module.exports = {
   nodeNeedsNumericalBuckets,
   nodeSupportsNumericalBucketing,
   setNodeChildren,
+  shouldLoadAllItemProperties,
   shouldLoadItemEntries,
   shouldLoadItemIndexedProperties,
   shouldLoadItemNonIndexedProperties,
