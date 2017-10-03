@@ -25,29 +25,34 @@ Document.propTypes = {
 
 function Document(props) {
   let grip = props.object;
-
+  const location = getLocation(grip);
   return (
     span({
       "data-link-actor-id": grip.actor,
       className: "objectBox objectBox-document"
     },
       getTitle(grip),
-      span({className: "location"},
-        getLocation(grip)
-      )
+      location
+        ? " "
+        : null,
+      location
+        ? span({className: "location"}, location)
+        : null
     )
   );
 }
 
 function getLocation(grip) {
   let location = grip.preview.location;
-  return location ? getURLDisplayString(location) : "";
+  return location
+    ? getURLDisplayString(location)
+    : null;
 }
 
 function getTitle(grip) {
   return span({
     className: "objectTitle",
-  }, grip.class + " ");
+  }, grip.class);
 }
 
 // Registration
