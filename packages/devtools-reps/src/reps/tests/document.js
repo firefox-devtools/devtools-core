@@ -30,4 +30,12 @@ describe("Document", () => {
       .toEqual("HTMLDocument https://www.mozilla.org/en-US/firefox/new/");
     expectActorAttribute(renderedComponent, stub.actor);
   });
+
+  it("renders location-less document with expected text content", () => {
+    const renderedComponent = shallow(Document.rep({
+      object: stubs.get("Location-less Document")
+    }));
+
+    expect(renderedComponent.text()).toEqual("HTMLDocument");
+  });
 });

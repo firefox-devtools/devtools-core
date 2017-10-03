@@ -19,4 +19,19 @@ stubs.set("Document", {
   }
 });
 
+stubs.set("Location-less Document", {
+  "type": "object",
+  "actor": "server1.conn6.child1/obj31",
+  "class": "HTMLDocument",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 1,
+  "preview": {
+    "kind": "DOMNode",
+    "nodeType": 9,
+    "nodeName": "#document"
+  }
+});
+
 module.exports = stubs;
