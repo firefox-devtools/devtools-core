@@ -81,6 +81,18 @@ storiesOf("Tree", module)
       focused: "item 250",
       getRoots: () => nodes,
     }, {});
+  })
+  .add("30,000 items tree", () => {
+    const nodes = Array.from({length: 1000}).map((_, i) => `item-${i + 1}`);
+    return renderTree({
+      getRoots: () => nodes,
+      expanded: new Set(Array.from({length: 2000}).map((_, i) => `item-${i + 1}`))
+    }, {
+      children: Array.from({length: 2000}).reduce((res, _, i) => {
+        res[`item-${i + 1}`] = [`item-${i + 1001}`];
+        return res;
+      }, {})
+    });
   });
 
 // Encoding of the following tree/forest:
@@ -165,7 +177,7 @@ function renderTree(props, tree = TEST_TREE) {
 function createTreeElement(props, context, tree) {
   return Tree(Object.assign({
     getParent: x => tree.parent && tree.parent[x],
-    getChildren: x => tree.children
+    getChildren: x => tree.children && tree.children[x]
       ? tree.children[x]
       : [],
     renderItem: (x, depth, focused, arrow, expanded) => dom.div({},
