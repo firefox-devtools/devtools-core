@@ -41,9 +41,14 @@
     "stylelint": "^7.4.2"
   },
   "devDependencies": {
+    "async-request": "^1.2.0",
+    "chalk": "^2.1.0",
     "devtools-license-check": "^0.3.0",
-    "ipaddr.js": "=1.3.0",
     "flow-bin": "^0.48",
-    "lerna": "2.0.0"
+    "gist": "^0.2.0",
+    "ipaddr.js": "=1.3.0",
+    "lerna": "2.0.0",
+    "quick-gist": "^1.4.0",
+    "shelljs": "^0.7.8"
   }
 }
