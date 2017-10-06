@@ -1,13 +1,12 @@
 {
   "name": "devtools-reps",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "Devtools Reps",
   "main": "src/index.js",
   "scripts": {
     "start": "node bin/dev-server.js",
     "lint-js": "eslint src",
-    "firefox":
-      "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
+    "firefox": "./node_modules/.bin/start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
     "chrome": "./node_modules/.bin/start-chrome",
     "copy-assets": "node bin/copy-assets",
     "copy-assets-watch": "node bin/copy-assets --watch",
@@ -27,7 +26,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "devtools-components": "^0.0.5",
+    "devtools-components": "^0.0.6",
     "lodash": "^4.17.2",
     "svg-inline-react": "^1.0.2"
   },
@@ -36,7 +35,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "devtools-config": "^0.0.15",
-    "devtools-launchpad": "^0.0.100",
+    "devtools-launchpad": "^0.0.101",
     "devtools-license-check": "^0.2.0",
     "enzyme": "^2.8.2",
     "eslint": "^3.12.0",
@@ -50,7 +49,9 @@
   },
   "jest": {
     "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
     "testPathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/test/",
@@ -59,7 +60,9 @@
       "<rootDir>/object-inspector/tests/__mocks__/",
       "<rootDir>/object-inspector/tests/test-utils"
     ],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ],
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
       "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"

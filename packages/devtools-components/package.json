@@ -1,6 +1,6 @@
 {
   "name": "devtools-components",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "DevTools HTML Components",
   "main": "index.js",
   "scripts": {
@@ -30,10 +30,19 @@
   },
   "jest": {
     "rootDir": "src",
-    "setupFiles": ["<rootDir>/tests/__mocks__/request-animation-frame.js"],
-    "testMatch": ["**/tests/**/*.js"],
-    "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/tests/__mocks__/"],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
+    "setupFiles": [
+      "<rootDir>/tests/__mocks__/request-animation-frame.js"
+    ],
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/tests/__mocks__/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ],
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/tests/__mocks__/styleMock.js",
       "\\.svg$": "<rootDir>/tests/__mocks__/svgMock.js"
