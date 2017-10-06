@@ -4,7 +4,6 @@
 
 const fs = require('fs');
 const path = require("path");
-const parse = require("yarn/lib/lockfile/parse.js").default;
 
 function isUnique(list) {
   const set = new Set(list);
