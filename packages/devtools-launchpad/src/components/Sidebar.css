@@ -66,22 +66,28 @@
   padding-left: var(--base-spacing);
 }
 
-.landing-page .sidebar .title-wrapper  .launchpad-container .launchpad-container-icon {
+.landing-page
+  .sidebar
+  .title-wrapper
+  .launchpad-container
+  .launchpad-container-icon {
   display: inline-block;
 }
 
-.landing-page .sidebar .title-wrapper  .launchpad-container svg {
-  width: 24px;
-  height: 24px;
+.landing-page .sidebar .title-wrapper .launchpad-container .rocket {
+  width: 18px;
+  height: 18px;
+  background: url(/assets/rocket.svg) no-repeat top left;
+  background-size: contain;
+  display: inline-block;
 }
 
-.landing-page .sidebar .title-wrapper  .launchpad-container svg path {
-  width: 24px;
-  height: 24px;
-  fill: var(--theme-body-color);
-}
-
-.landing-page .sidebar .title-wrapper .launchpad-container .launchpad-container-title {
+.landing-page
+  .sidebar
+  .title-wrapper
+  .launchpad-container
+  .launchpad-container-title {
   display: inline;
   padding-left: 3px;
+  font-weight: normal;
 }

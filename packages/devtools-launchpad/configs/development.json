@@ -6,8 +6,8 @@
   "theme": "light",
   "dir": "ltr",
   "logging": {
-    "client": true,
-    "firefoxProxy": true,
+    "client": false,
+    "firefoxProxy": false,
     "actions": false
   },
   "development": {

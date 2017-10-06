@@ -26,9 +26,8 @@ const Root = require("./components/Root");
 // Using this static variable allows webpack to know at compile-time
 // to avoid this require and not include it at all in the output.
 if (process.env.TARGET !== "firefox-panel") {
-  require("devtools-modules/src/themes/light-theme.css");
-  require("devtools-modules/src/themes/dark-theme.css");
-  require("devtools-modules/src/themes/firebug-theme.css");
+  require("devtools-mc-assets/assets/devtools/client/themes/light-theme.css");
+  require("devtools-mc-assets/assets/devtools/client/themes/dark-theme.css");
 }
 
 function updateTheme() {
@@ -106,7 +105,11 @@ function renderRoot(_React, _ReactDOM, component, _store, props) {
 
   if (component.props || component.propTypes) {
     _ReactDOM.render(
-      createElement(Provider, { store: _store }, createElement(component, props)),
+      createElement(
+        Provider,
+        { store: _store },
+        createElement(component, props)
+      ),
       root
     );
   } else {

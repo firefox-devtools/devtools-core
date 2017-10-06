@@ -76,16 +76,18 @@ const LandingPage = React.createClass({
     const { selectedPane } = this.state;
     const { name, isUnderConstruction } = configMap[selectedPane];
 
-    const isConnected = name === configMap.Firefox.name
-      ? this.state.firefoxConnected
-      : this.state.chromeConnected;
+    const isConnected =
+      name === configMap.Firefox.name
+        ? this.state.firefoxConnected
+        : this.state.chromeConnected;
     const isNodeSelected = name === configMap.Node.name;
 
     if (isNodeSelected) {
-      return dom.div({className: "launch-action-container"},
-                    dom.h3({}, "Run a node script in the terminal with `--inspect`"),
-                    isUnderConstruction ? this.renderExperimentalMessage(name)
-                                        : null);
+      return dom.div(
+        { className: "launch-action-container" },
+        dom.h3({}, "Run a node script in the terminal with `--inspect`"),
+        isUnderConstruction ? this.renderExperimentalMessage(name) : null
+      );
     }
 
     const connectedStateText = isNodeSelected
@@ -98,24 +100,35 @@ const LandingPage = React.createClass({
   },
 
   renderLaunchButton(browserName, isUnderConstruction) {
-    return dom.div({className: "launch-action-container"},
-                   dom.button({onClick: (() => this.launchBrowser(browserName))},
-                              `Launch ${browserName}`),
-                              isUnderConstruction ? this.renderExperimentalMessage(browserName) // eslint-disable-line max-len
-                                                  : null);
+    return dom.div(
+      { className: "launch-action-container" },
+      dom.button(
+        { onClick: () => this.launchBrowser(browserName) },
+        `Launch ${browserName}`
+      ),
+      isUnderConstruction ? this.renderExperimentalMessage(browserName) : null
+    );
   },
 
   renderExperimentalMessage(browserName) {
-    const underConstructionMessage = "Debugging is experimental and certain features won't work (i.e, seeing variables, attaching breakpoints)";  // eslint-disable-line max-len
-    const githubIssuesUrl = "https://github.com/devtools-html/debugger.html/issues?q=is%3Aopen+is%3Aissue+label%3A";
-    const underConstructionImageSrc = require("../../assets/under_construction.png");
-    return dom.div({className: "under-construction"},
-                  dom.img({src: underConstructionImageSrc}),
-                  dom.div({className: "under-construction-message"}, underConstructionMessage, // eslint-disable-line max-len
-                            dom.a({className: "github-link",
-                                   href: `${githubIssuesUrl}${browserName}`,
-                                   target: "_blank"},
-                                   "Help us make it happen")));
+    const underConstructionMessage =
+      "Debugging is experimental and certain features won't work (i.e, seeing variables, attaching breakpoints)"; // eslint-disable-line max-len
+
+    return dom.div(
+      { className: "under-construction" },
+      dom.div(
+        { className: "under-construction-message" },
+        dom.p({}, underConstructionMessage),
+        dom.img({ src: "/assets/under_construction.png" }),
+        dom.a(
+          {
+            className: "github-link",
+            target: "_blank"
+          },
+          "Help us make it happen"
+        )
+      )
+    );
   },
 
   launchBrowser(browser) {

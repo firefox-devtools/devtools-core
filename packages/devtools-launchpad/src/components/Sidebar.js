@@ -3,11 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { createElement } = React;
 require("./Sidebar.css");
-const rocketSvg = require("../../assets/rocket.svg");
-const InlineSVG = require("svg-inline-react");
-
 const { DOM: dom } = React;
 const classnames = require("classnames");
 
@@ -28,10 +24,7 @@ const Sidebar = React.createClass({
       dom.h1({}, title),
       dom.div(
         { className: "launchpad-container" },
-        createElement(InlineSVG, {
-          className: "launchpad-container-icon",
-          src: rocketSvg
-        }),
+        dom.div({ className: "rocket" }, ""),
         dom.h2({ className: "launchpad-container-title" }, "Launchpad")
       )
     );

@@ -29,8 +29,6 @@
     "classnames": "^2.2.5",
     "devtools-components": "^0.0.5",
     "lodash": "^4.17.2",
-    "react": "^15.6.2",
-    "react-dom": "^15.6.2",
     "svg-inline-react": "^1.0.2"
   },
   "devDependencies": {
@@ -47,7 +45,6 @@
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
     "jest-flow-transform": "^1.0.1",
-    "react-addons-test-utils": "^15.6.2",
     "redux-logger": "=3.0.6",
     "svg-inline-loader": "^0.8.0"
   },

@@ -38,7 +38,7 @@ function httpOrHttpsGet(url, onResponse) {
       return onResponse("{}");
     }
     let body = "";
-    response.on("data", function(d) {
+    response.on("data", function (d) {
       body += d;
     });
     response.on("end", () => onResponse(body));
@@ -121,7 +121,7 @@ function onRequest(err, result) {
 function startDevServer(devConfig, webpackConfig, rootDir) {
   setConfig(devConfig);
   root = rootDir;
-  checkNode(NODE_VERSION, function(_, opts) {
+  checkNode(NODE_VERSION, function (_, opts) {
     if (!opts.nodeSatisfied) {
       const version = opts.node.raw;
       console.log(`Sorry, Your version of node is ${version}.`);
@@ -169,6 +169,14 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   app.get("/getconfig", handleGetConfig);
   app.post("/setconfig", handleSetConfig);
 
+  app.use(
+    "/assets",
+    express.static(
+      path.join(__dirname, "../node_modules/devtools-mc-assets/assets")
+    )
+  );
+  app.use("/assets", express.static(path.join(__dirname, "../assets")));
+
   const serverPort = getValue("development.serverPort");
   app.listen(serverPort, "0.0.0.0", onRequest);
 
@@ -177,10 +185,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
     webpackDevMiddleware(compiler, {
       publicPath: webpackConfig.output.publicPath,
       noInfo: false,
-      stats: {
-        colors: true,
-        chunks: false
-      }
+      stats: "errors-only"
     })
   );
 

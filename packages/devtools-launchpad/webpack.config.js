@@ -1,7 +1,13 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 require("babel-register");
 
 const path = require("path");
 const webpack = require("webpack");
+const { NormalModuleReplacementPlugin } = require("webpack");
+
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const {
   isDevelopment,
@@ -50,17 +56,8 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
   });
 
   webpackConfig.module.rules.push({
-    test: /\.svg$/,
-    loader: "svg-inline-loader"
-  });
-
-  webpackConfig.module.rules.push({
     test: /\.properties$/,
     loader: "raw-loader"
-  });
-  webpackConfig.module.rules.push({
-    test: /\.(png|jpg|)$/,
-    loader: "url-loader"
   });
 
   webpackConfig.node = { fs: "empty" };
@@ -81,7 +78,13 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
       test: /\.css$/,
       use: [
         { loader: "style-loader" },
-        { loader: "css-loader", options: { importLoaders: 1 } },
+        {
+          loader: "css-loader",
+          options: {
+            url: false,
+            importLoaders: 1
+          }
+        },
         {
           loader: "postcss-loader",
           options: {
@@ -109,6 +112,22 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         }
       });
     }
+
+    webpackConfig.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(/(resource:|chrome:)/, function(
+        resource
+      ) {
+        const newUrl = resource.request
+          .replace(
+            /(.\/chrome:\/\/|.\/resource:\/\/)/,
+            `devtools-mc-assets/assets/`
+          )
+          .replace(/devtools\/skin/, "devtools/client/themes")
+          .replace(/devtools\/content/, "devtools/client");
+
+        resource.request = newUrl;
+      })
+    );
   } else {
     // Extract CSS into a single file
     webpackConfig.module.rules.push({

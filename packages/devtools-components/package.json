@@ -26,24 +26,14 @@
     "fs-extra": "^2.0.0",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
-    "jest-flow-transform": "^1.0.1",
-    "react-addons-test-utils": "^15.6.2"
+    "jest-flow-transform": "^1.0.1"
   },
   "jest": {
     "rootDir": "src",
-    "setupFiles": [
-      "<rootDir>/tests/__mocks__/request-animation-frame.js"
-    ],
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "<rootDir>/tests/__mocks__/"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!devtools-)"
-    ],
+    "setupFiles": ["<rootDir>/tests/__mocks__/request-animation-frame.js"],
+    "testMatch": ["**/tests/**/*.js"],
+    "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/tests/__mocks__/"],
+    "transformIgnorePatterns": ["node_modules/(?!devtools-)"],
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/tests/__mocks__/styleMock.js",
       "\\.svg$": "<rootDir>/tests/__mocks__/svgMock.js"

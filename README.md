@@ -23,6 +23,12 @@
   - [Update a Package](./docs/versioning.md#update-a-package)
   - [Updating a Launchpad Dependency](./docs/versioning.md#updating-a-launchpad-dependency)
 
+#### Syncing Assets
+
+We sync devtools assets like themes and widgets with [devtools-mc-assets][dma].
+Updating the assets, involves publishing a new version of the package and updating
+the dependency in the launchpad.
+
 [devtools-launchpad-version]:https://img.shields.io/npm/v/devtools-launchpad.svg
 [devtools-launchpad-pkg]:https://npmjs.org/package/devtools-launchpad
 [devtools-launchpad]:./packages/devtools-launchpad/#readme
@@ -66,3 +72,5 @@
 [devtools-splitter-version]:https://img.shields.io/npm/v/devtools-splitter.svg
 [devtools-splitter-pkg]:https://npmjs.org/package/devtools-splitter
 [devtools-splitter]:./packages/devtools-splitter/#readme
+
+[dma]: https://github.com/jasonLaster/devtools-mc-assets
