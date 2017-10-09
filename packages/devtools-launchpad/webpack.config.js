@@ -81,7 +81,6 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         {
           loader: "css-loader",
           options: {
-            url: false,
             importLoaders: 1
           }
         },
@@ -112,6 +111,11 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         }
       });
     }
+
+    webpackConfig.module.rules.push({
+      test: /^(?!(mc|devtools-)\/).*\.svg$/,
+      loader: "svg-inline-loader"
+    });
 
     webpackConfig.plugins.push(
       new webpack.NormalModuleReplacementPlugin(/(resource:|chrome:)/, function(

@@ -77,7 +77,7 @@
 .landing-page .sidebar .title-wrapper .launchpad-container .rocket {
   width: 18px;
   height: 18px;
-  background: url(/assets/rocket.svg) no-repeat top left;
+  background: url(/pad-assets/rocket.svg) no-repeat top left;
   background-size: contain;
   display: inline-block;
 }
