@@ -10,6 +10,7 @@ const fs = require("fs");
 const Mustache = require("mustache");
 const webpack = require("webpack");
 const express = require("express");
+const serve = require("express-static");
 const bodyParser = require("body-parser");
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
@@ -38,7 +39,7 @@ function httpOrHttpsGet(url, onResponse) {
       return onResponse("{}");
     }
     let body = "";
-    response.on("data", function (d) {
+    response.on("data", (d) => {
       body += d;
     });
     response.on("end", () => onResponse(body));
@@ -121,7 +122,7 @@ function onRequest(err, result) {
 function startDevServer(devConfig, webpackConfig, rootDir) {
   setConfig(devConfig);
   root = rootDir;
-  checkNode(NODE_VERSION, function (_, opts) {
+  checkNode(NODE_VERSION, (_, opts) => {
     if (!opts.nodeSatisfied) {
       const version = opts.node.raw;
       console.log(`Sorry, Your version of node is ${version}.`);
@@ -169,13 +170,13 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   app.get("/getconfig", handleGetConfig);
   app.post("/setconfig", handleSetConfig);
 
-  app.use(
-    "/assets",
-    express.static(
-      path.join(__dirname, "../node_modules/devtools-mc-assets/assets")
-    )
+  const assetsPath = path.join(
+    path.dirname(require.resolve("devtools-mc-assets", { basedir: __dirname })),
+    "assets"
   );
-  app.use("/assets", express.static(path.join(__dirname, "../assets")));
+
+  app.use("/mc", serve(assetsPath));
+  app.use("/pad-assets", serve(path.join(__dirname, "../assets")));
 
   const serverPort = getValue("development.serverPort");
   app.listen(serverPort, "0.0.0.0", onRequest);
