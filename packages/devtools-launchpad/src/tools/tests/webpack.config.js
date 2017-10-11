@@ -4,7 +4,6 @@
 
 const toolbox = require("../../../index");
 const path = require("path");
-const webpack = require("webpack");
 const postcss = require("postcss-js");
 const postcssConfig = require("../../../postcss.config");
 const postcssProdConfig = require("../../../postcss.config.devtools");
