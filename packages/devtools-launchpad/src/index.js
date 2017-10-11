@@ -28,6 +28,7 @@ const Root = require("./components/Root");
 if (process.env.TARGET !== "firefox-panel") {
   require("devtools-mc-assets/assets/devtools/client/themes/light-theme.css");
   require("devtools-mc-assets/assets/devtools/client/themes/dark-theme.css");
+  require("devtools-mc-assets/assets/devtools/client/themes/firebug-theme.css");
 }
 
 function updateTheme() {

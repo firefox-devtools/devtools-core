@@ -1,8 +1,9 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.101",
+  "version": "0.0.102",
   "license": "MPL-2.0",
-  "description": "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
+  "description":
+    "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
   "repository": {
     "url": "git://github.com/devtools-html/devtools-core.git",
     "type": "git"
@@ -10,7 +11,8 @@
   "bugs": {
     "url": "https://github.com/devtools-html/devtools-core/issues"
   },
-  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
+  "homepage":
+    "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -75,8 +77,9 @@
     "postcss": "^6.0.6",
     "postcss-bidirection": "^2.4.0",
     "postcss-class-namespace": "^0.1.0",
+    "postcss-js": "^1.0.1",
     "postcss-loader": "^2.0.6",
-    "postcss-url-mapper": "jasonLaster/postcss-url-mapper",
+    "postcss-url-mapper": "^1.2.0",
     "properties-parser": "^0.3.1",
     "ps-node": "^0.1.4",
     "raw-loader": "^0.5.1",
@@ -119,14 +122,8 @@
   ],
   "jest": {
     "rootDir": "src",
-    "testMatch": [
-      "**/tests/**/*.js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!devtools-)"
-    ]
+    "testMatch": ["**/tests/**/*.js"],
+    "testPathIgnorePatterns": ["/node_modules/"],
+    "transformIgnorePatterns": ["node_modules/(?!devtools-)"]
   }
 }

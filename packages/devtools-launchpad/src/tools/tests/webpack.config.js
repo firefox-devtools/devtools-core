@@ -4,6 +4,10 @@
 
 const toolbox = require("../../../index");
 const path = require("path");
+const webpack = require("webpack");
+const postcss = require("postcss-js");
+const postcssConfig = require("../../../postcss.config");
+const postcssProdConfig = require("../../../postcss.config.devtools");
 
 // NOTE: we can likely switch this out for an appropriate path function
 function getLocalPath(filepath) {
@@ -42,5 +46,27 @@ describe("Webpack config", () => {
 
     expect(jsExclude("node_modules/devtools-config")).toBe(false);
     expect(jsExclude("./foo")).toBe(false);
+  });
+
+  describe("postcss", () => {
+    it("maps chrome urls in development", () => {
+      const out = postcss.sync(postcssConfig)({
+        background: 'url("chrome://devtools/skin/poop.svg")'
+      });
+
+      expect(out.background).toEqual(
+        'url("/mc/devtools/client/themes/poop.svg")'
+      );
+    });
+
+    it("maps chrome urls in production", () => {
+      const out = postcss.sync(postcssProdConfig)({
+        background: 'url("/dbg/step-in.svg")'
+      });
+
+      expect(out.background).toEqual(
+        'url("chrome://devtools/skin/images/debugger-step-in.svg")'
+      );
+    });
   });
 });
