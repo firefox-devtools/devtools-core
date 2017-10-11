@@ -5,6 +5,7 @@
 require("babel-register");
 
 const path = require("path");
+
 const webpack = require("webpack");
 const { NormalModuleReplacementPlugin } = require("webpack");
 
@@ -73,6 +74,11 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
     })
   );
 
+  webpackConfig.module.rules.push({
+    test: /^(?!(mc|devtools-)\/).*\.svg$/,
+    loader: "svg-inline-loader"
+  });
+
   if (isDevelopment()) {
     webpackConfig.module.rules.push({
       test: /\.css$/,
@@ -87,9 +93,7 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         {
           loader: "postcss-loader",
           options: {
-            config: {
-              path: path.resolve(__dirname, "./postcss.config.js")
-            }
+            config: { path: path.join(__dirname, "./postcss.config.js") }
           }
         }
       ]
@@ -112,25 +116,21 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
       });
     }
 
-    webpackConfig.module.rules.push({
-      test: /^(?!(mc|devtools-)\/).*\.svg$/,
-      loader: "svg-inline-loader"
-    });
-
     webpackConfig.plugins.push(
-      new webpack.NormalModuleReplacementPlugin(/(resource:|chrome:)/, function(
-        resource
-      ) {
-        const newUrl = resource.request
-          .replace(
-            /(.\/chrome:\/\/|.\/resource:\/\/)/,
-            `devtools-mc-assets/assets/`
-          )
-          .replace(/devtools\/skin/, "devtools/client/themes")
-          .replace(/devtools\/content/, "devtools/client");
+      new webpack.NormalModuleReplacementPlugin(
+        /(resource:|chrome:).*.css/,
+        function(resource) {
+          const newUrl = resource.request
+            .replace(
+              /(.\/chrome:\/\/|.\/resource:\/\/)/,
+              `devtools-mc-assets/assets/`
+            )
+            .replace(/devtools\/skin/, "devtools/client/themes")
+            .replace(/devtools\/content/, "devtools/client");
 
-        resource.request = newUrl;
-      })
+          resource.request = newUrl;
+        }
+      )
     );
   } else {
     // Extract CSS into a single file
@@ -143,8 +143,21 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         );
       },
       use: ExtractTextPlugin.extract({
-        fallback: "style-loader",
-        use: [{ loader: "css-loader", options: { importLoaders: 1 } }]
+        filename: "*.css",
+        use: [
+          {
+            loader: "css-loader",
+            options: { importLoaders: 1 }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              config: {
+                path: path.join(__dirname, "./postcss.config.devtools.js")
+              }
+            }
+          }
+        ]
       })
     });
 
