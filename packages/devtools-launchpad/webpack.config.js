@@ -74,12 +74,32 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
     })
   );
 
-  webpackConfig.module.rules.push({
-    test: /^(?!(mc|devtools-)\/).*\.svg$/,
-    loader: "svg-inline-loader"
-  });
-
   if (isDevelopment()) {
+    /*
+     * SVGs are loaded in one of two ways in JS w/ SVG inline loader
+     * and in CSS w/ the CSS loader.
+     *
+     * Inline SVGs are included in the JS bundle and mounted w/ React.
+     *
+     * SVG URLs like chrome://devtools/skin/images/arrow.svg are mapped
+     * by the postcss-loader to /mc/devtools/client/themes/arrow.svg
+     * and are hosted in `development-server` with an express server.
+     *
+     * CSS URLs like resource://devtools/client/themes/variables.css are mapped
+     * by the NormalModuleReplacementPlugin to devtools-mc-assets/assets/devtools/client/themes/arrow.svg.
+     * The modules are then resolved by the css-loader, which allows modules like
+     * variables.css to be bundled.
+     *
+     * We use several PostCSS plugins to make local development a little easier:
+     * autoprefixer, bidirection. These plugins help support chrome + firefox
+     * development w/ new CSS features like RTL, mask, ...
+     */
+
+    webpackConfig.module.rules.push({
+      test: /svg$/,
+      loader: "svg-inline-loader"
+    });
+
     webpackConfig.module.rules.push({
       test: /\.css$/,
       use: [
@@ -87,34 +107,15 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         {
           loader: "css-loader",
           options: {
-            importLoaders: 1
+            importLoaders: 1,
+            url: false
           }
         },
         {
-          loader: "postcss-loader",
-          options: {
-            config: { path: path.join(__dirname, "./postcss.config.js") }
-          }
+          loader: "postcss-loader"
         }
       ]
     });
-
-    if (getValue("hotReloading")) {
-      Object.keys(webpackConfig.entry).forEach(key => {
-        webpackConfig.entry[key].push("webpack-hot-middleware/client");
-      });
-
-      webpackConfig.plugins = webpackConfig.plugins.concat([
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
-      ]);
-
-      webpackConfig.module.rules.forEach(spec => {
-        if (spec.isJavaScriptLoader) {
-          spec.rules.unshift("react-hot-loader");
-        }
-      });
-    }
 
     webpackConfig.plugins.push(
       new webpack.NormalModuleReplacementPlugin(
@@ -133,6 +134,19 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
       )
     );
   } else {
+    /*
+    * SVGs are loaded in one of two ways in JS w/ SVG inline loader
+    * and in CSS w/ the CSS loader.
+    *
+    * Inline SVGs are included in the JS bundle and mounted w/ React.
+    *
+    * SVG URLs like /images/arrow.svg are mapped
+    * by the postcss-loader to chrome://chrome://devtools/skin/images/debugger/arrow.svg,
+    * copied to devtools/themes/images/debugger and added to the jar.mn
+    *
+    * SVG URLS like chrome://devtools/skin/images/add.svg are
+    * ignored as they are already available in MC.
+    */
     // Extract CSS into a single file
     webpackConfig.module.rules.push({
       test: /\.css$/,
@@ -147,18 +161,19 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         use: [
           {
             loader: "css-loader",
-            options: { importLoaders: 1 }
-          },
-          {
-            loader: "postcss-loader",
             options: {
-              config: {
-                path: path.join(__dirname, "./postcss.config.devtools.js")
-              }
+              importLoaders: 1,
+              url: false
             }
-          }
+          },
+          { loader: "postcss-loader" }
         ]
       })
+    });
+
+    webpackConfig.module.rules.push({
+      test: /svg$/,
+      loader: "svg-inline-loader"
     });
 
     webpackConfig.plugins.push(new ExtractTextPlugin("[name].css"));

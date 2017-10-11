@@ -5,6 +5,15 @@
 var mapUrl = require("postcss-url-mapper");
 const debug = require("debug")("launchpad");
 
+function mapUrlProduction(url) {
+  const newUrl = url.replace(
+    /\/images\//,
+    "chrome://devtools/skin/images/debugger/"
+  );
+  debug("map url", { url, newUrl });
+  return newUrl;
+}
+
 function mapUrlDevelopment(url) {
   const newUrl = url
     .replace(/(chrome:\/\/|resource:\/\/)/, "/mc/")
@@ -15,11 +24,19 @@ function mapUrlDevelopment(url) {
   return newUrl;
 }
 
-module.exports = {
-  plugins: [
-    require("postcss-bidirection"),
-    require("autoprefixer"),
-    require("postcss-class-namespace")(),
-    mapUrl(mapUrlDevelopment)
-  ]
+module.exports = ({ file, options, env }) => {
+  if (env === "production") {
+    return {
+      plugins: [mapUrl(mapUrlProduction)]
+    };
+  }
+
+  return {
+    plugins: [
+      require("postcss-bidirection"),
+      require("autoprefixer"),
+      require("postcss-class-namespace")(),
+      mapUrl(mapUrlDevelopment)
+    ]
+  };
 };

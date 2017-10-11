@@ -4,9 +4,8 @@
 
 const toolbox = require("../../../index");
 const path = require("path");
-const postcss = require("postcss-js");
+const postcss = require("postcss");
 const postcssConfig = require("../../../postcss.config");
-const postcssProdConfig = require("../../../postcss.config.devtools");
 
 // NOTE: we can likely switch this out for an appropriate path function
 function getLocalPath(filepath) {
@@ -48,23 +47,27 @@ describe("Webpack config", () => {
   });
 
   describe("postcss", () => {
-    it("maps chrome urls in development", () => {
-      const out = postcss.sync(postcssConfig)({
-        background: 'url("chrome://devtools/skin/poop.svg")'
-      });
+    it("maps chrome urls in development", async () => {
+      const css = `a { background: 'url("chrome://devtools/skin/poop.svg")' }`;
 
-      expect(out.background).toEqual(
-        'url("/mc/devtools/client/themes/poop.svg")'
+      const out = await postcss(
+        postcssConfig({ file: null, options: {}, env: "test" })
+      ).process(css);
+
+      expect(out.css).toEqual(
+        "a { background: 'url(\"/mc/devtools/client/themes/poop.svg\")' }"
       );
     });
 
-    it("maps chrome urls in production", () => {
-      const out = postcss.sync(postcssProdConfig)({
-        background: 'url("/dbg/step-in.svg")'
-      });
+    it("maps chrome urls in production", async () => {
+      const css = `a { background: 'url("/images/poop.svg")' }`;
 
-      expect(out.background).toEqual(
-        'url("chrome://devtools/skin/images/debugger-step-in.svg")'
+      const out = await postcss(
+        postcssConfig({ file: null, options: {}, env: "production" })
+      ).process(css);
+
+      expect(out.css).toEqual(
+        `a { background: 'url("chrome://devtools/skin/images/debugger/poop.svg")' }`
       );
     });
   });
