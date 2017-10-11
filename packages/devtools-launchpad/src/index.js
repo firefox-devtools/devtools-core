@@ -31,14 +31,14 @@ if (process.env.TARGET !== "firefox-panel") {
   require("devtools-mc-assets/assets/devtools/client/themes/firebug-theme.css");
 }
 
-function updateTheme() {
+function updateTheme(className) {
   if (process.env.TARGET !== "firefox-panel") {
     const theme = getValue("theme");
     const root = document.body.parentNode;
     const appRoot = document.querySelector(".launchpad-root");
 
     root.className = "";
-    appRoot.className = "launchpad-root";
+    appRoot.className = className;
 
     root.classList.add(`theme-${theme}`);
     appRoot.classList.add(`theme-${theme}`);
@@ -96,12 +96,13 @@ function renderRoot(_React, _ReactDOM, component, _store, props) {
     return;
   }
 
-  const root = Root("launchpad-root theme-body");
+  const className = "launchpad-root theme-body";
+  const root = Root(className);
   mount.appendChild(root);
 
   if (isDevelopment()) {
     updateConfig();
-    updateTheme();
+    updateTheme(className);
   }
 
   if (component.props || component.propTypes) {
