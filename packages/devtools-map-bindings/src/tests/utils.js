@@ -18,15 +18,17 @@ describe("replaceOriginalVariableName", () => {
     const scopes = parseScopes(location, source);
 
     const map = getSourceMap(source);
-    const mappedScopes = getLocationScopes(
-      map,
-      scopes,
-      location
-    );
+    const mappedScopes = getLocationScopes(map, scopes, location);
 
     const expr1 = replaceOriginalVariableName("first", mappedScopes);
     expect(expr1).toEqual("n");
     const expr2 = replaceOriginalVariableName("first.toString()", mappedScopes);
     expect(expr2).toEqual("n.toString()");
+    const expr3 = replaceOriginalVariableName("first*2", mappedScopes);
+    expect(expr3).toEqual("n*2");
+    const expr4 = replaceOriginalVariableName("first*second", mappedScopes);
+    expect(expr4).toEqual("n*u");
+    const expr5 = replaceOriginalVariableName("first[second]", mappedScopes);
+    expect(expr5).toEqual("n[u]");
   });
 });
