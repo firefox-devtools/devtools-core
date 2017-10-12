@@ -74,12 +74,9 @@
   display: inline-block;
 }
 
-.landing-page .sidebar .title-wrapper .launchpad-container .rocket {
+.landing-page .sidebar .title-wrapper .launchpad-container .rocket svg {
   width: 18px;
   height: 18px;
-  background: url(/pad-assets/rocket.svg) no-repeat top left;
-  background-size: contain;
-  display: inline-block;
 }
 
 .landing-page
