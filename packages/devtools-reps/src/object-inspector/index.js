@@ -173,8 +173,8 @@ class ObjectInspector extends Component {
       expandedPaths,
       loadedProperties
     } = this.state;
-
-    return expandedPaths.size !== nextState.expandedPaths.size
+    return this.props.roots !== nextProps.roots
+      || expandedPaths.size !== nextState.expandedPaths.size
       || loadedProperties.size !== nextState.loadedProperties.size
       || [...expandedPaths].some(key => !nextState.expandedPaths.has(key));
   }

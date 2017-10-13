@@ -13,3 +13,7 @@ exports[`ObjectInspector - renders renders as expected when not provided a name 
 exports[`ObjectInspector - renders renders objects as expected when provided a name 1`] = `"▶︎ myproperty: Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", … }"`;
 
 exports[`ObjectInspector - renders renders primitives as expected when provided a name 1`] = `"  myproperty: 42"`;
+
+exports[`ObjectInspector - renders updates when the root changes 1`] = `"▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }"`;
+
+exports[`ObjectInspector - renders updates when the root changes 2`] = `"▶︎ Object { a: \\"a\\", b: \\"b\\", c: \\"c\\" }"`;
