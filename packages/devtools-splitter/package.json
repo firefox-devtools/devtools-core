@@ -1,6 +1,6 @@
 {
   "name": "devtools-splitter",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "DevTools Splitter",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "react-dom": "^15.6.2"
   },
   "dependencies": {
-    "@percy-io/react-percy-storybook": "^0.1.2"
+    "@percy-io/react-percy-storybook": "^0.1.2",
+    "babel-preset-es2015": "^6.24.1"
   }
 }
