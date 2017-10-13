@@ -1,0 +1,54 @@
+{
+  "nextFreeModuleId": 38,
+  "modules": {
+    "byIdentifier": {
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/index.js": 0,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/index.js": 1,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../md5/md5.js": 2,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../crypt/crypt.js": 3,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../charenc/charenc.js": 4,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../is-buffer/index.js": 5,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-utils/index.js": 6,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-utils/src/privileged-network-request.js": 7,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-utils/src/worker-utils.js": 8,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/worker.js": 0,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/source-map.js": 9,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/source-map.js": 10,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/source-map-generator.js": 11,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/base64-vlq.js": 12,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/base64.js": 13,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/util.js": 14,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/array-set.js": 15,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/mapping-list.js": 16,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/source-map-consumer.js": 17,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/binary-search.js": 18,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/quick-sort.js": 19,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../source-map/lib/source-node.js": 20,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/path.js": 21,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/assert.js": 22,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/fetchSourceMap.js": 23,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/sourceMapRequests.js": 24,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../src/utils/wasmRemap.js": 25,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/src/scopes.js": 26,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/source-map.js": 27,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/source-map-generator.js": 28,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/base64-vlq.js": 29,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/base64.js": 30,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/util.js": 31,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/array-set.js": 32,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/mapping-list.js": 33,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/source-map-consumer.js": 34,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/binary-search.js": 35,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/quick-sort.js": 36,
+      "../../babel-loader/lib/index.js?plugins[]=transform-flow-strip-types,plugins[]=transform-async-to-generator&ignore=src/lib!../../../../devtools-map-bindings/node_modules/source-map/lib/source-node.js": 37
+    }
+  },
+  "nextFreeChunkId": 2,
+  "chunks": {
+    "byName": {
+      "index": 0,
+      "worker": 1
+    },
+    "byBlocks": {}
+  }
+}
