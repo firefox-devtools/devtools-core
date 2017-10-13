@@ -6,7 +6,7 @@ const React = require("react");
 require("./Sidebar.css");
 const { DOM: dom } = React;
 const classnames = require("classnames");
-
+const Svg = require("../../assets/Svg.js");
 const Sidebar = React.createClass({
   displayName: "Sidebar",
 
@@ -24,7 +24,7 @@ const Sidebar = React.createClass({
       dom.h1({}, title),
       dom.div(
         { className: "launchpad-container" },
-        dom.div({ className: "rocket" }, ""),
+        Svg({ name: "rocket" }),
         dom.h2({ className: "launchpad-container-title" }, "Launchpad")
       )
     );
