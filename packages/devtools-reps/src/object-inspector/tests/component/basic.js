@@ -239,4 +239,26 @@ describe("ObjectInspector - renders", () => {
     protoElementNode = oi.find(".node");
     expect(protoElementNode.hasClass("lessen")).toBe(false);
   });
+
+  it("updates when the root changes", () => {
+    let oi = mount(ObjectInspector(generateDefaults({
+      roots: [{
+        path: "root",
+        contents: {
+          value: gripRepStubs.get("testMoreThanMaxProps")
+        }
+      }],
+      mode: MODE.LONG,
+    })));
+
+    expect(formatObjectInspector(oi)).toMatchSnapshot();
+
+    oi.setProps({roots: [{
+      path: "root-2",
+      contents: {
+        value: gripRepStubs.get("testMaxProps")
+      }
+    }]});
+    expect(formatObjectInspector(oi)).toMatchSnapshot();
+  });
 });
