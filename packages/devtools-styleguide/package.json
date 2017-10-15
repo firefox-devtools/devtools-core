@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start": "node bin/dev-server"
+  },
+  "dependencies": {
+    "devtools-launchpad": "^0.0.105"
+  }
+}
