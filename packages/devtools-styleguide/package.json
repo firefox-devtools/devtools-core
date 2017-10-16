@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "node bin/dev-server"
+  },
+  "dependencies": {
+    "devtools-launchpad": "^0.0.105",
+    "prop-types": "^15.6.0",
+    "redux": "^3.7.2"
+  }
+}

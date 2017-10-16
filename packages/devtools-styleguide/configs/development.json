@@ -1,0 +1,33 @@
+{
+  "title": "Styleguide",
+  "environment": "development",
+  "baseWorkerURL": "http://localhost:8000/assets/build/",
+  "favicon": "assets/launchpad-favicon.png",
+  "theme": "light",
+  "dir": "ltr",
+  "logging": {
+    "client": false,
+    "firefoxProxy": false,
+    "actions": false
+  },
+  "development": {
+    "serverPort": 8003,
+    "examplesPort": 7999
+  },
+  "chrome": {
+    "debug": true,
+    "host": "localhost",
+    "port": 9222
+  },
+  "node": {
+    "debug": true,
+    "host": "localhost",
+    "port": 9229
+  },
+  "firefox": {
+    "webSocketConnection": false,
+    "host": "localhost",
+    "webSocketPort": 9000,
+    "tcpPort": 6080
+  }
+}
