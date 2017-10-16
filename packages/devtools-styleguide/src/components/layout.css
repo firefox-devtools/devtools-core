@@ -1,0 +1,48 @@
+.navBar {
+  background: black;
+  height: 40px;
+  width: 100%;
+  line-height: 40px;
+  color: white;
+  font-size: 16.5px;
+  font-weight: lighter;
+  color: #dbdbdb;
+}
+
+h1 {
+  color: white;
+}
+
+.color-box {
+  width: 12px;
+  height: 12px;
+  align-self: center;
+  padding-right: 10px;
+  margin-right: 12px;
+  border: 1px solid #ccc;
+}
+
+.variable-row {
+  display: flex;
+  line-height: 26px;
+  height: 26px;
+}
+
+.theme-variables {
+}
+
+.variable-list {
+  column-count: 2;
+}
+
+.theme-variables {
+}
+
+.theme-variables h2 {
+  font-weight: lighter;
+}
+
+.content {
+  width: 900px;
+  margin: 0 auto;
+}

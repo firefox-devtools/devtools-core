@@ -1,12 +1,12 @@
-const React = require("react");
-const Component = React.Component;
-const ReactDom = require("react-dom");
-const { combineReducers, bindActionCreators } = require("redux");
+import React from "react";
+import ReactDom from "react-dom";
+import { combineReducers, bindActionCreators } from "redux";
 
-const dom = React.DOM;
-const { renderRoot } = require("devtools-launchpad/src/index");
-const reducers = require("./reducers");
-const configureStore = require("./utils/create-store");
+import { renderRoot } from "devtools-launchpad/src/index";
+import reducers from "./reducers";
+import configureStore from "./utils/create-store";
+
+import Layout from "./components/layout";
 
 const createStore = configureStore({
   log: false,
@@ -18,13 +18,4 @@ const createStore = configureStore({
 const store = createStore(combineReducers(reducers));
 const actions = bindActionCreators(require("./actions"), store.dispatch);
 
-require("./index.css");
-const App = React.createClass({
-  propTypes: { a: 2 },
-
-  render() {
-    return dom.h1({}, "Style Guide");
-  }
-});
-
-renderRoot(React, ReactDom, App);
+renderRoot(React, ReactDom, Layout);
