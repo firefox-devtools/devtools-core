@@ -5,7 +5,6 @@ npm-debug.log
 .idea/
 .vscode/
 storybook-static/
-assets/
 package-lock.json
 
 packages/**/assets/build

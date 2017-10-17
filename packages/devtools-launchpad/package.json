@@ -1,9 +1,8 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.105",
+  "version": "0.0.106",
   "license": "MPL-2.0",
-  "description":
-    "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
+  "description": "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
   "repository": {
     "url": "git://github.com/devtools-html/devtools-core.git",
     "type": "git"
@@ -11,8 +10,7 @@
   "bugs": {
     "url": "https://github.com/devtools-html/devtools-core/issues"
   },
-  "homepage":
-    "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
+  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -39,11 +37,6 @@
     "babel-loader": "^7.1.1",
     "babel-plugin-module-resolver": "^2.2.0",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
-    "babel-plugin-transform-es2015-block-scoping": "^6.7.1",
-    "babel-plugin-transform-es2015-destructuring": "^6.6.5",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
-    "babel-plugin-transform-es2015-parameters": "^6.7.0",
-    "babel-plugin-transform-es2015-spread": "^6.6.5",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "babel-plugin-transform-runtime": "^6.7.5",
     "babel-plugin-webpack-alias": "^2.1.1",
@@ -121,8 +114,14 @@
   ],
   "jest": {
     "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
-    "testPathIgnorePatterns": ["/node_modules/"],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"]
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ]
   }
 }
