@@ -43,10 +43,11 @@ function getTokenLocation(codeMirror: any, tokenEl: HTMLElement) {
  * beneath the line numbers. This makes it easy to be flexible with
  * how we overlay breakpoints.
  */
-function getLineNumberWidth(editor) {
+function resizeBreakpointGutter(editor) {
   const gutters = editor.display.gutters;
   const lineNumbers = gutters.querySelector(".CodeMirror-linenumbers");
-  return lineNumbers.clientWidth;
+  const breakpoints = gutters.querySelector(".breakpoints");
+  breakpoints.style.width = `${lineNumbers.clientWidth}px`;
 }
 
 module.exports = {
@@ -55,5 +56,5 @@ module.exports = {
   getTextForLine,
   getCursorLine,
   getTokenLocation,
-  getLineNumberWidth
+  resizeBreakpointGutter
 };
