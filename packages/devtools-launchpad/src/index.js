@@ -45,6 +45,19 @@ function updateTheme(className) {
   }
 }
 
+function updatePlatform(className) {
+  if (process.env.TARGET !== "firefox-panel") {
+    const root = document.body.parentNode;
+    const appRoot = document.querySelector(".launchpad-root");
+
+    const agent = navigator.userAgent.toLowerCase();
+    const platform = agent.indexOf('mac os') > -1 ? 'mac' : agent.indexOf('windows') > -1 ? 'win' : 'linux';
+
+    root.classList.add('html');
+    appRoot.setAttribute('platform', platform);
+  }
+}
+
 function updateDir() {
   const dir = getValue("dir");
   const root = document.body.parentNode;
@@ -103,6 +116,7 @@ function renderRoot(_React, _ReactDOM, component, _store, props) {
   if (isDevelopment()) {
     updateConfig();
     updateTheme(className);
+    updatePlatform();
   }
 
   if (component.props || component.propTypes) {
