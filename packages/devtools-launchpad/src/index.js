@@ -51,10 +51,11 @@ function updatePlatform(className) {
     const appRoot = document.querySelector(".launchpad-root");
 
     const agent = navigator.userAgent.toLowerCase();
-    const platform = agent.indexOf('mac os') > -1 ? 'mac' : agent.indexOf('windows') > -1 ? 'win' : 'linux';
+    const win = agent.indexOf("windows") > -1 ? "win" : "linux";
+    const platform = agent.indexOf("mac os") > -1 ? "mac" : win;
 
-    root.classList.add('html');
-    appRoot.setAttribute('platform', platform);
+    root.classList.add("html");
+    appRoot.setAttribute("platform", platform);
   }
 }
 
