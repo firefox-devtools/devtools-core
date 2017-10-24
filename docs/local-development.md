@@ -31,23 +31,14 @@ yarn link devtools-modules
 
 #### Local install
 
-Local install lets you install a package locally.
-It's similar to publishing a new version and installing it remotely.
-There are two options:
+Local install lets you install a package locally. It's similar to publishing a new version and installing it remotely.
 
-#####  1. adding a local package
-```bash
-cd debugger.html
-yarn add file:../devtools-core/packages/devtools-modules
-```
-
-##### 2. adding a local tarball
 ```bash
 cd devtools-core/packages/devtools-modules
+vim package.json # set version to `0.0.6-rc1`
 yarn pack
 cd ../../../debugger.html
-yarn add ../devtools-core/packages/devtools-modules/devtools-modules-v0.0.5.tgz
+yarn add ../devtools-core/packages/devtools-modules/devtools-modules-v0.0.6-rc1.tgz
 ```
 
-The two options are very similar, but have slightly different semantics.
-When you install the tarball, you're recreating the remote publish and install process so changes to bin scripts or other dist files will be better supported.
+You'll often repeat this process locally a bunch, going from `rc1` to `rc23` but it is an effective way to test out changes.
