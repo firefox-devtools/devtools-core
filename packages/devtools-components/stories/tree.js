@@ -3,7 +3,10 @@
 * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React from "react";
-const { DOM: dom, createClass, createFactory, createElement } = React;
+const createReactClass = require("create-react-class");
+const dom = require("react-dom-factories");
+
+const { createFactory, createElement } = React;
 
 import Components from "../index";
 const Tree = createFactory(Components.Tree);
@@ -41,7 +44,7 @@ storiesOf("Tree", module)
   .add("scrollable tree", () => {
     const nodes = Array.from({length: 500}).map((_, i) => (i + 1).toString());
 
-    return createFactory(createClass({
+    return createFactory(createReactClass({
       displayName: "container",
       getInitialState() {
         const state = {
@@ -158,7 +161,7 @@ const TEST_TREE = {
 };
 
 function renderTree(props, tree = TEST_TREE) {
-  return createFactory(createClass({
+  return createFactory(createReactClass({
     displayName: "container",
     getInitialState() {
       const state = {

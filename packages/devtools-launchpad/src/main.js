@@ -3,6 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
+const createReactClass = require("create-react-class");
+const DOM = require("react-dom-factories");
+
 const ReactDOM = require("react-dom");
 const { combineReducers } = require("redux");
 const configureStore = require("./utils/create-store");
@@ -10,11 +13,11 @@ const reducers = require("./reducers");
 
 const { bootstrap } = require("./index");
 
-const App = React.createClass({
+const App = createReactClass({
   displayName: "App",
   propTypes: {},
   render() {
-    return React.DOM.div({
+    return DOM.div({
       style: {
         margin: "100px auto",
         "text-align": "center"

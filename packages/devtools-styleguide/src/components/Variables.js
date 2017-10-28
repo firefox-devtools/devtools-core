@@ -1,6 +1,8 @@
 import React from "react";
+import createReactClass from "create-react-class";
 import PropTypes from "prop-types";
-const dom = React.DOM;
+import dom from "react-dom-factories";
+
 import postcss from "postcss";
 
 // require("./Variables.css");
@@ -52,7 +54,7 @@ async function getVariables() {
   };
 }
 
-const Layout = React.createClass({
+const Layout = createReactClass({
   propTypes: {},
 
   componentWillMount() {

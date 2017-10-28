@@ -3,7 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
+const { span } = require("react-dom-factories");
+
 const {
   getGripType,
   isGrip,
@@ -11,21 +13,18 @@ const {
 } = require("./rep-utils");
 const { MODE } = require("./constants");
 
-// Shortcuts
-const { span } = React.DOM;
-
 /**
  * Renders an array. The array is enclosed by left and right bracket
  * and the max number of rendered items depends on the current mode.
  */
 GripArray.propTypes = {
-  object: React.PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  provider: React.PropTypes.object,
-  onDOMNodeMouseOver: React.PropTypes.func,
-  onDOMNodeMouseOut: React.PropTypes.func,
-  onInspectIconClick: React.PropTypes.func,
+  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  provider: PropTypes.object,
+  onDOMNodeMouseOver: PropTypes.func,
+  onDOMNodeMouseOut: PropTypes.func,
+  onInspectIconClick: PropTypes.func,
 };
 
 function GripArray(props) {

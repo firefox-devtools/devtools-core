@@ -1,13 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
-const dom = React.DOM;
+import createReactClass from "create-react-class";
+import dom from "react-dom-factories";
 
 import _Variables from "./Variables";
 const Variables = React.createFactory(_Variables);
 
 require("./layout.css");
 
-const Layout = React.createClass({
+const Layout = createReactClass({
   propTypes: {},
 
   render() {

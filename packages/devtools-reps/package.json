@@ -26,8 +26,11 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "create-react-class": "^15.6.2",
     "devtools-components": "^0.0.6",
     "lodash": "^4.17.2",
+    "prop-types": "^15.6.0",
+    "react-dom-factories": "^1.0.2",
     "svg-inline-react": "^1.0.2"
   },
   "devDependencies": {

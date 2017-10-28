@@ -3,13 +3,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { createFactory, DOM: dom, PropTypes } = React;
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
+
+const { createFactory } = React;
 
 const constants = require("../constants");
 const QuickLinks = createFactory(require("./QuickLinks"));
 require("./Header.css");
 
-const Header = React.createClass({
+const Header = createReactClass({
 
   displayName: "Header",
 

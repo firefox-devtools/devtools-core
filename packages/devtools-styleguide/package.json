@@ -3,8 +3,10 @@
     "start": "node bin/dev-server"
   },
   "dependencies": {
+    "create-react-class": "^15.6.2",
     "devtools-launchpad": "^0.0.105",
     "prop-types": "^15.6.0",
+    "react-dom-factories": "^1.0.2",
     "redux": "^3.7.2"
   }
 }

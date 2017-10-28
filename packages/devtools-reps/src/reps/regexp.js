@@ -3,7 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // ReactJS
-const React = require("react");
+const PropTypes = require("prop-types");
+const DOM = require("react-dom-factories");
 
 // Reps
 const {
@@ -16,14 +17,14 @@ const {
  * Renders a grip object with regular expression.
  */
 RegExp.propTypes = {
-  object: React.PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired,
 };
 
 function RegExp(props) {
   let {object} = props;
 
   return (
-    React.DOM.span({
+    DOM.span({
       "data-link-actor-id": object.actor,
       className: "objectBox objectBox-regexp regexpSource"
     }, getSource(object))

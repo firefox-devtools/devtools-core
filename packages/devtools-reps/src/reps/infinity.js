@@ -3,21 +3,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
+const { span } = require("react-dom-factories");
 
 const {
   getGripType,
   wrapRender,
 } = require("./rep-utils");
 
-// Shortcuts
-const { span } = React.DOM;
-
 /**
  * Renders a Infinity object
  */
 InfinityRep.propTypes = {
-  object: React.PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired,
 };
 
 function InfinityRep(props) {

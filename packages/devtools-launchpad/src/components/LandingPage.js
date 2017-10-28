@@ -3,9 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
 
 require("./LandingPage.css");
-const { DOM: dom } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 const configMap = require("../constants").sidePanelItems;
 const Tabs = React.createFactory(require("./Tabs"));
@@ -33,19 +35,19 @@ function firstTimeMessage(title, urlPart) {
   );
 }
 
-const LandingPage = React.createClass({
+const LandingPage = createReactClass({
   displayName: "LandingPage",
 
   propTypes: {
     tabs: ImPropTypes.map.isRequired,
-    supportsFirefox: React.PropTypes.bool.isRequired,
-    supportsChrome: React.PropTypes.bool.isRequired,
-    title: React.PropTypes.string.isRequired,
-    filterString: React.PropTypes.string,
-    onFilterChange: React.PropTypes.func.isRequired,
-    onTabClick: React.PropTypes.func.isRequired,
-    config: React.PropTypes.object.isRequired,
-    setValue: React.PropTypes.func.isRequired
+    supportsFirefox: PropTypes.bool.isRequired,
+    supportsChrome: PropTypes.bool.isRequired,
+    title: PropTypes.string.isRequired,
+    filterString: PropTypes.string,
+    onFilterChange: PropTypes.func.isRequired,
+    onTabClick: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired,
+    setValue: PropTypes.func.isRequired
   },
 
   getInitialState() {

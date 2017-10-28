@@ -3,12 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
+
+const { createFactory } = React;
 const ImPropTypes = require("react-immutable-proptypes");
 
 const Result = createFactory(require("./Result"));
 
-const ResultsList = React.createClass({
+const ResultsList = createReactClass({
   displayName: "ResultsList",
 
   propTypes: {
