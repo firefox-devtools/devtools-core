@@ -3,7 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
+const { a, span } = require("react-dom-factories");
 
 const {
   containsURL,
@@ -16,22 +17,19 @@ const {
   tokenSplitRegex,
 } = require("./rep-utils");
 
-// Shortcuts
-const { a, span } = React.DOM;
-
 /**
  * Renders a string. String value is enclosed within quotes.
  */
 StringRep.propTypes = {
-  useQuotes: React.PropTypes.bool,
-  escapeWhitespace: React.PropTypes.bool,
-  style: React.PropTypes.object,
-  object: React.PropTypes.string.isRequired,
-  member: React.PropTypes.any,
-  cropLimit: React.PropTypes.number,
-  openLink: React.PropTypes.func,
-  className: React.PropTypes.string,
-  omitLinkHref: React.PropTypes.bool,
+  useQuotes: PropTypes.bool,
+  escapeWhitespace: PropTypes.bool,
+  style: PropTypes.object,
+  object: PropTypes.string.isRequired,
+  member: PropTypes.any,
+  cropLimit: PropTypes.number,
+  openLink: PropTypes.func,
+  className: PropTypes.string,
+  omitLinkHref: PropTypes.bool,
 };
 
 function StringRep(props) {

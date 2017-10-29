@@ -3,9 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
+
 const ReactDOM = require("react-dom");
 const Draggable = React.createFactory(require("./Draggable"));
-const { DOM: dom, PropTypes } = React;
 
 require("./SplitBox.css");
 
@@ -13,7 +16,7 @@ require("./SplitBox.css");
  * This component represents a Splitter. The splitter supports vertical
  * as well as horizontal mode.
  */
-const SplitBox = React.createClass({
+const SplitBox = createReactClass({
   propTypes: {
     // Custom class name. You can use more names separated by a space.
     className: PropTypes.string,

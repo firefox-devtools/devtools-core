@@ -5,14 +5,17 @@
 /* global jest */
 
 import React from "react";
+const createReactClass = require("create-react-class");
+const dom = require("react-dom-factories");
+
 import { mount } from "enzyme";
 import Components from "../../index";
 
-const { DOM: dom, createClass, createFactory } = React;
+const { createFactory } = React;
 const Tree = createFactory(Components.Tree);
 
 function mountTree(overrides = {}) {
-  return mount(createFactory(createClass({
+  return mount(createFactory(createReactClass({
     displayName: "container",
     getInitialState() {
       const state = {

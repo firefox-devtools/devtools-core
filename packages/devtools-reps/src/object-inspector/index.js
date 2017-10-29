@@ -3,12 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // @flow
-const {
-  Component,
-  createFactory,
-  DOM: dom,
-  PropTypes,
-} = require("react");
+const { Component, createFactory } = require("react");
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
 
 import Components from "devtools-components";
 const Tree = createFactory(Components.Tree);

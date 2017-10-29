@@ -3,22 +3,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
+const { span } = require("react-dom-factories");
+
 const {
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
-// Shortcuts
-const {
-  span,
-} = React.DOM;
+
 /**
  * Renders an object. An object is represented by a list of its
  * properties enclosed in curly brackets.
  */
 Accessor.propTypes = {
-  object: React.PropTypes.object.isRequired,
-  mode: React.PropTypes.oneOf(Object.values(MODE)),
+  object: PropTypes.object.isRequired,
+  mode: PropTypes.oneOf(Object.values(MODE)),
 };
 
 function Accessor(props) {

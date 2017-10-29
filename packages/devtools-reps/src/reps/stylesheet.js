@@ -3,7 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // ReactJS
-const React = require("react");
+const PropTypes = require("prop-types");
+const { span } = require("react-dom-factories");
 
 // Reps
 const {
@@ -13,14 +14,11 @@ const {
   wrapRender
 } = require("./rep-utils");
 
-// Shortcuts
-const {span} = React.DOM;
-
 /**
  * Renders a grip representing CSSStyleSheet
  */
 StyleSheet.propTypes = {
-  object: React.PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired,
 };
 
 function StyleSheet(props) {

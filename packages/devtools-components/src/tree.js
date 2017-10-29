@@ -3,7 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React from "react";
-const { DOM: dom, createClass, createFactory, createElement, PropTypes } = React;
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
+
+const { createFactory, createElement } = React;
 import InlineSVG from "svg-inline-react";
 import svgArrow from "./images/arrow.svg";
 
@@ -15,7 +19,7 @@ const AUTO_EXPAND_DEPTH = 0; // depth
  * An arrow that displays whether its node is expanded (▼) or collapsed
  * (▶). When its node has no children, it is hidden.
  */
-const ArrowExpander = createFactory(createClass({
+const ArrowExpander = createFactory(createReactClass({
   displayName: "ArrowExpander",
 
   propTypes: {
@@ -42,7 +46,7 @@ const ArrowExpander = createFactory(createClass({
   }
 }));
 
-const TreeNode = createFactory(createClass({
+const TreeNode = createFactory(createReactClass({
   displayName: "TreeNode",
 
   propTypes: {
@@ -212,7 +216,7 @@ function oncePerAnimationFrame(fn) {
  *
  * Here is how we could render that data with this component:
  *
- *     const MyTree = createClass({
+ *     const MyTree = createReactClass({
  *       displayName: "MyTree",
  *
  *       propTypes: {
@@ -251,7 +255,7 @@ function oncePerAnimationFrame(fn) {
  *       }
  *     });
  */
-const Tree = createClass({
+const Tree = createReactClass({
   displayName: "Tree",
 
   propTypes: {

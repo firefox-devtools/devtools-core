@@ -11,6 +11,9 @@
   "author": "Jason Laster",
   "license": "MPL-2.0",
   "dependencies": {
+    "create-react-class": "^15.6.2",
+    "prop-types": "^15.6.0",
+    "react-dom-factories": "^1.0.2",
     "svg-inline-loader": "^0.8.0",
     "svg-inline-react": "^1.0.2"
   },

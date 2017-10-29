@@ -3,14 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
+const { span } = require("react-dom-factories");
+
 const {
   wrapRender,
 } = require("./rep-utils");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
-// Shortcuts
-const { span } = React.DOM;
 
 const DEFAULT_TITLE = "Object";
 
@@ -19,10 +19,10 @@ const DEFAULT_TITLE = "Object";
  * properties enclosed in curly brackets.
  */
 ObjectRep.propTypes = {
-  object: React.PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  title: React.PropTypes.string,
+  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  title: PropTypes.string,
 };
 
 function ObjectRep(props) {

@@ -3,19 +3,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
+const DOM = require("react-dom-factories");
+
 const {
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
 
-const ModePropType = React.PropTypes.oneOf(
+const ModePropType = PropTypes.oneOf(
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   Object.keys(MODE).map(key => MODE[key])
 );
-
-// Shortcuts
-const DOM = React.DOM;
 
 /**
  * Renders an array. The array is enclosed by left and right bracket
@@ -23,7 +22,7 @@ const DOM = React.DOM;
  */
 ArrayRep.propTypes = {
   mode: ModePropType,
-  object: React.PropTypes.array.isRequired,
+  object: PropTypes.array.isRequired,
 };
 
 function ArrayRep(props) {
@@ -108,8 +107,8 @@ function arrayIterator(props, array, max) {
  * Renders array item. Individual values are separated by a comma.
  */
 ItemRep.propTypes = {
-  object: React.PropTypes.any.isRequired,
-  delim: React.PropTypes.string.isRequired,
+  object: PropTypes.any.isRequired,
+  delim: PropTypes.string.isRequired,
   mode: ModePropType,
 };
 

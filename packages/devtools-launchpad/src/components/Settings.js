@@ -2,16 +2,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const React = require("react");
-const { DOM: dom } = React;
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
+
 const { showMenu, buildMenu } = require("devtools-contextmenu");
 
-const Settings = React.createClass({
+const Settings = createReactClass({
   displayName: "Settings",
 
   propTypes: {
-    config: React.PropTypes.object.isRequired,
-    setValue: React.PropTypes.func.isRequired
+    config: PropTypes.object.isRequired,
+    setValue: PropTypes.func.isRequired
   },
 
   onConfigContextMenu(event, key) {

@@ -2,10 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const React = require("react");
+const createReactClass = require("create-react-class");
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
 
 require("./Tabs.css");
-const { DOM: dom } = React;
 const classnames = require("classnames");
 
 function getTabURL(tab, paramName) {
@@ -13,13 +14,13 @@ function getTabURL(tab, paramName) {
   return `/?${paramName}=${tabID}`;
 }
 
-const Tabs = React.createClass({
+const Tabs = createReactClass({
   displayName: "Tabs",
 
   propTypes: {
-    targets: React.PropTypes.object.isRequired,
-    paramName: React.PropTypes.string.isRequired,
-    onTabClick: React.PropTypes.func.isRequired,
+    targets: PropTypes.object.isRequired,
+    paramName: PropTypes.string.isRequired,
+    onTabClick: PropTypes.func.isRequired,
   },
 
   onTabClick(tab, paramName) {

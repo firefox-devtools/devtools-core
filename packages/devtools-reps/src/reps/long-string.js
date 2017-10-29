@@ -3,26 +3,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
+const { span } = require("react-dom-factories");
+
 const {
   escapeString,
   sanitizeString,
   isGrip,
   wrapRender,
 } = require("./rep-utils");
-// Shortcuts
-const { span } = React.DOM;
 
 /**
  * Renders a long string grip.
  */
 LongStringRep.propTypes = {
-  useQuotes: React.PropTypes.bool,
-  escapeWhitespace: React.PropTypes.bool,
-  style: React.PropTypes.object,
-  cropLimit: React.PropTypes.number.isRequired,
-  member: React.PropTypes.string,
-  object: React.PropTypes.object.isRequired,
+  useQuotes: PropTypes.bool,
+  escapeWhitespace: PropTypes.bool,
+  style: PropTypes.object,
+  cropLimit: PropTypes.number.isRequired,
+  member: PropTypes.string,
+  object: PropTypes.object.isRequired,
 };
 
 function LongStringRep(props) {

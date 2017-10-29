@@ -3,7 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // ReactJS
-const React = require("react");
+const PropTypes = require("prop-types");
+const { span } = require("react-dom-factories");
 
 // Reps
 const {
@@ -13,14 +14,11 @@ const {
 } = require("./rep-utils");
 const {rep: StringRep} = require("./string");
 
-// Shortcuts
-const { span } = React.DOM;
-
 /**
  * Renders DOM attribute
  */
 Attribute.propTypes = {
-  object: React.PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired,
 };
 
 function Attribute(props) {
