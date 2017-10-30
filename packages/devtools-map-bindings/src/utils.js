@@ -12,20 +12,22 @@ function replaceOriginalVariableName(
 ): string {
   const ast = babylon.parse(expression, {
     sourceType: "module",
-    plugins: ["jsx", "flow", "objectRestSpread"],
+    plugins: ["jsx", "flow", "objectRestSpread"]
   });
 
   traverse(ast, {
     Identifier(path) {
       const { node: { name } } = path;
-      const foundScope = generatedScopes.find(({ bindings }) => name in bindings);
+      const foundScope = generatedScopes.find(
+        ({ bindings }) => name in bindings
+      );
       if (foundScope) {
         path.node.name = foundScope.bindings[name];
       }
-    },
+    }
   });
 
-  return generate(ast, { concise: true, compact: true }).code.replace(";", "");
+  return generate(ast, { concise: true, compact: true }).code.replace(/;$/, "");
 }
 
 module.exports = { replaceOriginalVariableName };
