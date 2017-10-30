@@ -108,12 +108,6 @@ const functionProperty = /([\w\d]+)[\/\.<]*?$/;
 const annonymousProperty = /([\w\d]+)\(\^\)$/;
 
 function getFunctionName(grip, props) {
-  let name = grip.userDisplayName
-    || grip.displayName
-    || grip.name
-    || props.functionName
-    || "";
-
   const scenarios = [
     objectProperty,
     arrayProperty,
@@ -130,6 +124,22 @@ function getFunctionName(grip, props) {
     return false;
   });
 
+  let { functionName } = props;
+  let end = functionName.length - 1;
+
+  props.functionName =
+    functionName.indexOf('"') == 0 && functionName.lastIndexOf('"') == end
+      ? functionName.substring(1, end)
+      : functionName;
+
+  let name =
+    grip.displayName != undefined && grip.displayName != props.functionName
+      ? props.functionName + ": " + grip.displayName
+      : grip.userDisplayName ||
+        grip.displayName ||
+        grip.name ||
+        props.functionName ||
+        "";
   return cropString(name, 100);
 }
 
