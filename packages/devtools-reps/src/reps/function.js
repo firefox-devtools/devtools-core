@@ -6,12 +6,7 @@
 const PropTypes = require("prop-types");
 
 // Reps
-const {
-  getGripType,
-  isGrip,
-  cropString,
-  wrapRender,
-} = require("./rep-utils");
+const { getGripType, isGrip, cropString, wrapRender } = require("./rep-utils");
 const { MODE } = require("./constants");
 const Svg = require("../shared/images/Svg");
 
@@ -47,13 +42,13 @@ function FunctionRep(props) {
     });
   }
 
-  return (
-    span({
+  return span(
+    {
       "data-link-actor-id": grip.actor,
       className: "objectBox objectBox-function",
       // Set dir="ltr" to prevent function parentheses from
       // appearing in the wrong direction
-      dir: "ltr",
+      dir: "ltr"
     },
       getTitle(grip, props),
       getFunctionName(grip, props),
@@ -66,31 +61,28 @@ function FunctionRep(props) {
 }
 
 function getTitle(grip, props) {
-  const {
-    mode
-  } = props;
+  const { mode } = props;
 
   if (mode === MODE.TINY && !grip.isGenerator && !grip.isAsync) {
     return null;
   }
 
-  let title = mode === MODE.TINY
-    ? ""
-    : "function ";
+  let title = mode === MODE.TINY ? "" : "function ";
 
   if (grip.isGenerator) {
-    title = mode === MODE.TINY
-      ? "* "
-      : "function* ";
+    title = mode === MODE.TINY ? "* " : "function* ";
   }
 
   if (grip.isAsync) {
     title = "async" + " " + title;
   }
 
-  return span({
-    className: "objectTitle",
-  }, title);
+  return span(
+    {
+      className: "objectTitle"
+    },
+    title
+  );
 }
 
 // Decodes an anonymous naming scheme that
@@ -120,27 +112,33 @@ function getFunctionName(grip, props) {
 
   let { functionName } = props;
   let end = functionName.length - 1;
+  let name;
 
-  props.functionName =
-    functionName.indexOf('"') == 0 && functionName.lastIndexOf('"') == end
+  functionName =
+    functionName.startsWith('"') && functionName.endsWith('"')
       ? functionName.substring(1, end)
       : functionName;
 
-  let name =
-    grip.displayName != undefined && grip.displayName != props.functionName
-      ? props.functionName + ": " + grip.displayName
-      : grip.userDisplayName ||
-        grip.displayName ||
-        grip.name ||
-        props.functionName ||
-        "";
+  if (
+    grip.displayName != undefined &&
+    functionName != undefined &&
+    grip.displayName != functionName
+  ) {
+    name = functionName + ": " + grip.displayName;
+  } else {
+    name =
+      grip.userDisplayName ||
+      grip.displayName ||
+      grip.name ||
+      props.functionName ||
+      "";
+  }
+
   return cropString(name, 100);
 }
 
 function renderParams(props) {
-  const {
-    parameterNames = []
-  } = props;
+  const { parameterNames = [] } = props;
 
   return parameterNames
     .filter(param => param)
@@ -157,10 +155,10 @@ function renderParams(props) {
 function supportsObject(grip, noGrip = false) {
   const type = getGripType(grip, noGrip);
   if (noGrip === true || !isGrip(grip)) {
-    return (type == "function");
+    return type == "function";
   }
 
-  return (type == "Function");
+  return type == "Function";
 }
 
 // Exports from this module
