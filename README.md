@@ -23,6 +23,14 @@
   - [Update a Package](./docs/versioning.md#update-a-package)
   - [Updating a Launchpad Dependency](./docs/versioning.md#updating-a-launchpad-dependency)
 
+### Testing
+
+From the root folder:
+
+```js
+yarn test
+```
+
 #### Syncing Assets
 
 We sync devtools assets like themes and widgets with [devtools-mc-assets][dma].

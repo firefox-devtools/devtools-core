@@ -2057,29 +2057,9 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-devtools-config@^0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.15.tgz#1fbe75be3f4dc1159603927fc1dfa64d1d9f1202"
-
-devtools-connection@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.7.tgz#1ec211018dc863079adb5422cf398f1201078c39"
-
-devtools-contextmenu@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.7.tgz#9c5561a1e0e2a91d3ac92f76c7ef3a972a0cb120"
-  dependencies:
-    devtools-modules "^0.0.32"
-
 devtools-mc-assets@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.2.tgz#082cf3fedc8c238d6731263f836bcc5c18490caa"
-
-devtools-modules@^0.0.32:
-  version "0.0.32"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.32.tgz#7432d664dba16918b92bf8e4907f2396c15980d8"
-  dependencies:
-    jest "^19.0.2"
 
 devtools-sprintf-js@^1.0.3:
   version "1.0.3"

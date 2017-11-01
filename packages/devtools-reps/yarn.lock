@@ -1660,13 +1660,6 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-devtools-components@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/devtools-components/-/devtools-components-0.0.6.tgz#b9a97788eda2a0612517bafa3ac3a7ee894ad9d4"
-  dependencies:
-    svg-inline-loader "^0.8.0"
-    svg-inline-react "^1.0.2"
-
 devtools-config@^0.0.15:
   version "0.0.15"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.15.tgz#1fbe75be3f4dc1159603927fc1dfa64d1d9f1202"
@@ -4719,7 +4712,7 @@ postcss-unique-selectors@^2.0.2:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-"postcss-url-mapper@github:jasonLaster/postcss-url-mapper":
+postcss-url-mapper@jasonLaster/postcss-url-mapper:
   version "1.1.1"
   resolved "https://codeload.github.com/jasonLaster/postcss-url-mapper/tar.gz/821a281aa5a9eaf1f8557d7d282c05b77e7db5f9"
   dependencies:
