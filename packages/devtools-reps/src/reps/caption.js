@@ -3,8 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
-const DOM = React.DOM;
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
+const { span } = dom;
 
 const { wrapRender } = require("./rep-utils");
 
@@ -13,15 +14,15 @@ const { wrapRender } = require("./rep-utils");
  * that needs to distinguish between a simple text/value and a label.
  */
 Caption.propTypes = {
-  object: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string,
+  object: PropTypes.oneOfType([
+          PropTypes.number,
+          PropTypes.string,
   ]).isRequired,
 };
 
 function Caption(props) {
   return (
-    DOM.span({"className": "caption"}, props.object)
+    span({"className": "caption"}, props.object)
   );
 }
 

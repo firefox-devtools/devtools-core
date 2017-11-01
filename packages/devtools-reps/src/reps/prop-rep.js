@@ -3,14 +3,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
 const {
   maybeEscapePropertyName,
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
-// Shortcuts
-const { span } = React.DOM;
+
+const dom = require("react-dom-factories");
+const { span } = dom;
 
 /**
  * Property for Obj (local JS objects), Grip (remote JS objects)
@@ -19,21 +20,21 @@ const { span } = React.DOM;
  */
 PropRep.propTypes = {
   // Property name.
-  name: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object,
+  name: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
   ]).isRequired,
   // Equal character rendered between property name and value.
-  equal: React.PropTypes.string,
+  equal: PropTypes.string,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  onDOMNodeMouseOver: React.PropTypes.func,
-  onDOMNodeMouseOut: React.PropTypes.func,
-  onInspectIconClick: React.PropTypes.func,
+  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  onDOMNodeMouseOver: PropTypes.func,
+  onDOMNodeMouseOut: PropTypes.func,
+  onInspectIconClick: PropTypes.func,
   // Normally a PropRep will quote a property name that isn't valid
   // when unquoted; but this flag can be used to suppress the
   // quoting.
-  suppressQuotes: React.PropTypes.bool,
+  suppressQuotes: PropTypes.bool,
 };
 
 /**

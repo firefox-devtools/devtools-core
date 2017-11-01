@@ -3,29 +3,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
 const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
-// Shortcuts
-const { span } = React.DOM;
+
+const dom = require("react-dom-factories");
+const { span } = dom;
 
 /**
  * Renders an map. A map is represented by a list of its
  * entries enclosed in curly brackets.
  */
 GripMap.propTypes = {
-  object: React.PropTypes.object,
+  object: PropTypes.object,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  isInterestingEntry: React.PropTypes.func,
-  onDOMNodeMouseOver: React.PropTypes.func,
-  onDOMNodeMouseOut: React.PropTypes.func,
-  onInspectIconClick: React.PropTypes.func,
-  title: React.PropTypes.string,
+  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  isInterestingEntry: PropTypes.func,
+  onDOMNodeMouseOver: PropTypes.func,
+  onDOMNodeMouseOut: PropTypes.func,
+  onInspectIconClick: PropTypes.func,
+  title: PropTypes.string,
 };
 
 function GripMap(props) {

@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // ReactJS
-const React = require("react");
+const PropTypes = require("prop-types");
 // Utils
 const {
   getGripType,
@@ -12,16 +12,16 @@ const {
 } = require("./rep-utils");
 const { MODE } = require("./constants");
 
-// Shortcuts
-const { span } = React.DOM;
+const dom = require("react-dom-factories");
+const { span } = dom;
 
 /**
  * Renders Error objects.
  */
 ErrorRep.propTypes = {
-  object: React.PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
 };
 
 function ErrorRep(props) {

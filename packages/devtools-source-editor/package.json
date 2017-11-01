@@ -18,6 +18,6 @@
   },
   "devDependencies": {
     "react": "^15.6.2",
-    "devtools-launchpad": "0.0.85"
+    "devtools-launchpad": "0.0.108"
   }
 }

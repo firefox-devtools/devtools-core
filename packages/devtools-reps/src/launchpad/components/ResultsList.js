@@ -3,23 +3,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
+const { Component, createFactory } = React;
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
 const ImPropTypes = require("react-immutable-proptypes");
 
 const Result = createFactory(require("./Result"));
 
-const ResultsList = React.createClass({
-  displayName: "ResultsList",
+class ResultsList extends Component {
+  static get propTypes() {
+    return {
+      expressions: ImPropTypes.map.isRequired,
+      showResultPacket: PropTypes.func.isRequired,
+      hideResultPacket: PropTypes.func.isRequired,
+      createObjectClient: PropTypes.func.isRequired,
+      releaseActor: PropTypes.func.isRequired,
+    };
+  }
 
-  propTypes: {
-    expressions: ImPropTypes.map.isRequired,
-    showResultPacket: PropTypes.func.isRequired,
-    hideResultPacket: PropTypes.func.isRequired,
-    createObjectClient: PropTypes.func.isRequired,
-    releaseActor: PropTypes.func.isRequired,
-  },
-
-  render: function () {
+  render() {
     let {
       expressions,
       showResultPacket,
@@ -44,6 +46,6 @@ const ResultsList = React.createClass({
       )
     );
   }
-});
+}
 
 module.exports = ResultsList;

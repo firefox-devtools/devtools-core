@@ -4,19 +4,28 @@
 
 const React = require("react");
 require("./Sidebar.css");
-const { DOM: dom } = React;
+const { Component } = React;
+const dom = require("react-dom-factories");
+const PropTypes = require("prop-types");
 const classnames = require("classnames");
 const Svg = require("../../assets/Svg.js");
-const Sidebar = React.createClass({
-  displayName: "Sidebar",
 
-  propTypes: {
-    supportsFirefox: React.PropTypes.bool.isRequired,
-    supportsChrome: React.PropTypes.bool.isRequired,
-    title: React.PropTypes.string.isRequired,
-    selectedPane: React.PropTypes.string.isRequired,
-    onSideBarItemClick: React.PropTypes.func.isRequired
-  },
+class Sidebar extends Component {
+  static get propTypes() {
+    return {
+      supportsFirefox: PropTypes.bool.isRequired,
+      supportsChrome: PropTypes.bool.isRequired,
+      title: PropTypes.string.isRequired,
+      selectedPane: PropTypes.string.isRequired,
+      onSideBarItemClick: PropTypes.func.isRequired
+    };
+  }
+
+  constructor(props) {
+    super(props);
+    this.renderTitle = this.renderTitle.bind(this);
+    this.renderItem = this.renderItem.bind(this);
+  }
 
   renderTitle(title) {
     return dom.div(
@@ -28,7 +37,7 @@ const Sidebar = React.createClass({
         dom.h2({ className: "launchpad-container-title" }, "Launchpad")
       )
     );
-  },
+  }
 
   renderItem(title) {
     return dom.li(
@@ -48,7 +57,7 @@ const Sidebar = React.createClass({
       },
       dom.a({}, title)
     );
-  },
+  }
 
   render() {
     let connections = [];
@@ -73,6 +82,6 @@ const Sidebar = React.createClass({
       )
     );
   }
-});
+}
 
 module.exports = Sidebar;

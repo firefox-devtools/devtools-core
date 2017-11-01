@@ -3,24 +3,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
-
+const { Component, createFactory } = React;
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
 const { MODE } = require("../../reps/constants");
 const ObjectInspector = createFactory(require("../../index").ObjectInspector);
 const { Rep } = require("../../reps/rep");
 
-const Result = React.createClass({
-  displayName: "Result",
+class Result extends Component {
+  static get propTypes() {
+    return {
+      expression: PropTypes.object.isRequired,
+      showResultPacket: PropTypes.func.isRequired,
+      hideResultPacket: PropTypes.func.isRequired,
+      createObjectClient: PropTypes.func.isRequired,
+      releaseActor: PropTypes.func.isRequired,
+    };
+  }
 
-  propTypes: {
-    expression: PropTypes.object.isRequired,
-    showResultPacket: PropTypes.func.isRequired,
-    hideResultPacket: PropTypes.func.isRequired,
-    createObjectClient: PropTypes.func.isRequired,
-    releaseActor: PropTypes.func.isRequired,
-  },
+  constructor(props) {
+    super(props);
+    this.copyPacketToClipboard = this.copyPacketToClipboard.bind(this);
+    this.onHeaderClick = this.onHeaderClick.bind(this);
+    this.renderRepInAllModes = this.renderRepInAllModes.bind(this);
+    this.renderRep = this.renderRep.bind(this);
+    this.renderPacket = this.renderPacket.bind(this);
+  }
 
-  copyPacketToClipboard: function (e, packet) {
+  copyPacketToClipboard(e, packet) {
     e.stopPropagation();
 
     let textField = document.createElement("textarea");
@@ -29,24 +39,24 @@ const Result = React.createClass({
     textField.select();
     document.execCommand("copy");
     textField.remove();
-  },
+  }
 
-  onHeaderClick: function () {
+  onHeaderClick() {
     const {expression} = this.props;
     if (expression.showPacket === true) {
       this.props.hideResultPacket();
     } else {
       this.props.showResultPacket();
     }
-  },
+  }
 
-  renderRepInAllModes: function ({ object }) {
+  renderRepInAllModes({ object }) {
     return Object.keys(MODE).map(modeKey =>
        this.renderRep({ object, modeKey })
      );
-  },
+  }
 
-  renderRep: function ({ object, modeKey }) {
+  renderRep({ object, modeKey }) {
     const {
       createObjectClient,
       releaseActor,
@@ -73,9 +83,9 @@ const Result = React.createClass({
         onInspectIconClick: nodeFront => console.log("inspectIcon click", nodeFront),
       })
     );
-  },
+  }
 
-  renderPacket: function (expression) {
+  renderPacket(expression) {
     let {packet, showPacket} = expression;
     let headerClassName = showPacket ? "packet-expanded" : "packet-collapsed";
     let headerLabel = showPacket ? "Hide expression packet" : "Show expression packet";
@@ -94,9 +104,9 @@ const Result = React.createClass({
       showPacket &&
       dom.div({className: "packet-rep"}, Rep({object: packet}))
     );
-  },
+  }
 
-  render: function () {
+  render() {
     let {expression} = this.props;
     let {input, packet} = expression;
     return dom.div(
@@ -108,6 +118,6 @@ const Result = React.createClass({
       this.renderPacket(expression)
     );
   }
-});
+}
 
 module.exports = Result;

@@ -1,20 +1,16 @@
 import React from "react";
-import PropTypes from "prop-types";
-const dom = React.DOM;
+const { Component } = React;
+import dom from "react-dom-factories";
+const { div, h2 } = dom;
 import postcss from "postcss";
 
 // require("./Variables.css");
 
 function iterate(list, cbk) {
-  var index = list.length;
-  for (var i = 0; i < index; i++) {
+  let index = list.length;
+  for (let i = 0; i < index; i++) {
     cbk(list[i]);
   }
-}
-
-function map(list, cbk) {
-  const acc = [];
-  iterate(list, item => acc.push(cbk(item)));
 }
 
 function find(list, predicate) {
@@ -52,47 +48,55 @@ async function getVariables() {
   };
 }
 
-const Layout = React.createClass({
-  propTypes: {},
+class Layout extends Component {
+  static get propTypes() {
+    return {};
+  }
+
+  constructor(props) {
+    super(props);
+    this.renderVariable = this.renderVariable.bind(this);
+    this.renderVariableList = this.renderVariableList.bind(this);
+  }
 
   componentWillMount() {
     this.state = { variables: [] };
-  },
+  }
 
   componentDidMount() {
     getVariables().then(variables => {
       this.setState({ variables });
     });
-  },
+  }
 
   renderVariable({ variable, value }) {
-    return dom.div(
+    return div(
       { className: "variable-row" },
-      dom.div({ className: "color-box", style: { backgroundColor: value } }),
-      dom.div({}, variable)
+      div({ className: "color-box", style: { backgroundColor: value } }),
+      div({}, variable)
     );
-  },
+  }
 
   renderVariableList(theme, variables) {
-    return dom.div(
+    return div(
       { className: "theme-variables" },
-      dom.h2({}, theme),
-      dom.div(
+      h2({}, theme),
+      div(
         { className: "variable-list" },
         variables.map(variable => this.renderVariable(variable))
       )
     );
-  },
+  }
 
   render() {
     const variables = this.state.variables || [];
-    return dom.div(
+    return div(
       {},
       Object.keys(variables).map(theme =>
         this.renderVariableList(theme, variables[theme])
       )
     );
   }
-});
+}
 
 export default Layout;

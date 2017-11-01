@@ -2065,9 +2065,9 @@ devtools-sprintf-js@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/devtools-sprintf-js/-/devtools-sprintf-js-1.0.3.tgz#c2aa3c39d4047525e60410325c86770620281b87"
 
-devtools-utils@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.5.tgz#e0d0e02dff3af4ef383543c4a8985fabf2dce4a1"
+devtools-utils@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/devtools-utils/-/devtools-utils-0.0.9.tgz#7abd48b80ab800152182e6401b20c10dc2e83d2d"
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
     babel-preset-stage-3 "^6.22.0"
@@ -5015,7 +5015,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.7:
+prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -5146,7 +5146,7 @@ react-docgen@^2.15.0:
     node-dir "^0.1.10"
     recast "^0.12.6"
 
-react-dom-factories@^1.0.0:
+react-dom-factories@^1.0.0, react-dom-factories@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-dom-factories/-/react-dom-factories-1.0.2.tgz#eb7705c4db36fb501b3aa38ff759616aa0ff96e0"
 
@@ -5931,9 +5931,11 @@ svg-inline-loader@^0.8.0:
     object-assign "^4.0.1"
     simple-html-tokenizer "^0.1.1"
 
-svg-inline-react@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/svg-inline-react/-/svg-inline-react-1.0.2.tgz#138dfd0eb7ac52d689c3aa0a10d1d0b134a7d081"
+svg-inline-react@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/svg-inline-react/-/svg-inline-react-3.0.0.tgz#fe1501fcbfcefbacc672513211549d74550e8e91"
+  dependencies:
+    prop-types "^15.5.0"
 
 svgo@^0.7.0:
   version "0.7.2"

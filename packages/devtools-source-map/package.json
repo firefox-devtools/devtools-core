@@ -17,14 +17,14 @@
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "devtools-map-bindings": "^0.2.2",
-    "devtools-utils": "0.0.8",
+    "devtools-utils": "0.0.9",
     "jest": "^19.0.2",
     "md5": "^2.2.1",
     "regenerator-runtime": "^0.10.3",
     "source-map": "^0.6.1"
   },
   "devDependencies": {
-    "devtools-launchpad": "^0.0.85"
+    "devtools-launchpad": "^0.0.108"
   },
   "jest": {
     "rootDir": "src",

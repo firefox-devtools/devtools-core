@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // ReactJS
-const React = require("react");
+const PropTypes = require("prop-types");
 
 // Reps
 const {
@@ -12,14 +12,14 @@ const {
   wrapRender,
 } = require("./rep-utils");
 
-// Shortcuts
-const { span } = React.DOM;
+const dom = require("react-dom-factories");
+const { span } = dom;
 
 /**
  * Used to render JS built-in Date() object.
  */
 DateTime.propTypes = {
-  object: React.PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired,
 };
 
 function DateTime(props) {
