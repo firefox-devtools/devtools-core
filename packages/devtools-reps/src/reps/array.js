@@ -3,19 +3,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const dom = require("react-dom-factories");
+const PropTypes = require("prop-types");
 const {
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
+const { span } = dom;
 
-const ModePropType = React.PropTypes.oneOf(
+const ModePropType = PropTypes.oneOf(
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   Object.keys(MODE).map(key => MODE[key])
 );
-
-// Shortcuts
-const DOM = React.DOM;
 
 /**
  * Renders an array. The array is enclosed by left and right bracket
@@ -23,7 +22,7 @@ const DOM = React.DOM;
  */
 ArrayRep.propTypes = {
   mode: ModePropType,
-  object: React.PropTypes.array.isRequired,
+  object: PropTypes.array.isRequired,
 };
 
 function ArrayRep(props) {
@@ -43,7 +42,7 @@ function ArrayRep(props) {
     if (isEmpty) {
       items = [];
     } else {
-      items = [DOM.span({
+      items = [span({
         className: "more-ellipsis",
         title: "more…"
       }, "…")];
@@ -55,16 +54,16 @@ function ArrayRep(props) {
   }
 
   return (
-    DOM.span({
+    span({
       className: "objectBox objectBox-array"},
-      DOM.span({
+      span({
         className: "arrayLeftBracket",
       }, brackets.left),
       ...items,
-      DOM.span({
+      span({
         className: "arrayRightBracket",
       }, brackets.right),
-      DOM.span({
+      span({
         className: "arrayProperties",
         role: "group"}
       )
@@ -95,7 +94,7 @@ function arrayIterator(props, array, max) {
   }
 
   if (array.length > max) {
-    items.push(DOM.span({
+    items.push(span({
       className: "more-ellipsis",
       title: "more…"
     }, "…"));
@@ -108,8 +107,8 @@ function arrayIterator(props, array, max) {
  * Renders array item. Individual values are separated by a comma.
  */
 ItemRep.propTypes = {
-  object: React.PropTypes.any.isRequired,
-  delim: React.PropTypes.string.isRequired,
+  object: PropTypes.any.isRequired,
+  delim: PropTypes.string.isRequired,
   mode: ModePropType,
 };
 
@@ -122,7 +121,7 @@ function ItemRep(props) {
     mode,
   } = props;
   return (
-    DOM.span({},
+    span({},
       Rep(Object.assign({}, props, {
         object: object,
         mode: mode

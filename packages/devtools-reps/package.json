@@ -28,15 +28,17 @@
     "classnames": "^2.2.5",
     "devtools-components": "^0.0.6",
     "lodash": "^4.17.2",
-    "svg-inline-react": "^1.0.2"
+    "prop-types": "^15.6.0",
+    "react-dom-factories": "^1.0.2",
+    "svg-inline-react": "^3.0.0"
   },
   "devDependencies": {
     "babel-jest": "^20.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "devtools-config": "^0.0.15",
-    "devtools-launchpad": "^0.0.101",
-    "devtools-license-check": "^0.2.0",
+    "devtools-launchpad": "^0.0.108",
+    "devtools-license-check": "^0.5.1",
     "enzyme": "^2.8.2",
     "eslint": "^3.12.0",
     "eslint-plugin-mozilla": "0.2.3",

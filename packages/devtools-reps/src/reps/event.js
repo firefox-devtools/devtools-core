@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // ReactJS
-const React = require("react");
+const PropTypes = require("prop-types");
 
 // Reps
 const {
@@ -18,12 +18,12 @@ const { rep } = require("./grip");
  * Renders DOM event objects.
  */
 Event.propTypes = {
-  object: React.PropTypes.object.isRequired,
+  object: PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: React.PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
-  onDOMNodeMouseOver: React.PropTypes.func,
-  onDOMNodeMouseOut: React.PropTypes.func,
-  onInspectIconClick: React.PropTypes.func,
+  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  onDOMNodeMouseOver: PropTypes.func,
+  onDOMNodeMouseOut: PropTypes.func,
+  onInspectIconClick: PropTypes.func,
 };
 
 function Event(props) {

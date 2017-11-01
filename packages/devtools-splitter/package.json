@@ -17,6 +17,8 @@
     "react-dom": "^15.6.2"
   },
   "dependencies": {
-    "@percy-io/react-percy-storybook": "^0.1.2"
+    "@percy-io/react-percy-storybook": "^1.1.5",
+    "prop-types": "^15.6.0",
+    "react-dom-factories": "^1.0.2"
   }
 }

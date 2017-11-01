@@ -3,48 +3,56 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { createFactory, DOM: dom, PropTypes } = React;
-
+const { Component, createFactory } = React;
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
 const constants = require("../constants");
 const QuickLinks = createFactory(require("./QuickLinks"));
 require("./Header.css");
 
-const Header = React.createClass({
+class Header extends Component {
+  static get propTypes() {
+    return {
+      addInput: PropTypes.func.isRequired,
+      changeCurrentInput: PropTypes.func.isRequired,
+      clearResultsList: PropTypes.func.isRequired,
+      currentInputValue: PropTypes.string,
+      evaluate: PropTypes.func.isRequired,
+      navigateInputHistory: PropTypes.func.isRequired,
+    };
+  }
 
-  displayName: "Header",
+  constructor(props) {
+    super(props);
+    this.onSubmitForm = this.onSubmitForm.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onInputKeyDown = this.onInputKeyDown.bind(this);
+    this.onClearButtonClick = this.onClearButtonClick.bind(this);
+  }
 
-  propTypes: {
-    addInput: PropTypes.func.isRequired,
-    changeCurrentInput: PropTypes.func.isRequired,
-    clearResultsList: PropTypes.func.isRequired,
-    currentInputValue: PropTypes.string,
-    evaluate: PropTypes.func.isRequired,
-    navigateInputHistory: PropTypes.func.isRequired,
-  },
-
-  onSubmitForm: function (e) {
+  onSubmitForm(e) {
     e.preventDefault();
     let data = new FormData(e.target);
     let expression = data.get("expression");
     this.props.addInput(expression);
-  },
+  }
 
-  onInputChange: function (e) {
+  onInputChange(e) {
     this.props.changeCurrentInput(e.target.value);
-  },
+  }
 
-  onInputKeyDown: function (e) {
+  onInputKeyDown(e) {
     if (["ArrowUp", "ArrowDown"].includes(e.key)) {
       this.props.navigateInputHistory(e.key === "ArrowUp"
         ? constants.DIR_BACKWARD
         : constants.DIR_FORWARD
       );
     }
-  },
+  }
 
-  onClearButtonClick: function (e) {
+  onClearButtonClick(e) {
     this.props.clearResultsList();
-  },
+  }
 
   render() {
     let {
@@ -75,6 +83,6 @@ const Header = React.createClass({
       QuickLinks({ evaluate })
     );
   }
-});
+}
 
 module.exports = Header;

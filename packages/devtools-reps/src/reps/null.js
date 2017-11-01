@@ -3,12 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
-
 const { wrapRender } = require("./rep-utils");
-
-// Shortcuts
-const { span } = React.DOM;
+const dom = require("react-dom-factories");
+const { span } = dom;
 
 /**
  * Renders null value

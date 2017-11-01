@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // ReactJS
-const React = require("react");
+const PropTypes = require("prop-types");
 
 // Reps
 const {
@@ -14,15 +14,15 @@ const {
 } = require("./rep-utils");
 const { MODE } = require("./constants");
 
-// Shortcuts
-const { span } = React.DOM;
+const dom = require("react-dom-factories");
+const { span } = dom;
 
 /**
  * This component represents a template for Function objects.
  */
 FunctionRep.propTypes = {
-  object: React.PropTypes.object.isRequired,
-  parameterNames: React.PropTypes.array,
+  object: PropTypes.object.isRequired,
+  parameterNames: PropTypes.array,
 };
 
 function FunctionRep(props) {

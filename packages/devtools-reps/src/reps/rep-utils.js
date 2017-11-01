@@ -3,9 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
 const validProtocols = /^(http|https|ftp|data|javascript|resource|chrome):/i;
 const tokenSplitRegex = /(\s|\'|\"|\\)+/;
+const dom = require("react-dom-factories");
+const { span } = dom;
+
 /**
  * Returns true if the given object is a grip (see RDP protocol)
  */
@@ -254,7 +256,7 @@ function wrapRender(renderMethod) {
       return renderMethod.call(this, props);
     } catch (e) {
       console.error(e);
-      return React.DOM.span(
+      return span(
         {
           className: "objectBox objectBox-failure",
           title: "This object could not be rendered, " +

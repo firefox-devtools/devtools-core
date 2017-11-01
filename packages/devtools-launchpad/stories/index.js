@@ -7,6 +7,8 @@ const { storiesOf, action } = require("@kadira/storybook");
 const LandingPage = require("../src/components/LandingPage");
 
 const { combineReducers } = require("redux");
+const dom = require("react-dom-factories");
+
 let reducers = require("../src/reducers");
 let constants = require("../src/constants");
 let getState = combineReducers(reducers);
@@ -41,7 +43,7 @@ const getTabs = (tabs, state) => {
 };
 
 const renderLandingPage = (props) => {
-  return React.DOM.div({}, React.createElement(LandingPage, Object.assign({
+  return dom.div({}, React.createElement(LandingPage, Object.assign({
     onFilterChange: action("onFilterChange"),
     onTabClick: action("onTabClick"),
     title: "Storybook test",

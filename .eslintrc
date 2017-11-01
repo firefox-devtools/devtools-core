@@ -67,7 +67,7 @@
     "react/no-unknown-property": "error",
     "react/prefer-es6-class": [
       "warn",
-      "never"
+      "always"
     ],
     "react/prop-types": "error",
     "react/sort-comp": [
