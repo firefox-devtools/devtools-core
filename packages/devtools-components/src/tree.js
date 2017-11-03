@@ -398,25 +398,20 @@ class Tree extends Component {
       seen: new Set(),
     };
 
-    this._onExpand = oncePerAnimationFrame(this._onExpand);
-    this._onCollapse = oncePerAnimationFrame(this._onCollapse);
-    this._focusPrevNode = oncePerAnimationFrame(this._focusPrevNode);
-    this._focusNextNode = oncePerAnimationFrame(this._focusNextNode);
-    this._focusParentNode = oncePerAnimationFrame(this._focusParentNode);
+    this._onExpand = oncePerAnimationFrame(this._onExpand).bind(this);
+    this._onCollapse = oncePerAnimationFrame(this._onCollapse).bind(this);
+    this._focusPrevNode = oncePerAnimationFrame(this._focusPrevNode).bind(this);
+    this._focusNextNode = oncePerAnimationFrame(this._focusNextNode).bind(this);
+    this._focusParentNode = oncePerAnimationFrame(this._focusParentNode).bind(this);
 
     this._autoExpand = this._autoExpand.bind(this);
     this._preventArrowKeyScrolling = this._preventArrowKeyScrolling.bind(this);
     this._dfs = this._dfs.bind(this);
     this._dfsFromRoots = this._dfsFromRoots.bind(this);
-    this._onExpand = this._onExpand.bind(this);
-    this._onCollapse = this._onCollapse.bind(this);
     this._focus = this._focus.bind(this);
     this._scrollNodeIntoView = this._scrollNodeIntoView.bind(this);
     this._onBlur = this._onBlur.bind(this);
     this._onKeyDown = this._onKeyDown.bind(this);
-    this._focusPrevNode = this._focusPrevNode.bind(this);
-    this._focusNextNode = this._focusNextNode.bind(this);
-    this._focusParentNode = this._focusParentNode.bind(this);
     this._nodeIsExpandable = this._nodeIsExpandable.bind(this);
   }
 
