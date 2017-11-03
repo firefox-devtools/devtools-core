@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node bin/dev-server"
+    "start": "node bin/dev-server",
+    "test": "# No tests available"
   },
   "dependencies": {
     "devtools-launchpad": "^0.0.105",

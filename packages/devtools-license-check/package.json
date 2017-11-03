@@ -3,6 +3,9 @@
   "version": "0.5.1",
   "description": "Verify licenses for inclusion in Mozilla DevTools",
   "repository": "github:devtools-html/devtools-core",
+  "scripts": {
+    "test": "# No tests available"
+  },
   "author": "",
   "license": "MPL-2.0",
   "bin": {

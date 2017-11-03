@@ -10,7 +10,8 @@
   "main": "index.js",
   "scripts": {
     "license-check": "devtools-license-check",
-    "start": "node bin/dev-server"
+    "start": "node bin/dev-server",
+    "test": "# No tests available"
   },
   "dependencies": {
     "codemirror": "^5.25.0"
