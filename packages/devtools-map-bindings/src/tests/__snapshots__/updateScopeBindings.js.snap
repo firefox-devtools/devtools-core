@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`updateScopeBindings parses simple generated/minified source 1`] = `
+Object {
+  "actor": "actor",
+  "bindings": Object {
+    "arguments": Array [
+      Object {
+        "n": Object {
+          "value": 1,
+        },
+        "u": Object {
+          "value": 2,
+        },
+      },
+    ],
+    "variables": Object {},
+  },
+  "function": Object {
+    "actor": "function-actor",
+    "class": "Function",
+    "displayName": "sum",
+    "location": Object {
+      "column": 27,
+      "line": 1,
+      "sourceId": "sum.min",
+    },
+    "parameterNames": Array [
+      "n",
+      "u",
+    ],
+  },
+  "parent": undefined,
+  "sourceBindings": Object {
+    "first": "n",
+    "second": "u",
+  },
+  "type": "function",
+}
+`;
