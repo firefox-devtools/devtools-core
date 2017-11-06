@@ -14,6 +14,12 @@ describe("updateScopeBindings", () => {
       line: 1,
       column: 27
     };
+    const originalSource = getSource("sum");
+    const originalLocation = {
+      sourceId: originalSource.id,
+      line: 2,
+      column: 15,
+    }
     const scopes = {
       actor: 'actor',
       bindings: {
@@ -32,14 +38,23 @@ describe("updateScopeBindings", () => {
       },
       type: 'function'
     };
-    const resultScopes = await updateScopeBindings(scopes, location, {
-      async getSourceMapsScopes(location: Location) {
-        const scopes = await parseScopes(location, source);
-        const map = getSourceMap(source);
-        const mappedScopes = getLocationScopes(map, scopes, location);
-        return mappedScopes;
+    const resultScopes = await updateScopeBindings(
+      scopes,
+      location,
+      originalLocation,
+      {
+        async getSourceMapsScopes(location: Location) {
+          const scopes = await parseScopes(location, source);
+          const map = getSourceMap(source);
+          const mappedScopes = getLocationScopes(map, scopes, location);
+          return mappedScopes;
+        },
+        async getOriginalSourceScopes(location: Location) {
+          const scopes = await parseScopes(location, originalSource);
+          return scopes;
+        }
       }
-    });
+    );
     expect(resultScopes).toMatchSnapshot();
   });
 });

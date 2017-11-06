@@ -35,6 +35,19 @@ Object {
     "first": "n",
     "second": "u",
   },
+  "syntheticScopes": Object {
+    "groupIndex": 0,
+    "groupLength": 1,
+    "scopes": Array [
+      Object {
+        "bindingsNames": Array [
+          "first",
+          "second",
+        ],
+        "type": "function",
+      },
+    ],
+  },
   "type": "function",
 }
 `;

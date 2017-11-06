@@ -4,18 +4,27 @@
 
 // @flow
 
+const { remapScopes } = require("./remapScopes");
+
 import type {
-  Location, SourceScope, Scope, MappedScopeBindings
+  Location, SourceScope, Scope, SyntheticScope, MappedScopeBindings
 } from "debugger-html";
 
 export type ScopesDataSource = {
   getSourceMapsScopes: (location: Location) => Promise<MappedScopeBindings[]|null>,
+  getOriginalSourceScopes: (location: Location) => Promise<?(SourceScope[])>,
 };
 
 function extendScope(
   scope: ?Scope,
   generatedScopes: MappedScopeBindings[],
-  index: number
+  index: number,
+  remapedScopes: ?({
+    scopes: SyntheticScope[],
+    start: number,
+    end: number
+  }[]),
+  remapedScopesIndex: number
 ): ?Scope {
   if (!scope) {
     return undefined;
@@ -23,22 +32,49 @@ function extendScope(
   if (index >= generatedScopes.length) {
     return scope;
   }
+
+  let syntheticScopes;
+  if (remapedScopes && remapedScopesIndex < remapedScopes.length) {
+    if (index >= remapedScopes[remapedScopesIndex].end) {
+      remapedScopesIndex++;
+    }
+    if (remapedScopesIndex < remapedScopes.length) {
+      const remapedScope = remapedScopes[remapedScopesIndex];
+      syntheticScopes = {
+        scopes: remapedScope.scopes,
+        groupIndex: index - remapedScope.start,
+        groupLength: remapedScope.end - remapedScope.start
+      };
+    }
+  }
+
+  const parent = extendScope(
+    scope.parent,
+    generatedScopes,
+    index + 1,
+    remapedScopes,
+    remapedScopesIndex
+  );
   return (Object.assign({}, scope, {
-    parent: extendScope(scope.parent, generatedScopes, index + 1),
-    sourceBindings: generatedScopes[index].bindings
+    parent,
+    sourceBindings: generatedScopes[index].bindings,
+    syntheticScopes
   }) : any);
 }
 
 async function updateScopeBindings(
   scope: ?Scope,
   location: Location,
+  originalLocation: Location,
   scopesDataSource: ScopesDataSource
 ): Promise<?Scope> {
   const generatedScopes = await scopesDataSource.getSourceMapsScopes(location);
   if (!generatedScopes) {
     return scope;
   }
-  return extendScope(scope, generatedScopes, 0);
+  const originalScopes = await scopesDataSource.getOriginalSourceScopes(originalLocation);
+  const remapedScopes = remapScopes(originalScopes, generatedScopes);
+  return extendScope(scope, generatedScopes, 0, remapedScopes, 0);
 }
 
 module.exports = {

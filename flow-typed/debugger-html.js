@@ -219,6 +219,11 @@ declare module "debugger-html" {
    */
   declare type Script = any;
 
+  declare type SyntheticScope = {
+    type: string,
+    bindingsNames: string[]
+  };
+
   /**
    * Scope
    * @memberof types
@@ -239,6 +244,11 @@ declare module "debugger-html" {
       location: Location,
       // FIXME Define this type more clearly
       parameterNames: Array<Object>,
+    },
+    syntheticScopes?: {
+      scopes: SyntheticScope[],
+      groupIndex: number,
+      groupLength: number
     },
     type: string,
   };
