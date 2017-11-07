@@ -5,15 +5,15 @@
 // @flow
 
 const { remapScopes } = require("./remapScopes");
+const { remapOriginalScopes } = require("./remapOriginalScopes");
 
 import type {
   Location, SourceScope, Scope, SyntheticScope, MappedScopeBindings
 } from "debugger-html";
 
-export type ScopesDataSource = {
-  getSourceMapsScopes: (location: Location) => Promise<MappedScopeBindings[]|null>,
-  getOriginalSourceScopes: (location: Location) => Promise<?(SourceScope[])>,
-};
+import type {
+  OriginalScope, ScopesDataSource
+} from "./types";
 
 function extendScope(
   scope: ?Scope,
@@ -68,12 +68,21 @@ async function updateScopeBindings(
   originalLocation: Location,
   scopesDataSource: ScopesDataSource
 ): Promise<?Scope> {
+  if (!scope) {
+    return null;
+  }
+
+  const originalScopes = await scopesDataSource.getSourceMapsOriginalScopes(location);
+  if (originalScopes) {
+    return remapOriginalScopes(scope, originalScopes);
+  }
+
   const generatedScopes = await scopesDataSource.getSourceMapsScopes(location);
   if (!generatedScopes) {
     return scope;
   }
-  const originalScopes = await scopesDataSource.getOriginalSourceScopes(originalLocation);
-  const remapedScopes = remapScopes(originalScopes, generatedScopes);
+  const originalParsedScopes = await scopesDataSource.getOriginalSourceScopes(originalLocation);
+  const remapedScopes = remapScopes(originalParsedScopes, generatedScopes);
   return extendScope(scope, generatedScopes, 0, remapedScopes, 0);
 }
 
