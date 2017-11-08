@@ -51,7 +51,7 @@ function createTempScope(
     parent,
     children: [],
     loc: loc,
-    names: Object.create(null)
+    names: (Object.create(null) : any)
   };
   if (parent) {
     parent.children.push(result);
@@ -156,7 +156,7 @@ function toParsedScopes(
           break;
       }
       return _bindings;
-    }, Object.create(null));
+    }, ((Object.create(null) : any) : ParsedScopeNamesReferences));
     return {
       start: fromBabelLocation(scope.loc.start, sourceId),
       end: fromBabelLocation(scope.loc.end, sourceId),
