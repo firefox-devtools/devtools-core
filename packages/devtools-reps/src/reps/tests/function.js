@@ -327,3 +327,22 @@ describe("Function - Simplify name", () => {
     }
   });
 });
+describe("Function - Two properties with same displayName", () => {
+  const object = stubs.get("ObjectProperty");
+
+  it("renders object properties as expected", () => {
+    expect(renderRep(object, {mode: undefined, functionName: "$"}).text())
+    .toBe("function $:jQuery()");
+    expect(renderRep(object, {parameterNames: [], functionName: "$"}).text())
+    .toBe("function $:jQuery()");
+    expect(renderRep(object, {parameterNames: ["a"], functionName: "$"}).text())
+    .toBe("function $:jQuery(a)");
+    expect(renderRep(object, { parameterNames: ["a", "b", "c"], functionName: "$" }).text())
+    .toBe("function $:jQuery(a, b, c)");
+    expect(renderRep(object, {
+      mode: MODE.TINY,
+      parameterNames: ["a", "b", "c"],
+      functionName: "$"
+    }).text()).toBe("$:jQuery(a, b, c)");
+  });
+});
