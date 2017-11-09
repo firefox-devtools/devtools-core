@@ -1,5 +1,5 @@
 const React = require("react");
-import InlineSVG from "svg-inline-react";
+const { default: InlineSVG } = require("svg-inline-react");
 const { isDevelopment } = require("devtools-config");
 
 const svg = {
