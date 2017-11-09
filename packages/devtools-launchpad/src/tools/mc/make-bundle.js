@@ -3,10 +3,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const path = require("path");
+const fs = require("fs");
 const webpack = require("webpack");
 const process = require("process");
+const md5 = require("md5");
 
-function makeBundle({ outputPath, projectPath, watch = false, updateAssets = false }) {
+function saveStats(stats, projectPath) {
+  const statsJson = JSON.stringify(stats.toJson(), null, 2);
+  const sha = md5(statsJson).substr(0, 5);
+
+  const dir = path.join(projectPath, `webpack-stats`);
+  const statsFile = path.join(dir, `stats-${sha}.json`);
+
+  if (!fs.existsSync(dir)) {
+    console.log("creating webpack-stats dir");
+    fs.mkdirSync(dir);
+  } else {
+    console.log("all good");
+  }
+
+  fs.writeFileSync(statsFile, statsJson);
+  console.log(`Done bundling, stats saved to webpack-stats/stats-${sha}.json`);
+}
+
+function makeBundle({
+  outputPath,
+  projectPath,
+  watch = false,
+  updateAssets = false
+}) {
   process.env.TARGET = "firefox-panel";
   process.env.OUTPUT_PATH = outputPath;
 
@@ -21,6 +46,12 @@ function makeBundle({ outputPath, projectPath, watch = false, updateAssets = fal
     const postRun = (error, stats) => {
       if (stats.hasErrors()) {
         reject(stats.toJson("verbose"));
+      }
+
+      if (updateAssets) {
+        saveStats(stats, projectPath);
+      } else {
+        console.log(`Done bundling`);
       }
 
       resolve();
