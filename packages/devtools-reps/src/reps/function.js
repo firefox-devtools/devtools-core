@@ -125,17 +125,19 @@ function getFunctionName(grip, props) {
   });
 
   let { functionName } = props;
-  let end = functionName.length - 1;
   let name;
 
-  functionName =
-    functionName.startsWith('"') && functionName.endsWith('"')
-      ? functionName.substring(1, end)
-      : functionName;
+  if (functionName) {
+    let end = functionName.length - 1;
+    functionName =
+      functionName.startsWith('"') && functionName.endsWith('"')
+        ? functionName.substring(1, end)
+        : functionName;
+  }
 
   if (grip.displayName != undefined && functionName != undefined &&
     grip.displayName != functionName) {
-    name = functionName + ": " + grip.displayName;
+    name = functionName + ":" + grip.displayName;
   } else {
     name =
       grip.userDisplayName ||
