@@ -152,4 +152,21 @@ stubs.set("AnonGeneratorFunction", {
   }
 });
 
+stubs.set("ObjectProperty", {
+  "type": "object",
+  "class": "Function",
+  "actor": "server1.conn7.obj45",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "isAync": false,
+  "isGenerator": false,
+  "name": "$",
+  "displayName": "jQuery",
+  "location": {
+    "url": "debugger eval code",
+    "line": 1
+  }
+});
+
 module.exports = stubs;
