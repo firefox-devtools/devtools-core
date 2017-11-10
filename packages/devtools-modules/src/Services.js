@@ -498,6 +498,10 @@ PrefBranch.prototype = {
   },
 };
 
+window.telemetry = {}
+window.telemetry.histograms = {}
+window.telemetry.scalars = {}
+
 const Services = {
   _prefs: null,
 
@@ -563,15 +567,43 @@ const Services = {
   telemetry: {
     getHistogramById: function(name) {
       return {
-        add: () => {}
+        add: value => {
+          if (window.telemetry.histograms[name]) {
+            window.telemetry.histograms[name].push(value);
+          } else {
+            window.telemetry.histograms[name] = [value];
+          }
+        }
       };
     },
 
     getKeyedHistogramById: function(name) {
       return {
-        add: () => {}
+        add: (id, value) => {
+          if (!window.telemetry.histograms[name]) {
+            window.telemetry.histograms[name] = {};
+          }
+
+          if (!window.telemetry.histograms[name][id]) {
+            window.telemetry.histograms[name][id] = [];
+          }
+
+          window.telemetry.histograms[name][id].push(value);
+        }
       };
     },
+
+    scalarSet: function(scalarId, value) {
+      window.telemetry.scalars[scalarId] = value;
+    },
+
+    scalarAdd: function(scalarId, value) {
+      if (scalarId in window.telemetry.scalars) {
+        window.telemetry.scalars[scalarId] += value;
+      } else {
+        window.telemetry.scalars[scalarId] = value;
+      }
+    }
   },
 
   /**
