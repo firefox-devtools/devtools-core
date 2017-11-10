@@ -170,10 +170,7 @@ function getLocationScopes(
 
     const bindings = Object.keys(trackedBindings).reduce((bindings, name) => {
       const { generatedName } = trackedBindings[name];
-      // No need to record the binding if generated name matches original one.
-      if (name !== generatedName) {
-        bindings[name] = generatedName;
-      }
+      bindings[name] = generatedName;
       return bindings;
     }, Object.create(null));
     return {
