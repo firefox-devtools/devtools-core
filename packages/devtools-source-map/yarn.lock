@@ -1566,9 +1566,9 @@ devtools-launchpad@^0.0.108:
     webpack-hot-middleware "^2.18.2"
     ws "^1.0.1"
 
-devtools-map-bindings@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.3.0.tgz#239eaf807b9a8680ceaf1491af1f7f2d4af4500e"
+devtools-map-bindings@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/devtools-map-bindings/-/devtools-map-bindings-0.3.2.tgz#cfd37d37f544844d77e55cb877e057a17dbbf739"
   dependencies:
     babel-plugin-transform-async-to-generator "^6.22.0"
     babel-plugin-transform-flow-strip-types "^6.22.0"
