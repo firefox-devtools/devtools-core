@@ -1,10 +1,12 @@
 {
   "name": "devtools-map-bindings",
-  "version": "0.2.1",
-  "description": "DevTools utilities in support of original source scopes and names",
+  "version": "0.3.2",
+  "description":
+    "DevTools utilities in support of original source scopes and names",
   "repository": "github:devtools-html/devtools-core",
   "bugs": "https://github.com/devtools-html/devtools-core/issues",
-  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map#readme",
+  "homepage":
+    "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map#readme",
   "main": "index.js",
   "scripts": {
     "test": "jest"
@@ -17,7 +19,7 @@
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
     "babylon": "^6.18.0",
-    "devtools-utils": "0.0.8",
+    "devtools-utils": "0.0.9",
     "jest": "^19.0.2",
     "source-map": "^0.5.6"
   },
@@ -26,13 +28,8 @@
   },
   "jest": {
     "rootDir": "src",
-    "testMatch": [
-      "**/tests/*.js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/tests/fixtures/"
-    ],
+    "testMatch": ["**/tests/*.js"],
+    "testPathIgnorePatterns": ["/node_modules/", "/tests/fixtures/"],
     "transformIgnorePatterns": [],
     "setupFiles": [],
     "moduleNameMapper": {}

@@ -5,7 +5,9 @@
 const React = require("react");
 
 require("./LandingPage.css");
-const { DOM: dom } = React;
+const { Component } = React;
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
 const ImPropTypes = require("react-immutable-proptypes");
 const configMap = require("../constants").sidePanelItems;
 const Tabs = React.createFactory(require("./Tabs"));
@@ -33,44 +35,57 @@ function firstTimeMessage(title, urlPart) {
   );
 }
 
-const LandingPage = React.createClass({
-  displayName: "LandingPage",
-
-  propTypes: {
-    tabs: ImPropTypes.map.isRequired,
-    supportsFirefox: React.PropTypes.bool.isRequired,
-    supportsChrome: React.PropTypes.bool.isRequired,
-    title: React.PropTypes.string.isRequired,
-    filterString: React.PropTypes.string,
-    onFilterChange: React.PropTypes.func.isRequired,
-    onTabClick: React.PropTypes.func.isRequired,
-    config: React.PropTypes.object.isRequired,
-    setValue: React.PropTypes.func.isRequired
-  },
-
-  getInitialState() {
+class LandingPage extends Component {
+  static get propTypes() {
     return {
+      tabs: ImPropTypes.map.isRequired,
+      supportsFirefox: PropTypes.bool.isRequired,
+      supportsChrome: PropTypes.bool.isRequired,
+      title: PropTypes.string.isRequired,
+      filterString: PropTypes.string,
+      onFilterChange: PropTypes.func.isRequired,
+      onTabClick: PropTypes.func.isRequired,
+      config: PropTypes.object.isRequired,
+      setValue: PropTypes.func.isRequired
+    };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
       selectedPane: configMap.Firefox.name,
       firefoxConnected: false,
       chromeConnected: false
     };
-  },
+
+    this.onFilterChange = this.onFilterChange.bind(this);
+    this.onSideBarItemClick = this.onSideBarItemClick.bind(this);
+    this.renderLaunchOptions = this.renderLaunchOptions.bind(this);
+    this.renderLaunchButton = this.renderLaunchButton.bind(this);
+    this.renderExperimentalMessage = this.renderExperimentalMessage.bind(this);
+    this.launchBrowser = this.launchBrowser.bind(this);
+    this.renderEmptyPanel = this.renderEmptyPanel.bind(this);
+    this.renderSettings = this.renderSettings.bind(this);
+    this.renderFilter = this.renderFilter.bind(this);
+    this.renderPanel = this.renderPanel.bind(this);
+  }
 
   componentDidUpdate() {
     if (this.refs.filterInput) {
       this.refs.filterInput.focus();
     }
-  },
+  }
 
   onFilterChange(newFilterString) {
     this.props.onFilterChange(newFilterString);
-  },
+  }
 
   onSideBarItemClick(itemTitle) {
     if (itemTitle !== this.state.selectedPane) {
       this.setState({ selectedPane: itemTitle });
     }
-  },
+  }
 
   renderLaunchOptions() {
     const { selectedPane } = this.state;
@@ -97,7 +112,7 @@ const LandingPage = React.createClass({
     return isConnected
       ? connectedStateText
       : this.renderLaunchButton(name, isUnderConstruction);
-  },
+  }
 
   renderLaunchButton(browserName, isUnderConstruction) {
     return dom.div(
@@ -108,7 +123,7 @@ const LandingPage = React.createClass({
       ),
       isUnderConstruction ? this.renderExperimentalMessage(browserName) : null
     );
-  },
+  }
 
   renderExperimentalMessage(browserName) {
     const underConstructionMessage =
@@ -129,7 +144,7 @@ const LandingPage = React.createClass({
         )
       )
     );
-  },
+  }
 
   launchBrowser(browser) {
     fetch("/launch", {
@@ -149,11 +164,11 @@ const LandingPage = React.createClass({
       .catch(err => {
         alert(`Error launching ${browser}. ${err.message}`);
       });
-  },
+  }
 
   renderEmptyPanel() {
     return dom.div({ className: "hero" }, this.renderLaunchOptions());
-  },
+  }
 
   renderSettings() {
     const { config, setValue } = this.props;
@@ -163,7 +178,7 @@ const LandingPage = React.createClass({
       dom.header({}, dom.h1({}, configMap.Settings.name)),
       Settings({ config, setValue })
     );
-  },
+  }
 
   renderFilter() {
     const { selectedPane } = this.state;
@@ -190,7 +205,7 @@ const LandingPage = React.createClass({
         }
       })
     );
-  },
+  }
 
   renderPanel() {
     const { onTabClick, tabs } = this.props;
@@ -217,7 +232,7 @@ const LandingPage = React.createClass({
       this.renderFilter(),
       Tabs({ targets, paramName, onTabClick })
     );
-  },
+  }
 
   render() {
     const { supportsFirefox, supportsChrome, title } = this.props;
@@ -244,6 +259,6 @@ const LandingPage = React.createClass({
       )
     );
   }
-});
+}
 
 module.exports = LandingPage;

@@ -3,24 +3,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const React = require("react");
+const PropTypes = require("prop-types");
 
 const {
   getGripType,
   wrapRender,
 } = require("./rep-utils");
 
-// Shortcuts
-const { span } = React.DOM;
+const dom = require("react-dom-factories");
+const { span } = dom;
 
 /**
  * Renders a number
  */
 Number.propTypes = {
-  object: React.PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.number,
-    React.PropTypes.bool,
+  object: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.number,
+    PropTypes.bool,
   ]).isRequired
 };
 

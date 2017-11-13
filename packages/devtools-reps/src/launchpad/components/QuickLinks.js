@@ -3,23 +3,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { DOM: dom, PropTypes } = React;
+const { Component } = React;
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
 require("./QuickLinks.css");
 const samples = require("../samples.js");
 
-const QuickLinks = React.createClass({
+class QuickLinks extends Component {
+  static get propTypes() {
+    return {
+      evaluate: PropTypes.func.isRequired
+    };
+  }
 
-  displayName: "QuickLinks",
-
-  propTypes: {
-    evaluate: PropTypes.func.isRequired
-  },
+  constructor(props) {
+    super(props);
+    this.evaluateExpressions = this.evaluateExpressions.bind(this);
+    this.renderLinks = this.renderLinks.bind(this);
+  }
 
   evaluateExpressions(expressions) {
     expressions.forEach(
       expression => this.props.evaluate(expression)
     );
-  },
+  }
 
   renderLinks() {
     return Object.keys(samples)
@@ -37,7 +44,7 @@ const QuickLinks = React.createClass({
           label
         );
       });
-  },
+  }
 
   render() {
     return dom.div(
@@ -45,6 +52,6 @@ const QuickLinks = React.createClass({
       this.renderLinks()
     );
   }
-});
+}
 
 module.exports = QuickLinks;

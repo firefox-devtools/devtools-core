@@ -1,25 +1,28 @@
 import React from "react";
-import PropTypes from "prop-types";
-const dom = React.DOM;
+const { Component } = React;
+const dom = require("react-dom-factories");
+const { div } = dom;
 
 import _Variables from "./Variables";
 const Variables = React.createFactory(_Variables);
 
 require("./layout.css");
 
-const Layout = React.createClass({
-  propTypes: {},
+class Layout extends Component {
+  static get propTypes() {
+    return {};
+  }
 
   render() {
-    return dom.div(
+    return div(
       {},
-      dom.div(
+      div(
         { className: "navBar" },
-        dom.div({ className: "content" }, "Style Guide")
+        div({ className: "content" }, "Style Guide")
       ),
-      dom.div({ className: "content" }, Variables())
+      div({ className: "content" }, Variables())
     );
   }
-});
+}
 
 export default Layout;

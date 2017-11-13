@@ -7,21 +7,23 @@
 import React from "react";
 import { mount } from "enzyme";
 import Components from "../../index";
+import dom from "react-dom-factories";
 
-const { DOM: dom, createClass, createFactory } = React;
+const { Component, createFactory } = React;
 const Tree = createFactory(Components.Tree);
 
 function mountTree(overrides = {}) {
-  return mount(createFactory(createClass({
-    displayName: "container",
-    getInitialState() {
+  return mount(createFactory(class container extends Component {
+    constructor(props) {
+      super(props);
       const state = {
         expanded: overrides.expanded || new Set(),
         focused: overrides.focused
       };
       delete overrides.focused;
-      return state;
-    },
+      this.state = state;
+    }
+
     render() {
       return Tree(Object.assign({
         getParent: x => TEST_TREE.parent[x],
@@ -60,7 +62,7 @@ function mountTree(overrides = {}) {
         focused: this.state.focused,
       }, overrides));
     }
-  }))());
+  })());
 }
 
 describe("Tree", () => {

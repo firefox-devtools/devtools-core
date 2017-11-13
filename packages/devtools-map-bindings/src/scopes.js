@@ -170,12 +170,21 @@ function getLocationScopes(
 
     const bindings = Object.keys(trackedBindings).reduce((bindings, name) => {
       const { generatedName } = trackedBindings[name];
-      // No need to record the binding if generated name matches original one.
-      if (name !== generatedName) {
-        bindings[name] = generatedName;
-      }
+      bindings[name] = generatedName;
       return bindings;
     }, Object.create(null));
+
+    if (
+      Object.keys(bindings).length === 0 &&
+      Object.keys(scope.bindings).length > 0
+    ) {
+      // Parsing found identifiers in this scope, but source maps has no data
+      // (corrupted or missing names section). Recovering names as identity
+      // mapping.
+      Object.keys(scope.bindings).forEach(
+        generatedName => bindings[generatedName] = generatedName
+      );
+    }
     return {
       type: scope.type,
       bindings,

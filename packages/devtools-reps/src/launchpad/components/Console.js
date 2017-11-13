@@ -3,7 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { DOM: dom, PropTypes, createFactory } = React;
+const { Component, createFactory } = React;
+const PropTypes = require("prop-types");
+const dom = require("react-dom-factories");
 const { KeyShortcuts } = require("devtools-modules");
 let shortcuts = new KeyShortcuts({ window });
 
@@ -16,32 +18,32 @@ const ResultsList = createFactory(require("./ResultsList"));
 
 require("./Console.css");
 
-const Console = React.createClass({
-  displayName: "Console",
+class Console extends Component {
+  static get propTypes() {
+    return {
+      addInput: PropTypes.func.isRequired,
+      changeCurrentInput: PropTypes.func.isRequired,
+      clearExpressions: PropTypes.func.isRequired,
+      currentInputValue: PropTypes.string.isRequired,
+      evaluateInput: PropTypes.func.isRequired,
+      expressions: PropTypes.object.isRequired,
+      hideResultPacket: PropTypes.func.isRequired,
+      navigateInputHistory: PropTypes.func.isRequired,
+      showResultPacket: PropTypes.func.isRequired,
+      createObjectClient: PropTypes.func.isRequired,
+      releaseActor: PropTypes.func.isRequired,
+    };
+  }
 
-  propTypes: {
-    addInput: PropTypes.func.isRequired,
-    changeCurrentInput: PropTypes.func.isRequired,
-    clearExpressions: PropTypes.func.isRequired,
-    currentInputValue: PropTypes.string.isRequired,
-    evaluateInput: PropTypes.func.isRequired,
-    expressions: PropTypes.object.isRequired,
-    hideResultPacket: PropTypes.func.isRequired,
-    navigateInputHistory: PropTypes.func.isRequired,
-    showResultPacket: PropTypes.func.isRequired,
-    createObjectClient: PropTypes.func.isRequired,
-    releaseActor: PropTypes.func.isRequired,
-  },
-
-  componentDidMount: function () {
+  componentDidMount() {
     shortcuts.on("CmdOrCtrl+Shift+L", this.props.clearExpressions);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     shortcuts.off("CmdOrCtrl+Shift+L");
-  },
+  }
 
-  render: function () {
+  render() {
     let {
       addInput,
       changeCurrentInput,
@@ -75,7 +77,7 @@ const Console = React.createClass({
       })
     );
   }
-});
+}
 
 function mapStateToProps(state) {
   return {

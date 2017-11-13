@@ -135,7 +135,8 @@ test("getLocationScopes", () => {
     {"bindings": {"zero": "z"}, "type": "function"}
   ]);
 
-  // Testing non-existent binding that appeared in the generated code.
+  // Testing non-existent binding that appeared in the generated code:
+  // it's possible the names section is empty/corrupted.
   const mapped3 = getLocationScopes(
     map,
     [
@@ -154,6 +155,6 @@ test("getLocationScopes", () => {
     { sourceId: source.id, line: 21, column: 5 }
   );
   expect(mapped3).toEqual([
-    {"bindings": {}, "type": "function"}
+    {"bindings": {"n": "n"}, "type": "function"}
   ]);
 });

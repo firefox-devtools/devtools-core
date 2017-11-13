@@ -10,7 +10,8 @@
     "lint-js": "eslint packages/devtools-launchpad/src; eslint packages/devtools-reps/src; eslint packages/devtools-components/src",
     "nom": "rm -rf node_modules/ packages/*/node_modules/ && yarn install",
     "prepush": "yarn run lint && yarn run flow",
-    "postinstall": "lerna bootstrap"
+    "postinstall": "lerna bootstrap",
+    "test": "lerna run test"
   },
   "repository": {
     "url": "git+https://github.com/jasonLaster/devtools-core.git",

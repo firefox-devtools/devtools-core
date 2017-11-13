@@ -3,7 +3,8 @@
 * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React from "react";
-const { DOM: dom, createClass, createFactory, createElement } = React;
+const { Component, createFactory, createElement } = React;
+import dom from "react-dom-factories";
 
 import Components from "../index";
 const Tree = createFactory(Components.Tree);
@@ -41,15 +42,16 @@ storiesOf("Tree", module)
   .add("scrollable tree", () => {
     const nodes = Array.from({length: 500}).map((_, i) => (i + 1).toString());
 
-    return createFactory(createClass({
-      displayName: "container",
-      getInitialState() {
+    class container extends Component {
+      constructor(props) {
+        super(props);
         const state = {
           expanded: new Set(),
           focused: null
         };
-        return state;
-      },
+        this.state = state;
+      }
+
       render() {
         return createElement("div", {},
           createElement("label", {
@@ -73,7 +75,8 @@ storiesOf("Tree", module)
           createTreeElement({getRoots: () => nodes}, this, {})
         );
       }
-    }))();
+    }
+    return createFactory(container)();
   })
   .add("scrollable tree with focused node", () => {
     const nodes = Array.from({length: 500}).map((_, i) => `item ${i + 1}`);
@@ -158,20 +161,22 @@ const TEST_TREE = {
 };
 
 function renderTree(props, tree = TEST_TREE) {
-  return createFactory(createClass({
-    displayName: "container",
-    getInitialState() {
+  class container extends Component {
+    constructor(props2) {
+      super(props2);
       const state = {
-        expanded: props.expanded || new Set(),
-        focused: props.focused
+        expanded: props2.expanded || new Set(),
+        focused: props2.focused
       };
-      delete props.focused;
-      return state;
-    },
+      delete props2.focused;
+      this.state = state;
+    }
+
     render() {
       return createTreeElement(props, this, tree);
     }
-  }))();
+  }
+  return createFactory(container)();
 }
 
 function createTreeElement(props, context, tree) {
