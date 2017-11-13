@@ -347,8 +347,10 @@ describe("Function - Two properties with same displayName", () => {
     .toBe("function $:jQuery()");
     expect(renderRep(object, {parameterNames: ["a"], functionName: "$"}).text())
     .toBe("function $:jQuery(a)");
-    expect(renderRep(object, { parameterNames: ["a", "b", "c"], functionName: "$" }).text())
-    .toBe("function $:jQuery(a, b, c)");
+    expect(renderRep(object, {
+       parameterNames: ["a", "b", "c"],
+       functionName: "$"
+    }).text()).toBe("function $:jQuery(a, b, c)");
     expect(renderRep(object, {
       mode: MODE.TINY,
       parameterNames: ["a", "b", "c"],
