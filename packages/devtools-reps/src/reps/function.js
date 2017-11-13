@@ -6,10 +6,10 @@
 const React = require("react");
 
 // Reps
-const { 
-  getGripType, 
-  isGrip, 
-  cropString, 
+const {
+  getGripType,
+  isGrip,
+  cropString,
   wrapRender,
  } = require("./rep-utils");
 const { MODE } = require("./constants");
@@ -35,7 +35,7 @@ function FunctionRep(props) {
       // Set dir="ltr" to prevent function parentheses from
       // appearing in the wrong direction
       dir: "ltr",
-    },
+   },
     getTitle(grip, props),
     getFunctionName(grip, props),
     "(",
@@ -46,21 +46,21 @@ function FunctionRep(props) {
 }
 
 function getTitle(grip, props) {
-  const { 
-    mode 
+  const {
+    mode
   } = props;
 
   if (mode === MODE.TINY && !grip.isGenerator && !grip.isAsync) {
     return null;
   }
 
-  let title = mode === MODE.TINY 
-  ? "" 
+  let title = mode === MODE.TINY
+  ? ""
   : "function ";
 
   if (grip.isGenerator) {
-    title = mode === MODE.TINY 
-    ? "* " 
+    title = mode === MODE.TINY
+    ? "* "
     : "function* ";
   }
 
@@ -70,7 +70,7 @@ function getTitle(grip, props) {
 
   return span({
       className: "objectTitle",
-    },title);
+  }, title);
 }
 
 function getFunctionName(grip, props) {
@@ -101,8 +101,8 @@ function getFunctionName(grip, props) {
 }
 
 function renderParams(props) {
-  const { 
-    parameterNames = [] 
+  const {
+    parameterNames = []
   } = props;
 
   return parameterNames
