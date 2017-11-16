@@ -12,7 +12,7 @@ const classnames = require("classnames");
 
 function getTabURL(tab, paramName) {
   const tabID = tab.get("id");
-  return `/?${paramName}=${tabID}`;
+  return `/?react_perf&${paramName}=${tabID}`;
 }
 
 class Tabs extends Component {
