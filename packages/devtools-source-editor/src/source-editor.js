@@ -25,6 +25,8 @@ require("codemirror/addon/fold/indent-fold");
 require("codemirror/addon/fold/foldgutter");
 require("codemirror/addon/selection/active-line");
 require("codemirror/addon/edit/matchbrackets");
+require("codemirror/mode/clike/clike");
+require("codemirror/mode/rust/rust");
 
 require("./source-editor.css");
 
