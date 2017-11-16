@@ -1,12 +1,13 @@
 {
   "name": "devtools-source-editor",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "DevTools Source Editor",
   "license": "MPL-2.0",
   "author": "Jason Laster <jason.laster.11@gmail.com>",
   "repository": "github:devtools-html/devtools-core",
   "bugs": "https://github.com/devtools-html/devtools-core/issues",
-  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-editor#readme",
+  "homepage":
+    "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-editor#readme",
   "main": "index.js",
   "scripts": {
     "license-check": "devtools-license-check",
@@ -14,7 +15,7 @@
     "test": "# No tests available"
   },
   "dependencies": {
-    "codemirror": "^5.25.0"
+    "codemirror": "^5.28.0"
   },
   "devDependencies": {
     "react": "^15.6.2",
