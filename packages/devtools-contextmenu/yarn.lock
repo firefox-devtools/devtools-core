@@ -466,9 +466,9 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-devtools-modules@^0.0.31:
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.31.tgz#06749ffa7b78cf2826467ffcce9d2edbbba3ced7"
+devtools-modules@^0.0.33:
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.33.tgz#970301dbb44249fbf4ee4785db1cd2d200a173a3"
   dependencies:
     jest "^19.0.2"
 
