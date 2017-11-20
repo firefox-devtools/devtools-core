@@ -4,21 +4,27 @@
 
 // @flow
 
+const InlineBase64JSON = "data:application/json;";
+
 // opts is ignored because this is only used in local development and
 // replaces a more powerful network request from Firefox that can be
 // configured.
 function networkRequest(url: string, opts: any) {
+  if (url.startsWith(InlineBase64JSON)) {
+    const content = atob(url.slice(url.indexOf("base64") + 7));
+    return Promise.resolve({ content });
+  }
+
   return Promise.race([
     fetch(`/get?url=${url}`).then(res => {
       if (res.status >= 200 && res.status < 300) {
-        return res.text()
-          .then(text => ({ content: text }));
+        return res.text().then(text => ({ content: text }));
       }
       return Promise.reject(new Error(`failed to request ${url}`));
     }),
     new Promise((resolve, reject) => {
       setTimeout(() => reject(new Error("Connect timeout error")), 6000);
-    }),
+    })
   ]);
 }
 
