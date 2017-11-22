@@ -2,6 +2,7 @@
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/* global jest */
 const { shallow } = require("enzyme");
 const { REPS } = require("../rep");
 const { MODE } = require("../constants");
@@ -231,5 +232,55 @@ describe("Function - Anonymous generator function", () => {
       mode: MODE.TINY,
       parameterNames: ["a", "b", "c"]
     }).text()).toBe("* (a, b, c)");
+  });
+});
+
+describe("Function - Jump to definition", () => {
+  it("renders an icon when onViewSourceInDebugger props is provided", () => {
+    const onViewSourceInDebugger = jest.fn();
+    const object = stubs.get("Named");
+    const renderedComponent = renderRep(object, {
+      onViewSourceInDebugger
+    });
+
+    const node = renderedComponent.find(".jump-definition");
+    node.simulate("click", {
+      type: "click",
+      stopPropagation: () => {},
+    });
+
+    expect(node.exists()).toBeTruthy();
+    expect(onViewSourceInDebugger.mock.calls.length).toEqual(1);
+    expect(onViewSourceInDebugger.mock.calls[0][0]).toEqual(object.location);
+  });
+
+  it("does not render an icon when onViewSourceInDebugger props is not provided", () => {
+    const object = stubs.get("Named");
+    const renderedComponent = renderRep(object);
+
+    const node = renderedComponent.find(".jump-definition");
+    expect(node.exists()).toBeFalsy();
+  });
+
+  it("does not render an icon when the object has no location", () => {
+    const object = Object.assign({}, stubs.get("Named"));
+    delete object.location;
+    const renderedComponent = renderRep(object, {
+      onViewSourceInDebugger: () => {}
+    });
+
+    const node = renderedComponent.find(".jump-definition");
+    expect(node.exists()).toBeFalsy();
+  });
+
+  it("does not render an icon when the object has no url location", () => {
+    const object = Object.assign({}, stubs.get("Named"));
+    object.location.url = null;
+    const renderedComponent = renderRep(object, {
+      onViewSourceInDebugger: () => {}
+    });
+
+    const node = renderedComponent.find(".jump-definition");
+    expect(node.exists()).toBeFalsy();
   });
 });

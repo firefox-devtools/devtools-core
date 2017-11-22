@@ -213,6 +213,22 @@
 }
 
 /******************************************************************************/
+/* Jump to definition button */
+
+.jump-definition svg {
+  stroke: var(--comment-node-color);
+  height: 16px;
+  width: 16px;
+  margin-left: .25em;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.jump-definition svg:hover {
+  stroke: var(--theme-highlight-blue);
+}
+
+/******************************************************************************/
 /* "more…" ellipsis */
 .more-ellipsis {
   color: var(--comment-node-color);

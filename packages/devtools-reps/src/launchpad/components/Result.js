@@ -81,6 +81,8 @@ class Result extends Component {
         releaseActor,
         mode: MODE[modeKey],
         onInspectIconClick: nodeFront => console.log("inspectIcon click", nodeFront),
+        onViewSourceInDebugger: location =>
+          console.log("onViewSourceInDebugger", {location}),
       })
     );
   }
