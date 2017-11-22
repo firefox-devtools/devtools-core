@@ -2079,9 +2079,9 @@ devtools-contextmenu@^0.0.7:
   dependencies:
     devtools-modules "^0.0.32"
 
-devtools-mc-assets@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.2.tgz#082cf3fedc8c238d6731263f836bcc5c18490caa"
+devtools-mc-assets@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.4.tgz#80d8b5b9f48e8ba81bdb8f270bba90a0e6ab8793"
 
 devtools-modules@^0.0.32:
   version "0.0.32"
