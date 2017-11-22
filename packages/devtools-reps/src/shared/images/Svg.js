@@ -8,6 +8,7 @@ import InlineSVG from "svg-inline-react";
 
 const svg = {
   "open-inspector": require("./open-inspector.svg"),
+  "jump-definition": require("./jump-definition.svg"),
 };
 
 Svg.propTypes = {

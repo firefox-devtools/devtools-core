@@ -13,6 +13,7 @@ const {
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
+const Svg = require("../shared/images/Svg");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
@@ -23,10 +24,28 @@ const { span } = dom;
 FunctionRep.propTypes = {
   object: PropTypes.object.isRequired,
   parameterNames: PropTypes.array,
+  onViewSourceInDebugger: PropTypes.func,
 };
 
 function FunctionRep(props) {
-  let grip = props.object;
+  let {
+    object: grip,
+    onViewSourceInDebugger,
+  } = props;
+
+  let jumpToDefinitionButton;
+  if (onViewSourceInDebugger && grip.location && grip.location.url) {
+    jumpToDefinitionButton = Svg("jump-definition", {
+      element: "a",
+      draggable: false,
+      title: "Jump to definition",
+      onClick: e => {
+        // Stop the event propagation so we don't trigger ObjectInspector expand/collapse.
+        e.stopPropagation();
+        onViewSourceInDebugger(grip.location);
+      }
+    });
+  }
 
   return (
     span({
@@ -40,7 +59,8 @@ function FunctionRep(props) {
       getFunctionName(grip, props),
       "(",
       ...renderParams(props),
-      ")"
+      ")",
+      jumpToDefinitionButton,
     )
   );
 }
