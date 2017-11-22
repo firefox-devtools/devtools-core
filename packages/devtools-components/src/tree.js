@@ -590,7 +590,7 @@ class Tree extends Component {
    */
   _scrollNodeIntoView(item, options = {}) {
     if (item !== undefined) {
-      const treeElement = this.refs.tree;
+      const treeElement = this.treeRef;
       const element = document.getElementById(this.props.getKey(item));
       if (element) {
         const {top, bottom} = element.getBoundingClientRect();
@@ -792,14 +792,16 @@ class Tree extends Component {
     return dom.div(
       {
         className: `tree ${this.props.className ? this.props.className : ""}`,
-        ref: "tree",
+        ref: el => {
+          this.treeRef = el;
+        },
         role: "tree",
         tabIndex: "0",
         onKeyDown: this._onKeyDown,
         onKeyPress: this._preventArrowKeyScrolling,
         onKeyUp: this._preventArrowKeyScrolling,
         onFocus: ({nativeEvent}) => {
-          if (focused || !nativeEvent || !this.refs.tree) {
+          if (focused || !nativeEvent || !this.treeRef) {
             return;
           }
 
@@ -807,15 +809,15 @@ class Tree extends Component {
           // Only set default focus to the first tree node if the focus came
           // from outside the tree (e.g. by tabbing to the tree from other
           // external elements).
-          if (explicitOriginalTarget !== this.refs.tree &&
-              !this.refs.tree.contains(explicitOriginalTarget)) {
+          if (explicitOriginalTarget !== this.treeRef &&
+              !this.treeRef.contains(explicitOriginalTarget)) {
             this._focus(traversal[0].item);
           }
         },
         onBlur: this._onBlur,
         onClick: () => {
           // Focus should always remain on the tree container itself.
-          this.refs.tree.focus();
+          this.treeRef.focus();
         },
         "aria-label": this.props.label,
         "aria-labelledby": this.props.labelledby,
