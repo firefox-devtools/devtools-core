@@ -3,16 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 .tree {
-  --arrow-width: 10px;
-  --arrow-single-margin: 5px;
-  --arrow-total-width: calc(var(--arrow-width) + var(--arrow-single-margin));
-  --arrow-fill-color: var(--theme-splitter-color, #9B9B9B);
-  --tree-indent-width: 1em;
-  --tree-indent-border-color: #A2D1FF;
-  --tree-indent-border-width: 1px;
-  --tree-node-hover-background-color: #F0F9FE;
-  --tree-node-focus-color: white;
-  --tree-node-focus-background-color: var(--theme-selection-background, #0a84ff);
   overflow: auto;
 }
 
@@ -36,25 +26,35 @@
   display: block;
 }
 
+.tree-indent {
+  display: inline-block;
+  width: 12px;
+  margin-inline-start: 5px;
+  border-inline-start: 1px solid #A2D1FF;
+}
+
 .tree .tree-node[data-expandable="true"] {
   cursor: default;
 }
 
 .tree .tree-node:not(.focused):hover {
-  background-color: var(--tree-node-hover-background-color);
+  background-color: #F0F9FE;
 }
 
 .tree .tree-node.focused {
-  color: var(--tree-node-focus-color);
-  background-color: var(--tree-node-focus-background-color);
-  --arrow-fill-color: currentColor;
+  color: white;
+  background-color: var(--theme-selection-background, #0a84ff);
+}
+
+.tree-node.focused .arrow svg {
+  fill: currentColor;
 }
 
 .arrow svg {
-  fill: var(--arrow-fill-color);
+  fill: var(--theme-splitter-color, #9B9B9B);
   transition: transform 0.125s ease;
-  width: var(--arrow-width);
-  margin-inline-end: var(--arrow-single-margin);
+  width: 10px;
+  margin-inline-end: 5px;
   transform: rotate(-90deg);
 }
 

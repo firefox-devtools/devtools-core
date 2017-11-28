@@ -44,6 +44,8 @@ class ArrowExpander extends Component {
   }
 }
 
+const treeIndent = dom.span({className: "tree-indent"}, "\u200B");
+
 class TreeNode extends Component {
   static get propTypes() {
     return {
@@ -83,38 +85,6 @@ class TreeNode extends Component {
       })
       : null;
 
-    const treeIndentWidthVar = "var(--tree-indent-width)";
-    const treeBorderColorVar = "var(--tree-indent-border-color, black)";
-    const treeBorderWidthVar = "var(--tree-indent-border-width, 1px)";
-
-    const paddingInlineStart = `calc(
-      (${treeIndentWidthVar} * ${depth})
-      ${(isExpandable ? "" : "+ var(--arrow-total-width)")}
-    )`;
-
-    // This is the computed border that will mimic a border on tree nodes.
-    // This allow us to have as many "borders" as we need without adding
-    // specific elements for that purpose only.
-    // it's a gradient with "hard stops" which will give us as much plain
-    // lines as we need given the depth of the node.
-    // The gradient uses CSS custom properties so everything is customizable
-    // by consumers if needed.
-    const backgroundBorder = depth === 0
-      ? null
-      : "linear-gradient(90deg, " +
-          Array.from({length: depth}).map((_, i) => {
-            const indentWidth = `(${i} * ${treeIndentWidthVar})`;
-            const alignIndent = `(var(--arrow-width) / 2)`;
-            const start = `calc(${indentWidth} + ${alignIndent})`;
-            const end = `calc(${indentWidth} + ${alignIndent} + ${treeBorderWidthVar})`;
-
-            return `transparent ${start},
-              ${treeBorderColorVar} ${start},
-              ${treeBorderColorVar} ${end},
-              transparent ${end}`;
-          }).join(",") +
-        ")";
-
     let ariaExpanded;
     if (this.props.isExpandable) {
       ariaExpanded = false;
@@ -123,21 +93,20 @@ class TreeNode extends Component {
       ariaExpanded = true;
     }
 
+    const indents = Array.from({length: depth}).fill(treeIndent);
+    let items = indents.concat(renderItem(item, depth, focused, arrow, expanded));
+
     return dom.div(
       {
         id,
         className: "tree-node" + (focused ? " focused" : ""),
-        style: {
-          paddingInlineStart,
-          backgroundImage: backgroundBorder,
-        },
         onClick: this.props.onClick,
         role: "treeitem",
         "aria-level": depth,
         "aria-expanded": ariaExpanded,
-        "data-expandable": this.props.isExpandable,
+        "data-expandable": this.props.isExpandable
       },
-      renderItem(item, depth, focused, arrow, expanded)
+      ...items
     );
   }
 }
@@ -189,19 +158,7 @@ function oncePerAnimationFrame(fn) {
  * restrict you to only one certain kind of tree.
  *
  * The tree comes with basic styling for the indent, the arrow, as well as hovered
- * and focused styles.
- * All of this can be customize on the customer end, by overriding the following
- * CSS custom properties :
- *   --arrow-width: the width of the arrow.
- *   --arrow-single-margin: the end margin between the arrow and the item that follows.
- *   --arrow-fill-color: the fill-color of the arrow.
- *   --tree-indent-width: the width of a 1-level-deep item.
- *   --tree-indent-border-color: the color of the indent border.
- *   --tree-indent-border-width: the width of the indent border.
- *   --tree-node-hover-background-color: the background color of a hovered node.
- *   --tree-node-focus-color: the color of a focused node.
- *   --tree-node-focus-background-color: the background color of a focused node.
- *
+ * and focused styles which can be override in CSS.
  *
  * ### Example Usage
  *

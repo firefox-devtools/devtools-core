@@ -368,7 +368,7 @@ describe("Tree", () => {
     expect(formatTree(wrapper)).toMatchSnapshot();
 
     getTreeNodes(wrapper).forEach(n => {
-      if ("ABECDMN".split("").includes(n.text())) {
+      if ("ABECDMN".split("").includes(getSanitizedNodeText(n))) {
         expect(n.find(".arrow.expanded").exists()).toBe(true);
       } else {
         expect(n.find(".arrow").exists()).toBe(false);
@@ -446,12 +446,16 @@ function formatTree(wrapper) {
       let arrowStr = "  ";
       if (arrow.exists()) {
         arrowStr = arrow.hasClass("expanded") ? "▼ " : "▶︎ ";
-      } else {
-        arrowStr = "  ";
       }
-      return `${indentStr}${arrowStr}${node.text()}`;
+
+      return `${indentStr}${arrowStr}${getSanitizedNodeText(node)}`;
     })
     .join("\n");
+}
+
+function getSanitizedNodeText(node) {
+  // Stripping off the invisible space used in the indent.
+  return node.text().replace(/^\u200B+/, "");
 }
 
 // Encoding of the following tree/forest:

@@ -4,7 +4,6 @@
 
 import React from "react";
 const { Component, createFactory, createElement } = React;
-import dom from "react-dom-factories";
 
 import Components from "../index";
 const Tree = createFactory(Components.Tree);
@@ -84,6 +83,15 @@ storiesOf("Tree", module)
       focused: "item 250",
       getRoots: () => nodes,
     }, {});
+  })
+  .add("1000 items tree", () => {
+    const nodes = Array.from({length: 1000}).map((_, i) => `item-${i + 1}`);
+    return renderTree({
+      getRoots: () => ["ROOT"],
+      expanded: new Set()
+    }, {
+      children: {"ROOT": nodes}
+    });
   })
   .add("30,000 items tree", () => {
     const nodes = Array.from({length: 1000}).map((_, i) => `item-${i + 1}`);
@@ -185,13 +193,9 @@ function createTreeElement(props, context, tree) {
     getChildren: x => tree.children && tree.children[x]
       ? tree.children[x]
       : [],
-    renderItem: (x, depth, focused, arrow, expanded) => dom.div({},
-      arrow,
-      x,
-    ),
+    renderItem: (x, depth, focused, arrow, expanded) => [arrow, x],
     getRoots: () => ["A"],
     getKey: x => "key-" + x,
-    itemHeight: 1,
     onFocus: x => {
       context.setState(previousState => {
         return {focused: x};
