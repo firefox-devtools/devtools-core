@@ -29,9 +29,14 @@ function formatObjectInspector(wrapper) {
       } else {
         arrowStr = "  ";
       }
-      return `${indentStr}${arrowStr}${node.text()}`;
+      return `${indentStr}${arrowStr}${getSanitizedNodeText(node)}`;
     })
     .join("\n");
+}
+
+function getSanitizedNodeText(node) {
+  // Stripping off the invisible space used in the indent.
+  return node.text().replace(/^\u200B+/, "");
 }
 
 module.exports = {
