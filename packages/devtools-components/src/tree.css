@@ -33,6 +33,11 @@
   border-inline-start: 1px solid #A2D1FF;
 }
 
+/* Align with expandables siblings (where we have the arrow) */
+.tree-node[data-expandable="false"] .tree-indent:last-of-type {
+  margin-inline-end: 15px;
+}
+
 .tree .tree-node[data-expandable="true"] {
   cursor: default;
 }
