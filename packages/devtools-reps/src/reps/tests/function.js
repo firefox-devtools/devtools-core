@@ -286,7 +286,7 @@ describe("Function - Jump to definition", () => {
   });
 });
 
-describe("Function - Anonymous generator function", () => {
+describe("Function - Simplify name", () => {
   const cases = {
     defaultCase: [["define", "define"]],
 
