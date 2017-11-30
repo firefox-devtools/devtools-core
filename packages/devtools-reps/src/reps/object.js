@@ -88,100 +88,35 @@ function safePropIterator(props, object, max) {
 }
 
 function propIterator(props, object, max) {
-  let isInterestingProp = (type, value) => {
-    // Do not pick objects, it could cause recursion.
-    return (type == "boolean" || type == "number" || (type == "string" && value));
-  };
-
   // Work around https://bugzilla.mozilla.org/show_bug.cgi?id=945377
   if (Object.prototype.toString.call(object) === "[object Generator]") {
     object = Object.getPrototypeOf(object);
   }
 
-  // Object members with non-empty values are preferred since it gives the
-  // user a better overview of the object.
-  let interestingObject = getFilteredObject(object, max, isInterestingProp);
+  const elements = [];
+  const unimportantProperties = [];
+  let propertiesNumber = 0;
+  const propertiesNames = Object.keys(object);
 
-  if (Object.keys(interestingObject).length < max) {
-    // There are not enough props yet (or at least, not enough props to
-    // be able to know whether we should print "more…" or not).
-    // Let's display also empty members and functions.
-    interestingObject = Object.assign({}, interestingObject,
-      getFilteredObject(
-        object,
-        max - Object.keys(interestingObject).length,
-        (type, value) => !isInterestingProp(type, value)
-      )
-    );
-  }
+  const pushPropRep = (name, value) => {
+    elements.push(PropRep(Object.assign({}, props, {
+      key: name,
+      mode: MODE.TINY,
+      name,
+      object: value,
+      equal: ": ",
+    })));
+    propertiesNumber++;
 
-  let propsArray = getPropsArray(interestingObject, props);
-  if (Object.keys(object).length > max) {
-    propsArray.push(span({
-      className: "more-ellipsis",
-      title: "more…"
-    }, "…"));
-  }
-
-  return unfoldProps(propsArray);
-}
-
-function unfoldProps(items) {
-  return items.reduce((res, item, index) => {
-    if (Array.isArray(item)) {
-      res = res.concat(item);
-    } else {
-      res.push(item);
+    if (propertiesNumber < propertiesNames.length) {
+      elements.push(", ");
     }
-
-    // Interleave commas between elements
-    if (index !== items.length - 1) {
-      res.push(", ");
-    }
-    return res;
-  }, []);
-}
-
-/**
- * Get an array of components representing the properties of the object
- *
- * @param {Object} object
- * @param {Object} props
- * @return {Array} Array of PropRep.
- */
-function getPropsArray(object, props) {
-  let propsArray = [];
-
-  if (!object) {
-    return propsArray;
-  }
-
-  // Hardcode tiny mode to avoid recursive handling.
-  let mode = MODE.TINY;
-  const objectKeys = Object.keys(object);
-  return objectKeys.map((name, i) => PropRep(Object.assign({}, props, {
-    mode,
-    name,
-    object: object[name],
-    equal: ": ",
-  })));
-}
-
-/**
- * Get a copy of the object filtered by a given predicate.
- *
- * @param {Object} object.
- * @param {Number} max The maximum length of keys array.
- * @param {Function} filter Filter the props you want.
- * @return {Object} the filtered object.
- */
-function getFilteredObject(object, max, filter) {
-  let filteredObject = {};
+  };
 
   try {
-    for (let name in object) {
-      if (Object.keys(filteredObject).length >= max) {
-        return filteredObject;
+    for (let name of propertiesNames) {
+      if (propertiesNumber >= max) {
+        break;
       }
 
       let value;
@@ -191,15 +126,50 @@ function getFilteredObject(object, max, filter) {
         continue;
       }
 
-      let t = typeof value;
-      if (filter(t, value)) {
-        filteredObject[name] = value;
+      // Object members with non-empty values are preferred since it gives the
+      // user a better overview of the object.
+      if (isInterestingProp(value)) {
+        pushPropRep(name, value);
+      } else {
+        // If the property is not important, put its name on an array for later use.
+        unimportantProperties.push(name);
       }
     }
   } catch (err) {
     console.error(err);
   }
-  return filteredObject;
+
+  if (propertiesNumber < max) {
+    for (let name of unimportantProperties) {
+      if (propertiesNumber >= max) {
+        break;
+      }
+
+      let value;
+      try {
+        value = object[name];
+      } catch (exc) {
+        continue;
+      }
+
+      pushPropRep(name, value);
+    }
+  }
+
+  if (propertiesNumber < propertiesNames.length) {
+    elements.push(span({
+      key: "more",
+      className: "more-ellipsis",
+      title: ", more…"
+    }, "…"));
+  }
+
+  return elements;
+}
+
+function isInterestingProp(value) {
+  const type = typeof value;
+  return (type == "boolean" || type == "number" || (type == "string" && value));
 }
 
 function supportsObject(object) {
