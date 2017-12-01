@@ -1,6 +1,6 @@
 {
   "name": "devtools-reps",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "Devtools Reps",
   "main": "src/index.js",
   "scripts": {
