@@ -1,6 +1,6 @@
 {
   "name": "devtools-splitter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "DevTools Splitter",
   "main": "index.js",
   "scripts": {
