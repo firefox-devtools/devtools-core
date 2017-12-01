@@ -38,6 +38,16 @@ storiesOf("Tree", module)
       expanded: new Set(["A"])
     });
   })
+  .add("variable height nodes", () => {
+    const nodes = Array.from({length: 10})
+      .map((_, i) => `item ${i + 1} - `.repeat(10 + Math.random() * 50));
+    return renderTree({
+      getRoots: () => ["ROOT"],
+      expanded: new Set(["ROOT"])
+    }, {
+      children: {"ROOT": nodes}
+    });
+  })
   .add("scrollable tree", () => {
     const nodes = Array.from({length: 500}).map((_, i) => (i + 1).toString());
 
