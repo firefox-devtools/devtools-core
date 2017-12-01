@@ -26,6 +26,10 @@
   display: block;
 }
 
+.tree .tree-node {
+  display: flex;
+}
+
 .tree-indent {
   display: inline-block;
   width: 12px;
