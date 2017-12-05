@@ -14,7 +14,7 @@ function proxy(host, webSocketPort, tcpPort, logging) {
   console.log(`Listening for WS on localhost:${webSocketPort}, all traffic is proxied to ${host}:${tcpPort}`);
   if (!logging) {
     console.log("Protocol messages can be logged by enabling " +
-    "logging.firefoxProtocol in your local.json config");
+    "logging.firefoxProxy in debugger.html/configs/local.json");
   }
   let wsServer = new ws.Server({ port: webSocketPort });
   wsServer.on("connection", function onConnection(wsConnection) {
