@@ -108,22 +108,6 @@ const functionProperty = /([\w\d]+)[\/\.<]*?$/;
 const annonymousProperty = /([\w\d]+)\(\^\)$/;
 
 function getFunctionName(grip, props) {
-  const scenarios = [
-    objectProperty,
-    arrayProperty,
-    functionProperty,
-    annonymousProperty
-  ];
-
-  scenarios.some(reg => {
-    const match = reg.exec(name);
-    if (match) {
-      name = match[1];
-      return true;
-    }
-    return false;
-  });
-
   let { functionName } = props;
   let name;
 
@@ -146,6 +130,21 @@ function getFunctionName(grip, props) {
       props.functionName ||
       "";
   }
+  const scenarios = [
+    objectProperty,
+    arrayProperty,
+    functionProperty,
+    annonymousProperty
+  ];
+
+  scenarios.some(reg => {
+    const match = reg.exec(name);
+    if (match) {
+      name = match[1];
+      return true;
+    }
+    return false;
+  });
 
   return cropString(name, 100);
 }
