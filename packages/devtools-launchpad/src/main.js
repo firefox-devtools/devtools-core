@@ -18,19 +18,22 @@ class App extends Component {
   }
 
   render() {
-    return dom.div({
-      style: {
-        margin: "100px auto",
-        "text-align": "center"
-      }
-    }, "Launchpad Connected");
+    return dom.div(
+      {
+        style: {
+          margin: "100px auto",
+          "text-align": "center"
+        }
+      },
+      "Launchpad Connected"
+    );
   }
 }
 
 const createStore = configureStore({
   log: false,
   makeThunkArgs: (args, state) => {
-    return Object.assign({}, args, { });
+    return Object.assign({}, args, {});
   }
 });
 
@@ -49,4 +52,6 @@ async function onConnect(connection: Object) {
   }
 }
 
-bootstrap(React, ReactDOM, App, null, store).then(onConnect);
+bootstrap(React, ReactDOM, App, null, store)
+  .then(onConnect)
+  .catch(err => console.log(err));
