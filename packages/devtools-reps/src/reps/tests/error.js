@@ -322,3 +322,31 @@ describe("Error - URI error", () => {
     expect(renderedComponent.text()).toEqual("URIError");
   });
 });
+
+describe("Error - DOMException", () => {
+  // Test object = `new URIError("URIError message")`
+  const stub = stubs.get("DOMException");
+
+  it("correctly selects Error Rep for Error object", () => {
+    expect(getRep(stub)).toBe(ErrorRep.rep);
+  });
+
+  it("renders with expected text for DOMException", () => {
+    const renderedComponent = shallow(ErrorRep.rep({
+      object: stub
+    }));
+
+    expect(renderedComponent.text()).toEqual(
+      "DOMException: 'foo;()bar!' is not a valid selector"
+    );
+  });
+
+  it("renders with expected text for DOMException in tiny mode", () => {
+    const renderedComponent = shallow(ErrorRep.rep({
+      object: stub,
+      mode: MODE.TINY
+    }));
+
+    expect(renderedComponent.text()).toEqual("DOMException");
+  });
+});

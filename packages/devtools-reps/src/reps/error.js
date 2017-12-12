@@ -27,9 +27,22 @@ ErrorRep.propTypes = {
 function ErrorRep(props) {
   let object = props.object;
   let preview = object.preview;
-  let name = preview && preview.name
-    ? preview.name
-    : "Error";
+
+  let name;
+  if (preview && preview.name && preview.kind) {
+    switch (preview.kind) {
+      case "Error":
+        name = preview.name;
+        break;
+      case "DOMException":
+        name = preview.kind;
+        break;
+      default:
+        throw new Error("Unknown preview kind for the Error rep.");
+    }
+  } else {
+    name = "Error";
+  }
 
   let content = props.mode === MODE.TINY
     ? name
@@ -55,7 +68,11 @@ function supportsObject(object, noGrip = false) {
   if (noGrip === true || !isGrip(object)) {
     return false;
   }
-  return (object.preview && getGripType(object, noGrip) === "Error");
+  return (
+    object.preview &&
+    getGripType(object, noGrip) === "Error" ||
+    object.class === "DOMException"
+  );
 }
 
 // Exports from this module
