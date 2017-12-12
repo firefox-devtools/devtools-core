@@ -161,4 +161,32 @@ stubs.set("URIError", {
   }
 });
 
+/**
+ * Example code:
+ *  try {
+ *    var foo = document.querySelector("foo;()bar!");
+ *  } catch (ex) {
+ *    ex;
+ *  }
+ */
+stubs.set("DOMException", {
+  "type": "object",
+  "actor": "server2.conn2.child3/obj32",
+  "class": "DOMException",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "DOMException",
+    "name": "SyntaxError",
+    "message": "'foo;()bar!' is not a valid selector",
+    "code": 12,
+    "result": 2152923148,
+    "filename": "debugger eval code",
+    "lineNumber": 1,
+    "columnNumber": 0
+  }
+});
+
 module.exports = stubs;
