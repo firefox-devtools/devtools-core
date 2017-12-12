@@ -324,7 +324,6 @@ describe("Error - URI error", () => {
 });
 
 describe("Error - DOMException", () => {
-  // Test object = `new URIError("URIError message")`
   const stub = stubs.get("DOMException");
 
   it("correctly selects Error Rep for Error object", () => {
