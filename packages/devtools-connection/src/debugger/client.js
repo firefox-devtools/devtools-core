@@ -1260,6 +1260,10 @@ DebuggerClient.prototype = {
    * Currently attached addon.
    */
   activeAddon: null,
+
+  createObjectClient: function(grip) {
+    return new ObjectClient(this, grip);
+  }
 };
 
 eventSource(DebuggerClient.prototype);
