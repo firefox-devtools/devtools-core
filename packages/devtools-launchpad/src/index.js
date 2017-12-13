@@ -180,10 +180,15 @@ async function getTabs(actions) {
 async function bootstrap(React, ReactDOM) {
   const connTarget = getTargetFromQuery();
   if (connTarget) {
-    const { tab, tabConnection } = await startDebugging(connTarget);
+    const debuggedTarget = await startDebugging(connTarget);
 
-    await updateConfig();
-    return { tab, connTarget, tabConnection };
+    if (debuggedTarget) {
+      const { tab, tabConnection } = debuggedTarget;
+      await updateConfig();
+      return { tab, connTarget, tabConnection };
+    } else {
+      console.info("Tab closed due to missing debugged target window.")
+    }
   }
 
   const { store, actions, LaunchpadApp } = await initApp();
