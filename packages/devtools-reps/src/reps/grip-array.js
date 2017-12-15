@@ -43,20 +43,37 @@ function GripArray(props) {
   if (mode === MODE.TINY) {
     let objectLength = getLength(object);
     let isEmpty = objectLength === 0;
-    if (isEmpty) {
-      items = [];
-    } else {
-      items = [span({
+    let ellipsis;
+    if (!isEmpty) {
+      ellipsis = span({
         className: "more-ellipsis",
         title: "more…"
-      }, "…")];
+      }, "…");
+    }
+
+    let title;
+    if (object.class != "Array") {
+      title = object.class + " ";
     }
     brackets = needSpace(false);
-  } else {
-    let max = maxLengthMap.get(mode);
-    items = arrayIterator(props, object, max);
-    brackets = needSpace(items.length > 0);
+    return (
+      span({
+        "data-link-actor-id": object.actor,
+        className: "objectBox objectBox-array"},
+        title,
+        span({
+          className: "arrayLeftBracket",
+        }, brackets.left),
+        ellipsis,
+        span({
+          className: "arrayRightBracket",
+        }, brackets.right)
+      )
+    );
   }
+  let max = maxLengthMap.get(mode);
+  items = arrayIterator(props, object, max);
+  brackets = needSpace(items.length > 0);
 
   let title = getTitle(props, object);
 
