@@ -21,6 +21,21 @@ stubs.set("testBasic", {
   }
 });
 
+stubs.set("DOMTokenList", {
+  "type": "object",
+  "actor": "server2.conn4.child12/obj39",
+  "class": "DOMTokenList",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "ArrayLike",
+    "length": 0,
+    "items": []
+  }
+});
+
 stubs.set("testMaxProps", {
   "type": "object",
   "class": "Array",
