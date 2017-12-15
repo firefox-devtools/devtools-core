@@ -98,11 +98,17 @@ function getLength(grip) {
 }
 
 function getTitle(props, object) {
+  let objectLength = getLength(object);
+
+  if (objectLength === 0 && props.mode === MODE.TINY) {
+    return "";
+  }
+
   let length = [
     "(",
     span({
       className: "arrayLength"
-    }, getLength(object)),
+    }, objectLength),
     ") "
   ];
 
