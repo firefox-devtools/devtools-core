@@ -9,6 +9,7 @@ const Services = require("./src/Services");
 const KeyShortcuts = require("./src/key-shortcuts");
 const { ZoomKeys } = require("./src/zoom-keys");
 const EventEmitter = require("./src/utils/event-emitter");
+const SourceUtils = require("./src/source-utils");
 
 module.exports = {
   KeyShortcuts,
@@ -17,5 +18,6 @@ module.exports = {
   PrefsHelper,
   Services,
   ZoomKeys,
-  EventEmitter
+  EventEmitter,
+  SourceUtils,
 };
