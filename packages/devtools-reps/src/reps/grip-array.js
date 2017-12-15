@@ -115,14 +115,27 @@ function getLength(grip) {
 }
 
 function getTitle(props, object) {
+  let length = [
+    "(",
+    span({
+      className: "arrayLength"
+    }, getLength(object)),
+    ") "
+  ];
+
   if (props.mode === MODE.TINY) {
-    return "";
+    return span({
+      className: "objectTitle"},
+      length
+    );
   }
 
   let title = props.title || object.class || "Array";
   return span({
-    className: "objectTitle",
-  }, title + " ");
+    className: "objectTitle"},
+    title,
+    length
+  );
 }
 
 function getPreviewItems(grip) {
