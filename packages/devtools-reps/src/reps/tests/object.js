@@ -253,7 +253,7 @@ describe("Object - noGrip prop", () => {
 
   it("ObjectWithText grip", () => {
     const stubs = require("../stubs/object-with-text");
-    expect(getRep(stubs.get("ObjectWithText"), undefined, true)).toBe(Obj.rep);
+    expect(getRep(stubs.get("ShadowRule"), undefined, true)).toBe(Obj.rep);
   });
 
   it("ObjectWithURL grip", () => {
