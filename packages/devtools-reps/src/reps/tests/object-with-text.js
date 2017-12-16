@@ -48,8 +48,8 @@ describe("Object with text - CSSMediaRule", () => {
       object: gripStub
     }));
 
-    const S = "CSSMediaRule \"(min-height: 680px), screen and (orientation: portrait)\"";
-    expect(renderedComponent.text()).toEqual(S);
+    const text = `CSSMediaRule "(min-height: 680px), screen and (orientation: portrait)"`;
+    expect(renderedComponent.text()).toEqual(text);
     expectActorAttribute(renderedComponent, gripStub.actor);
   });
 });
