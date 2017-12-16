@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
-import {getGripPreviewItems} from "../rep-utils"
 
 const { shallow } = require("enzyme");
 const {
