@@ -119,20 +119,24 @@ GripArrayLength.propTypes = {
 };
 
 function GripArrayLength(props) {
-  let objectLength = getLength(props.object);
+  let {
+    object
+  } = props;
+  let objectLength = getLength(object);
   let isEmpty = objectLength === 0;
 
   if (isEmpty) {
-    return [];
+    return null;
   }
 
-  return [
+  return span(
+    {},
     "(",
     span({
       className: "arrayLength"
     }, objectLength),
     ")"
-  ];
+  );
 }
 
 const lengthComponent = wrapRender(GripArrayLength);
