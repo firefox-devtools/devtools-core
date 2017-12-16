@@ -97,28 +97,45 @@ function getLength(grip) {
   return grip.preview.length || grip.preview.childNodesLength || 0;
 }
 
+GripArrayLength.propTypes = {
+  object: PropTypes.object.isRequired
+};
+
+function GripArrayLength(props) {
+  let objectLength = getLength(props.object);
+  let isEmpty = objectLength === 0;
+
+  if (isEmpty) {
+    return [];
+  }
+
+  return [
+    "(",
+    span({
+      className: "arrayLength"
+    }, objectLength),
+    ")"
+  ];
+}
+
+const renderGripArrayLength = wrapRender(GripArrayLength);
+
 function getTitle(props, object) {
   let objectLength = getLength(object);
   let isEmpty = objectLength === 0;
 
-  let length = isEmpty
-    ? " "
-    : [
-      "(",
-      span({
-        className: "arrayLength"
-      }, objectLength),
-      ") "
-    ];
+  if (isEmpty && props.mode === MODE.TINY) {
+    return "";
+  }
+
+  let length = renderGripArrayLength({ object });
+  let space = " ";
 
   if (props.mode === MODE.TINY) {
-    if (isEmpty) {
-      return "";
-    }
-
     return span({
       className: "objectTitle"},
-      length
+      length,
+      space
     );
   }
 
@@ -126,7 +143,8 @@ function getTitle(props, object) {
   return span({
     className: "objectTitle"},
     title,
-    length
+    length,
+    space
   );
 }
 
@@ -231,6 +249,7 @@ maxLengthMap.set(MODE.LONG, 10);
 // Exports from this module
 module.exports = {
   rep: wrapRender(GripArray),
+  renderGripArrayLength,
   supportsObject,
   maxLengthMap,
   getLength,
