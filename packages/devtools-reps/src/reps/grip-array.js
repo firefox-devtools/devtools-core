@@ -97,15 +97,59 @@ function getLength(grip) {
   return grip.preview.length || grip.preview.childNodesLength || 0;
 }
 
+GripArrayLength.propTypes = {
+  object: PropTypes.object.isRequired
+};
+
+function GripArrayLength(props) {
+  let {
+    object
+  } = props;
+  let objectLength = getLength(object);
+  let isEmpty = objectLength === 0;
+
+  if (isEmpty) {
+    return null;
+  }
+
+  return span(
+    {},
+    "(",
+    span({
+      className: "arrayLength"
+    }, objectLength),
+    ")"
+  );
+}
+
+const lengthComponent = wrapRender(GripArrayLength);
+
 function getTitle(props, object) {
-  if (props.mode === MODE.TINY) {
+  let objectLength = getLength(object);
+  let isEmpty = objectLength === 0;
+
+  if (isEmpty && props.mode === MODE.TINY) {
     return "";
+  }
+
+  let length = lengthComponent({ object });
+  let space = " ";
+
+  if (props.mode === MODE.TINY) {
+    return span({
+      className: "objectTitle"},
+      length,
+      space
+    );
   }
 
   let title = props.title || object.class || "Array";
   return span({
-    className: "objectTitle",
-  }, title + " ");
+    className: "objectTitle"},
+    title,
+    length,
+    space
+  );
 }
 
 function getPreviewItems(grip) {
@@ -209,6 +253,7 @@ maxLengthMap.set(MODE.LONG, 10);
 // Exports from this module
 module.exports = {
   rep: wrapRender(GripArray),
+  lengthComponent,
   supportsObject,
   maxLengthMap,
   getLength,

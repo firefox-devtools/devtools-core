@@ -13,7 +13,8 @@ const { MODE } = require("../constants");
 const stubs = require("../stubs/promise");
 const {
   expectActorAttribute,
-  getSelectableInInspectorGrips
+  getSelectableInInspectorGrips,
+  getGripArrayLengthText
 } = require("./test-helpers");
 
 const renderRep = (object, props) => {
@@ -89,7 +90,8 @@ describe("Promise - fulfilled with object", () => {
 
 describe("Promise - fulfilled with array", () => {
   const object = stubs.get("FulfilledWithArray");
-  const defaultOutput = `Promise { <state>: "fulfilled", <value>: […] }`;
+  const length = getGripArrayLengthText(object.promiseState.value);
+  const defaultOutput = `Promise { <state>: "fulfilled", <value>: ${length} […] }`;
 
   it("correctly selects PromiseRep Rep for Promise fulfilled with an array", () => {
     expect(getRep(object)).toBe(PromiseRep.rep);
