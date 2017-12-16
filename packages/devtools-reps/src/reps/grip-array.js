@@ -118,7 +118,7 @@ function GripArrayLength(props) {
   ];
 }
 
-const renderGripArrayLength = wrapRender(GripArrayLength);
+const lengthComponent = wrapRender(GripArrayLength);
 
 function getTitle(props, object) {
   let objectLength = getLength(object);
@@ -128,7 +128,7 @@ function getTitle(props, object) {
     return "";
   }
 
-  let length = renderGripArrayLength({ object });
+  let length = lengthComponent({ object });
   let space = " ";
 
   if (props.mode === MODE.TINY) {
@@ -249,7 +249,7 @@ maxLengthMap.set(MODE.LONG, 10);
 // Exports from this module
 module.exports = {
   rep: wrapRender(GripArray),
-  renderGripArrayLength,
+  lengthComponent,
   supportsObject,
   maxLengthMap,
   getLength,
