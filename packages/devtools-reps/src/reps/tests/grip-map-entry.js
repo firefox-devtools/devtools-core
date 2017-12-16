@@ -13,6 +13,7 @@ const {
 const { GripMapEntry } = REPS;
 const { createGripMapEntry } = GripMapEntry;
 const { MODE } = require("../constants");
+const { getGripArrayLengthText } = require("./test-helpers");
 
 const stubs = require("../stubs/grip-map-entry");
 const nodeStubs = require("../stubs/element-node");
@@ -48,41 +49,51 @@ describe("GripMapEntry - createGripMapEntry", () => {
 describe("GripMapEntry - complex", () => {
   it("Handles complex objects as key and value", () => {
     let stub = gripArrayStubs.get("testBasic");
+    let length = getGripArrayLengthText(stub);
     let entry = createGripMapEntry("A", stub);
-    expect(renderRep(entry, MODE.TINY).text()).toEqual("A → []");
-    expect(renderRep(entry, MODE.SHORT).text()).toEqual("A → Array []");
-    expect(renderRep(entry, MODE.LONG).text()).toEqual("A → Array []");
+    expect(renderRep(entry, MODE.TINY).text()).toEqual(`A → []`);
+    expect(renderRep(entry, MODE.SHORT).text()).toEqual(`A → Array${length} []`);
+    expect(renderRep(entry, MODE.LONG).text()).toEqual(`A → Array${length} []`);
 
     entry = createGripMapEntry(stub, "A");
     expect(renderRep(entry, MODE.TINY).text()).toEqual(`[] → "A"`);
-    expect(renderRep(entry, MODE.SHORT).text()).toEqual(`Array [] → "A"`);
-    expect(renderRep(entry, MODE.LONG).text()).toEqual(`Array [] → "A"`);
+    expect(renderRep(entry, MODE.SHORT).text()).toEqual(`Array${length} [] → "A"`);
+    expect(renderRep(entry, MODE.LONG).text()).toEqual(`Array${length} [] → "A"`);
 
     stub = gripArrayStubs.get("testMaxProps");
+    length = getGripArrayLengthText(stub);
     entry = createGripMapEntry("A", stub);
-    expect(renderRep(entry, MODE.TINY).text()).toEqual(`A → […]`);
-    expect(renderRep(entry, MODE.SHORT).text()).toEqual(`A → Array [ 1, "foo", {} ]`);
-    expect(renderRep(entry, MODE.LONG).text()).toEqual(`A → Array [ 1, "foo", {} ]`);
+    expect(renderRep(entry, MODE.TINY).text()).toEqual(`A → ${length} […]`);
+    expect(renderRep(entry, MODE.SHORT).text()).toEqual(
+      `A → Array${length} [ 1, "foo", {} ]`);
+    expect(renderRep(entry, MODE.LONG).text()).toEqual(
+      `A → Array${length} [ 1, "foo", {} ]`);
 
     entry = createGripMapEntry(stub, "A");
-    expect(renderRep(entry, MODE.TINY).text()).toEqual(`[…] → "A"`);
-    expect(renderRep(entry, MODE.SHORT).text()).toEqual(`Array [ 1, "foo", {} ] → "A"`);
-    expect(renderRep(entry, MODE.LONG).text()).toEqual(`Array [ 1, "foo", {} ] → "A"`);
+    length = getGripArrayLengthText(stub);
+    expect(renderRep(entry, MODE.TINY).text()).toEqual(`${length} […] → "A"`);
+    expect(renderRep(entry, MODE.SHORT).text()).toEqual(
+      `Array${length} [ 1, "foo", {} ] → "A"`);
+    expect(renderRep(entry, MODE.LONG).text()).toEqual(
+      `Array${length} [ 1, "foo", {} ] → "A"`);
 
     stub = gripArrayStubs.get("testMoreThanShortMaxProps");
+    length = getGripArrayLengthText(stub);
     entry = createGripMapEntry("A", stub);
-    expect(renderRep(entry, MODE.TINY).text()).toEqual(`A → […]`);
+    expect(renderRep(entry, MODE.TINY).text()).toEqual(`A → ${length} […]`);
     expect(renderRep(entry, MODE.SHORT).text())
-      .toEqual(`A → Array [ "test string", "test string", "test string", … ]`);
+      .toEqual(`A → Array${length} [ "test string", "test string", "test string", … ]`);
     expect(renderRep(entry, MODE.LONG).text()).toEqual(
-      `A → Array [ "test string", "test string", "test string", "test string" ]`);
+      `A → Array${length} [ "test string", "test string", "test string",\
+ "test string" ]`);
 
     entry = createGripMapEntry(stub, "A");
-    expect(renderRep(entry, MODE.TINY).text()).toEqual(`[…] → "A"`);
+    expect(renderRep(entry, MODE.TINY).text()).toEqual(`${length} […] → "A"`);
     expect(renderRep(entry, MODE.SHORT).text())
-      .toEqual(`Array [ "test string", "test string", "test string", … ] → "A"`);
+      .toEqual(`Array${length} [ "test string", "test string", "test string", … ] → "A"`);
     expect(renderRep(entry, MODE.LONG).text()).toEqual(
-      `Array [ "test string", "test string", "test string", "test string" ] → "A"`);
+      `Array${length} [ "test string", "test string", "test string", "test string" ] →\
+ "A"`);
   });
 
   it("Handles Element Nodes as key and value", () => {

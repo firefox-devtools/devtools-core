@@ -2,6 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const { shallow } = require("enzyme");
+
+const { lengthComponent } = require("../grip-array");
 const { getGripPreviewItems } = require("../rep-utils");
 const nodeConstants = require("../../shared/dom-node-constants");
 
@@ -58,7 +61,15 @@ function expectActorAttribute(wrapper, expectedValue) {
   expect(attrElement.first().prop("data-link-actor-id")).toBe(expectedValue);
 }
 
+function getGripArrayLengthText(object) {
+  const component = lengthComponent({ object });
+  return component
+    ? shallow(component).text()
+    : "";
+}
+
 module.exports = {
   expectActorAttribute,
   getSelectableInInspectorGrips,
+  getGripArrayLengthText,
 };

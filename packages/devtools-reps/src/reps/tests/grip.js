@@ -3,6 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
+import {getGripPreviewItems} from "../rep-utils"
+
 const { shallow } = require("enzyme");
 const {
   getRep,
@@ -15,6 +17,7 @@ const gripArrayStubs = require("../stubs/grip-array");
 const {
   expectActorAttribute,
   getSelectableInInspectorGrips,
+  getGripArrayLengthText
 } = require("./test-helpers");
 const {maxLengthMap} = Grip;
 
@@ -121,7 +124,8 @@ describe("Grip - Proxy", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput = "Proxy { <target>: {…}, <handler>: […] }";
+    const handlerLength = getGripArrayLengthText(object.proxyHandler);
+    const defaultOutput = `Proxy { <target>: {…}, <handler>: ${handlerLength} […] }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("Proxy");
@@ -332,7 +336,9 @@ describe("Grip - Object with nested array", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput = "Object { arrProp: […] }";
+    const propLength = getGripArrayLengthText(
+      object.preview.ownProperties.arrProp.value);
+    const defaultOutput = `Object { arrProp: ${propLength} […] }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("{…}");
