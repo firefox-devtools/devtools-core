@@ -6,6 +6,7 @@
 const { mount } = require("enzyme");
 const { REPS } = require("../rep");
 const { Rep } = REPS;
+const { getGripArrayLengthText } = require("./test-helpers");
 
 const renderRep = (string, props) => mount(
   Rep(Object.assign({
@@ -402,13 +403,13 @@ describe("test String with URL", () => {
   it("does render a link in a grip array", () => {
     let object = require("../stubs/grip-array")
       .get(`["http://example.com/abcdefghijabcdefghij some other text"]`);
-
+    const length = getGripArrayLengthText(object);
     const openLink = jest.fn();
     const element = renderRep(object, {openLink});
 
     const url = "http://example.com/abcdefghijabcdefghij";
     const string = `${url} some other text`;
-    expect(element.text()).toEqual(`Array [ "${string}" ]`);
+    expect(element.text()).toEqual(`Array${length} [ "${string}" ]`);
 
     const link = element.find("a");
     expect(link.prop("href")).toBe(url);
