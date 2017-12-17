@@ -4,6 +4,6 @@
 
 import Tree from "./src/tree";
 
-export default {
+module.exports = {
   Tree
 };
