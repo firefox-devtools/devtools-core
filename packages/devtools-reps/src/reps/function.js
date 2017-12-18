@@ -18,6 +18,8 @@ const Svg = require("../shared/images/Svg");
 const dom = require("react-dom-factories");
 const { span } = dom;
 
+const IGNORED_SOURCE_URLS = ["debugger eval code"];
+
 /**
  * This component represents a template for Function objects.
  */
@@ -34,7 +36,11 @@ function FunctionRep(props) {
   } = props;
 
   let jumpToDefinitionButton;
-  if (onViewSourceInDebugger && grip.location && grip.location.url) {
+  if (onViewSourceInDebugger &&
+    grip.location &&
+    grip.location.url &&
+    !IGNORED_SOURCE_URLS.includes(grip.location.url)
+  ) {
     jumpToDefinitionButton = Svg("jump-definition", {
       element: "a",
       draggable: false,

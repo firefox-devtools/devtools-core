@@ -152,4 +152,36 @@ stubs.set("AnonGeneratorFunction", {
   }
 });
 
+stubs.set("getRandom", {
+  "type": "object",
+  "actor": "server1.conn7.child1/obj984",
+  "class": "Function",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 3,
+  "name": "getRandom",
+  "displayName": "getRandom",
+  "location": {
+    "url": "https://nchevobbe.github.io/demo/console-test-app.html",
+    "line": 314
+  }
+});
+
+stubs.set("EvaledInDebuggerFunction", {
+  "type": "object",
+  "actor": "server1.conn2.child1/obj29",
+  "class": "Function",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 3,
+  "name": "evaledInDebugger",
+  "displayName": "evaledInDebugger",
+  "location": {
+    "url": "debugger eval code",
+    "line": 1
+  }
+});
+
 module.exports = stubs;
