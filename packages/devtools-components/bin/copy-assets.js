@@ -19,7 +19,7 @@ async function start() {
   try {
     console.log("start: copy assets");
     const projectPath = path.resolve(__dirname, "..");
-    const mcModulePath = "devtools/client/shared/components";
+    const mcModulePath = "devtools/client/shared/components/bundles/devtools-components";
 
     const envConfig = getConfig();
     setConfig(envConfig);
