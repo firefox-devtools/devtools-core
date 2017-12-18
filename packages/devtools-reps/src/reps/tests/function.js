@@ -239,7 +239,7 @@ describe("Function - Anonymous generator function", () => {
 describe("Function - Jump to definition", () => {
   it("renders an icon when onViewSourceInDebugger props is provided", () => {
     const onViewSourceInDebugger = jest.fn();
-    const object = stubs.get("Named");
+    const object = stubs.get("getRandom");
     const renderedComponent = renderRep(object, {
       onViewSourceInDebugger
     });
@@ -256,7 +256,7 @@ describe("Function - Jump to definition", () => {
   });
 
   it("does not render an icon when onViewSourceInDebugger props is not provided", () => {
-    const object = stubs.get("Named");
+    const object = stubs.get("getRandom");
     const renderedComponent = renderRep(object);
 
     const node = renderedComponent.find(".jump-definition");
@@ -264,7 +264,7 @@ describe("Function - Jump to definition", () => {
   });
 
   it("does not render an icon when the object has no location", () => {
-    const object = Object.assign({}, stubs.get("Named"));
+    const object = Object.assign({}, stubs.get("getRandom"));
     delete object.location;
     const renderedComponent = renderRep(object, {
       onViewSourceInDebugger: () => {}
@@ -275,8 +275,18 @@ describe("Function - Jump to definition", () => {
   });
 
   it("does not render an icon when the object has no url location", () => {
-    const object = Object.assign({}, stubs.get("Named"));
+    const object = Object.assign({}, stubs.get("getRandom"));
     object.location.url = null;
+    const renderedComponent = renderRep(object, {
+      onViewSourceInDebugger: () => {}
+    });
+
+    const node = renderedComponent.find(".jump-definition");
+    expect(node.exists()).toBeFalsy();
+  });
+
+  it("does not render an icon when function was declared in console input", () => {
+    const object = Object.assign({}, stubs.get("EvaledInDebuggerFunction"));
     const renderedComponent = renderRep(object, {
       onViewSourceInDebugger: () => {}
     });
