@@ -11,7 +11,7 @@ const {
   isGrip,
   cropString,
   wrapRender,
-} = require("./rep-utils");
+ } = require("./rep-utils");
 const { MODE } = require("./constants");
 const Svg = require("../shared/images/Svg");
 
@@ -48,13 +48,13 @@ function FunctionRep(props) {
   }
 
   return (
-    span({
+   span({
       "data-link-actor-id": grip.actor,
       className: "objectBox objectBox-function",
       // Set dir="ltr" to prevent function parentheses from
       // appearing in the wrong direction
       dir: "ltr",
-    },
+   },
       getTitle(grip, props),
       getFunctionName(grip, props),
       "(",
@@ -75,13 +75,13 @@ function getTitle(grip, props) {
   }
 
   let title = mode === MODE.TINY
-    ? ""
-    : "function ";
+  ? ""
+  : "function ";
 
   if (grip.isGenerator) {
     title = mode === MODE.TINY
-      ? "* "
-      : "function* ";
+    ? "* "
+    : "function* ";
   }
 
   if (grip.isAsync) {
@@ -89,7 +89,7 @@ function getTitle(grip, props) {
   }
 
   return span({
-    className: "objectTitle",
+      className: "objectTitle",
   }, title);
 }
 
@@ -101,12 +101,14 @@ const arrayProperty = /\[(.*?)\]$/;
 const functionProperty = /([\w\d]+)[\/\.<]*?$/;
 const annonymousProperty = /([\w\d]+)\(\^\)$/;
 
-function getFunctionName(grip, props) {
-  let name = grip.userDisplayName
-    || grip.displayName
-    || grip.name
-    || props.functionName
-    || "";
+function getFunctionName(grip, props = {}) {
+  let { functionName } = props;
+  let name =
+      grip.userDisplayName ||
+      grip.displayName ||
+      grip.name ||
+      props.functionName ||
+      "";
 
   const scenarios = [
     objectProperty,
@@ -114,6 +116,11 @@ function getFunctionName(grip, props) {
     functionProperty,
     annonymousProperty
   ];
+
+  if (grip.displayName != undefined && functionName != undefined &&
+    grip.displayName != functionName) {
+    name = functionName + ":" + grip.displayName;
+  }
 
   scenarios.some(reg => {
     const match = reg.exec(name);
