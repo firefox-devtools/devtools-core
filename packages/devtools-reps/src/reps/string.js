@@ -20,16 +20,20 @@ const {
 const dom = require("react-dom-factories");
 const { a, span } = dom;
 
+const stringPropTypes = {
+  useQuotes: PropTypes.bool,
+  escapeWhitespace: PropTypes.bool,
+  style: PropTypes.object,
+  cropLimit: PropTypes.number.isRequired,
+  member: PropTypes.string,
+  object: PropTypes.object.isRequired
+};
+
 /**
  * Renders a string. String value is enclosed within quotes.
  */
 StringRep.propTypes = {
-  useQuotes: PropTypes.bool,
-  escapeWhitespace: PropTypes.bool,
-  style: PropTypes.object,
-  object: PropTypes.string.isRequired,
-  member: PropTypes.any,
-  cropLimit: PropTypes.number,
+  ...stringPropTypes,
   openLink: PropTypes.func,
   className: PropTypes.string,
   omitLinkHref: PropTypes.bool,
@@ -228,5 +232,6 @@ module.exports = {
   rep: wrapRender(StringRep),
   supportsObject,
   getElementConfig,
-  getFormattedText
+  getFormattedText,
+  stringPropTypes
 };
