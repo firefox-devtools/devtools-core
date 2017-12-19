@@ -32,12 +32,11 @@ const stringPropTypes = {
 /**
  * Renders a string. String value is enclosed within quotes.
  */
-StringRep.propTypes = {
-  ...stringPropTypes,
+StringRep.propTypes = Object.assign(stringPropTypes, {
   openLink: PropTypes.func,
   className: PropTypes.string,
   omitLinkHref: PropTypes.bool,
-};
+});
 
 function StringRep(props) {
   let {
