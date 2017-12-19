@@ -38,32 +38,28 @@ StringRep.propTypes = {
 function StringRep(props) {
   let {
     className,
+    style,
     cropLimit,
     object: text,
-    member,
-    style,
     useQuotes = true,
     escapeWhitespace = true,
+    member,
     openLink,
     omitLinkHref = true,
   } = props;
 
-  const classNames = ["objectBox", "objectBox-string"];
-  if (className) {
-    classNames.push(className);
-  }
-  let config = {className: classNames.join(" ")};
-  if (style) {
-    config.style = style;
-  }
+  const config = getElementConfig({
+    className,
+    style
+  });
 
-  if (useQuotes) {
-    text = escapeString(text, escapeWhitespace);
-  } else {
-    text = sanitizeString(text);
-  }
+  text = getFormattedText({
+    useQuotes,
+    escapeWhitespace
+  }, text);
 
   const shouldCrop = (!member || !member.open) && cropLimit && text.length > cropLimit;
+
   if (!containsURL(text)) {
     if (shouldCrop) {
       text = rawCropString(text, cropLimit);
@@ -73,6 +69,40 @@ function StringRep(props) {
 
   return span(config,
     ...getLinkifiedElements(text, shouldCrop && cropLimit, omitLinkHref, openLink));
+}
+
+function getFormattedText(opts, text) {
+  let {
+    useQuotes,
+    escapeWhitespace
+  } = opts;
+
+  if (useQuotes) {
+    text = escapeString(text, escapeWhitespace);
+  } else {
+    text = sanitizeString(text);
+  }
+
+  return text;
+}
+
+function getElementConfig(config) {
+  let {
+    className,
+    style
+  } = config;
+
+  const classNames = ["objectBox", "objectBox-string"];
+  if (className) {
+    classNames.push(className);
+  }
+  config.className = classNames.join(" ");
+
+  if (!style) {
+    delete config.style;
+  }
+
+  return config;
 }
 
 /**
@@ -197,4 +227,6 @@ function supportsObject(object, noGrip = false) {
 module.exports = {
   rep: wrapRender(StringRep),
   supportsObject,
+  getElementConfig,
+  getFormattedText
 };
