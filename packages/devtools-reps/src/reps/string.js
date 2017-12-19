@@ -87,8 +87,8 @@ function StringRep(props) {
  */
 function getLinkifiedElements(text, cropLimit, omitLinkHref, openLink) {
   const halfLimit = Math.ceil((cropLimit - ELLIPSIS.length) / 2);
-  const startCropIndex = halfLimit;
-  const endCropIndex = text.length - halfLimit;
+  const startCropIndex = cropLimit ? halfLimit : null;
+  const endCropIndex = cropLimit ? text.length - halfLimit : null;
 
   // As we walk through the tokens of the source string, we make sure to preserve
   // the original whitespace that separated the tokens.
@@ -151,13 +151,17 @@ function getLinkifiedElements(text, cropLimit, omitLinkHref, openLink) {
  * @param {String} text: The substring to crop.
  * @param {Integer} offset: The offset corresponding to the index at which the substring
  *                          is in the parent string.
- * @param {Integer} startCropIndex: the index where the start of the crop should happen
- *                                  in the parent string
- * @param {Integer} endCropIndex: the index where the end of the crop should happen
- *                                  in the parent string
+ * @param {Integer|null} startCropIndex: the index where the start of the crop should
+ *                                       happen in the parent string.
+ * @param {Integer|null} endCropIndex: the index where the end of the crop should happen
+ *                                     in the parent string
  * @returns {String|null} The cropped substring, or null if the text is completly cropped.
  */
 function getCroppedString(text, offset = 0, startCropIndex, endCropIndex) {
+  if (!startCropIndex) {
+    return text;
+  }
+
   const start = offset;
   const end = offset + text.length;
 

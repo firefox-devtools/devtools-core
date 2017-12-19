@@ -202,6 +202,26 @@ describe("test String with URL", () => {
     expect(openLink).toBeCalledWith(url);
   });
 
+  it("renders URL on an open string", () => {
+    const url = "http://example.com";
+    const openLink = jest.fn();
+    const element = renderRep(url, {
+      openLink,
+      useQuotes: false,
+      member: {
+        open: true
+      }
+    });
+
+    expect(element.text()).toEqual(url);
+    const link = element.find("a");
+    expect(link.prop("href")).toBe(url);
+    expect(link.prop("title")).toBe(url);
+
+    link.simulate("click");
+    expect(openLink).toBeCalledWith(url);
+  });
+
   it("renders URLs with a stripped string between", () => {
     const text = "- http://example.fr --- http://example.us -";
     const openLink = jest.fn();
