@@ -3,13 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const PropTypes = require("prop-types");
+
 const {
-  escapeString,
-  sanitizeString,
   isGrip,
   wrapRender,
 } = require("./rep-utils");
+const {
+  getElementConfig,
+  getFormattedText,
+  stringPropTypes
+} = require("./string");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
@@ -17,14 +20,7 @@ const { span } = dom;
 /**
  * Renders a long string grip.
  */
-LongStringRep.propTypes = {
-  useQuotes: PropTypes.bool,
-  escapeWhitespace: PropTypes.bool,
-  style: PropTypes.object,
-  cropLimit: PropTypes.number.isRequired,
-  member: PropTypes.string,
-  object: PropTypes.object.isRequired,
-};
+LongStringRep.propTypes = stringPropTypes;
 
 function LongStringRep(props) {
   let {
@@ -35,27 +31,29 @@ function LongStringRep(props) {
     useQuotes = true,
     escapeWhitespace = true,
   } = props;
-  let {fullText, initial, length} = object;
+  let {
+    fullText,
+    initial,
+    length
+  } = object;
 
-  let config = {
+  let config = Object.assign({
     "data-link-actor-id": object.actor,
-    className: "objectBox objectBox-string"
-  };
+  }, getElementConfig({ style }));
 
-  if (style) {
-    config.style = style;
-  }
-
-  let string = member && member.open
+  let text = member && member.open
     ? fullText || initial
     : initial.substring(0, cropLimit);
 
-  if (string.length < length) {
-    string += "\u2026";
+  if (text.length < length) {
+    text += "\u2026";
   }
-  let formattedString = useQuotes ? escapeString(string, escapeWhitespace) :
-      sanitizeString(string);
-  return span(config, formattedString);
+
+  const formattedText = getFormattedText({
+    useQuotes,
+    escapeWhitespace
+  }, text);
+  return span(config, formattedText);
 }
 
 function supportsObject(object, noGrip = false) {
