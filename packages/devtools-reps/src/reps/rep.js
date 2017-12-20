@@ -8,7 +8,6 @@ require("./reps.css");
 const Undefined = require("./undefined");
 const Null = require("./null");
 const StringRep = require("./string");
-const LongStringRep = require("./long-string");
 const Number = require("./number");
 const ArrayRep = require("./array");
 const Obj = require("./object");
@@ -50,7 +49,6 @@ let reps = [
   ElementNode,
   TextNode,
   Attribute,
-  LongStringRep,
   Func,
   PromiseRep,
   ArrayRep,
@@ -139,7 +137,6 @@ module.exports = {
     GripMap,
     GripMapEntry,
     InfinityRep,
-    LongStringRep,
     NaNRep,
     Null,
     Number,

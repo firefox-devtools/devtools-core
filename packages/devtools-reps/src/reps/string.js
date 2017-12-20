@@ -13,6 +13,7 @@ const {
   rawCropString,
   sanitizeString,
   wrapRender,
+  isGrip,
   tokenSplitRegex,
   ELLIPSIS,
 } = require("./rep-utils");
@@ -20,30 +21,27 @@ const {
 const dom = require("react-dom-factories");
 const { a, span } = dom;
 
-const stringPropTypes = {
+/**
+ * Renders a string. String value is enclosed within quotes.
+ */
+StringRep.propTypes = {
   useQuotes: PropTypes.bool,
   escapeWhitespace: PropTypes.bool,
   style: PropTypes.object,
   cropLimit: PropTypes.number.isRequired,
   member: PropTypes.string,
-  object: PropTypes.object.isRequired
-};
-
-/**
- * Renders a string. String value is enclosed within quotes.
- */
-StringRep.propTypes = Object.assign(stringPropTypes, {
+  object: PropTypes.object.isRequired,
   openLink: PropTypes.func,
   className: PropTypes.string,
   omitLinkHref: PropTypes.bool,
-});
+};
 
 function StringRep(props) {
   let {
     className,
     style,
     cropLimit,
-    object: text,
+    object,
     useQuotes = true,
     escapeWhitespace = true,
     member,
@@ -51,20 +49,40 @@ function StringRep(props) {
     omitLinkHref = true,
   } = props;
 
-  const config = getElementConfig({
-    className,
-    style
-  });
+  let text = object;
 
-  text = getFormattedText({
+  const shouldCrop = (!member || !member.open) && cropLimit && text.length > cropLimit;
+  const isLong = isLongString(object);
+
+  if (isLong) {
+    const {
+      fullText,
+      initial,
+      length,
+    } = object;
+
+    text = shouldCrop
+      ? initial.substring(0, cropLimit)
+      : fullText || initial;
+
+    if (text.length < length) {
+      text += "\u2026";
+    }
+  }
+
+  text = formatText({
     useQuotes,
     escapeWhitespace
   }, text);
 
-  const shouldCrop = (!member || !member.open) && cropLimit && text.length > cropLimit;
+  const config = getElementConfig({
+    className,
+    style,
+    actor: object.actor
+  });
 
   if (!containsURL(text)) {
-    if (shouldCrop) {
+    if (!isLong && shouldCrop) {
       text = rawCropString(text, cropLimit);
     }
     return span(config, text);
@@ -74,7 +92,7 @@ function StringRep(props) {
     ...getLinkifiedElements(text, shouldCrop && cropLimit, omitLinkHref, openLink));
 }
 
-function getFormattedText(opts, text) {
+function formatText(opts, text) {
   let {
     useQuotes,
     escapeWhitespace
@@ -89,11 +107,18 @@ function getFormattedText(opts, text) {
   return text;
 }
 
-function getElementConfig(config) {
-  let {
+function getElementConfig(opts) {
+  const {
     className,
-    style
-  } = config;
+    style,
+    actor
+  } = opts;
+
+  const config = {};
+
+  if (actor) {
+    config["data-link-actor-id"] = actor;
+  }
 
   const classNames = ["objectBox", "objectBox-string"];
   if (className) {
@@ -101,8 +126,8 @@ function getElementConfig(config) {
   }
   config.className = classNames.join(" ");
 
-  if (!style) {
-    delete config.style;
+  if (style) {
+    config.style = style;
   }
 
   return config;
@@ -221,7 +246,15 @@ function getCroppedString(text, offset = 0, startCropIndex, endCropIndex) {
   return text;
 }
 
+function isLongString(object) {
+  return object.type === "longString";
+}
+
 function supportsObject(object, noGrip = false) {
+  if (noGrip === false && isGrip(object)) {
+    return isLongString(object);
+  }
+
   return getGripType(object, noGrip) == "string";
 }
 
@@ -229,8 +262,5 @@ function supportsObject(object, noGrip = false) {
 
 module.exports = {
   rep: wrapRender(StringRep),
-  supportsObject,
-  getElementConfig,
-  getFormattedText,
-  stringPropTypes
+  supportsObject
 };
