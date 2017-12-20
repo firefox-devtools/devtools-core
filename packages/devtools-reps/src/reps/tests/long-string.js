@@ -12,7 +12,7 @@ const {
   expectActorAttribute,
 } = require("./test-helpers");
 
-let { LongStringRep } = REPS;
+let { StringRep } = REPS;
 const stubs = require("../stubs/long-string");
 
 function quoteNewlines(text) {
@@ -23,12 +23,12 @@ describe("LongStringRep", () => {
   it("selects LongString Rep", () => {
     const stub = stubs.get("testMultiline");
 
-    expect(getRep(stub)).toEqual(LongStringRep.rep);
+    expect(getRep(stub)).toEqual(StringRep.rep);
   });
 
   it("renders with expected text content for multiline string", () => {
     const stub = stubs.get("testMultiline");
-    const renderedComponent = shallow(LongStringRep.rep({
+    const renderedComponent = shallow(StringRep.rep({
       object: stub
     }));
 
@@ -39,7 +39,7 @@ describe("LongStringRep", () => {
   it("renders with expected text content for multiline string with " +
     "specified number of characters", () => {
     const stub = stubs.get("testMultiline");
-    const renderedComponent = shallow(LongStringRep.rep({
+    const renderedComponent = shallow(StringRep.rep({
       object: stub,
       cropLimit: 20
     }));
@@ -49,7 +49,7 @@ describe("LongStringRep", () => {
 
   it("renders with expected text content for multiline string when open", () => {
     const stub = stubs.get("testMultiline");
-    const renderedComponent = shallow(LongStringRep.rep({
+    const renderedComponent = shallow(StringRep.rep({
       object: stub,
       member: {open: true},
       cropLimit: 20
@@ -62,7 +62,7 @@ describe("LongStringRep", () => {
   it("renders with expected text content when grip has a fullText" +
     "property and is open", () => {
     const stub = stubs.get("testFullText");
-    const renderedComponent = shallow(LongStringRep.rep({
+    const renderedComponent = shallow(StringRep.rep({
       object: stub,
       member: {open: true},
       cropLimit: 20
@@ -74,7 +74,7 @@ describe("LongStringRep", () => {
   it("renders with expected text content when grip has a fullText " +
     "property and is not open", () => {
     const stub = stubs.get("testFullText");
-    const renderedComponent = shallow(LongStringRep.rep({
+    const renderedComponent = shallow(StringRep.rep({
       object: stub,
       cropLimit: 20
     }));
@@ -84,7 +84,7 @@ describe("LongStringRep", () => {
 
   it("expected to omit quotes", () => {
     const stub = stubs.get("testMultiline");
-    const renderedComponent = shallow(LongStringRep.rep({
+    const renderedComponent = shallow(StringRep.rep({
       object: stub,
       cropLimit: 20,
       useQuotes: false
