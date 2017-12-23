@@ -109,33 +109,46 @@ const annonymousProperty = /([\w\d]+)\(\^\)$/;
 
 function getFunctionName(grip, props = {}) {
   let { functionName } = props;
-  let name =
-      grip.userDisplayName ||
-      grip.displayName ||
-      grip.name ||
-      props.functionName ||
-      "";
+  let name;
 
-  const scenarios = [
-    objectProperty,
-    arrayProperty,
-    functionProperty,
-    annonymousProperty
-  ];
-
-  if (grip.displayName != undefined && functionName != undefined &&
-    grip.displayName != functionName) {
-    name = functionName + ":" + grip.displayName;
+  if (functionName) {
+    let end = functionName.length - 1;
+    functionName =
+      functionName.startsWith('"') && functionName.endsWith('"')
+        ? functionName.substring(1, end)
+        : functionName;
   }
 
-  scenarios.some(reg => {
-    const match = reg.exec(name);
-    if (match) {
-      name = match[1];
-      return true;
-    }
-    return false;
-  });
+  if (
+    grip.displayName != undefined &&
+    functionName != undefined &&
+    grip.displayName != functionName
+  ) {
+    name = functionName + ":" + grip.displayName;
+  } else {
+    name =
+       grip.userDisplayName ||
+       grip.displayName ||
+       grip.name ||
+       props.functionName ||
+       "";
+
+    const scenarios = [
+      objectProperty,
+      arrayProperty,
+      functionProperty,
+      annonymousProperty
+    ];
+
+    scenarios.some(reg => {
+      const match = reg.exec(name);
+      if (match) {
+        name = match[1];
+        return true;
+      }
+      return false;
+    });
+  }
 
   return cropString(name, 100);
 }

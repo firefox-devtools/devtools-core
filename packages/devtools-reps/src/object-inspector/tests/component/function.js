@@ -36,7 +36,7 @@ describe("ObjectInspector - functions", () => {
     const nodes = oi.find(".node");
 
     const functionNode = nodes.last();
-    expect(functionNode.text()).toBe("testName()");
+    expect(functionNode.text()).toBe("fn:testName()");
   });
 
   it("renders anon function properties as expected", () => {
