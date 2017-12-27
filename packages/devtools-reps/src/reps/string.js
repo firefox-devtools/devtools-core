@@ -63,7 +63,7 @@ function StringRep(props) {
     text = sanitizeString(text);
   }
 
-  const shouldCrop = (!member || !member.open) && cropLimit;
+  const shouldCrop = (!member || !member.open) && cropLimit && text.length > cropLimit;
   if (!containsURL(text)) {
     if (shouldCrop) {
       text = rawCropString(text, cropLimit);
