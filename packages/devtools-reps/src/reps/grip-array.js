@@ -43,20 +43,36 @@ function GripArray(props) {
   if (mode === MODE.TINY) {
     let objectLength = getLength(object);
     let isEmpty = objectLength === 0;
-    if (isEmpty) {
-      items = [];
-    } else {
-      items = [span({
+    let ellipsis;
+    if (!isEmpty) {
+      ellipsis = span({
         className: "more-ellipsis",
         title: "more…"
-      }, "…")];
+      }, "…");
     }
+
+    let title = getTitle(props, object);
+
     brackets = needSpace(false);
-  } else {
-    let max = maxLengthMap.get(mode);
-    items = arrayIterator(props, object, max);
-    brackets = needSpace(items.length > 0);
+    return (
+      span({
+        "data-link-actor-id": object.actor,
+        className: "objectBox objectBox-array"},
+        title,
+        span({
+          className: "arrayLeftBracket",
+        }, brackets.left),
+        ellipsis,
+        span({
+          className: "arrayRightBracket",
+        }, brackets.right)
+      )
+    );
   }
+
+  let max = maxLengthMap.get(mode);
+  items = arrayIterator(props, object, max);
+  brackets = needSpace(items.length > 0);
 
   let title = getTitle(props, object);
 
@@ -127,23 +143,30 @@ const lengthComponent = wrapRender(GripArrayLength);
 function getTitle(props, object) {
   let objectLength = getLength(object);
   let isEmpty = objectLength === 0;
-
-  if (isEmpty && props.mode === MODE.TINY) {
-    return "";
-  }
-
-  let length = lengthComponent({ object });
   let space = " ";
 
-  if (props.mode === MODE.TINY) {
+  if (isEmpty && props.mode === MODE.TINY) {
+    if (object.class === "Array") {
+      return "";
+    }
+
+    let title = props.title || object.class;
+
     return span({
       className: "objectTitle"},
-      length,
+      title,
       space
     );
   }
 
   let title = props.title || object.class || "Array";
+
+  if (props.mode === MODE.TINY) {
+    title = object.class === "Array" ? "" : object.class;
+  }
+
+  let length = lengthComponent({ object });
+
   return span({
     className: "objectTitle"},
     title,
