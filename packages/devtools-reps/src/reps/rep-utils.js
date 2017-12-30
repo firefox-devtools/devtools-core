@@ -341,18 +341,13 @@ function getGripPreviewItems(grip) {
  * @return {boolean}
  */
 function getGripType(object, noGrip) {
-  let type = typeof object;
-  if (type == "object" && object instanceof String) {
-    type = "string";
-  } else if (object && type == "object" && object.type && noGrip !== true) {
-    type = object.type;
+  if (noGrip || Object(object) !== object) {
+    return typeof object;
   }
-
-  if (isGrip(object)) {
-    type = object.class;
+  if (object.type === "object") {
+    return object.class;
   }
-
-  return type;
+  return object.type;
 }
 
 /**

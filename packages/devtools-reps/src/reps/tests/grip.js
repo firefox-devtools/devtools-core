@@ -190,7 +190,8 @@ describe("Grip - ApplicationCache", () => {
 
     const longOutput = "OfflineResourceList { status: 0, onchecking: null, " +
       "onerror: null, onnoupdate: null, ondownloading: null, onprogress: null, " +
-      "onupdateready: null, oncached: null, onobsolete: null, mozItems: [] }";
+      "onupdateready: null, oncached: null, onobsolete: null, " +
+      "mozItems: DOMStringList [] }";
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 });

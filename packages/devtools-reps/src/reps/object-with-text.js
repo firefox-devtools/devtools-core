@@ -11,6 +11,8 @@ const {
   wrapRender,
 } = require("./rep-utils");
 
+const String = require("./string").rep;
+
 const dom = require("react-dom-factories");
 const { span } = dom;
 
@@ -24,11 +26,14 @@ ObjectWithText.propTypes = {
 function ObjectWithText(props) {
   let grip = props.object;
   return (
-    span({
-      "data-link-actor-id": grip.actor,
-      className: "objectBox objectBox-" + getType(grip)
-    },
-      span({className: "objectPropValue"}, getDescription(grip))
+    span(
+      {
+        "data-link-actor-id": grip.actor,
+        className: "objectTitle objectBox objectBox-" + getType(grip)
+      },
+      getType(grip),
+      " ",
+      getDescription(grip)
     )
   );
 }
@@ -38,7 +43,9 @@ function getType(grip) {
 }
 
 function getDescription(grip) {
-  return "\"" + grip.preview.text + "\"";
+  return String({
+    object: grip.preview.text,
+  });
 }
 
 // Registration

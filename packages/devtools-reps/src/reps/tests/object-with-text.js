@@ -15,8 +15,8 @@ const {
 const stubs = require("../stubs/object-with-text");
 const { ObjectWithText, Rep } = REPS;
 
-describe("Object with text", () => {
-  const gripStub = stubs.get("ObjectWithText");
+describe("Object with text - CSSStyleRule", () => {
+  const gripStub = stubs.get("ShadowRule");
 
   // Test that correct rep is chosen
   it("selects ObjectsWithText Rep", () => {
@@ -29,7 +29,28 @@ describe("Object with text", () => {
       object: gripStub
     }));
 
-    expect(renderedComponent.text()).toEqual("\".Shadow\"");
+    expect(renderedComponent.text()).toEqual("CSSStyleRule \".Shadow\"");
     expectActorAttribute(renderedComponent, gripStub.actor);
   });
 });
+
+describe("Object with text - CSSMediaRule", () => {
+  const gripStub = stubs.get("CSSMediaRule");
+
+  // Test that correct rep is chosen
+  it("selects ObjectsWithText Rep", () => {
+    expect(getRep(gripStub)).toEqual(ObjectWithText.rep);
+  });
+
+  // Test rendering
+  it("renders with the correct text content", () => {
+    const renderedComponent = shallow(Rep({
+      object: gripStub
+    }));
+
+    const text = `CSSMediaRule "(min-height: 680px), screen and (orientation: portrait)"`;
+    expect(renderedComponent.text()).toEqual(text);
+    expectActorAttribute(renderedComponent, gripStub.actor);
+  });
+});
+

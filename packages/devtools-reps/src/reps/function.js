@@ -11,12 +11,14 @@ const {
   isGrip,
   cropString,
   wrapRender,
-} = require("./rep-utils");
+ } = require("./rep-utils");
 const { MODE } = require("./constants");
 const Svg = require("../shared/images/Svg");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
+
+const IGNORED_SOURCE_URLS = ["debugger eval code"];
 
 /**
  * This component represents a template for Function objects.
@@ -34,7 +36,11 @@ function FunctionRep(props) {
   } = props;
 
   let jumpToDefinitionButton;
-  if (onViewSourceInDebugger && grip.location && grip.location.url) {
+  if (onViewSourceInDebugger &&
+    grip.location &&
+    grip.location.url &&
+    !IGNORED_SOURCE_URLS.includes(grip.location.url)
+  ) {
     jumpToDefinitionButton = Svg("jump-definition", {
       element: "a",
       draggable: false,
@@ -48,13 +54,13 @@ function FunctionRep(props) {
   }
 
   return (
-    span({
+   span({
       "data-link-actor-id": grip.actor,
       className: "objectBox objectBox-function",
       // Set dir="ltr" to prevent function parentheses from
       // appearing in the wrong direction
       dir: "ltr",
-    },
+   },
       getTitle(grip, props),
       getFunctionName(grip, props),
       "(",
@@ -75,13 +81,13 @@ function getTitle(grip, props) {
   }
 
   let title = mode === MODE.TINY
-    ? ""
-    : "function ";
+  ? ""
+  : "function ";
 
   if (grip.isGenerator) {
     title = mode === MODE.TINY
-      ? "* "
-      : "function* ";
+    ? "* "
+    : "function* ";
   }
 
   if (grip.isAsync) {
@@ -89,7 +95,7 @@ function getTitle(grip, props) {
   }
 
   return span({
-    className: "objectTitle",
+      className: "objectTitle",
   }, title);
 }
 
@@ -101,28 +107,48 @@ const arrayProperty = /\[(.*?)\]$/;
 const functionProperty = /([\w\d]+)[\/\.<]*?$/;
 const annonymousProperty = /([\w\d]+)\(\^\)$/;
 
-function getFunctionName(grip, props) {
-  let name = grip.userDisplayName
-    || grip.displayName
-    || grip.name
-    || props.functionName
-    || "";
+function getFunctionName(grip, props = {}) {
+  let { functionName } = props;
+  let name;
 
-  const scenarios = [
-    objectProperty,
-    arrayProperty,
-    functionProperty,
-    annonymousProperty
-  ];
+  if (functionName) {
+    let end = functionName.length - 1;
+    functionName =
+      functionName.startsWith('"') && functionName.endsWith('"')
+        ? functionName.substring(1, end)
+        : functionName;
+  }
 
-  scenarios.some(reg => {
-    const match = reg.exec(name);
-    if (match) {
-      name = match[1];
-      return true;
-    }
-    return false;
-  });
+  if (
+    grip.displayName != undefined &&
+    functionName != undefined &&
+    grip.displayName != functionName
+  ) {
+    name = functionName + ":" + grip.displayName;
+  } else {
+    name =
+       grip.userDisplayName ||
+       grip.displayName ||
+       grip.name ||
+       props.functionName ||
+       "";
+
+    const scenarios = [
+      objectProperty,
+      arrayProperty,
+      functionProperty,
+      annonymousProperty
+    ];
+
+    scenarios.some(reg => {
+      const match = reg.exec(name);
+      if (match) {
+        name = match[1];
+        return true;
+      }
+      return false;
+    });
+  }
 
   return cropString(name, 100);
 }

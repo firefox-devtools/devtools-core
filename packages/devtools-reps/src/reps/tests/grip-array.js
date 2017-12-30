@@ -289,7 +289,7 @@ describe("GripArray - NamedNodeMap", () => {
  [ class="myclass", cellpadding="7", border="3" ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`NamedNodeMap${length} […]`);
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -306,7 +306,7 @@ describe("GripArray - NodeList", () => {
  button#btn-2.btn.btn-err, button#btn-3.btn.btn-count ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`NodeList${length} […]`);
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -380,7 +380,7 @@ describe("GripArray - DocumentFragment", () => {
  li#li-3.list-element, li#li-4.list-element ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`DocumentFragment${length} […]`);
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
@@ -433,10 +433,7 @@ describe("GripArray - Set", () => {
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.TINY });
-    // FIXME: Tiny mode should render Set as "Set" and not "[…]".
-    // See LINKTOGITHUBISSUE
-    // FIXME: ^ add link to github issue
-    expect(component.text()).toBe(`${length} […]`);
+    expect(component.text()).toBe(`Set${length} […]`);
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.SHORT });
@@ -459,9 +456,7 @@ describe("GripArray - Set", () => {
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.TINY });
-    // FIXME: Tiny mode should render Set as "Set" and not "[…]".
-    // See LINKTOGITHUBISSUE
-    expect(component.text()).toBe(`${length} […]`);
+    expect(component.text()).toBe(`Set${length} […]`);
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.SHORT });
@@ -496,7 +491,7 @@ describe("GripArray - WeakSet", () => {
     component = renderRep({ mode: MODE.TINY });
     // FIXME: Tiny mode should render WeakSet as "WeakSet" and not "[…]".
     // See LINKTOGITHUBISSUE
-    expect(component.text()).toBe(`${length} […]`);
+    expect(component.text()).toBe(`WeakSet${length} […]`);
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.SHORT });
@@ -519,9 +514,7 @@ describe("GripArray - WeakSet", () => {
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.TINY });
-    // FIXME: Tiny mode should render WeakSet as "WeakSet" and not "[…]".
-    // See LINKTOGITHUBISSUE
-    expect(component.text()).toBe(`${length} […]`);
+    expect(component.text()).toBe(`WeakSet${length} […]`);
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.SHORT });
@@ -530,6 +523,35 @@ describe("GripArray - WeakSet", () => {
 
     component = renderRep({ mode: MODE.LONG });
     expect(component.text()).toBe(`WeakSet(12) [ ${"button, ".repeat(10)}… ]`);
+    expectActorAttribute(component, object.actor);
+  });
+});
+
+describe("GripArray - DOMTokenList", () => {
+  const object = stubs.get("DOMTokenList");
+
+  it("correctly selects GripArray Rep", () => {
+    expect(getRep(object)).toBe(GripArray.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "DOMTokenList []";
+
+    let component = renderRep({ mode: undefined });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.TINY });
+    expect(component.text()).toBe("DOMTokenList []");
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.SHORT });
+    expect(component.text()).toBe(defaultOutput);
+    expectActorAttribute(component, object.actor);
+
+    component = renderRep({ mode: MODE.LONG });
+    expect(component.text()).toBe(defaultOutput);
     expectActorAttribute(component, object.actor);
   });
 });
