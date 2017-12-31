@@ -27,7 +27,10 @@ function SymbolRep(props) {
   } = props;
   let {name} = object;
 
-  return span({className}, `Symbol(${name || ""})`);
+  return span({
+    className,
+    "data-link-actor-id": object.actor,
+  }, `Symbol(${name || ""})`);
 }
 
 function supportsObject(object, noGrip = false) {
