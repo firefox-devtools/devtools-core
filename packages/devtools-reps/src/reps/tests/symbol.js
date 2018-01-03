@@ -6,6 +6,7 @@ const { shallow } = require("enzyme");
 const { REPS } = require("../rep");
 const { Rep } = REPS;
 const stubs = require("../stubs/symbol");
+const { expectActorAttribute } = require("./test-helpers");
 
 describe("test Symbol", () => {
   const stub = stubs.get("Symbol");
@@ -16,6 +17,7 @@ describe("test Symbol", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("Symbol(foo)");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 });
 
@@ -28,5 +30,6 @@ describe("test Symbol without identifier", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("Symbol()");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 });

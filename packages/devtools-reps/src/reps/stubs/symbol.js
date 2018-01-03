@@ -5,11 +5,13 @@
 const stubs = new Map();
 stubs.set("Symbol", {
   type: "symbol",
+  actor: "server1.conn1.child1/symbol1",
   name: "foo"
 });
 
 stubs.set("SymbolWithoutIdentifier", {
-  type: "symbol"
+  type: "symbol",
+  actor: "server1.conn1.child1/symbol2",
 });
 
 module.exports = stubs;
