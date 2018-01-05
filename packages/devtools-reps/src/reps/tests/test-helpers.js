@@ -71,5 +71,5 @@ function getGripArrayLengthText(object) {
 module.exports = {
   expectActorAttribute,
   getSelectableInInspectorGrips,
-  getGripArrayLengthText
+  getGripArrayLengthText,
 };
