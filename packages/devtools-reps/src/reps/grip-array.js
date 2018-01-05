@@ -51,15 +51,13 @@ function GripArray(props) {
       }, "…");
     }
 
-    let title;
-    if (object.class != "Array") {
-      title = object.class + " ";
-    }
+    let title = getTitle(props, object);
+
     brackets = needSpace(false);
     return (
       span({
-        "data-link-actor-id": object.actor,
-        className: "objectBox objectBox-array"},
+          "data-link-actor-id": object.actor,
+          className: "objectBox objectBox-array"},
         title,
         span({
           className: "arrayLeftBracket",
@@ -71,6 +69,7 @@ function GripArray(props) {
       )
     );
   }
+
   let max = maxLengthMap.get(mode);
   items = arrayIterator(props, object, max);
   brackets = needSpace(items.length > 0);
@@ -79,8 +78,8 @@ function GripArray(props) {
 
   return (
     span({
-      "data-link-actor-id": object.actor,
-      className: "objectBox objectBox-array"},
+        "data-link-actor-id": object.actor,
+        className: "objectBox objectBox-array"},
       title,
       span({
         className: "arrayLeftBracket",
@@ -144,25 +143,32 @@ const lengthComponent = wrapRender(GripArrayLength);
 function getTitle(props, object) {
   let objectLength = getLength(object);
   let isEmpty = objectLength === 0;
-
-  if (isEmpty && props.mode === MODE.TINY) {
-    return "";
-  }
-
-  let length = lengthComponent({ object });
   let space = " ";
 
-  if (props.mode === MODE.TINY) {
+  if (isEmpty && props.mode === MODE.TINY) {
+    if (object.class === "Array") {
+      return "";
+    }
+
+    let title = props.title || object.class;
+
     return span({
-      className: "objectTitle"},
-      length,
+        className: "objectTitle"},
+      title,
       space
     );
   }
 
   let title = props.title || object.class || "Array";
+
+  if (props.mode === MODE.TINY) {
+    title = object.class === "Array" ? "" : object.class;
+  }
+
+  let length = lengthComponent({ object });
+
   return span({
-    className: "objectTitle"},
+      className: "objectTitle"},
     title,
     length,
     space
