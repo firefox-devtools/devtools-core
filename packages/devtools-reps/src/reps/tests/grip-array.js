@@ -302,8 +302,8 @@ describe("GripArray - NodeList", () => {
   const length = getGripArrayLengthText(object);
 
   it("renders as expected", () => {
-    const defaultOutput = `NodeList${length} [ button#btn-1.btn.btn-log,\
- button#btn-2.btn.btn-err, button#btn-3.btn.btn-count ]`;
+    const defaultOutput = `NodeList${length} [ button#btn-1.btn.btn-log, ` +
+      `button#btn-2.btn.btn-err, button#btn-3.btn.btn-count ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe(`NodeList${length} […]`);
@@ -373,15 +373,14 @@ describe("GripArray - DocumentFragment", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
     const length = getGripArrayLengthText(object);
 
-    const defaultOutput = `DocumentFragment${length} [ li#li-0.list-element,\
- li#li-1.list-element, li#li-2.list-element, … ]`;
-    const longOutput = `DocumentFragment${length} [\
- li#li-0.list-element, li#li-1.list-element, li#li-2.list-element,\
- li#li-3.list-element, li#li-4.list-element ]`;
+    const defaultOutput = `DocumentFragment${length} [ li#li-0.list-element, ` +
+      `li#li-1.list-element, li#li-2.list-element, … ]`;
+    const longOutput = `DocumentFragment${length} [ ` +
+      `li#li-0.list-element, li#li-1.list-element, li#li-2.list-element, ` +
+      `li#li-3.list-element, li#li-4.list-element ]`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("DocumentFragment […]");
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`DocumentFragment${length} […]`);
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
