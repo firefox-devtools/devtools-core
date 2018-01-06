@@ -262,5 +262,5 @@ function supportsObject(object, noGrip = false) {
 
 module.exports = {
   rep: wrapRender(StringRep),
-  supportsObject
+  supportsObject,
 };
