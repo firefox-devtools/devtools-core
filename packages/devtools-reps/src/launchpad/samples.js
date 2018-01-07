@@ -129,7 +129,9 @@ let samples = {
   string: [
     "'foo'",
     "'bar\nbaz\nyup'",
-    "'blah'.repeat(10000)"
+    "'http://example.com'",
+    "'blah'.repeat(10000)",
+    "'http://example.com '.repeat(1000)"
   ],
 
   symbol: [
