@@ -51,24 +51,14 @@ function StringRep(props) {
 
   let text = object;
 
-  const shouldCrop = (!member || !member.open) && cropLimit && text.length > cropLimit;
   const isLong = isLongString(object);
+  const shouldCrop = (!member || !member.open) && cropLimit && text.length > cropLimit;
 
-  if (isLong) {
-    const {
-      fullText,
-      initial,
-      length,
-    } = object;
-
-    text = shouldCrop
-      ? initial.substring(0, cropLimit)
-      : fullText || initial;
-
-    if (text.length < length) {
-      text += "\u2026";
-    }
-  }
+  text = maybeCropLongString({
+    isLong,
+    shouldCrop,
+    cropLimit
+  }, text);
 
   text = formatText({
     useQuotes,
@@ -82,14 +72,44 @@ function StringRep(props) {
   });
 
   if (!containsURL(text)) {
-    if (!isLong && shouldCrop) {
-      text = rawCropString(text, cropLimit);
-    }
+    text = maybeCropString({
+      isLong,
+      shouldCrop,
+      cropLimit
+    }, text);
     return span(config, text);
   }
 
   return span(config,
     ...getLinkifiedElements(text, shouldCrop && cropLimit, omitLinkHref, openLink));
+}
+
+function maybeCropLongString(opts, text) {
+  const {
+    isLong,
+    shouldCrop,
+    cropLimit
+  } = opts;
+
+  if (!isLong) {
+    return text;
+  }
+
+  const {
+    fullText,
+    initial,
+    length,
+  } = text;
+
+  text = shouldCrop
+    ? initial.substring(0, cropLimit)
+    : fullText || initial;
+
+  if (text.length < length) {
+    text += "\u2026";
+  }
+
+  return text;
 }
 
 function formatText(opts, text) {
@@ -98,13 +118,9 @@ function formatText(opts, text) {
     escapeWhitespace
   } = opts;
 
-  if (useQuotes) {
-    text = escapeString(text, escapeWhitespace);
-  } else {
-    text = sanitizeString(text);
-  }
-
-  return text;
+  return useQuotes
+    ? escapeString(text, escapeWhitespace)
+    : sanitizeString(text);
 }
 
 function getElementConfig(opts) {
@@ -131,6 +147,23 @@ function getElementConfig(opts) {
   }
 
   return config;
+}
+
+function maybeCropString(opts, text) {
+  const {
+    isLong,
+    shouldCrop,
+    cropLimit,
+  } = opts;
+
+  // Cropping of LongString has been handled before formatting.
+  if (isLong) {
+    return text;
+  }
+
+  return shouldCrop
+    ? rawCropString(text, cropLimit)
+    : text;
 }
 
 /**
