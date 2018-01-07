@@ -15,6 +15,7 @@ const classnames = require("classnames");
 const {
   REPS: {
     Rep,
+    StringRep,
     Grip,
   },
 } = require("../reps/rep");
@@ -428,12 +429,24 @@ class ObjectInspector extends Component {
     );
   }
 
+  getDefaultPropsByRep(object) {
+    if (StringRep.supportsObject(object)) {
+      return {
+        omitLinkHref: false
+      };
+    }
+
+    return {};
+  }
+
   renderGrip(
     item: Node,
     props: Props
   ) {
     const object = getValue(item);
-    return Rep(Object.assign({}, props, {
+    const repDefaults = this.getDefaultPropsByRep(object);
+
+    return Rep(Object.assign({}, repDefaults, props, {
       object,
       mode: props.mode || MODE.TINY,
       defaultRep: Grip,
