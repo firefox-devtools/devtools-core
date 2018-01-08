@@ -150,7 +150,6 @@ function getElementConfig(opts) {
 
 function maybeCropString(opts, text) {
   const {
-    isLong,
     shouldCrop,
     cropLimit,
   } = opts;
