@@ -54,11 +54,12 @@ function StringRep(props) {
   const isLong = isLongString(object);
   const shouldCrop = (!member || !member.open) && cropLimit && text.length > cropLimit;
 
-  text = maybeCropLongString({
-    isLong,
-    shouldCrop,
-    cropLimit
-  }, text);
+  if (isLong) {
+    text = maybeCropLongString({
+      shouldCrop,
+      cropLimit
+    }, text);
+  }
 
   text = formatText({
     useQuotes,
@@ -72,11 +73,14 @@ function StringRep(props) {
   });
 
   if (!containsURL(text)) {
-    text = maybeCropString({
-      isLong,
-      shouldCrop,
-      cropLimit
-    }, text);
+    // Cropping of longString has been handled before formatting.
+    if (!isLong) {
+      text = maybeCropString({
+        isLong,
+        shouldCrop,
+        cropLimit
+      }, text);
+    }
     return span(config, text);
   }
 
@@ -86,14 +90,9 @@ function StringRep(props) {
 
 function maybeCropLongString(opts, text) {
   const {
-    isLong,
     shouldCrop,
     cropLimit
   } = opts;
-
-  if (!isLong) {
-    return text;
-  }
 
   const {
     fullText,
@@ -106,7 +105,7 @@ function maybeCropLongString(opts, text) {
     : fullText || initial;
 
   if (text.length < length) {
-    text += "\u2026";
+    text += ELLIPSIS;
   }
 
   return text;
@@ -155,11 +154,6 @@ function maybeCropString(opts, text) {
     shouldCrop,
     cropLimit,
   } = opts;
-
-  // Cropping of LongString has been handled before formatting.
-  if (isLong) {
-    return text;
-  }
 
   return shouldCrop
     ? rawCropString(text, cropLimit)
