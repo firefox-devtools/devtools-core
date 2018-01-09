@@ -39,20 +39,8 @@ const {
   nodeIsPrototype,
   nodeIsSetter,
   nodeIsWindow,
-  shouldLoadItemEntries,
-  shouldLoadItemIndexedProperties,
-  shouldLoadItemNonIndexedProperties,
-  shouldLoadItemPrototype,
-  shouldLoadItemSymbols,
+  loadItemProperties,
 } = require("./utils/node");
-
-const {
-  enumEntries,
-  enumIndexedProperties,
-  enumNonIndexedProperties,
-  getPrototype,
-  enumSymbols,
-} = require("./utils/client");
 
 import type {
   CachedNodes,
@@ -244,68 +232,20 @@ class ObjectInspector extends Component {
     if (expand === true) {
       const gripItem = getClosestGripNode(item);
       const value = getValue(gripItem);
-
       const path = item.path;
-      const [start, end] = item.meta
-        ? [item.meta.startIndex, item.meta.endIndex]
-        : [];
 
-      let promises = [];
-      let objectClient;
-      const getObjectClient = () => {
-        if (objectClient) {
-          return objectClient;
-        }
-        return this.props.createObjectClient(value);
-      };
-
-      if (shouldLoadItemIndexedProperties(item, loadedProperties)) {
-        promises.push(enumIndexedProperties(getObjectClient(), start, end));
-      }
-
-      if (shouldLoadItemNonIndexedProperties(item, loadedProperties)) {
-        promises.push(enumNonIndexedProperties(getObjectClient(), start, end));
-      }
-
-      if (shouldLoadItemEntries(item, loadedProperties)) {
-        promises.push(enumEntries(getObjectClient(), start, end));
-      }
-
-      if (shouldLoadItemPrototype(item, loadedProperties)) {
-        promises.push(getPrototype(getObjectClient()));
-      }
-
-      if (shouldLoadItemSymbols(item, loadedProperties)) {
-        promises.push(enumSymbols(getObjectClient(), start, end));
-      }
-
-      if (promises.length > 0) {
-        // Set the loading state with the pending promises.
+      const onItemPropertiesLoaded = loadItemProperties(
+        item, this.props.createObjectClient, loadedProperties);
+      if (onItemPropertiesLoaded !== null) {
         this.setState((prevState, props) => {
           const nextLoading = new Map(prevState.loading);
-          nextLoading.set(path, promises);
+          nextLoading.set(path, onItemPropertiesLoaded);
           return {
             loading: nextLoading
           };
         });
 
-        const responses = await Promise.all(promises);
-
-        // Let's loop through the responses to build a single response object.
-        const response = responses.reduce((accumulator, res) => {
-          Object.entries(res).forEach(([k, v]) => {
-            if (accumulator.hasOwnProperty(k)) {
-              if (Array.isArray(accumulator[k])) {
-                accumulator[k].push(...v);
-              } else if (typeof accumulator[k] === "object") {
-                accumulator[k] = Object.assign({}, accumulator[k], v);
-              }
-            } else {
-              accumulator[k] = v;
-            }
-          });
-          return accumulator;
-        }, {});
+        const properties = await onItemPropertiesLoaded;
 
         this.setState((prevState, props) => {
           const nextLoading = new Map(prevState.loading);
@@ -320,7 +260,7 @@ class ObjectInspector extends Component {
             actors: isRoot
               ? prevState.actors
               : (new Set(prevState.actors)).add(value.actor),
-            loadedProperties: (new Map(prevState.loadedProperties)).set(path, response),
+            loadedProperties: (new Map(prevState.loadedProperties)).set(path, properties),
             loading: nextLoading,
           };
         });
