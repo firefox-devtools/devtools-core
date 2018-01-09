@@ -29,12 +29,21 @@ const NODE_TYPES = {
   PROTOTYPE: Symbol("__proto__"),
 };
 
+const {
+  enumEntries,
+  enumIndexedProperties,
+  enumNonIndexedProperties,
+  getPrototype,
+  enumSymbols,
+} = require("./client");
+
 import type {
   CachedNodes,
   GripProperties,
   LoadedProperties,
   Node,
   NodeContents,
+  ObjectClient,
   RdpGrip,
 } from "../types";
 
@@ -762,6 +771,69 @@ function getClosestNonBucketNode(item: Node) : Node | null {
   return getClosestNonBucketNode(parent);
 }
 
+function loadItemProperties(
+  item: Node,
+  createObjectClient: (RdpGrip | NodeContents) => ObjectClient,
+  loadedProperties: LoadedProperties
+) : Promise<Object> | null {
+  const [start, end] = item.meta
+    ? [item.meta.startIndex, item.meta.endIndex]
+    : [];
+
+  let objectClient;
+  const getObjectClient = () => {
+    if (objectClient) {
+      return objectClient;
+    }
+
+    const gripItem = getClosestGripNode(item);
+    const value = getValue(gripItem);
+    return createObjectClient(value);
+  };
+
+  let loadingPromises = [];
+  if (shouldLoadItemIndexedProperties(item, loadedProperties)) {
+    loadingPromises.push(enumIndexedProperties(getObjectClient(), start, end));
+  }
+
+  if (shouldLoadItemNonIndexedProperties(item, loadedProperties)) {
+    loadingPromises.push(enumNonIndexedProperties(getObjectClient(), start, end));
+  }
+
+  if (shouldLoadItemEntries(item, loadedProperties)) {
+    loadingPromises.push(enumEntries(getObjectClient(), start, end));
+  }
+
+  if (shouldLoadItemPrototype(item, loadedProperties)) {
+    loadingPromises.push(getPrototype(getObjectClient()));
+  }
+
+  if (shouldLoadItemSymbols(item, loadedProperties)) {
+    loadingPromises.push(enumSymbols(getObjectClient(), start, end));
+  }
+
+  if (loadingPromises.length === 0) {
+    return null;
+  }
+
+  return Promise.all(loadingPromises)
+    .then(responses => responses.reduce((accumulator, res) => {
+      // Let's loop through the responses to build a single response object.
+      Object.entries(res).forEach(([k, v]) => {
+        if (accumulator.hasOwnProperty(k)) {
+          if (Array.isArray(accumulator[k])) {
+            accumulator[k].push(...v);
+          } else if (typeof accumulator[k] === "object") {
+            accumulator[k] = Object.assign({}, accumulator[k], v);
+          }
+        } else {
+          accumulator[k] = v;
+        }
+      });
+      return accumulator;
+    }, {}));
+}
+
 function shouldLoadItemIndexedProperties(
   item: Node,
   loadedProperties: LoadedProperties = new Map()
@@ -878,6 +950,7 @@ module.exports = {
   nodeNeedsNumericalBuckets,
   nodeSupportsNumericalBucketing,
   setNodeChildren,
+  loadItemProperties,
   shouldLoadItemEntries,
   shouldLoadItemIndexedProperties,
   shouldLoadItemNonIndexedProperties,

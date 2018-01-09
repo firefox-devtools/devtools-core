@@ -111,7 +111,7 @@ describe("ObjectInspector - state", () => {
     // Once all the loading promises are resolved, the loading
     // state property should be cleaned up, and actors and loadedProperties
     // should have the expected values.
-    await Promise.all(state.loading.get("root-1"));
+    await state.loading.get("root-1");
 
     state = wrapper.state();
     expect(state.loading.has("root-1")).toBeFalsy();
@@ -131,7 +131,7 @@ describe("ObjectInspector - state", () => {
     // Once all the loading promises are resolved, the loading
     // state property should be cleaned up, and actors and loadedProperties
     // should have the expected values.
-    await Promise.all(state.loading.get("root-1/__proto__"));
+    await state.loading.get("root-1/__proto__");
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     state = wrapper.state();
 
@@ -168,7 +168,7 @@ describe("ObjectInspector - state", () => {
     // Once all the loading promises are resolved, the loading
     // state property should be cleaned up, and actors and loadedProperties
     // should have the expected values.
-    await Promise.all(state.loading.get("root-2"));
+    await state.loading.get("root-2");
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     state = wrapper.state();
@@ -187,7 +187,7 @@ describe("ObjectInspector - state", () => {
     // Once all the loading promises are resolved, the loading
     // state property should be cleaned up, and actors and loadedProperties
     // should have the expected values.
-    await Promise.all(state.loading.get("root-2/__proto__"));
+    await state.loading.get("root-2/__proto__");
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     state = wrapper.state();
 
