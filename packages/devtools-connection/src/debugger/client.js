@@ -1837,6 +1837,10 @@ ThreadClient.prototype = {
    *        An object with a type property set to the appropriate limit (next,
    *        step, or finish) per the remote debugging protocol specification.
    *        Use null to specify no limit.
+   * @param bool aRewind
+   *        Whether execution should rewind until the limit is reached, rather
+   *        than proceeding forwards. This parameter has no effect if the
+   *        server does not support rewinding.
    * @param function aOnResponse
    *        Called with the response packet.
    */
@@ -1844,6 +1848,7 @@ ThreadClient.prototype = {
     {
       type: "resume",
       resumeLimit: args(0),
+      rewind: args(1)
     },
     {
       before: function(aPacket) {
@@ -1897,7 +1902,7 @@ ThreadClient.prototype = {
    * Resume a paused thread.
    */
   resume: function(aOnResponse) {
-    return this._doResume(null, aOnResponse);
+    return this._doResume(null, false, aOnResponse);
   },
 
   /**
@@ -1907,7 +1912,17 @@ ThreadClient.prototype = {
    *        Called with the response packet.
    */
   resumeThenPause: function(aOnResponse) {
-    return this._doResume({ type: "break" }, aOnResponse);
+    return this._doResume({ type: "break" }, false, aOnResponse);
+  },
+
+  /**
+   * Rewind a thread.
+   *
+   * @param function aOnResponse
+   *        Called with the response packet.
+   */
+  rewind: function(aOnResponse) {
+    this._doResume(null, true, aOnResponse);
   },
 
   /**
@@ -1917,7 +1932,7 @@ ThreadClient.prototype = {
    *        Called with the response packet.
    */
   stepOver: function(aOnResponse) {
-    return this._doResume({ type: "next" }, aOnResponse);
+    return this._doResume({ type: "next" }, false, aOnResponse);
   },
 
   /**
@@ -1927,7 +1942,7 @@ ThreadClient.prototype = {
    *        Called with the response packet.
    */
   stepIn: function(aOnResponse) {
-    return this._doResume({ type: "step" }, aOnResponse);
+    return this._doResume({ type: "step" }, false, aOnResponse);
   },
 
   /**
@@ -1937,7 +1952,37 @@ ThreadClient.prototype = {
    *        Called with the response packet.
    */
   stepOut: function(aOnResponse) {
-    return this._doResume({ type: "finish" }, aOnResponse);
+    return this._doResume({ type: "finish" }, false, aOnResponse);
+  },
+
+  /**
+   * Rewind step over a function call.
+   *
+   * @param function aOnResponse
+   *        Called with the response packet.
+   */
+  reverseStepOver: function (aOnResponse) {
+    return this._doResume({ type: "next" }, true, aOnResponse);
+  },
+
+  /**
+   * Rewind step into a function call.
+   *
+   * @param function aOnResponse
+   *        Called with the response packet.
+   */
+  reverseStepIn: function (aOnResponse) {
+    return this._doResume({ type: "step" }, true, aOnResponse);
+  },
+
+  /**
+   * Rewind step out of a function call.
+   *
+   * @param function aOnResponse
+   *        Called with the response packet.
+   */
+  reverseStepOut: function (aOnResponse) {
+    return this._doResume({ type: "finish" }, true, aOnResponse);
   },
 
   /**
