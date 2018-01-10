@@ -28,7 +28,7 @@ storiesOf("Tree", module)
   .add("Multiple root tree", () => {
     return renderTree({
       autoExpandDepth: Infinity,
-      getRoots: () => ["A", "W"],
+      getRoots: () => ["A", "P", "M", "Q", "W", "R"],
     });
   })
   .add("focused node", () => {
@@ -133,6 +133,13 @@ storiesOf("Tree", module)
 // M
 // `-- N
 //     `-- O
+// P
+// Q
+// R
+// W
+// `-- X
+//     `-- Z
+// `-- Y
 const TEST_TREE = {
   children: {
     A: ["B", "C", "D"],
@@ -150,6 +157,9 @@ const TEST_TREE = {
     M: ["N"],
     N: ["O"],
     O: [],
+    P: [],
+    Q: [],
+    R: [],
     W: ["X", "Y"],
     X: ["Z"],
     Y: [],
@@ -171,6 +181,9 @@ const TEST_TREE = {
     M: null,
     N: "M",
     O: "N",
+    P: null,
+    Q: null,
+    R: null,
     W: null,
     X: "W",
     Y: "W",
