@@ -1,6 +1,6 @@
 {
   "name": "devtools-license-check",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Verify licenses for inclusion in Mozilla DevTools",
   "repository": "github:devtools-html/devtools-core",
   "scripts": {
