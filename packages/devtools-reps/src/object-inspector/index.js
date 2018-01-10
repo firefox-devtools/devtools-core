@@ -22,6 +22,8 @@ const {
   MODE,
 } = require("../reps/constants");
 
+const Utils = require("./utils");
+
 const {
   getChildren,
   getClosestGripNode,
@@ -39,8 +41,11 @@ const {
   nodeIsPrototype,
   nodeIsSetter,
   nodeIsWindow,
+} = Utils.node;
+
+const {
   loadItemProperties,
-} = require("./utils/node");
+} = Utils.loadProperties;
 
 import type {
   CachedNodes,
