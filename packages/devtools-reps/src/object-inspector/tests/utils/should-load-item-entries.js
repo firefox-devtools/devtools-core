@@ -2,12 +2,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const Utils = require("../../utils");
 const {
   createNode,
   getChildren,
   makeNodesForEntries,
+} = Utils.node;
+
+const {
   shouldLoadItemEntries,
-} = require("../../utils/node");
+} = Utils.loadProperties;
 
 const gripMapStubs = require("../../../reps/stubs/grip-map");
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
