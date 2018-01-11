@@ -977,4 +977,22 @@ stubs.set(`{test: "http://example.com/ some other text"}`, {
   }
 });
 
+stubs.set("Generator", {
+  "type": "object",
+  "actor": "server1.conn2.child1/obj33",
+  "class": "Generator",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "Object",
+    "ownProperties": {},
+    "ownSymbols": [],
+    "ownPropertiesLength": 0,
+    "ownSymbolsLength": 0,
+    "safeGetterValues": {}
+  }
+});
+
 module.exports = stubs;
