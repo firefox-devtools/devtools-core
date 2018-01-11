@@ -553,3 +553,22 @@ describe("Grip - Without preview", () => {
   });
 });
 
+describe("Grip - Generator object", () => {
+  // Test object:
+  // `function* genFunc() { var a = 5; while (a < 10) { yield a++; } }; genFunc();`
+  const object = stubs.get("Generator");
+
+  it("correctly selects Grip Rep", () => {
+    expect(getRep(object)).toBe(Grip.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallowRenderRep(object, props);
+    const defaultOutput = "Generator {  }";
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Generator");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+  });
+});
