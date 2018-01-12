@@ -4,7 +4,7 @@
 
 const { shallow } = require("enzyme");
 
-const { lengthComponent } = require("../grip-array");
+const { lengthBubble } = require("../grip-array");
 const { getGripPreviewItems } = require("../rep-utils");
 const nodeConstants = require("../../shared/dom-node-constants");
 
@@ -62,7 +62,7 @@ function expectActorAttribute(wrapper, expectedValue) {
 }
 
 function getGripArrayLengthText(object) {
-  const component = lengthComponent({ object });
+  const component = lengthBubble({ object });
   return component
     ? shallow(component).text()
     : "";
