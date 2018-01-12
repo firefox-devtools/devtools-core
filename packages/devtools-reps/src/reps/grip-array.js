@@ -14,6 +14,8 @@ const { MODE } = require("./constants");
 const dom = require("react-dom-factories");
 const { span } = dom;
 
+const modePropType = PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key]));
+
 /**
  * Renders an array. The array is enclosed by left and right bracket
  * and the max number of rendered items depends on the current mode.
@@ -21,7 +23,7 @@ const { span } = dom;
 GripArray.propTypes = {
   object: PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  mode: modePropType,
   provider: PropTypes.object,
   onDOMNodeMouseOver: PropTypes.func,
   onDOMNodeMouseOut: PropTypes.func,
@@ -113,19 +115,29 @@ function getLength(grip) {
   return grip.preview.length || grip.preview.childNodesLength || 0;
 }
 
-GripArrayLength.propTypes = {
-  object: PropTypes.object.isRequired
+GripArrayLengthBubble.propTypes = {
+  object: PropTypes.object.isRequired,
+  mode: modePropType,
+  maxLengthByMode: PropTypes.instanceOf(Map),
+  visibilityThreshold: PropTypes.number
 };
 
-function GripArrayLength(props) {
-  let {
-    object
+function GripArrayLengthBubble(props) {
+  const {
+    object,
+    mode = MODE.SHORT,
+    maxLengthByMode = maxLengthMap,
+    visibilityThreshold = 5
   } = props;
-  let objectLength = getLength(object);
-  let isEmpty = objectLength === 0;
 
-  if (isEmpty) {
-    return null;
+  const objectLength = getLength(object);
+  const isEmpty = objectLength === 0;
+  const isObvious = [MODE.SHORT, MODE.LONG].includes(mode) &&
+    objectLength <= maxLengthByMode.get(mode) &&
+    objectLength <= visibilityThreshold;
+
+  if (isEmpty || isObvious) {
+    return "";
   }
 
   return span(
@@ -138,7 +150,7 @@ function GripArrayLength(props) {
   );
 }
 
-const lengthComponent = wrapRender(GripArrayLength);
+const lengthBubble = wrapRender(GripArrayLengthBubble);
 
 function getTitle(props, object) {
   let objectLength = getLength(object);
@@ -165,7 +177,10 @@ function getTitle(props, object) {
     title = object.class === "Array" ? "" : object.class;
   }
 
-  let length = lengthComponent({ object });
+  const length = lengthBubble({
+    object,
+    mode: props.mode,
+  });
 
   return span({
       className: "objectTitle"},
@@ -276,7 +291,7 @@ maxLengthMap.set(MODE.LONG, 10);
 // Exports from this module
 module.exports = {
   rep: wrapRender(GripArray),
-  lengthComponent,
+  lengthBubble,
   supportsObject,
   maxLengthMap,
   getLength,
