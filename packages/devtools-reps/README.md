@@ -116,8 +116,8 @@ git log --before "2017-1-17" devtools/client/shared/components/reps
 
 ## Publishing to `mozilla-central`
 
-See https://github.com/devtools-html/reps/blob/master/RELEASE.md
+See [the release procedure documentation](./RELEASE.md)
 
 ## License
 
-[MPL 2](https://github.com/devtools-html/reps/blob/master/LICENSE)
+[MPL 2](./LICENSE)
