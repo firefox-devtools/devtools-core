@@ -41,14 +41,15 @@ Supported types:
 You need to clone the repository, then install dependencies, for which you'll need the [Yarn](https://yarnpkg.com/en/) tool:
 
 ```
-git clone https://github.com/devtools-html/reps.git
-cd reps
+git clone https://github.com/devtools-html/devtools-core.git
+cd devtools-core
 yarn install
 ```
 
 Once everything is installed, you can start the development server with:
 
 ```bash
+cd packages/devtools-reps/
 yarn start
 ```
 
