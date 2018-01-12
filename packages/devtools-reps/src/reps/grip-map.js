@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
+
 const PropTypes = require("prop-types");
 const {
   isGrip,
@@ -10,6 +11,8 @@ const {
 } = require("./rep-utils");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
+const { ModePropType } = require("./array");
+const { lengthBubble } = require("./grip-array");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
@@ -21,7 +24,7 @@ const { span } = dom;
 GripMap.propTypes = {
   object: PropTypes.object,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  mode: ModePropType,
   isInterestingEntry: PropTypes.func,
   onDOMNodeMouseOver: PropTypes.func,
   onDOMNodeMouseOut: PropTypes.func,
@@ -63,10 +66,16 @@ function GripMap(props) {
 }
 
 function getTitle(props, object) {
-  let title = props.title || (object && object.class ? object.class : "Map");
+  const title = props.title || (object && object.class ? object.class : "Map");
   return span({
-    className: "objectTitle",
-  }, title);
+      className: "objectTitle"},
+    title,
+    lengthBubble({
+      length: getLength(object),
+      mode: props.mode,
+      maxLengthByMode: maxLengthMap
+    })
+  );
 }
 
 function safeEntriesIterator(props, object, max) {
