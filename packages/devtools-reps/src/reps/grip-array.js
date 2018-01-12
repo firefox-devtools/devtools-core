@@ -116,7 +116,7 @@ function getLength(grip) {
 }
 
 GripArrayLengthBubble.propTypes = {
-  object: PropTypes.object.isRequired,
+  length: PropTypes.number.isRequired,
   mode: modePropType,
   maxLengthByMode: PropTypes.instanceOf(Map),
   visibilityThreshold: PropTypes.number
@@ -124,17 +124,16 @@ GripArrayLengthBubble.propTypes = {
 
 function GripArrayLengthBubble(props) {
   const {
-    object,
+    length,
     mode = MODE.SHORT,
     maxLengthByMode = maxLengthMap,
     visibilityThreshold = 5
   } = props;
 
-  const objectLength = getLength(object);
-  const isEmpty = objectLength === 0;
+  const isEmpty = length === 0;
   const isObvious = [MODE.SHORT, MODE.LONG].includes(mode) &&
-    objectLength <= maxLengthByMode.get(mode) &&
-    objectLength <= visibilityThreshold;
+    length <= maxLengthByMode.get(mode) &&
+    length <= visibilityThreshold;
 
   if (isEmpty || isObvious) {
     return "";
@@ -145,7 +144,7 @@ function GripArrayLengthBubble(props) {
     "(",
     span({
       className: "arrayLength"
-    }, objectLength),
+    }, length),
     ")"
   );
 }
@@ -178,8 +177,8 @@ function getTitle(props, object) {
   }
 
   const length = lengthBubble({
-    object,
-    mode: props.mode,
+    length: objectLength,
+    mode: props.mode
   });
 
   return span({
