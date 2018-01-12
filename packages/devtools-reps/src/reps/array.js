@@ -150,4 +150,5 @@ module.exports = {
   supportsObject,
   maxLengthMap,
   getLength,
+  ModePropType,
 };

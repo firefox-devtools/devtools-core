@@ -13,8 +13,7 @@ const { MODE } = require("./constants");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
-
-const modePropType = PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key]));
+const { ModePropType } = require("./array");
 
 /**
  * Renders an array. The array is enclosed by left and right bracket
@@ -23,7 +22,7 @@ const modePropType = PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key]));
 GripArray.propTypes = {
   object: PropTypes.object.isRequired,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
-  mode: modePropType,
+  mode: ModePropType,
   provider: PropTypes.object,
   onDOMNodeMouseOver: PropTypes.func,
   onDOMNodeMouseOut: PropTypes.func,
@@ -117,7 +116,7 @@ function getLength(grip) {
 
 GripArrayLengthBubble.propTypes = {
   length: PropTypes.number.isRequired,
-  mode: modePropType,
+  mode: ModePropType,
   maxLengthByMode: PropTypes.instanceOf(Map),
   visibilityThreshold: PropTypes.number
 };
