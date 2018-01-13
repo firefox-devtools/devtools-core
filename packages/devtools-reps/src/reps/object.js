@@ -6,6 +6,7 @@
 const PropTypes = require("prop-types");
 const {
   wrapRender,
+  getMoreEllipsisElement,
 } = require("./rep-utils");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
@@ -40,11 +41,7 @@ function ObjectRep(props) {
           className: "objectLeftBrace",
         }, "{"),
         propsArray.length > 0
-          ? span({
-            key: "more",
-            className: "more-ellipsis",
-            title: "more…"
-          }, "…")
+          ? getMoreEllipsisElement()
           : null,
         span({
           className: "objectRightBrace",
@@ -157,11 +154,7 @@ function propIterator(props, object, max) {
   }
 
   if (propertiesNumber < propertiesNames.length) {
-    elements.push(span({
-      key: "more",
-      className: "more-ellipsis",
-      title: ", more…"
-    }, "…"));
+    elements.push(getMoreEllipsisElement());
   }
 
   return elements;

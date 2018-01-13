@@ -8,6 +8,7 @@ const PropTypes = require("prop-types");
 const {
   isGrip,
   wrapRender,
+  getMoreEllipsisElement,
 } = require("./rep-utils");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
@@ -50,7 +51,7 @@ function GripMap(props) {
     rightBrace = "}";
   }
 
-  let propsArray = safeEntriesIterator(props, object, maxLengthMap.get(mode));
+  const propsArray = safeEntriesIterator(props, object, maxLengthMap.get(mode));
 
   return (
     span(config,
@@ -58,7 +59,7 @@ function GripMap(props) {
       span({
         className: "objectLeftBrace",
       }, leftBrace),
-      ...propsArray,
+      mode === MODE.TINY ? getMoreEllipsisElement() : propsArray,
       span({
         className: "objectRightBrace",
       }, rightBrace)
@@ -116,22 +117,13 @@ function entriesIterator(props, object, max) {
   let entries = getEntries(props, mapEntries, indexes);
   if (entries.length < getLength(object)) {
     // There are some undisplayed entries. Then display "…".
-    entries.push(span({
-      key: "more",
-      className: "more-ellipsis",
-      title: "more…"
-    }, "…"));
+    entries.push(getMoreEllipsisElement());
   }
 
   return unfoldEntries(entries, props.mode);
 }
 
-function unfoldEntries(items, mode) {
-  if (mode === MODE.TINY) {
-    // Just show ellipsis.
-    return [items[items.length - 1]];
-  }
-
+function unfoldEntries(items) {
   return items.reduce((res, item, index) => {
     if (Array.isArray(item)) {
       res = res.concat(item);
