@@ -149,10 +149,14 @@
 }
 
 /******************************************************************************/
-/* Array Length */
+/* Array Length Bubble */
 
-.arrayLength {
-  color: var(--number-color);
+.arrayLengthBubble {
+  background: var(--number-color);
+  border-radius: 9px;
+  color: white;
+  padding: 0 0.5em;
+  font-size: 0.813em;
 }
 
 /******************************************************************************/
