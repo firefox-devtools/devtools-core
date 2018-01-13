@@ -8,6 +8,7 @@ const {
   getGripType,
   isGrip,
   wrapRender,
+  getMoreEllipsisElement
 } = require("./rep-utils");
 const { MODE } = require("./constants");
 
@@ -42,28 +43,18 @@ function GripArray(props) {
   };
 
   if (mode === MODE.TINY) {
-    let objectLength = getLength(object);
-    let isEmpty = objectLength === 0;
-    let ellipsis;
-    if (!isEmpty) {
-      ellipsis = span({
-        className: "more-ellipsis",
-        title: "more…"
-      }, "…");
-    }
-
-    let title = getTitle(props, object);
-
+    const isEmpty = getLength(object) === 0;
     brackets = needSpace(false);
+
     return (
       span({
           "data-link-actor-id": object.actor,
           className: "objectBox objectBox-array"},
-        title,
+        getTitle(props, object),
         span({
           className: "arrayLeftBracket",
         }, brackets.left),
-        ellipsis,
+        isEmpty ? null : getMoreEllipsisElement(),
         span({
           className: "arrayRightBracket",
         }, brackets.right)
@@ -75,13 +66,11 @@ function GripArray(props) {
   items = arrayIterator(props, object, max);
   brackets = needSpace(items.length > 0);
 
-  let title = getTitle(props, object);
-
   return (
     span({
         "data-link-actor-id": object.actor,
         className: "objectBox objectBox-array"},
-      title,
+      getTitle(props, object),
       span({
         className: "arrayLeftBracket",
       }, brackets.left),
@@ -251,10 +240,7 @@ function arrayIterator(props, grip, max) {
 
   const itemsShown = (items.length + foldedEmptySlots);
   if (gripLength > itemsShown) {
-    items.push(span({
-      className: "more-ellipsis",
-      title: "more…"
-    }, "…"));
+    items.push(getMoreEllipsisElement());
   }
 
   return items;
@@ -288,4 +274,5 @@ module.exports = {
   supportsObject,
   maxLengthMap,
   getLength,
+  getMoreEllipsisElement,
 };
