@@ -43,10 +43,11 @@ function GripMap(props) {
     className: "objectBox objectBox-object",
   };
 
+  let leftBrace = " { ";
+  let rightBrace = " }";
   if (mode === MODE.TINY) {
-    return (
-      span(config, getTitle(props, object))
-    );
+    leftBrace = " {";
+    rightBrace = "}";
   }
 
   let propsArray = safeEntriesIterator(props, object, maxLengthMap.get(mode));
@@ -56,11 +57,11 @@ function GripMap(props) {
       getTitle(props, object),
       span({
         className: "objectLeftBrace",
-      }, " { "),
+      }, leftBrace),
       ...propsArray,
       span({
         className: "objectRightBrace",
-      }, " }")
+      }, rightBrace)
     )
   );
 }
@@ -70,6 +71,7 @@ function getTitle(props, object) {
   return span({
       className: "objectTitle"},
     title,
+    " ",
     lengthBubble({
       length: getLength(object),
       mode: props.mode,
@@ -121,10 +123,15 @@ function entriesIterator(props, object, max) {
     }, "…"));
   }
 
-  return unfoldEntries(entries);
+  return unfoldEntries(entries, props.mode);
 }
 
-function unfoldEntries(items) {
+function unfoldEntries(items, mode) {
+  if (mode === MODE.TINY) {
+    // Just show ellipsis.
+    return [items[items.length - 1]];
+  }
+
   return items.reduce((res, item, index) => {
     if (Array.isArray(item)) {
       res = res.concat(item);
