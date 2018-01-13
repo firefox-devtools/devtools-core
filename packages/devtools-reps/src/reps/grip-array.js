@@ -138,14 +138,9 @@ function GripArrayLengthBubble(props) {
     return "";
   }
 
-  return span(
-    {},
-    "(",
-    span({
-      className: "arrayLength"
-    }, length),
-    ")"
-  );
+  return span({
+    className: "arrayLengthBubble"
+  }, length);
 }
 
 const lengthBubble = wrapRender(GripArrayLengthBubble);
@@ -153,7 +148,6 @@ const lengthBubble = wrapRender(GripArrayLengthBubble);
 function getTitle(props, object) {
   let objectLength = getLength(object);
   let isEmpty = objectLength === 0;
-  let space = " ";
 
   if (isEmpty && props.mode === MODE.TINY) {
     if (object.class === "Array") {
@@ -165,7 +159,7 @@ function getTitle(props, object) {
     return span({
         className: "objectTitle"},
       title,
-      space
+      " "
     );
   }
 
@@ -183,8 +177,9 @@ function getTitle(props, object) {
   return span({
       className: "objectTitle"},
     title,
+    " ",
     length,
-    space
+    " "
   );
 }
 
