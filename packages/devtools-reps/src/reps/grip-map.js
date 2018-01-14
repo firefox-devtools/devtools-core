@@ -51,7 +51,9 @@ function GripMap(props) {
     rightBrace = "}";
   }
 
-  const propsArray = safeEntriesIterator(props, object, maxLengthMap.get(mode));
+  const propsArray = mode === MODE.TINY
+    ? [getMoreEllipsisElement()]
+    : safeEntriesIterator(props, object, maxLengthMap.get(mode));
 
   return (
     span(config,
@@ -59,7 +61,7 @@ function GripMap(props) {
       span({
         className: "objectLeftBrace",
       }, leftBrace),
-      mode === MODE.TINY ? getMoreEllipsisElement() : propsArray,
+      ...propsArray,
       span({
         className: "objectRightBrace",
       }, rightBrace)
