@@ -103,14 +103,14 @@ function getLength(grip) {
   return grip.preview.length || grip.preview.childNodesLength || 0;
 }
 
-GripArrayLengthBubble.propTypes = {
+GripLengthBubble.propTypes = {
   length: PropTypes.number.isRequired,
   mode: ModePropType,
   maxLengthByMode: PropTypes.instanceOf(Map),
   visibilityThreshold: PropTypes.number
 };
 
-function GripArrayLengthBubble(props) {
+function GripLengthBubble(props) {
   const {
     length,
     mode = MODE.SHORT,
@@ -128,11 +128,11 @@ function GripArrayLengthBubble(props) {
   }
 
   return span({
-    className: "arrayLengthBubble"
+    className: "objectLengthBubble"
   }, length);
 }
 
-const lengthBubble = wrapRender(GripArrayLengthBubble);
+const lengthBubble = wrapRender(GripLengthBubble);
 
 function getTitle(props, object) {
   let objectLength = getLength(object);
