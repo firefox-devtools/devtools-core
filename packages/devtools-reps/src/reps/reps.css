@@ -149,13 +149,13 @@
 }
 
 /******************************************************************************/
-/* Array Length Bubble */
+/* Object Length Bubble */
 
-.arrayLengthBubble {
-  background: var(--number-color);
+.objectLengthBubble {
+  border: 1px solid var(--number-color);
   border-radius: 9px;
-  color: white;
-  padding: 0 0.5em;
+  color: var(--number-color);
+  padding: 0 0.438em;
   font-size: 0.813em;
 }
 
