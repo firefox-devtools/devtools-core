@@ -162,8 +162,15 @@ class ObjectInspector extends Component {
       expandedPaths,
       loadedProperties
     } = this.state;
-    return this.props.roots !== nextProps.roots
-      || expandedPaths.size !== nextState.expandedPaths.size
+
+    if (this.props.roots !== nextProps.roots) {
+      // Since the roots changed, we assume the properties did as well. Thus we can clear
+      // the cachedNodes to avoid bugs and memory leaks.
+      this.cachedNodes.clear();
+      return true;
+    }
+
+    return expandedPaths.size !== nextState.expandedPaths.size
       || loadedProperties.size !== nextState.loadedProperties.size
       || [...expandedPaths].some(key => !nextState.expandedPaths.has(key));
   }
