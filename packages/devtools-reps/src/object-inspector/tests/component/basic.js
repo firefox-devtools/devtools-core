@@ -261,4 +261,40 @@ describe("ObjectInspector - renders", () => {
     }]});
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
+
+  it("updates when the root changes but has same path", () => {
+    let oi = mount(ObjectInspector(generateDefaults({
+      roots: [{
+        path: "root",
+        name: "root",
+        contents: [{
+          name: "a",
+          contents: {
+            value: 30,
+          }
+        }, {
+          name: "b",
+          contents: {
+            value: 32,
+          }
+        }]
+      }],
+      mode: MODE.LONG,
+    })));
+    oi.find(".node").at(0).simulate("click");
+
+    const oldTree = formatObjectInspector(oi);
+    oi.setProps({roots: [{
+        path: "root",
+        name: "root",
+        contents: [{
+          name: "c",
+          contents: {
+            value: "i'm the new node",
+          }
+        }]
+    }]});
+
+    expect(formatObjectInspector(oi)).not.toBe(oldTree);
+  });
 });
