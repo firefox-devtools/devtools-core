@@ -44,27 +44,37 @@ function GripMap(props) {
     className: "objectBox objectBox-object",
   };
 
-  let leftBrace = " { ";
-  let rightBrace = " }";
-  if (mode === MODE.TINY) {
-    leftBrace = " {";
-    rightBrace = "}";
+  const title = getTitle(props, object);
+  const isEmpty = getLength(object) === 0;
+
+  if (isEmpty) {
+    return span(config,
+        title,
+        span({
+          className: "objectLeftBrace",
+        }, " {"),
+        span({
+          className: "objectRightBrace",
+        }, "}")
+    );
   }
 
-  const propsArray = mode === MODE.TINY
-    ? [getMoreEllipsisElement()]
-    : safeEntriesIterator(props, object, maxLengthMap.get(mode));
+  if (mode === MODE.TINY) {
+    return span(config, title);
+  }
+
+  const propsArray = safeEntriesIterator(props, object, maxLengthMap.get(mode));
 
   return (
     span(config,
-      getTitle(props, object),
+      title,
       span({
         className: "objectLeftBrace",
-      }, leftBrace),
+      }, " { "),
       ...propsArray,
       span({
         className: "objectRightBrace",
-      }, rightBrace)
+      }, " }")
     )
   );
 }
