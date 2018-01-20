@@ -129,7 +129,7 @@ function GripLengthBubble(props) {
 
   return span({
     className: "objectLengthBubble"
-  }, length);
+  }, `(${length})`);
 }
 
 const lengthBubble = wrapRender(GripLengthBubble);
@@ -166,7 +166,6 @@ function getTitle(props, object) {
   return span({
       className: "objectTitle"},
     title,
-    " ",
     length,
     " "
   );

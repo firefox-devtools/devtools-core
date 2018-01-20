@@ -149,14 +149,10 @@
 }
 
 /******************************************************************************/
-/* Object Length Bubble */
+/* Length bubble for arraylikes and maplikes */
 
 .objectLengthBubble {
-  border: 1px solid var(--number-color);
-  border-radius: 9px;
-  color: var(--number-color);
-  padding: 0 0.438em;
-  font-size: 0.813em;
+  color: var(--null-color);
 }
 
 /******************************************************************************/
