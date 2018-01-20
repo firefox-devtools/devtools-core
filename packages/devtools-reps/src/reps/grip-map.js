@@ -74,7 +74,6 @@ function getTitle(props, object) {
   return span({
       className: "objectTitle"},
     title,
-    " ",
     lengthBubble({
       length: getLength(object),
       mode: props.mode,
