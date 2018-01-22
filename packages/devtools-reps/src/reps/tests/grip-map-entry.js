@@ -13,7 +13,7 @@ const {
 const { GripMapEntry } = REPS;
 const { createGripMapEntry } = GripMapEntry;
 const { MODE } = require("../constants");
-const { getGripArrayLengthText } = require("./test-helpers");
+const { getGripLengthBubbleText } = require("./test-helpers");
 
 const stubs = require("../stubs/grip-map-entry");
 const nodeStubs = require("../stubs/element-node");
@@ -49,7 +49,7 @@ describe("GripMapEntry - createGripMapEntry", () => {
 describe("GripMapEntry - complex", () => {
   it("Handles complex objects as key and value", () => {
     let stub = gripArrayStubs.get("testBasic");
-    let length = getGripArrayLengthText(stub);
+    let length = getGripLengthBubbleText(stub);
     let entry = createGripMapEntry("A", stub);
     expect(renderRep(entry, MODE.TINY).text()).toEqual(`A → []`);
     expect(renderRep(entry, MODE.SHORT).text()).toEqual(`A → Array${length} []`);
@@ -61,7 +61,7 @@ describe("GripMapEntry - complex", () => {
     expect(renderRep(entry, MODE.LONG).text()).toEqual(`Array${length} [] → "A"`);
 
     stub = gripArrayStubs.get("testMaxProps");
-    length = getGripArrayLengthText(stub);
+    length = getGripLengthBubbleText(stub);
     entry = createGripMapEntry("A", stub);
     expect(renderRep(entry, MODE.TINY).text()).toEqual(`A → ${length} […]`);
     expect(renderRep(entry, MODE.SHORT).text()).toEqual(
@@ -70,7 +70,7 @@ describe("GripMapEntry - complex", () => {
       `A → Array${length} [ 1, "foo", {} ]`);
 
     entry = createGripMapEntry(stub, "A");
-    length = getGripArrayLengthText(stub);
+    length = getGripLengthBubbleText(stub);
     expect(renderRep(entry, MODE.TINY).text()).toEqual(`${length} […] → "A"`);
     expect(renderRep(entry, MODE.SHORT).text()).toEqual(
       `Array${length} [ 1, "foo", {} ] → "A"`);
@@ -78,7 +78,7 @@ describe("GripMapEntry - complex", () => {
       `Array${length} [ 1, "foo", {} ] → "A"`);
 
     stub = gripArrayStubs.get("testMoreThanShortMaxProps");
-    length = getGripArrayLengthText(stub);
+    length = getGripLengthBubbleText(stub);
     entry = createGripMapEntry("A", stub);
     expect(renderRep(entry, MODE.TINY).text()).toEqual(`A → ${length} […]`);
     expect(renderRep(entry, MODE.SHORT).text())

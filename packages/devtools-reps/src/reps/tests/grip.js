@@ -16,7 +16,7 @@ const gripArrayStubs = require("../stubs/grip-array");
 const {
   expectActorAttribute,
   getSelectableInInspectorGrips,
-  getGripArrayLengthText
+  getGripLengthBubbleText
 } = require("./test-helpers");
 const {maxLengthMap} = Grip;
 
@@ -123,7 +123,7 @@ describe("Grip - Proxy", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const handlerLength = getGripArrayLengthText(object.proxyHandler);
+    const handlerLength = getGripLengthBubbleText(object.proxyHandler);
     const defaultOutput = `Proxy { <target>: {…}, <handler>: ${handlerLength} […] }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
@@ -335,7 +335,7 @@ describe("Grip - Object with nested array", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const propLength = getGripArrayLengthText(
+    const propLength = getGripLengthBubbleText(
       object.preview.ownProperties.arrProp.value);
     const defaultOutput = `Object { arrProp: ${propLength} […] }`;
 
