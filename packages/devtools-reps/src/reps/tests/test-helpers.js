@@ -61,8 +61,11 @@ function expectActorAttribute(wrapper, expectedValue) {
   expect(attrElement.first().prop("data-link-actor-id")).toBe(expectedValue);
 }
 
-function getGripLengthBubbleText(object) {
-  const component = lengthBubble({ object });
+function getGripLengthBubbleText(object, props) {
+  const component = lengthBubble(
+    Object.assign({ object }, props)
+  );
+
   return component
     ? shallow(component).text()
     : "";
