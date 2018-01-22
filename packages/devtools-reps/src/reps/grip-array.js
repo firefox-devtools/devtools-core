@@ -60,7 +60,6 @@ function GripArray(props) {
     }
 
     brackets = needSpace(false);
-
     return (
       span(config,
         title,
@@ -117,7 +116,7 @@ function getLength(grip) {
 }
 
 GripLengthBubble.propTypes = {
-  length: PropTypes.number.isRequired,
+  object: PropTypes.object.isRequired,
   mode: ModePropType,
   maxLengthByMode: PropTypes.instanceOf(Map),
   visibilityThreshold: PropTypes.number
@@ -125,17 +124,17 @@ GripLengthBubble.propTypes = {
 
 function GripLengthBubble(props) {
   const {
-    length,
+    object,
     mode = MODE.SHORT,
     maxLengthByMode = maxLengthMap,
     visibilityThreshold = 5
   } = props;
 
+  const length = getLength(object);
   const isEmpty = length === 0;
   const isObvious = [MODE.SHORT, MODE.LONG].includes(mode) &&
     length <= maxLengthByMode.get(mode) &&
     length <= visibilityThreshold;
-
   if (isEmpty || isObvious) {
     return "";
   }
@@ -151,30 +150,39 @@ function getTitle(props, object) {
   let objectLength = getLength(object);
   let isEmpty = objectLength === 0;
 
-  if (isEmpty && props.mode === MODE.TINY) {
-    if (object.class === "Array") {
-      return "";
+  let title = props.title || object.class || "Array";
+
+  const length = lengthBubble({
+    object,
+    mode: props.mode
+  });
+
+  if (props.mode === MODE.TINY) {
+    if (isEmpty) {
+      return object.class === "Array"
+        ? ""
+        : (
+        span({
+            className: "objectTitle"},
+          title,
+          " "
+        )
+      );
     }
 
-    let title = props.title || object.class;
+    let trailingSpace;
+    if (object.class === "Array") {
+      title = "";
+      trailingSpace = " ";
+    }
 
     return span({
         className: "objectTitle"},
       title,
-      " "
+      length,
+      trailingSpace
     );
   }
-
-  let title = props.title || object.class || "Array";
-
-  if (props.mode === MODE.TINY) {
-    title = object.class === "Array" ? "" : object.class;
-  }
-
-  const length = lengthBubble({
-    length: objectLength,
-    mode: props.mode
-  });
 
   return span({
       className: "objectTitle"},
