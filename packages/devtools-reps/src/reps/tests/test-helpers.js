@@ -61,7 +61,7 @@ function expectActorAttribute(wrapper, expectedValue) {
   expect(attrElement.first().prop("data-link-actor-id")).toBe(expectedValue);
 }
 
-function getGripArrayLengthText(object) {
+function getGripLengthBubbleText(object) {
   const component = lengthBubble({ object });
   return component
     ? shallow(component).text()
@@ -71,5 +71,5 @@ function getGripArrayLengthText(object) {
 module.exports = {
   expectActorAttribute,
   getSelectableInInspectorGrips,
-  getGripArrayLengthText,
+  getGripLengthBubbleText,
 };
