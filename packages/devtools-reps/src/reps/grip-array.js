@@ -42,15 +42,28 @@ function GripArray(props) {
     return space ? { left: "[ ", right: " ]"} : { left: "[", right: "]"};
   };
 
+  const config = {
+    "data-link-actor-id": object.actor,
+    className: "objectBox objectBox-array"
+  };
+
+  const title = getTitle(props, object);
+
   if (mode === MODE.TINY) {
     const isEmpty = getLength(object) === 0;
+
+    // Omit bracketed ellipsis for non-empty non-Array arraylikes (f.e: Sets).
+    if (!isEmpty && object.class !== "Array") {
+      return (
+        span(config, title)
+      );
+    }
+
     brackets = needSpace(false);
 
     return (
-      span({
-          "data-link-actor-id": object.actor,
-          className: "objectBox objectBox-array"},
-        getTitle(props, object),
+      span(config,
+        title,
         span({
           className: "arrayLeftBracket",
         }, brackets.left),
@@ -70,7 +83,7 @@ function GripArray(props) {
     span({
         "data-link-actor-id": object.actor,
         className: "objectBox objectBox-array"},
-      getTitle(props, object),
+      title,
       span({
         className: "arrayLeftBracket",
       }, brackets.left),
