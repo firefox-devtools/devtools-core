@@ -150,7 +150,7 @@ function getTitle(props, object) {
     }
 
     return span({
-        className: "objectTitle"},
+      className: "objectTitle"},
       title,
       length,
       trailingSpace
@@ -158,7 +158,7 @@ function getTitle(props, object) {
   }
 
   return span({
-      className: "objectTitle"},
+    className: "objectTitle"},
     title,
     length,
     " "
