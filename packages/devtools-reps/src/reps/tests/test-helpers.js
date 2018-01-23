@@ -4,7 +4,11 @@
 
 const { shallow } = require("enzyme");
 
-const { lengthBubble } = require("../grip-array");
+const { lengthBubble } = require("../../shared/grip-length-bubble");
+const {
+  maxLengthMap,
+  getLength
+} = require("../grip-array");
 const { getGripPreviewItems } = require("../rep-utils");
 const nodeConstants = require("../../shared/dom-node-constants");
 
@@ -63,7 +67,10 @@ function expectActorAttribute(wrapper, expectedValue) {
 
 function getGripLengthBubbleText(object, props) {
   const component = lengthBubble(
-    Object.assign({ object }, props)
+    Object.assign({ object }, Object.assign({
+      maxLengthMap,
+      getLength
+    }, props))
   );
 
   return component

@@ -4,6 +4,8 @@
 
 // Dependencies
 const PropTypes = require("prop-types");
+
+const { lengthBubble } = require("../shared/grip-length-bubble");
 const {
   getGripType,
   isGrip,
@@ -115,37 +117,6 @@ function getLength(grip) {
   return grip.preview.length || grip.preview.childNodesLength || 0;
 }
 
-GripLengthBubble.propTypes = {
-  object: PropTypes.object.isRequired,
-  mode: ModePropType,
-  maxLengthByMode: PropTypes.instanceOf(Map),
-  visibilityThreshold: PropTypes.number
-};
-
-function GripLengthBubble(props) {
-  const {
-    object,
-    mode = MODE.SHORT,
-    maxLengthByMode = maxLengthMap,
-    visibilityThreshold = 5
-  } = props;
-
-  const length = getLength(object);
-  const isEmpty = length === 0;
-  const isObvious = [MODE.SHORT, MODE.LONG].includes(mode) &&
-    length <= maxLengthByMode.get(mode) &&
-    length <= visibilityThreshold;
-  if (isEmpty || isObvious) {
-    return "";
-  }
-
-  return span({
-    className: "objectLengthBubble"
-  }, `(${length})`);
-}
-
-const lengthBubble = wrapRender(GripLengthBubble);
-
 function getTitle(props, object) {
   let objectLength = getLength(object);
   let isEmpty = objectLength === 0;
@@ -154,7 +125,9 @@ function getTitle(props, object) {
 
   const length = lengthBubble({
     object,
-    mode: props.mode
+    mode: props.mode,
+    maxLengthMap,
+    getLength
   });
 
   if (props.mode === MODE.TINY) {
@@ -290,7 +263,6 @@ maxLengthMap.set(MODE.LONG, 10);
 // Exports from this module
 module.exports = {
   rep: wrapRender(GripArray),
-  lengthBubble,
   supportsObject,
   maxLengthMap,
   getLength,
