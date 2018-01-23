@@ -10,7 +10,7 @@ const {
   getGripType,
   isGrip,
   wrapRender,
-  getMoreEllipsisElement
+  ellipsisElement
 } = require("./rep-utils");
 const { MODE } = require("./constants");
 
@@ -68,7 +68,7 @@ function GripArray(props) {
         span({
           className: "arrayLeftBracket",
         }, brackets.left),
-        isEmpty ? null : getMoreEllipsisElement(),
+        isEmpty ? null : ellipsisElement,
         span({
           className: "arrayRightBracket",
         }, brackets.right)
@@ -233,7 +233,7 @@ function arrayIterator(props, grip, max) {
 
   const itemsShown = (items.length + foldedEmptySlots);
   if (gripLength > itemsShown) {
-    items.push(getMoreEllipsisElement());
+    items.push(ellipsisElement);
   }
 
   return items;
@@ -266,5 +266,4 @@ module.exports = {
   supportsObject,
   maxLengthMap,
   getLength,
-  getMoreEllipsisElement,
 };

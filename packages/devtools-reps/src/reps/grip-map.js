@@ -9,7 +9,7 @@ const PropTypes = require("prop-types");
 const {
   isGrip,
   wrapRender,
-  getMoreEllipsisElement,
+  ellipsisElement,
 } = require("./rep-utils");
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
@@ -129,10 +129,10 @@ function entriesIterator(props, object, max) {
   let entries = getEntries(props, mapEntries, indexes);
   if (entries.length < getLength(object)) {
     // There are some undisplayed entries. Then display "…".
-    entries.push(getMoreEllipsisElement());
+    entries.push(ellipsisElement);
   }
 
-  return unfoldEntries(entries, props.mode);
+  return unfoldEntries(entries);
 }
 
 function unfoldEntries(items) {
