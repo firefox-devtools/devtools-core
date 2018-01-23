@@ -82,8 +82,8 @@ function GripArray(props) {
 
   return (
     span({
-        "data-link-actor-id": object.actor,
-        className: "objectBox objectBox-array"},
+      "data-link-actor-id": object.actor,
+      className: "objectBox objectBox-array"},
       title,
       span({
         className: "arrayLeftBracket",
