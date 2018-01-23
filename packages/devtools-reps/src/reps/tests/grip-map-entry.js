@@ -13,10 +13,7 @@ const {
 const { GripMapEntry } = REPS;
 const { createGripMapEntry } = GripMapEntry;
 const { MODE } = require("../constants");
-const {
-  getGripLengthBubbleText,
-  getMapLengthBubbleText
-} = require("./test-helpers");
+const { getGripLengthBubbleText } = require("./test-helpers");
 
 const stubs = require("../stubs/grip-map-entry");
 const nodeStubs = require("../stubs/element-node");
