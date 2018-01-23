@@ -4,6 +4,7 @@
 
 // Dependencies
 
+const { lengthBubble } = require("../shared/grip-length-bubble");
 const PropTypes = require("prop-types");
 const {
   isGrip,
@@ -13,7 +14,6 @@ const {
 const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
 const { ModePropType } = require("./array");
-const { lengthBubble } = require("./grip-array");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
@@ -49,13 +49,13 @@ function GripMap(props) {
 
   if (isEmpty) {
     return span(config,
-        title,
-        span({
-          className: "objectLeftBrace",
-        }, " {"),
-        span({
-          className: "objectRightBrace",
-        }, "}")
+      title,
+      span({
+        className: "objectLeftBrace",
+      }, " {"),
+      span({
+        className: "objectRightBrace",
+      }, "}")
     );
   }
 
@@ -85,9 +85,10 @@ function getTitle(props, object) {
       className: "objectTitle"},
     title,
     lengthBubble({
-      length: getLength(object),
+      object,
       mode: props.mode,
-      maxLengthByMode: maxLengthMap
+      maxLengthMap,
+      getLength
     })
   );
 }
