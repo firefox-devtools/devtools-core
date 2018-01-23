@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /* global jest */
+
 const { shallow } = require("enzyme");
 const {
   getRep,
@@ -13,6 +14,7 @@ const stubs = require("../stubs/grip-map");
 const {
   expectActorAttribute,
   getSelectableInInspectorGrips,
+  getMapLengthBubbleText,
 } = require("./test-helpers");
 const {maxLengthMap} = GripMap;
 
@@ -31,14 +33,14 @@ describe("GripMap - empty map", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput = "Map {  }";
+    const defaultOutput = "Map {}";
 
     let component = renderRep({ mode: undefined });
     expect(component.text()).toBe(defaultOutput);
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.TINY });
-    expect(component.text()).toBe("Map");
+    expect(component.text()).toBe("Map {}");
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.SHORT });
@@ -62,10 +64,14 @@ describe("GripMap - Symbol-keyed Map", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput = `Map { Symbol(a) → "value-a", Symbol(b) → "value-b" }`;
+    let length = getMapLengthBubbleText(object);
+    const defaultOutput = `Map${length} { Symbol(a) → "value-a", Symbol(b) → "value-b" }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
+
+    length = getMapLengthBubbleText(object, { mode: MODE.TINY });
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`Map${length}`);
+
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -81,10 +87,13 @@ describe("GripMap - WeakMap", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput = `WeakMap { {…} → "value-a" }`;
-
+    let length = getMapLengthBubbleText(object);
+    const defaultOutput = `WeakMap${length} { {…} → "value-a" }`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("WeakMap");
+
+    length = getMapLengthBubbleText(object, { mode: MODE.TINY });
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`WeakMap${length}`);
+
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
     expect(renderRep({
@@ -104,12 +113,16 @@ describe("GripMap - max entries", () => {
   });
 
   it("renders as expected", () => {
+    let length = getMapLengthBubbleText(object);
     const renderRep = (props) => shallowRenderRep(object, props);
     const defaultOutput =
-      `Map { "key-a" → "value-a", "key-b" → "value-b", "key-c" → "value-c" }`;
+      `Map${length} { "key-a" → "value-a", "key-b" → "value-b", "key-c" → "value-c" }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
+
+    length = getMapLengthBubbleText(object, { mode: MODE.TINY });
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`Map${length}`);
+
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
@@ -126,17 +139,21 @@ describe("GripMap - more than max entries", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput =
-      `Map { "key-0" → "value-0", "key-1" → "value-1", "key-2" → "value-2", … }`;
+    let length = getMapLengthBubbleText(object);
+    const defaultOutput = `Map${length} { "key-0" → "value-0", ` +
+      `"key-1" → "value-1", "key-2" → "value-2", … }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
+
+    length = getMapLengthBubbleText(object, { mode: MODE.TINY });
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`Map${length}`);
+
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
 
     let longString = Array.from({length: maxLengthMap.get(MODE.LONG)})
       .map((_, i) => `"key-${i}" → "value-${i}"`);
     expect(renderRep({ mode: MODE.LONG }).text())
-      .toBe(`Map { ${longString.join(", ")}, … }`);
+      .toBe(`Map(${maxLengthMap.get(MODE.LONG) + 1}) { ${longString.join(", ")}, … }`);
   });
 });
 
@@ -151,14 +168,19 @@ describe("GripMap - uninteresting entries", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
+    let length = getMapLengthBubbleText(object);
     const defaultOutput =
-      `Map { "key-a" → null, "key-c" → "value-c", "key-d" → 4, … }`;
+      `Map${length} { "key-a" → null, "key-c" → "value-c", "key-d" → 4, … }`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.TINY }).text()).toBe("Map");
+
+    length = getMapLengthBubbleText(object, { mode: MODE.TINY });
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe(`Map${length}`);
+
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
 
-    const longOutput =
-      `Map { "key-a" → null, "key-b" → undefined, "key-c" → "value-c", "key-d" → 4 }`;
+    length = getMapLengthBubbleText(object, { mode: MODE.LONG });
+    const longOutput = `Map${length} { "key-a" → null, "key-b" → undefined, ` +
+      `"key-c" → "value-c", "key-d" → 4 }`;
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(longOutput);
   });
 });

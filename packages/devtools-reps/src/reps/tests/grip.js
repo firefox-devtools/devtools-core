@@ -123,7 +123,10 @@ describe("Grip - Proxy", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const handlerLength = getGripLengthBubbleText(object.proxyHandler);
+    let handlerLength = getGripLengthBubbleText(
+      object.proxyHandler,
+      { mode: MODE.TINY }
+    );
     const defaultOutput = `Proxy { <target>: {…}, <handler>: ${handlerLength} […] }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
@@ -336,7 +339,9 @@ describe("Grip - Object with nested array", () => {
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
     const propLength = getGripLengthBubbleText(
-      object.preview.ownProperties.arrProp.value);
+      object.preview.ownProperties.arrProp.value,
+      { mode: MODE.TINY }
+    );
     const defaultOutput = `Object { arrProp: ${propLength} […] }`;
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
