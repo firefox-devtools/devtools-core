@@ -387,18 +387,11 @@ function isURL(token) {
   }
 }
 
-/**
- * Gets the ellipsis element.
- *
- * @return React.Element
- */
-function getMoreEllipsisElement() {
-  return span({
+const ellipsisElement = span({
     key: "more",
     className: "more-ellipsis",
     title: `more${ELLIPSIS}`
-  }, ELLIPSIS);
-}
+}, ELLIPSIS);
 
 module.exports = {
   isGrip,
@@ -418,6 +411,6 @@ module.exports = {
   getGripPreviewItems,
   getGripType,
   tokenSplitRegex,
-  getMoreEllipsisElement,
+  ellipsisElement,
   ELLIPSIS,
 };

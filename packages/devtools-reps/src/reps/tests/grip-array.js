@@ -469,8 +469,6 @@ describe("GripArray - Set", () => {
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.TINY });
-    // FIXME: Tiny mode should render Set as "Set" and not "[…]".
-    // See LINKTOGITHUBISSUE
     expect(component.text()).toBe(`Set${length}`);
     expectActorAttribute(component, object.actor);
 
@@ -495,8 +493,6 @@ describe("GripArray - Set", () => {
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.TINY });
-    // FIXME: Tiny mode should render Set as "Set" and not "[…]".
-    // See LINKTOGITHUBISSUE
     expect(component.text()).toBe(`Set${length}`);
     expectActorAttribute(component, object.actor);
 
@@ -531,8 +527,6 @@ describe("GripArray - WeakSet", () => {
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.TINY });
-    // FIXME: Tiny mode should render WeakSet as "WeakSet" and not "[…]".
-    // See LINKTOGITHUBISSUE
     expect(component.text()).toBe(`WeakSet${length}`);
     expectActorAttribute(component, object.actor);
 
@@ -557,8 +551,6 @@ describe("GripArray - WeakSet", () => {
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.TINY });
-    // FIXME: Tiny mode should render WeakSet as "WeakSet" and not "[…]".
-    // See LINKTOGITHUBISSUE
     expect(component.text()).toBe(`WeakSet${length}`);
     expectActorAttribute(component, object.actor);
 
