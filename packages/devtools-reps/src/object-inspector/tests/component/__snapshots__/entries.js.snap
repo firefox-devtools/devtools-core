@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ObjectInspector - entries calls ObjectClient.enumEntries when an <entries> node is clicked 1`] = `
-"▼ Map
+"▼ Map(11)
 |  ▶︎ <entries>"
 `;
 
 exports[`ObjectInspector - entries calls ObjectClient.enumEntries when an <entries> node is clicked 2`] = `
-"▼ Map
+"▼ Map(11)
 |  ▼ <entries>"
 `;
 
 exports[`ObjectInspector - entries does not call enumEntries if entries are already loaded 1`] = `
-"▼ Map
+"▼ Map(11)
 |    size: 2
 |  ▼ <entries>
 |  |  ▼ 0: \\"key-0\\" → \\"value-0\\"
@@ -51,7 +51,7 @@ exports[`ObjectInspector - entries does not call enumEntries if entries are alre
 `;
 
 exports[`ObjectInspector - entries renders Object with entries as expected 1`] = `
-"▼ Map
+"▼ Map(2)
 |    size: 2
 |  ▼ <entries>
 |  |  ▼ 0: Symbol(a) → \\"value-a\\"

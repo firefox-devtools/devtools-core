@@ -6,9 +6,13 @@ const { shallow } = require("enzyme");
 
 const { lengthBubble } = require("../../shared/grip-length-bubble");
 const {
-  maxLengthMap,
-  getLength
+  maxLengthMap: arrayLikeMaxLengthMap,
+  getLength: getArrayLikeLength
 } = require("../grip-array");
+const {
+  maxLengthMap: mapMaxLengths,
+  getLength: getMapLength
+} = require("../grip-map");
 const { getGripPreviewItems } = require("../rep-utils");
 const nodeConstants = require("../../shared/dom-node-constants");
 
@@ -67,10 +71,11 @@ function expectActorAttribute(wrapper, expectedValue) {
 
 function getGripLengthBubbleText(object, props) {
   const component = lengthBubble(
-    Object.assign({ object }, Object.assign({
-      maxLengthMap,
-      getLength
-    }, props))
+    Object.assign({
+      object,
+      maxLengthMap: arrayLikeMaxLengthMap,
+      getLength: getArrayLikeLength
+    }, props)
   );
 
   return component
@@ -78,8 +83,16 @@ function getGripLengthBubbleText(object, props) {
     : "";
 }
 
+function getMapLengthBubbleText(object, props) {
+  return getGripLengthBubbleText(object, Object.assign({
+    maxLengthMap: mapMaxLengths,
+    getLength: getMapLength
+  }, props));
+}
+
 module.exports = {
   expectActorAttribute,
   getSelectableInInspectorGrips,
   getGripLengthBubbleText,
+  getMapLengthBubbleText,
 };

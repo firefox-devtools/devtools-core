@@ -22,7 +22,7 @@ exports[`ObjectInspector - state has the expected expandedPaths state 4`] = `
 "▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
 ▼ Proxy
 |  ▶︎ <target>: Object { … }
-|  ▶︎ <handler>: Array(3) [ … ]"
+|  ▶︎ <handler>: Array [ … ]"
 `;
 
 exports[`ObjectInspector - state has the expected expandedPaths state 5`] = `
@@ -32,7 +32,7 @@ exports[`ObjectInspector - state has the expected expandedPaths state 5`] = `
 |  ▶︎ __proto__: Object { … }
 ▼ Proxy
 |  ▶︎ <target>: Object { … }
-|  ▶︎ <handler>: Array(3) [ … ]"
+|  ▶︎ <handler>: Array [ … ]"
 `;
 
 exports[`ObjectInspector - state has the expected state when expanding a node 1`] = `
@@ -62,7 +62,7 @@ exports[`ObjectInspector - state has the expected state when expanding a proxy n
 "▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
 ▼ Proxy
 |  ▶︎ <target>: Object { … }
-|  ▶︎ <handler>: Array(3) [ … ]
+|  ▶︎ <handler>: Array [ … ]
 |  ▶︎ __proto__: Object {  }"
 `;
 
@@ -70,7 +70,7 @@ exports[`ObjectInspector - state has the expected state when expanding a proxy n
 "▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
 ▼ Proxy
 |  ▶︎ <target>: Object { … }
-|  ▶︎ <handler>: Array(3) [ … ]
+|  ▶︎ <handler>: Array [ … ]
 |  ▼ __proto__: {}
 |  |  ▶︎ __proto__: Object {  }"
 `;
