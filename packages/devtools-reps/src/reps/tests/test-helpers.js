@@ -70,13 +70,11 @@ function expectActorAttribute(wrapper, expectedValue) {
 }
 
 function getGripLengthBubbleText(object, props) {
-  const component = lengthBubble(
-    Object.assign({
-      object,
-      maxLengthMap: arrayLikeMaxLengthMap,
-      getLength: getArrayLikeLength
-    }, props)
-  );
+  const component = lengthBubble(Object.assign({
+    object,
+    maxLengthMap: arrayLikeMaxLengthMap,
+    getLength: getArrayLikeLength
+  }, props));
 
   return component
     ? shallow(component).text()

@@ -15,7 +15,7 @@ const {
   getSelectableInInspectorGrips,
   getGripLengthBubbleText
 } = require("./test-helpers");
-const {maxLengthMap} = GripArray;
+const { maxLengthMap } = GripArray;
 
 function shallowRenderRep(object, props = {}) {
   return shallow(GripArray.rep(Object.assign({
@@ -96,7 +96,6 @@ describe("GripArray - more than short mode max props", () => {
     length = getGripLengthBubbleText(object, { mode: MODE.TINY });
     expect(renderRep({ mode: MODE.TINY }).text()).toBe(`${length} […]`);
 
-    length = getGripLengthBubbleText(object, { mode: MODE.SHORT });
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
 
     length = getGripLengthBubbleText(object, { mode: MODE.LONG });
