@@ -7,7 +7,6 @@ require("babel-register");
 const path = require("path");
 
 const webpack = require("webpack");
-const { NormalModuleReplacementPlugin } = require("webpack");
 
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const {
@@ -78,8 +77,9 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
      * by the postcss-loader to /mc/devtools/client/themes/arrow.svg
      * and are hosted in `development-server` with an express server.
      *
-     * CSS URLs like resource://devtools/client/themes/variables.css are mapped
-     * by the NormalModuleReplacementPlugin to devtools-mc-assets/assets/devtools/client/themes/arrow.svg.
+     * CSS URLs like resource://devtools/client/themes/variables.css are mapped by the
+     * NormalModuleReplacementPlugin to
+     * devtools-mc-assets/assets/devtools/client/themes/arrow.svg.
      * The modules are then resolved by the css-loader, which allows modules like
      * variables.css to be bundled.
      *
@@ -93,27 +93,29 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
       loader: "svg-inline-loader"
     });
 
+    const cssUses = [{
+      loader: "style-loader"
+    }, {
+      loader: "css-loader",
+      options: {
+        importLoaders: 1,
+        url: false
+      }
+    }];
+
+    if (options.disablePostCSS !== true) {
+      cssUses.push({ loader: "postcss-loader" });
+    }
+
     webpackConfig.module.rules.push({
       test: /\.css$/,
-      use: [
-        { loader: "style-loader" },
-        {
-          loader: "css-loader",
-          options: {
-            importLoaders: 1,
-            url: false
-          }
-        },
-        {
-          loader: "postcss-loader"
-        }
-      ]
+      use: cssUses
     });
 
     webpackConfig.plugins.push(
       new webpack.NormalModuleReplacementPlugin(
         /(resource:|chrome:).*.css/,
-        function(resource) {
+        function (resource) {
           const newUrl = resource.request
             .replace(
               /(.\/chrome:\/\/|.\/resource:\/\/)/,
@@ -140,6 +142,19 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
     * SVG URLS like chrome://devtools/skin/images/add.svg are
     * ignored as they are already available in MC.
     */
+
+    const cssUses = [{
+      loader: "css-loader",
+      options: {
+        importLoaders: 1,
+        url: false
+      }
+    }];
+
+    if (options.disablePostCSS !== true) {
+      cssUses.push({ loader: "postcss-loader" });
+    }
+
     // Extract CSS into a single file
     webpackConfig.module.rules.push({
       test: /\.css$/,
@@ -151,16 +166,7 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
       },
       use: ExtractTextPlugin.extract({
         filename: "*.css",
-        use: [
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-              url: false
-            }
-          },
-          { loader: "postcss-loader" }
-        ]
+        use: cssUses
       })
     });
 
