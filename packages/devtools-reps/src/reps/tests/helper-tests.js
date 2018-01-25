@@ -8,9 +8,9 @@ const { getGripLengthBubbleText } = require("./test-helpers");
 
 describe("getGripLengthBubbleText - Zero length", () => {
   const object = stubs.get("testBasic");
-  const output = "";
 
   it("length bubble is invisible", () => {
+    const output = "";
     let text = getGripLengthBubbleText(object, { mode: undefined });
     expect(text).toBe(output);
 
@@ -21,6 +21,21 @@ describe("getGripLengthBubbleText - Zero length", () => {
     expect(text).toBe(output);
 
     text = getGripLengthBubbleText(object, { mode: MODE.LONG });
+    expect(text).toBe(output);
+  });
+
+  it("length bubble is visible", () => {
+    const output = "(0)";
+    let text = getGripLengthBubbleText(object, { mode: undefined, showZeroLength: true });
+    expect(text).toBe(output);
+
+    text = getGripLengthBubbleText(object, { mode: MODE.TINY, showZeroLength: true });
+    expect(text).toBe(output);
+
+    text = getGripLengthBubbleText(object, { mode: MODE.SHORT, showZeroLength: true });
+    expect(text).toBe(output);
+
+    text = getGripLengthBubbleText(object, { mode: MODE.LONG, showZeroLength: true });
     expect(text).toBe(output);
   });
 });
@@ -40,6 +55,19 @@ describe("getGripLengthBubbleText - Obvious length for some modes", () => {
     expect(text).toBe(visibleOutput);
 
     text = getGripLengthBubbleText(object, { mode: MODE.LONG });
+    expect(text).toBe(visibleOutput);
+
+    const visibilityThreshold = 5;
+    text = getGripLengthBubbleText(object, { mode: undefined, visibilityThreshold });
+    expect(text).toBe(visibleOutput);
+
+    text = getGripLengthBubbleText(object, { mode: MODE.TINY, visibilityThreshold });
+    expect(text).toBe(visibleOutput);
+
+    text = getGripLengthBubbleText(object, { mode: MODE.SHORT, visibilityThreshold });
+    expect(text).toBe(visibleOutput);
+
+    text = getGripLengthBubbleText(object, { mode: MODE.LONG, visibilityThreshold });
     expect(text).toBe("");
   });
 });

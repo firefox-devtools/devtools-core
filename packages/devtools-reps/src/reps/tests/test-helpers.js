@@ -84,7 +84,8 @@ function getGripLengthBubbleText(object, props) {
 function getMapLengthBubbleText(object, props) {
   return getGripLengthBubbleText(object, Object.assign({
     maxLengthMap: mapMaxLengths,
-    getLength: getMapLength
+    getLength: getMapLength,
+    showZeroLength: true
   }, props));
 }
 

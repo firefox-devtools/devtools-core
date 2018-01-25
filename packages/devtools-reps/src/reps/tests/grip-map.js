@@ -33,14 +33,15 @@ describe("GripMap - empty map", () => {
 
   it("renders as expected", () => {
     const renderRep = (props) => shallowRenderRep(object, props);
-    const defaultOutput = "Map {}";
+    let length = getMapLengthBubbleText(object);
+    const defaultOutput = `Map${length}`;
 
     let component = renderRep({ mode: undefined });
     expect(component.text()).toBe(defaultOutput);
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.TINY });
-    expect(component.text()).toBe("Map {}");
+    expect(component.text()).toBe(defaultOutput);
     expectActorAttribute(component, object.actor);
 
     component = renderRep({ mode: MODE.SHORT });
@@ -96,10 +97,12 @@ describe("GripMap - WeakMap", () => {
 
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+
+    length = getMapLengthBubbleText(object, { mode: MODE.LONG });
     expect(renderRep({
       mode: MODE.LONG,
       title: "CustomTitle"
-    }).text()).toBe(`CustomTitle { {…} → "value-a" }`);
+    }).text()).toBe(`CustomTitle${length} { {…} → "value-a" }`);
   });
 });
 
