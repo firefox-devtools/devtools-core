@@ -103,7 +103,7 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
       }
     }];
 
-    if (options.disablePostCSS !== true) {
+    if (!options.disablePostCSS) {
       cssUses.push({ loader: "postcss-loader" });
     }
 
@@ -151,7 +151,7 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
       }
     }];
 
-    if (options.disablePostCSS !== true) {
+    if (!options.disablePostCSS) {
       cssUses.push({ loader: "postcss-loader" });
     }
 
