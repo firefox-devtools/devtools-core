@@ -47,19 +47,7 @@ function GripMap(props) {
   const title = getTitle(props, object);
   const isEmpty = getLength(object) === 0;
 
-  if (isEmpty) {
-    return span(config,
-      title,
-      span({
-        className: "objectLeftBrace",
-      }, " {"),
-      span({
-        className: "objectRightBrace",
-      }, "}")
-    );
-  }
-
-  if (mode === MODE.TINY) {
+  if (isEmpty || mode === MODE.TINY) {
     return span(config, title);
   }
 
@@ -88,7 +76,8 @@ function getTitle(props, object) {
       object,
       mode: props.mode,
       maxLengthMap,
-      getLength
+      getLength,
+      showZeroLength: true
     })
   );
 }

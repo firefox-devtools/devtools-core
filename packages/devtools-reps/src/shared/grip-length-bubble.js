@@ -19,17 +19,19 @@ function GripLengthBubble(props) {
   const {
     object,
     mode = MODE.SHORT,
-    visibilityThreshold = 5,
+    visibilityThreshold = 2,
     maxLengthMap,
-    getLength
+    getLength,
+    showZeroLength = false
   } = props;
 
   const length = getLength(object);
   const isEmpty = length === 0;
   const isObvious = [MODE.SHORT, MODE.LONG].includes(mode) &&
+    length > 0 &&
     length <= maxLengthMap.get(mode) &&
     length <= visibilityThreshold;
-  if (isEmpty || isObvious) {
+  if (isEmpty && !showZeroLength || isObvious) {
     return "";
   }
 
