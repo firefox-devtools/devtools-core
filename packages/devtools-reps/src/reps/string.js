@@ -57,7 +57,7 @@ function StringRep(props) {
     config.style = style;
   }
 
-  if (useQuotes) {
+  if (useQuotes || text === "") {
     text = escapeString(text, escapeWhitespace);
   } else {
     text = sanitizeString(text);

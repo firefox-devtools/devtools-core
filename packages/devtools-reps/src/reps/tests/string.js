@@ -70,6 +70,13 @@ const testCases = [{
     escapeWhitespace: false,
   },
   result: "\"line 1\r\nline 2\n\tline 3\""
+}, {
+  name: "empty string",
+  props: {
+    object: "",
+    useQuotes: false,
+  },
+  result: `""`
 }];
 
 describe("test String", () => {
