@@ -1,6 +1,6 @@
 {
   "name": "devtools-reps",
-  "version": "0.19.1",
+  "version": "0.19.2",
   "description": "Devtools Reps",
   "main": "src/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "devtools-components": "^0.1.4",
+    "devtools-components": "^0.1.5",
     "lodash": "^4.17.2",
     "prop-types": "^15.6.0",
     "react-dom-factories": "^1.0.2",
