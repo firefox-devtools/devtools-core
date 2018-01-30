@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-.tree {
+ .tree {
   overflow: auto;
 }
 
@@ -30,6 +30,10 @@
   display: flex;
 }
 
+.tree .tree-node:not(.focused):hover {
+  background-color: var(--theme-selection-background-hover);
+}
+
 .tree-indent {
   display: inline-block;
   width: 12px;
@@ -53,10 +57,6 @@
   cursor: default;
 }
 
-.tree .tree-node:not(.focused):hover {
-  background-color: #F0F9FE;
-}
-
 .tree .tree-node.focused {
   color: white;
   background-color: var(--theme-selection-background, #0a84ff);
@@ -64,6 +64,10 @@
 
 .tree-node.focused .arrow svg {
   fill: currentColor;
+}
+
+.tree-node:hover img {
+  background-color: var(--theme-content-color3);
 }
 
 .arrow svg {
