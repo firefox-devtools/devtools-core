@@ -40,6 +40,9 @@ const {
   nodeIsPrimitive,
   nodeIsPrototype,
   nodeIsSetter,
+  nodeIsUninitializedBinding,
+  nodeIsUnmappedBinding,
+  nodeIsUnscopedBinding,
   nodeIsWindow,
 } = Utils.node;
 
@@ -311,7 +314,13 @@ class ObjectInspector extends Component {
       itemValue.hasOwnProperty &&
       itemValue.hasOwnProperty("unavailable");
 
-    if (nodeIsOptimizedOut(item)) {
+    if (nodeIsUninitializedBinding(item)) {
+      objectValue = dom.span({ className: "unavailable" }, "(uninitialized)");
+    } else if (nodeIsUnmappedBinding(item)) {
+      objectValue = dom.span({ className: "unavailable" }, "(unmapped)");
+    } else if (nodeIsUnscopedBinding(item)) {
+      objectValue = dom.span({ className: "unavailable" }, "(unscoped)");
+    } else if (nodeIsOptimizedOut(item)) {
       objectValue = dom.span({ className: "unavailable" }, "(optimized away)");
     } else if (nodeIsMissingArguments(item) || unavailable) {
       objectValue = dom.span({ className: "unavailable" }, "(unavailable)");

@@ -71,4 +71,52 @@ describe("ObjectInspector - properties", () => {
     expect(enumProperties.mock.calls[0][0]).toEqual({ignoreNonIndexedProperties: true});
     expect(enumProperties.mock.calls[1][0]).toEqual({ignoreIndexedProperties: true});
   });
+
+  it("renders uninitialized bindings", () => {
+    const wrapper = mount(ObjectInspector(generateDefaults({
+      roots: [{
+        name: "someFoo",
+        path: "root/someFoo",
+        contents: {
+          value: {
+            uninitialized: true,
+          },
+        }
+      }]
+    })));
+
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("renders unmapped bindings", () => {
+    const wrapper = mount(ObjectInspector(generateDefaults({
+      roots: [{
+        name: "someFoo",
+        path: "root/someFoo",
+        contents: {
+          value: {
+            unmapped: true,
+          },
+        }
+      }]
+    })));
+
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("renders unscoped bindings", () => {
+    const wrapper = mount(ObjectInspector(generateDefaults({
+      roots: [{
+        name: "someFoo",
+        path: "root/someFoo",
+        contents: {
+          value: {
+            unscoped: true,
+          },
+        }
+      }]
+    })));
+
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
 });
