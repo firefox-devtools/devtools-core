@@ -64,7 +64,7 @@ function fetchSourceMap(generatedSource: Source) {
   }
 
   if (!generatedSource.sourceMapURL) {
-    return Promise.resolve(null);
+    return Promise.reject();
   }
 
   // Fire off the request, set it in the cache, and return it.
