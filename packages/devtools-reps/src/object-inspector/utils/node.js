@@ -105,6 +105,27 @@ function nodeIsOptimizedOut(item: Node) : boolean {
   return !nodeHasChildren(item) && value && value.optimizedOut;
 }
 
+function nodeIsUninitializedBinding(item: Node) : boolean {
+  const value = getValue(item);
+  return value && value.uninitialized;
+}
+
+// Used to check if an item represents a binding that exists in a sourcemap's
+// original file content, but does not match up with a binding found in the
+// generated code.
+function nodeIsUnmappedBinding(item: Node) : boolean {
+  const value = getValue(item);
+  return value && value.unmapped;
+}
+
+// Used to check if an item represents a binding that exists in the debugger's
+// parser result, but does not match up with a binding returned by the
+// debugger server.
+function nodeIsUnscopedBinding(item: Node) : boolean {
+  const value = getValue(item);
+  return value && value.unscoped;
+}
+
 function nodeIsMissingArguments(item: Node) : boolean {
   const value = getValue(item);
   return !nodeHasChildren(item) && value && value.missingArguments;
@@ -793,6 +814,9 @@ module.exports = {
   nodeIsPrototype,
   nodeIsProxy,
   nodeIsSetter,
+  nodeIsUninitializedBinding,
+  nodeIsUnmappedBinding,
+  nodeIsUnscopedBinding,
   nodeIsWindow,
   nodeNeedsNumericalBuckets,
   nodeSupportsNumericalBucketing,
