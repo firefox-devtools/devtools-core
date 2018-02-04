@@ -72,7 +72,7 @@ function StringRep(props) {
     actor: object.actor
   });
 
-  if (!containsURL(text)) {
+  if (!containsURL(text) || isLong) {
     // Cropping of longString has been handled before formatting.
     if (!isLong) {
       text = maybeCropString({
