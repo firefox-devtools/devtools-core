@@ -15,7 +15,6 @@ test:
     - yarn license-check
     - cd ./packages/devtools-launchpad; yarn test
     - cd ./packages/devtools-source-map; yarn test
-    - cd ./packages/devtools-map-bindings; yarn test
     - cd ./packages/devtools-utils; yarn test
     - cd ./packages/devtools-modules; yarn test
     - cd ./packages/devtools-components; yarn test
