@@ -68,6 +68,9 @@
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
       "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"
-    }
+    },
+    "setupFiles": [
+      "<rootDir>/test/__mocks__/selection.js"
+    ]
   }
 }
