@@ -384,6 +384,10 @@ class ObjectInspector extends Component {
         }),
         onClick: e => {
           e.stopPropagation();
+          const selection = getSelection();
+          if (selection && selection.toString()) {
+            return;
+          }
           if (isPrimitive === false) {
             this.setExpanded(item, !expanded);
           }
