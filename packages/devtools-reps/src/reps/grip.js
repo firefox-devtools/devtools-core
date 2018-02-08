@@ -318,6 +318,10 @@ function supportsObject(object, noGrip = false) {
     return false;
   }
 
+  if (object.class === "DeadObject") {
+    return true;
+  }
+
   return (
     object.preview
     ? typeof object.preview.ownProperties !== "undefined"
