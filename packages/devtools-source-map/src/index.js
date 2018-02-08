@@ -20,6 +20,7 @@ const getGeneratedLocation = dispatcher.task("getGeneratedLocation");
 const getOriginalLocation = dispatcher.task("getOriginalLocation");
 const getLocationScopes = dispatcher.task("getLocationScopes");
 const getOriginalSourceText = dispatcher.task("getOriginalSourceText");
+const getOriginalScopes = dispatcher.task("getOriginalScopes");
 const applySourceMap = dispatcher.task("applySourceMap");
 const clearSourceMaps = dispatcher.task("clearSourceMaps");
 const hasMappedSource = dispatcher.task("hasMappedSource");
@@ -35,6 +36,7 @@ module.exports = {
   getOriginalLocation,
   getLocationScopes,
   getOriginalSourceText,
+  getOriginalScopes,
   applySourceMap,
   clearSourceMaps,
   startSourceMapWorker: dispatcher.start.bind(dispatcher),

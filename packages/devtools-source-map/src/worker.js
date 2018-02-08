@@ -8,6 +8,7 @@ const {
   getOriginalLocation,
   getOriginalSourceText,
   getLocationScopes,
+  getOriginalScopes,
   hasMappedSource,
   applySourceMap
 } = require("./source-map");
@@ -24,6 +25,7 @@ self.onmessage = workerHandler({
   getOriginalLocation,
   getLocationScopes,
   getOriginalSourceText,
+  getOriginalScopes,
   hasMappedSource,
   applySourceMap,
   clearSourceMaps

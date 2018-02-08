@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`remapsOrignalScopes simple 1`] = `
+Object {
+  "0": Object {
+    "bindings": Object {
+      "e": Array [],
+      "n": Array [],
+      "o": Array [],
+      "r": Array [],
+      "t": Array [],
+      "u": Array [],
+    },
+    "type": "function",
+  },
+  "1": Object {
+    "bindings": Object {},
+    "type": "script",
+  },
+  "parent": null,
+  "syntheticScopes": Object {
+    "groupIndex": 0,
+    "groupLength": 1,
+    "scopes": Array [
+      Object {
+        "bindingsNames": Array [
+          "na",
+          "nb",
+        ],
+        "sourceBindings": Object {
+          "na": "o",
+          "nb": "u",
+        },
+        "type": "block",
+      },
+      Object {
+        "bindingsNames": Array [
+          "ma",
+          "mb",
+        ],
+        "sourceBindings": Object {
+          "ma": "r",
+          "mb": "t",
+        },
+        "type": "block",
+      },
+      Object {
+        "bindingsNames": Array [
+          "a",
+          "b",
+        ],
+        "sourceBindings": Object {
+          "a": "n",
+          "b": "e",
+        },
+        "type": "function",
+      },
+    ],
+  },
+}
+`;

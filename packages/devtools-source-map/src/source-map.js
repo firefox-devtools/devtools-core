@@ -39,6 +39,8 @@ import type {
   MappedScopeBindings
 } from "debugger-html";
 
+import type { OriginalScope } from "devtools-map-bindings/src/types";
+
 async function getOriginalURLs(generatedSource: Source) {
   const map = await fetchSourceMap(generatedSource);
   return map && map.sources;
@@ -154,6 +156,11 @@ async function hasMappedSource(location: Location): Promise<boolean> {
   return loc.sourceId !== location.sourceId;
 }
 
+async function getOriginalScopes(location: Location): Promise<?(OriginalScope[])> {
+  // TODO if present, read scope data from the experimental source maps format.
+  return null;
+}
+
 function applySourceMap(
   generatedId: string,
   url: string,
@@ -174,6 +181,7 @@ module.exports = {
   getOriginalLocation,
   getOriginalSourceText,
   getLocationScopes,
+  getOriginalScopes,
   applySourceMap,
   clearSourceMaps,
   hasMappedSource

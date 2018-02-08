@@ -52,6 +52,9 @@ describe("updateScopeBindings", () => {
         async getOriginalSourceScopes(location: Location) {
           const scopes = await parseScopes(location, originalSource);
           return scopes;
+        },
+        async getSourceMapsOriginalScopes(location) {
+          return null;
         }
       }
     );
