@@ -80,4 +80,32 @@ describe("ObjectInspector - properties", () => {
 
     expect(onLabelClick.mock.calls.length).toBe(1);
   });
+
+  it("does not call the onLabel prop function when the user selected text", () => {
+    const stub = gripRepStubs.get("testMaxProps");
+    const onLabelClick = jest.fn();
+
+    const oi = mount(ObjectInspector(generateDefaults({
+      roots: [{
+        path: "root",
+        name: "Label",
+        contents: {
+          value: stub
+        }
+      }],
+      onLabelClick,
+    })));
+
+    const label = oi.find(".object-label").first();
+
+    // Set a selection using the mock.
+    getSelection().setMockSelection("test");
+
+    label.simulate("click");
+
+    expect(onLabelClick.mock.calls.length).toBe(0);
+
+    // Clear the selection for other tests.
+    getSelection().setMockSelection();
+  });
 });

@@ -195,4 +195,25 @@ describe("ObjectInspector - state", () => {
     expect(state.loadedProperties.has("root-2/__proto__")).toBeTruthy();
     expect(state.actors.has(protoStub.prototype.actor)).toBeTruthy();
   });
+
+  it("does not expand if the user selected some text", async () => {
+    const wrapper = mount(ObjectInspector(generateDefaults({
+      loadedProperties: new Map([
+        ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
+      ])
+    })));
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+    let nodes = wrapper.find(".node");
+
+    // Set a selection using the mock.
+    getSelection().setMockSelection("test");
+
+    const root1 = nodes.at(0);
+    root1.simulate("click");
+    expect(wrapper.state("expandedPaths").has("root-1")).toBeFalsy();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    // Clear the selection for other tests.
+    getSelection().setMockSelection();
+  });
 });
