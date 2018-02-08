@@ -71,7 +71,7 @@ function getTitleElement(props, object) {
 }
 
 function getTitle(props, object) {
-  return props.title || object.class || DEFAULT_TITLE;
+  return props.title || DEFAULT_TITLE;
 }
 
 function safePropIterator(props, object, max) {

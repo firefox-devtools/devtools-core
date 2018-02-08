@@ -295,4 +295,14 @@ describe("Object - noGrip prop", () => {
     const stubs = require("../stubs/window");
     expect(getRep(stubs.get("Window"), undefined, true)).toBe(Obj.rep);
   });
+
+  it("Object with class property", () => {
+    const object = {
+      class: "Array"
+    };
+    expect(getRep(object, undefined, true)).toBe(Obj.rep);
+
+    expect(renderComponent(object, { mode: MODE.SHORT, noGrip: true}).text())
+      .toEqual(`Object { class: "Array" }`);
+  });
 });
