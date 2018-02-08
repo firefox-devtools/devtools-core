@@ -995,4 +995,13 @@ stubs.set("Generator", {
   }
 });
 
+stubs.set("DeadObject", {
+  "type": "object",
+  "actor": "server1.conn7.child2/obj41",
+  "class": "DeadObject",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false
+});
+
 module.exports = stubs;
