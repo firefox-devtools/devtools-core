@@ -26,9 +26,6 @@ const {
   isOriginalId,
   getContentType
 } = require("./utils");
-const {
-  getLocationScopes: getLocationScopesFromMap
-} = require("devtools-map-bindings/src/scopes");
 
 const { WasmRemap } = require("./utils/wasmRemap");
 
@@ -121,30 +118,6 @@ async function getOriginalSourceText(originalSource: Source) {
   };
 }
 
-/**
- * Finds the scope binding information at the source map based on locations and
- * generated source scopes. The generated source scopes contain variables names
- * and all their references in the generated source. This information is merged
- * with the source map original names information and returned as result.
- * @memberof utils/source-map-worker
- * @static
- */
-async function getLocationScopes(
-  location: Location,
-  generatedSourceScopes: SourceScope[]
-): Promise<MappedScopeBindings[] | null> {
-  if (!isGeneratedId(location.sourceId)) {
-    return null;
-  }
-
-  const map = await getSourceMap(location.sourceId);
-  if (!map) {
-    return null;
-  }
-
-  return getLocationScopesFromMap(map, generatedSourceScopes, location);
-}
-
 async function hasMappedSource(location: Location): Promise<boolean> {
   if (isOriginalId(location.sourceId)) {
     return true;
@@ -173,7 +146,6 @@ module.exports = {
   getGeneratedLocation,
   getOriginalLocation,
   getOriginalSourceText,
-  getLocationScopes,
   applySourceMap,
   clearSourceMaps,
   hasMappedSource
