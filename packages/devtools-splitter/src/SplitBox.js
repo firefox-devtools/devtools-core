@@ -81,6 +81,14 @@ class SplitBox extends Component {
     if (this.props.vert !== nextProps.vert) {
       this.setState({ vert: nextProps.vert });
     }
+    if (this.props.initialSize !== nextProps.initialSize
+      || this.props.initialWidth !== nextProps.initialWidth 
+      || this.props.initialHeight !== nextProps.initialHeight) {
+      this.setState({ 
+        width: parseInt(nextProps.initialWidth || nextProps.initialSize, 10),
+        height: parseInt(nextProps.initialHeight || nextProps.initialSize, 10),
+      });
+    }
   }
 
   // Dragging Events
