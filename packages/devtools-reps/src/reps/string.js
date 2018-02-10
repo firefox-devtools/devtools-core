@@ -72,20 +72,21 @@ function StringRep(props) {
     actor: object.actor
   });
 
-  if (!containsURL(text) || isLong) {
-    // Cropping of longString has been handled before formatting.
-    if (!isLong) {
-      text = maybeCropString({
-        isLong,
-        shouldCrop,
-        cropLimit
-      }, text);
+  if (!isLong) {
+    if (containsURL(text)) {
+      return span(config,
+        ...getLinkifiedElements(text, shouldCrop && cropLimit, omitLinkHref, openLink));
     }
-    return span(config, text);
+
+    // Cropping of longString has been handled before formatting.
+    text = maybeCropString({
+      isLong,
+      shouldCrop,
+      cropLimit
+    }, text);
   }
 
-  return span(config,
-    ...getLinkifiedElements(text, shouldCrop && cropLimit, omitLinkHref, openLink));
+  return span(config, text);
 }
 
 function maybeCropLongString(opts, text) {
