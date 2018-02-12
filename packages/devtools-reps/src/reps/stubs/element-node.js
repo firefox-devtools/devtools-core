@@ -206,4 +206,30 @@ stubs.set("SvgNodeInXHTML", {
   }
 });
 
+const initialText = "a".repeat(1000);
+stubs.set("NodeWithLongStringAttribute", {
+  "type": "object",
+  "actor": "server1.conn1.child1/obj28",
+  "class": "HTMLDivElement",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 0,
+  "preview": {
+    "kind": "DOMNode",
+    "nodeType": 1,
+    "nodeName": "div",
+    "isConnected": false,
+    "attributes": {
+      "data-test": {
+        "type": "longString",
+        "initial": initialText,
+        "length": 50000,
+        "actor": "server1.conn1.child1/longString29"
+      }
+    },
+    "attributesLength": 1
+  }
+});
+
 module.exports = stubs;
