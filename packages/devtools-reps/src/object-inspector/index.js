@@ -429,26 +429,16 @@ class ObjectInspector extends Component {
     );
   }
 
-  getDefaultPropsByRep(object) {
-    if (StringRep.supportsObject(object)) {
-      return {
-        omitLinkHref: false
-      };
-    }
-
-    return {};
-  }
-
   renderGrip(
     item: Node,
     props: Props
   ) {
     const object = getValue(item);
-    const repDefaults = this.getDefaultPropsByRep(object);
 
-    return Rep(Object.assign({}, repDefaults, props, {
+    return Rep(Object.assign({}, props, {
       object,
       mode: props.mode || MODE.TINY,
+      omitLinkHref: props.omitLinkHref || false,
       defaultRep: Grip,
     }));
   }
