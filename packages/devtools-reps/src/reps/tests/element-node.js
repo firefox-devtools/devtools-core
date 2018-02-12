@@ -14,6 +14,7 @@ const {
   expectActorAttribute,
   getSelectableInInspectorGrips,
 } = require("./test-helpers");
+const { ELLIPSIS } = require("../rep-utils");
 const stubs = require("../stubs/element-node");
 
 describe("ElementNode - BodyNode", () => {
@@ -318,5 +319,31 @@ describe("ElementNode - Disconnected node", () => {
     }));
 
     expect(renderedComponent.find(".open-inspector").exists()).toBeFalsy();
+  });
+});
+
+describe("ElementNode - Element with longString attribute", () => {
+  const stub = stubs.get("NodeWithLongStringAttribute");
+
+  it("selects ElementNode Rep", () => {
+    expect(getRep(stub)).toBe(ElementNode.rep);
+  });
+
+  it("renders with expected text content", () => {
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub
+    }));
+
+    expect(renderedComponent.text())
+      .toEqual(`<div data-test="${"a".repeat(1000)}${ELLIPSIS}">`);
+  });
+
+  it("renders with expected text content in tiny mode", () => {
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub,
+      mode: MODE.TINY
+    }));
+
+    expect(renderedComponent.text()).toEqual("div");
   });
 });
