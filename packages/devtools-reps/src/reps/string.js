@@ -274,7 +274,7 @@ function getCroppedString(text, offset = 0, startCropIndex, endCropIndex) {
 }
 
 function isLongString(object) {
-  return object.type === "longString";
+  return object && object.type === "longString";
 }
 
 function supportsObject(object, noGrip = false) {
