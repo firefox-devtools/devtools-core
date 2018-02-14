@@ -12,7 +12,7 @@ const {
 
 function handleLaunchRequest(req, res) {
   const browser = req.body.browser;
-  const location = "https://devtools-html.github.io/debugger-examples/";
+  const location = getValue("defaultURL");
 
   process.env.PATH += `:${__dirname}`;
   if (browser == "Firefox") {

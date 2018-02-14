@@ -5,6 +5,7 @@
   "favicon": "assets/launchpad-favicon.png",
   "theme": "light",
   "dir": "ltr",
+  "defaultURL": "https://devtools-html.github.io/debugger-examples/",
   "logging": {
     "client": false,
     "firefoxProxy": false,
