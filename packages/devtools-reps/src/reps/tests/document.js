@@ -14,9 +14,9 @@ const {
 
 const { Document } = REPS;
 const stubs = require("../stubs/document");
-const stub = stubs.get("Document");
 
 describe("Document", () => {
+  const stub = stubs.get("Document");
   it("correctly selects Document Rep", () => {
     expect(getRep(stub)).toBe(Document.rep);
   });
@@ -37,5 +37,22 @@ describe("Document", () => {
     }));
 
     expect(renderedComponent.text()).toEqual("HTMLDocument");
+  });
+});
+
+describe("XULDocument", () => {
+  const stub = stubs.get("XULDocument");
+  it("correctly selects Document Rep", () => {
+    expect(getRep(stub)).toBe(Document.rep);
+  });
+
+  it("renders with expected text content", () => {
+    const renderedComponent = shallow(Document.rep({
+      object: stub
+    }));
+
+    expect(renderedComponent.text())
+      .toEqual("XULDocument chrome://browser/content/browser.xul");
+    expectActorAttribute(renderedComponent, stub.actor);
   });
 });

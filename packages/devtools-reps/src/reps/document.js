@@ -61,7 +61,8 @@ function supportsObject(object, noGrip = false) {
     return false;
   }
 
-  return (object.preview && getGripType(object, noGrip) == "HTMLDocument");
+  const type = getGripType(object, noGrip);
+  return (object.preview && (type === "HTMLDocument" || type === "XULDocument"));
 }
 
 // Exports from this module
