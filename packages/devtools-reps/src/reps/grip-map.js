@@ -7,6 +7,7 @@
 const { lengthBubble } = require("../shared/grip-length-bubble");
 const PropTypes = require("prop-types");
 const {
+  interleave,
   isGrip,
   wrapRender,
   ellipsisElement,
@@ -15,8 +16,7 @@ const PropRep = require("./prop-rep");
 const { MODE } = require("./constants");
 const { ModePropType } = require("./array");
 
-const dom = require("react-dom-factories");
-const { span } = dom;
+const { span } = require("react-dom-factories");
 
 /**
  * Renders an map. A map is represented by a list of its
@@ -59,7 +59,7 @@ function GripMap(props) {
       span({
         className: "objectLeftBrace",
       }, " { "),
-      ...propsArray,
+      ...interleave(propsArray, ", "),
       span({
         className: "objectRightBrace",
       }, " }")
@@ -121,23 +121,7 @@ function entriesIterator(props, object, max) {
     entries.push(ellipsisElement);
   }
 
-  return unfoldEntries(entries);
-}
-
-function unfoldEntries(items) {
-  return items.reduce((res, item, index) => {
-    if (Array.isArray(item)) {
-      res = res.concat(item);
-    } else {
-      res.push(item);
-    }
-
-    // Interleave commas between elements
-    if (index !== items.length - 1) {
-      res.push(", ");
-    }
-    return res;
-  }, []);
+  return entries;
 }
 
 /**

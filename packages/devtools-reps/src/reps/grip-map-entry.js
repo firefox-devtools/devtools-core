@@ -36,7 +36,7 @@ function GripMapEntry(props) {
 
   return span({
     className: "objectBox objectBox-map-entry"
-  }, ...PropRep(Object.assign({}, props, {
+  }, PropRep(Object.assign({}, props, {
     name: key,
     object: value,
     equal: " \u2192 ",

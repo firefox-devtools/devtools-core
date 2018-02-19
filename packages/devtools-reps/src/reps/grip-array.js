@@ -7,6 +7,7 @@ const PropTypes = require("prop-types");
 
 const { lengthBubble } = require("../shared/grip-length-bubble");
 const {
+  interleave,
   getGripType,
   isGrip,
   wrapRender,
@@ -17,6 +18,7 @@ const { MODE } = require("./constants");
 const dom = require("react-dom-factories");
 const { span } = dom;
 const { ModePropType } = require("./array");
+const DEFAULT_TITLE = "Array";
 
 /**
  * Renders an array. The array is enclosed by left and right bracket
@@ -88,7 +90,7 @@ function GripArray(props) {
       span({
         className: "arrayLeftBracket",
       }, brackets.left),
-      ...interleaveCommas(items),
+      ...interleave(items, ", "),
       span({
         className: "arrayRightBracket",
       }, brackets.right),
@@ -98,15 +100,6 @@ function GripArray(props) {
       )
     )
   );
-}
-
-function interleaveCommas(items) {
-  return items.reduce((res, item, index) => {
-    if (index !== items.length - 1) {
-      return res.concat(item, ", ");
-    }
-    return res.concat(item);
-  }, []);
 }
 
 function getLength(grip) {
@@ -121,7 +114,7 @@ function getTitle(props, object) {
   let objectLength = getLength(object);
   let isEmpty = objectLength === 0;
 
-  let title = props.title || object.class || "Array";
+  let title = props.title || object.class || DEFAULT_TITLE;
 
   const length = lengthBubble({
     object,
@@ -132,33 +125,29 @@ function getTitle(props, object) {
 
   if (props.mode === MODE.TINY) {
     if (isEmpty) {
-      return object.class === "Array"
-        ? ""
-        : (
-        span({
-            className: "objectTitle"},
-          title,
-          " "
-        )
+      if (object.class === DEFAULT_TITLE) {
+        return null;
+      }
+
+      return (
+        span({className: "objectTitle"}, `${title} `)
       );
     }
 
     let trailingSpace;
-    if (object.class === "Array") {
-      title = "";
+    if (object.class === DEFAULT_TITLE) {
+      title = null;
       trailingSpace = " ";
     }
 
-    return span({
-      className: "objectTitle"},
+    return span({className: "objectTitle"},
       title,
       length,
       trailingSpace
     );
   }
 
-  return span({
-    className: "objectTitle"},
+  return span({className: "objectTitle"},
     title,
     length,
     " "

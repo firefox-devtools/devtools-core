@@ -33,10 +33,7 @@ function Document(props) {
     },
       getTitle(grip),
       location
-        ? " "
-        : null,
-      location
-        ? span({className: "location"}, location)
+        ? span({className: "location"}, ` ${location}`)
         : null
     )
   );

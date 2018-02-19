@@ -7,6 +7,7 @@ const PropTypes = require("prop-types");
 
 // Dependencies
 const {
+  interleave,
   isGrip,
   wrapRender,
 } = require("./rep-utils");
@@ -81,7 +82,7 @@ function GripRep(props) {
       span({
         className: "objectLeftBrace",
       }, " { "),
-      ...propsArray,
+      ...interleave(propsArray, ", "),
       span({
         className: "objectRightBrace",
       }, " }")
@@ -206,23 +207,7 @@ function propIterator(props, object, max) {
     }, "…"));
   }
 
-  return unfoldProps(propsArray);
-}
-
-function unfoldProps(items) {
-  return items.reduce((res, item, index) => {
-    if (Array.isArray(item)) {
-      res = res.concat(item);
-    } else {
-      res.push(item);
-    }
-
-    // Interleave commas between elements
-    if (index !== items.length - 1) {
-      res.push(", ");
-    }
-    return res;
-  }, []);
+  return propsArray;
 }
 
 /**

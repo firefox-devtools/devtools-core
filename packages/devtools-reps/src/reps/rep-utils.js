@@ -387,6 +387,22 @@ function isURL(token) {
   }
 }
 
+/**
+ * Returns a new array in which `char` are interleaved between the original items.
+ *
+ * @param {Array} items
+ * @param {String} char
+ * @returns Array
+ */
+function interleave(items, char) {
+  return items.reduce((res, item, index) => {
+    if (index !== items.length - 1) {
+      return res.concat(item, char);
+    }
+    return res.concat(item);
+  }, []);
+}
+
 const ellipsisElement = span({
     key: "more",
     className: "more-ellipsis",
@@ -394,6 +410,7 @@ const ellipsisElement = span({
 }, ELLIPSIS);
 
 module.exports = {
+  interleave,
   isGrip,
   isURL,
   cropString,

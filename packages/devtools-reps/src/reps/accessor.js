@@ -35,11 +35,7 @@ function Accessor(props) {
   const title = accessors.join(" & ");
 
   return (
-    span({className: "objectBox objectBox-accessor"},
-      span({
-        className: "objectTitle",
-      }, title)
-    )
+    span({className: "objectBox objectBox-accessor objectTitle"}, title)
   );
 }
 

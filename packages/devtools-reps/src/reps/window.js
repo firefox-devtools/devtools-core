@@ -46,8 +46,7 @@ function WindowRep(props) {
 
   return (
     span(config,
-      getTitle(object),
-      " ",
+      getTitle(object, true),
       span({className: "location"},
         getLocation(object)
       )
@@ -55,8 +54,11 @@ function WindowRep(props) {
   );
 }
 
-function getTitle(object) {
+function getTitle(object, trailingSpace) {
   let title = object.displayClass || object.class || "Window";
+  if (trailingSpace === true) {
+    title = `${title} `;
+  }
   return span({className: "objectTitle"}, title);
 }
 
