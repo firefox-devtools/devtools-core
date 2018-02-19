@@ -10,8 +10,7 @@ const {
 } = require("./rep-utils");
 const { MODE } = require("./constants");
 
-const dom = require("react-dom-factories");
-const { span } = dom;
+const { span } = require("react-dom-factories");
 
 /**
  * Property for Obj (local JS objects), Grip (remote JS objects)

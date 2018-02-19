@@ -62,11 +62,7 @@ function ArrayRep(props) {
       ...items,
       span({
         className: "arrayRightBracket",
-      }, brackets.right),
-      span({
-        className: "arrayProperties",
-        role: "group"}
-      )
+      }, brackets.right)
     )
   );
 }

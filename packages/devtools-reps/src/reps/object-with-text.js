@@ -31,8 +31,7 @@ function ObjectWithText(props) {
         "data-link-actor-id": grip.actor,
         className: "objectTitle objectBox objectBox-" + getType(grip)
       },
-      getType(grip),
-      " ",
+      `${getType(grip)} `,
       getDescription(grip)
     )
   );
