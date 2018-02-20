@@ -137,6 +137,36 @@ let samples = {
   symbol: [
     "Symbol('foo')",
     "Symbol()"
+  ],
+
+  errors: [
+    "throw new Error('This is a simple error message.');",
+    `
+      var error = new Error('Complicated error message');
+      error.stack =
+        "unserializeProfileOfArbitraryFormat@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:26705:11\\n" +
+        "_callee7$@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:27948:27\\n" +
+        "tryCatch@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:64198:37\\n" +
+        "invoke@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:64432:22\\n" +
+        "defineIteratorMethods/</prototype[method]@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:64250:16\\n" +
+        "step@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:5257:22\\n" +
+        "step/<@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:5268:13\\n" +
+        "run@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:64973:22\\n" +
+        "notify/<@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:64986:28\\n" +
+        "flush@http://localhost:4242/2969802751c9e11c0c2d.bundle.js:65282:9\\n";
+
+      error;
+    `,
+    `
+    var error = new Error('Complicated error message');
+    error.stack =
+      "onPacket@resource://devtools/shared/base-loader.js -> resource://devtools/shared/client/debugger-client.js:856:9\\n" +
+      "send/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/transport/transport.js:569:13\\n" +
+      "exports.makeInfallible/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14\\n" +
+      "exports.makeInfallible/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14\\n";
+
+    error;
+    `
   ]
 };
 

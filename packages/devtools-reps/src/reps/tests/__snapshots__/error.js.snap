@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error - Eval error renders with expected text for an EvalError 1`] = `
+"EvalError: \\"EvalError message\\"
+ (debugger eval code:10:13)"
+`;
+
+exports[`Error - Internal error renders with expected text for an InternalError 1`] = `
+"InternalError: \\"InternalError message\\"
+ (debugger eval code:11:13)"
+`;
+
+exports[`Error - Multi line stack error renders with expected text for Error object 1`] = `
+"Error: \\"bar\\"
+errorBar (debugger eval code:6:15)errorFoo (debugger eval code:3:3) (debugger eval code:8:1)"
+`;
+
+exports[`Error - Range error renders with expected text for RangeError 1`] = `
+"RangeError: \\"RangeError message\\"
+ (debugger eval code:12:13)"
+`;
+
+exports[`Error - Reference error renders with expected text for ReferenceError 1`] = `
+"ReferenceError: \\"ReferenceError message\\"
+ (debugger eval code:13:13)"
+`;
+
+exports[`Error - Simple error renders with expected text for simple error 1`] = `
+"Error: \\"Error message\\"
+ (debugger eval code:1:13)"
+`;
+
+exports[`Error - Syntax error renders with expected text for SyntaxError 1`] = `
+"SyntaxError: \\"SyntaxError message\\"
+ (debugger eval code:14:13)"
+`;
+
+exports[`Error - Type error renders with expected text for TypeError 1`] = `
+"TypeError: \\"TypeError message\\"
+ (debugger eval code:15:13)"
+`;
+
+exports[`Error - URI error renders with expected text for URIError 1`] = `
+"URIError: \\"URIError message\\"
+ (debugger eval code:16:13)"
+`;

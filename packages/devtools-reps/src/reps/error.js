@@ -44,17 +44,70 @@ function ErrorRep(props) {
     name = "Error";
   }
 
-  let content = props.mode === MODE.TINY
-    ? name
-    : `${name}: ${preview.message}`;
+  const content = [];
+
+  if (props.mode === MODE.TINY) {
+    content.push(name);
+  } else {
+    content.push(`${name}: "${preview.message}"`);
+  }
 
   if (preview.stack && props.mode !== MODE.TINY) {
-    /*
-      * Since Reps are used in the JSON Viewer, we can't localize
-      * the "Stack trace" label (defined in debugger.properties as
-      * "variablesViewErrorStacktrace" property), until Bug 1317038 lands.
-      */
-    content = `${content}\nStack trace:\n${preview.stack}`;
+    content.push("\n");
+
+    /**
+     * Transform the stack from:
+     *
+     * semicolon@debugger eval code:1:109
+     * jkl@debugger eval code:1:63
+     * asdf@debugger eval code:1:28
+     * @debugger eval code:1:227
+     *
+     * Into a column layout:
+     *
+     * semicolon  (<anonymous>:8:10)
+     * jkl        (<anonymous>:5:10)
+     * asdf       (<anonymous>:2:10)
+     *            (<anonymous>:11:1)
+     */
+
+    const stack = [];
+    preview.stack
+      .split("\n")
+      .forEach((line, index) => {
+        if (!line) {
+          // Skip any blank lines
+          return;
+        }
+        const result = line.match(/^(.*)@(.*)$/);
+        let functionName;
+        let location;
+        if (!result || result.length !== 3) {
+          // This line did not match up nicely with the "function@location" pattern for
+          // some reason.
+          functionName = line;
+        } else {
+          functionName = result[1];
+          location = ` (${result[2]})`;
+        }
+        stack.push(
+          span(
+            { key: "fn" + index, className: "objectBox-stackTrace-fn" },
+            functionName
+        ));
+        stack.push(
+          span(
+            { key: "location" + index, className: "objectBox-stackTrace-location" },
+            location
+        ));
+      });
+
+    content.push(
+      span(
+        { key: "stack", className: "objectBox-stackTrace-grid" },
+        stack
+      )
+    );
   }
 
   return span({
