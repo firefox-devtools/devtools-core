@@ -29,11 +29,7 @@ describe("Error - Simple error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(
-      "Error: Error message\n" +
-      "Stack trace:\n" +
-      "@debugger eval code:1:13\n"
-    );
+    expect(renderedComponent.text()).toMatchSnapshot();
     expectActorAttribute(renderedComponent, stub.actor);
   });
 
@@ -69,13 +65,7 @@ describe("Error - Multi line stack error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(
-      "Error: bar\n" +
-      "Stack trace:\n" +
-      "errorBar@debugger eval code:6:15\n" +
-      "errorFoo@debugger eval code:3:3\n" +
-      "@debugger eval code:8:1\n"
-    );
+    expect(renderedComponent.text()).toMatchSnapshot();
   });
 
   it("renders expected text for simple error with a multiple line in tiny mode", () => {
@@ -100,7 +90,7 @@ describe("Error - Error without stacktrace", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual("Error: Error message");
+    expect(renderedComponent.text()).toEqual("Error: \"Error message\"");
   });
 
   it("renders expected text for simple error without stacktrace in tiny mode", () => {
@@ -126,11 +116,7 @@ describe("Error - Eval error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(
-      "EvalError: EvalError message\n" +
-      "Stack trace:\n" +
-      "@debugger eval code:10:13\n"
-    );
+    expect(renderedComponent.text()).toMatchSnapshot();
   });
 
   it("renders with expected text for an EvalError in tiny mode", () => {
@@ -156,11 +142,7 @@ describe("Error - Internal error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(
-      "InternalError: InternalError message\n" +
-      "Stack trace:\n" +
-      "@debugger eval code:11:13\n"
-    );
+    expect(renderedComponent.text()).toMatchSnapshot();
   });
 
   it("renders with expected text for an InternalError in tiny mode", () => {
@@ -186,11 +168,7 @@ describe("Error - Range error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(
-      "RangeError: RangeError message\n" +
-      "Stack trace:\n" +
-      "@debugger eval code:12:13\n"
-    );
+    expect(renderedComponent.text()).toMatchSnapshot();
   });
 
   it("renders with expected text for RangeError in tiny mode", () => {
@@ -216,11 +194,7 @@ describe("Error - Reference error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(
-      "ReferenceError: ReferenceError message\n" +
-      "Stack trace:\n" +
-      "@debugger eval code:13:13\n"
-    );
+    expect(renderedComponent.text()).toMatchSnapshot();
   });
 
   it("renders with expected text for ReferenceError in tiny mode", () => {
@@ -246,11 +220,7 @@ describe("Error - Syntax error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(
-      "SyntaxError: SyntaxError message\n" +
-      "Stack trace:\n" +
-      "@debugger eval code:14:13\n"
-    );
+    expect(renderedComponent.text()).toMatchSnapshot();
   });
 
   it("renders with expected text for SyntaxError in tiny mode", () => {
@@ -276,11 +246,7 @@ describe("Error - Type error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(
-      "TypeError: TypeError message\n" +
-      "Stack trace:\n" +
-      "@debugger eval code:15:13\n"
-    );
+    expect(renderedComponent.text()).toMatchSnapshot();
   });
 
   it("renders with expected text for TypeError in tiny mode", () => {
@@ -306,11 +272,7 @@ describe("Error - URI error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(
-      "URIError: URIError message\n" +
-      "Stack trace:\n" +
-      "@debugger eval code:16:13\n"
-    );
+    expect(renderedComponent.text()).toMatchSnapshot();
   });
 
   it("renders with expected text for URIError in tiny mode", () => {
@@ -336,7 +298,7 @@ describe("Error - DOMException", () => {
     }));
 
     expect(renderedComponent.text()).toEqual(
-      "DOMException: 'foo;()bar!' is not a valid selector"
+      "DOMException: \"'foo;()bar!' is not a valid selector\""
     );
   });
 

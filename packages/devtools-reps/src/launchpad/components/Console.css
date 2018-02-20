@@ -38,6 +38,11 @@ main {
   margin-bottom: 0.5rem;
 }
 
+.rep-element {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
 .rep-element + .rep-element {
   margin-left: 0.5rem;
 }

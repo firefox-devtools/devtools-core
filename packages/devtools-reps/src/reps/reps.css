@@ -15,6 +15,7 @@
   --node-color: var(--theme-highlight-purple);
   --reference-color: var(--theme-highlight-blue);
   --comment-node-color: var(--theme-comment);
+  --stack-function-color: var(--theme-highlight-red);
 }
 
 .theme-firebug {
@@ -78,6 +79,24 @@
 .objectBox-stackTrace,
 .objectBox-profile {
   color: var(--object-color);
+}
+
+.objectBox-stackTrace-grid {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  margin-top: 3px;
+}
+
+.objectBox-stackTrace-fn::before {
+  content: "\3BB"; /* The "lambda" symbol */
+  color: var(--theme-body-color);
+  display: inline-block;
+  margin: 0 0.3em;
+}
+
+.objectBox-stackTrace-fn {
+  color: var(--stack-function-color);
+  padding-inline-start: 17px;
 }
 
 .objectBox-Location,
