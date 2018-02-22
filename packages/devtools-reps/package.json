@@ -22,7 +22,7 @@
   },
   "engineStrict": true,
   "engines": {
-    "node": ">=6.9.0"
+    "node": ">=8.9.4"
   },
   "dependencies": {
     "classnames": "^2.2.5",
