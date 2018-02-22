@@ -1,73 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ObjectInspector - properties renders uninitialized bindings 1`] = `
-"<ObjectInspector autoExpandDepth={0} createObjectClient={[Function]} roots={{...}}>
-  <Tree className=\\"object-inspector\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} isExpandable={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
-    <div className=\\"tree object-inspector\\" role=\\"tree\\" tabIndex=\\"0\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onFocus={[Function]} onBlur={[Function]} onClick={[Function]} aria-label={[undefined]} aria-labelledby={[undefined]} aria-activedescendant={{...}} style={{...}}>
-      <TreeNode id=\\"root/someFoo\\" index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} isExpandable={false} onExpand={[Function]} onCollapse={[Function]} onClick={[Function]}>
-        <div id=\\"root/someFoo\\" className=\\"tree-node\\" onClick={[Function]} role=\\"treeitem\\" aria-level={0} aria-expanded={[undefined]} data-expandable={false}>
-          <div className=\\"node object-node\\" onClick={[Function]} onDoubleClick={{...}}>
-            <span className=\\"object-label\\" onClick={{...}}>
-              someFoo
-            </span>
-            <span className=\\"object-delimiter\\">
-              : 
-            </span>
-            <span className=\\"unavailable\\">
-              (uninitialized)
-            </span>
-          </div>
-        </div>
-      </TreeNode>
-    </div>
-  </Tree>
-</ObjectInspector>"
-`;
+exports[`ObjectInspector - properties renders uninitialized bindings 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"root/someFoo\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" data-expandable=\\"false\\"><div class=\\"node object-node\\"><span class=\\"object-label\\">someFoo</span><span class=\\"object-delimiter\\">: </span><span class=\\"unavailable\\">(uninitialized)</span></div></div></div>"`;
 
-exports[`ObjectInspector - properties renders unmapped bindings 1`] = `
-"<ObjectInspector autoExpandDepth={0} createObjectClient={[Function]} roots={{...}}>
-  <Tree className=\\"object-inspector\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} isExpandable={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
-    <div className=\\"tree object-inspector\\" role=\\"tree\\" tabIndex=\\"0\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onFocus={[Function]} onBlur={[Function]} onClick={[Function]} aria-label={[undefined]} aria-labelledby={[undefined]} aria-activedescendant={{...}} style={{...}}>
-      <TreeNode id=\\"root/someFoo\\" index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} isExpandable={false} onExpand={[Function]} onCollapse={[Function]} onClick={[Function]}>
-        <div id=\\"root/someFoo\\" className=\\"tree-node\\" onClick={[Function]} role=\\"treeitem\\" aria-level={0} aria-expanded={[undefined]} data-expandable={false}>
-          <div className=\\"node object-node\\" onClick={[Function]} onDoubleClick={{...}}>
-            <span className=\\"object-label\\" onClick={{...}}>
-              someFoo
-            </span>
-            <span className=\\"object-delimiter\\">
-              : 
-            </span>
-            <span className=\\"unavailable\\">
-              (unmapped)
-            </span>
-          </div>
-        </div>
-      </TreeNode>
-    </div>
-  </Tree>
-</ObjectInspector>"
-`;
+exports[`ObjectInspector - properties renders unmapped bindings 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"root/someFoo\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" data-expandable=\\"false\\"><div class=\\"node object-node\\"><span class=\\"object-label\\">someFoo</span><span class=\\"object-delimiter\\">: </span><span class=\\"unavailable\\">(unmapped)</span></div></div></div>"`;
 
-exports[`ObjectInspector - properties renders unscoped bindings 1`] = `
-"<ObjectInspector autoExpandDepth={0} createObjectClient={[Function]} roots={{...}}>
-  <Tree className=\\"object-inspector\\" autoExpandAll={true} autoExpandDepth={0} disabledFocus={[undefined]} itemHeight={20} isExpanded={[Function]} isExpandable={[Function]} focused={{...}} getRoots={[Function]} getParent={[Function]} getChildren={[Function]} getKey={[Function]} onExpand={[Function]} onCollapse={[Function]} onFocus={[Function]} renderItem={[Function]}>
-    <div className=\\"tree object-inspector\\" role=\\"tree\\" tabIndex=\\"0\\" onKeyDown={[Function]} onKeyPress={[Function]} onKeyUp={[Function]} onFocus={[Function]} onBlur={[Function]} onClick={[Function]} aria-label={[undefined]} aria-labelledby={[undefined]} aria-activedescendant={{...}} style={{...}}>
-      <TreeNode id=\\"root/someFoo\\" index={0} item={{...}} depth={0} renderItem={[Function]} focused={false} expanded={false} isExpandable={false} onExpand={[Function]} onCollapse={[Function]} onClick={[Function]}>
-        <div id=\\"root/someFoo\\" className=\\"tree-node\\" onClick={[Function]} role=\\"treeitem\\" aria-level={0} aria-expanded={[undefined]} data-expandable={false}>
-          <div className=\\"node object-node\\" onClick={[Function]} onDoubleClick={{...}}>
-            <span className=\\"object-label\\" onClick={{...}}>
-              someFoo
-            </span>
-            <span className=\\"object-delimiter\\">
-              : 
-            </span>
-            <span className=\\"unavailable\\">
-              (unscoped)
-            </span>
-          </div>
-        </div>
-      </TreeNode>
-    </div>
-  </Tree>
-</ObjectInspector>"
-`;
+exports[`ObjectInspector - properties renders unscoped bindings 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"root/someFoo\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" data-expandable=\\"false\\"><div class=\\"node object-node\\"><span class=\\"object-label\\">someFoo</span><span class=\\"object-delimiter\\">: </span><span class=\\"unavailable\\">(unscoped)</span></div></div></div>"`;

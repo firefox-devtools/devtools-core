@@ -253,16 +253,18 @@ describe("ObjectInspector - renders", () => {
 
     expect(formatObjectInspector(oi)).toMatchSnapshot();
 
-    oi.setProps({roots: [{
-      path: "root-2",
-      contents: {
-        value: gripRepStubs.get("testMaxProps")
-      }
-    }]});
+    oi.setProps({
+      roots: [{
+        path: "root-2",
+        contents: {
+          value: gripRepStubs.get("testMaxProps")
+        }
+      }]
+    });
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
-  it("updates when the root changes but has same path", () => {
+  it("updates when the root changes but has same path", async () => {
     let oi = mount(ObjectInspector(generateDefaults({
       roots: [{
         path: "root",
@@ -284,7 +286,8 @@ describe("ObjectInspector - renders", () => {
     oi.find(".node").at(0).simulate("click");
 
     const oldTree = formatObjectInspector(oi);
-    oi.setProps({roots: [{
+    oi.setProps({
+      roots: [{
         path: "root",
         name: "root",
         contents: [{
@@ -293,7 +296,8 @@ describe("ObjectInspector - renders", () => {
             value: "i'm the new node",
           }
         }]
-    }]});
+      }]
+    });
 
     expect(formatObjectInspector(oi)).not.toBe(oldTree);
   });
