@@ -25,3 +25,7 @@
 .object-inspector .object-delimiter {
   color: var(--theme-comment);
 }
+
+.tree.object-inspector .arrow svg {
+  pointer-events: none;
+}
