@@ -4,10 +4,9 @@
 
 /* global jest */
 
+const { mount } = require("enzyme");
 const React = require("react");
 const { createFactory } = React;
-const { mount } = require("enzyme");
-
 const ObjectInspector = createFactory(require("../../index"));
 const ObjectClient = require("../__mocks__/object-client");
 

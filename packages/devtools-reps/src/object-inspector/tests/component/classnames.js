@@ -28,7 +28,7 @@ describe("ObjectInspector - classnames", () => {
     expect(wrapper.hasClass("tree")).toBeTruthy();
     expect(wrapper.hasClass("inline")).toBeFalsy();
     expect(wrapper.hasClass("nowrap")).toBeFalsy();
-    expect(wrapper.debug()).toMatchSnapshot();
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("has the nowrap class when disableWrap prop is true", () => {
@@ -37,7 +37,7 @@ describe("ObjectInspector - classnames", () => {
     });
     const wrapper = mount(ObjectInspector(props));
     expect(wrapper.hasClass("nowrap")).toBeTruthy();
-    expect(wrapper.debug()).toMatchSnapshot();
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("has the inline class when inline prop is true", () => {
@@ -46,6 +46,6 @@ describe("ObjectInspector - classnames", () => {
     });
     const wrapper = mount(ObjectInspector(props));
     expect(wrapper.hasClass("inline")).toBeTruthy();
-    expect(wrapper.debug()).toMatchSnapshot();
+    expect(wrapper.html()).toMatchSnapshot();
   });
 });

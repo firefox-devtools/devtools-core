@@ -85,7 +85,7 @@ describe("ObjectInspector - properties", () => {
       }]
     })));
 
-    expect(wrapper.debug()).toMatchSnapshot();
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("renders unmapped bindings", () => {
@@ -101,7 +101,7 @@ describe("ObjectInspector - properties", () => {
       }]
     })));
 
-    expect(wrapper.debug()).toMatchSnapshot();
+    expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("renders unscoped bindings", () => {
@@ -117,6 +117,6 @@ describe("ObjectInspector - properties", () => {
       }]
     })));
 
-    expect(wrapper.debug()).toMatchSnapshot();
+    expect(wrapper.html()).toMatchSnapshot();
   });
 });

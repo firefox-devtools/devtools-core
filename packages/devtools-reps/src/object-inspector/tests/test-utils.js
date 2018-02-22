@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+// @flow
+
+const {WAIT_UNTIL_TYPE} = require("../../shared/redux/middleware/waitUntilService");
+
 /*
  * Takes an Enzyme wrapper (obtained with mount/shallow/…) and
  * returns a stringified version of the ObjectInspector, e.g.
@@ -18,7 +22,7 @@
  *   |  ▼ __proto__ : Object { … }
  *
  */
-function formatObjectInspector(wrapper) {
+function formatObjectInspector(wrapper: Object) {
   return wrapper.find(".tree-node")
     .map(node => {
       const indentStr = "|  ".repeat(node.prop("aria-level") || 0);
@@ -39,6 +43,26 @@ function getSanitizedNodeText(node) {
   return node.text().replace(/^\u200B+/, "");
 }
 
+/**
+ * Wait for a specific action type to be dispatched.
+ *
+ * @param {Object} store: Redux store
+ * @param {String} type: type of the actin to wait for
+ * @return {Promise}
+ */
+function waitForDispatch(store: Object, type: string) {
+  return new Promise(resolve => {
+    store.dispatch({
+      type: WAIT_UNTIL_TYPE,
+      predicate: action => action.type === type,
+      run: (dispatch, getState, action) => {
+        resolve(action);
+      }
+    });
+  });
+}
+
 module.exports = {
-  formatObjectInspector
+  formatObjectInspector,
+  waitForDispatch,
 };

@@ -11,7 +11,10 @@ const { MODE } = require(`${repsPath}/constants`);
 const ObjectClient = require("../__mocks__/object-client");
 const gripRepStubs = require(`${repsPath}/stubs/grip`);
 const gripPropertiesStubs = require("../../stubs/grip");
-const { formatObjectInspector } = require("../test-utils");
+const {
+  formatObjectInspector,
+  waitForDispatch,
+} = require("../test-utils");
 
 function generateDefaults(overrides) {
   return Object.assign({
@@ -33,12 +36,15 @@ function generateDefaults(overrides) {
 }
 
 describe("ObjectInspector - state", () => {
-  it("has the expected expandedPaths state", async () => {
+  it("has the expected expandedPaths state when clicking nodes", async () => {
     const wrapper = mount(ObjectInspector(generateDefaults({
       loadedProperties: new Map([
         ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
       ])
     })));
+
+    const store = wrapper.instance().getStore();
+
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     let nodes = wrapper.find(".node");
 
@@ -47,24 +53,25 @@ describe("ObjectInspector - state", () => {
     const root2 = nodes.at(1);
 
     root1.simulate("click");
-    expect(wrapper.state("expandedPaths").has("root-1")).toBeTruthy();
-    expect(wrapper.state("expandedPaths").has("root-2")).toBeFalsy();
+
+    expect(store.getState().expandedPaths.has("root-1")).toBeTruthy();
+    expect(store.getState().expandedPaths.has("root-2")).toBeFalsy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // Clicking on the root node removes it path from "expandedPaths".
     root1.simulate("click");
-    expect(wrapper.state("expandedPaths").has("root-1")).toBeFalsy();
-    expect(wrapper.state("expandedPaths").has("root-2")).toBeFalsy();
+    expect(store.getState().expandedPaths.has("root-1")).toBeFalsy();
+    expect(store.getState().expandedPaths.has("root-2")).toBeFalsy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     root2.simulate("click");
-    expect(wrapper.state("expandedPaths").has("root-1")).toBeFalsy();
-    expect(wrapper.state("expandedPaths").has("root-2")).toBeTruthy();
+    expect(store.getState().expandedPaths.has("root-1")).toBeFalsy();
+    expect(store.getState().expandedPaths.has("root-2")).toBeTruthy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     root1.simulate("click");
-    expect(wrapper.state("expandedPaths").has("root-1")).toBeTruthy();
-    expect(wrapper.state("expandedPaths").has("root-2")).toBeTruthy();
+    expect(store.getState().expandedPaths.has("root-1")).toBeTruthy();
+    expect(store.getState().expandedPaths.has("root-2")).toBeTruthy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     nodes = wrapper.find(".node");
@@ -76,12 +83,12 @@ describe("ObjectInspector - state", () => {
     symbolNode.simulate("click");
     protoNode.simulate("click");
 
-    expect(wrapper.state("expandedPaths").has("root-1")).toBeTruthy();
-    expect(wrapper.state("expandedPaths").has("root-2")).toBeTruthy();
-    expect(wrapper.state("expandedPaths").has("root-1/__proto__")).toBeTruthy();
+    expect(store.getState().expandedPaths.has("root-1")).toBeTruthy();
+    expect(store.getState().expandedPaths.has("root-2")).toBeTruthy();
+    expect(store.getState().expandedPaths.has("root-1/__proto__")).toBeTruthy();
 
     // The property and symbols have primitive values, and can't be expanded.
-    expect(wrapper.state("expandedPaths").size).toBe(3);
+    expect(store.getState().expandedPaths.size).toBe(3);
   });
 
   it("has the expected state when expanding a node", async () => {
@@ -94,6 +101,7 @@ describe("ObjectInspector - state", () => {
     };
 
     const wrapper = mount(ObjectInspector(generateDefaults({
+      injectWaitService: true,
       createObjectClient: grip => ObjectClient(grip, {
         getPrototype: () => Promise.resolve(protoStub)
       }),
@@ -103,41 +111,30 @@ describe("ObjectInspector - state", () => {
 
     const root1 = nodes.at(0);
 
-    // Clicking on the root node adds it path to "loading".
+    const store = wrapper.instance().getStore();
+    let onPropertiesLoad = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     root1.simulate("click");
-    let state = wrapper.state();
-    expect(state.loading.has("root-1")).toBeTruthy();
+    await onPropertiesLoad;
 
-    // Once all the loading promises are resolved, the loading
-    // state property should be cleaned up, and actors and loadedProperties
-    // should have the expected values.
-    await state.loading.get("root-1");
-
-    state = wrapper.state();
-    expect(state.loading.has("root-1")).toBeFalsy();
-    expect(state.loadedProperties.has("root-1")).toBeTruthy();
+    expect(store.getState().loadedProperties.has("root-1")).toBeTruthy();
     // We don't want to track root actors.
-    expect(state.actors.has(gripRepStubs.get("testMoreThanMaxProps").actor))
+    expect(store.getState().actors.has(gripRepStubs.get("testMoreThanMaxProps").actor))
       .toBeFalsy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     nodes = wrapper.find(".node");
     const protoNode = nodes.at(1);
+
+    onPropertiesLoad = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     protoNode.simulate("click");
+    await onPropertiesLoad;
 
-    state = wrapper.state();
-    expect(state.loading.has("root-1/__proto__")).toBeTruthy();
-
-    // Once all the loading promises are resolved, the loading
-    // state property should be cleaned up, and actors and loadedProperties
+    // Once all the loading promises are resolved, actors and loadedProperties
     // should have the expected values.
-    await state.loading.get("root-1/__proto__");
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    state = wrapper.state();
 
-    expect(state.loading.has("root-1/__proto__")).toBeFalsy();
-    expect(state.loadedProperties.has("root-1/__proto__")).toBeTruthy();
-    expect(state.actors.has(protoStub.prototype.actor)).toBeTruthy();
+    expect(store.getState().loadedProperties.has("root-1/__proto__")).toBeTruthy();
+    expect(store.getState().actors.has(protoStub.prototype.actor)).toBeTruthy();
   });
 
   it("has the expected state when expanding a proxy node", async () => {
@@ -150,6 +147,7 @@ describe("ObjectInspector - state", () => {
     };
 
     const wrapper = mount(ObjectInspector(generateDefaults({
+      injectWaitService: true,
       createObjectClient: grip => ObjectClient(grip, {
         getPrototype: () => Promise.resolve(protoStub)
       }),
@@ -160,48 +158,38 @@ describe("ObjectInspector - state", () => {
     const proxyNode = nodes.at(1);
 
     // Clicking on the proxy should load the prototype.
+    const store = wrapper.instance().getStore();
+    let onLoadPrototype = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     proxyNode.simulate("click");
+    await onLoadPrototype;
 
-    let state = wrapper.state();
-    expect(state.loading.has("root-2")).toBeTruthy();
-
-    // Once all the loading promises are resolved, the loading
-    // state property should be cleaned up, and actors and loadedProperties
-    // should have the expected values.
-    await state.loading.get("root-2");
+    // Once the properties are loaded, actors and loadedProperties should have
+    // the expected values.
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
-    state = wrapper.state();
-    expect(state.loading.has("root-2")).toBeFalsy();
-    expect(state.loadedProperties.get("root-2")).toEqual(protoStub);
+    expect(store.getState().loadedProperties.get("root-2")).toEqual(protoStub);
     // We don't want to track root actors.
-    expect(state.actors.has(gripRepStubs.get("testProxy").actor)).toBeFalsy();
+    expect(store.getState().actors.has(gripRepStubs.get("testProxy").actor)).toBeFalsy();
 
     nodes = wrapper.find(".node");
     const protoNode = nodes.at(4);
+    onLoadPrototype = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     protoNode.simulate("click");
+    await onLoadPrototype;
 
-    state = wrapper.state();
-    expect(state.loading.has("root-2/__proto__")).toBeTruthy();
-
-    // Once all the loading promises are resolved, the loading
-    // state property should be cleaned up, and actors and loadedProperties
-    // should have the expected values.
-    await state.loading.get("root-2/__proto__");
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    state = wrapper.state();
-
-    expect(state.loading.has("root-2/__proto__")).toBeFalsy();
-    expect(state.loadedProperties.has("root-2/__proto__")).toBeTruthy();
-    expect(state.actors.has(protoStub.prototype.actor)).toBeTruthy();
+    expect(store.getState().loadedProperties.has("root-2/__proto__")).toBeTruthy();
+    expect(store.getState().actors.has(protoStub.prototype.actor)).toBeTruthy();
   });
 
   it("does not expand if the user selected some text", async () => {
     const wrapper = mount(ObjectInspector(generateDefaults({
+      injectWaitService: true,
       loadedProperties: new Map([
         ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
       ])
     })));
+    const store = wrapper.instance().getStore();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     let nodes = wrapper.find(".node");
 
@@ -210,7 +198,7 @@ describe("ObjectInspector - state", () => {
 
     const root1 = nodes.at(0);
     root1.simulate("click");
-    expect(wrapper.state("expandedPaths").has("root-1")).toBeFalsy();
+    expect(store.getState().expandedPaths.has("root-1")).toBeFalsy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // Clear the selection for other tests.

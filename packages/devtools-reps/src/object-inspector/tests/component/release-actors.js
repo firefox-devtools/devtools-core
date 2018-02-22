@@ -27,17 +27,16 @@ function generateDefaults(overrides) {
 }
 
 describe("release actors", () => {
-  it("release actors when unmount", () => {
+  it("calls release actors when unmount", () => {
     const releaseActor = jest.fn();
     const props = generateDefaults({
       releaseActor,
+      actors: new Set(["actor 1", "actor 2"]),
     });
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);
-    wrapper.setState({
-      actors: new Set(["actor 1", "actor 2"])
-    });
     wrapper.unmount();
+
     expect(releaseActor.mock.calls.length).toBe(2);
     expect(releaseActor.mock.calls[0][0]).toBe("actor 1");
     expect(releaseActor.mock.calls[1][0]).toBe("actor 2");
