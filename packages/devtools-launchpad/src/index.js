@@ -186,9 +186,9 @@ async function bootstrap(React, ReactDOM) {
       const { tab, tabConnection } = debuggedTarget;
       await updateConfig();
       return { tab, connTarget, tabConnection };
-    } else {
-      console.info("Tab closed due to missing debugged target window.")
     }
+
+    console.info("Tab closed due to missing debugged target window.");
   }
 
   const { store, actions, LaunchpadApp } = await initApp();

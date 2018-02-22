@@ -32,8 +32,8 @@ function handleLaunchRequest(req, res) {
   }
 
   if (browser == "Chrome") {
-    const chromeDriver= path.resolve(__dirname, "../../bin/chrome-driver.js");
-    ps.spawn('node', [chromeDriver, "--location", location]);
+    const chromeDriver = path.resolve(__dirname, "../../bin/chrome-driver.js");
+    ps.spawn("node", [chromeDriver, "--location", location]);
     res.end("launched chrome");
   }
 }
