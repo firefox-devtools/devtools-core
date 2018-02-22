@@ -53,3 +53,62 @@ export type ObjectClient = {
 export type CachedNodes = Map<string, Array<Node>>;
 
 export type LoadedProperties = Map<string, GripProperties>;
+
+export type Mode = MODE.TINY | MODE.SHORT | MODE.LONG;
+
+const {
+  MODE,
+} = require("../reps/constants");
+
+export type Props = {
+  autoExpandAll: boolean,
+  autoExpandDepth: number,
+  disabledFocus: boolean,
+  itemHeight: number,
+  inline: boolean,
+  mode: Mode,
+  roots: Array<Node>,
+  disableWrap: boolean,
+  dimTopLevelWindow: boolean,
+  releaseActor: string => void,
+  createObjectClient: RdpGrip => ObjectClient,
+  onFocus: ?(Node) => any,
+  onDoubleClick: ?(
+    item: Node,
+    options: {
+      depth: number,
+      focused: boolean,
+      expanded: boolean
+    }
+  ) => any,
+  onLabelClick: ?(
+    item: Node,
+    options: {
+      depth: number,
+      focused: boolean,
+      expanded: boolean,
+      setExpanded: (Node, boolean) => any,
+    }
+  ) => any,
+  actors: Set<string>,
+  expandedPaths: Set<string>,
+  focusedItem: ?Node,
+  loadedProperties: LoadedProperties,
+  loading: Map<string, Array<Promise<GripProperties>>>,
+};
+
+export type ReduxAction = {
+  type: string,
+  data: {}
+};
+
+export type State = {
+  actors: Set<string>,
+  expandedPaths: Set<string>,
+  focusedItem: ?Node,
+  loadedProperties: LoadedProperties,
+};
+
+export type ObjectInspectorId = string | number;
+
+export type PersistedStates = Map<ObjectInspectorId, State>;
