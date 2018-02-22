@@ -32,7 +32,7 @@ describe("Error - Simple error", () => {
     expect(renderedComponent.text()).toEqual(
       "Error: Error message\n" +
       "Stack trace:\n" +
-      "@debugger eval code:1:13\n"
+      "@ debugger eval code   1 : 13\n"
     );
     expectActorAttribute(renderedComponent, stub.actor);
   });
@@ -72,9 +72,9 @@ describe("Error - Multi line stack error", () => {
     expect(renderedComponent.text()).toEqual(
       "Error: bar\n" +
       "Stack trace:\n" +
-      "errorBar@debugger eval code:6:15\n" +
-      "errorFoo@debugger eval code:3:3\n" +
-      "@debugger eval code:8:1\n"
+      "errorBar @ debugger eval code   6 : 15\n" +
+      "errorFoo @ debugger eval code   3 : 3\n" +
+      "@ debugger eval code   8 : 1\n"
     );
   });
 
@@ -129,7 +129,7 @@ describe("Error - Eval error", () => {
     expect(renderedComponent.text()).toEqual(
       "EvalError: EvalError message\n" +
       "Stack trace:\n" +
-      "@debugger eval code:10:13\n"
+      "@ debugger eval code   10 : 13\n"
     );
   });
 
@@ -159,7 +159,7 @@ describe("Error - Internal error", () => {
     expect(renderedComponent.text()).toEqual(
       "InternalError: InternalError message\n" +
       "Stack trace:\n" +
-      "@debugger eval code:11:13\n"
+      "@ debugger eval code   11 : 13\n"
     );
   });
 
@@ -189,7 +189,7 @@ describe("Error - Range error", () => {
     expect(renderedComponent.text()).toEqual(
       "RangeError: RangeError message\n" +
       "Stack trace:\n" +
-      "@debugger eval code:12:13\n"
+      "@ debugger eval code   12 : 13\n"
     );
   });
 
@@ -219,7 +219,7 @@ describe("Error - Reference error", () => {
     expect(renderedComponent.text()).toEqual(
       "ReferenceError: ReferenceError message\n" +
       "Stack trace:\n" +
-      "@debugger eval code:13:13\n"
+      "@ debugger eval code   13 : 13\n"
     );
   });
 
@@ -249,7 +249,7 @@ describe("Error - Syntax error", () => {
     expect(renderedComponent.text()).toEqual(
       "SyntaxError: SyntaxError message\n" +
       "Stack trace:\n" +
-      "@debugger eval code:14:13\n"
+      "@ debugger eval code   14 : 13\n"
     );
   });
 
@@ -279,7 +279,7 @@ describe("Error - Type error", () => {
     expect(renderedComponent.text()).toEqual(
       "TypeError: TypeError message\n" +
       "Stack trace:\n" +
-      "@debugger eval code:15:13\n"
+      "@ debugger eval code   15 : 13\n"
     );
   });
 
@@ -309,7 +309,7 @@ describe("Error - URI error", () => {
     expect(renderedComponent.text()).toEqual(
       "URIError: URIError message\n" +
       "Stack trace:\n" +
-      "@debugger eval code:16:13\n"
+      "@ debugger eval code   16 : 13\n"
     );
   });
 
