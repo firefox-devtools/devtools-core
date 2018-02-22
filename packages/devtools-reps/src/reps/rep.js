@@ -20,6 +20,7 @@ const Accessor = require("./accessor");
 const Attribute = require("./attribute");
 const DateTime = require("./date-time");
 const Document = require("./document");
+const DocumentType = require("./document-type");
 const Event = require("./event");
 const Func = require("./function");
 const PromiseRep = require("./promise");
@@ -53,6 +54,7 @@ let reps = [
   PromiseRep,
   ArrayRep,
   Document,
+  DocumentType,
   Window,
   ObjectWithText,
   ObjectWithURL,
@@ -128,6 +130,7 @@ module.exports = {
     CommentNode,
     DateTime,
     Document,
+    DocumentType,
     ElementNode,
     ErrorRep,
     Event,

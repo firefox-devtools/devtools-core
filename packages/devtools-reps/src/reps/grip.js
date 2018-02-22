@@ -147,8 +147,9 @@ function propIterator(props, object, max) {
   });
 
   let properties = object.preview
-    ? object.preview.ownProperties
+    ? object.preview.ownProperties || {}
     : {};
+
   let propertiesLength = getPropertiesLength(object);
 
   if (object.preview && object.preview.safeGetterValues) {
