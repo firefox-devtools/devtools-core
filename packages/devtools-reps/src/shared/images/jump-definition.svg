@@ -1,7 +1,7 @@
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+<svg width="16" height="16" viewBox="0 0 16 16">
     <g stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
         <g id="arrow" transform="translate(1.000000, 3.000000)">
             <path d="M4.5,0.5 L6.5,2.5"></path>
