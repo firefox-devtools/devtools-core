@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-const { storiesOf, action } = require("@kadira/storybook");
+const { storiesOf, action } = require("@storybook/react");
 const LandingPage = require("../src/components/LandingPage");
 
 const { combineReducers } = require("redux");
@@ -17,7 +17,7 @@ const selectors = require("../src/selectors");
 import { Map } from "immutable";
 
 // Add devtools theme styles
-require("../src/lib/themes/light-theme.css");
+// require("../src/lib/themes/light-theme.css");
 document.body.classList.add("theme-light");
 
 const getTab = (id, title, clientType, url) => {
