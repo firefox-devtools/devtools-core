@@ -98,8 +98,7 @@ describe("Tree", () => {
       className: "testClassName"
     });
 
-    expect(wrapper.hasClass("testClassName")).toBe(true);
-    expect(wrapper.hasClass("tree")).toBe(true);
+    expect(wrapper.find(".tree").hasClass("testClassName")).toBe(true);
   });
 
   it("renders as expected when passed a style", () => {
@@ -369,9 +368,9 @@ describe("Tree", () => {
 
     getTreeNodes(wrapper).forEach(n => {
       if ("ABECDMN".split("").includes(getSanitizedNodeText(n))) {
-        expect(n.find(".arrow.expanded").exists()).toBe(true);
+        expect(n.find("i.arrow.expanded").exists()).toBe(true);
       } else {
-        expect(n.find(".arrow").exists()).toBe(false);
+        expect(n.find("i.arrow").exists()).toBe(false);
       }
     });
   });
@@ -381,7 +380,7 @@ describe("Tree", () => {
     expect(formatTree(wrapper)).toMatchSnapshot();
 
     getTreeNodes(wrapper).forEach(n => {
-      const arrow = n.find(".arrow");
+      const arrow = n.find("i.arrow");
       expect(arrow.exists()).toBe(true);
       expect(arrow.hasClass("expanded")).toBe(false);
     });
@@ -442,7 +441,7 @@ function formatTree(wrapper) {
     .map((node) => {
       const level = node.prop("aria-level");
       const indentStr = "|  ".repeat(level || 0);
-      const arrow = node.find(".arrow");
+      const arrow = node.find("i.arrow");
       let arrowStr = "  ";
       if (arrow.exists()) {
         arrowStr = arrow.hasClass("expanded") ? "▼ " : "▶︎ ";
