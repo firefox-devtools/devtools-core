@@ -11,11 +11,11 @@ const ws = require("ws");
 const net = require("net");
 
 function proxy(host, webSocketPort, tcpPort, logging) {
-  console.log(`Listening for WS on localhost:${webSocketPort}, all traffic is proxied to ${host}:${tcpPort}`);
+  console.log(`Listening for WS on localhost:${webSocketPort}, all traffic is proxied ` +
+    `to ${host}:${tcpPort}`);
   if (!logging) {
-     const style = "background-color:#F9F9FA; color:#E135B2;"
-     console.log("Protocol messages can be logged by enabling %clogging.firefoxProxy%c " +
-       "in %c/configs/local.json", style, "", style);
+    console.log("Protocol messages can be logged by enabling `logging.firefoxProxy` " +
+      "`in /configs/local.json`");
   }
   let wsServer = new ws.Server({ port: webSocketPort });
   wsServer.on("connection", function onConnection(wsConnection) {
