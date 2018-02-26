@@ -7,6 +7,7 @@
 .*node_modules/conventional-changelog-core.*
 .*node_modules/devtools-mc-assets.*
 .*node_modules/radium.*
+.*node_modules/react-style-proptype.*
 .*flow-coverage-report/.*
 .*custom_format_broken.json
 
