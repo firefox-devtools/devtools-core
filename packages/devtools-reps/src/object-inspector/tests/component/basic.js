@@ -200,7 +200,7 @@ describe("ObjectInspector - renders", () => {
       NODE_TYPES.DEFAULT_PROPERTIES
     );
 
-    // The [default properties] node should have the "lessen" class only when collapsed.
+    // The <default properties> node should have the "lessen" class only when collapsed.
     let oi = mount(ObjectInspector(generateDefaults({
       roots: [defaultPropertiesNode],
     })));
@@ -224,7 +224,7 @@ describe("ObjectInspector - renders", () => {
       NODE_TYPES.PROTOTYPE
     );
 
-    // The __proto__ node should have the "lessen" class only when collapsed.
+    // The <prototype> node should have the "lessen" class only when collapsed.
     oi = mount(ObjectInspector(generateDefaults({
       roots: [prototypeNode],
     })));

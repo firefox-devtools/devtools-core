@@ -91,7 +91,7 @@ describe("shouldLoadItemNonIndexedProperties", () => {
     expect(shouldLoadItemNonIndexedProperties(node)).toBeTruthy();
   });
 
-  it("returns false for a [default properties] node", () => {
+  it("returns false for a <default properties> node", () => {
     const windowNode = createNode(null, "root", "/", {
       value: windowStubs.get("Window")
     });

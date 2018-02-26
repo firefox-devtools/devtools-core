@@ -104,7 +104,7 @@ describe("getChildren", () => {
       ["secureConnectionStart", 1500967716401],
       ["unloadEventEnd", 0],
       ["unloadEventStart", 0],
-      ["__proto__", stub.prototype]
+      ["<prototype>", stub.prototype]
     ];
     const childrenPaths = childrenEntries.map(([name]) => `rootpath/${name}`);
 

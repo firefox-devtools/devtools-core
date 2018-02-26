@@ -42,10 +42,10 @@ describe("makeNodesForProperties", () => {
     const nodes = makeNodesForProperties(objProperties, root);
 
     const names = nodes.map(n => n.name);
-    expect(names).toEqual(["0", "length", "__proto__"]);
+    expect(names).toEqual(["0", "length", "<prototype>"]);
 
     const paths = nodes.map(n => n.path);
-    expect(paths).toEqual(["root/0", "root/length", "root/__proto__"]);
+    expect(paths).toEqual(["root/0", "root/length", "root/<prototype>"]);
   });
 
   it("includes getters and setters", () => {
@@ -80,8 +80,8 @@ describe("makeNodesForProperties", () => {
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
 
-    expect(names).toEqual(["bar", "baz", "foo", "__proto__"]);
-    expect(paths).toEqual(["root/bar", "root/baz", "root/foo", "root/__proto__"]);
+    expect(names).toEqual(["bar", "baz", "foo", "<prototype>"]);
+    expect(paths).toEqual(["root/bar", "root/baz", "root/foo", "root/<prototype>"]);
   });
 
   it("does not include unrelevant properties", () => {
@@ -123,14 +123,14 @@ describe("makeNodesForProperties", () => {
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
 
-    expect(names).toEqual(["1", "2", "11", "_bar", "bar", "__proto__"]);
+    expect(names).toEqual(["1", "2", "11", "_bar", "bar", "<prototype>"]);
     expect(paths).toEqual([
       "root/1",
       "root/2",
       "root/11",
       "root/_bar",
       "root/bar",
-      "root/__proto__"
+      "root/<prototype>"
     ]);
   });
 
@@ -148,8 +148,8 @@ describe("makeNodesForProperties", () => {
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
 
-    expect(names).toEqual(["bar", "__proto__"]);
-    expect(paths).toEqual(["root/bar", "root/__proto__"]);
+    expect(names).toEqual(["bar", "<prototype>"]);
+    expect(paths).toEqual(["root/bar", "root/<prototype>"]);
 
     expect(nodeIsPrototype(nodes[1])).toBe(true);
   });
@@ -172,7 +172,7 @@ describe("makeNodesForProperties", () => {
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path);
 
-    expect(names).toEqual(["bar", "[default properties]"]);
+    expect(names).toEqual(["bar", "<default properties>"]);
     expect(paths).toEqual(["root/bar", "root/##-default"]);
 
     expect(nodeIsDefaultProperties(nodes[1])).toBe(true);
@@ -246,14 +246,14 @@ describe("makeNodesForProperties", () => {
       "332217",
       '"needs-quotes"',
       "unquoted",
-      "__proto__"
+      "<prototype>"
     ]);
     expect(paths).toEqual([
       "root/",
       "root/332217",
       "root/needs-quotes",
       "root/unquoted",
-      "root/__proto__"
+      "root/<prototype>"
     ]);
   });
 });

@@ -31,7 +31,7 @@ exports[`ObjectInspector - state has the expected expandedPaths state when click
 "▼ {…}
 |    a: 1
 |    Symbol(): \\"hello\\"
-|  ▶︎ __proto__: Object { … }
+|  ▶︎ <prototype>: Object { … }
 ▶︎ Proxy { <target>: {…}, <handler>: (3) […] }"
 `;
 
@@ -51,7 +51,7 @@ exports[`ObjectInspector - state has the expected expandedPaths state when click
 "▼ {…}
 |    a: 1
 |    Symbol(): \\"hello\\"
-|  ▶︎ __proto__: Object { … }
+|  ▶︎ <prototype>: Object { … }
 ▼ Proxy
 |  ▶︎ <target>: Object { … }
 |  ▶︎ <handler>: Array(3) [ … ]"
@@ -64,14 +64,14 @@ exports[`ObjectInspector - state has the expected state when expanding a node 1`
 
 exports[`ObjectInspector - state has the expected state when expanding a node 2`] = `
 "▼ {…}
-|  ▶︎ __proto__: Object {  }
+|  ▶︎ <prototype>: Object {  }
 ▶︎ Proxy { <target>: {…}, <handler>: (3) […] }"
 `;
 
 exports[`ObjectInspector - state has the expected state when expanding a node 3`] = `
 "▼ {…}
-|  ▼ __proto__: {}
-|  |  ▶︎ __proto__: Object {  }
+|  ▼ <prototype>: {}
+|  |  ▶︎ <prototype>: Object {  }
 ▶︎ Proxy { <target>: {…}, <handler>: (3) […] }"
 `;
 
@@ -85,7 +85,7 @@ exports[`ObjectInspector - state has the expected state when expanding a proxy n
 ▼ Proxy
 |  ▶︎ <target>: Object { … }
 |  ▶︎ <handler>: Array(3) [ … ]
-|  ▶︎ __proto__: Object {  }"
+|  ▶︎ <prototype>: Object {  }"
 `;
 
 exports[`ObjectInspector - state has the expected state when expanding a proxy node 3`] = `
@@ -93,6 +93,6 @@ exports[`ObjectInspector - state has the expected state when expanding a proxy n
 ▼ Proxy
 |  ▶︎ <target>: Object { … }
 |  ▶︎ <handler>: Array(3) [ … ]
-|  ▼ __proto__: {}
-|  |  ▶︎ __proto__: Object {  }"
+|  ▼ <prototype>: {}
+|  |  ▶︎ <prototype>: Object {  }"
 `;
