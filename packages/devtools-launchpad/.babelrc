@@ -3,15 +3,6 @@
   "plugins": [
     "transform-flow-strip-types",
     "transform-async-to-generator",
-    "transform-runtime",
-    [
-      "module-resolver",
-      {
-        "alias": {
-          "devtools/client/shared/vendor/react": "react",
-          "devtools/client/shared/vendor/react-dom": "react-dom"
-        }
-      }
-    ]
+    "transform-runtime"
   ]
 }
