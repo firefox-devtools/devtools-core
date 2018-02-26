@@ -19,7 +19,7 @@ const {WAIT_UNTIL_TYPE} = require("../../shared/redux/middleware/waitUntilServic
  *   |  |  ▼ 1 : Symbol(b) → "value-b"
  *   |  |  |    <key> : Symbol(b)
  *   |  |  |    <value> : "value-b"
- *   |  ▼ __proto__ : Object { … }
+ *   |  ▼ <prototype> : Object { … }
  *
  */
 function formatObjectInspector(wrapper: Object) {

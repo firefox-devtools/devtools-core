@@ -47,7 +47,7 @@ exports[`ObjectInspector - entries does not call enumEntries if entries are alre
 |  |  ▼ 10: \\"key-10\\" → \\"value-10\\"
 |  |  |    <key>: \\"key-10\\"
 |  |  |    <value>: \\"value-10\\"
-|  ▼ __proto__: {…}"
+|  ▼ <prototype>: {…}"
 `;
 
 exports[`ObjectInspector - entries renders Object with entries as expected 1`] = `
@@ -60,5 +60,5 @@ exports[`ObjectInspector - entries renders Object with entries as expected 1`] =
 |  |  ▼ 1: Symbol(b) → \\"value-b\\"
 |  |  |    <key>: Symbol(b)
 |  |  |    <value>: \\"value-b\\"
-|  ▼ __proto__: {…}"
+|  ▼ <prototype>: {…}"
 `;

@@ -4,5 +4,5 @@ exports[`ObjectInspector - Proxy renders Proxy as expected 1`] = `
 "▼ Proxy
 |  ▶︎ <target>: Object { … }
 |  ▶︎ <handler>: Array(3) [ … ]
-|    __proto__: Object {  }"
+|    <prototype>: Object {  }"
 `;

@@ -50,7 +50,7 @@ describe("ObjectInspector - entries", () => {
       },
       loadedProperties: new Map([
         ["root", mapStubs.get("properties")],
-        ["root/__proto__", true]
+        ["root/<prototype>", true]
       ])
     })));
 
@@ -77,7 +77,7 @@ describe("ObjectInspector - entries", () => {
       loadedProperties: new Map([
         ["root", mapStubs.get("properties")],
         [`root/${SAFE_PATH_PREFIX}entries`, mapStubs.get("11-entries")],
-        ["root/__proto__", true]
+        ["root/<prototype>", true]
       ])
     })));
 

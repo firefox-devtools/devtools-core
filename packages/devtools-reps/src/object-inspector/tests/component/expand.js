@@ -90,7 +90,7 @@ describe("ObjectInspector - state", () => {
 
     expect(store.getState().expandedPaths.has("root-1")).toBeTruthy();
     expect(store.getState().expandedPaths.has("root-2")).toBeTruthy();
-    expect(store.getState().expandedPaths.has("root-1/__proto__")).toBeTruthy();
+    expect(store.getState().expandedPaths.has("root-1/<prototype>")).toBeTruthy();
 
     // The property and symbols have primitive values, and can't be expanded.
     expect(store.getState().expandedPaths.size).toBe(3);
@@ -139,7 +139,8 @@ describe("ObjectInspector - state", () => {
     // Once all the loading promises are resolved, actors and loadedProperties
     // should have the expected values.
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    expect(store.getState().loadedProperties.has("root-1/__proto__")).toBeTruthy();
+
+    expect(store.getState().loadedProperties.has("root-1/<prototype>")).toBeTruthy();
     expect(store.getState().actors.has(protoStub.prototype.actor)).toBeTruthy();
   });
 
@@ -186,7 +187,7 @@ describe("ObjectInspector - state", () => {
     wrapper.update();
 
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    expect(store.getState().loadedProperties.has("root-2/__proto__")).toBeTruthy();
+    expect(store.getState().loadedProperties.has("root-2/<prototype>")).toBeTruthy();
     expect(store.getState().actors.has(protoStub.prototype.actor)).toBeTruthy();
   });
 

@@ -14,7 +14,7 @@ const MAX_NUMERICAL_PROPERTIES = 100;
 
 const NODE_TYPES = {
   BUCKET: Symbol("[n…n]"),
-  DEFAULT_PROPERTIES: Symbol("[default properties]"),
+  DEFAULT_PROPERTIES: Symbol("<default properties>"),
   ENTRIES: Symbol("<entries>"),
   GET: Symbol("<get>"),
   GRIP: Symbol("GRIP"),
@@ -26,7 +26,7 @@ const NODE_TYPES = {
   PROXY_HANDLER: Symbol("<handler>"),
   PROXY_TARGET: Symbol("<target>"),
   SET: Symbol("<set>"),
-  PROTOTYPE: Symbol("__proto__"),
+  PROTOTYPE: Symbol("<prototype>"),
   BLOCK: Symbol("☲"),
 };
 
@@ -484,7 +484,7 @@ function makeDefaultPropsBucket(
   if (defaultProperties.length > 0) {
     const defaultPropertiesNode = createNode(
       parent,
-      "[default properties]",
+      "<default properties>",
       `${parentPath}/${SAFE_PATH_PREFIX}default`,
       null,
       NODE_TYPES.DEFAULT_PROPERTIES
@@ -596,8 +596,8 @@ function makeNodeForPrototype(
   if (prototype && prototype.type !== "null") {
     return createNode(
       parent,
-      "__proto__",
-      `${parent.path}/__proto__`,
+      "<prototype>",
+      `${parent.path}/<prototype>`,
       { value: prototype },
       NODE_TYPES.PROTOTYPE
     );
