@@ -106,15 +106,16 @@ describe("ObjectInspector - state", () => {
         getPrototype: () => Promise.resolve(protoStub)
       }),
     })));
+
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     let nodes = wrapper.find(".node");
-
     const root1 = nodes.at(0);
 
     const store = wrapper.instance().getStore();
     let onPropertiesLoad = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     root1.simulate("click");
     await onPropertiesLoad;
+    wrapper.update();
 
     expect(store.getState().loadedProperties.has("root-1")).toBeTruthy();
     // We don't want to track root actors.
@@ -128,11 +129,11 @@ describe("ObjectInspector - state", () => {
     onPropertiesLoad = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     protoNode.simulate("click");
     await onPropertiesLoad;
+    wrapper.update();
 
     // Once all the loading promises are resolved, actors and loadedProperties
     // should have the expected values.
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-
     expect(store.getState().loadedProperties.has("root-1/__proto__")).toBeTruthy();
     expect(store.getState().actors.has(protoStub.prototype.actor)).toBeTruthy();
   });
@@ -162,6 +163,7 @@ describe("ObjectInspector - state", () => {
     let onLoadPrototype = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     proxyNode.simulate("click");
     await onLoadPrototype;
+    wrapper.update();
 
     // Once the properties are loaded, actors and loadedProperties should have
     // the expected values.
@@ -176,6 +178,7 @@ describe("ObjectInspector - state", () => {
     onLoadPrototype = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     protoNode.simulate("click");
     await onLoadPrototype;
+    wrapper.update();
 
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     expect(store.getState().loadedProperties.has("root-2/__proto__")).toBeTruthy();
