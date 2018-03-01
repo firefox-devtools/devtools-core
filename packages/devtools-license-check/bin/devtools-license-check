@@ -26,7 +26,9 @@ const WAIVED_DEPENDENCIES = [
   // https://github.com/Daplie/node-walk/commit/d0859da355db6b8fb6bac26311732e84d23686db
   "walk@2.3.9",
   // The package is included in https://www.npmjs.com/package/eslint-plugin-mozilla
-  "ini-parser@0.0.2"
+  "ini-parser@0.0.2",
+  // The  package is included in several node libraries
+  "colors@0.5.1"
 ];
 
 const VALID_LICENSES = [
@@ -54,6 +56,9 @@ const VALID_LICENSES = [
   "BSD-2-Clause",
   "BSD-3-Clause",
   "BSD*",
+  "BSD-like",
+
+  "CC0-1.0",
 
   "LGPL-2.1+",
 
