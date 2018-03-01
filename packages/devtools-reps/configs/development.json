@@ -1,6 +1,7 @@
 {
   "title": "Reps",
   "hotReloading": true,
+  "defaultURL": "https://nchevobbe.github.io/demo/console-test-app.html",
   "environment": "development",
   "logging": {
     "client": false,
