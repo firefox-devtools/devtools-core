@@ -2,35 +2,52 @@
 
 exports[`NaN renders NaN Rep as expected 1`] = `
 ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
   "length": 1,
-  "node": <span
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <span
     className="objectBox objectBox-nan"
->
+  >
     NaN
-</span>,
-  "nodes": Array [
-    <span
-      className="objectBox objectBox-nan"
->
-      NaN
-</span>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": null,
-    "getRenderOutput": [Function],
+  </span>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
     "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
   },
-  "root": [Circular],
-  "unrendered": <span
-    className="objectBox objectBox-nan"
->
-    NaN
-</span>,
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": "NaN",
+      "className": "objectBox objectBox-nan",
+    },
+    "ref": null,
+    "rendered": "NaN",
+    "type": "span",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": "NaN",
+        "className": "objectBox objectBox-nan",
+      },
+      "ref": null,
+      "rendered": "NaN",
+      "type": "span",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
 }
 `;

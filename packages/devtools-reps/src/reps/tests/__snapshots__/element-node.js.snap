@@ -2,134 +2,363 @@
 
 exports[`ElementNode - Node with spaces in the class name renders with expected text content 1`] = `
 ShallowWrapper {
-  "complexSelector": ComplexSelector {
-    "buildPredicate": [Function],
-    "childrenOfNode": [Function],
-    "findWhereUnwrapped": [Function],
-  },
   "length": 1,
-  "node": <span
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <span
     className="objectBox objectBox-node"
     data-link-actor-id="server1.conn3.child1/obj59"
->
+  >
     <span
-        className="angleBracket"
+      className="angleBracket"
     >
-        &lt;
+      &lt;
     </span>
     <span
-        className="tag-name"
+      className="tag-name"
     >
-        body
+      body
     </span>
      
     <span>
-        <span
-            className="attrName"
-        >
-            class
-        </span>
-        <span
-            className="attrEqual"
-        >
-            =
-        </span>
-        <span
-            className="objectBox objectBox-string attrValue"
-        >
-            "a  b   c"
-        </span>
+      <span
+        className="attrName"
+      >
+        class
+      </span>
+      <span
+        className="attrEqual"
+      >
+        =
+      </span>
+      <span
+        className="objectBox objectBox-string attrValue"
+      >
+        "a  b   c"
+      </span>
     </span>
     <span
-        className="angleBracket"
+      className="angleBracket"
     >
-        &gt;
+      &gt;
     </span>
-</span>,
-  "nodes": Array [
-    <span
-      className="objectBox objectBox-node"
-      data-link-actor-id="server1.conn3.child1/obj59"
->
-      <span
-            className="angleBracket"
-      >
-            &lt;
-      </span>
-      <span
-            className="tag-name"
-      >
-            body
-      </span>
-       
-      <span>
-            <span
-                  className="attrName"
-            >
-                  class
-            </span>
-            <span
-                  className="attrEqual"
-            >
-                  =
-            </span>
-            <span
-                  className="objectBox objectBox-string attrValue"
-            >
-                  "a  b   c"
-            </span>
-      </span>
-      <span
-            className="angleBracket"
-      >
-            &gt;
-      </span>
-</span>,
-  ],
-  "options": Object {},
-  "renderer": ReactShallowRenderer {
-    "_instance": null,
-    "getRenderOutput": [Function],
+  </span>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
     "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
   },
-  "root": [Circular],
-  "unrendered": <span
-    className="objectBox objectBox-node"
-    data-link-actor-id="server1.conn3.child1/obj59"
->
-    <span
-        className="angleBracket"
-    >
-        &lt;
-    </span>
-    <span
-        className="tag-name"
-    >
-        body
-    </span>
-     
-    <span>
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
         <span
+          className="angleBracket"
+        >
+          &lt;
+        </span>,
+        <span
+          className="tag-name"
+        >
+          body
+        </span>,
+        " ",
+        <span>
+          <span
             className="attrName"
-        >
+          >
             class
-        </span>
-        <span
+          </span>
+          <span
             className="attrEqual"
-        >
+          >
             =
-        </span>
-        <span
+          </span>
+          <span
             className="objectBox objectBox-string attrValue"
-        >
+          >
             "a  b   c"
-        </span>
-    </span>
-    <span
-        className="angleBracket"
-    >
-        &gt;
-    </span>
-</span>,
+          </span>
+        </span>,
+        <span
+          className="angleBracket"
+        >
+          &gt;
+        </span>,
+        undefined,
+      ],
+      "className": "objectBox objectBox-node",
+      "data-link-actor-id": "server1.conn3.child1/obj59",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "<",
+          "className": "angleBracket",
+        },
+        "ref": null,
+        "rendered": "<",
+        "type": "span",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "body",
+          "className": "tag-name",
+        },
+        "ref": null,
+        "rendered": "body",
+        "type": "span",
+      },
+      " ",
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <span
+              className="attrName"
+            >
+              class
+            </span>,
+            <span
+              className="attrEqual"
+            >
+              =
+            </span>,
+            <span
+              className="objectBox objectBox-string attrValue"
+            >
+              "a  b   c"
+            </span>,
+          ],
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "class",
+              "className": "attrName",
+            },
+            "ref": null,
+            "rendered": "class",
+            "type": "span",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "=",
+              "className": "attrEqual",
+            },
+            "ref": null,
+            "rendered": "=",
+            "type": "span",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "\\"a  b   c\\"",
+              "className": "objectBox objectBox-string attrValue",
+            },
+            "ref": null,
+            "rendered": "\\"a  b   c\\"",
+            "type": "span",
+          },
+        ],
+        "type": "span",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": ">",
+          "className": "angleBracket",
+        },
+        "ref": null,
+        "rendered": ">",
+        "type": "span",
+      },
+      undefined,
+    ],
+    "type": "span",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <span
+            className="angleBracket"
+          >
+            &lt;
+          </span>,
+          <span
+            className="tag-name"
+          >
+            body
+          </span>,
+          " ",
+          <span>
+            <span
+              className="attrName"
+            >
+              class
+            </span>
+            <span
+              className="attrEqual"
+            >
+              =
+            </span>
+            <span
+              className="objectBox objectBox-string attrValue"
+            >
+              "a  b   c"
+            </span>
+          </span>,
+          <span
+            className="angleBracket"
+          >
+            &gt;
+          </span>,
+          undefined,
+        ],
+        "className": "objectBox objectBox-node",
+        "data-link-actor-id": "server1.conn3.child1/obj59",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "<",
+            "className": "angleBracket",
+          },
+          "ref": null,
+          "rendered": "<",
+          "type": "span",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "body",
+            "className": "tag-name",
+          },
+          "ref": null,
+          "rendered": "body",
+          "type": "span",
+        },
+        " ",
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <span
+                className="attrName"
+              >
+                class
+              </span>,
+              <span
+                className="attrEqual"
+              >
+                =
+              </span>,
+              <span
+                className="objectBox objectBox-string attrValue"
+              >
+                "a  b   c"
+              </span>,
+            ],
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "class",
+                "className": "attrName",
+              },
+              "ref": null,
+              "rendered": "class",
+              "type": "span",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "=",
+                "className": "attrEqual",
+              },
+              "ref": null,
+              "rendered": "=",
+              "type": "span",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": "\\"a  b   c\\"",
+                "className": "objectBox objectBox-string attrValue",
+              },
+              "ref": null,
+              "rendered": "\\"a  b   c\\"",
+              "type": "span",
+            },
+          ],
+          "type": "span",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": ">",
+            "className": "angleBracket",
+          },
+          "ref": null,
+          "rendered": ">",
+          "type": "span",
+        },
+        undefined,
+      ],
+      "type": "span",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
 }
 `;
