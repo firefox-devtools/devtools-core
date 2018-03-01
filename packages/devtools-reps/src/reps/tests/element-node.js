@@ -159,7 +159,7 @@ describe("ElementNode - Node with leading and trailing spaces class name", () =>
     }));
 
     expect(renderedComponent.text())
-      .toEqual('<body id=\"nightly-whatsnew\" class=\" html-ltr    \">');
+      .toEqual('<body id=\"nightly-whatsnew\" class=\"  html-ltr    \">');
   });
 
   it("renders with expected text content in tiny mode", () => {
