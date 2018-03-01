@@ -26,31 +26,39 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "devtools-components": "^0.1.5",
+    "devtools-components": "^0.2.0",
     "lodash": "^4.17.2",
     "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-dom-factories": "^1.0.2",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
     "svg-inline-react": "^3.0.0"
   },
   "devDependencies": {
-    "babel-jest": "^20.0.3",
+    "babel-jest": "^22.4.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "devtools-config": "^0.0.15",
-    "devtools-launchpad": "^0.0.108",
+    "devtools-launchpad": "^0.0.117",
     "devtools-license-check": "^0.5.1",
-    "enzyme": "^2.8.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^3.12.0",
     "eslint-plugin-mozilla": "0.2.3",
     "fs-extra": "^2.0.0",
-    "jest": "^20.0.4",
-    "jest-cli": "^20.0.4",
+    "jest": "^22.4.2",
     "jest-flow-transform": "^1.0.1",
     "redux-logger": "=3.0.6",
     "svg-inline-loader": "^0.8.0"
   },
   "jest": {
     "rootDir": "src",
+    "setupFiles": [
+      "<rootDir>/test/__mocks__/selection.js",
+      "<rootDir>/test/setup.js"
+    ],
     "testMatch": [
       "**/tests/**/*.js"
     ],
@@ -68,9 +76,6 @@
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
       "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"
-    },
-    "setupFiles": [
-      "<rootDir>/test/__mocks__/selection.js"
-    ]
+    }
   }
 }
