@@ -29,7 +29,7 @@ describe("Error - Simple error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toMatchSnapshot();
+    expect(renderedComponent).toMatchSnapshot();
     expectActorAttribute(renderedComponent, stub.actor);
   });
 
@@ -65,7 +65,7 @@ describe("Error - Multi line stack error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toMatchSnapshot();
+    expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders expected text for simple error with a multiple line in tiny mode", () => {
@@ -116,7 +116,7 @@ describe("Error - Eval error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toMatchSnapshot();
+    expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for an EvalError in tiny mode", () => {
@@ -142,7 +142,7 @@ describe("Error - Internal error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toMatchSnapshot();
+    expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for an InternalError in tiny mode", () => {
@@ -168,7 +168,7 @@ describe("Error - Range error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toMatchSnapshot();
+    expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for RangeError in tiny mode", () => {
@@ -194,7 +194,7 @@ describe("Error - Reference error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toMatchSnapshot();
+    expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for ReferenceError in tiny mode", () => {
@@ -220,7 +220,7 @@ describe("Error - Syntax error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toMatchSnapshot();
+    expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for SyntaxError in tiny mode", () => {
@@ -246,7 +246,7 @@ describe("Error - Type error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toMatchSnapshot();
+    expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for TypeError in tiny mode", () => {
@@ -272,7 +272,7 @@ describe("Error - URI error", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toMatchSnapshot();
+    expect(renderedComponent).toMatchSnapshot();
   });
 
   it("renders with expected text for URIError in tiny mode", () => {

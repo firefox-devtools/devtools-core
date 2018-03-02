@@ -36,7 +36,7 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);
     expect(wrapper.find(".node.lessen").exists()).toBeTruthy();
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it("renders expanded top-level window when dimTopLevelWindow is true", () => {
@@ -48,7 +48,7 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);
     expect(wrapper.find(".node.lessen").exists()).toBeFalsy();
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it("renders collapsed top-level window when dimTopLevelWindow is false", () => {
@@ -57,7 +57,7 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);
     expect(wrapper.find(".node.lessen").exists()).toBeFalsy();
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it("renders sub-level window", () => {
@@ -82,6 +82,6 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
     // Make sure we target the window object.
     expect(win.find(".objectBox-Window").exists()).toBeTruthy();
     expect(win.hasClass("lessen")).toBeFalsy();
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });
