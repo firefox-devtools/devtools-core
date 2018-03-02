@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ObjectInspector - properties renders uninitialized bindings 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"root/someFoo\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" data-expandable=\\"false\\"><div class=\\"node object-node\\"><span class=\\"object-label\\">someFoo</span><span class=\\"object-delimiter\\">: </span><span class=\\"unavailable\\">(uninitialized)</span></div></div></div>"`;
+exports[`ObjectInspector - properties renders uninitialized bindings 1`] = `"  someFoo: (uninitialized)"`;
 
-exports[`ObjectInspector - properties renders unmapped bindings 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"root/someFoo\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" data-expandable=\\"false\\"><div class=\\"node object-node\\"><span class=\\"object-label\\">someFoo</span><span class=\\"object-delimiter\\">: </span><span class=\\"unavailable\\">(unmapped)</span></div></div></div>"`;
+exports[`ObjectInspector - properties renders unmapped bindings 1`] = `"  someFoo: (unmapped)"`;
 
-exports[`ObjectInspector - properties renders unscoped bindings 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"root/someFoo\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" data-expandable=\\"false\\"><div class=\\"node object-node\\"><span class=\\"object-label\\">someFoo</span><span class=\\"object-delimiter\\">: </span><span class=\\"unavailable\\">(unscoped)</span></div></div></div>"`;
+exports[`ObjectInspector - properties renders unscoped bindings 1`] = `"  someFoo: (unscoped)"`;
