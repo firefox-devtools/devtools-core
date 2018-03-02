@@ -49,6 +49,8 @@ if (!isDevelopment()) {
     react: "devtools/client/shared/vendor/react",
     "react-dom": "devtools/client/shared/vendor/react-dom",
     "react-dom-factories": "devtools/client/shared/vendor/react-dom-factories",
+    "react-redux": "devtools/client/shared/vendor/react-redux",
+    "redux": "devtools/client/shared/vendor/redux",
     "prop-types": "devtools/client/shared/vendor/react-prop-types",
     lodash: "devtools/client/shared/vendor/lodash",
   };
