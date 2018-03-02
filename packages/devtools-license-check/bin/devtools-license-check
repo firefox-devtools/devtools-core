@@ -26,43 +26,48 @@ const WAIVED_DEPENDENCIES = [
   // https://github.com/Daplie/node-walk/commit/d0859da355db6b8fb6bac26311732e84d23686db
   "walk@2.3.9",
   // The package is included in https://www.npmjs.com/package/eslint-plugin-mozilla
-  "ini-parser@0.0.2"
+  "ini-parser@0.0.2",
+  // The  package is included in several node libraries
+  "colors@0.5.1"
 ];
 
 const VALID_LICENSES = [
-  'ISC',
+  "ISC",
 
-  'MIT',
-  'MIT*',
-  'MIT/X11',
+  "MIT",
+  "MIT*",
+  "MIT/X11",
 
-  'CC-BY-3.0',
-  'CC-BY-4.0',
+  "CC-BY-3.0",
+  "CC-BY-4.0",
 
-  'AFLv2.1',
+  "AFLv2.1",
 
-  'MPL-2.0',
-  'MPL 2.0',
+  "MPL-2.0",
+  "MPL 2.0",
 
-  'Apache',
-  'Apache2',
-  'Apache*',
-  'Apache-2.0',
-  'Apache License, Version 2.0',
+  "Apache",
+  "Apache2",
+  "Apache*",
+  "Apache-2.0",
+  "Apache License, Version 2.0",
 
-  'BSD',
-  'BSD-2-Clause',
-  'BSD-3-Clause',
-  'BSD*',
+  "BSD",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "BSD*",
+  "BSD-like",
 
-  'LGPL-2.1+',
+  "CC0-1.0",
 
-  'WTFPL',
-  'Unlicense',
-  'Public Domain',
-  'Public domain',
+  "LGPL-2.1+",
 
-  'Zlib',
+  "WTFPL",
+  "Unlicense",
+  "Public Domain",
+  "Public domain",
+
+  "Zlib"
 ];
 
 function isValidLicense(license) {
@@ -75,41 +80,46 @@ function isValidLicense(license) {
 
   // Otherwise, apply the boolean logic of AND or OR'ing the licenses.
   if (/ AND /.test(license)) {
-    return license.split(' AND ').every(l => VALID_LICENSES.includes(l));
+    return license.split(" AND ").every(l => VALID_LICENSES.includes(l));
   } else if (/ OR /.test(license)) {
-    return license.split(' OR ').some(l => VALID_LICENSES.includes(l));
+    return license.split(" OR ").some(l => VALID_LICENSES.includes(l));
   } else {
     return VALID_LICENSES.includes(license);
   }
 }
 
-checker.init({
-  start: process.cwd(),
-  production: true,
-  development: false,
-}, (err, licenseInfo) => {
-  if (err) {
-    console.error("ERROR: " + err);
-    process.exit(1);
-  }
-
-  let exitCode = 0;
-  for (let dep in licenseInfo) {
-    if (WAIVED_DEPENDENCIES.includes(dep)) {
-      continue;
+checker.init(
+  {
+    start: process.cwd(),
+    production: true,
+    development: false
+  },
+  (err, licenseInfo) => {
+    if (err) {
+      console.error("ERROR: " + err);
+      process.exit(1);
     }
 
-    let licenses = licenseInfo[dep].licenses;
-    if (typeof licenses === "string") {
-      licenses = [licenses];
-    }
+    let exitCode = 0;
+    for (let dep in licenseInfo) {
+      if (WAIVED_DEPENDENCIES.includes(dep)) {
+        continue;
+      }
 
-    for (let license of licenses) {
-      if (!isValidLicense(license)) {
-        console.error(`Invalid license for ${dep}: ${licenseInfo[dep].licenses}`);
-        exitCode = 1;
+      let licenses = licenseInfo[dep].licenses;
+      if (typeof licenses === "string") {
+        licenses = [licenses];
+      }
+
+      for (let license of licenses) {
+        if (!isValidLicense(license)) {
+          console.error(
+            `Invalid license for ${dep}: ${licenseInfo[dep].licenses}`
+          );
+          exitCode = 1;
+        }
       }
     }
+    process.exit(exitCode);
   }
-  process.exit(exitCode);
-});
+);
