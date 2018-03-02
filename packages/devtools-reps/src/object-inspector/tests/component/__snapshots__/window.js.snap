@@ -1,9 +1,299 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window when dimTopLevelWindow is false 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"windowpath\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" aria-expanded=\\"false\\" data-expandable=\\"true\\"><div class=\\"node object-node\\"><i class=\\"arrow\\"><svg></svg></i><span class=\\"object-label\\">window</span><span class=\\"object-delimiter\\">: </span><span data-link-actor-id=\\"server1.conn3.obj198\\" class=\\"objectBox objectBox-Window\\"><span class=\\"objectTitle\\">Window</span></span></div></div></div>"`;
+exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window when dimTopLevelWindow is false 1`] = `
+<div
+  aria-activedescendant={null}
+  className="tree object-inspector"
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyPress={[Function]}
+  onKeyUp={[Function]}
+  role="tree"
+  style={
+    Object {
+      "margin": 0,
+      "padding": 0,
+    }
+  }
+  tabIndex="0"
+>
+  <div
+    aria-expanded={false}
+    aria-level={0}
+    className="tree-node"
+    data-expandable={true}
+    id="windowpath"
+    onClick={[Function]}
+    role="treeitem"
+  >
+    <div
+      className="node object-node"
+      onClick={[Function]}
+    >
+      <i
+        className="arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg></svg>",
+          }
+        }
+        src={null}
+      />
+      <span
+        className="object-label"
+      >
+        window
+      </span>
+      <span
+        className="object-delimiter"
+      >
+        : 
+      </span>
+      <span
+        className="objectBox objectBox-Window"
+        data-link-actor-id="server1.conn3.obj198"
+      >
+        <span
+          className="objectTitle"
+        >
+          Window
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
 
-exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window when dimTopLevelWindow is true 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"windowpath\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" aria-expanded=\\"false\\" data-expandable=\\"true\\"><div class=\\"node object-node lessen\\"><i class=\\"arrow\\"><svg></svg></i><span class=\\"object-label\\">window</span><span class=\\"object-delimiter\\">: </span><span data-link-actor-id=\\"server1.conn3.obj198\\" class=\\"objectBox objectBox-Window\\"><span class=\\"objectTitle\\">Window</span></span></div></div></div>"`;
+exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window when dimTopLevelWindow is true 1`] = `
+<div
+  aria-activedescendant={null}
+  className="tree object-inspector"
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyPress={[Function]}
+  onKeyUp={[Function]}
+  role="tree"
+  style={
+    Object {
+      "margin": 0,
+      "padding": 0,
+    }
+  }
+  tabIndex="0"
+>
+  <div
+    aria-expanded={false}
+    aria-level={0}
+    className="tree-node"
+    data-expandable={true}
+    id="windowpath"
+    onClick={[Function]}
+    role="treeitem"
+  >
+    <div
+      className="node object-node lessen"
+      onClick={[Function]}
+    >
+      <i
+        className="arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg></svg>",
+          }
+        }
+        src={null}
+      />
+      <span
+        className="object-label"
+      >
+        window
+      </span>
+      <span
+        className="object-delimiter"
+      >
+        : 
+      </span>
+      <span
+        className="objectBox objectBox-Window"
+        data-link-actor-id="server1.conn3.obj198"
+      >
+        <span
+          className="objectTitle"
+        >
+          Window
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
 
-exports[`ObjectInspector - dimTopLevelWindow renders expanded top-level window when dimTopLevelWindow is true 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"windowpath\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" aria-expanded=\\"true\\" data-expandable=\\"true\\"><div class=\\"node object-node\\"><i class=\\"arrow expanded\\"><svg></svg></i><span class=\\"object-label\\">window</span><span class=\\"object-delimiter\\">: </span><span data-link-actor-id=\\"server1.conn3.obj198\\" class=\\"objectBox objectBox-Window\\"><span class=\\"objectTitle\\">Window</span></span></div></div></div>"`;
+exports[`ObjectInspector - dimTopLevelWindow renders expanded top-level window when dimTopLevelWindow is true 1`] = `
+<div
+  aria-activedescendant={null}
+  className="tree object-inspector"
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyPress={[Function]}
+  onKeyUp={[Function]}
+  role="tree"
+  style={
+    Object {
+      "margin": 0,
+      "padding": 0,
+    }
+  }
+  tabIndex="0"
+>
+  <div
+    aria-expanded={true}
+    aria-level={0}
+    className="tree-node"
+    data-expandable={true}
+    id="windowpath"
+    onClick={[Function]}
+    role="treeitem"
+  >
+    <div
+      className="node object-node"
+      onClick={[Function]}
+    >
+      <i
+        className="arrow expanded"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg></svg>",
+          }
+        }
+        src={null}
+      />
+      <span
+        className="object-label"
+      >
+        window
+      </span>
+      <span
+        className="object-delimiter"
+      >
+        : 
+      </span>
+      <span
+        className="objectBox objectBox-Window"
+        data-link-actor-id="server1.conn3.obj198"
+      >
+        <span
+          className="objectTitle"
+        >
+          Window
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
 
-exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `"<div class=\\"tree object-inspector\\" role=\\"tree\\" tabindex=\\"0\\" style=\\"padding: 0px; margin: 0px;\\"><div id=\\"rootpath\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"0\\" aria-expanded=\\"true\\" data-expandable=\\"true\\"><div class=\\"node object-node\\"><i class=\\"arrow expanded\\"><svg></svg></i><span class=\\"object-label\\">root</span></div></div><div id=\\"windowpath\\" class=\\"tree-node\\" role=\\"treeitem\\" aria-level=\\"1\\" aria-expanded=\\"false\\" data-expandable=\\"true\\"><span class=\\"tree-indent\\">​</span><div class=\\"node object-node\\"><i class=\\"arrow\\"><svg></svg></i><span class=\\"object-label\\">window</span><span class=\\"object-delimiter\\">: </span><span data-link-actor-id=\\"server1.conn3.obj198\\" class=\\"objectBox objectBox-Window\\"><span class=\\"objectTitle\\">Window</span></span></div></div></div>"`;
+exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `
+<div
+  aria-activedescendant={null}
+  className="tree object-inspector"
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyPress={[Function]}
+  onKeyUp={[Function]}
+  role="tree"
+  style={
+    Object {
+      "margin": 0,
+      "padding": 0,
+    }
+  }
+  tabIndex="0"
+>
+  <div
+    aria-expanded={true}
+    aria-level={0}
+    className="tree-node"
+    data-expandable={true}
+    id="rootpath"
+    onClick={[Function]}
+    role="treeitem"
+  >
+    <div
+      className="node object-node"
+      onClick={[Function]}
+    >
+      <i
+        className="arrow expanded"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg></svg>",
+          }
+        }
+        src={null}
+      />
+      <span
+        className="object-label"
+      >
+        root
+      </span>
+    </div>
+  </div>
+  <div
+    aria-expanded={false}
+    aria-level={1}
+    className="tree-node"
+    data-expandable={true}
+    id="windowpath"
+    onClick={[Function]}
+    role="treeitem"
+  >
+    <span
+      className="tree-indent"
+    >
+      ​
+    </span>
+    <div
+      className="node object-node"
+      onClick={[Function]}
+    >
+      <i
+        className="arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<svg></svg>",
+          }
+        }
+        src={null}
+      />
+      <span
+        className="object-label"
+      >
+        window
+      </span>
+      <span
+        className="object-delimiter"
+      >
+        : 
+      </span>
+      <span
+        className="objectBox objectBox-Window"
+        data-link-actor-id="server1.conn3.obj198"
+      >
+        <span
+          className="objectTitle"
+        >
+          Window
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;
