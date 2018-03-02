@@ -20,13 +20,13 @@ function generateDefaults(overrides) {
   }, overrides);
 }
 
-function mounObjectInspector(props) {
+function mountObjectInspector(props) {
   return mount(ObjectInspector(generateDefaults(props))).find("div.object-inspector");
 }
 
 describe("ObjectInspector - classnames", () => {
   it("has the expected class", () => {
-    const wrapper = mounObjectInspector();
+    const wrapper = mountObjectInspector();
     expect(wrapper.hasClass("tree")).toBeTruthy();
     expect(wrapper.hasClass("inline")).toBeFalsy();
     expect(wrapper.hasClass("nowrap")).toBeFalsy();
@@ -34,7 +34,7 @@ describe("ObjectInspector - classnames", () => {
   });
 
   it("has the nowrap class when disableWrap prop is true", () => {
-    const wrapper = mounObjectInspector({
+    const wrapper = mountObjectInspector({
       disableWrap: true,
     });
     expect(wrapper.hasClass("nowrap")).toBeTruthy();
@@ -42,7 +42,7 @@ describe("ObjectInspector - classnames", () => {
   });
 
   it("has the inline class when inline prop is true", () => {
-    const wrapper = mounObjectInspector({
+    const wrapper = mountObjectInspector({
       inline: true,
     });
     expect(wrapper.hasClass("inline")).toBeTruthy();
