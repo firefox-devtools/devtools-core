@@ -12,6 +12,10 @@ const ObjectInspector = createFactory(require("../../index"));
 const gripRepStubs = require("../../../reps/stubs/grip");
 const ObjectClient = require("../__mocks__/object-client");
 
+const {
+  formatObjectInspector,
+} = require("../test-utils");
+
 function generateDefaults(overrides) {
   return Object.assign({
     autoExpandDepth: 0,
@@ -85,7 +89,7 @@ describe("ObjectInspector - properties", () => {
       }]
     })));
 
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 
   it("renders unmapped bindings", () => {
@@ -101,7 +105,7 @@ describe("ObjectInspector - properties", () => {
       }]
     })));
 
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 
   it("renders unscoped bindings", () => {
@@ -117,6 +121,6 @@ describe("ObjectInspector - properties", () => {
       }]
     })));
 
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 });

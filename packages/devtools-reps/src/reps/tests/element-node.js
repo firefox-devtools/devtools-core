@@ -185,8 +185,6 @@ describe("ElementNode - Node with spaces in the class name", () => {
       object: stub
     }));
 
-    // Using snapshot testing here, because enzyme -> shallow -> text() is not returning
-    // the correct text representation of this React component.
     expect(renderedComponent).toMatchSnapshot();
   });
 
