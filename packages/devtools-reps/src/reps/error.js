@@ -10,6 +10,7 @@ const {
   isGrip,
   wrapRender,
 } = require("./rep-utils");
+const { cleanFunctionName } = require("./function");
 const { MODE } = require("./constants");
 
 const dom = require("react-dom-factories");
@@ -91,11 +92,7 @@ function getStacktraceElements(preview) {
       const result = line.match(/^(.*)@(.*)$/);
       let functionName;
       let location;
-      if (!result || result.length !== 3) {
-        // This line did not match up nicely with the "function@location" pattern for
-        // some reason.
-        functionName = line;
-      } else {
+      if (result && result.length === 3) {
         functionName = result[1];
 
         // If the resource was loaded by base-loader.js, the location looks like:
@@ -104,16 +101,18 @@ function getStacktraceElements(preview) {
         location = result[2].split(" -> ").pop();
       }
 
-      stack.push(
-        span({
-          key: "fn" + index,
-          className: "objectBox-stackTrace-fn"
-        }, functionName),
-        span({
-          key: "location" + index,
-          className: "objectBox-stackTrace-location"
-        }, ` (${location})`)
-      );
+      if (!functionName) {
+        functionName = "<anonymous>";
+      }
+
+      stack.push(span({
+        key: "fn" + index,
+        className: "objectBox-stackTrace-fn"
+      }, cleanFunctionName(functionName)),
+      span({
+        key: "location" + index,
+        className: "objectBox-stackTrace-location"
+      }, ` (${location})`));
     });
 
   return span({
