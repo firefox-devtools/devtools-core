@@ -102,7 +102,7 @@ class TreeNode extends Component {
         className: "tree-node" + (focused ? " focused" : ""),
         onClick: this.props.onClick,
         role: "treeitem",
-        "aria-level": depth,
+        "aria-level": depth + 1,
         "aria-expanded": ariaExpanded,
         "data-expandable": this.props.isExpandable
       },
