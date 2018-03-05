@@ -72,17 +72,38 @@ describe("Tree", () => {
 
   it("is accessible", () => {
     const wrapper = mountTree({
-      expanded: new Set("ABCDEFGHIJKLMNO".split("")),
+      expanded: new Set("ABCDEFGHIJMN".split("")),
     });
     expect(wrapper.getDOMNode().getAttribute("role")).toBe("tree");
     expect(wrapper.getDOMNode().getAttribute("tabIndex")).toBe("0");
 
-    getTreeNodes(wrapper)
-      .everyWhere(node => expect(
-        node.prop("id").startsWith("key-")
-        && node.prop("role") === "treeitem"
-        && typeof node.prop("aria-level") !== "undefined"
-      ).toBe(true));
+    const expected = {
+      "A": {id: "key-A", level: 1, expanded: true},
+      "B": {id: "key-B", level: 2, expanded: true},
+      "C": {id: "key-C", level: 2, expanded: true},
+      "D": {id: "key-D", level: 2, expanded: true},
+      "E": {id: "key-E", level: 3, expanded: true},
+      "F": {id: "key-F", level: 3, expanded: true},
+      "G": {id: "key-G", level: 3, expanded: true},
+      "H": {id: "key-H", level: 3, expanded: true},
+      "I": {id: "key-I", level: 3, expanded: true},
+      "J": {id: "key-J", level: 3, expanded: true},
+      "K": {id: "key-K", level: 4, expanded: undefined},
+      "L": {id: "key-L", level: 4, expanded: undefined},
+      "M": {id: "key-M", level: 1, expanded: true},
+      "N": {id: "key-N", level: 2, expanded: true},
+      "O": {id: "key-O", level: 3, expanded: undefined},
+    };
+
+    getTreeNodes(wrapper).forEach(node => {
+      const key = node.prop("id").replace("key-", "");
+      const item = expected[key];
+
+      expect(node.prop("id")).toBe(item.id);
+      expect(node.prop("role")).toBe("treeitem");
+      expect(node.prop("aria-level")).toBe(item.level);
+      expect(node.prop("aria-expanded")).toBe(item.expanded);
+    });
   });
 
   it("renders as expected", () => {
@@ -439,8 +460,8 @@ function simulateKeyDown(wrapper, key) {
 function formatTree(wrapper) {
   return getTreeNodes(wrapper)
     .map((node) => {
-      const level = node.prop("aria-level");
-      const indentStr = "|  ".repeat(level || 0);
+      const level = (node.prop("aria-level") || 1) - 1;
+      const indentStr = "|  ".repeat(level);
       const arrow = node.find("i.arrow");
       let arrowStr = "  ";
       if (arrow.exists()) {
