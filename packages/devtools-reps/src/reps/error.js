@@ -53,67 +53,69 @@ function ErrorRep(props) {
   }
 
   if (preview.stack && props.mode !== MODE.TINY) {
-    content.push("\n");
-
-    /**
-     * Transform the stack from:
-     *
-     * semicolon@debugger eval code:1:109
-     * jkl@debugger eval code:1:63
-     * asdf@debugger eval code:1:28
-     * @debugger eval code:1:227
-     *
-     * Into a column layout:
-     *
-     * semicolon  (<anonymous>:8:10)
-     * jkl        (<anonymous>:5:10)
-     * asdf       (<anonymous>:2:10)
-     *            (<anonymous>:11:1)
-     */
-
-    const stack = [];
-    preview.stack
-      .split("\n")
-      .forEach((line, index) => {
-        if (!line) {
-          // Skip any blank lines
-          return;
-        }
-        const result = line.match(/^(.*)@(.*)$/);
-        let functionName;
-        let location;
-        if (!result || result.length !== 3) {
-          // This line did not match up nicely with the "function@location" pattern for
-          // some reason.
-          functionName = line;
-        } else {
-          functionName = result[1];
-          location = ` (${result[2]})`;
-        }
-        stack.push(
-          span(
-            { key: "fn" + index, className: "objectBox-stackTrace-fn" },
-            functionName
-        ));
-        stack.push(
-          span(
-            { key: "location" + index, className: "objectBox-stackTrace-location" },
-            location
-        ));
-      });
-
-    content.push(
-      span(
-        { key: "stack", className: "objectBox-stackTrace-grid" },
-        stack
-      )
-    );
+    content.push("\n", getStacktraceElements(preview));
   }
 
   return span({
     "data-link-actor-id": object.actor,
     className: "objectBox-stackTrace"
   }, content);
+}
+
+/**
+ * Returns a React element reprensenting the Error stacktrace, i.e. transform error.stack
+ * from:
+ *
+ * semicolon@debugger eval code:1:109
+ * jkl@debugger eval code:1:63
+ * asdf@debugger eval code:1:28
+ * @debugger eval code:1:227
+ *
+ * Into a column layout:
+ *
+ * semicolon  (<anonymous>:8:10)
+ * jkl        (<anonymous>:5:10)
+ * asdf       (<anonymous>:2:10)
+ *            (<anonymous>:11:1)
+ */
+function getStacktraceElements(preview) {
+  const stack = [];
+  preview.stack
+    .split("\n")
+    .forEach((line, index) => {
+      if (!line) {
+        // Skip any blank lines
+        return;
+      }
+
+      const result = line.match(/^(.*)@(.*)$/);
+      let functionName;
+      let location;
+      if (!result || result.length !== 3) {
+        // This line did not match up nicely with the "function@location" pattern for
+        // some reason.
+        functionName = line;
+      } else {
+        functionName = result[1];
+        location = ` (${result[2]})`;
+      }
+
+      stack.push(
+        span({
+          key: "fn" + index,
+          className: "objectBox-stackTrace-fn"
+        }, functionName),
+        span({
+          key: "location" + index,
+          className: "objectBox-stackTrace-location"
+        }, location)
+      );
+    });
+
+  return span({
+    key: "stack",
+    className: "objectBox-stackTrace-grid"
+  }, stack);
 }
 
 // Registration
