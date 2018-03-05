@@ -15,7 +15,9 @@ exports[`Error - Eval error renders with expected text for an EvalError 1`] = `
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
-    />
+    >
+      &lt;anonymous&gt;
+    </span>
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -41,7 +43,9 @@ exports[`Error - Internal error renders with expected text for an InternalError 
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
-    />
+    >
+      &lt;anonymous&gt;
+    </span>
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -91,7 +95,9 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
     <span
       className="objectBox-stackTrace-fn"
       key="fn2"
-    />
+    >
+      &lt;anonymous&gt;
+    </span>
     <span
       className="objectBox-stackTrace-location"
       key="location2"
@@ -117,7 +123,9 @@ exports[`Error - Range error renders with expected text for RangeError 1`] = `
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
-    />
+    >
+      &lt;anonymous&gt;
+    </span>
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -143,7 +151,9 @@ exports[`Error - Reference error renders with expected text for ReferenceError 1
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
-    />
+    >
+      &lt;anonymous&gt;
+    </span>
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -169,7 +179,9 @@ exports[`Error - Simple error renders with expected text for simple error 1`] = 
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
-    />
+    >
+      &lt;anonymous&gt;
+    </span>
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -195,7 +207,9 @@ exports[`Error - Syntax error renders with expected text for SyntaxError 1`] = `
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
-    />
+    >
+      &lt;anonymous&gt;
+    </span>
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -221,7 +235,9 @@ exports[`Error - Type error renders with expected text for TypeError 1`] = `
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
-    />
+    >
+      &lt;anonymous&gt;
+    </span>
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -247,7 +263,9 @@ exports[`Error - URI error renders with expected text for URIError 1`] = `
     <span
       className="objectBox-stackTrace-fn"
       key="fn0"
-    />
+    >
+      &lt;anonymous&gt;
+    </span>
     <span
       className="objectBox-stackTrace-location"
       key="location0"
@@ -295,7 +313,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
       className="objectBox-stackTrace-fn"
       key="fn1"
     >
-      send/&lt;
+      send
     </span>
     <span
       className="objectBox-stackTrace-location"
@@ -307,7 +325,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
       className="objectBox-stackTrace-fn"
       key="fn2"
     >
-      exports.makeInfallible/&lt;
+      makeInfallible
     </span>
     <span
       className="objectBox-stackTrace-location"
@@ -319,7 +337,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
       className="objectBox-stackTrace-fn"
       key="fn3"
     >
-      exports.makeInfallible/&lt;
+      makeInfallible
     </span>
     <span
       className="objectBox-stackTrace-location"
