@@ -34,7 +34,12 @@ function formatObjectInspector(wrapper: Object) {
       } else {
         arrowStr = "  ";
       }
-      return `${indentStr}${arrowStr}${getSanitizedNodeText(node)}`;
+
+      let icon = "";
+      if (node.find(".node").first().hasClass("block")) {
+        icon = "☲ ";
+      }
+      return `${indentStr}${arrowStr}${icon}${getSanitizedNodeText(node)}`;
     })
     .join("\n");
 }

@@ -22,6 +22,16 @@
   color: var(--theme-comment);
 }
 
+.tree.object-inspector .block .object-label,
+.tree.object-inspector .block .object-label * {
+  color: var(--grey-90, #0c0c0d);
+  font-weight: bold;
+}
+
+.tree.object-inspector .block .object-label:before {
+  content: "☲ ";
+}
+
 .object-inspector .object-delimiter {
   color: var(--theme-comment);
 }

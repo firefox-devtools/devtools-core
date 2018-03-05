@@ -240,6 +240,36 @@ describe("ObjectInspector - renders", () => {
     expect(protoElementNode.hasClass("lessen")).toBe(false);
   });
 
+  it("renders block nodes as expected", () => {
+    const blockNode = createNode(
+      null,
+      "Block",
+      "/block-1",
+      [{
+        name: "a",
+        contents: {
+          value: 30,
+        }
+      }, {
+        name: "b",
+        contents: {
+          value: 32,
+        }
+      }],
+      NODE_TYPES.BLOCK
+    );
+
+    let oi = mount(ObjectInspector(generateDefaults({
+      roots: [blockNode],
+      autoExpandDepth: 1,
+    })));
+
+    let blockElementNode = oi.find(".node").first();
+    expect(blockElementNode.hasClass("block")).toBe(true);
+
+    expect(formatObjectInspector(oi)).toMatchSnapshot();
+  });
+
   it("updates when the root changes", () => {
     let oi = mount(ObjectInspector(generateDefaults({
       roots: [{

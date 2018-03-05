@@ -27,6 +27,7 @@ const NODE_TYPES = {
   PROXY_TARGET: Symbol("<target>"),
   SET: Symbol("<set>"),
   PROTOTYPE: Symbol("__proto__"),
+  BLOCK: Symbol("☲"),
 };
 
 import type {
@@ -199,6 +200,12 @@ function nodeIsSetter(
   item: Node
 ) : boolean {
   return getType(item) === NODE_TYPES.SET;
+}
+
+function nodeIsBlock(
+  item: Node
+) {
+  return getType(item) === NODE_TYPES.BLOCK;
 }
 
 function nodeHasAccessors(item: Node) : boolean {
@@ -800,6 +807,7 @@ module.exports = {
   nodeHasChildren,
   nodeHasEntries,
   nodeHasProperties,
+  nodeIsBlock,
   nodeIsBucket,
   nodeIsDefaultProperties,
   nodeIsEntries,
