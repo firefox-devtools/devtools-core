@@ -36,6 +36,7 @@ const {
   getValue,
   nodeHasAccessors,
   nodeHasProperties,
+  nodeIsBlock,
   nodeIsDefaultProperties,
   nodeIsFunction,
   nodeIsGetter,
@@ -359,7 +360,8 @@ class ObjectInspector extends Component {
               && nodeIsWindow(item)
               && depth === 0
             )
-        )
+        ),
+        block: nodeIsBlock(item)
       }),
       onClick: e => {
         e.stopPropagation();
