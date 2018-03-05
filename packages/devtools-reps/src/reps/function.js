@@ -99,14 +99,12 @@ function getTitle(grip, props) {
   }, title);
 }
 
-// Decodes an anonymous naming scheme that
-// spider monkey implements based on "Naming Anonymous JavaScript Functions"
-// http://johnjbarton.github.io/nonymous/index.html
-const objectProperty = /([\w\d]+)$/;
-const arrayProperty = /\[(.*?)\]$/;
-const functionProperty = /([\w\d]+)[\/\.<]*?$/;
-const annonymousProperty = /([\w\d]+)\(\^\)$/;
-
+/**
+ * Returns a ReactElement representing the function name.
+ *
+ * @param {Object} grip : Function grip
+ * @param {Object} props: Function rep props
+ */
 function getFunctionName(grip, props = {}) {
   let { functionName } = props;
   let name;
@@ -126,31 +124,45 @@ function getFunctionName(grip, props = {}) {
   ) {
     name = functionName + ":" + grip.displayName;
   } else {
-    name =
-       grip.userDisplayName ||
-       grip.displayName ||
-       grip.name ||
-       props.functionName ||
-       "";
-
-    const scenarios = [
-      objectProperty,
-      arrayProperty,
-      functionProperty,
-      annonymousProperty
-    ];
-
-    scenarios.some(reg => {
-      const match = reg.exec(name);
-      if (match) {
-        name = match[1];
-        return true;
-      }
-      return false;
-    });
+    name = cleanFunctionName(
+      grip.userDisplayName ||
+      grip.displayName ||
+      grip.name ||
+      props.functionName ||
+      ""
+    );
   }
 
   return cropString(name, 100);
+}
+
+const objectProperty = /([\w\d]+)$/;
+const arrayProperty = /\[(.*?)\]$/;
+const functionProperty = /([\w\d]+)[\/\.<]*?$/;
+const annonymousProperty = /([\w\d]+)\(\^\)$/;
+
+/**
+ * Decodes an anonymous naming scheme that
+ * spider monkey implements based on "Naming Anonymous JavaScript Functions"
+ * http://johnjbarton.github.io/nonymous/index.html
+ *
+ * @param {String} name : Function name to clean up
+ * @returns String
+ */
+function cleanFunctionName(name) {
+  for (const reg of [
+    objectProperty,
+    arrayProperty,
+    functionProperty,
+    annonymousProperty
+  ]) {
+    const match = reg.exec(name);
+    if (match) {
+      return match[1];
+    }
+  }
+
+  return name;
 }
 
 function renderParams(props) {
@@ -184,6 +196,7 @@ function supportsObject(grip, noGrip = false) {
 module.exports = {
   rep: wrapRender(FunctionRep),
   supportsObject,
+  cleanFunctionName,
   // exported for testing purpose.
   getFunctionName,
 };
