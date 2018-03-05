@@ -257,3 +257,76 @@ exports[`Error - URI error renders with expected text for URIError 1`] = `
   </span>
 </span>
 `;
+
+exports[`Error - base-loader.js renders as expected in tiny mode 1`] = `
+<span
+  className="objectBox-stackTrace"
+  data-link-actor-id="server1.conn1.child1/obj1020"
+>
+  Error
+</span>
+`;
+
+exports[`Error - base-loader.js renders as expected without mode 1`] = `
+<span
+  className="objectBox-stackTrace"
+  data-link-actor-id="server1.conn1.child1/obj1020"
+>
+  Error: "Error message"
+  
+
+  <span
+    className="objectBox-stackTrace-grid"
+    key="stack"
+  >
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn0"
+    >
+      onPacket
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location0"
+    >
+       (resource://devtools/shared/client/debugger-client.js:856:9)
+    </span>
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn1"
+    >
+      send/&lt;
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location1"
+    >
+       (resource://devtools/shared/transport/transport.js:569:13)
+    </span>
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn2"
+    >
+      exports.makeInfallible/&lt;
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location2"
+    >
+       (resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14)
+    </span>
+    <span
+      className="objectBox-stackTrace-fn"
+      key="fn3"
+    >
+      exports.makeInfallible/&lt;
+    </span>
+    <span
+      className="objectBox-stackTrace-location"
+      key="location3"
+    >
+       (resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14)
+    </span>
+  </span>
+</span>
+`;
