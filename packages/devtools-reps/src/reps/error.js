@@ -97,7 +97,11 @@ function getStacktraceElements(preview) {
         functionName = line;
       } else {
         functionName = result[1];
-        location = ` (${result[2]})`;
+
+        // If the resource was loaded by base-loader.js, the location looks like:
+        // resource://devtools/shared/base-loader.js -> resource://path/to/file.js .
+        // What's needed is only the last part after " -> ".
+        location = result[2].split(" -> ").pop();
       }
 
       stack.push(
@@ -108,7 +112,7 @@ function getStacktraceElements(preview) {
         span({
           key: "location" + index,
           className: "objectBox-stackTrace-location"
-        }, location)
+        }, ` (${location})`)
       );
     });
 

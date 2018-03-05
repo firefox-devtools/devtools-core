@@ -311,3 +311,24 @@ describe("Error - DOMException", () => {
     expect(renderedComponent.text()).toEqual("DOMException");
   });
 });
+
+describe("Error - base-loader.js", () => {
+  const stub = stubs.get("base-loader Error");
+
+  it("renders as expected without mode", () => {
+    const renderedComponent = shallow(ErrorRep.rep({
+      object: stub
+    }));
+
+    expect(renderedComponent).toMatchSnapshot();
+  });
+
+  it("renders as expected in tiny mode", () => {
+    const renderedComponent = shallow(ErrorRep.rep({
+      object: stub,
+      mode: MODE.TINY
+    }));
+
+    expect(renderedComponent).toMatchSnapshot();
+  });
+});
