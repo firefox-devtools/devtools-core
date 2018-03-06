@@ -35,10 +35,9 @@ function formatObjectInspector(wrapper: Object) {
         arrowStr = "  ";
       }
 
-      let icon = "";
-      if (node.find(".node").first().hasClass("block")) {
-        icon = "☲ ";
-      }
+      const icon = node.find(".node").first().hasClass("block")
+        ? "☲ "
+        : "";
       return `${indentStr}${arrowStr}${icon}${getSanitizedNodeText(node)}`;
     })
     .join("\n");
