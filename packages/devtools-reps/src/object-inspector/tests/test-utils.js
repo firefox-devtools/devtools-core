@@ -25,7 +25,7 @@ const {WAIT_UNTIL_TYPE} = require("../../shared/redux/middleware/waitUntilServic
 function formatObjectInspector(wrapper: Object) {
   return wrapper.find(".tree-node")
     .map(node => {
-      const indentStr = "|  ".repeat(node.prop("aria-level") || 0);
+      const indentStr = "|  ".repeat((node.prop("aria-level") || 1) - 1);
       // We need to target i.arrow or Enzyme will also match the ArrowExpander component.
       const arrow = node.find("i.arrow");
       let arrowStr = "  ";
