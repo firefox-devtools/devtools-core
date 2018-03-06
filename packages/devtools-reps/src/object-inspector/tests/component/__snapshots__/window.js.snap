@@ -21,7 +21,7 @@ exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window 
 >
   <div
     aria-expanded={false}
-    aria-level={0}
+    aria-level={1}
     className="tree-node"
     data-expandable={true}
     id="windowpath"
@@ -87,7 +87,7 @@ exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window 
 >
   <div
     aria-expanded={false}
-    aria-level={0}
+    aria-level={1}
     className="tree-node"
     data-expandable={true}
     id="windowpath"
@@ -153,7 +153,7 @@ exports[`ObjectInspector - dimTopLevelWindow renders expanded top-level window w
 >
   <div
     aria-expanded={true}
-    aria-level={0}
+    aria-level={1}
     className="tree-node"
     data-expandable={true}
     id="windowpath"
@@ -219,7 +219,7 @@ exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `
 >
   <div
     aria-expanded={true}
-    aria-level={0}
+    aria-level={1}
     className="tree-node"
     data-expandable={true}
     id="rootpath"
@@ -248,7 +248,7 @@ exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `
   </div>
   <div
     aria-expanded={false}
-    aria-level={1}
+    aria-level={2}
     className="tree-node"
     data-expandable={true}
     id="windowpath"
