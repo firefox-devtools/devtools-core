@@ -15,6 +15,10 @@ const {
   formatObjectInspector,
   waitForDispatch,
 } = require("../test-utils");
+const {
+  createNode,
+  NODE_TYPES,
+} = require("../../utils/node");
 
 function generateDefaults(overrides) {
   return Object.assign({
@@ -206,5 +210,45 @@ describe("ObjectInspector - state", () => {
 
     // Clear the selection for other tests.
     getSelection().setMockSelection();
+  });
+
+  it("does not throw when expanding a block node", async () => {
+    const blockNode = createNode(
+      null,
+      "Block",
+      "root-1",
+      [{
+        name: "a",
+        contents: {
+          value: 30,
+        }
+      }, {
+        name: "b",
+        contents: {
+          value: 32,
+        }
+      }],
+      NODE_TYPES.BLOCK
+    );
+    const proxyNode = createNode(
+      null,
+      "Proxy",
+      "root-2",
+      {
+        value: gripRepStubs.get("testProxy")
+      }
+    );
+
+    const wrapper = mount(ObjectInspector(generateDefaults({
+      roots: [blockNode, proxyNode],
+    })));
+
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    let nodes = wrapper.find(".node");
+    const root = nodes.at(0);
+    root.simulate("click");
+
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
   });
 });
