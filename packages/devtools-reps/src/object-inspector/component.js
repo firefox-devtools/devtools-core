@@ -177,7 +177,7 @@ class ObjectInspector extends Component {
     if (expand === true) {
       const gripItem = getClosestGripNode(item);
       const value = getValue(gripItem);
-      const isRoot = roots.some(root => {
+      const isRoot = value && roots.some(root => {
         const rootValue = getValue(root);
         return rootValue && rootValue.actor === value.actor;
       });
