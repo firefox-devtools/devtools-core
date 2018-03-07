@@ -24,12 +24,12 @@
 
 .tree.object-inspector .block .object-label,
 .tree.object-inspector .block .object-label * {
-  color: var(--grey-90, #0c0c0d);
-  font-weight: bold;
+  color: var(--theme-body-color);
 }
 
 .tree.object-inspector .block .object-label:before {
   content: "☲ ";
+  font-size: 1.1em;
 }
 
 .object-inspector .object-delimiter {
