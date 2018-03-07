@@ -89,9 +89,13 @@ function getStacktraceElements(preview) {
         return;
       }
 
-      const result = line.match(/^(.*)@(.*)$/);
       let functionName;
       let location;
+
+      // Given the input: "functionName@scriptLocation:2:100"
+      // Result:
+      // ["functionName@scriptLocation:2:100", "functionName", "scriptLocation:2:100"]
+      const result = line.match(/^(.*)@(.*)$/);
       if (result && result.length === 3) {
         functionName = result[1];
 
