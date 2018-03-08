@@ -40,7 +40,7 @@ describe("Event - keyboard event", () => {
   });
 
   it("renders with expected text", () => {
-    const renderRep = props => shallow(Event.rep(Object.assign({object}, props)));
+    const renderRep = props => shallow(Event.rep({object, ...props}));
     expect(renderRep().text()).toEqual(
       "keyup { target: body, key: \"Control\", charCode: 0, … }");
     expect(renderRep({mode: MODE.LONG}).text()).toEqual(
@@ -56,7 +56,7 @@ describe("Event - keyboard event with modifiers", () => {
   });
 
   it("renders with expected text", () => {
-    const renderRep = props => shallow(Event.rep(Object.assign({object}, props)));
+    const renderRep = props => shallow(Event.rep({object, ...props}));
     expect(renderRep({mode: MODE.LONG}).text()).toEqual(
       "keyup Meta-Shift { target: body, key: \"M\", charCode: 0, keyCode: 77 }");
   });
@@ -70,7 +70,7 @@ describe("Event - message event", () => {
   });
 
   it("renders with expected text", () => {
-    const renderRep = props => shallow(Event.rep(Object.assign({object}, props)));
+    const renderRep = props => shallow(Event.rep({object, ...props}));
     expect(renderRep().text()).toEqual(
       "message { target: Window, isTrusted: false, data: \"test data\", … }");
     expect(renderRep({mode: MODE.LONG}).text()).toEqual(
@@ -82,7 +82,7 @@ describe("Event - message event", () => {
 
 describe("Event - mouse event", () => {
   const object = stubs.get("testMouseEvent");
-  const renderRep = props => shallow(Event.rep(Object.assign({object}, props)));
+  const renderRep = props => shallow(Event.rep({object, ...props}));
 
   const grips = getSelectableInInspectorGrips(object);
   expect(grips.length).toBe(1, "the stub has one node grip");

@@ -9,10 +9,11 @@ const { Rep } = REPS;
 const { getGripLengthBubbleText } = require("./test-helpers");
 
 const renderRep = (string, props) => mount(
-  Rep(Object.assign({
+  Rep({
     object: string,
     omitLinkHref: false,
-  }, props))
+    ...props,
+  })
 );
 
 describe("test String with URL", () => {

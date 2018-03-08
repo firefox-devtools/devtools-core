@@ -19,9 +19,10 @@ const {
 const {maxLengthMap} = GripMap;
 
 function shallowRenderRep(object, props = {}) {
-  return shallow(GripMap.rep(Object.assign({
+  return shallow(GripMap.rep({
     object,
-  }, props)));
+    ...props,
+  }));
 }
 
 describe("GripMap - empty map", () => {

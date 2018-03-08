@@ -28,7 +28,7 @@ describe("TextNode", () => {
 
   it("renders as expected", () => {
     const object = stubs.get("testRendering");
-    const renderRep = props => shallow(TextNode.rep(Object.assign({object}, props)));
+    const renderRep = props => shallow(TextNode.rep({object, ...props}));
 
     const defaultOutput = `#text "hello world"`;
 
@@ -51,7 +51,7 @@ describe("TextNode", () => {
 
   it("renders as expected with EOL", () => {
     const object = stubs.get("testRenderingWithEOL");
-    const renderRep = props => shallow(TextNode.rep(Object.assign({object}, props)));
+    const renderRep = props => shallow(TextNode.rep({object, ...props}));
 
     const defaultOutput = `#text "hello\nworld"`;
     expect(renderRep({mode: undefined}).text()).toBe(defaultOutput);

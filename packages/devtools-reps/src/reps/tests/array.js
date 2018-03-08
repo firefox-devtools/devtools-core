@@ -21,7 +21,7 @@ describe("Array", () => {
 
   it("renders empty array as expected", () => {
     const object = [];
-    const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
+    const renderRep = props => shallow(Rep({ object, ...props }));
 
     const defaultOutput = "[]";
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
@@ -32,7 +32,7 @@ describe("Array", () => {
 
   it("renders basic array as expected", () => {
     const object = [1, "foo", {}];
-    const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
+    const renderRep = props => shallow(Rep({ object, ...props }));
 
     const defaultOutput = `[ 1, "foo", {} ]`;
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
@@ -43,7 +43,7 @@ describe("Array", () => {
 
   it("renders array with more than SHORT mode maximum props as expected", () => {
     const object = Array(maxLengthMap.get(MODE.SHORT) + 1).fill("foo");
-    const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
+    const renderRep = props => shallow(Rep({ object, ...props }));
 
     const defaultShortOutput =
       `[ ${Array(maxLengthMap.get(MODE.SHORT)).fill("\"foo\"").join(", ")}, … ]`;
@@ -57,7 +57,7 @@ describe("Array", () => {
 
   it("renders array with more than LONG mode maximum props as expected", () => {
     const object = Array(maxLengthMap.get(MODE.LONG) + 1).fill("foo");
-    const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
+    const renderRep = props => shallow(Rep({ object, ...props }));
 
     const defaultShortOutput =
       `[ ${Array(maxLengthMap.get(MODE.SHORT)).fill("\"foo\"").join(", ")}, … ]`;
@@ -71,7 +71,7 @@ describe("Array", () => {
   it("renders recursive array as expected", () => {
     const object = [1];
     object.push(object);
-    const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
+    const renderRep = props => shallow(Rep({ object, ...props }));
 
     const defaultOutput = "[ 1, […] ]";
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
@@ -87,7 +87,7 @@ describe("Array", () => {
       p3: "s3",
       p4: "s4"
     }];
-    const renderRep = props => shallow(Rep(Object.assign({ object }, props)));
+    const renderRep = props => shallow(Rep({ object, ...props }));
 
     const defaultOutput = "[ {…} ]";
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
