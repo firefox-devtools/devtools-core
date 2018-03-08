@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 function ObjectClient(grip, overrides) {
-  return Object.assign({
+  return {
     grip,
     enumEntries: function () {
       return Promise.resolve({
@@ -38,8 +38,9 @@ function ObjectClient(grip, overrides) {
           return Promise.resolve(res);
         }
       };
-    }
-  }, overrides);
+    },
+    ...overrides,
+  };
 }
 
 module.exports = ObjectClient;

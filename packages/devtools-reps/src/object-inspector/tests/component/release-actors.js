@@ -14,7 +14,7 @@ const ObjectClient = require("../__mocks__/object-client");
 const stub = gripRepStubs.get("testMoreThanMaxProps");
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 0,
     roots: [{
       path: "root",
@@ -22,8 +22,9 @@ function generateDefaults(overrides) {
         value: stub
       }
     }],
-    createObjectClient: grip => ObjectClient(grip)
-  }, overrides);
+    createObjectClient: grip => ObjectClient(grip),
+    ...overrides,
+  };
 }
 
 describe("release actors", () => {

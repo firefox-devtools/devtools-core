@@ -9,15 +9,16 @@ const ObjectInspector = createFactory(require("../../index"));
 const ObjectClient = require("../__mocks__/object-client");
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 0,
     roots: [{
       path: "root",
       name: "root",
       contents: {value: 42}
     }],
-    createObjectClient: grip => ObjectClient(grip)
-  }, overrides);
+    createObjectClient: grip => ObjectClient(grip),
+    ...overrides,
+  };
 }
 
 function mountObjectInspector(props) {

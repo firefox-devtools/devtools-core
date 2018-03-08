@@ -46,7 +46,7 @@ describe("getClosestGripNode", () => {
     const root = createNode(null, "root", "/", {value: grip});
     let [bucket] = makeNumericalBuckets(root);
     for (let i = 0; i < 10; i++) {
-      bucket = (makeNumericalBuckets(Object.assign({}, bucket)))[0];
+      bucket = (makeNumericalBuckets({...bucket}))[0];
     }
     expect(getClosestGripNode(bucket)).toBe(root);
   });

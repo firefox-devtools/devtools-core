@@ -12,10 +12,11 @@ const functionStubs = require("../../../reps/stubs/function");
 const ObjectClient = require("../__mocks__/object-client");
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 1,
-    createObjectClient: grip => ObjectClient(grip)
-  }, overrides);
+    createObjectClient: grip => ObjectClient(grip),
+    ...overrides,
+  };
 }
 
 describe("ObjectInspector - functions", () => {

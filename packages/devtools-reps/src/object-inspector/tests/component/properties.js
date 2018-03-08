@@ -17,10 +17,11 @@ const {
 } = require("../test-utils");
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 0,
     createObjectClient: grip => ObjectClient(grip),
-  }, overrides);
+    ...overrides,
+  };
 }
 
 function getEnumPropertiesMock() {

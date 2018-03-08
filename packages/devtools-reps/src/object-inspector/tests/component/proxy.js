@@ -14,7 +14,7 @@ const { formatObjectInspector } = require("../test-utils");
 
 const ObjectClient = require("../__mocks__/object-client");
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     roots: [{
       path: "root",
       contents: {value: stub}
@@ -26,8 +26,9 @@ function generateDefaults(overrides) {
     // enumProperties for the root's properties.
     loadedProperties: new Map([
       ["root", {prototype: {}}]
-    ])
-  }, overrides);
+    ]),
+    ...overrides,
+  };
 }
 
 function getEnumPropertiesMock() {
