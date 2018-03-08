@@ -535,7 +535,7 @@ function makeNodesForProperties(
   const parentPath = parent.path;
   const parentValue = getValue(parent);
 
-  let allProperties = Object.assign({}, ownProperties, safeGetterValues);
+  let allProperties = {...ownProperties, ...safeGetterValues};
 
   // Ignore properties that are neither non-concrete nor getters/setters.
   const propertiesNames = sortProperties(Object.keys(allProperties)).filter(name => {

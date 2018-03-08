@@ -267,9 +267,10 @@ class ObjectInspector extends Component {
       return {
         label: this.renderGrip(
           item,
-          Object.assign({}, this.props, {
+          {
+            ...this.props,
             functionName: label
-          })
+          }
         )
       };
     }
@@ -280,7 +281,7 @@ class ObjectInspector extends Component {
       || nodeIsMapEntry(item)
       || isPrimitive
     ) {
-      let repsProp = Object.assign({}, this.props);
+      let repsProp = {...this.props};
       if (depth > 0) {
         repsProp.mode = this.props.mode === MODE.LONG
           ? MODE.SHORT
@@ -416,11 +417,12 @@ class ObjectInspector extends Component {
     props: Props
   ) {
     const object = getValue(item);
-    return Rep(Object.assign({}, props, {
+    return Rep({
+      ...props,
       object,
       mode: props.mode || MODE.TINY,
       defaultRep: Grip,
-    }));
+    });
   }
 
   render() {
