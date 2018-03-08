@@ -68,7 +68,10 @@ describe("test Window", () => {
 
   it("renders with expected text in TINY mode with Custom display class", () => {
     const renderedComponent = shallow(Rep({
-      object: Object.assign({}, stub, { displayClass: "Custom" }),
+      object: {
+        ...stub,
+        displayClass: "Custom"
+      },
       mode: MODE.TINY
     }));
 
@@ -77,7 +80,10 @@ describe("test Window", () => {
 
   it("renders with expected text in LONG mode with Custom display class", () => {
     const renderedComponent = shallow(Rep({
-      object: Object.assign({}, stub, { displayClass: "Custom" }),
+      object: {
+        ...stub,
+        displayClass: "Custom"
+      },
       mode: MODE.LONG,
       title: "Custom"
     }));

@@ -34,7 +34,7 @@ describe("CommentNode", () => {
 
   it("renders as expected", () => {
     const object = stubs.get("Comment");
-    const renderRep = props => shallow(CommentNode.rep(Object.assign({object}, props)));
+    const renderRep = props => shallow(CommentNode.rep({object, ...props}));
 
     let component = renderRep({mode: undefined});
     expect(component.text())

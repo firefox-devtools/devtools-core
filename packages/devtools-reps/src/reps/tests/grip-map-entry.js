@@ -20,10 +20,11 @@ const nodeStubs = require("../stubs/element-node");
 const gripArrayStubs = require("../stubs/grip-array");
 
 const renderRep = (object, mode, props) => {
-  return shallow(GripMapEntry.rep(Object.assign({
-      object,
-      mode,
-  }, props)));
+  return shallow(GripMapEntry.rep({
+    object,
+    mode,
+    ...props,
+  }));
 };
 
 describe("GripMapEntry - simple", () => {

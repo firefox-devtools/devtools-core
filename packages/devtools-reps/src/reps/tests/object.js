@@ -11,7 +11,7 @@ const { Obj } = REPS;
 const { MODE } = require("../constants");
 
 const renderComponent = (object, props) => {
-  return shallow(Obj.rep(Object.assign({ object }, props)));
+  return shallow(Obj.rep({ object, ...props}));
 };
 
 describe("Object - Basic", () => {

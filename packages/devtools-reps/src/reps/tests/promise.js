@@ -18,7 +18,7 @@ const {
 } = require("./test-helpers");
 
 const renderRep = (object, props) => {
-  return shallow(PromiseRep.rep(Object.assign({object}, props)));
+  return shallow(PromiseRep.rep({object, ...props}));
 };
 
 describe("Promise - Pending", () => {

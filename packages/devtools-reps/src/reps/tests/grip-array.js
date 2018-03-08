@@ -18,9 +18,10 @@ const {
 const { maxLengthMap } = GripArray;
 
 function shallowRenderRep(object, props = {}) {
-  return shallow(GripArray.rep(Object.assign({
+  return shallow(GripArray.rep({
     object,
-  }, props)));
+    ...props,
+  }));
 }
 
 describe("GripArray - basic", () => {
