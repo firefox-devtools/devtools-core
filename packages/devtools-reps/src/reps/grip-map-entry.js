@@ -36,13 +36,14 @@ function GripMapEntry(props) {
 
   return span({
     className: "objectBox objectBox-map-entry"
-  }, PropRep(Object.assign({}, props, {
+  }, PropRep({
+    ...props,
     name: key,
     object: value,
     equal: " \u2192 ",
     title: null,
     suppressQuotes: false,
-  })));
+  }));
 }
 
 function supportsObject(grip, noGrip = false) {

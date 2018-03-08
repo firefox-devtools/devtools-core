@@ -78,13 +78,17 @@ function arrayIterator(props, array, max) {
     let item;
 
     try {
-      item = ItemRep(Object.assign({}, props, config, {
+      item = ItemRep({
+        ...props,
+        ...config,
         object: array[i],
-      }));
+      });
     } catch (exc) {
-      item = ItemRep(Object.assign({}, props, config, {
+      item = ItemRep({
+        ...props,
+        ...config,
         object: exc,
-      }));
+      });
     }
     items.push(item);
   }
@@ -118,10 +122,11 @@ function ItemRep(props) {
   } = props;
   return (
     span({},
-      Rep(Object.assign({}, props, {
+      Rep({
+        ...props,
         object: object,
         mode: mode
-      })),
+      }),
       delim
     )
   );

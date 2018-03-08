@@ -84,13 +84,14 @@ function getProps(props, promiseState) {
 
   return keys.reduce((res, key, i) => {
     let object = promiseState[key];
-    res = res.concat(PropRep(Object.assign({}, props, {
+    res = res.concat(PropRep({
+      ...props,
       mode: MODE.TINY,
       name: `<${key}>`,
       object,
       equal: ": ",
       suppressQuotes: true,
-    })));
+    }));
 
     // Interleave commas between elements
     if (i !== keys.length - 1) {

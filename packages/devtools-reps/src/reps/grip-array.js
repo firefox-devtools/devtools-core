@@ -203,12 +203,13 @@ function arrayIterator(props, grip, max) {
     }
 
     if (res.length < max) {
-      res.push(Rep(Object.assign({}, props, {
+      res.push(Rep({
+        ...props,
         object,
         mode: MODE.TINY,
         // Do not propagate title to array items reps
         title: undefined,
-      })));
+      }));
     }
 
     return res;

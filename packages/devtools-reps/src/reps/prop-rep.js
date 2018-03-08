@@ -63,12 +63,13 @@ function PropRep(props) {
     }
     key = span({"className": "nodeName"}, name);
   } else {
-    key = Rep(Object.assign({}, props, {
+    key = Rep({
+      ...props,
       className: "nodeName",
       object: name,
       mode: mode || MODE.TINY,
       defaultRep: Grip,
-    }));
+    });
   }
 
   return [
@@ -76,7 +77,7 @@ function PropRep(props) {
     span({
       "className": "objectEqual"
     }, equal),
-    Rep(Object.assign({}, props)),
+    Rep({...props}),
   ];
 }
 
