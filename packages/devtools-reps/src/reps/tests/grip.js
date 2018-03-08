@@ -7,6 +7,7 @@
 const { shallow } = require("enzyme");
 const {
   getRep,
+  Rep,
 } = require("../rep");
 const Grip = require("../grip");
 const { MODE } = require("../constants");
@@ -21,9 +22,10 @@ const {
 const {maxLengthMap} = Grip;
 
 function shallowRenderRep(object, props = {}) {
-  return shallow(Grip.rep(Object.assign({
+  return shallow(Grip.rep({
     object,
-  }, props)));
+    ...props
+  }));
 }
 
 describe("Grip - empty object", () => {
@@ -599,6 +601,24 @@ describe("Grip - DeadObject object", () => {
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("DeadObject");
+    expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
+  });
+});
+
+describe("Grip - Object with __proto__ property", () => {
+  const object = stubs.get("ObjectWith__proto__Property");
+
+  it("correctly selects Grip Rep", () => {
+    expect(getRep(object)).toBe(Grip.rep);
+  });
+
+  it("renders as expected", () => {
+    const renderRep = (props) => shallow(Rep({object, ...props}));
+    const defaultOutput = "Object { __proto__: [] }";
+
+    expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
+    expect(renderRep({ mode: MODE.TINY }).text()).toBe("{…}");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });

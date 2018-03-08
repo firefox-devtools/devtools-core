@@ -153,7 +153,7 @@ function propIterator(props, object, max) {
   let propertiesLength = getPropertiesLength(object);
 
   if (object.preview && object.preview.safeGetterValues) {
-    properties = Object.assign({}, properties, object.preview.safeGetterValues);
+    properties = {...properties, ...object.preview.safeGetterValues};
   }
 
   let indexes = getPropIndexes(properties, max, isInterestingProp);

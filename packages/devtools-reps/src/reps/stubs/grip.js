@@ -1004,4 +1004,43 @@ stubs.set("DeadObject", {
   "sealed": false
 });
 
+// Packet for :
+// var obj = Object.create(null); obj.__proto__ = []; obj;
+stubs.set("ObjectWith__proto__Property", {
+  "type": "object",
+  "actor": "server1.conn1.child1/obj31",
+  "class": "Object",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 1,
+  "preview": {
+    "kind": "Object",
+    "ownProperties": {
+      ["__proto__"]: {
+        "configurable": true,
+        "enumerable": true,
+        "writable": true,
+        "value": {
+          "type": "object",
+          "actor": "server1.conn1.child1/obj32",
+          "class": "Array",
+          "extensible": true,
+          "frozen": false,
+          "sealed": false,
+          "ownPropertyLength": 1,
+          "preview": {
+            "kind": "ArrayLike",
+            "length": 0
+          }
+        }
+      }
+    },
+    "ownSymbols": [],
+    "ownPropertiesLength": 1,
+    "ownSymbolsLength": 0,
+    "safeGetterValues": {}
+  }
+});
+
 module.exports = stubs;
