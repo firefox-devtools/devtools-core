@@ -96,13 +96,14 @@ function propIterator(props, object, max) {
   const propertiesNames = Object.keys(object);
 
   const pushPropRep = (name, value) => {
-    elements.push(PropRep(Object.assign({}, props, {
+    elements.push(PropRep({
+      ...props,
       key: name,
       mode: MODE.TINY,
       name,
       object: value,
       equal: ": ",
-    })));
+    }));
     propertiesNumber++;
 
     if (propertiesNumber < propertiesNames.length) {

@@ -26,8 +26,11 @@ function Svg(name, props) {
   if (name === "subSettings") {
     className = "";
   }
-  props = Object.assign({}, props, { className, src: svg[name] });
-  return React.createElement(InlineSVG, props);
+  return React.createElement(InlineSVG, {
+    ...props,
+    className,
+    src: svg[name]
+  });
 }
 
 module.exports = Svg;

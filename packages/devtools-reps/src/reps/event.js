@@ -27,16 +27,18 @@ Event.propTypes = {
 };
 
 function Event(props) {
-  // Use `Object.assign` to keep `props` without changes because:
-  // 1. JSON.stringify/JSON.parse is slow.
-  // 2. Immutable.js is planned for the future.
-  let gripProps = Object.assign({}, props, {
-    title: getTitle(props)
-  });
-  gripProps.object = Object.assign({}, props.object);
-  gripProps.object.preview = Object.assign({}, props.object.preview);
+  let gripProps = {
+    ...props,
+    title: getTitle(props),
+    object: {
+      ...props.object,
+      preview: {
+        ...props.object.preview,
+        ownProperties: {},
+      },
+    }
+  };
 
-  gripProps.object.preview.ownProperties = {};
   if (gripProps.object.preview.target) {
     Object.assign(gripProps.object.preview.ownProperties, {
       target: gripProps.object.preview.target

@@ -179,7 +179,8 @@ function propIterator(props, object, max) {
     const length = max - indexes.length;
 
     const symbolsProps = ownSymbols.slice(0, length).map(symbolItem => {
-      return PropRep(Object.assign({}, props, {
+      return PropRep({
+        ...props,
         mode: MODE.TINY,
         name: symbolItem,
         object: symbolItem.descriptor.value,
@@ -187,7 +188,7 @@ function propIterator(props, object, max) {
         defaultRep: Grip,
         title: null,
         suppressQuotes,
-      }));
+      });
     });
 
     propsArray.push(...symbolsProps);
@@ -232,7 +233,8 @@ function getProps(componentProps, properties, indexes, suppressQuotes) {
     let name = propertiesKeys[i];
     let value = getPropValue(properties[name]);
 
-    return PropRep(Object.assign({}, componentProps, {
+    return PropRep({
+      ...componentProps,
       mode: MODE.TINY,
       name,
       object: value,
@@ -240,7 +242,7 @@ function getProps(componentProps, properties, indexes, suppressQuotes) {
       defaultRep: Grip,
       title: null,
       suppressQuotes,
-    }));
+    });
   });
 }
 
