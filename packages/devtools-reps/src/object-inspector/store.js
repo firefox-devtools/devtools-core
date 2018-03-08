@@ -14,12 +14,13 @@ import type {
 } from "./types";
 
 function createInitialState(overrides : Object) : State {
-  return Object.assign({
+  return {
     actors: new Set(),
     expandedPaths: new Set(),
     focusedItem: null,
     loadedProperties: new Map(),
-  }, overrides);
+    ...overrides,
+  };
 }
 
 module.exports = (props : Props) => {

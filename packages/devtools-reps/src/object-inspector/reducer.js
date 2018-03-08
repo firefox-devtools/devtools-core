@@ -17,7 +17,7 @@ function reducer(
     data,
   } = action;
 
-  const cloneState = overrides => Object.assign({}, state, overrides);
+  const cloneState = overrides => ({ ...state, ...overrides});
 
   if (type === "NODE_EXPAND") {
     return cloneState({
@@ -56,7 +56,7 @@ function mergeResponses(responses: Array<Object>) : Object {
 
   for (const response of responses) {
     if (response.hasOwnProperty("ownProperties")) {
-      data.ownProperties = Object.assign({}, data.ownProperties, response.ownProperties);
+      data.ownProperties = {...data.ownProperties, ...response.ownProperties};
     }
 
     if (response.ownSymbols && response.ownSymbols.length > 0) {
