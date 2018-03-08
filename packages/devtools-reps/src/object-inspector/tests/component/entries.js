@@ -16,10 +16,11 @@ const ObjectClient = require("../__mocks__/object-client");
 const { SAFE_PATH_PREFIX } = require("../../utils/node");
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 0,
-    createObjectClient: grip => ObjectClient(grip)
-  }, overrides);
+    createObjectClient: grip => ObjectClient(grip),
+    ...overrides
+  };
 }
 
 function getEnumEntriesMock() {

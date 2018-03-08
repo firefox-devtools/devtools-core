@@ -13,10 +13,11 @@ const gripRepStubs = require("../../../reps/stubs/grip");
 const ObjectClient = require("../__mocks__/object-client");
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 0,
-    createObjectClient: grip => ObjectClient(grip)
-  }, overrides);
+    createObjectClient: grip => ObjectClient(grip),
+    ...overrides,
+  };
 }
 
 describe("ObjectInspector - properties", () => {

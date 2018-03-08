@@ -21,7 +21,7 @@ const {
 } = require("../../utils/node");
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 0,
     roots: [{
       path: "root-1",
@@ -36,7 +36,8 @@ function generateDefaults(overrides) {
     }],
     createObjectClient: grip => ObjectClient(grip),
     mode: MODE.LONG,
-  }, overrides);
+    ...overrides,
+  };
 }
 
 describe("ObjectInspector - state", () => {

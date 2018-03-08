@@ -20,11 +20,12 @@ const windowNode = createNode(
 );
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 0,
     roots: [windowNode],
-    createObjectClient: grip => ObjectClient(grip)
-  }, overrides);
+    createObjectClient: grip => ObjectClient(grip),
+    ...overrides,
+  };
 }
 
 describe("ObjectInspector - dimTopLevelWindow", () => {

@@ -13,11 +13,12 @@ const accessorStubs = require("../../../reps/stubs/accessor");
 const ObjectClient = require("../__mocks__/object-client");
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 1,
     createObjectClient: grip => ObjectClient(grip),
     mode: MODE.LONG,
-  }, overrides);
+    ...overrides,
+  };
 }
 
 describe("ObjectInspector - getters & setters", () => {

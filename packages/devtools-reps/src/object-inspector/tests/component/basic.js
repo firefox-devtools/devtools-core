@@ -18,10 +18,11 @@ const ObjectClient = require("../__mocks__/object-client");
 const gripRepStubs = require(`${repsPath}/stubs/grip`);
 
 function generateDefaults(overrides) {
-  return Object.assign({
+  return {
     autoExpandDepth: 0,
-    createObjectClient: grip => ObjectClient(grip)
-  }, overrides);
+    createObjectClient: grip => ObjectClient(grip),
+    ...overrides,
+  };
 }
 
 describe("ObjectInspector - renders", () => {
@@ -164,12 +165,12 @@ describe("ObjectInspector - renders", () => {
           "root",
           {
             ownProperties: Object.keys(stub.preview.ownProperties)
-              .reduce((res, key) =>
-                Object.assign({
-                  [key]: {
-                    value: stub
-                  },
-                }, res), {})
+              .reduce((res, key) => ({
+                [key]: {
+                  value: stub
+                },
+                ...res,
+              }), {})
           }
         ]])
     })));
