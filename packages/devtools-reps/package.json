@@ -37,7 +37,9 @@
     "svg-inline-react": "^3.0.0"
   },
   "devDependencies": {
+    "@sucrase/webpack-object-rest-spread-plugin": "^1.0.0",
     "babel-jest": "^22.4.1",
+    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "devtools-config": "^0.0.15",
