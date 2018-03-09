@@ -5,6 +5,7 @@
 const { toolboxConfig } = require("devtools-launchpad/index");
 const getConfig = require("./bin/getConfig");
 const {isDevelopment, isFirefoxPanel} = require("devtools-config");
+const ObjectRestSpreadPlugin = require("@sucrase/webpack-object-rest-spread-plugin");
 
 const path = require("path");
 const projectPath = path.join(__dirname, "src");
@@ -40,8 +41,11 @@ webpackConfig.resolve = {
   }
 };
 
-const extra = {};
-webpackConfig.plugins = [];
+const extra = {
+  disablePostCSS: true
+};
+
+webpackConfig.plugins = [new ObjectRestSpreadPlugin()];
 if (!isDevelopment()) {
   webpackConfig.output.libraryTarget = "umd";
 
