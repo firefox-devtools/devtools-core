@@ -452,4 +452,15 @@ describe("test String with URL", () => {
     link.simulate("click");
     expect(openLink).toBeCalledWith(url);
   });
+
+  it("does not render links for js URL", () => {
+    const url = "javascript:x=42";
+    const string = `${url} some other text`;
+
+    const openLink = jest.fn();
+    const element = renderRep(string, {openLink, useQuotes: false});
+    expect(element.text()).toEqual(string);
+    const link = element.find("a");
+    expect(link.exists()).toBe(false);
+  });
 });
