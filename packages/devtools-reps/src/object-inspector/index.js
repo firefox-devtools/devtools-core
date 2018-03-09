@@ -8,17 +8,25 @@ const { Provider } = require("react-redux");
 const ObjectInspector = createFactory(require("./component"));
 const createStore = require("./store");
 
-let store;
+import type { Props, State } from "./types";
+
 class OI extends PureComponent {
+
+  constructor(props: Props) {
+    super(props);
+    this.store = createStore(props);
+  }
+
+  store: {dispatch: (any) => any, getState: () => State};
+
   getStore() {
-    return store;
+    return this.store;
   }
 
   render() {
-    store = createStore(this.props);
     return createElement(
       Provider,
-      {store},
+      {store: this.store},
       ObjectInspector(this.props)
     );
   }
