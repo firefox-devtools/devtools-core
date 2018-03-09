@@ -69,6 +69,7 @@
   color: currentColor;
   text-decoration: none;
   font-style: italic;
+  cursor: pointer;
 }
 
 .objectBox-string a:hover {
