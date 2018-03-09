@@ -33,7 +33,6 @@ StringRep.propTypes = {
   object: PropTypes.object.isRequired,
   openLink: PropTypes.func,
   className: PropTypes.string,
-  omitLinkHref: PropTypes.bool,
 };
 
 function StringRep(props) {
@@ -46,7 +45,6 @@ function StringRep(props) {
     escapeWhitespace = true,
     member,
     openLink,
-    omitLinkHref = true,
   } = props;
 
   let text = object;
@@ -75,7 +73,7 @@ function StringRep(props) {
   if (!isLong) {
     if (containsURL(text)) {
       return span(config,
-        ...getLinkifiedElements(text, shouldCrop && cropLimit, omitLinkHref, openLink));
+        ...getLinkifiedElements(text, shouldCrop && cropLimit, openLink));
     }
 
     // Cropping of longString has been handled before formatting.
@@ -166,11 +164,10 @@ function maybeCropString(opts, text) {
  *
  * @param {String} text: The actual string to linkify.
  * @param {Integer | null} cropLimit
- * @param {Boolean} omitLinkHref: Do not create an href attribute if true.
  * @param {Function} openLink: Function handling the link opening.
  * @returns {Array<String|ReactElement>}
  */
-function getLinkifiedElements(text, cropLimit, omitLinkHref, openLink) {
+function getLinkifiedElements(text, cropLimit, openLink) {
   const halfLimit = Math.ceil((cropLimit - ELLIPSIS.length) / 2);
   const startCropIndex = cropLimit ? halfLimit : null;
   const endCropIndex = cropLimit ? text.length - halfLimit : null;
@@ -198,9 +195,6 @@ function getLinkifiedElements(text, cropLimit, omitLinkHref, openLink) {
         items.push(a({
           className: "url",
           title: token,
-          href: omitLinkHref === true
-            ? null
-            : token,
           draggable: false,
           onClick: openLink
             ? e => {
