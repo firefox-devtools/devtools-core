@@ -15,10 +15,6 @@
 }
 
 .tree.noselect {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 
@@ -75,7 +71,6 @@
   transition: transform 0.125s ease;
   width: 10px;
   margin-inline-end: 5px;
-  -webkit-margin-end: 5px;
   transform: rotate(-90deg);
 }
 

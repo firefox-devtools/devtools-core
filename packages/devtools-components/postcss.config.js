@@ -3,4 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dumb export so launchpad does not throw.
-module.exports = () => ({});
+module.exports = () => {
+  return {
+    plugins: [require("autoprefixer")]
+  };
+};
