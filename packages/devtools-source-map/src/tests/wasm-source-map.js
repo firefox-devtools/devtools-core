@@ -26,7 +26,7 @@ describe("wasm source maps", () => {
       { offset: 17, line: 2, column: 18 },
     ];
 
-    let map1 = new SourceMapConsumer(testMap1);
+    let map1 = await new SourceMapConsumer(testMap1);
     let remap1 = new WasmRemap(map1);
 
     expect(remap1.file).toEqual("min.js");
@@ -81,7 +81,7 @@ describe("wasm source maps", () => {
       sourcesContent: ["//test"]
     };
 
-    let map2 = new SourceMapConsumer(testMap2);
+    let map2 = await new SourceMapConsumer(testMap2);
     let remap2 = new WasmRemap(map2);
     expect(remap2.file).toEqual("none.js");
     expect(remap2.hasContentsOfAllSources()).toEqual(true);
