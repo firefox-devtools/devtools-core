@@ -32,7 +32,9 @@ const webpackConfig = {
   }
 };
 
-const extra = {};
+const extra = {
+  disablePostCSS: true,
+};
 webpackConfig.plugins = [];
 if (!isDevelopment()) {
   extra.excludeMap = {

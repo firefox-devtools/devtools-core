@@ -57,33 +57,32 @@
   cursor: default;
 }
 
+.tree-node img.arrow {
+  mask: url(/images/arrow.svg) no-repeat;
+  mask-size: 100%;
+  width: 9px;
+  height: 9px;
+  margin-inline-start: 1px;
+  margin-inline-end: 4px;
+  background-color: var(--theme-splitter-color, #9B9B9B);
+  transform: rotate(-90deg);
+  transition: transform 0.125s ease;
+  align-self: center;
+}
+
+html[dir="rtl"] .tree-node img.arrow {
+  transform: rotate(90deg);
+}
+
+.tree-node img.arrow.expanded.expanded {
+  transform: rotate(0deg);
+ }
+
 .tree .tree-node.focused {
   color: white;
   background-color: var(--theme-selection-background, #0a84ff);
 }
 
-.tree-node.focused .arrow svg {
-  fill: currentColor;
-}
-
-.tree-node:hover img {
-  background-color: var(--theme-content-color3);
-}
-
-.arrow svg {
-  fill: var(--theme-splitter-color, #9B9B9B);
-  transition: transform 0.125s ease;
-  width: 10px;
-  margin-inline-end: 5px;
-  transform: rotate(-90deg);
-}
-
-html[dir="rtl"] .arrow svg,
-.arrow svg:dir(rtl),
-.arrow svg:-moz-locale-dir(rtl) {
-  transform: rotate(90deg);
-}
-
-.arrow.expanded.expanded svg {
-  transform: rotate(0deg);
+.tree-node.focused img.arrow {
+  background-color: currentColor;
 }
