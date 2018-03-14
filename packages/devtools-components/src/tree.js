@@ -3,11 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import React from "react";
-const { Component, createFactory, createElement } = React;
+const { Component, createFactory } = React;
 import dom from "react-dom-factories";
 import PropTypes from "prop-types";
-import InlineSVG from "svg-inline-react";
-import svgArrow from "./images/arrow.svg";
 
 require("./tree.css");
 
@@ -37,9 +35,8 @@ class ArrowExpander extends Component {
     if (expanded) {
       classNames.push("expanded");
     }
-    return createElement(InlineSVG, {
+    return dom.img({
       className: classNames.join(" "),
-      src: svgArrow
     });
   }
 }

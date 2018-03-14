@@ -389,9 +389,9 @@ describe("Tree", () => {
 
     getTreeNodes(wrapper).forEach(n => {
       if ("ABECDMN".split("").includes(getSanitizedNodeText(n))) {
-        expect(n.find("i.arrow.expanded").exists()).toBe(true);
+        expect(n.find("img.arrow.expanded").exists()).toBe(true);
       } else {
-        expect(n.find("i.arrow").exists()).toBe(false);
+        expect(n.find("img.arrow").exists()).toBe(false);
       }
     });
   });
@@ -401,7 +401,7 @@ describe("Tree", () => {
     expect(formatTree(wrapper)).toMatchSnapshot();
 
     getTreeNodes(wrapper).forEach(n => {
-      const arrow = n.find("i.arrow");
+      const arrow = n.find("img.arrow");
       expect(arrow.exists()).toBe(true);
       expect(arrow.hasClass("expanded")).toBe(false);
     });
@@ -462,7 +462,7 @@ function formatTree(wrapper) {
     .map((node) => {
       const level = (node.prop("aria-level") || 1) - 1;
       const indentStr = "|  ".repeat(level);
-      const arrow = node.find("i.arrow");
+      const arrow = node.find("img.arrow");
       let arrowStr = "  ";
       if (arrow.exists()) {
         arrowStr = arrow.hasClass("expanded") ? "▼ " : "▶︎ ";
