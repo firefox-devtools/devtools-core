@@ -22,10 +22,6 @@
   user-select: none;
 }
 
-.tree button {
-  display: block;
-}
-
 .tree .tree-node {
   display: flex;
 }
