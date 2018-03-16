@@ -41,9 +41,7 @@ webpackConfig.resolve = {
   }
 };
 
-const extra = {
-  disablePostCSS: true
-};
+const extra = {};
 
 webpackConfig.plugins = [new ObjectRestSpreadPlugin()];
 if (!isDevelopment()) {

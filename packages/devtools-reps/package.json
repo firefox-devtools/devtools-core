@@ -26,15 +26,14 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "devtools-components": "^0.3.0",
+    "devtools-components": "^0.4.1",
     "lodash": "^4.17.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-dom-factories": "^1.0.2",
     "react-redux": "^5.0.7",
-    "redux": "^3.7.2",
-    "svg-inline-react": "^3.0.0"
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "@sucrase/webpack-object-rest-spread-plugin": "^1.0.0",
@@ -55,9 +54,9 @@
     "immutable": "^3.8.2",
     "jest": "^22.4.2",
     "jest-flow-transform": "^1.0.1",
+    "postcss-url-mapper": "^1.2.0",
     "react-immutable-proptypes": "^2.1.0",
-    "redux-logger": "=3.0.6",
-    "svg-inline-loader": "^0.8.0"
+    "redux-logger": "=3.0.6"
   },
   "jest": {
     "rootDir": "src",
@@ -81,8 +80,7 @@
       "node_modules/(?!devtools-)"
     ],
     "moduleNameMapper": {
-      "\\.css$": "<rootDir>/test/__mocks__/styleMock.js",
-      "\\.svg$": "<rootDir>/test/__mocks__/svgMock.js"
+      "\\.css$": "<rootDir>/test/__mocks__/styleMock.js"
     }
   }
 }

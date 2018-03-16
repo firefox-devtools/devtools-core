@@ -12,7 +12,6 @@ const {
   wrapRender,
 } = require("./rep-utils");
 const { MODE } = require("./constants");
-const Svg = require("../shared/images/Svg");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
@@ -59,8 +58,8 @@ function TextNode(props) {
     }
 
     if (onInspectIconClick) {
-      inspectIcon = Svg("open-inspector", {
-        element: "a",
+      inspectIcon = dom.button({
+        className: "open-inspector",
         draggable: false,
         // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
         title: "Click to select the node in the inspector",

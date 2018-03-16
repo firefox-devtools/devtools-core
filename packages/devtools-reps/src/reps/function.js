@@ -13,7 +13,6 @@ const {
   wrapRender,
  } = require("./rep-utils");
 const { MODE } = require("./constants");
-const Svg = require("../shared/images/Svg");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
@@ -41,8 +40,8 @@ function FunctionRep(props) {
     grip.location.url &&
     !IGNORED_SOURCE_URLS.includes(grip.location.url)
   ) {
-    jumpToDefinitionButton = Svg("jump-definition", {
-      element: "a",
+    jumpToDefinitionButton = dom.button({
+      className: "jump-definition",
       draggable: false,
       title: "Jump to definition",
       onClick: e => {

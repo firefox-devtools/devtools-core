@@ -3,9 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const {
-  tools: { makeBundle, symlinkTests, copyFile }
+  tools: { makeBundle }
 } = require("devtools-launchpad/index");
-const fs = require("fs-extra");
 const path = require("path");
 const minimist = require("minimist");
 const getConfig = require("./getConfig");
@@ -17,6 +16,7 @@ const args = minimist(process.argv.slice(2), {
 
 function start() {
   console.log("start: copy assets");
+  process.env.NODE_ENV = "production";
   const projectPath = path.resolve(__dirname, "..");
   const mcModulePath = "devtools/client/shared/components/reps";
 
@@ -33,15 +33,13 @@ function start() {
   }
 
   console.log("  output path is:", mcPath);
-
   console.log("  creating reps.js bundle...");
+
   makeBundle({
     outputPath: path.join(mcPath, mcModulePath),
     projectPath,
     watch: args.watch
   }).then(() => {
-    console.log("  remove build artifacts...");
-    fs.removeSync(path.join(mcPath, mcModulePath, "reps.js.map"));
     console.log("done: copy assets");
   }).catch(e => {
     console.error(e);

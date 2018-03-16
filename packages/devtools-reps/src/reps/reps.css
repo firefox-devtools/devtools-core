@@ -230,35 +230,35 @@
 /******************************************************************************/
 /* Open DOMNode in inspector button */
 
-.open-inspector svg {
-  fill: var(--comment-node-color);
+button.open-inspector {
+  mask: url(/images/open-inspector.svg) no-repeat;
+  display: inline-block;
+  background-color: var(--comment-node-color);
   height: 16px;
-  width: 16px;
   margin-left: .25em;
-  cursor: pointer;
   vertical-align: middle;
 }
 
-.objectBox-node:hover .open-inspector svg,
-.objectBox-textNode:hover .open-inspector svg,
-.open-inspector svg:hover {
-  fill: var(--theme-highlight-blue);
+.objectBox-node:hover .open-inspector,
+.objectBox-textNode:hover .open-inspector,
+.open-inspector:hover {
+  background-color: var(--theme-highlight-blue);
 }
 
 /******************************************************************************/
 /* Jump to definition button */
 
-.jump-definition svg {
-  stroke: var(--comment-node-color);
+button.jump-definition {
+  mask: url(/images/jump-definition.svg) no-repeat;
+  display: inline-block;
+  background-color: var(--comment-node-color);
   height: 16px;
-  width: 16px;
   margin-left: .25em;
-  cursor: pointer;
   vertical-align: middle;
 }
 
-.jump-definition svg:hover {
-  stroke: var(--theme-highlight-blue);
+.jump-definition:hover {
+  background-color: var(--theme-highlight-blue);
 }
 
 /******************************************************************************/
