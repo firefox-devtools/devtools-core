@@ -32,14 +32,8 @@ exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window 
       className="node object-node"
       onClick={[Function]}
     >
-      <i
+      <img
         className="arrow"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<svg></svg>",
-          }
-        }
-        src={null}
       />
       <span
         className="object-label"
@@ -98,14 +92,8 @@ exports[`ObjectInspector - dimTopLevelWindow renders collapsed top-level window 
       className="node object-node lessen"
       onClick={[Function]}
     >
-      <i
+      <img
         className="arrow"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<svg></svg>",
-          }
-        }
-        src={null}
       />
       <span
         className="object-label"
@@ -164,14 +152,8 @@ exports[`ObjectInspector - dimTopLevelWindow renders expanded top-level window w
       className="node object-node"
       onClick={[Function]}
     >
-      <i
+      <img
         className="arrow expanded"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<svg></svg>",
-          }
-        }
-        src={null}
       />
       <span
         className="object-label"
@@ -230,14 +212,8 @@ exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `
       className="node object-node"
       onClick={[Function]}
     >
-      <i
+      <img
         className="arrow expanded"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<svg></svg>",
-          }
-        }
-        src={null}
       />
       <span
         className="object-label"
@@ -264,14 +240,8 @@ exports[`ObjectInspector - dimTopLevelWindow renders sub-level window 1`] = `
       className="node object-node"
       onClick={[Function]}
     >
-      <i
+      <img
         className="arrow"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<svg></svg>",
-          }
-        }
-        src={null}
       />
       <span
         className="object-label"
