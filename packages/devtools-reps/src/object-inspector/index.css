@@ -36,6 +36,7 @@
   color: var(--theme-comment);
 }
 
-.tree.object-inspector .arrow svg {
-  pointer-events: none;
+.object-inspector .tree-node img.arrow {
+  display: inline-block;
+  vertical-align: middle;
 }
