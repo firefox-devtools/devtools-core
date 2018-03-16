@@ -26,8 +26,8 @@ function formatObjectInspector(wrapper: Object) {
   return wrapper.find(".tree-node")
     .map(node => {
       const indentStr = "|  ".repeat((node.prop("aria-level") || 1) - 1);
-      // We need to target i.arrow or Enzyme will also match the ArrowExpander component.
-      const arrow = node.find("i.arrow");
+      // Need to target img.arrow or Enzyme will also match the ArrowExpander component.
+      const arrow = node.find("img.arrow");
       let arrowStr = "  ";
       if (arrow.exists()) {
         arrowStr = arrow.hasClass("expanded") ? "▼ " : "▶︎ ";
