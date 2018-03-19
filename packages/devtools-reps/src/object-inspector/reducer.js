@@ -32,13 +32,10 @@ function reducer(
   }
 
   if (type === "NODE_PROPERTIES_LOADED") {
-    // Let's loop through the responses to build a single object.
-    const properties = mergeResponses(data.responses);
-
     return cloneState({
       actors: data.actor ? (new Set(state.actors || [])).add(data.actor) : state.actors,
       loadedProperties: (new Map(state.loadedProperties))
-        .set(data.node.path, properties),
+        .set(data.node.path, action.data.properties),
     });
   }
 
@@ -49,26 +46,6 @@ function reducer(
   }
 
   return state;
-}
-
-function mergeResponses(responses: Array<Object>) : Object {
-  const data = {};
-
-  for (const response of responses) {
-    if (response.hasOwnProperty("ownProperties")) {
-      data.ownProperties = {...data.ownProperties, ...response.ownProperties};
-    }
-
-    if (response.ownSymbols && response.ownSymbols.length > 0) {
-      data.ownSymbols = response.ownSymbols;
-    }
-
-    if (response.prototype) {
-      data.prototype = response.prototype;
-    }
-  }
-
-  return data;
 }
 
 module.exports = reducer;
