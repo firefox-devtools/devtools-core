@@ -5,6 +5,7 @@
 // @flow
 
 import type {
+  GripProperties,
   LoadedProperties,
   Node,
   ObjectClient,
@@ -12,33 +13,16 @@ import type {
   ReduxAction,
 } from "./types";
 
+const {
+  loadItemProperties,
+} = require("./utils/load-properties");
+
 type Dispatch = ReduxAction => void;
 
 type ThunkArg = {
   getState: () => {},
   dispatch: Dispatch,
 }
-
-const {
-  getClosestGripNode,
-  getValue,
-} = require("./utils/node");
-
-const {
-  shouldLoadItemEntries,
-  shouldLoadItemIndexedProperties,
-  shouldLoadItemNonIndexedProperties,
-  shouldLoadItemPrototype,
-  shouldLoadItemSymbols,
-} = require("./utils/load-properties");
-
-const {
-  enumEntries,
-  enumIndexedProperties,
-  enumNonIndexedProperties,
-  getPrototype,
-  enumSymbols,
-} = require("./utils/client");
 
 /**
  * This action is responsible for expanding a given node,
@@ -84,40 +68,10 @@ function nodeLoadProperties(
 ) {
   return async ({dispatch} : ThunkArg) => {
     try {
-      const gripItem = getClosestGripNode(item);
-      const value = getValue(gripItem);
-
-      const [start, end] = item.meta
-        ? [item.meta.startIndex, item.meta.endIndex]
-        : [];
-
-      let promises = [];
-      let objectClient;
-      const getObjectClient = () => objectClient || createObjectClient(value);
-
-      if (shouldLoadItemIndexedProperties(item, loadedProperties)) {
-        promises.push(enumIndexedProperties(getObjectClient(), start, end));
-      }
-
-      if (shouldLoadItemNonIndexedProperties(item, loadedProperties)) {
-        promises.push(enumNonIndexedProperties(getObjectClient(), start, end));
-      }
-
-      if (shouldLoadItemEntries(item, loadedProperties)) {
-        promises.push(enumEntries(getObjectClient(), start, end));
-      }
-
-      if (shouldLoadItemPrototype(item, loadedProperties)) {
-        promises.push(getPrototype(getObjectClient()));
-      }
-
-      if (shouldLoadItemSymbols(item, loadedProperties)) {
-        promises.push(enumSymbols(getObjectClient(), start, end));
-      }
-
-      if (promises.length > 0) {
-        const responses = await Promise.all(promises);
-        dispatch(nodePropertiesLoaded(item, actor, responses));
+      const properties =
+        await loadItemProperties(item, createObjectClient, loadedProperties);
+      if (Object.keys(properties).length > 0) {
+        dispatch(nodePropertiesLoaded(item, actor, properties));
       }
     } catch (e) {
       console.error(e);
@@ -128,11 +82,11 @@ function nodeLoadProperties(
 function nodePropertiesLoaded(
   node : Node,
   actor?: string,
-  responses : Array<LoadedProperties>
+  properties: GripProperties
 ) {
   return {
     type: "NODE_PROPERTIES_LOADED",
-    data: {node, actor, responses}
+    data: {node, actor, properties}
   };
 }
 

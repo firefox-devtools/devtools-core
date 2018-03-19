@@ -3,6 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const {
+  enumEntries,
+  enumIndexedProperties,
+  enumNonIndexedProperties,
+  getPrototype,
+  enumSymbols,
+} = require("./client");
+
+const {
   getClosestGripNode,
   getClosestNonBucketNode,
   getValue,
@@ -19,9 +27,71 @@ const {
 } = require("./node");
 
 import type {
+  GripProperties,
   LoadedProperties,
   Node,
+  ObjectClient,
+  RdpGrip,
 } from "../types";
+
+function loadItemProperties(
+  item : Node,
+  createObjectClient : (RdpGrip) => ObjectClient,
+  loadedProperties : LoadedProperties,
+) : Promise<GripProperties> {
+  const gripItem = getClosestGripNode(item);
+  const value = getValue(gripItem);
+
+  const [start, end] = item.meta
+    ? [item.meta.startIndex, item.meta.endIndex]
+    : [];
+
+  let promises = [];
+  let objectClient;
+  const getObjectClient = () => objectClient || createObjectClient(value);
+
+  if (shouldLoadItemIndexedProperties(item, loadedProperties)) {
+    promises.push(enumIndexedProperties(getObjectClient(), start, end));
+  }
+
+  if (shouldLoadItemNonIndexedProperties(item, loadedProperties)) {
+    promises.push(enumNonIndexedProperties(getObjectClient(), start, end));
+  }
+
+  if (shouldLoadItemEntries(item, loadedProperties)) {
+    promises.push(enumEntries(getObjectClient(), start, end));
+  }
+
+  if (shouldLoadItemPrototype(item, loadedProperties)) {
+    promises.push(getPrototype(getObjectClient()));
+  }
+
+  if (shouldLoadItemSymbols(item, loadedProperties)) {
+    promises.push(enumSymbols(getObjectClient(), start, end));
+  }
+
+  return Promise.all(promises).then(mergeResponses);
+}
+
+function mergeResponses(responses: Array<Object>) : Object {
+  const data = {};
+
+  for (const response of responses) {
+    if (response.hasOwnProperty("ownProperties")) {
+      data.ownProperties = {...data.ownProperties, ...response.ownProperties};
+    }
+
+    if (response.ownSymbols && response.ownSymbols.length > 0) {
+      data.ownSymbols = response.ownSymbols;
+    }
+
+    if (response.prototype) {
+      data.prototype = response.prototype;
+    }
+  }
+
+  return data;
+}
 
 function shouldLoadItemIndexedProperties(
   item: Node,
@@ -105,6 +175,8 @@ function shouldLoadItemSymbols(
 }
 
 module.exports = {
+  loadItemProperties,
+  mergeResponses,
   shouldLoadItemEntries,
   shouldLoadItemIndexedProperties,
   shouldLoadItemNonIndexedProperties,
