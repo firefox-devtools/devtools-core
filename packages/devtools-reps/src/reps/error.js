@@ -142,9 +142,9 @@ function getStacktraceElements(props, preview) {
         className: "objectBox-stackTrace-location",
         onClick: onLocationClick,
         title: onLocationClick
-          ? "View source in debugger"
+          ? "View source in debugger → " + location
           : undefined,
-      }, ` (${location})`));
+      }, location));
     });
 
   return span({

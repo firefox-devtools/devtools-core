@@ -347,7 +347,8 @@ describe("Error - stacktrace location click", () => {
     const locations = renderedComponent.find(".objectBox-stackTrace-location");
     expect(locations.exists()).toBeTruthy();
 
-    expect(locations.first().prop("title")).toBe("View source in debugger");
+    expect(locations.first().prop("title")).toBe("View source in debugger → " +
+      "resource://devtools/shared/client/debugger-client.js:856:9");
     locations.first().simulate("click", {
       type: "click",
       stopPropagation: () => {},
@@ -359,7 +360,8 @@ describe("Error - stacktrace location click", () => {
     expect(mockCall.line).toEqual(856);
     expect(mockCall.column).toEqual(9);
 
-    expect(locations.last().prop("title")).toBe("View source in debugger");
+    expect(locations.last().prop("title")).toBe("View source in debugger → " +
+      "resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14");
     locations.last().simulate("click", {
       type: "click",
       stopPropagation: () => {},

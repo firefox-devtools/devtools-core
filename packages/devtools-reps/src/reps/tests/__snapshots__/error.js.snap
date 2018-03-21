@@ -22,7 +22,7 @@ exports[`Error - Eval error renders with expected text for an EvalError 1`] = `
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (debugger eval code:10:13)
+      debugger eval code:10:13
     </span>
   </span>
 </span>
@@ -50,7 +50,7 @@ exports[`Error - Internal error renders with expected text for an InternalError 
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (debugger eval code:11:13)
+      debugger eval code:11:13
     </span>
   </span>
 </span>
@@ -78,7 +78,7 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (debugger eval code:6:15)
+      debugger eval code:6:15
     </span>
     <span
       className="objectBox-stackTrace-fn"
@@ -90,7 +90,7 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
       className="objectBox-stackTrace-location"
       key="location1"
     >
-       (debugger eval code:3:3)
+      debugger eval code:3:3
     </span>
     <span
       className="objectBox-stackTrace-fn"
@@ -102,7 +102,7 @@ exports[`Error - Multi line stack error renders with expected text for Error obj
       className="objectBox-stackTrace-location"
       key="location2"
     >
-       (debugger eval code:8:1)
+      debugger eval code:8:1
     </span>
   </span>
 </span>
@@ -130,7 +130,7 @@ exports[`Error - Range error renders with expected text for RangeError 1`] = `
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (debugger eval code:12:13)
+      debugger eval code:12:13
     </span>
   </span>
 </span>
@@ -158,7 +158,7 @@ exports[`Error - Reference error renders with expected text for ReferenceError 1
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (debugger eval code:13:13)
+      debugger eval code:13:13
     </span>
   </span>
 </span>
@@ -186,7 +186,7 @@ exports[`Error - Simple error renders with expected text for simple error 1`] = 
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (debugger eval code:1:13)
+      debugger eval code:1:13
     </span>
   </span>
 </span>
@@ -214,7 +214,7 @@ exports[`Error - Syntax error renders with expected text for SyntaxError 1`] = `
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (debugger eval code:14:13)
+      debugger eval code:14:13
     </span>
   </span>
 </span>
@@ -242,7 +242,7 @@ exports[`Error - Type error renders with expected text for TypeError 1`] = `
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (debugger eval code:15:13)
+      debugger eval code:15:13
     </span>
   </span>
 </span>
@@ -270,7 +270,7 @@ exports[`Error - URI error renders with expected text for URIError 1`] = `
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (debugger eval code:16:13)
+      debugger eval code:16:13
     </span>
   </span>
 </span>
@@ -307,7 +307,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
       className="objectBox-stackTrace-location"
       key="location0"
     >
-       (resource://devtools/shared/client/debugger-client.js:856:9)
+      resource://devtools/shared/client/debugger-client.js:856:9
     </span>
     <span
       className="objectBox-stackTrace-fn"
@@ -319,7 +319,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
       className="objectBox-stackTrace-location"
       key="location1"
     >
-       (resource://devtools/shared/transport/transport.js:569:13)
+      resource://devtools/shared/transport/transport.js:569:13
     </span>
     <span
       className="objectBox-stackTrace-fn"
@@ -331,7 +331,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
       className="objectBox-stackTrace-location"
       key="location2"
     >
-       (resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14)
+      resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
     </span>
     <span
       className="objectBox-stackTrace-fn"
@@ -343,7 +343,7 @@ exports[`Error - base-loader.js renders as expected without mode 1`] = `
       className="objectBox-stackTrace-location"
       key="location3"
     >
-       (resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14)
+      resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
     </span>
   </span>
 </span>
