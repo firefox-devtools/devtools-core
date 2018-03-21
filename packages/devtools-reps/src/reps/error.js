@@ -15,6 +15,7 @@ const { MODE } = require("./constants");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
+const IGNORED_SOURCE_URLS = ["debugger eval code"];
 
 /**
  * Renders Error objects.
@@ -54,7 +55,7 @@ function ErrorRep(props) {
   }
 
   if (preview.stack && props.mode !== MODE.TINY) {
-    content.push("\n", getStacktraceElements(preview));
+    content.push("\n", getStacktraceElements(props, preview));
   }
 
   return span({
@@ -79,12 +80,12 @@ function ErrorRep(props) {
  * asdf       (<anonymous>:2:10)
  *            (<anonymous>:11:1)
  */
-function getStacktraceElements(preview) {
+function getStacktraceElements(props, preview) {
   const stack = [];
   preview.stack
     .split("\n")
-    .forEach((line, index) => {
-      if (!line) {
+    .forEach((frame, index) => {
+      if (!frame) {
         // Skip any blank lines
         return;
       }
@@ -95,7 +96,7 @@ function getStacktraceElements(preview) {
       // Given the input: "functionName@scriptLocation:2:100"
       // Result:
       // ["functionName@scriptLocation:2:100", "functionName", "scriptLocation:2:100"]
-      const result = line.match(/^(.*)@(.*)$/);
+      const result = frame.match(/^(.*)@(.*)$/);
       if (result && result.length === 3) {
         functionName = result[1];
 
@@ -109,13 +110,40 @@ function getStacktraceElements(preview) {
         functionName = "<anonymous>";
       }
 
+      let onLocationClick;
+      // Given the input: "scriptLocation:2:100"
+      // Result:
+      // ["scriptLocation:2:100", "scriptLocation", "2", "100"]
+      const locationParts = location.match(/^(.*):(\d+):(\d+)$/);
+      if (
+        props.onViewSourceInDebugger &&
+        location &&
+        !IGNORED_SOURCE_URLS.includes(locationParts[1]) &&
+        locationParts
+      ) {
+        let [, url, line, column] = locationParts;
+        onLocationClick = e => {
+          // Don't trigger ObjectInspector expand/collapse.
+          e.stopPropagation();
+          props.onViewSourceInDebugger({
+            url,
+            line: Number(line),
+            column: Number(column),
+          });
+        };
+      }
+
       stack.push(span({
         key: "fn" + index,
         className: "objectBox-stackTrace-fn"
       }, cleanFunctionName(functionName)),
       span({
         key: "location" + index,
-        className: "objectBox-stackTrace-location"
+        className: "objectBox-stackTrace-location",
+        onClick: onLocationClick,
+        title: onLocationClick
+          ? "View source in debugger"
+          : undefined,
       }, ` (${location})`));
     });
 
