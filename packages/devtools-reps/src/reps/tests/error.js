@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/* global jest */
 const { shallow } = require("enzyme");
 const {
   REPS,
@@ -330,5 +331,82 @@ describe("Error - base-loader.js", () => {
     }));
 
     expect(renderedComponent).toMatchSnapshot();
+  });
+});
+
+describe("Error - stacktrace location click", () => {
+  it("Calls onViewSourceInDebugger with the expected arguments", () => {
+    const onViewSourceInDebugger = jest.fn();
+    const object = stubs.get("base-loader Error");
+
+    const renderedComponent = shallow(ErrorRep.rep({
+      object,
+      onViewSourceInDebugger
+    }));
+
+    const locations = renderedComponent.find(".objectBox-stackTrace-location");
+    expect(locations.exists()).toBeTruthy();
+
+    expect(locations.first().prop("title")).toBe("View source in debugger");
+    locations.first().simulate("click", {
+      type: "click",
+      stopPropagation: () => {},
+    });
+
+    expect(onViewSourceInDebugger.mock.calls.length).toEqual(1);
+    let mockCall = onViewSourceInDebugger.mock.calls[0][0];
+    expect(mockCall.url).toEqual("resource://devtools/shared/client/debugger-client.js");
+    expect(mockCall.line).toEqual(856);
+    expect(mockCall.column).toEqual(9);
+
+    expect(locations.last().prop("title")).toBe("View source in debugger");
+    locations.last().simulate("click", {
+      type: "click",
+      stopPropagation: () => {},
+    });
+
+    expect(onViewSourceInDebugger.mock.calls.length).toEqual(2);
+    mockCall = onViewSourceInDebugger.mock.calls[1][0];
+    expect(mockCall.url).toEqual("resource://devtools/shared/ThreadSafeDevToolsUtils.js");
+    expect(mockCall.line).toEqual(109);
+    expect(mockCall.column).toEqual(14);
+  });
+
+  it("Does not call onViewSourceInDebugger on excluded urls", () => {
+    const onViewSourceInDebugger = jest.fn();
+    const object = stubs.get("URIError");
+
+    const renderedComponent = shallow(ErrorRep.rep({
+      object,
+      onViewSourceInDebugger
+    }));
+
+    const locations = renderedComponent.find(".objectBox-stackTrace-location");
+    expect(locations.exists()).toBeTruthy();
+    expect(locations.first().prop("title")).toBe(undefined);
+
+    locations.first().simulate("click", {
+      type: "click",
+      stopPropagation: () => {},
+    });
+
+    expect(onViewSourceInDebugger.mock.calls.length).toEqual(0);
+  });
+
+  it("Does not throw when onViewSourceInDebugger props is not provided", () => {
+    const object = stubs.get("base-loader Error");
+
+    const renderedComponent = shallow(ErrorRep.rep({
+      object,
+    }));
+
+    const locations = renderedComponent.find(".objectBox-stackTrace-location");
+    expect(locations.exists()).toBeTruthy();
+    expect(locations.first().prop("title")).toBe(undefined);
+
+    locations.first().simulate("click", {
+      type: "click",
+      stopPropagation: () => {},
+    });
   });
 });
