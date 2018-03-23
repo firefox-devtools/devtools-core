@@ -16,13 +16,6 @@ const Tree = createFactory(Components.Tree);
 require("./index.css");
 
 const classnames = require("classnames");
-
-const {
-  REPS: {
-    Rep,
-    Grip,
-  },
-} = require("../reps/rep");
 const {
   MODE,
 } = require("../reps/constants");
@@ -265,7 +258,7 @@ class ObjectInspector extends Component {
       )
     ) {
       return {
-        label: this.renderGrip(
+        label: Utils.renderRep(
           item,
           {
             ...this.props,
@@ -293,7 +286,7 @@ class ObjectInspector extends Component {
 
       return {
         label,
-        value: this.renderGrip(item, repsProp)
+        value: Utils.renderRep(item, repsProp)
       };
     }
 
@@ -412,19 +405,6 @@ class ObjectInspector extends Component {
     );
   }
 
-  renderGrip(
-    item: Node,
-    props: Props
-  ) {
-    const object = getValue(item);
-    return Rep({
-      ...props,
-      object,
-      mode: props.mode || MODE.TINY,
-      defaultRep: Grip,
-    });
-  }
-
   render() {
     const {
       autoExpandAll = true,
@@ -435,15 +415,6 @@ class ObjectInspector extends Component {
       focusedItem,
       inline,
     } = this.props;
-
-    let roots = this.getRoots();
-    if (roots.length === 1) {
-      const root = roots[0];
-      const name = root && root.name;
-      if (nodeIsPrimitive(root) && (name === null || typeof name === "undefined")) {
-        return this.renderGrip(root, this.props);
-      }
-    }
 
     return Tree({
       className: classnames({

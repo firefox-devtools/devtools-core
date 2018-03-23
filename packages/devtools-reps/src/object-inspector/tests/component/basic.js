@@ -63,7 +63,7 @@ describe("ObjectInspector - renders", () => {
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
-  it("directly renders a Rep with the stub is not expandable", () => {
+  it("directly renders a Rep when the stub is not expandable", () => {
     const object = 42;
 
     const renderObjectInspector = mode =>

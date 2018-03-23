@@ -7,6 +7,11 @@ const { createElement, createFactory, PureComponent } = require("react");
 const { Provider } = require("react-redux");
 const ObjectInspector = createFactory(require("./component"));
 const createStore = require("./store");
+const Utils = require("./utils");
+const {
+  renderRep,
+  shouldRenderRootsInReps
+} = Utils;
 
 import type { Props, State } from "./types";
 
@@ -32,4 +37,10 @@ class OI extends PureComponent {
   }
 }
 
-module.exports = OI;
+module.exports = (props: Props) => {
+  let {roots} = props;
+  if (shouldRenderRootsInReps(roots)) {
+    return renderRep(roots[0], props);
+  }
+  return new OI(props);
+};
