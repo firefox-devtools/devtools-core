@@ -9,6 +9,7 @@ const ArrayRep = require("../../reps/array");
 const GripArrayRep = require("../../reps/grip-array");
 const GripMap = require("../../reps/grip-map");
 const GripMapEntryRep = require("../../reps/grip-map-entry");
+const ErrorRep = require("../../reps/error");
 
 const MAX_NUMERICAL_PROPERTIES = 100;
 
@@ -206,6 +207,12 @@ function nodeIsBlock(
   item: Node
 ) {
   return getType(item) === NODE_TYPES.BLOCK;
+}
+
+function nodeIsError(
+  item: Node
+) : boolean {
+  return ErrorRep.supportsObject(getValue(item));
 }
 
 function nodeHasAccessors(item: Node) : boolean {
@@ -811,6 +818,7 @@ module.exports = {
   nodeIsBucket,
   nodeIsDefaultProperties,
   nodeIsEntries,
+  nodeIsError,
   nodeIsFunction,
   nodeIsGetter,
   nodeIsMapEntry,

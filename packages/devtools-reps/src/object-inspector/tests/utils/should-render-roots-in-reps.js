@@ -11,6 +11,7 @@ const undefinedStubs = require("../../../reps/stubs/undefined");
 const gripStubs = require("../../../reps/stubs/grip");
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
 const symbolStubs = require("../../../reps/stubs/symbol");
+const errorStubs = require("../../../reps/stubs/error");
 
 describe("shouldRenderRootsInReps", () => {
   it("returns true for a string", () => {
@@ -40,6 +41,12 @@ describe("shouldRenderRootsInReps", () => {
   it("returns true for Symbols", () => {
     expect(shouldRenderRootsInReps([{
       contents: { value: symbolStubs.get("Symbol") }
+    }])).toBeTruthy();
+  });
+
+  it("returns true for Errors", () => {
+    expect(shouldRenderRootsInReps([{
+      contents: { value: errorStubs.get("MultilineStackError") }
     }])).toBeTruthy();
   });
 
