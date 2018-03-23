@@ -7,7 +7,7 @@
 const client = require("./client");
 const loadProperties = require("./load-properties");
 const node = require("./node");
-const { nodeIsPrimitive } = node;
+const { nodeIsError, nodeIsPrimitive } = node;
 const selection = require("./selection");
 
 const { MODE } = require("../../reps/constants");
@@ -26,8 +26,8 @@ function shouldRenderRootsInReps(roots: Array<Node>) : boolean {
 
   const root = roots[0];
   const name = root && root.name;
-  return nodeIsPrimitive(root)
-    && (name === null || typeof name === "undefined");
+  return (name === null || typeof name === "undefined") &&
+    (nodeIsPrimitive(root) || nodeIsError(root));
 }
 
 function renderRep(
