@@ -11,6 +11,7 @@ const {
   wrapRender,
 } = require("./rep-utils");
 const { cleanFunctionName } = require("./function");
+const { isLongString } = require("./string");
 const { MODE } = require("./constants");
 
 const dom = require("react-dom-factories");
@@ -82,7 +83,16 @@ function ErrorRep(props) {
  */
 function getStacktraceElements(props, preview) {
   const stack = [];
-  preview.stack
+  if (!preview.stack) {
+    return stack;
+  }
+
+  const isStacktraceALongString = isLongString(preview.stack);
+  const stackString = isStacktraceALongString
+    ? preview.stack.initial
+    : preview.stack;
+
+  stackString
     .split("\n")
     .forEach((frame, index) => {
       if (!frame) {
@@ -146,6 +156,13 @@ function getStacktraceElements(props, preview) {
           : undefined,
       }, location));
     });
+
+  if (isStacktraceALongString) {
+    // Remove the last frame (i.e. 2 last elements in the array, the function name and the
+    // location) which is certainly incomplete.
+    // Can be removed when https://bugzilla.mozilla.org/show_bug.cgi?id=1448833 is fixed.
+    stack.splice(-2);
+  }
 
   return span({
     key: "stack",
