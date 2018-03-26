@@ -334,6 +334,18 @@ describe("Error - base-loader.js", () => {
   });
 });
 
+describe("Error - longString stacktrace", () => {
+  const stub = stubs.get("longString stack Error");
+
+  it("renders as expected", () => {
+    const renderedComponent = shallow(ErrorRep.rep({
+      object: stub
+    }));
+
+    expect(renderedComponent).toMatchSnapshot();
+  });
+});
+
 describe("Error - stacktrace location click", () => {
   it("Calls onViewSourceInDebugger with the expected arguments", () => {
     const onViewSourceInDebugger = jest.fn();

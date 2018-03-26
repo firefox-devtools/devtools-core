@@ -209,4 +209,28 @@ stubs.set("base-loader Error", {
   }
 });
 
+stubs.set("longString stack Error", {
+  "type": "object",
+  "actor": "server1.conn2.child1/obj33",
+  "class": "Error",
+  "extensible": true,
+  "frozen": false,
+  "sealed": false,
+  "ownPropertyLength": 4,
+  "preview": {
+    "kind": "Error",
+    "name": "Error",
+    "message": "",
+    "stack": {
+      "type": "longString",
+      "initial": "NgForOf.prototype.ngOnChanges@webpack-internal:///./node_modules/@angular/common/esm5/common.js:2656:27\n checkAndUpdateDirectiveInline@webpack-internal:///./node_modules/@angular/core/esm5/core.js:12581:9\n checkAndUpdateNodeInline@webpack-internal:///./node_modules/@angular/core/esm5/core.js:14109:20\n checkAndUpdateNode@webpack-internal:///./node_modules/@angular/core/esm5/core.js:14052:16\n debugCheckAndUpdateNode@webpack-internal:///./node_modules/@angular/core/esm5/core.js:14945:55\n debugCheckDirectivesFn@webpack-internal:///./node_modules/@angular/core/esm5/core.js:14886:13\n View_MetaTableComponent_6/<@ng:///AppModule/MetaTableComponent.ngfactory.js:98:5\n debugUpdateDirectives@webpack-internal:///./node_modules/@angular/core/esm5/core.js:14871:12\n checkAndUpdateView@webpack-internal:///./node_modules/@angular/core/esm5/core.js:14018:5\n callViewAction@webpack-internal:///./node_modules/@angular/core/esm5/core.js:14369:21\n execEmbeddedViewsAction@webpack-internal:///./node_modules/@an",
+      "length": 11907,
+      "actor": "server1.conn2.child1/longString31"
+    },
+    "fileName": "debugger eval code",
+    "lineNumber": 1,
+    "columnNumber": 5
+  }
+});
+
 module.exports = stubs;
