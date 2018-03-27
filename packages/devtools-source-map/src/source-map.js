@@ -69,6 +69,34 @@ async function getGeneratedLocation(
   };
 }
 
+async function getAllGeneratedLocations(
+  location: Location,
+  originalSource: Source
+): Promise<Array<Location>> {
+  if (!isOriginalId(location.sourceId)) {
+    return [];
+  }
+
+  const generatedSourceId = originalToGeneratedId(location.sourceId);
+  const map = await getSourceMap(generatedSourceId);
+  if (!map) {
+    return [];
+  }
+
+  const positions = map.allGeneratedPositionsFor({
+    source: originalSource.url,
+    line: location.line,
+    column: location.column == null ? 0 : location.column,
+    bias: SourceMapConsumer.LEAST_UPPER_BOUND
+  });
+
+  return positions.map(({ line, column }) => ({
+    sourceId: generatedSourceId,
+    line,
+    column
+  }));
+}
+
 async function getOriginalLocation(location: Location): Promise<Location> {
   if (!isGeneratedId(location.sourceId)) {
     return location;
@@ -144,6 +172,7 @@ function applySourceMap(
 module.exports = {
   getOriginalURLs,
   getGeneratedLocation,
+  getAllGeneratedLocations,
   getOriginalLocation,
   getOriginalSourceText,
   applySourceMap,
