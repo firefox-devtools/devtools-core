@@ -14,7 +14,7 @@ const ErrorRep = require("../../reps/error");
 const MAX_NUMERICAL_PROPERTIES = 100;
 
 const NODE_TYPES = {
-  BUCKET: Symbol("[n…n]"),
+  BUCKET: Symbol("[n…m]"),
   DEFAULT_PROPERTIES: Symbol("<default properties>"),
   ENTRIES: Symbol("<entries>"),
   GET: Symbol("<get>"),
@@ -45,8 +45,6 @@ let WINDOW_PROPERTIES = {};
 if (typeof window === "object") {
   WINDOW_PROPERTIES = Object.getOwnPropertyNames(window);
 }
-
-const SAFE_PATH_PREFIX = "##-";
 
 function getType(item: Node) : Symbol {
   return item.type;
@@ -277,37 +275,34 @@ function makeNodesForPromiseProperties(
 
   if (state) {
     properties.push(
-      createNode(
-        item,
-        "<state>",
-        `${item.path}/${SAFE_PATH_PREFIX}state`,
-        { value: state },
-        NODE_TYPES.PROMISE_STATE
-      )
+      createNode({
+        parent: item,
+        name: "<state>",
+        contents: { value: state },
+        type: NODE_TYPES.PROMISE_STATE
+      })
     );
   }
 
   if (reason) {
     properties.push(
-      createNode(
-        item,
-        "<reason>",
-        `${item.path}/${SAFE_PATH_PREFIX}reason`,
-        { value: reason },
-        NODE_TYPES.PROMISE_REASON
-      )
+      createNode({
+        parent: item,
+        name: "<reason>",
+        contents: { value: reason },
+        type: NODE_TYPES.PROMISE_REASON
+      })
     );
   }
 
   if (value) {
     properties.push(
-      createNode(
-        item,
-        "<value>",
-        `${item.path}/${SAFE_PATH_PREFIX}value`,
-        { value: value },
-        NODE_TYPES.PROMISE_VALUE
-      )
+      createNode({
+        parent: item,
+        name: "<value>",
+        contents: { value: value },
+        type: NODE_TYPES.PROMISE_VALUE
+      })
     );
   }
 
@@ -323,47 +318,62 @@ function makeNodesForProxyProperties(
   } = getValue(item);
 
   return [
-    createNode(
-      item,
-      "<target>",
-      `${item.path}/${SAFE_PATH_PREFIX}target`,
-      { value: proxyTarget },
-      NODE_TYPES.PROXY_TARGET
-    ),
-    createNode(
-      item,
-      "<handler>",
-      `${item.path}/${SAFE_PATH_PREFIX}handler`,
-      { value: proxyHandler },
-      NODE_TYPES.PROXY_HANDLER
-    ),
+    createNode({
+      parent: item,
+      name: "<target>",
+      contents: { value: proxyTarget },
+      type: NODE_TYPES.PROXY_TARGET
+    }),
+    createNode({
+      parent: item,
+      name: "<handler>",
+      contents: { value: proxyHandler },
+      type: NODE_TYPES.PROXY_HANDLER
+    }),
   ];
 }
 
 function makeNodesForEntries(
   item : Node
 ) : Node {
-  const {path} = item;
   const nodeName = "<entries>";
-  const entriesPath = `${path}/${SAFE_PATH_PREFIX}entries`;
+  const entriesPath = "<entries>";
 
   if (nodeHasAllEntriesInPreview(item)) {
     let entriesNodes = [];
     const { preview } = getValue(item);
     if (preview.entries) {
       entriesNodes = preview.entries.map(([key, value], index) => {
-        return createNode(item, index, `${entriesPath}/${index}`, {
-          value: GripMapEntryRep.createGripMapEntry(key, value)
+        return createNode({
+          parent: item,
+          name: index,
+          path: `${entriesPath}/${index}`,
+          contents: { value: GripMapEntryRep.createGripMapEntry(key, value) }
         });
       });
     } else if (preview.items) {
       entriesNodes = preview.items.map((value, index) => {
-        return createNode(item, index, `${entriesPath}/${index}`, {value});
+        return createNode({
+          parent: item,
+          name: index,
+          path: `${entriesPath}/${index}`,
+          contents: {value}
+        });
       });
     }
-    return createNode(item, nodeName, entriesPath, entriesNodes, NODE_TYPES.ENTRIES);
+    return createNode({
+      parent: item,
+      name: nodeName,
+      contents: entriesNodes,
+      type: NODE_TYPES.ENTRIES
+    });
   }
-  return createNode(item, nodeName, entriesPath, null, NODE_TYPES.ENTRIES);
+  return createNode({
+    parent: item,
+    name: nodeName,
+    contents: null,
+    type: NODE_TYPES.ENTRIES
+  });
 }
 
 function makeNodesForMapEntry(
@@ -375,11 +385,20 @@ function makeNodesForMapEntry(
   }
 
   const {key, value} = nodeValue.preview;
-  const path = item.path;
 
   return [
-    createNode(item, "<key>", `${path}/##key`, {value: key}, NODE_TYPES.MAP_ENTRY_KEY),
-    createNode(item, "<value>", `${path}/##value`, {value}, NODE_TYPES.MAP_ENTRY_VALUE),
+    createNode({
+      parent: item,
+      name: "<key>",
+      contents: {value: key},
+      type: NODE_TYPES.MAP_ENTRY_KEY
+    }),
+    createNode({
+      parent: item,
+      name: "<value>",
+      contents: {value},
+      type: NODE_TYPES.MAP_ENTRY_VALUE
+    }),
   ];
 }
 
@@ -396,24 +415,22 @@ function makeNodesForAccessors(item: Node) : Array<Node> {
 
   const getter = getNodeGetter(item);
   if (getter && getter.type !== "undefined") {
-    accessors.push(createNode(
-      item,
-      "<get>",
-      `${item.path}/${SAFE_PATH_PREFIX}get`,
-      { value: getter },
-      NODE_TYPES.GET
-    ));
+    accessors.push(createNode({
+      parent: item,
+      name: "<get>",
+      contents: { value: getter },
+      type: NODE_TYPES.GET
+    }));
   }
 
   const setter = getNodeSetter(item);
   if (setter && setter.type !== "undefined") {
-    accessors.push(createNode(
-      item,
-      "<set>",
-      `${item.path}/${SAFE_PATH_PREFIX}set`,
-      { value: setter },
-      NODE_TYPES.SET
-    ));
+    accessors.push(createNode({
+      parent: item,
+      name: "<set>",
+      contents: { value: setter },
+      type: NODE_TYPES.SET
+    }));
   }
 
   return accessors;
@@ -436,7 +453,6 @@ function sortProperties(properties: Array<any>) : Array<any> {
 function makeNumericalBuckets(
   parent: Node
 ) : Array<Node> {
-  const parentPath = parent.path;
   const numProperties = getNumericalPropertiesCount(parent);
 
   // We want to have at most a hundred slices.
@@ -450,20 +466,18 @@ function makeNumericalBuckets(
     const startIndex = nodeIsBucket(parent) ? parent.meta.startIndex : 0;
     const minIndex = startIndex + minKey;
     const maxIndex = startIndex + maxKey;
-    const bucketKey = `${SAFE_PATH_PREFIX}bucket_${minIndex}-${maxIndex}`;
     const bucketName = `[${minIndex}…${maxIndex}]`;
 
-    buckets.push(createNode(
+    buckets.push(createNode({
       parent,
-      bucketName,
-      `${parentPath}/${bucketKey}`,
-      null,
-      NODE_TYPES.BUCKET,
-      {
+      name: bucketName,
+      contents: null,
+      type: NODE_TYPES.BUCKET,
+      meta: {
         startIndex: minIndex,
         endIndex: maxIndex,
       }
-    ));
+    }));
   }
   return buckets;
 }
@@ -473,8 +487,6 @@ function makeDefaultPropsBucket(
   parent: Node,
   ownProperties: Object
 ) : Array<Node> {
-  const parentPath = parent.path;
-
   const userPropertiesNames = [];
   const defaultProperties = [];
 
@@ -489,21 +501,20 @@ function makeDefaultPropsBucket(
   let nodes = makeNodesForOwnProps(userPropertiesNames, parent, ownProperties);
 
   if (defaultProperties.length > 0) {
-    const defaultPropertiesNode = createNode(
+    const defaultPropertiesNode = createNode({
       parent,
-      "<default properties>",
-      `${parentPath}/${SAFE_PATH_PREFIX}default`,
-      null,
-      NODE_TYPES.DEFAULT_PROPERTIES
-    );
+      name: "<default properties>",
+      contents: null,
+      type: NODE_TYPES.DEFAULT_PROPERTIES
+    });
 
     const defaultNodes = defaultProperties.map((name, index) =>
-      createNode(
-        defaultPropertiesNode,
-        maybeEscapePropertyName(name),
-        `${parentPath}/${SAFE_PATH_PREFIX}bucket${index}/${name}`,
-        ownProperties[name]
-      )
+      createNode({
+        parent: defaultPropertiesNode,
+        name: maybeEscapePropertyName(name),
+        path: `${index}/${name}`,
+        contents: ownProperties[name]
+      })
     );
     nodes.push(
       setNodeChildren(defaultPropertiesNode, defaultNodes)
@@ -517,14 +528,12 @@ function makeNodesForOwnProps(
   parent: Node,
   ownProperties: Object
 ) : Array<Node> {
-  const parentPath = parent.path;
   return propertiesNames.map(name =>
-    createNode(
+    createNode({
       parent,
-      maybeEscapePropertyName(name),
-      `${parentPath}/${name}`,
-      ownProperties[name]
-    )
+      name: maybeEscapePropertyName(name),
+      contents: ownProperties[name]
+    })
   );
 }
 
@@ -539,7 +548,6 @@ function makeNodesForProperties(
     safeGetterValues,
   } = objProps;
 
-  const parentPath = parent.path;
   const parentValue = getValue(parent);
 
   let allProperties = {...ownProperties, ...safeGetterValues};
@@ -565,12 +573,12 @@ function makeNodesForProperties(
   if (Array.isArray(ownSymbols)) {
     ownSymbols.forEach((ownSymbol, index) => {
       nodes.push(
-        createNode(
+        createNode({
           parent,
-          ownSymbol.name,
-          `${parentPath}/${SAFE_PATH_PREFIX}symbol-${index}`,
-          ownSymbol.descriptor || null
-        )
+          name: ownSymbol.name,
+          path: `symbol-${index}`,
+          contents: ownSymbol.descriptor || null
+        })
       );
     }, this);
   }
@@ -601,43 +609,58 @@ function makeNodeForPrototype(
 
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {
-    return createNode(
+    return createNode({
       parent,
-      "<prototype>",
-      `${parent.path}/<prototype>`,
-      { value: prototype },
-      NODE_TYPES.PROTOTYPE
-    );
+      name: "<prototype>",
+      contents: { value: prototype },
+      type: NODE_TYPES.PROTOTYPE
+    });
   }
 
   return null;
 }
 
-function createNode(
+function createNode(options : {
   parent: Node,
   name: string,
-  path: string,
   contents: any,
-  type: ?Symbol = NODE_TYPES.GRIP,
-  meta: ?Object
-) : ?Node {
+  path?: string,
+  type?: Symbol,
+  meta?: Object
+}) : ?Node {
+  const {
+    parent,
+    name,
+    path,
+    contents,
+    type = NODE_TYPES.GRIP,
+    meta,
+  } = options;
+
   if (contents === undefined) {
     return null;
   }
 
   // The path is important to uniquely identify the item in the entire
   // tree. This helps debugging & optimizes React's rendering of large
-  // lists. The path will be separated by property name,
-  // i.e. `{ foo: { bar: { baz: 5 }}}` will have a path of `foo/bar/baz`
+  // lists. The path will be separated by property name, wrapped in a Symbol to avoid
+  // name clashing,
+  // i.e. `{ foo: { bar: { baz: 5 }}}` will have a path of Symbol(`foo/bar/baz`)
   // for the inner object.
   return {
     parent,
     name,
-    path,
+    path: parent
+      ? Symbol(`${getSymbolDescriptor(parent.path)}/${path || name}`)
+      : Symbol(path || name),
     contents,
     type,
     meta,
   };
+}
+
+function getSymbolDescriptor(symbol: Symbol | string) : string {
+  return symbol.toString().replace(/^(Symbol\()(.*)(\))$/, "$2");
 }
 
 function setNodeChildren(
@@ -665,13 +688,7 @@ function getChildren(options: {
   }
 
   const loadedProps = loadedProperties.get(key);
-  const {
-    ownProperties,
-    ownSymbols,
-    safeGetterValues,
-    prototype
-  } = loadedProps || {};
-  const hasLoadedProps = ownProperties || ownSymbols || safeGetterValues || prototype;
+  const hasLoadedProps = loadedProperties.has(key);
 
   // Because we are dynamically creating the tree as the user
   // expands it (not precalculated tree structure), we cache child
@@ -703,25 +720,14 @@ function getChildren(options: {
   }
 
   if (nodeIsProxy(item)) {
-    const nodes = makeNodesForProxyProperties(item);
-    const protoNode = makeNodeForPrototype(loadedProps, item);
-    if (protoNode) {
-      return addToCache(nodes.concat(protoNode));
-    }
-    return nodes;
+    return addToCache(makeNodesForProxyProperties(item));
   }
 
-  if (nodeNeedsNumericalBuckets(item)) {
-    const bucketNodes = makeNumericalBuckets(item);
-    // Even if we have numerical buckets, we might have loaded non indexed properties,
+  if (nodeNeedsNumericalBuckets(item) && hasLoadedProps) {
+    // Even if we have numerical buckets, we should have loaded non indexed properties,
     // like length for example.
-    if (hasLoadedProps) {
-      return addToCache(bucketNodes.concat(makeNodesForProperties(loadedProps, item)));
-    }
-
-    // We don't cache the result here so we can have the prototype, properties and symbols
-    // when they are loaded.
-    return bucketNodes;
+    const bucketNodes = makeNumericalBuckets(item);
+    return addToCache(bucketNodes.concat(makeNodesForProperties(loadedProps, item)));
   }
 
   if (!nodeIsEntries(item) && !nodeIsBucket(item) && !nodeHasProperties(item)) {
@@ -839,6 +845,4 @@ module.exports = {
   setNodeChildren,
   sortProperties,
   NODE_TYPES,
-  // Export for testing purpose.
-  SAFE_PATH_PREFIX,
 };
