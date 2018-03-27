@@ -9,11 +9,14 @@ const React = require("react");
 const { createFactory } = React;
 const ObjectInspector = createFactory(require("../../index"));
 const { MODE } = require("../../../reps/constants");
-const { formatObjectInspector } = require("../test-utils");
+const {
+  formatObjectInspector,
+  waitForDispatch,
+  waitForLoadedProperties
+} = require("../test-utils");
 const gripMapRepStubs = require("../../../reps/stubs/grip-map");
 const mapStubs = require("../../stubs/map");
 const ObjectClient = require("../__mocks__/object-client");
-const { SAFE_PATH_PREFIX } = require("../../utils/node");
 
 function generateDefaults(overrides) {
   return {
@@ -26,7 +29,7 @@ function generateDefaults(overrides) {
 function getEnumEntriesMock() {
   return jest.fn(() => ({
     iterator: {
-      slice: () => ({})
+      slice: () => mapStubs.get("11-entries")
     }
   }));
 }
@@ -36,8 +39,9 @@ describe("ObjectInspector - entries", () => {
     const stub = gripMapRepStubs.get("testSymbolKeyedMap");
     const enumEntries = getEnumEntriesMock();
 
-    let oi = mount(ObjectInspector(generateDefaults({
+    const oi = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 3,
+      injectWaitService: true,
       roots: [{
         path: "root",
         contents: {value: stub}
@@ -50,10 +54,16 @@ describe("ObjectInspector - entries", () => {
       },
       loadedProperties: new Map([
         ["root", mapStubs.get("properties")],
-        ["root/<prototype>", true]
       ])
     })));
 
+    const store = oi.instance().getStore();
+    await waitForLoadedProperties(store, [
+      "Symbol(root/<entries>/0)",
+      "Symbol(root/<entries>/1)"
+    ]);
+
+    oi.update();
     expect(formatObjectInspector(oi)).toMatchSnapshot();
 
     // enumEntries shouldn't have been called since everything
@@ -61,37 +71,13 @@ describe("ObjectInspector - entries", () => {
     expect(enumEntries.mock.calls.length).toBe(0);
   });
 
-  it("does not call enumEntries if entries are already loaded", () => {
-    const stub = gripMapRepStubs.get("testMoreThanMaxEntries");
-    const enumEntries = getEnumEntriesMock();
-
-    const wrapper = mount(ObjectInspector(generateDefaults({
-      autoExpandDepth: 3,
-      roots: [{
-        path: "root",
-        contents: {
-          value: stub
-        }
-      }],
-      createObjectClient: (grip) => ObjectClient(grip, {enumEntries}),
-      loadedProperties: new Map([
-        ["root", mapStubs.get("properties")],
-        [`root/${SAFE_PATH_PREFIX}entries`, mapStubs.get("11-entries")],
-        ["root/<prototype>", true]
-      ])
-    })));
-
-    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-    // enumEntries was not called.
-    expect(enumEntries.mock.calls.length).toBe(0);
-  });
-
-  it("calls ObjectClient.enumEntries when an <entries> node is clicked", () => {
+  it("calls ObjectClient.enumEntries when expected", async () => {
     const stub = gripMapRepStubs.get("testMoreThanMaxEntries");
     const enumEntries = getEnumEntriesMock();
 
     const oi = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 1,
+      injectWaitService: true,
       roots: [{
         path: "root",
         contents: {
@@ -110,8 +96,22 @@ describe("ObjectInspector - entries", () => {
     const entriesNode = nodes.at(1);
     expect(entriesNode.text()).toBe("<entries>");
 
+    const store = oi.instance().getStore();
+    let onEntrieLoad = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
+    entriesNode.simulate("click");
+    await onEntrieLoad;
+    oi.update();
+
+    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    expect(enumEntries.mock.calls.length).toBe(1);
+
     entriesNode.simulate("click");
     expect(formatObjectInspector(oi)).toMatchSnapshot();
+
+    entriesNode.simulate("click");
+
+    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    // it does not call enumEntries if entries were already loaded.
     expect(enumEntries.mock.calls.length).toBe(1);
   });
 });

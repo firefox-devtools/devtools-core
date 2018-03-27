@@ -9,7 +9,6 @@ const {
   nodeIsEntries,
   nodeIsMapEntry,
   nodeIsPrototype,
-  SAFE_PATH_PREFIX,
 } = require("../../utils/node");
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
 
@@ -44,8 +43,12 @@ describe("makeNodesForProperties", () => {
     const names = nodes.map(n => n.name);
     expect(names).toEqual(["0", "length", "<prototype>"]);
 
-    const paths = nodes.map(n => n.path);
-    expect(paths).toEqual(["root/0", "root/length", "root/<prototype>"]);
+    const paths = nodes.map(n => n.path.toString());
+    expect(paths).toEqual([
+      "Symbol(root/0)",
+      "Symbol(root/length)",
+      "Symbol(root/<prototype>)",
+    ]);
   });
 
   it("includes getters and setters", () => {
@@ -78,10 +81,15 @@ describe("makeNodesForProperties", () => {
     );
 
     const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
+    const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["bar", "baz", "foo", "<prototype>"]);
-    expect(paths).toEqual(["root/bar", "root/baz", "root/foo", "root/<prototype>"]);
+    expect(paths).toEqual([
+      "Symbol(root/bar)",
+      "Symbol(root/baz)",
+      "Symbol(root/foo)",
+      "Symbol(root/<prototype>)",
+    ]);
   });
 
   it("does not include unrelevant properties", () => {
@@ -121,16 +129,16 @@ describe("makeNodesForProperties", () => {
     );
 
     const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
+    const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["1", "2", "11", "_bar", "bar", "<prototype>"]);
     expect(paths).toEqual([
-      "root/1",
-      "root/2",
-      "root/11",
-      "root/_bar",
-      "root/bar",
-      "root/<prototype>"
+      "Symbol(root/1)",
+      "Symbol(root/2)",
+      "Symbol(root/11)",
+      "Symbol(root/_bar)",
+      "Symbol(root/bar)",
+      "Symbol(root/<prototype>)",
     ]);
   });
 
@@ -146,10 +154,10 @@ describe("makeNodesForProperties", () => {
     );
 
     const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
+    const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["bar", "<prototype>"]);
-    expect(paths).toEqual(["root/bar", "root/<prototype>"]);
+    expect(paths).toEqual(["Symbol(root/bar)", "Symbol(root/<prototype>)"]);
 
     expect(nodeIsPrototype(nodes[1])).toBe(true);
   });
@@ -170,10 +178,10 @@ describe("makeNodesForProperties", () => {
     );
 
     const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
+    const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["bar", "<default properties>"]);
-    expect(paths).toEqual(["root/bar", "root/##-default"]);
+    expect(paths).toEqual(["Symbol(root/bar)", "Symbol(root/<default properties>)"]);
 
     expect(nodeIsDefaultProperties(nodes[1])).toBe(true);
   });
@@ -181,8 +189,12 @@ describe("makeNodesForProperties", () => {
   it("object with entries", () => {
     const gripMapStubs = require("../../../reps/stubs/grip-map");
 
-    const mapNode = createNode(null, "map", "root", {
-      value: gripMapStubs.get("testSymbolKeyedMap")
+    const mapNode = createNode({
+      name: "map",
+      path: "root",
+      contents: {
+        value: gripMapStubs.get("testSymbolKeyedMap")
+      }
     });
 
     const nodes = makeNodesForProperties({
@@ -193,13 +205,13 @@ describe("makeNodesForProperties", () => {
     }, mapNode);
 
     const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
+    const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual(["custom", "size", "<entries>"]);
     expect(paths).toEqual([
-      "root/custom",
-      "root/size",
-      `root/${SAFE_PATH_PREFIX}entries`
+      "Symbol(root/custom)",
+      "Symbol(root/size)",
+      `Symbol(root/<entries>)`
     ]);
 
     const entriesNode = nodes[2];
@@ -213,11 +225,11 @@ describe("makeNodesForProperties", () => {
     expect(children.every(child => nodeIsMapEntry(child))).toBe(true);
 
     const childrenNames = children.map(n => n.name);
-    const childrenPaths = children.map(n => n.path);
+    const childrenPaths = children.map(n => n.path.toString());
     expect(childrenNames).toEqual([0, 1]);
     expect(childrenPaths).toEqual([
-      `root/${SAFE_PATH_PREFIX}entries/0`,
-      `root/${SAFE_PATH_PREFIX}entries/1`
+      `Symbol(root/<entries>/0)`,
+      `Symbol(root/<entries>/1)`
     ]);
   });
 
@@ -239,7 +251,7 @@ describe("makeNodesForProperties", () => {
     );
 
     const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
+    const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual([
       '""',
@@ -249,11 +261,11 @@ describe("makeNodesForProperties", () => {
       "<prototype>"
     ]);
     expect(paths).toEqual([
-      "root/",
-      "root/332217",
-      "root/needs-quotes",
-      "root/unquoted",
-      "root/<prototype>"
+      `Symbol(root/"")`,
+      `Symbol(root/332217)`,
+      `Symbol(root/"needs-quotes")`,
+      `Symbol(root/unquoted)`,
+      `Symbol(root/<prototype>)`,
     ]);
   });
 });

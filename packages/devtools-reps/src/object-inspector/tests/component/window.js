@@ -9,15 +9,14 @@ const ObjectInspector = createFactory(require("../../index"));
 const {
   createNode,
 } = require("../../utils/node");
+const { waitForDispatch } = require("../test-utils");
 
 const gripWindowStubs = require("../../../reps/stubs/window");
 const ObjectClient = require("../__mocks__/object-client");
-const windowNode = createNode(
-  null,
-  "window",
-  "windowpath",
-  {value: gripWindowStubs.get("Window")}
-);
+const windowNode = createNode({
+  name: "window",
+  contents: {value: gripWindowStubs.get("Window")}
+});
 
 function generateDefaults(overrides) {
   return {
@@ -29,26 +28,28 @@ function generateDefaults(overrides) {
 }
 
 describe("ObjectInspector - dimTopLevelWindow", () => {
-  it("renders collapsed top-level window when dimTopLevelWindow is true", () => {
-    // The window node should have the "lessen" class when collapsed.
+  it("renders top-level window as expected when dimTopLevelWindow is true", async () => {
     const props = generateDefaults({
       dimTopLevelWindow: true,
+      injectWaitService: true,
     });
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);
-    expect(wrapper.find(".node.lessen").exists()).toBeTruthy();
-    expect(wrapper).toMatchSnapshot();
-  });
+    const store = wrapper.instance().getStore();
 
-  it("renders expanded top-level window when dimTopLevelWindow is true", () => {
-    // The window node should not have the "lessen" class when expanded.
-    const props = generateDefaults({
-      dimTopLevelWindow: true,
-      autoExpandDepth: 1,
-    });
-    const oi = ObjectInspector(props);
-    const wrapper = mount(oi);
-    expect(wrapper.find(".node.lessen").exists()).toBeFalsy();
+    let nodes = wrapper.find(".node");
+    const node = nodes.at(0);
+
+    expect(nodes.at(0).hasClass("lessen")).toBeTruthy();
+    expect(wrapper).toMatchSnapshot();
+
+    const onPropertiesLoaded = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
+    node.simulate("click");
+    await onPropertiesLoaded;
+    wrapper.update();
+
+    nodes = wrapper.find(".node");
+    expect(nodes.at(0).hasClass("lessen")).toBeFalsy();
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -61,23 +62,29 @@ describe("ObjectInspector - dimTopLevelWindow", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("renders sub-level window", () => {
+  it("renders sub-level window", async () => {
     // The window node should not have the "lessen" class when it is not at top level.
-    const root = createNode(
-      null,
-      "root",
-      "rootpath",
-      [windowNode]
-    );
+    const root = createNode({
+      name: "root",
+      contents: [windowNode]
+    });
 
     const props = generateDefaults({
-      autoExpandDepth: 1,
       roots: [root],
       dimTopLevelWindow: true,
+      injectWaitService: true,
     });
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);
-    const nodes = wrapper.find(".node");
+    const store = wrapper.instance().getStore();
+    let nodes = wrapper.find(".node");
+    const node = nodes.at(0);
+    const onPropertiesLoaded = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
+    node.simulate("click");
+    await onPropertiesLoaded;
+    wrapper.update();
+
+    nodes = wrapper.find(".node");
     const win = nodes.at(1);
 
     // Make sure we target the window object.

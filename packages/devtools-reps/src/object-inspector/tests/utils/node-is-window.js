@@ -9,7 +9,7 @@ const {
   nodeIsWindow,
 } = require("../../utils/node");
 
-const createRootNode = value => createNode(null, "root", "/", {value});
+const createRootNode = value => createNode({name: "root", contents: {value}});
 describe("nodeIsWindow", () => {
   it("returns true for Window", () => {
     expect(nodeIsWindow(

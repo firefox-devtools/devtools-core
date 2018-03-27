@@ -9,48 +9,68 @@ const {
 
 describe("createNode", () => {
   it("returns null when contents is undefined", () => {
-    expect(createNode(null, "name", "path")).toBeNull();
+    expect(createNode({name: "name"})).toBeNull();
   });
 
   it("does not return null when contents is null", () => {
-    expect(createNode(null, "name", "path", null)).toEqual({
-      parent: null,
+    expect(createNode({
       name: "name",
       path: "path",
-      contents: null,
-      type: NODE_TYPES.GRIP
-    });
+      contents: null
+    })).not.toBe(null);
   });
 
-  it("returns the expected object when parent is null", () => {
-    expect(createNode(null, "name", "path", "contents")).toEqual({
-      parent: null,
+  it("returns the expected object when parent is undefined", () => {
+    const node = createNode({name: "name", path: "path", contents: "contents"});
+    expect(node).toEqual({
       name: "name",
-      path: "path",
+      path: node.path,
       contents: "contents",
       type: NODE_TYPES.GRIP
     });
   });
 
   it("returns the expected object when parent is not null", () => {
-    const root = createNode(null, "name", "path", null);
-    expect(createNode(root, "name", "path", "contents")).toEqual({
+    const root = createNode({name: "name", contents: null});
+    const child = createNode({
       parent: root,
       name: "name",
       path: "path",
-      contents: "contents",
-      type: NODE_TYPES.GRIP
+      contents: "contents"
     });
+    expect(child.parent).toEqual(root);
   });
 
   it("returns the expected object when type is not undefined", () => {
-    const root = createNode(null, "name", "path", null);
-    expect(createNode(root, "name", "path", "contents", NODE_TYPES.BUCKET)).toEqual({
+    const root = createNode({name: "name", contents: null});
+    const child = createNode({
       parent: root,
       name: "name",
       path: "path",
       contents: "contents",
-      type: NODE_TYPES.BUCKET
+      type: NODE_TYPES.BUCKET,
     });
+
+    expect(child.type).toEqual(NODE_TYPES.BUCKET);
+  });
+
+  it("uses the name property for the path when path is not provided", () => {
+    expect(createNode({name: "name", contents: "contents"}).path.toString())
+      .toBe("Symbol(name)");
+  });
+
+  it("wraps the path in a Symbol when provided", () => {
+    expect(createNode({name: "name", path: "path", contents: "contents"}).path.toString())
+      .toBe("Symbol(path)");
+  });
+
+  it("uses parent path to compute its path", () => {
+    const root = createNode({name: "root", contents: null});
+    expect(createNode({
+      parent: root,
+      name: "name",
+      path: "path",
+      contents: "contents"
+    }).path.toString()).toBe("Symbol(root/path)");
   });
 });
