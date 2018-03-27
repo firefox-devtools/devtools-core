@@ -113,9 +113,19 @@ class ObjectInspector extends Component {
       return true;
     }
 
-    return expandedPaths.size !== nextProps.expandedPaths.size
-      || loadedProperties.size !== nextProps.loadedProperties.size
-      || [...expandedPaths].some(key => !nextProps.expandedPaths.has(key));
+    // We should update if:
+    // - there are new loaded loaded properties
+    // - OR the expanded paths number changed, and all of them have properties loaded
+    // - OR the expanded paths number did not changed, but old and new sets differ
+    return loadedProperties.size !== nextProps.loadedProperties.size
+      || (
+        expandedPaths.size !== nextProps.expandedPaths.size &&
+        [...nextProps.expandedPaths].every(path => nextProps.loadedProperties.has(path))
+      )
+      || (
+        expandedPaths.size === nextProps.expandedPaths.size &&
+        [...nextProps.expandedPaths].some(key => !expandedPaths.has(key))
+      );
   }
 
   componentWillUnmount() {
@@ -151,7 +161,9 @@ class ObjectInspector extends Component {
   }
 
   getNodeKey(item: Node) : string {
-    return item.path || JSON.stringify(item);
+    return item.path && typeof item.path.toString === "function"
+      ? item.path.toString()
+      : JSON.stringify(item);
   }
 
   setExpanded(item: Node, expand: boolean) {
@@ -426,7 +438,7 @@ class ObjectInspector extends Component {
       autoExpandDepth,
       disabledFocus,
 
-      isExpanded: item => expandedPaths && expandedPaths.has(this.getNodeKey(item)),
+      isExpanded: item => expandedPaths && expandedPaths.has(item.path),
       isExpandable: item => nodeIsPrimitive(item) === false,
       focused: focusedItem,
 

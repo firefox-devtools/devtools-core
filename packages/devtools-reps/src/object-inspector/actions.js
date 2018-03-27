@@ -39,7 +39,10 @@ function nodeExpand(
       type: "NODE_EXPAND",
       data: {node}
     });
-    dispatch(nodeLoadProperties(node, actor, loadedProperties, createObjectClient));
+
+    if (!loadedProperties.has(node.path)) {
+      dispatch(nodeLoadProperties(node, actor, loadedProperties, createObjectClient));
+    }
   };
 }
 
@@ -70,9 +73,7 @@ function nodeLoadProperties(
     try {
       const properties =
         await loadItemProperties(item, createObjectClient, loadedProperties);
-      if (Object.keys(properties).length > 0) {
-        dispatch(nodePropertiesLoaded(item, actor, properties));
-      }
+      dispatch(nodePropertiesLoaded(item, actor, properties));
     } catch (e) {
       console.error(e);
     }
