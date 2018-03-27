@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // @flow
-
+import type { Store } from "../types";
 const {WAIT_UNTIL_TYPE} = require("../../shared/redux/middleware/waitUntilService");
 
 /*
@@ -67,7 +67,83 @@ function waitForDispatch(store: Object, type: string) {
   });
 }
 
+/**
+ * Wait until the condition evaluates to something truethy
+ * @param {function} condition: function that we need for returning something truthy.
+ * @param {int} interval: Time to wait before trying to evaluate condition again
+ * @param {int} maxTries: Number of evaluation to try.
+ */
+async function waitFor(
+  condition: (any) => any,
+  interval: number = 50,
+  maxTries: number = 100
+) {
+  let res = condition();
+  while (!res) {
+    await new Promise(done => setTimeout(done, interval));
+    maxTries--;
+
+    if (maxTries <= 0) {
+      throw new Error("waitFor - maxTries limit hit");
+    }
+
+    res = condition();
+  }
+  return res;
+}
+
+/**
+ * Wait until the state has all the expected keys for the loadedProperties state prop.
+ * @param {Redux Store} store: function that we need for returning something truthy.
+ * @param {Array} expectedKeys: Array of stringified keys.
+ * @param {int} interval: Time to wait before trying to evaluate condition again
+ * @param {int} maxTries: Number of evaluation to try.
+ */
+function waitForLoadedProperties(
+  store: Store,
+  expectedKeys: Array<string>,
+  interval: number,
+  maxTries: number
+) : Promise<any> {
+  return waitFor(() =>
+    storeHasLoadedPropertiesKeys(store, expectedKeys), interval, maxTries);
+}
+
+function storeHasLoadedPropertiesKeys(store: Store, expectedKeys: Array<string>) {
+  return expectedKeys.every(key => storeHasLoadedProperty(store, key));
+}
+
+function storeHasLoadedProperty(store: Store, key: string) : boolean {
+  return [...store.getState().loadedProperties.keys()].some(k => k.toString() === key);
+}
+
+function storeHasExactLoadedProperties(store: Store, expectedKeys: Array<string>) {
+  return expectedKeys.length === store.getState().loadedProperties.size
+    && expectedKeys.every(key => storeHasLoadedProperty(store, key));
+}
+
+function storeHasExpandedPaths(store: Store, expectedKeys: Array<string>) {
+  return expectedKeys.every(key => storeHasExpandedPath(store, key));
+}
+
+function storeHasExpandedPath(store: Store, key: string) : boolean {
+  return [...store.getState().expandedPaths.keys()].some(k => k.toString() === key);
+}
+
+function storeHasExactExpandedPaths(store: Store, expectedKeys: Array<string>) {
+  return expectedKeys.length === store.getState().expandedPaths.size
+    && expectedKeys.every(key => storeHasExpandedPath(store, key));
+}
+
 module.exports = {
   formatObjectInspector,
+  storeHasExpandedPaths,
+  storeHasExpandedPath,
+  storeHasExactExpandedPaths,
+  storeHasLoadedPropertiesKeys,
+  storeHasLoadedProperty,
+  storeHasExactLoadedProperties,
+  waitFor,
   waitForDispatch,
+  waitForLoadedProperties,
 };
