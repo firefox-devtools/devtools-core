@@ -43,6 +43,7 @@ const {
   nodeIsUnmappedBinding,
   nodeIsUnscopedBinding,
   nodeIsWindow,
+  nodeIsLongString,
 } = Utils.node;
 
 import type {
@@ -170,7 +171,7 @@ class ObjectInspector extends Component {
   }
 
   setExpanded(item: Node, expand: boolean) {
-    if (nodeIsPrimitive(item)) {
+    if (nodeIsPrimitive(item) && !nodeIsLongString(item)) {
       return;
     }
 

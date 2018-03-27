@@ -8,6 +8,7 @@ const {
   enumNonIndexedProperties,
   getPrototype,
   enumSymbols,
+  getFullText,
 } = require("./client");
 
 const {
@@ -24,6 +25,7 @@ const {
   nodeIsPrimitive,
   nodeIsProxy,
   nodeNeedsNumericalBuckets,
+  nodeIsLongString
 } = require("./node");
 
 import type {
@@ -38,6 +40,7 @@ function loadItemProperties(
   item : Node,
   createObjectClient : (RdpGrip) => ObjectClient,
   loadedProperties : LoadedProperties,
+  createLongStringClient : (RdpGrip) => LongStringClient
 ) : Promise<GripProperties> {
   const gripItem = getClosestGripNode(item);
   const value = getValue(gripItem);
@@ -70,6 +73,10 @@ function loadItemProperties(
     promises.push(enumSymbols(getObjectClient(), start, end));
   }
 
+  if (shouldLoadFullText(item, loadedProperties)) {
+    promises.push(getFullText(getObjectClient(), item));
+  }
+
   return Promise.all(promises).then(mergeResponses);
 }
 
@@ -87,6 +94,10 @@ function mergeResponses(responses: Array<Object>) : Object {
 
     if (response.prototype) {
       data.prototype = response.prototype;
+    }
+
+    if (response._fullText) {
+      data.fullText = response._fullText;
     }
   }
 
@@ -174,6 +185,14 @@ function shouldLoadItemSymbols(
     && !nodeIsProxy(item);
 }
 
+function shouldLoadFullText(item: Node, loadedProperties: LoadedProperties = new Map()) {
+  const value = getValue(item);
+
+  return value
+    && !loadedProperties.has(item.path)
+    && nodeIsLongString(item);
+}
+
 module.exports = {
   loadItemProperties,
   mergeResponses,
@@ -182,4 +201,5 @@ module.exports = {
   shouldLoadItemNonIndexedProperties,
   shouldLoadItemPrototype,
   shouldLoadItemSymbols,
+  shouldLoadFullText
 };
