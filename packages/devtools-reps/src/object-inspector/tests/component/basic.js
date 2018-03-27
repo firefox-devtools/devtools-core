@@ -13,7 +13,11 @@ const {
 const repsPath = "../../../reps";
 const { MODE } = require(`${repsPath}/constants`);
 const { Rep } = require(`${repsPath}/rep`);
-const { formatObjectInspector } = require("../test-utils");
+const {
+  formatObjectInspector,
+  waitForDispatch,
+  waitForLoadedProperties
+} = require("../test-utils");
 const ObjectClient = require("../__mocks__/object-client");
 const gripRepStubs = require(`${repsPath}/stubs/grip`);
 
@@ -191,62 +195,59 @@ describe("ObjectInspector - renders", () => {
     expect(oi.find(".node").at(1).contains(renderRep(MODE.TINY))).toBeTruthy();
   });
 
-  it("renders less-important nodes as expected", () => {
-    const defaultPropertiesNode = createNode(
-      null,
-      "root",
-      "rootpath",
-      [],
-      NODE_TYPES.DEFAULT_PROPERTIES
-    );
+  it("renders less-important nodes as expected", async () => {
+    const defaultPropertiesNode = createNode({
+      name: "<default>",
+      contents: [],
+      type: NODE_TYPES.DEFAULT_PROPERTIES
+    });
 
     // The <default properties> node should have the "lessen" class only when collapsed.
     let oi = mount(ObjectInspector(generateDefaults({
       roots: [defaultPropertiesNode],
+      injectWaitService: true
     })));
+    let store = oi.instance().getStore();
 
     let defaultPropertiesElementNode = oi.find(".node");
     expect(defaultPropertiesElementNode.hasClass("lessen")).toBe(true);
 
-    oi = mount(ObjectInspector(generateDefaults({
-      autoExpandDepth: 1,
-      roots: [defaultPropertiesNode],
-    })));
+    let onPropertiesLoaded = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
+    defaultPropertiesElementNode.simulate("click");
+    await onPropertiesLoaded;
+    oi.update();
+    defaultPropertiesElementNode = oi.find(".node").first();
+    expect(oi.find(".node").first().hasClass("lessen")).toBe(false);
 
-    defaultPropertiesElementNode = oi.find(".node");
-    expect(defaultPropertiesElementNode.hasClass("lessen")).toBe(false);
-
-    const prototypeNode = createNode(
-      null,
-      "root",
-      "rootpath",
-      [],
-      NODE_TYPES.PROTOTYPE
-    );
+    const prototypeNode = createNode({
+      name: "<prototype>",
+      contents: [],
+      type: NODE_TYPES.PROTOTYPE
+    });
 
     // The <prototype> node should have the "lessen" class only when collapsed.
     oi = mount(ObjectInspector(generateDefaults({
       roots: [prototypeNode],
+      injectWaitService: true,
     })));
+    store = oi.instance().getStore();
 
     let protoElementNode = oi.find(".node");
     expect(protoElementNode.hasClass("lessen")).toBe(true);
 
-    oi = mount(ObjectInspector(generateDefaults({
-      autoExpandDepth: 1,
-      roots: [prototypeNode],
-    })));
+    onPropertiesLoaded = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
+    protoElementNode.simulate("click");
+    await onPropertiesLoaded;
+    oi.update();
 
-    protoElementNode = oi.find(".node");
+    protoElementNode = oi.find(".node").first();
     expect(protoElementNode.hasClass("lessen")).toBe(false);
   });
 
-  it("renders block nodes as expected", () => {
-    const blockNode = createNode(
-      null,
-      "Block",
-      "/block-1",
-      [{
+  it("renders block nodes as expected", async () => {
+    const blockNode = createNode({
+      name: "Block",
+      contents: [{
         name: "a",
         contents: {
           value: 30,
@@ -257,17 +258,19 @@ describe("ObjectInspector - renders", () => {
           value: 32,
         }
       }],
-      NODE_TYPES.BLOCK
-    );
+      type: NODE_TYPES.BLOCK
+    });
 
     let oi = mount(ObjectInspector(generateDefaults({
       roots: [blockNode],
       autoExpandDepth: 1,
     })));
 
+    await waitForLoadedProperties(oi.instance().getStore(), ["Symbol(Block)"]);
+    oi.update();
+
     let blockElementNode = oi.find(".node").first();
     expect(blockElementNode.hasClass("block")).toBe(true);
-
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 

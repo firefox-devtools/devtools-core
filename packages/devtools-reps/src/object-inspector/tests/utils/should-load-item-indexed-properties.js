@@ -23,32 +23,47 @@ const windowStubs = require("../../../reps/stubs/window");
 
 describe("shouldLoadItemIndexedProperties", () => {
   it("returns true for an array", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("testMaxProps")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("testMaxProps")
+      }
     });
     expect(shouldLoadItemIndexedProperties(node)).toBeTruthy();
   });
 
   it("returns false for an already loaded item", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("testMaxProps")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("testMaxProps")
+      }
     });
     const loadedProperties = new Map([[node.path, true]]);
     expect(shouldLoadItemIndexedProperties(node, loadedProperties)).toBeFalsy();
   });
 
   it("returns false for an array node with buckets", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("Array(234)")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("Array(234)")
+      }
     });
     expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
   });
 
   it("returns true for an array bucket node", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("Array(234)")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("Array(234)")
+      }
     });
-    const bucketNodes = getChildren({item: node});
+    const bucketNodes = getChildren({
+      item: node,
+      loadedProperties: new Map([[node.path, true]])
+    });
 
     // Make sure we do have a bucket.
     expect(bucketNodes[0].name).toBe("[0…99]");
@@ -56,10 +71,16 @@ describe("shouldLoadItemIndexedProperties", () => {
   });
 
   it("returns false for an array bucket node with sub-buckets", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("Array(23456)")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("Array(23456)")
+      }
     });
-    const bucketNodes = getChildren({item: node});
+    const bucketNodes = getChildren({
+      item: node,
+      loadedProperties: new Map([[node.path, true]])
+    });
 
     // Make sure we do have a bucket.
     expect(bucketNodes[0].name).toBe("[0…999]");
@@ -67,62 +88,89 @@ describe("shouldLoadItemIndexedProperties", () => {
   });
 
   it("returns true for an array sub-bucket node", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("Array(23456)")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("Array(23456)")
+      }
     });
-    const bucketNodes = getChildren({item: node});
+    const bucketNodes = getChildren({
+      item: node,
+      loadedProperties: new Map([[node.path, true]])
+    });
     // Make sure we do have a bucket.
     expect(bucketNodes[0].name).toBe("[0…999]");
 
     // Get the sub-buckets
-    const subBucketNodes = getChildren({item: bucketNodes[0]});
+    const subBucketNodes = getChildren({
+      item: bucketNodes[0],
+      loadedProperties: new Map([[bucketNodes[0].path, true]])
+    });
     // Make sure we do have a bucket.
     expect(subBucketNodes[0].name).toBe("[0…99]");
     expect(shouldLoadItemIndexedProperties(subBucketNodes[0])).toBeTruthy();
   });
 
   it("returns false for an entries node", () => {
-    const mapStubNode = createNode(null, "map", "/", {
-      value: gripMapStubs.get("20-entries Map")
+    const mapStubNode = createNode({
+      name: "map",
+      contents: {
+        value: gripMapStubs.get("20-entries Map")
+      }
     });
     const entriesNode = makeNodesForEntries(mapStubNode);
     expect(shouldLoadItemIndexedProperties(entriesNode)).toBeFalsy();
   });
 
   it("returns true for an Object", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripStubs.get("testMaxProps")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripStubs.get("testMaxProps")
+      }
     });
     expect(shouldLoadItemIndexedProperties(node)).toBeTruthy();
   });
 
   it("returns true for a Map", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripMapStubs.get("20-entries Map")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripMapStubs.get("20-entries Map")
+      }
     });
     expect(shouldLoadItemIndexedProperties(node)).toBeTruthy();
   });
 
   it("returns true for a Set", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("new Set([1,2,3,4])")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("new Set([1,2,3,4])")
+      }
     });
     expect(shouldLoadItemIndexedProperties(node)).toBeTruthy();
   });
 
   it("returns true for a Window", () => {
-    const node = createNode(null, "root", "/", {
-      value: windowStubs.get("Window")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: windowStubs.get("Window")
+      }
     });
     expect(shouldLoadItemIndexedProperties(node)).toBeTruthy();
   });
 
   it("returns false for a <default properties> node", () => {
-    const windowNode = createNode(null, "root", "/", {
-      value: windowStubs.get("Window")
+    const windowNode = createNode({
+      name: "root",
+      contents: {
+        value: windowStubs.get("Window")
+      }
     });
     const loadedProperties = new Map([[
-      "/",
+      windowNode.path,
       {
         ownProperties: {
           foo: {value: "bar"},
@@ -141,15 +189,21 @@ describe("shouldLoadItemIndexedProperties", () => {
   });
 
   it("returns false for a Proxy node", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripStubs.get("testProxy")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripStubs.get("testProxy")
+      }
     });
     expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
   });
 
   it("returns true for a Proxy target node", () => {
-    const proxyNode = createNode(null, "root", "/", {
-      value: gripStubs.get("testProxy")
+    const proxyNode = createNode({
+      name: "root",
+      contents: {
+        value: gripStubs.get("testProxy")
+      }
     });
     const [targetNode] = getChildren({item: proxyNode});
     // Make sure we have the target node.
@@ -158,28 +212,40 @@ describe("shouldLoadItemIndexedProperties", () => {
   });
 
   it("returns false for an accessor node", () => {
-    const accessorNode = createNode(null, "root", "/", {
-      value: accessorStubs.get("getter")
+    const accessorNode = createNode({
+      name: "root",
+      contents: {
+        value: accessorStubs.get("getter")
+      }
     });
     expect(shouldLoadItemIndexedProperties(accessorNode)).toBeFalsy();
   });
 
   it("returns true for an accessor <get> node", () => {
-    const accessorNode = createNode(null, "root", "/", accessorStubs.get("getter"));
+    const accessorNode = createNode({
+      name: "root",
+      contents: accessorStubs.get("getter")
+    });
     const [getNode] = getChildren({item: accessorNode});
     expect(getNode.name).toBe("<get>");
     expect(shouldLoadItemIndexedProperties(getNode)).toBeTruthy();
   });
 
   it("returns true for an accessor <set> node", () => {
-    const accessorNode = createNode(null, "root", "/", accessorStubs.get("setter"));
+    const accessorNode = createNode({
+      name: "root",
+      contents: accessorStubs.get("setter")
+    });
     const [setNode] = getChildren({item: accessorNode});
     expect(setNode.name).toBe("<set>");
     expect(shouldLoadItemIndexedProperties(setNode)).toBeTruthy();
   });
 
   it("returns false for a primitive node", () => {
-    const node = createNode(null, "root", "/", {value: 42});
+    const node = createNode({
+      name: "root",
+      contents: {value: 42}
+    });
     expect(shouldLoadItemIndexedProperties(node)).toBeFalsy();
   });
 });

@@ -24,7 +24,7 @@ Array [
       },
       "path": "root",
     },
-    "path": "root/##-state",
+    "path": Symbol(root/<state>),
     "type": Symbol(<state>),
   },
   Object {
@@ -51,7 +51,7 @@ Array [
       },
       "path": "root",
     },
-    "path": "root/##-reason",
+    "path": Symbol(root/<reason>),
     "type": Symbol(<reason>),
   },
 ]

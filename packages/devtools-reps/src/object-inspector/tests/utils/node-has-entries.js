@@ -10,7 +10,7 @@ const {
   nodeHasEntries,
 } = require("../../utils/node");
 
-const createRootNode = value => createNode(null, "root", "/", {value});
+const createRootNode = value => createNode({name: "root", contents: {value}});
 describe("nodeHasEntries", () => {
   it("returns true for Maps", () => {
     expect(nodeHasEntries(

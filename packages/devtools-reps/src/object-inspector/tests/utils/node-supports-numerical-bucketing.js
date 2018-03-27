@@ -8,13 +8,10 @@ const {
   nodeSupportsNumericalBucketing,
 } = require("../../utils/node");
 
-const createRootNode = (stub) => createNode(
-  null,
-  "root",
-  "rootpath", {
-   value: stub
-  }
-);
+const createRootNode = (stub) => createNode({
+  name: "root",
+  contents: { value: stub }
+});
 
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
 const gripMapStubs = require("../../../reps/stubs/grip-map");

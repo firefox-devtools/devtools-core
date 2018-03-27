@@ -7,7 +7,7 @@ const React = require("react");
 const { createFactory } = React;
 const ObjectInspector = createFactory(require("../../index"));
 const { MODE } = require("../../../reps/constants");
-const { formatObjectInspector } = require("../test-utils");
+const { formatObjectInspector, waitForLoadedProperties } = require("../test-utils");
 
 const accessorStubs = require("../../../reps/stubs/accessor");
 const ObjectClient = require("../__mocks__/object-client");
@@ -22,7 +22,7 @@ function generateDefaults(overrides) {
 }
 
 describe("ObjectInspector - getters & setters", () => {
-  it("renders getters as expected", () => {
+  it("renders getters as expected", async () => {
     const stub = accessorStubs.get("getter");
     const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
@@ -32,10 +32,14 @@ describe("ObjectInspector - getters & setters", () => {
       }],
     })));
 
+    const store = oi.instance().getStore();
+    await waitForLoadedProperties(store, ["root"]);
+    oi.update();
+
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
-  it("renders setters as expected", () => {
+  it("renders setters as expected", async () => {
     const stub = accessorStubs.get("setter");
     const oi = mount(ObjectInspector(generateDefaults({
       autoExpandDepth: 1,
@@ -46,10 +50,14 @@ describe("ObjectInspector - getters & setters", () => {
       }],
     })));
 
+    const store = oi.instance().getStore();
+    await waitForLoadedProperties(store, ["root"]);
+    oi.update();
+
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
-  it("renders getters and setters as expected", () => {
+  it("renders getters and setters as expected", async () => {
     const stub = accessorStubs.get("getter setter");
     const oi = mount(ObjectInspector(generateDefaults({
       roots: [{
@@ -58,6 +66,10 @@ describe("ObjectInspector - getters & setters", () => {
         contents: stub
       }],
     })));
+
+    const store = oi.instance().getStore();
+    await waitForLoadedProperties(store, ["root"]);
+    oi.update();
 
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });

@@ -5,19 +5,21 @@
 const {
   createNode,
   makeNumericalBuckets,
-  SAFE_PATH_PREFIX,
 } = require("../../utils/node");
 const gripArrayStubs = require("../../../reps/stubs/grip-array");
 
 describe("makeNumericalBuckets", () => {
   it("handles simple numerical buckets", () => {
-    const node = createNode(null, "root", "root", {
-      value: gripArrayStubs.get("Array(234)")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("Array(234)")
+      }
     });
     const nodes = makeNumericalBuckets(node);
 
     const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
+    const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual([
       "[0…99]",
@@ -26,21 +28,24 @@ describe("makeNumericalBuckets", () => {
     ]);
 
     expect(paths).toEqual([
-      `root/${SAFE_PATH_PREFIX}bucket_0-99`,
-      `root/${SAFE_PATH_PREFIX}bucket_100-199`,
-      `root/${SAFE_PATH_PREFIX}bucket_200-233`,
+      "Symbol(root/[0…99])",
+      "Symbol(root/[100…199])",
+      "Symbol(root/[200…233])",
     ]);
   });
 
   // TODO: Re-enable when we have support for lonely node.
   it.skip("does not create a numerical bucket for a single node", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("Array(101)")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("Array(101)")
+      }
     });
     const nodes = makeNumericalBuckets(node);
 
     const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
+    const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual([
       "[0…99]",
@@ -48,20 +53,23 @@ describe("makeNumericalBuckets", () => {
     ]);
 
     expect(paths).toEqual([
-      `root/${SAFE_PATH_PREFIX}bucket_0-99`,
-      `root/100`,
+      `Symbol(root/bucket_0-99)`,
+      `Symbol(root/100)`,
     ]);
   });
 
   // TODO: Re-enable when we have support for lonely node.
   it.skip("does create a numerical bucket for two node", () => {
-    const node = createNode(null, "root", "/", {
-      value: gripArrayStubs.get("Array(234)")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("Array(234)")
+      }
     });
     const nodes = makeNumericalBuckets(node);
 
     const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path);
+    const paths = nodes.map(n => n.path.toString());
 
     expect(names).toEqual([
       "[0…99]",
@@ -69,14 +77,17 @@ describe("makeNumericalBuckets", () => {
     ]);
 
     expect(paths).toEqual([
-      `root/${SAFE_PATH_PREFIX}bucket_0-99`,
-      `root/${SAFE_PATH_PREFIX}bucket_100-101`,
+      `Symbol(root/bucket_0-99)`,
+      `Symbol(root/bucket_100-101)`,
     ]);
   });
 
   it("creates sub-buckets when needed", () => {
-    const node = createNode(null, "root", "root", {
-      value: gripArrayStubs.get("Array(23456)")
+    const node = createNode({
+      name: "root",
+      contents: {
+        value: gripArrayStubs.get("Array(23456)")
+      }
     });
     const nodes = makeNumericalBuckets(node);
     const names = nodes.map(n => n.name);
@@ -110,7 +121,7 @@ describe("makeNumericalBuckets", () => {
 
     const firstBucketNodes = makeNumericalBuckets(nodes[0]);
     const firstBucketNames = firstBucketNodes.map(n => n.name);
-    const firstBucketPaths = firstBucketNodes.map(n => n.path);
+    const firstBucketPaths = firstBucketNodes.map(n => n.path.toString());
 
     expect(firstBucketNames).toEqual([
       "[0…99]",
@@ -125,15 +136,15 @@ describe("makeNumericalBuckets", () => {
       "[900…999]",
     ]);
     expect(firstBucketPaths[0]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_0-999/${SAFE_PATH_PREFIX}bucket_0-99`
+      `Symbol(root/[0…999]/[0…99])`
     );
     expect(firstBucketPaths[firstBucketPaths.length - 1]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_0-999/${SAFE_PATH_PREFIX}bucket_900-999`
+      `Symbol(root/[0…999]/[900…999])`
     );
 
     const lastBucketNodes = makeNumericalBuckets(nodes[nodes.length - 1]);
     const lastBucketNames = lastBucketNodes.map(n => n.name);
-    const lastBucketPaths = lastBucketNodes.map(n => n.path);
+    const lastBucketPaths = lastBucketNodes.map(n => n.path.toString());
     expect(lastBucketNames).toEqual([
       "[23000…23099]",
       "[23100…23199]",
@@ -142,10 +153,10 @@ describe("makeNumericalBuckets", () => {
       "[23400…23455]",
     ]);
     expect(lastBucketPaths[0]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_23000-23455/${SAFE_PATH_PREFIX}bucket_23000-23099`
+      `Symbol(root/[23000…23455]/[23000…23099])`
     );
     expect(lastBucketPaths[lastBucketPaths.length - 1]).toEqual(
-      `root/${SAFE_PATH_PREFIX}bucket_23000-23455/${SAFE_PATH_PREFIX}bucket_23400-23455`
+      `Symbol(root/[23000…23455]/[23400…23455])`
     );
   });
 });

@@ -40,7 +40,7 @@ describe("createObjectClient", () => {
 
   it("is called with the expected object for entries node", () => {
     const grip = Symbol();
-    const mapStubNode = createNode(null, "map", "/", {value: grip});
+    const mapStubNode = createNode({ name: "map", contents: {value: grip}});
     const entriesNode = makeNodesForEntries(mapStubNode);
 
     const createObjectClient = jest.fn(x => ObjectClient(x));
@@ -54,7 +54,7 @@ describe("createObjectClient", () => {
 
   it("is called with the expected object for bucket node", () => {
     const grip = gripArrayRepStubs.get("testMaxProps");
-    const root = createNode(null, "root", "/", {value: grip});
+    const root = createNode({name: "root", contents: {value: grip}});
     const [bucket] = makeNumericalBuckets(root);
 
     const createObjectClient = jest.fn(x => ObjectClient(x));
@@ -68,7 +68,7 @@ describe("createObjectClient", () => {
 
   it("is called with the expected object for sub-bucket node", () => {
     const grip = gripArrayRepStubs.get("testMaxProps");
-    const root = createNode(null, "root", "/", {value: grip});
+    const root = createNode({name: "root", contents: {value: grip}});
     const [bucket] = makeNumericalBuckets(root);
     const [subBucket] = makeNumericalBuckets(bucket);
 
@@ -83,7 +83,7 @@ describe("createObjectClient", () => {
 
   it("does not fail if the ObjectClient does not have the expected functions", () => {
     const stub = gripRepStubs.get("testMoreThanMaxProps");
-    const root = createNode(null, "root", "/", {value: stub});
+    const root = createNode({name: "root", contents: {value: stub}});
 
     // Override console.error so we don't spam test results.
     const originalConsoleError = console.error;
