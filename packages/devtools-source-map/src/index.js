@@ -17,6 +17,8 @@ const dispatcher = new WorkerDispatcher();
 
 const getOriginalURLs = dispatcher.task("getOriginalURLs");
 const getGeneratedLocation = dispatcher.task("getGeneratedLocation");
+const getAllGeneratedLocations =
+  dispatcher.task("getAllGeneratedLocations");
 const getOriginalLocation = dispatcher.task("getOriginalLocation");
 const getLocationScopes = dispatcher.task("getLocationScopes");
 const getOriginalSourceText = dispatcher.task("getOriginalSourceText");
@@ -32,6 +34,7 @@ module.exports = {
   hasMappedSource,
   getOriginalURLs,
   getGeneratedLocation,
+  getAllGeneratedLocations,
   getOriginalLocation,
   getLocationScopes,
   getOriginalSourceText,

@@ -42,6 +42,7 @@ function trimUrlQuery(url: string): string {
 const contentMap = {
   "js": "text/javascript",
   "jsm": "text/javascript",
+  "mjs": "text/javascript",
   "ts": "text/typescript",
   "tsx": "text/typescript-jsx",
   "jsx": "text/jsx",
