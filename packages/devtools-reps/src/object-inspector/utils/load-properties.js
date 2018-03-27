@@ -40,7 +40,6 @@ function loadItemProperties(
   item : Node,
   createObjectClient : (RdpGrip) => ObjectClient,
   loadedProperties : LoadedProperties,
-  createLongStringClient : (RdpGrip) => LongStringClient
 ) : Promise<GripProperties> {
   const gripItem = getClosestGripNode(item);
   const value = getValue(gripItem);
