@@ -18,10 +18,11 @@ export type NodeMeta = {
   endIndex: number,
 };
 
+export type Path = Symbol;
 export type Node = {
   contents: Array<Node> | NodeContents,
   name: string,
-  path: string,
+  path: Path,
   type: ?Symbol,
   meta: ?NodeMeta,
 };
@@ -50,9 +51,9 @@ export type ObjectClient = {
   getPrototype: () => Promise<{prototype: Object}>,
 };
 
-export type CachedNodes = Map<string, Array<Node>>;
+export type CachedNodes = Map<Path, Array<Node>>;
 
-export type LoadedProperties = Map<string, GripProperties>;
+export type LoadedProperties = Map<Path, GripProperties>;
 
 export type Mode = MODE.TINY | MODE.SHORT | MODE.LONG;
 
@@ -91,10 +92,10 @@ export type Props = {
     }
   ) => any,
   actors: Set<string>,
-  expandedPaths: Set<string>,
+  expandedPaths: Set<Path>,
   focusedItem: ?Node,
   loadedProperties: LoadedProperties,
-  loading: Map<string, Array<Promise<GripProperties>>>,
+  loading: Map<Path, Array<Promise<GripProperties>>>,
 };
 
 export type ReduxAction = {
@@ -104,9 +105,14 @@ export type ReduxAction = {
 
 export type State = {
   actors: Set<string>,
-  expandedPaths: Set<string>,
+  expandedPaths: Set<Path>,
   focusedItem: ?Node,
   loadedProperties: LoadedProperties,
+};
+
+export type Store = {
+  dispatch: (any) => any,
+  getState: () => State
 };
 
 export type ObjectInspectorId = string | number;
