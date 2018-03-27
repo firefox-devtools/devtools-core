@@ -80,6 +80,19 @@ async function getPrototype(
   return objectClient.getPrototype();
 }
 
+async function getFullText(
+  objectClient: ObjectClient,
+  stringGrip: Node,
+) : ?Promise<{prototype?: Object}> {
+  if (typeof objectClient.getString !== "function") {
+    console.error("objectClient.getString is not a function");
+    return Promise.resolve({});
+  }
+
+  // TODO: find key of getString owner in debuggerClient
+  return objectClient.getString(stringGrip);
+}
+
 function iteratorSlice(
   iterator: PropertiesIterator,
   start: ?number,
@@ -98,4 +111,5 @@ module.exports = {
   enumNonIndexedProperties,
   enumSymbols,
   getPrototype,
+  getFullText,
 };

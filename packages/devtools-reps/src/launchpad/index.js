@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // globals window, document
+
 require("../reps/reps.css");
 
 const React = require("react");
@@ -10,6 +11,7 @@ const ReactDOM = require("react-dom");
 
 const { bootstrap, renderRoot } = require("devtools-launchpad");
 
+const { nodeIsLongString } = require("../object-inspector/utils/node");
 const RepsConsole = require("./components/Console");
 const { configureStore } = require("./store");
 
@@ -19,6 +21,8 @@ function onConnect(connection) {
   if (!connection) {
     return;
   }
+
+  console.log(connection.tabConnection.debuggerClient);
 
   const client = {
     clientCommands: {
@@ -31,6 +35,10 @@ function onConnect(connection) {
     },
 
     getObjectClient: function (grip) {
+      if (nodeIsLongString(grip)) {
+        return connection.tabConnection.debuggerClient.getString(grip);
+      }
+
       return connection.tabConnection.threadClient.pauseGrip(grip);
     },
 

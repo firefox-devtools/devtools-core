@@ -49,6 +49,7 @@ export type ObjectClient = {
   enumProperties: (options: Object) => Promise<PropertiesIterator>,
   enumSymbols: () => Promise<PropertiesIterator>,
   getPrototype: () => Promise<{prototype: Object}>,
+  getString: () => Promise<Object>,
 };
 
 export type CachedNodes = Map<Path, Array<Node>>;

@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
  // @flow
+
 const { get, has } = require("lodash");
 const { maybeEscapePropertyName } = require("../../reps/rep-utils");
 const ArrayRep = require("../../reps/array");
@@ -10,6 +11,7 @@ const GripArrayRep = require("../../reps/grip-array");
 const GripMap = require("../../reps/grip-map");
 const GripMapEntryRep = require("../../reps/grip-map-entry");
 const ErrorRep = require("../../reps/error");
+const isLongString = require("../../reps/string");
 
 const MAX_NUMERICAL_PROPERTIES = 100;
 
@@ -211,6 +213,12 @@ function nodeIsError(
   item: Node
 ) : boolean {
   return ErrorRep.supportsObject(getValue(item));
+}
+
+function nodeIsLongString(
+  item: Node
+) : boolean {
+  return isLongString(getValue(item));
 }
 
 function nodeHasAccessors(item: Node) : boolean {
@@ -825,6 +833,7 @@ module.exports = {
   nodeIsDefaultProperties,
   nodeIsEntries,
   nodeIsError,
+  nodeIsLongString,
   nodeIsFunction,
   nodeIsGetter,
   nodeIsMapEntry,

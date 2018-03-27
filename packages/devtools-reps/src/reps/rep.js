@@ -74,7 +74,7 @@ let reps = [
 ];
 
 /**
- * Generic rep that is using for rendering native JS types or an object.
+ * Generic rep that is used for rendering native JS types or an object.
  * The right template used for rendering is picked automatically according
  * to the current value type. The value must be passed is as 'object'
  * property.
@@ -98,7 +98,7 @@ const Rep = function (props) {
  * can be generic JS object as well as a grip (handle to a remote
  * debuggee object).
  *
- * @param defaultObject {React.Component} The default template
+ * @param defaultRep {React.Component} The default template
  * that should be used to render given object if none is found.
  *
  * @param noGrip {Boolean} If true, will only check reps not made for remote objects.
