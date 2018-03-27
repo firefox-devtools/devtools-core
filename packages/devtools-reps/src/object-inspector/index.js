@@ -13,7 +13,7 @@ const {
   shouldRenderRootsInReps
 } = Utils;
 
-import type { Props, State } from "./types";
+import type { Props, Store } from "./types";
 
 class OI extends PureComponent {
 
@@ -22,7 +22,7 @@ class OI extends PureComponent {
     this.store = createStore(props);
   }
 
-  store: {dispatch: (any) => any, getState: () => State};
+  store: Store;
 
   getStore() {
     return this.store;
