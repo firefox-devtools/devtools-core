@@ -84,7 +84,7 @@ async function getPrototype(
 async function getFullText(
   objectClient: ObjectClient,
   stringGrip: RdpGrip,
-) : Promise<string | {error: {}}> {
+) : Promise<{ _fullText?: string }> {
   if (typeof objectClient.getString !== "function") {
     console.error("objectClient.getString is not a function");
     return Promise.resolve({});
