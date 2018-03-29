@@ -11,7 +11,7 @@ const GripArrayRep = require("../../reps/grip-array");
 const GripMap = require("../../reps/grip-map");
 const GripMapEntryRep = require("../../reps/grip-map-entry");
 const ErrorRep = require("../../reps/error");
-const isLongString = require("../../reps/string");
+const { isLongString } = require("../../reps/string");
 
 const MAX_NUMERICAL_PROPERTIES = 100;
 
