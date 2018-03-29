@@ -1,6 +1,6 @@
 {
   "name": "devtools-source-map",
-  "version": "0.14.8",
+  "version": "0.15.0",
   "description": "DevTools utilities for working with source maps",
   "license": "MPL-2.0",
   "author": "J. Ryan Stinnett <jryans@gmail.com>",
