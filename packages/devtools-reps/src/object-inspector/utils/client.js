@@ -7,6 +7,7 @@ import type {
   GripProperties,
   ObjectClient,
   PropertiesIterator,
+  RdpGrip,
 } from "../types";
 
 async function enumIndexedProperties(
@@ -82,14 +83,13 @@ async function getPrototype(
 
 async function getFullText(
   objectClient: ObjectClient,
-  stringGrip: Node,
-) : ?Promise<{prototype?: Object}> {
+  stringGrip: RdpGrip,
+) : Promise<string | {error: {}}> {
   if (typeof objectClient.getString !== "function") {
     console.error("objectClient.getString is not a function");
     return Promise.resolve({});
   }
 
-  // TODO: find key of getString owner in debuggerClient
   return objectClient.getString(stringGrip);
 }
 

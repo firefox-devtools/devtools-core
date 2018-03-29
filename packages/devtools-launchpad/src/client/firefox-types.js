@@ -9,6 +9,8 @@
  * https://wiki.mozilla.org/Remote_Debugging_Protocol
  */
 
+import type {RdpGrip} from "../../../devtools-reps/src/object-inspector/types";
+
 type FrameId = string;
 type ActorId = string;
 type SourceId = string;
@@ -244,9 +246,7 @@ export type TabTarget = {
       func: Function,
       params?: { frameActor?: FrameId }
     ) => void,
-    getString: (
-      stringGrip: Grip
-    ) => Promise<*>
+    getString: (stringGrip: RdpGrip) => Promise<{ _fullText?: string }>
   },
   form: { consoleActor: any },
   activeTab: {
