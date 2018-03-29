@@ -185,11 +185,7 @@ function shouldLoadItemSymbols(
 }
 
 function shouldLoadFullText(item: Node, loadedProperties: LoadedProperties = new Map()) {
-  const value = getValue(item);
-
-  return value
-    && !loadedProperties.has(item.path)
-    && nodeIsLongString(item);
+  return !loadedProperties.has(item.path) && nodeIsLongString(item);
 }
 
 module.exports = {
