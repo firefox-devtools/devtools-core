@@ -372,8 +372,16 @@ class ObjectInspector extends Component {
       onClick: e => {
         e.stopPropagation();
 
-        // If the user selected text, bail out.
-        if (Utils.selection.documentHasSelection()) {
+        // If this click happened because the user selected some text, bail out.
+        // Note that if the user selected some text before and then clicks here,
+        // the previously selected text will be first unselected, unless the user
+        // clicked on the arrow itself. Indeed because the arrow is an image, clicking on
+        // it does not remove any existing text selection. So we need to also check if
+        // teh arrow was clicked.
+        if (
+          Utils.selection.documentHasSelection()
+          && !(e.target && e.target.matches && e.target.matches(".arrow"))
+        ) {
           return;
         }
 

@@ -205,6 +205,29 @@ describe("ObjectInspector - state", () => {
     getSelection().setMockSelection();
   });
 
+  it("does expand if the user selected some text and clicked the arrow", async () => {
+    const wrapper = mount(ObjectInspector(generateDefaults({
+      injectWaitService: true,
+      loadedProperties: new Map([
+        ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
+      ])
+    })));
+    const store = wrapper.instance().getStore();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+    let nodes = wrapper.find(".node");
+
+    // Set a selection using the mock.
+    getSelection().setMockSelection("test");
+
+    const root1 = nodes.at(0);
+    root1.find("img.arrow").simulate("click");
+    expect(store.getState().expandedPaths.has("root-1")).toBeTruthy();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+
+    // Clear the selection for other tests.
+    getSelection().setMockSelection();
+  });
+
   it("does not throw when expanding a block node", async () => {
     const blockNode = createNode({
       name: "Block",
