@@ -4,6 +4,7 @@
 
 // globals window, document
 
+
 require("../reps/reps.css");
 
 const React = require("react");
@@ -11,7 +12,7 @@ const ReactDOM = require("react-dom");
 
 const { bootstrap, renderRoot } = require("devtools-launchpad");
 
-const { nodeIsLongString } = require("../object-inspector/utils/node");
+const { isLongString } = require("../reps/string");
 const RepsConsole = require("./components/Console");
 const { configureStore } = require("./store");
 
@@ -35,8 +36,8 @@ function onConnect(connection) {
     },
 
     getObjectClient: function (grip) {
-      if (nodeIsLongString(grip)) {
-        return connection.tabConnection.debuggerClient.getString(grip);
+      if (isLongString(grip)) {
+        return connection.tabConnection.tabTarget.activeConsole.getString(grip);
       }
 
       return connection.tabConnection.threadClient.pauseGrip(grip);
