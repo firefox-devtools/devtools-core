@@ -4,7 +4,6 @@
 
 // globals window, document
 
-
 require("../reps/reps.css");
 
 const React = require("react");
