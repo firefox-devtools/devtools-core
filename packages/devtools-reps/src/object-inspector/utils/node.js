@@ -698,6 +698,13 @@ function getChildren(options: {
 
   const loadedProps = loadedProperties.get(key);
   const hasLoadedProps = loadedProperties.has(key);
+  const {
+    ownProperties,
+    ownSymbols,
+    safeGetterValues,
+    prototype,
+    fullText
+  } = loadedProps || {};
 
   // Because we are dynamically creating the tree as the user
   // expands it (not precalculated tree structure), we cache child
@@ -732,9 +739,12 @@ function getChildren(options: {
     return addToCache(makeNodesForProxyProperties(item));
   }
 
+  if (nodeIsLongString(item) && fullText) {
+    return addToCache({ fullText });
+  }
+
   if (nodeNeedsNumericalBuckets(item) && hasLoadedProps) {
     // Even if we have numerical buckets, we should have loaded non indexed properties,
-    // like length for example.
     const bucketNodes = makeNumericalBuckets(item);
     return addToCache(bucketNodes.concat(makeNodesForProperties(loadedProps, item)));
   }
