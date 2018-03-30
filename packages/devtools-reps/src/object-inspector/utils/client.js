@@ -83,14 +83,13 @@ async function getPrototype(
 
 async function getFullText(
   objectClient: ObjectClient,
-  stringGrip: RdpGrip,
-) : Promise<{ _fullText?: string }> {
+  object: NodeContents,
+) : Promise<string> {
   if (typeof objectClient.getString !== "function") {
     console.error("objectClient.getString is not a function");
     return Promise.resolve({});
   }
-
-  return objectClient.getString(stringGrip);
+  return objectClient.getString(object);
 }
 
 function iteratorSlice(

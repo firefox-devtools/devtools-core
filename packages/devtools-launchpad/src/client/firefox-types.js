@@ -245,8 +245,7 @@ export type TabTarget = {
       script: Script,
       func: Function,
       params?: { frameActor?: FrameId }
-    ) => void,
-    getString: (stringGrip: RdpGrip) => Promise<{ _fullText?: string }>
+    ) => void
   },
   form: { consoleActor: any },
   activeTab: {

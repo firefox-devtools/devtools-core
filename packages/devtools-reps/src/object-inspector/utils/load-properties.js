@@ -73,7 +73,7 @@ function loadItemProperties(
   }
 
   if (shouldLoadFullText(item, loadedProperties)) {
-    promises.push(getFullText(getObjectClient(), item));
+    promises.push(getFullText(getObjectClient(), getValue(item)));
   }
 
   return Promise.all(promises).then(mergeResponses);
@@ -95,8 +95,8 @@ function mergeResponses(responses: Array<Object>) : Object {
       data.prototype = response.prototype;
     }
 
-    if (response._fullText) {
-      data.fullText = response._fullText;
+    if (typeof response === "string") {
+      data.fullText = response;
     }
   }
 
