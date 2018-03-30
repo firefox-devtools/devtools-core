@@ -164,7 +164,8 @@ function shouldLoadItemPrototype(
     && !nodeIsEntries(item)
     && !nodeIsDefaultProperties(item)
     && !nodeHasAccessors(item)
-    && !nodeIsPrimitive(item);
+    && !nodeIsPrimitive(item)
+    && !nodeIsLongString(item);
 }
 
 function shouldLoadItemSymbols(
@@ -181,6 +182,7 @@ function shouldLoadItemSymbols(
     && !nodeIsDefaultProperties(item)
     && !nodeHasAccessors(item)
     && !nodeIsPrimitive(item)
+    && !nodeIsLongString(item)
     && !nodeIsProxy(item);
 }
 

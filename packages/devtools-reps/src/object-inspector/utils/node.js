@@ -143,7 +143,8 @@ function nodeIsPrimitive(item: Node) : boolean {
     && !nodeIsEntries(item)
     && !nodeIsMapEntry(item)
     && !nodeHasAccessors(item)
-    && !nodeIsBucket(item);
+    && !nodeIsBucket(item)
+    && !nodeIsLongString(item);
 }
 
 function nodeIsDefaultProperties(
