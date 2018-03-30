@@ -168,7 +168,7 @@ class ObjectInspector extends Component {
   }
 
   setExpanded(item: Node, expand: boolean) {
-    if (nodeIsPrimitive(item) && !nodeIsLongString(item)) {
+    if (nodeIsPrimitive(item)) {
       return;
     }
 
