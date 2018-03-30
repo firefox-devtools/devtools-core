@@ -36,7 +36,8 @@ function onConnect(connection) {
 
     getObjectClient: function (grip) {
       if (isLongString(grip)) {
-        return connection.tabConnection.tabTarget.activeConsole.getString(grip);
+        // Use `WebConsoleClient.getString`.
+        return connection.tabConnection.tabTarget.activeConsole;
       }
 
       return connection.tabConnection.threadClient.pauseGrip(grip);
