@@ -6,7 +6,8 @@ export type GripProperties = {
   ownProperties?: Object,
   ownSymbols?: Array<Object>,
   safeGetterValues?: Object,
-  prototype?: Object
+  prototype?: Object,
+  fullText?: string,
 };
 
 export type NodeContents = {

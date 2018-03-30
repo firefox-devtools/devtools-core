@@ -295,19 +295,33 @@ class ObjectInspector extends Component {
       || nodeIsMapEntry(item)
       || isPrimitive
     ) {
-      let repsProp = {...this.props};
+      let repProps = {...this.props};
       if (depth > 0) {
-        repsProp.mode = this.props.mode === MODE.LONG
+        repProps.mode = this.props.mode === MODE.LONG
           ? MODE.SHORT
           : MODE.TINY;
       }
       if (expanded) {
-        repsProp.mode = MODE.TINY;
+        repProps.mode = MODE.TINY;
       }
 
       return {
         label,
-        value: Utils.renderRep(item, repsProp)
+        value: Utils.renderRep(item, repProps)
+      };
+    }
+
+    if (nodeIsLongString(item)) {
+      const repProps = {
+        ...this.props,
+        member: { open: expanded }
+      };
+      item.contents.value.fullText = expanded
+        ? this.getItemChildren(item).fullText
+        : null;
+      console.log(this.getItemChildren(item));
+      return {
+        value: Utils.renderRep(item, repProps)
       };
     }
 
