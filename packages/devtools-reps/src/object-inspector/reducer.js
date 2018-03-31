@@ -32,7 +32,6 @@ function reducer(
   }
 
   if (type === "NODE_PROPERTIES_LOADED") {
-    console.log(action.data);
     return cloneState({
       actors: data.actor ? (new Set(state.actors || [])).add(data.actor) : state.actors,
       loadedProperties: (new Map(state.loadedProperties))

@@ -53,12 +53,6 @@ function createObjectClient(grip) {
   };
 }
 
-function createLongStringClient(grip) {
-  return function ({dispatch, client}) {
-    return client.getLongStringClient(grip);
-  };
-}
-
 function releaseActor(actor) {
   return function ({dispatch, client}) {
     client.releaseActor(actor);
@@ -71,6 +65,5 @@ module.exports = {
   showResultPacket,
   hideResultPacket,
   createObjectClient,
-  createLongStringClient,
   releaseActor,
 };
