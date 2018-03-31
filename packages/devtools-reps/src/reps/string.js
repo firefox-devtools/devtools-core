@@ -33,6 +33,7 @@ StringRep.propTypes = {
   object: PropTypes.object.isRequired,
   openLink: PropTypes.func,
   className: PropTypes.string,
+  showFullText: PropTypes.boolean,
 };
 
 function StringRep(props) {
@@ -90,7 +91,8 @@ function StringRep(props) {
 function maybeCropLongString(opts, text) {
   const {
     shouldCrop,
-    cropLimit
+    cropLimit,
+    showFullText,
   } = opts;
 
   const {
@@ -99,9 +101,13 @@ function maybeCropLongString(opts, text) {
     length,
   } = text;
 
+  if (showFullText && fullText) {
+    return fullText;
+  }
+
   text = shouldCrop
     ? initial.substring(0, cropLimit)
-    : fullText || initial;
+    : initial;
 
   if (text.length < length) {
     text += ELLIPSIS;

@@ -293,11 +293,8 @@ class ObjectInspector extends Component {
     if (nodeIsLongString(item)) {
       const repProps = {
         ...this.props,
-        member: { open: expanded }
+        showFullText: true,
       };
-      item.contents.value.fullText = expanded && nodeHasFullText(item)
-        ? this.getItemChildren(item).fullText
-        : null;
 
       return {
         value: Utils.renderRep(item, repProps)
