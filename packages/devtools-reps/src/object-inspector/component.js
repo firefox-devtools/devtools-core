@@ -293,7 +293,7 @@ class ObjectInspector extends Component {
     if (nodeIsLongString(item)) {
       const repProps = {
         ...this.props,
-        showFullText: true,
+        showFullText: expanded,
       };
 
       return {

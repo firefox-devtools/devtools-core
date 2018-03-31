@@ -33,7 +33,7 @@ StringRep.propTypes = {
   object: PropTypes.object.isRequired,
   openLink: PropTypes.func,
   className: PropTypes.string,
-  showFullText: PropTypes.boolean,
+  showFullText: PropTypes.bool,
 };
 
 function StringRep(props) {
@@ -46,6 +46,7 @@ function StringRep(props) {
     escapeWhitespace = true,
     member,
     openLink,
+    showFullText
   } = props;
 
   let text = object;
@@ -58,6 +59,11 @@ function StringRep(props) {
       shouldCrop,
       cropLimit
     }, text);
+
+    const { fullText } = object;
+    if (showFullText && fullText) {
+      text = fullText;
+    }
   }
 
   text = formatText({
@@ -96,14 +102,9 @@ function maybeCropLongString(opts, text) {
   } = opts;
 
   const {
-    fullText,
     initial,
     length,
   } = text;
-
-  if (showFullText && fullText) {
-    return fullText;
-  }
 
   text = shouldCrop
     ? initial.substring(0, cropLimit)
