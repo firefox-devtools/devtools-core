@@ -740,8 +740,8 @@ function getChildren(options: {
   }
 
   if (nodeIsLongString(item) && hasLoadedProps) {
-    const { fullText } = loadedProps;
-    return addToCache({ fullText });
+    item.contents.value.fullText = loadedProps.fullText;
+    return addToCache(item);
   }
 
   if (nodeNeedsNumericalBuckets(item) && hasLoadedProps) {
