@@ -665,6 +665,7 @@ WebConsoleClient.prototype = {
     if (stringGrip._fullText) {
       return stringGrip._fullText.promise;
     }
+
     let deferred = stringGrip._fullText = promise.defer();
     let { actor, initial, length } = stringGrip;
     let longStringClient = this.longString(stringGrip);
