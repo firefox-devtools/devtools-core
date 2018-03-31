@@ -222,6 +222,13 @@ function nodeIsLongString(
   return isLongString(getValue(item));
 }
 
+function nodeHasFullText(
+  item: Node
+) : boolean {
+  return nodeIsLongString(item)
+    && getValue(item).hasOwnProperty("fullText");
+}
+
 function nodeHasAccessors(item: Node) : boolean {
   return !!getNodeGetter(item) || !!getNodeSetter(item);
 }
@@ -698,13 +705,6 @@ function getChildren(options: {
 
   const loadedProps = loadedProperties.get(key);
   const hasLoadedProps = loadedProperties.has(key);
-  const {
-    ownProperties,
-    ownSymbols,
-    safeGetterValues,
-    prototype,
-    fullText
-  } = loadedProps || {};
 
   // Because we are dynamically creating the tree as the user
   // expands it (not precalculated tree structure), we cache child
@@ -739,7 +739,8 @@ function getChildren(options: {
     return addToCache(makeNodesForProxyProperties(item));
   }
 
-  if (nodeIsLongString(item) && fullText) {
+  if (nodeIsLongString(item) && hasLoadedProps) {
+    const { fullText } = loadedProps;
     return addToCache({ fullText });
   }
 
@@ -845,6 +846,7 @@ module.exports = {
   nodeIsEntries,
   nodeIsError,
   nodeIsLongString,
+  nodeHasFullText,
   nodeIsFunction,
   nodeIsGetter,
   nodeIsMapEntry,

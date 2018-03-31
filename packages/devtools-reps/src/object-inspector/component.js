@@ -44,6 +44,7 @@ const {
   nodeIsUnscopedBinding,
   nodeIsWindow,
   nodeIsLongString,
+  nodeHasFullText
 } = Utils.node;
 
 import type {
@@ -289,6 +290,20 @@ class ObjectInspector extends Component {
       };
     }
 
+    if (nodeIsLongString(item)) {
+      const repProps = {
+        ...this.props,
+        member: { open: expanded }
+      };
+      item.contents.value.fullText = expanded && nodeHasFullText(item)
+        ? this.getItemChildren(item).fullText
+        : null;
+
+      return {
+        value: Utils.renderRep(item, repProps)
+      };
+    }
+
     if (
       nodeHasProperties(item)
       || nodeHasAccessors(item)
@@ -307,20 +322,6 @@ class ObjectInspector extends Component {
 
       return {
         label,
-        value: Utils.renderRep(item, repProps)
-      };
-    }
-
-    if (nodeIsLongString(item)) {
-      const repProps = {
-        ...this.props,
-        member: { open: expanded }
-      };
-      item.contents.value.fullText = expanded
-        ? this.getItemChildren(item).fullText
-        : null;
-      console.log(this.getItemChildren(item));
-      return {
         value: Utils.renderRep(item, repProps)
       };
     }
