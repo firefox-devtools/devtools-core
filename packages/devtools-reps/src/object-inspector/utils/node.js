@@ -225,8 +225,8 @@ function nodeIsLongString(
 function nodeHasFullText(
   item: Node
 ) : boolean {
-  return nodeIsLongString(item)
-    && getValue(item).hasOwnProperty("fullText");
+  const value = getValue(item);
+  return nodeIsLongString(item) && value.hasOwnProperty("fullText");
 }
 
 function nodeHasAccessors(item: Node) : boolean {
@@ -740,6 +740,7 @@ function getChildren(options: {
   }
 
   if (nodeIsLongString(item) && hasLoadedProps) {
+    // Set longString object's fullText to fetched one.
     item.contents.value.fullText = loadedProps.fullText;
     return addToCache(item);
   }
