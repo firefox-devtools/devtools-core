@@ -282,21 +282,11 @@ class ObjectInspector extends Component {
       };
     }
 
-    if (nodeIsLongString(item)) {
-      const repProps = {
-        ...this.props,
-        showFullText: expanded,
-      };
-
-      return {
-        value: Utils.renderRep(item, repProps)
-      };
-    }
-
     if (
       nodeHasProperties(item)
       || nodeHasAccessors(item)
       || nodeIsMapEntry(item)
+      || nodeIsLongString(item)
       || isPrimitive
     ) {
       let repProps = {...this.props};
@@ -308,6 +298,8 @@ class ObjectInspector extends Component {
       if (expanded) {
         repProps.mode = MODE.TINY;
       }
+
+      repProps.showFullText = nodeIsLongString(item) && expanded;
 
       return {
         label,
