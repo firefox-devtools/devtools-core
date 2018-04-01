@@ -98,7 +98,6 @@ function maybeCropLongString(opts, text) {
   const {
     shouldCrop,
     cropLimit,
-    showFullText,
   } = opts;
 
   const {

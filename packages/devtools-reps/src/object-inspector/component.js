@@ -307,7 +307,7 @@ class ObjectInspector extends Component {
         repProps.mode = MODE.TINY;
       }
 
-      repProps.showFullText = nodeIsLongString(item) && expanded;
+      repProps.showFullText = nodeHasFullText(item) && expanded;
 
       return {
         label,
