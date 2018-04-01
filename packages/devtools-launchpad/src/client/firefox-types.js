@@ -9,8 +9,6 @@
  * https://wiki.mozilla.org/Remote_Debugging_Protocol
  */
 
-import type {RdpGrip} from "../../../devtools-reps/src/object-inspector/types";
-
 type FrameId = string;
 type ActorId = string;
 type SourceId = string;

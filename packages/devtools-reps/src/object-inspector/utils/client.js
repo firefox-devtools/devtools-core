@@ -7,7 +7,7 @@ import type {
   GripProperties,
   ObjectClient,
   PropertiesIterator,
-  RdpGrip,
+  NodeContents,
 } from "../types";
 
 async function enumIndexedProperties(
