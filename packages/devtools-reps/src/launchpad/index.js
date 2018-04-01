@@ -22,8 +22,6 @@ function onConnect(connection) {
     return;
   }
 
-  console.log(connection.tabConnection.debuggerClient);
-
   const client = {
     clientCommands: {
       evaluate: input => new Promise(resolve => {
