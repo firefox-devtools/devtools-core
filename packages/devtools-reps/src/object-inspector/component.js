@@ -114,7 +114,7 @@ class ObjectInspector extends Component {
     }
 
     // We should update if:
-    // - there are new loaded loaded properties
+    // - there are new loaded properties
     // - OR the expanded paths number changed, and all of them have properties loaded
     // - OR the expanded paths number did not changed, but old and new sets differ
     return loadedProperties.size !== nextProps.loadedProperties.size
