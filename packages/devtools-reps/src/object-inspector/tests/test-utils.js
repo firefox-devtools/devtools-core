@@ -68,7 +68,7 @@ function waitForDispatch(store: Object, type: string) {
 }
 
 /**
- * Wait until the condition evaluates to something truethy
+ * Wait until the condition evaluates to something truthy
  * @param {function} condition: function that we need for returning something truthy.
  * @param {int} interval: Time to wait before trying to evaluate condition again
  * @param {int} maxTries: Number of evaluation to try.
