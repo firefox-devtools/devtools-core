@@ -76,10 +76,21 @@ function ElementNode(props) {
 }
 
 function getElements(grip, mode) {
-  let {attributes, nodeName} = grip.preview;
+  let {
+    attributes,
+    nodeName,
+    isAfterPseudoElement,
+    isBeforePseudoElement,
+  } = grip.preview;
   const nodeNameElement = span({
     className: "tag-name"
   }, nodeName);
+
+  if (isAfterPseudoElement || isBeforePseudoElement) {
+    return [
+      span({ className: "attrName" }, `::${ isAfterPseudoElement ? "after" : "before" }`)
+    ];
+  }
 
   if (mode === MODE.TINY) {
     let elements = [nodeNameElement];
@@ -100,6 +111,7 @@ function getElements(grip, mode) {
     }
     return elements;
   }
+
   let attributeKeys = Object.keys(attributes);
   if (attributeKeys.includes("class")) {
     attributeKeys.splice(attributeKeys.indexOf("class"), 1);
