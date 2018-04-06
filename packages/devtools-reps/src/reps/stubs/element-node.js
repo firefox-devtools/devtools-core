@@ -232,4 +232,30 @@ stubs.set("NodeWithLongStringAttribute", {
   }
 });
 
+stubs.set("BeforePseudoElement", {
+  "type": "object",
+  "actor": "server1.conn1.child1/obj27",
+  "preview": {
+    "kind": "DOMNode",
+    "nodeType": 1,
+    "nodeName": "_moz_generated_content_before",
+    "attributes": {},
+    "attributesLength": 0,
+    "isBeforePseudoElement": true,
+  }
+});
+
+stubs.set("AfterPseudoElement", {
+  "type": "object",
+  "actor": "server1.conn1.child1/obj28",
+  "preview": {
+    "kind": "DOMNode",
+    "nodeType": 1,
+    "nodeName": "_moz_generated_content_after",
+    "attributes": {},
+    "attributesLength": 0,
+    "isAfterPseudoElement": true,
+  }
+});
+
 module.exports = stubs;

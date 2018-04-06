@@ -345,3 +345,53 @@ describe("ElementNode - Element with longString attribute", () => {
     expect(renderedComponent.text()).toEqual("div");
   });
 });
+
+describe("ElementNode - : Before pseudo element", () => {
+  const stub = stubs.get("BeforePseudoElement");
+
+  it("selects ElementNode Rep", () => {
+    expect(getRep(stub)).toBe(ElementNode.rep);
+  });
+
+  it("renders with expected text content", () => {
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub
+    }));
+
+    expect(renderedComponent.text()).toEqual("::before");
+  });
+
+  it("renders with expected text content in tiny mode", () => {
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub,
+      mode: MODE.TINY
+    }));
+
+    expect(renderedComponent.text()).toEqual("::before");
+  });
+});
+
+describe("ElementNode - After pseudo element", () => {
+  const stub = stubs.get("AfterPseudoElement");
+
+  it("selects ElementNode Rep", () => {
+    expect(getRep(stub)).toBe(ElementNode.rep);
+  });
+
+  it("renders with expected text content", () => {
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub
+    }));
+
+    expect(renderedComponent.text()).toEqual("::after");
+  });
+
+  it("renders with expected text content in tiny mode", () => {
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub,
+      mode: MODE.TINY
+    }));
+
+    expect(renderedComponent.text()).toEqual("::after");
+  });
+});
