@@ -61,13 +61,6 @@ class Settings extends Component {
       click: () => setConfig(key, "dark")
     };
 
-    const firebugMenuItem = {
-      id: "node-menu-firebug",
-      label: "firebug",
-      disabled: config[key] === "firebug",
-      click: () => setConfig(key, "firebug")
-    };
-
     const items = {
       "dir": [
         { item: ltrMenuItem },
@@ -76,7 +69,6 @@ class Settings extends Component {
       "theme": [
         { item: lightMenuItem },
         { item: darkMenuItem },
-        { item: firebugMenuItem }
       ]
     };
     showMenu(event, buildMenu(items[key]));

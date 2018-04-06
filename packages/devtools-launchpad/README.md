@@ -63,7 +63,7 @@ The [Landing Page](./src/index.js)  shows the available Chrome, Firefox, and Nod
 * shows available connections
 * has tools title
 * sets up L10N
-* loads the light, dark, and firebug themes
+* loads the light and dark themes
 
 [Screenshot ](https://cloud.githubusercontent.com/assets/254562/20671763/a749acfa-b54c-11e6-9a4a-6b0fc4f45589.png)
 
@@ -90,7 +90,7 @@ The launchpad has a [config system](../devtools-config/README.md) for adding run
 **Features**
 * *target configs* - firefox, chrome, node configuration
 * *feature flags* toggle features in the build
-* *themes* - enable light, dark, firebug
+* *themes* - enable light, dark
 * *hot-reloading* - toggle hot Reloading
 * *logging* - enable different logging support
 * *environments* - different configs for development, ci, panel
