@@ -615,6 +615,21 @@ function makeNodesForProperties(
   return nodes;
 }
 
+function setNodeFullText(
+  loadedProps: GripProperties,
+  node: Node
+) : Node {
+  if (nodeHasFullText(node)) {
+    return node;
+  }
+
+  if (nodeIsLongString(node)) {
+    node.contents.value.fullText = loadedProps.fullText;
+  }
+
+  return node;
+}
+
 function makeNodeForPrototype(
   objProps: GripProperties,
   parent: Node
@@ -741,8 +756,7 @@ function getChildren(options: {
 
   if (nodeIsLongString(item) && hasLoadedProps) {
     // Set longString object's fullText to fetched one.
-    item.contents.value.fullText = loadedProps.fullText;
-    return addToCache(item);
+    return addToCache(setNodeFullText(loadedProps, item));
   }
 
   if (nodeNeedsNumericalBuckets(item) && hasLoadedProps) {
