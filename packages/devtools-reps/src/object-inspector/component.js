@@ -210,7 +210,7 @@ class ObjectInspector extends Component {
     value?: string | Element,
     label?: string
   }) {
-    let label = item.name;
+    const label = item.name;
     const isPrimitive = nodeIsPrimitive(item);
 
     if (nodeIsOptimizedOut(item)) {
@@ -299,7 +299,9 @@ class ObjectInspector extends Component {
         repProps.mode = MODE.TINY;
       }
 
-      repProps.showFullText = nodeHasFullText(item) && expanded;
+      repProps.member = {
+        open: nodeHasFullText(item) && expanded
+      };
 
       return {
         label,

@@ -29,11 +29,10 @@ StringRep.propTypes = {
   escapeWhitespace: PropTypes.bool,
   style: PropTypes.object,
   cropLimit: PropTypes.number.isRequired,
-  member: PropTypes.string,
+  member: PropTypes.object,
   object: PropTypes.object.isRequired,
   openLink: PropTypes.func,
   className: PropTypes.string,
-  showFullText: PropTypes.bool,
 };
 
 function StringRep(props) {
@@ -45,14 +44,14 @@ function StringRep(props) {
     useQuotes = true,
     escapeWhitespace = true,
     member,
-    openLink,
-    showFullText
+    openLink
   } = props;
 
   let text = object;
 
   const isLong = isLongString(object);
-  const shouldCrop = (!member || !member.open) && cropLimit && text.length > cropLimit;
+  const isOpen = member && member.open;
+  const shouldCrop = !isOpen && cropLimit && text.length > cropLimit;
 
   if (isLong) {
     text = maybeCropLongString({
@@ -61,7 +60,7 @@ function StringRep(props) {
     }, text);
 
     const { fullText } = object;
-    if (showFullText && fullText) {
+    if (isOpen && fullText) {
       text = fullText;
     }
   }
