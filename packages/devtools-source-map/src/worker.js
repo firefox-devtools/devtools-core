@@ -22,6 +22,7 @@ const { workerUtils: { workerHandler }} = require("devtools-utils");
 self.onmessage = workerHandler({
   getOriginalURLs,
   getGeneratedLocation,
+  batchGeneratedLocations,
   getAllGeneratedLocations,
   getOriginalLocation,
   getLocationScopes,
