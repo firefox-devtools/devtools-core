@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const { shallow } = require("enzyme");
+const { ELLIPSIS } = require("../rep-utils");
 const { REPS } = require("../rep");
 const { Rep } = REPS;
 
@@ -18,7 +19,7 @@ const testCases = [{
     object: "aaaaaaaaaaaaaaaaaaaaa\nbbbbbbbbbbbbbbbbbbb\ncccccccccccccccc\n",
     cropLimit: 20
   },
-  result: "\"aaaaaaaaa…cccccc\\n\""
+  result: `\"aaaaaaaaa${ELLIPSIS}cccccc\\n\"`
 }, {
   name: "testMultilineOpen",
   props: {
@@ -70,6 +71,31 @@ const testCases = [{
     escapeWhitespace: false,
   },
   result: "\"line 1\r\nline 2\n\tline 3\""
+}, {
+  name: "testIgnoreFullTextWhenOpen",
+  props: {
+    object: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    fullText: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    member: {open: true},
+  },
+  result: "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+}, {
+  name: "testIgnoreFullTextWithLimit",
+  props: {
+    object: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    fullText: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    cropLimit: 20,
+  },
+  result: `\"aaaaaaaaa${ELLIPSIS}aaaaaaaa\"`
+}, {
+  name: "testIgnoreFullTextWhenOpenWithLimit",
+  props: {
+    object: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    fullText: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    member: {open: true},
+    cropLimit: 20,
+  },
+  result: "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
 }];
 
 describe("test String", () => {
