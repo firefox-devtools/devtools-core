@@ -102,6 +102,7 @@ class ObjectInspector extends Component {
   shouldComponentUpdate(nextProps: Props) {
     const {
       expandedPaths,
+      focusedItem,
       loadedProperties,
       roots,
     } = this.props;
@@ -117,6 +118,7 @@ class ObjectInspector extends Component {
     // - there are new loaded properties
     // - OR the expanded paths number changed, and all of them have properties loaded
     // - OR the expanded paths number did not changed, but old and new sets differ
+    // - OR the focused node changed.
     return loadedProperties.size !== nextProps.loadedProperties.size
       || (
         expandedPaths.size !== nextProps.expandedPaths.size &&
@@ -125,7 +127,8 @@ class ObjectInspector extends Component {
       || (
         expandedPaths.size === nextProps.expandedPaths.size &&
         [...nextProps.expandedPaths].some(key => !expandedPaths.has(key))
-      );
+      )
+      || focusedItem !== nextProps.focusedItem;
   }
 
   componentWillUnmount() {
@@ -195,12 +198,17 @@ class ObjectInspector extends Component {
 
   focusItem(item: Node) {
     const {
+      disabledFocus,
       focusedItem,
+      nodeFocus,
       onFocus,
     } = this.props;
 
-    if (focusedItem !== item && onFocus) {
-      onFocus(item);
+    if (!disabledFocus && focusedItem !== item) {
+      nodeFocus(item);
+      if (focusedItem !== item && onFocus) {
+        onFocus(item);
+      }
     }
   }
 
@@ -370,8 +378,6 @@ class ObjectInspector extends Component {
         block: nodeIsBlock(item)
       }),
       onClick: e => {
-        e.stopPropagation();
-
         // If this click happened because the user selected some text, bail out.
         // Note that if the user selected some text before and then clicks here,
         // the previously selected text will be first unselected, unless the user
@@ -382,10 +388,8 @@ class ObjectInspector extends Component {
           Utils.selection.documentHasSelection()
           && !(e.target && e.target.matches && e.target.matches(".arrow"))
         ) {
-          return;
+          e.stopPropagation();
         }
-
-        this.setExpanded(item, !expanded);
       },
     };
 

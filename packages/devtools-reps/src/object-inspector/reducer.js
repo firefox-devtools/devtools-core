@@ -40,6 +40,10 @@ function reducer(
   }
 
   if (type === "NODE_FOCUS") {
+    if (state.focusedItem === data.node) {
+      return state;
+    }
+
     return cloneState({
       focusedItem: data.node
     });
