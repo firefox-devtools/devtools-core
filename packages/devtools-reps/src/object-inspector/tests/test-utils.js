@@ -23,6 +23,7 @@ const {WAIT_UNTIL_TYPE} = require("../../shared/redux/middleware/waitUntilServic
  *
  */
 function formatObjectInspector(wrapper: Object) {
+  const hasFocusedNode = wrapper.find(".tree-node.focused").length > 0;
   return wrapper.find(".tree-node")
     .map(node => {
       const indentStr = "|  ".repeat((node.prop("aria-level") || 1) - 1);
@@ -38,7 +39,13 @@ function formatObjectInspector(wrapper: Object) {
       const icon = node.find(".node").first().hasClass("block")
         ? "☲ "
         : "";
-      return `${indentStr}${arrowStr}${icon}${getSanitizedNodeText(node)}`;
+      let text = `${indentStr}${arrowStr}${icon}${getSanitizedNodeText(node)}`;
+      if (!hasFocusedNode) {
+        return text;
+      }
+      return node.hasClass("focused")
+        ? `[ ${text} ]`
+        : `  ${text}`;
     })
     .join("\n");
 }
