@@ -249,12 +249,10 @@ function nodeHasEntries(
     return false;
   }
 
-  return [
-    "Map",
-    "Set",
-    "WeakMap",
-    "WeakSet"
-  ].includes(value.class);
+  return value.class === "Map"
+    || value.class === "Set"
+    || value.class === "WeakMap"
+    || value.class === "WeakSet";
 }
 
 function nodeHasAllEntriesInPreview(item : Node) : boolean {
