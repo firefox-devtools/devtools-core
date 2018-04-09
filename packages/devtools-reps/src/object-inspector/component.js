@@ -299,9 +299,11 @@ class ObjectInspector extends Component {
         repProps.mode = MODE.TINY;
       }
 
-      repProps.member = {
-        open: nodeHasFullText(item) && expanded
-      };
+      if (nodeIsLongString(item)) {
+        repProps.member = {
+          open: nodeHasFullText(item) && expanded
+        };
+      }
 
       return {
         label,
