@@ -9,6 +9,10 @@ const {
 } = require("../rep");
 
 const {
+  ELLIPSIS,
+} = require("../rep-utils");
+
+const {
   expectActorAttribute,
 } = require("./test-helpers");
 
@@ -32,7 +36,8 @@ describe("long StringRep", () => {
       object: stub
     }));
 
-    expect(renderedComponent.text()).toEqual(quoteNewlines(`"${stub.initial}…"`));
+    expect(renderedComponent.text())
+      .toEqual(quoteNewlines(`"${stub.initial}${ELLIPSIS}"`));
     expectActorAttribute(renderedComponent, stub.actor);
   });
 
@@ -44,7 +49,7 @@ describe("long StringRep", () => {
       cropLimit: 20
     }));
 
-    expect(renderedComponent.text()).toEqual(`"a\\naaaaaaaaaaaaaaaaaa…"`);
+    expect(renderedComponent.text()).toEqual(`"a\\naaaaaaaaaaaaaaaaaa${ELLIPSIS}"`);
   });
 
   it("renders with expected text content for multiline string when open", () => {
@@ -56,7 +61,7 @@ describe("long StringRep", () => {
     }));
 
     expect(renderedComponent.text())
-      .toEqual(quoteNewlines(`"${stub.initial}…"`));
+      .toEqual(quoteNewlines(`"${stub.initial}${ELLIPSIS}"`));
   });
 
   it("renders with expected text content when grip has a fullText" +
@@ -79,7 +84,7 @@ describe("long StringRep", () => {
       cropLimit: 20
     }));
 
-    expect(renderedComponent.text()).toEqual(`"a\\naaaaaaaaaaaaaaaaaa…"`);
+    expect(renderedComponent.text()).toEqual(`"a\\naaaaaaaaaaaaaaaaaa${ELLIPSIS}"`);
   });
 
   it("expected to omit quotes", () => {
@@ -92,6 +97,7 @@ describe("long StringRep", () => {
 
     expect(renderedComponent.html())
     .toEqual('<span data-link-actor-id="server1.conn1.child1/longString58" ' +
-             'class="objectBox objectBox-string">a\naaaaaaaaaaaaaaaaaa…</span>');
+             `class="objectBox objectBox-string">a\naaaaaaaaaaaaaaaaaa${ELLIPSIS}` +
+             "</span>");
   });
 });
