@@ -41,9 +41,27 @@ async function getOriginalURLs(generatedSource: Source) {
   return map && map.sources;
 }
 
+async function batchGeneratedLocations(locations: Location[], sourcesMap) {
+  let posMap = {}
+  for (const location of locations) {
+     const {sourceId, column, line}  = location;
+     const genLoc = await getGeneratedLocation(
+       location,
+       {url: sourcesMap[sourceId]}
+    )
+
+
+    posMap[sourceId] = posMap[sourceId] || {}
+    posMap[sourceId][line] = posMap[sourceId][line] || {}
+    posMap[sourceId][line][column] = genLoc;
+  }
+
+  return posMap;
+}
+
 async function getGeneratedLocation(
   location: Location,
-  originalSource: Source
+  originalSource: {url: string}
 ): Promise<Location> {
   if (!isOriginalId(location.sourceId)) {
     return location;
@@ -172,6 +190,7 @@ function applySourceMap(
 module.exports = {
   getOriginalURLs,
   getGeneratedLocation,
+  batchGeneratedLocations,
   getAllGeneratedLocations,
   getOriginalLocation,
   getOriginalSourceText,
