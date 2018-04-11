@@ -22,6 +22,7 @@ const { span } = dom;
  */
 ElementNode.propTypes = {
   object: PropTypes.object.isRequired,
+  inspectIconTitle: PropTypes.string,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
   onDOMNodeMouseOver: PropTypes.func,
@@ -32,6 +33,7 @@ ElementNode.propTypes = {
 function ElementNode(props) {
   let {
     object,
+    inspectIconTitle,
     mode,
     onDOMNodeMouseOver,
     onDOMNodeMouseOut,
@@ -63,8 +65,8 @@ function ElementNode(props) {
       inspectIcon = dom.button({
         className: "open-inspector",
         // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
-        title: "Click to select the node in the inspector",
-        onClick: (e) => onInspectIconClick(object, e)
+        title: inspectIconTitle || "Click to select the node in the inspector",
+        onClick: e => onInspectIconClick(object, e),
       });
     }
   }
