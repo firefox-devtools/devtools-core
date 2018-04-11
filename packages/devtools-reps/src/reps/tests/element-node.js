@@ -395,3 +395,20 @@ describe("ElementNode - After pseudo element", () => {
     expect(renderedComponent.text()).toEqual("::after");
   });
 });
+
+describe("ElementNode - Inspect icon title", () => {
+  const stub = stubs.get("Node");
+
+  it("renders with expected title", () => {
+    const inspectIconTitle = "inspect icon title";
+
+    const renderedComponent = shallow(ElementNode.rep({
+      inspectIconTitle,
+      object: stub,
+      onInspectIconClick: jest.fn(),
+    }));
+
+    const iconNode = renderedComponent.find(".open-inspector");
+    expect(iconNode.prop("title")).toEqual(inspectIconTitle);
+  });
+});
