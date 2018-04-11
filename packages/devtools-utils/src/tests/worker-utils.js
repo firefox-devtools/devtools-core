@@ -50,7 +50,7 @@ describe("worker utils", () => {
     const postMessageMockCall = postMessageMock.mock.calls[0][0];
 
     expect(postMessageMockCall).toEqual({
-      args: ["bar"],
+      calls: [["bar"]],
       id: 1,
       method: "foo"
     });
@@ -58,8 +58,48 @@ describe("worker utils", () => {
     expect(addEventListenerMock.mock.calls.length).toEqual(1);
   });
 
-  it("test workerHandler error case", () => {
-    const postMessageMock = jest.fn();
+  it("dispatches a queued task", async () => {
+    const dispatcher = new WorkerDispatcher();
+    let postMessageMock;
+    const postMessagePromise = new Promise(resolve => {
+      postMessageMock = jest.fn(resolve);
+    });
+
+    const addEventListenerMock = jest.fn();
+
+    global.Worker = jest.fn(() => {
+      return {
+        postMessage: postMessageMock,
+        addEventListener: addEventListenerMock
+      };
+    });
+
+    dispatcher.start();
+    const task = dispatcher.task("foo", { queue: true });
+    task("bar");
+    task("baz");
+
+    expect(postMessageMock).not.toHaveBeenCalled();
+
+    await postMessagePromise;
+
+    const postMessageMockCall = postMessageMock.mock.calls[0][0];
+
+    expect(postMessageMockCall).toEqual({
+      calls: [["bar"], ["baz"]],
+      id: 1,
+      method: "foo"
+    });
+
+    expect(addEventListenerMock.mock.calls.length).toEqual(1);
+  });
+
+  it("test workerHandler error case", async () => {
+    let postMessageMock;
+    const postMessagePromise = new Promise(resolve => {
+      postMessageMock = jest.fn(resolve);
+    });
+
     self.postMessage = postMessageMock;
 
     let callee = {
@@ -69,11 +109,18 @@ describe("worker utils", () => {
     };
 
     let handler = workerHandler(callee);
-    handler({ data: { id: 53, method: "doSomething", args: [] } });
+
+    handler({ data: { id: 53, method: "doSomething", calls: [[]] } });
+
+    await postMessagePromise;
 
     expect(postMessageMock.mock.calls[0][0]).toEqual({
       id: 53,
-      error: "Error: failed"
+      results: [
+        {
+          error: "Error: failed",
+        }
+      ]
     });
   });
 
@@ -129,7 +176,7 @@ it("streams a task", async () => {
   );
 
   const id = 1;
-  const task = workerHandler({ data: { id, method: "makeTasks", args: [] } });
+  const task = workerHandler({ data: { id, method: "makeTasks", calls: [[]] } });
   await task;
 
   expect(postMessageMock.mock.calls.length).toBe(4);
