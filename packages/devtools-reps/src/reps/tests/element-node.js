@@ -120,6 +120,18 @@ describe("ElementNode - Node", () => {
     expect(onInspectIconClick.mock.calls[0][1].type).toEqual("click");
   });
 
+  it("calls the expected function when click is fired on Rep", () => {
+    const onDOMNodeClick = jest.fn();
+    const renderedComponent = shallow(ElementNode.rep({
+      object: stub,
+      onDOMNodeClick
+    }));
+
+    renderedComponent.simulate("click");
+
+    expect(onDOMNodeClick.mock.calls.length).toEqual(1);
+  });
+
   it("calls the expected function when mouseout is fired on Rep", () => {
     const onDOMNodeMouseOut = jest.fn();
     const renderedComponent = shallow(ElementNode.rep({
