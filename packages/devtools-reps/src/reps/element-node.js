@@ -25,6 +25,7 @@ ElementNode.propTypes = {
   inspectIconTitle: PropTypes.string,
   // @TODO Change this to Object.values once it's supported in Node's version of V8
   mode: PropTypes.oneOf(Object.keys(MODE).map(key => MODE[key])),
+  onDOMNodeClick: PropTypes.func,
   onDOMNodeMouseOver: PropTypes.func,
   onDOMNodeMouseOut: PropTypes.func,
   onInspectIconClick: PropTypes.func,
@@ -35,6 +36,7 @@ function ElementNode(props) {
     object,
     inspectIconTitle,
     mode,
+    onDOMNodeClick,
     onDOMNodeMouseOver,
     onDOMNodeMouseOut,
     onInspectIconClick,
@@ -49,6 +51,12 @@ function ElementNode(props) {
   };
   let inspectIcon;
   if (isInTree) {
+    if (onDOMNodeClick) {
+      Object.assign(baseConfig, {
+        onClick: _ => onDOMNodeClick(object)
+      });
+    }
+
     if (onDOMNodeMouseOver) {
       Object.assign(baseConfig, {
         onMouseOver: _ => onDOMNodeMouseOver(object)
@@ -66,7 +74,13 @@ function ElementNode(props) {
         className: "open-inspector",
         // TODO: Localize this with "openNodeInInspector" when Bug 1317038 lands
         title: inspectIconTitle || "Click to select the node in the inspector",
-        onClick: e => onInspectIconClick(object, e),
+        onClick: e => {
+          if (onDOMNodeClick) {
+            e.stopPropagation();
+          }
+
+          onInspectIconClick(object, e);
+        }
       });
     }
   }
