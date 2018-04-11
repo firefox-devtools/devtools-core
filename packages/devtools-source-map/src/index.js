@@ -16,9 +16,9 @@ const { workerUtils: { WorkerDispatcher }} = require("devtools-utils");
 const dispatcher = new WorkerDispatcher();
 
 const getOriginalURLs = dispatcher.task("getOriginalURLs");
-const getGeneratedLocation = dispatcher.task("getGeneratedLocation");
+const getGeneratedLocation = dispatcher.task("getGeneratedLocation", { queue: true });
 const getAllGeneratedLocations =
-  dispatcher.task("getAllGeneratedLocations");
+  dispatcher.task("getAllGeneratedLocations", { queue: true });
 const getOriginalLocation = dispatcher.task("getOriginalLocation");
 const getLocationScopes = dispatcher.task("getLocationScopes");
 const getOriginalSourceText = dispatcher.task("getOriginalSourceText");
