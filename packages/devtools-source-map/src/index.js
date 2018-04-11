@@ -16,6 +16,7 @@ const { workerUtils: { WorkerDispatcher }} = require("devtools-utils");
 const dispatcher = new WorkerDispatcher();
 
 const getOriginalURLs = dispatcher.task("getOriginalURLs");
+const getGeneratedRanges = dispatcher.task("getGeneratedRanges", { queue: true });
 const getGeneratedLocation = dispatcher.task("getGeneratedLocation", { queue: true });
 const getAllGeneratedLocations =
   dispatcher.task("getAllGeneratedLocations", { queue: true });
@@ -33,6 +34,7 @@ module.exports = {
   isOriginalId,
   hasMappedSource,
   getOriginalURLs,
+  getGeneratedRanges,
   getGeneratedLocation,
   getAllGeneratedLocations,
   getOriginalLocation,
