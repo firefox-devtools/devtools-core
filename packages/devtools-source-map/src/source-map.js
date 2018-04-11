@@ -86,8 +86,7 @@ async function getAllGeneratedLocations(
   const positions = map.allGeneratedPositionsFor({
     source: originalSource.url,
     line: location.line,
-    column: location.column == null ? 0 : location.column,
-    bias: SourceMapConsumer.LEAST_UPPER_BOUND
+    column: location.column == null ? 0 : location.column
   });
 
   return positions.map(({ line, column }) => ({
