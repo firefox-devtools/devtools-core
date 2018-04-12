@@ -24,7 +24,7 @@ const {WAIT_UNTIL_TYPE} = require("../../shared/redux/middleware/waitUntilServic
  */
 function formatObjectInspector(wrapper: Object) {
   const hasFocusedNode = wrapper.find(".tree-node.focused").length > 0;
-  return wrapper.find(".tree-node")
+  const textTree = wrapper.find(".tree-node")
     .map(node => {
       const indentStr = "|  ".repeat((node.prop("aria-level") || 1) - 1);
       // Need to target img.arrow or Enzyme will also match the ArrowExpander component.
@@ -48,6 +48,9 @@ function formatObjectInspector(wrapper: Object) {
         : `  ${text}`;
     })
     .join("\n");
+  // Wrap the text representation in new lines so it keeps alignment between
+  // tree nodes.
+  return `\n${textTree}\n`;
 }
 
 function getSanitizedNodeText(node) {
