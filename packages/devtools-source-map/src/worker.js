@@ -4,6 +4,7 @@
 
 const {
   getOriginalURLs,
+  getGeneratedRanges,
   getGeneratedLocation,
   getAllGeneratedLocations,
   getOriginalLocation,
@@ -21,6 +22,7 @@ const { workerUtils: { workerHandler }} = require("devtools-utils");
 // easier to unit test.
 self.onmessage = workerHandler({
   getOriginalURLs,
+  getGeneratedRanges,
   getGeneratedLocation,
   getAllGeneratedLocations,
   getOriginalLocation,
