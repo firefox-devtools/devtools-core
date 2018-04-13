@@ -546,6 +546,7 @@ class Tree extends Component {
     if (item !== undefined) {
       const treeElement = this.treeRef;
       const element = document.getElementById(this.props.getKey(item));
+
       if (element) {
         const {top, bottom} = element.getBoundingClientRect();
         const closestScrolledParent = node => {
@@ -559,16 +560,20 @@ class Tree extends Component {
           return closestScrolledParent(node.parentNode);
         };
         const scrolledParent = closestScrolledParent(treeElement);
+        const scrolledParentRect = scrolledParent
+          ? scrolledParent.getBoundingClientRect()
+          : null;
         const isVisible = !scrolledParent
           || (
-            top >= 0
-            && bottom <= scrolledParent.clientHeight
+            top >= scrolledParentRect.top
+            && bottom <= scrolledParentRect.bottom
           );
 
         if (!isVisible) {
-          let scrollToTop =
-            (!options.alignTo && top < 0)
-            || options.alignTo === "top";
+          const {alignTo} = options;
+          let scrollToTop = alignTo
+            ? alignTo === "top"
+            : !scrolledParentRect || top < scrolledParentRect.top;
           element.scrollIntoView(scrollToTop);
         }
       }
