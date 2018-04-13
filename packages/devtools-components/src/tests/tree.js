@@ -304,6 +304,55 @@ describe("Tree", () => {
     expect(wrapper.find(".focused").prop("id")).toBe("key-A");
   });
 
+  it("renders as expected when navigating with home/end", () => {
+    const wrapper = mountTree({
+      focused: "M"
+    });
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-M");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-M");
+
+    simulateKeyDown(wrapper, "Home");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-A");
+
+    simulateKeyDown(wrapper, "Home");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-A");
+
+    simulateKeyDown(wrapper, "End");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-M");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-M");
+
+    simulateKeyDown(wrapper, "End");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-M");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-M");
+
+    simulateKeyDown(wrapper, "ArrowRight");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-M");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-M");
+
+    simulateKeyDown(wrapper, "End");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-N");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-N");
+
+    simulateKeyDown(wrapper, "End");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-N");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-N");
+
+    simulateKeyDown(wrapper, "Home");
+    expect(formatTree(wrapper)).toMatchSnapshot();
+    expect(wrapper.getDOMNode().getAttribute("aria-activedescendant")).toBe("key-A");
+    expect(wrapper.find(".focused").prop("id")).toBe("key-A");
+  });
+
   it("renders as expected when navigating with arrows on unexpandable roots", () => {
     const wrapper = mountTree({
       focused: "A",
