@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tree ignores key strokes when pressing modifiers 1`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -15,11 +16,13 @@ exports[`Tree ignores key strokes when pressing modifiers 1`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 2`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -33,11 +36,13 @@ exports[`Tree ignores key strokes when pressing modifiers 2`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 3`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -51,11 +56,13 @@ exports[`Tree ignores key strokes when pressing modifiers 3`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 4`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -69,11 +76,13 @@ exports[`Tree ignores key strokes when pressing modifiers 4`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 5`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -87,11 +96,13 @@ exports[`Tree ignores key strokes when pressing modifiers 5`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 6`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -105,11 +116,13 @@ exports[`Tree ignores key strokes when pressing modifiers 6`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 7`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -123,11 +136,13 @@ exports[`Tree ignores key strokes when pressing modifiers 7`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 8`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -141,11 +156,13 @@ exports[`Tree ignores key strokes when pressing modifiers 8`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 9`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -159,11 +176,13 @@ exports[`Tree ignores key strokes when pressing modifiers 9`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 10`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -177,11 +196,13 @@ exports[`Tree ignores key strokes when pressing modifiers 10`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 11`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -195,11 +216,13 @@ exports[`Tree ignores key strokes when pressing modifiers 11`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 12`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -213,11 +236,13 @@ exports[`Tree ignores key strokes when pressing modifiers 12`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 13`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -231,11 +256,13 @@ exports[`Tree ignores key strokes when pressing modifiers 13`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 14`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -249,11 +276,13 @@ exports[`Tree ignores key strokes when pressing modifiers 14`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 15`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -267,11 +296,13 @@ exports[`Tree ignores key strokes when pressing modifiers 15`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 16`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -285,11 +316,13 @@ exports[`Tree ignores key strokes when pressing modifiers 16`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree ignores key strokes when pressing modifiers 17`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -303,16 +336,20 @@ exports[`Tree ignores key strokes when pressing modifiers 17`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders arrows as expected when nodes are collapsed 1`] = `
-"▶︎ A
-▶︎ M"
+"
+▶︎ A
+▶︎ M
+"
 `;
 
 exports[`Tree renders arrows as expected when nodes are expanded 1`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -326,11 +363,13 @@ exports[`Tree renders arrows as expected when nodes are expanded 1`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected 1`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -344,11 +383,13 @@ exports[`Tree renders as expected 1`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when given a focused item 1`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -362,18 +403,22 @@ exports[`Tree renders as expected when given a focused item 1`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when given a focused item 2`] = `
-"▶︎ [A]
+"
+▶︎ [A]
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when given a focused item 3`] = `
-"▼ [A]
+"
+▼ [A]
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -387,11 +432,13 @@ exports[`Tree renders as expected when given a focused item 3`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when given a focused item 4`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -405,11 +452,13 @@ exports[`Tree renders as expected when given a focused item 4`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating down with the keyboard 1`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    [K]
@@ -423,11 +472,13 @@ exports[`Tree renders as expected when navigating down with the keyboard 1`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating down with the keyboard 2`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -441,11 +492,13 @@ exports[`Tree renders as expected when navigating down with the keyboard 2`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating down with the keyboard 3`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -459,11 +512,13 @@ exports[`Tree renders as expected when navigating down with the keyboard 3`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating down with the keyboard on last node 1`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -477,11 +532,13 @@ exports[`Tree renders as expected when navigating down with the keyboard on last
 |  |    J
 ▼ M
 |  ▼ N
-|  |    [O]"
+|  |    [O]
+"
 `;
 
 exports[`Tree renders as expected when navigating down with the keyboard on last node 2`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -495,11 +552,13 @@ exports[`Tree renders as expected when navigating down with the keyboard on last
 |  |    J
 ▼ M
 |  ▼ N
-|  |    [O]"
+|  |    [O]
+"
 `;
 
 exports[`Tree renders as expected when navigating up with the keyboard 1`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -513,11 +572,13 @@ exports[`Tree renders as expected when navigating up with the keyboard 1`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating up with the keyboard 2`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    [K]
@@ -531,11 +592,13 @@ exports[`Tree renders as expected when navigating up with the keyboard 2`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating up with the keyboard 3`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ [E]
 |  |  |    K
@@ -549,11 +612,13 @@ exports[`Tree renders as expected when navigating up with the keyboard 3`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating up with the keyboard on a root 1`] = `
-"▼ [A]
+"
+▼ [A]
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -567,11 +632,13 @@ exports[`Tree renders as expected when navigating up with the keyboard on a root
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating up with the keyboard on a root 2`] = `
-"▼ [A]
+"
+▼ [A]
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -585,41 +652,55 @@ exports[`Tree renders as expected when navigating up with the keyboard on a root
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating with arrows on unexpandable roots 1`] = `
-"  [A]
-  M"
+"
+  [A]
+  M
+"
 `;
 
 exports[`Tree renders as expected when navigating with arrows on unexpandable roots 2`] = `
-"  A
-  [M]"
+"
+  A
+  [M]
+"
 `;
 
 exports[`Tree renders as expected when navigating with arrows on unexpandable roots 3`] = `
-"  [A]
-  M"
+"
+  [A]
+  M
+"
 `;
 
 exports[`Tree renders as expected when navigating with left arrows on roots 1`] = `
-"▶︎ A
-▶︎ [M]"
+"
+▶︎ A
+▶︎ [M]
+"
 `;
 
 exports[`Tree renders as expected when navigating with left arrows on roots 2`] = `
-"▶︎ [A]
-▶︎ M"
+"
+▶︎ [A]
+▶︎ M
+"
 `;
 
 exports[`Tree renders as expected when navigating with left arrows on roots 3`] = `
-"▶︎ [A]
-▶︎ M"
+"
+▶︎ [A]
+▶︎ M
+"
 `;
 
 exports[`Tree renders as expected when navigating with right/left arrows 1`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    K
@@ -633,11 +714,13 @@ exports[`Tree renders as expected when navigating with right/left arrows 1`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating with right/left arrows 2`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ [E]
 |  |  |    K
@@ -651,11 +734,13 @@ exports[`Tree renders as expected when navigating with right/left arrows 2`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating with right/left arrows 3`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▶︎ [E]
 |  |    F
@@ -667,11 +752,13 @@ exports[`Tree renders as expected when navigating with right/left arrows 3`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating with right/left arrows 4`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ [E]
 |  |  |    K
@@ -685,11 +772,13 @@ exports[`Tree renders as expected when navigating with right/left arrows 4`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when navigating with right/left arrows 5`] = `
-"▼ A
+"
+▼ A
 |  ▼ B
 |  |  ▼ E
 |  |  |    [K]
@@ -703,26 +792,33 @@ exports[`Tree renders as expected when navigating with right/left arrows 5`] = `
 |  |    J
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree renders as expected when passed autoDepth:1 1`] = `
-"▼ A
+"
+▼ A
 |  ▶︎ B
 |  ▶︎ C
 |  ▶︎ D
 ▼ M
-|  ▶︎ N"
+|  ▶︎ N
+"
 `;
 
 exports[`Tree renders as expected with collapsed nodes 1`] = `
-"▶︎ A
+"
+▶︎ A
 ▼ M
 |  ▼ N
-|  |    O"
+|  |    O
+"
 `;
 
 exports[`Tree uses isExpandable prop if it exists to render tree nodes 1`] = `
-"▶︎ A
-  M"
+"
+▶︎ A
+  M
+"
 `;

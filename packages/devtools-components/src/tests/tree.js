@@ -458,7 +458,7 @@ function simulateKeyDown(wrapper, key) {
  *
  */
 function formatTree(wrapper) {
-  return getTreeNodes(wrapper)
+  const textTree = getTreeNodes(wrapper)
     .map((node) => {
       const level = (node.prop("aria-level") || 1) - 1;
       const indentStr = "|  ".repeat(level);
@@ -471,6 +471,9 @@ function formatTree(wrapper) {
       return `${indentStr}${arrowStr}${getSanitizedNodeText(node)}`;
     })
     .join("\n");
+
+  // Wrap in new lines so tree nodes are aligned as expected.
+  return `\n${textTree}\n`;
 }
 
 function getSanitizedNodeText(node) {
