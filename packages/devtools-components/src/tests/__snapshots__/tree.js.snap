@@ -677,6 +677,73 @@ exports[`Tree renders as expected when navigating with arrows on unexpandable ro
 "
 `;
 
+exports[`Tree renders as expected when navigating with home/end 1`] = `
+"
+▶︎ A
+▶︎ [M]
+"
+`;
+
+exports[`Tree renders as expected when navigating with home/end 2`] = `
+"
+▶︎ [A]
+▶︎ M
+"
+`;
+
+exports[`Tree renders as expected when navigating with home/end 3`] = `
+"
+▶︎ [A]
+▶︎ M
+"
+`;
+
+exports[`Tree renders as expected when navigating with home/end 4`] = `
+"
+▶︎ A
+▶︎ [M]
+"
+`;
+
+exports[`Tree renders as expected when navigating with home/end 5`] = `
+"
+▶︎ A
+▶︎ [M]
+"
+`;
+
+exports[`Tree renders as expected when navigating with home/end 6`] = `
+"
+▶︎ A
+▼ [M]
+|  ▶︎ N
+"
+`;
+
+exports[`Tree renders as expected when navigating with home/end 7`] = `
+"
+▶︎ A
+▼ M
+|  ▶︎ [N]
+"
+`;
+
+exports[`Tree renders as expected when navigating with home/end 8`] = `
+"
+▶︎ A
+▼ M
+|  ▶︎ [N]
+"
+`;
+
+exports[`Tree renders as expected when navigating with home/end 9`] = `
+"
+▶︎ [A]
+▼ M
+|  ▶︎ N
+"
+`;
+
 exports[`Tree renders as expected when navigating with left arrows on roots 1`] = `
 "
 ▶︎ A
