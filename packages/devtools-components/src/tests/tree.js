@@ -399,6 +399,42 @@ describe("Tree", () => {
     expect(onFocus.mock.calls[4][0]).toBe("E");
   });
 
+  it("calls onActivate when expected", () => {
+    const onActivate = jest.fn();
+
+    const wrapper = mountTree({
+      expanded: new Set("ABCDEFGHIJKLMNO".split("")),
+      focused: "A",
+      onActivate,
+    });
+
+    simulateKeyDown(wrapper, "Enter");
+    expect(onActivate.mock.calls.length).toBe(1);
+    expect(onActivate.mock.calls[0][0]).toBe("A");
+
+    simulateKeyDown(wrapper, "Enter");
+    expect(onActivate.mock.calls.length).toBe(2);
+    expect(onActivate.mock.calls[1][0]).toBe("A");
+
+    simulateKeyDown(wrapper, "ArrowDown");
+    simulateKeyDown(wrapper, "Enter");
+    expect(onActivate.mock.calls.length).toBe(3);
+    expect(onActivate.mock.calls[2][0]).toBe("B");
+
+    wrapper.simulate("blur");
+    simulateKeyDown(wrapper, "Enter");
+    expect(onActivate.mock.calls.length).toBe(3);
+  });
+
+  it("does not throw when onActivate is undefined and Enter is pressed", () => {
+    const wrapper = mountTree({
+      expanded: new Set("ABCDEFGHIJKLMNO".split("")),
+      focused: "A",
+    });
+
+    simulateKeyDown(wrapper, "Enter");
+  });
+
   it("ignores key strokes when pressing modifiers", () => {
     const wrapper = mountTree({
       expanded: new Set("ABCDEFGHIJKLMNO".split("")),

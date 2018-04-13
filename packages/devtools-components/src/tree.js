@@ -330,6 +330,9 @@ class Tree extends Component {
       //     onExpand: item => dispatchExpandActionToRedux(item)
       onExpand: PropTypes.func,
       onCollapse: PropTypes.func,
+      // Optional event handler called with the current focused node when the Enter key
+      // is pressed. Can be useful to allow further keyboard actions within the tree node.
+      onActivate: PropTypes.func,
       isExpandable: PropTypes.func,
       // Additional classes to add to the root element.
       className: PropTypes.string,
@@ -369,6 +372,7 @@ class Tree extends Component {
     this._onBlur = this._onBlur.bind(this);
     this._onKeyDown = this._onKeyDown.bind(this);
     this._nodeIsExpandable = this._nodeIsExpandable.bind(this);
+    this._activateNode = oncePerAnimationFrame(this._activateNode).bind(this);
   }
 
   componentDidMount() {
@@ -639,6 +643,10 @@ class Tree extends Component {
 
       case "End":
         this._focusLastNode();
+        return;
+
+      case "Enter":
+        this._activateNode();
     }
   }
 
@@ -724,6 +732,12 @@ class Tree extends Component {
     const traversal = this._dfsFromRoots();
     const lastIndex = traversal.length - 1;
     this._focus(traversal[lastIndex].item, {alignTo: "bottom"});
+  }
+
+  _activateNode() {
+    if (this.props.onActivate) {
+      this.props.onActivate(this.props.focused);
+    }
   }
 
   _nodeIsExpandable(item) {
