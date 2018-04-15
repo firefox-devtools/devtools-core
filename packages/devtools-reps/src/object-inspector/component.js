@@ -178,6 +178,7 @@ class ObjectInspector extends Component {
 
     const {
       createObjectClient,
+      createLongStringClient,
       loadedProperties,
       nodeExpand,
       nodeCollapse,
@@ -192,7 +193,8 @@ class ObjectInspector extends Component {
         return rootValue && rootValue.actor === value.actor;
       });
       const actor = isRoot || !value ? null : value.actor;
-      nodeExpand(item, actor, loadedProperties, createObjectClient);
+      nodeExpand(item, actor, loadedProperties, createObjectClient,
+        createLongStringClient);
     } else {
       nodeCollapse(item);
     }

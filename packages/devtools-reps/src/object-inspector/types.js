@@ -50,8 +50,22 @@ export type ObjectClient = {
   enumProperties: (options: Object) => Promise<PropertiesIterator>,
   enumSymbols: () => Promise<PropertiesIterator>,
   getPrototype: () => Promise<{prototype: Object}>,
-  getString: (object: NodeContents) => Promise<string | NodeContents>,
 };
+
+export type LongStringClient = {
+  substring: (
+    start: number,
+    end: number,
+    response: {
+      substring?: string,
+      error?: Error,
+      message?: string,
+    }) => void,
+}
+
+export type CreateObjectClient = (RdpGrip) => ObjectClient;
+
+export type CreateLongStringClient = (RdpGrip) => LongStringClient;
 
 export type CachedNodes = Map<Path, Array<Node>>;
 
@@ -74,7 +88,8 @@ export type Props = {
   disableWrap: boolean,
   dimTopLevelWindow: boolean,
   releaseActor: string => void,
-  createObjectClient: RdpGrip => ObjectClient,
+  createObjectClient: CreateObjectClient,
+  createLongStringClient: CreateLongStringClient,
   onFocus: ?(Node) => any,
   onDoubleClick: ?(
     item: Node,

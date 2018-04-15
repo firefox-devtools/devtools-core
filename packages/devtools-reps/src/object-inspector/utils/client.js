@@ -7,7 +7,7 @@ import type {
   GripProperties,
   ObjectClient,
   PropertiesIterator,
-  NodeContents,
+  NodeContents, LongStringClient,
 } from "../types";
 
 async function enumIndexedProperties(
@@ -82,14 +82,25 @@ async function getPrototype(
 }
 
 async function getFullText(
-  objectClient: ObjectClient,
+  longStringClient: LongStringClient,
   object: NodeContents,
-) : Promise<?string | {}> {
-  if (typeof objectClient.getString !== "function") {
-    console.error("objectClient.getString is not a function");
-    return Promise.resolve({});
-  }
-  return objectClient.getString(object);
+) : Promise<?Object> {
+  const { initial, length } = object;
+
+  return new Promise((resolve, reject) => {
+    longStringClient.substring(initial.length, length, response => {
+      if (response.error) {
+        console.error("LongStringClient.substring",
+          response.error + ": " + response.message);
+        reject({});
+        return;
+      }
+
+      resolve({
+        fullText: initial + response.substring
+      });
+    });
+  });
 }
 
 function iteratorSlice(
