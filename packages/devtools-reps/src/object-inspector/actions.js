@@ -5,11 +5,11 @@
 // @flow
 
 import type {
+  CreateLongStringClient,
+  CreateObjectClient,
   GripProperties,
   LoadedProperties,
   Node,
-  ObjectClient,
-  RdpGrip,
   ReduxAction,
 } from "./types";
 
@@ -32,7 +32,8 @@ function nodeExpand(
   node : Node,
   actor?: string,
   loadedProperties : LoadedProperties,
-  createObjectClient : (RdpGrip) => ObjectClient
+  createObjectClient : CreateObjectClient,
+  createLongStringClient : CreateLongStringClient
 ) {
   return async ({dispatch} : ThunkArg) => {
     dispatch({
@@ -41,7 +42,8 @@ function nodeExpand(
     });
 
     if (!loadedProperties.has(node.path)) {
-      dispatch(nodeLoadProperties(node, actor, loadedProperties, createObjectClient));
+      dispatch(nodeLoadProperties(node, actor, loadedProperties, createObjectClient,
+        createLongStringClient));
     }
   };
 }
@@ -67,12 +69,14 @@ function nodeLoadProperties(
   item : Node,
   actor?: string,
   loadedProperties : LoadedProperties,
-  createObjectClient : (RdpGrip) => ObjectClient
+  createObjectClient : CreateObjectClient,
+  createLongStringClient : CreateLongStringClient
 ) {
   return async ({dispatch} : ThunkArg) => {
     try {
       const properties =
-        await loadItemProperties(item, createObjectClient, loadedProperties);
+        await loadItemProperties(item, createObjectClient, createLongStringClient,
+          loadedProperties);
       dispatch(nodePropertiesLoaded(item, actor, properties));
     } catch (e) {
       console.error(e);
