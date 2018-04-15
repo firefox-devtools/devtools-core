@@ -17,6 +17,7 @@ class ResultsList extends Component {
       showResultPacket: PropTypes.func.isRequired,
       hideResultPacket: PropTypes.func.isRequired,
       createObjectClient: PropTypes.func.isRequired,
+      createLongStringClient: PropTypes.func.isRequired,
       releaseActor: PropTypes.func.isRequired,
     };
   }
@@ -27,6 +28,7 @@ class ResultsList extends Component {
       showResultPacket,
       hideResultPacket,
       createObjectClient,
+      createLongStringClient,
       releaseActor,
     } = this.props;
 
@@ -41,6 +43,7 @@ class ResultsList extends Component {
           showResultPacket: () => showResultPacket(key),
           hideResultPacket: () => hideResultPacket(key),
           createObjectClient,
+          createLongStringClient,
           releaseActor,
         })
       )
