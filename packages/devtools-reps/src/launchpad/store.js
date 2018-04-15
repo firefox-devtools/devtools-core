@@ -15,7 +15,7 @@ const reducers = require("./reducers");
 
 function configureStore(options, client) {
   return createStore(
-    combineReducers(Object.assign({client}, reducers)),
+    combineReducers({ client, ...reducers }),
     applyMiddleware(
       thunk(options.makeThunkArgs),
       promise,

@@ -31,6 +31,7 @@ class Console extends Component {
       navigateInputHistory: PropTypes.func.isRequired,
       showResultPacket: PropTypes.func.isRequired,
       createObjectClient: PropTypes.func.isRequired,
+      createLongStringClient: PropTypes.func.isRequired,
       releaseActor: PropTypes.func.isRequired,
     };
   }
@@ -55,6 +56,7 @@ class Console extends Component {
       navigateInputHistory,
       showResultPacket,
       createObjectClient,
+      createLongStringClient,
       releaseActor,
     } = this.props;
 
@@ -73,6 +75,7 @@ class Console extends Component {
         hideResultPacket,
         showResultPacket,
         createObjectClient,
+        createLongStringClient,
         releaseActor,
       })
     );

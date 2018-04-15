@@ -17,6 +17,7 @@ class Result extends Component {
       showResultPacket: PropTypes.func.isRequired,
       hideResultPacket: PropTypes.func.isRequired,
       createObjectClient: PropTypes.func.isRequired,
+      createLongStringClient: PropTypes.func.isRequired,
       releaseActor: PropTypes.func.isRequired,
     };
   }
@@ -59,6 +60,7 @@ class Result extends Component {
   renderRep({ object, modeKey }) {
     const {
       createObjectClient,
+      createLongStringClient,
       releaseActor,
     } = this.props;
     const path = object.actor;
@@ -78,6 +80,7 @@ class Result extends Component {
         }],
         autoExpandDepth: 0,
         createObjectClient,
+        createLongStringClient,
         releaseActor,
         mode: MODE[modeKey],
         onInspectIconClick: nodeFront => console.log("inspectIcon click", nodeFront),

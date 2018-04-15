@@ -11,7 +11,6 @@ const ReactDOM = require("react-dom");
 
 const { bootstrap, renderRoot } = require("devtools-launchpad");
 
-const { isLongString } = require("../reps/string");
 const RepsConsole = require("./components/Console");
 const { configureStore } = require("./store");
 
@@ -33,12 +32,11 @@ function onConnect(connection) {
     },
 
     getObjectClient: function (grip) {
-      if (isLongString(grip)) {
-        // Use `WebConsoleClient.getString`.
-        return connection.tabConnection.tabTarget.activeConsole;
-      }
-
       return connection.tabConnection.threadClient.pauseGrip(grip);
+    },
+
+    getLongStringClient: function (grip) {
+      return connection.tabConnection.tabTarget.activeConsole.longString(grip);
     },
 
     releaseActor: function (actor) {
@@ -47,7 +45,7 @@ function onConnect(connection) {
   };
 
   let store = configureStore({
-    makeThunkArgs: (args, state) => Object.assign({}, args, { client }),
+    makeThunkArgs: (args, state) => ({ ...args, client }),
     client,
   });
   renderRoot(React, ReactDOM, RepsConsole, store);

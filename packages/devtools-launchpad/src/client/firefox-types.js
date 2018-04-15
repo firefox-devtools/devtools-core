@@ -244,6 +244,7 @@ export type TabTarget = {
       func: Function,
       params?: { frameActor?: FrameId }
     ) => void,
+    longString: (Object) => Object,
   },
   form: { consoleActor: any },
   activeTab: {
