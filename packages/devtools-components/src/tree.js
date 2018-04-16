@@ -379,6 +379,8 @@ class Tree extends Component {
     this._autoExpand();
     if (this.props.focused) {
       this._scrollNodeIntoView(this.props.focused);
+      // Always keep the focus on the tree itself.
+      this.treeRef.focus();
     }
   }
 
@@ -389,6 +391,8 @@ class Tree extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.focused !== this.props.focused) {
       this._scrollNodeIntoView(this.props.focused);
+      // Always keep the focus on the tree itself.
+      this.treeRef.focus();
     }
   }
 
