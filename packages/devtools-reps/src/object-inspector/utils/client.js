@@ -84,7 +84,7 @@ async function getPrototype(
 async function getFullText(
   longStringClient: LongStringClient,
   object: NodeContents,
-) : Promise<?Object> {
+) : Promise<{fullText?: string}> {
   const { initial, length } = object;
 
   return new Promise((resolve, reject) => {
