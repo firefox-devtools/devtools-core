@@ -1,5 +1,6 @@
 [ignore]
 .*node_modules/autoprefixer.*
+.*node_modules/babel-plugin-react-docgen.*
 .*node_modules/chalk.*
 .*node_modules/cjson.*
 .*node_modules/fbjs.*
