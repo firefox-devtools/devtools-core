@@ -10,6 +10,7 @@ import type {
   GripProperties,
   LoadedProperties,
   Node,
+  Props,
   ReduxAction,
 } from "./types";
 
@@ -95,10 +96,35 @@ function nodePropertiesLoaded(
   };
 }
 
+/*
+ * This action is dispatched when the `roots` prop, provided by a consumer of the
+ * ObjectInspector (inspector, console, …), is modified. It will clean the internal
+ * state properties (expandedPaths, loadedProperties, …) and release the actors consumed
+ * with the previous roots.
+ * It takes a props argument which reflects what is passed by the upper-level consumer.
+ */
+function rootsChanged(props: Props) {
+  return {
+    type: "ROOTS_CHANGED",
+    data: props,
+  };
+}
+
+/*
+ * This action will reset the `forceUpdate` flag in the state.
+ */
+function forceUpdated() {
+  return {
+    type: "FORCE_UPDATED",
+  };
+}
+
 module.exports = {
+  forceUpdated,
   nodeExpand,
   nodeCollapse,
   nodeFocus,
   nodeLoadProperties,
   nodePropertiesLoaded,
+  rootsChanged,
 };
