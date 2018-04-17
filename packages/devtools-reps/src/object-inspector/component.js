@@ -110,9 +110,22 @@ class ObjectInspector extends Component {
     } = this.props;
 
     if (roots !== nextProps.roots) {
-      // Since the roots changed, we assume the properties did as well. Thus we can clear
-      // the cachedNodes to avoid bugs and memory leaks.
+      // Since the roots changed, we assume the properties did as well, so we need to
+      // cleanup the component internal state.
+
+      // We can clear the cachedNodes to avoid bugs and memory leaks.
       this.cachedNodes.clear();
+      // The rootsChanged action will be handled in a middleware to release the actors
+      // of the old roots, as well as cleanup the state properties (expandedPaths,
+      // loadedProperties, …).
+      this.props.rootsChanged(nextProps);
+      // We don't render right away since the state is going to be changed by the
+      // rootsChanged action. The `state.forceUpdate` flag will be set to `true` so we
+      // can execute a new render cycle with the cleaned state.
+      return false;
+    }
+
+    if (nextProps.forceUpdate === true) {
       return true;
     }
 
@@ -131,6 +144,13 @@ class ObjectInspector extends Component {
         [...nextProps.expandedPaths].some(key => !expandedPaths.has(key))
       )
       || focusedItem !== nextProps.focusedItem;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.forceUpdate) {
+      // If the component was updated, we can then reset the forceUpdate flag.
+      this.props.forceUpdated();
+    }
   }
 
   componentWillUnmount() {
@@ -483,8 +503,12 @@ function mapStateToProps(state, props) {
   return {
     actors: state.actors,
     expandedPaths: state.expandedPaths,
-    focusedItem: state.focusedItem,
+    // If the root changes, we want to pass a possibly new focusedItem property
+    focusedItem: state.roots !== props.roots
+      ? props.focusedItem
+      : state.focusedItem,
     loadedProperties: state.loadedProperties,
+    forceUpdate: state.forceUpdate,
   };
 }
 

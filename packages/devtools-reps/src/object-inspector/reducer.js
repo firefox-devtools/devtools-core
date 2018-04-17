@@ -49,6 +49,12 @@ function reducer(
     });
   }
 
+  if (type === "FORCE_UPDATED") {
+    return cloneState({
+      forceUpdate: false,
+    });
+  }
+
   return state;
 }
 

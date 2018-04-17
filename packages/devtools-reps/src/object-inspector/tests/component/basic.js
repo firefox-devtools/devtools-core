@@ -274,27 +274,36 @@ describe("ObjectInspector - renders", () => {
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
-  it("updates when the root changes", () => {
+  it("updates when the root changes", async () => {
+    let root = {
+      path: "root",
+      contents: {
+        value: gripRepStubs.get("testMoreThanMaxProps")
+      }
+    };
     let oi = mount(ObjectInspector(generateDefaults({
-      roots: [{
-        path: "root",
-        contents: {
-          value: gripRepStubs.get("testMoreThanMaxProps")
-        }
-      }],
+      roots: [root],
       mode: MODE.LONG,
+      focusedItem: root,
+      injectWaitService: true,
     })));
 
     expect(formatObjectInspector(oi)).toMatchSnapshot();
 
+    root = {
+      path: "root-2",
+      contents: {
+        value: gripRepStubs.get("testMaxProps")
+      }
+    };
+
+    let onComponentUpdated = waitForDispatch(oi.instance().getStore(), "FORCE_UPDATED");
     oi.setProps({
-      roots: [{
-        path: "root-2",
-        contents: {
-          value: gripRepStubs.get("testMaxProps")
-        }
-      }]
+      roots: [root],
+      focusedItem: root,
     });
+    await onComponentUpdated;
+    oi.update();
     expect(formatObjectInspector(oi)).toMatchSnapshot();
   });
 
@@ -316,10 +325,12 @@ describe("ObjectInspector - renders", () => {
         }]
       }],
       mode: MODE.LONG,
+      injectWaitService: true,
     })));
     oi.find(".node").at(0).simulate("click");
-
     const oldTree = formatObjectInspector(oi);
+
+    let onComponentUpdated = waitForDispatch(oi.instance().getStore(), "FORCE_UPDATED");
     oi.setProps({
       roots: [{
         path: "root",
@@ -333,6 +344,8 @@ describe("ObjectInspector - renders", () => {
       }]
     });
 
+    await onComponentUpdated;
+    oi.update();
     expect(formatObjectInspector(oi)).not.toBe(oldTree);
   });
 });

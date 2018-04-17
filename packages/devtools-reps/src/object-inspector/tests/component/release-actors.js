@@ -12,6 +12,9 @@ const repsPath = "../../../reps";
 const gripRepStubs = require(`${repsPath}/stubs/grip`);
 const ObjectClient = require("../__mocks__/object-client");
 const stub = gripRepStubs.get("testMoreThanMaxProps");
+const {
+  waitForDispatch,
+} = require("../test-utils");
 
 function generateDefaults(overrides) {
   return {
@@ -37,6 +40,34 @@ describe("release actors", () => {
     const oi = ObjectInspector(props);
     const wrapper = mount(oi);
     wrapper.unmount();
+
+    expect(releaseActor.mock.calls.length).toBe(2);
+    expect(releaseActor.mock.calls[0][0]).toBe("actor 1");
+    expect(releaseActor.mock.calls[1][0]).toBe("actor 2");
+  });
+
+  it("calls release actors when the roots prop changed", async () => {
+    const releaseActor = jest.fn();
+    const props = generateDefaults({
+      releaseActor,
+      actors: new Set(["actor 1", "actor 2"]),
+      injectWaitService: true,
+    });
+    const oi = ObjectInspector(props);
+    const wrapper = mount(oi);
+    const store = wrapper.instance().getStore();
+
+    const onRootsChanged = waitForDispatch(store, "ROOTS_CHANGED");
+    wrapper.setProps({
+      roots: [{
+        path: "root-2",
+        contents: {
+          value: gripRepStubs.get("testMaxProps")
+        }
+      }]
+    });
+
+    await onRootsChanged;
 
     expect(releaseActor.mock.calls.length).toBe(2);
     expect(releaseActor.mock.calls[0][0]).toBe("actor 1");

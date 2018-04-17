@@ -52,12 +52,12 @@ exports[`ObjectInspector - renders renders primitives as expected when provided 
 
 exports[`ObjectInspector - renders updates when the root changes 1`] = `
 "
-▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … }
+[ ▶︎ Object { p0: \\"0\\", p1: \\"1\\", p2: \\"2\\", p3: \\"3\\", p4: \\"4\\", p5: \\"5\\", p6: \\"6\\", p7: \\"7\\", p8: \\"8\\", p9: \\"9\\", … } ]
 "
 `;
 
 exports[`ObjectInspector - renders updates when the root changes 2`] = `
 "
-▶︎ Object { a: \\"a\\", b: \\"b\\", c: \\"c\\" }
+[ ▶︎ Object { a: \\"a\\", b: \\"b\\", c: \\"c\\" } ]
 "
 `;
