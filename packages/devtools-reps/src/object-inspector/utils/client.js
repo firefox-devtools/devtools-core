@@ -112,6 +112,10 @@ function iteratorSlice(
   const count = end
     ? end - start + 1
     : iterator.count;
+
+  if (count === 0) {
+    return Promise.resolve({});
+  }
   return iterator.slice(start, count);
 }
 
