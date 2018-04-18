@@ -25,6 +25,7 @@ function generateDefaults(overrides) {
   return {
     autoExpandDepth: 0,
     createObjectClient: grip => ObjectClient(grip),
+    focusable: true,
     ...overrides,
   };
 }

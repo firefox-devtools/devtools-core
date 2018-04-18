@@ -222,13 +222,13 @@ class ObjectInspector extends Component {
 
   focusItem(item: Node) {
     const {
-      disabledFocus,
+      focusable,
       focusedItem,
       nodeFocus,
       onFocus,
     } = this.props;
 
-    if (!disabledFocus && focusedItem !== item) {
+    if (focusable && focusedItem !== item) {
       nodeFocus(item);
       if (focusedItem !== item && onFocus) {
         onFocus(item);
@@ -464,7 +464,7 @@ class ObjectInspector extends Component {
     const {
       autoExpandAll = true,
       autoExpandDepth = 1,
-      disabledFocus,
+      focusable,
       disableWrap = false,
       expandedPaths,
       focusedItem,
@@ -479,8 +479,6 @@ class ObjectInspector extends Component {
       }),
       autoExpandAll,
       autoExpandDepth,
-      disabledFocus,
-
       isExpanded: item => expandedPaths && expandedPaths.has(item.path),
       isExpandable: item => nodeIsPrimitive(item) === false,
       focused: focusedItem,
@@ -492,7 +490,7 @@ class ObjectInspector extends Component {
 
       onExpand: item => this.setExpanded(item, true),
       onCollapse: item => this.setExpanded(item, false),
-      onFocus: disabledFocus ? null : this.focusItem,
+      onFocus: focusable ? this.focusItem : null,
 
       renderItem: this.renderTreeItem
     });

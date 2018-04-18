@@ -86,7 +86,7 @@ class Result extends Component {
         onInspectIconClick: nodeFront => console.log("inspectIcon click", nodeFront),
         onViewSourceInDebugger: location =>
           console.log("onViewSourceInDebugger", {location}),
-        disableFocus: false,
+        focusable: true,
       })
     );
   }

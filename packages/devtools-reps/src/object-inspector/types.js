@@ -80,7 +80,7 @@ const {
 export type Props = {
   autoExpandAll: boolean,
   autoExpandDepth: number,
-  disabledFocus: boolean,
+  focusable: boolean,
   itemHeight: number,
   inline: boolean,
   mode: Mode,

@@ -22,6 +22,7 @@ function generateDefaults(overrides) {
     createObjectClient: grip => ObjectClient(grip),
     injectWaitService: true,
     mode: MODE.LONG,
+    focusable: true,
     ...overrides,
   };
 }
