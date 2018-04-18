@@ -251,7 +251,8 @@ function nodeHasEntries(
   return value.class === "Map"
     || value.class === "Set"
     || value.class === "WeakMap"
-    || value.class === "WeakSet";
+    || value.class === "WeakSet"
+    || value.class === "Storage";
 }
 
 function nodeHasAllEntriesInPreview(item : Node) : boolean {
