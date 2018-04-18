@@ -2779,8 +2779,8 @@ ObjectClient.prototype = {
     },
     {
       before: function(packet) {
-        if (!["Map", "WeakMap", "Set", "WeakSet"].includes(this._grip.class)) {
-          throw new Error("enumEntries is only valid for Map/Set-like grips.");
+        if (!["Map", "WeakMap", "Set", "WeakSet", "Storage"].includes(this._grip.class)) {
+          throw new Error("enumEntries is only valid for Map/Set/Storage-like grips.");
         }
         return packet;
       },

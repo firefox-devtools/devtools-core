@@ -50,7 +50,9 @@ function supportsObject(grip, noGrip = false) {
   if (noGrip === true) {
     return false;
   }
-  return (grip && grip.type === "mapEntry" && grip.preview);
+  return grip &&
+         (grip.type === "mapEntry" || grip.type === "storageEntry") &&
+         grip.preview;
 }
 
 function createGripMapEntry(key, value) {
