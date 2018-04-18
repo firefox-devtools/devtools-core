@@ -4,7 +4,6 @@
 
  // @flow
 
-const { get, has } = require("lodash");
 const { maybeEscapePropertyName } = require("../../reps/rep-utils");
 const ArrayRep = require("../../reps/array");
 const GripArrayRep = require("../../reps/grip-array");
@@ -55,12 +54,12 @@ function getType(item: Node) : Symbol {
 function getValue(
   item: Node
 ) : RdpGrip | NodeContents {
-  if (has(item, "contents.value")) {
-    return get(item, "contents.value");
+  if (item && item.contents && item.contents.hasOwnProperty("value")) {
+    return item.contents.value;
   }
 
-  if (has(item, "contents.getterValue")) {
-    return get(item, "contents.getterValue", undefined);
+  if (item && item.contents && item.contents.hasOwnProperty("getterValue")) {
+    return item.contents.getterValue;
   }
 
   if (nodeHasAccessors(item)) {
@@ -419,11 +418,15 @@ function makeNodesForMapEntry(
 }
 
 function getNodeGetter(item: Node): ?Object {
-  return get(item, "contents.get", undefined);
+  return item && item.contents
+    ? item.contents.get
+    : undefined;
 }
 
 function getNodeSetter(item: Node): ?Object {
-  return get(item, "contents.set", undefined);
+  return item && item.contents
+    ? item.contents.set
+    : undefined;
 }
 
 function makeNodesForAccessors(item: Node) : Array<Node> {
