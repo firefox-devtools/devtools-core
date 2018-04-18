@@ -41,6 +41,27 @@ describe("ObjectInspector - properties", () => {
     expect(onFocus.mock.calls.length).toBe(1);
   });
 
+  it("does not call the onFocus when given focus but disabledFocus is true", () => {
+    const stub = gripRepStubs.get("testMaxProps");
+    const onFocus = jest.fn();
+
+    const oi = mount(ObjectInspector(generateDefaults({
+      disabledFocus: true,
+      roots: [{
+        path: "root",
+        contents: {
+          value: stub
+        }
+      }],
+      onFocus,
+    })));
+
+    const node = oi.find(".node").first();
+    node.simulate("focus");
+
+    expect(onFocus.mock.calls.length).toBe(0);
+  });
+
   it("calls the onDoubleClick prop function when provided one and double clicked", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onDoubleClick = jest.fn();

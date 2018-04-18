@@ -492,7 +492,7 @@ class ObjectInspector extends Component {
 
       onExpand: item => this.setExpanded(item, true),
       onCollapse: item => this.setExpanded(item, false),
-      onFocus: this.focusItem,
+      onFocus: disabledFocus ? null : this.focusItem,
 
       renderItem: this.renderTreeItem
     });
