@@ -533,8 +533,11 @@ class Tree extends Component {
    *                 top or the bottom of the scrollable container when the element is
    *                 off canvas.
    */
-  _focus(item, options) {
-    this._scrollNodeIntoView(item, options);
+  _focus(item, options = {}) {
+    const { preventAutoScroll } = options;
+    if (item && !preventAutoScroll) {
+      this._scrollNodeIntoView(item, options);
+    }
     if (this.props.onFocus) {
       this.props.onFocus(item);
     }
@@ -772,7 +775,9 @@ class Tree extends Component {
         onExpand: this._onExpand,
         onCollapse: this._onCollapse,
         onClick: (e) => {
-          this._focus(item);
+          // Since the user just clicked the node, there's no need to check if it should
+          // be scrolled into view.
+          this._focus(item, {preventAutoScroll: true});
           if (this.props.isExpanded(item)) {
             this.props.onCollapse(item);
           } else {
