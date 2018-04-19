@@ -61,6 +61,26 @@ describe("ObjectInspector - properties", () => {
     expect(onDoubleClick.mock.calls.length).toBe(1);
   });
 
+  it("calls the onCmdCtrlClick prop function when provided and cmd/ctrl-clicked", () => {
+    const stub = gripRepStubs.get("testMaxProps");
+    const onCmdCtrlClick = jest.fn();
+
+    const oi = mount(ObjectInspector(generateDefaults({
+      roots: [{
+        path: "root",
+        contents: {
+          value: stub
+        }
+      }],
+      onCmdCtrlClick,
+    })));
+
+    const node = oi.find(".node").first();
+    node.simulate("click", { metaKey: true });
+
+    expect(onCmdCtrlClick.mock.calls.length).toBe(1);
+  });
+
   it("calls the onLabel prop function when provided one and label clicked", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onLabelClick = jest.fn();
