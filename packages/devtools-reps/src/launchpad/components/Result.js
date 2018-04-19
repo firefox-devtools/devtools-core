@@ -83,10 +83,15 @@ class Result extends Component {
         createLongStringClient,
         releaseActor,
         mode: MODE[modeKey],
-        onInspectIconClick: nodeFront => console.log("inspectIcon click", nodeFront),
+        disableFocus: false,
+        // The following properties are optional function props called by the
+        // objectInspector on some occasions. Here we pass dull functions that only
+        // logs the parameters with which the callback was called.
+        onCmdCtrlClick: (node, { depth, event, focused, expanded }) =>
+          console.log("CmdCtrlClick", {node, depth, event, focused, expanded}),
+        onInspectIconClick: nodeFront => console.log("inspectIcon click", {nodeFront}),
         onViewSourceInDebugger: location =>
           console.log("onViewSourceInDebugger", {location}),
-        disableFocus: false,
       })
     );
   }

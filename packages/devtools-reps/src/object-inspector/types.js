@@ -99,6 +99,15 @@ export type Props = {
       expanded: boolean
     }
   ) => any,
+  onCmdCtrlClick: ?(
+    item: Node,
+    options: {
+      depth: number,
+      event: SyntheticEvent,
+      focused: boolean,
+      expanded: boolean
+    }
+  ) => any,
   onLabelClick: ?(
     item: Node,
     options: {
