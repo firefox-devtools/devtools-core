@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // Dependencies
-const validProtocols = /^(http|https|ftp|data|resource|chrome):/i;
+const validProtocols = /(http|https|ftp|data|resource|chrome):/i;
 const tokenSplitRegex = /(\s|\'|\"|\\)+/;
 const ELLIPSIS = "\u2026";
 const dom = require("react-dom-factories");
@@ -359,12 +359,12 @@ function getGripType(object, noGrip) {
  *         Whether the grip is a string containing a URL.
  */
 function containsURL(grip) {
-  if (typeof grip !== "string") {
+  // An URL can't be shorter than 5 char (e.g. "ftp:").
+  if (typeof grip !== "string" || grip.length < 5) {
     return false;
   }
 
-  let tokens = grip.split(tokenSplitRegex);
-  return tokens.some(isURL);
+  return validProtocols.test(grip);
 }
 
 /**
