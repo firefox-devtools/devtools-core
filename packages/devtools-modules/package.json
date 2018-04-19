@@ -10,7 +10,8 @@
   "author": "",
   "license": "MPL-2.0",
   "dependencies": {
-    "jest": "^19.0.2"
+    "jest": "^19.0.2",
+    "punycode": "^2.1.0"
   },
   "files": ["src"],
   "jest": {
