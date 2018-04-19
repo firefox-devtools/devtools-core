@@ -56,7 +56,7 @@
     "devtools-connection": "^0.0.9",
     "devtools-contextmenu": "^0.0.7",
     "devtools-mc-assets": "^0.0.5",
-    "devtools-modules": "^0.0.33",
+    "devtools-modules": "^0.0.35",
     "devtools-sprintf-js": "^1.0.3",
     "devtools-utils": "^0.0.12",
     "express": "^4.13.4",

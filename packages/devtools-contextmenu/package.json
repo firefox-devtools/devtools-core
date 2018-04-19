@@ -9,6 +9,6 @@
   "author": "Jason Laster",
   "license": "MPL-2.0",
   "dependencies": {
-    "devtools-modules": "^0.0.33"
+    "devtools-modules": "^0.0.35"
   }
 }
