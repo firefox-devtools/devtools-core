@@ -466,11 +466,12 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-devtools-modules@^0.0.33:
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.33.tgz#970301dbb44249fbf4ee4785db1cd2d200a173a3"
+devtools-modules@^0.0.35:
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.35.tgz#7f6b85e6648784e538076981b9b6f84d5339151d"
   dependencies:
     jest "^19.0.2"
+    punycode "^2.1.0"
 
 diff@^3.0.0:
   version "3.3.0"
@@ -1535,6 +1536,10 @@ prr@~0.0.0:
 punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
+
+punycode@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.0.tgz#5f863edc89b96db09074bad7947bf09056ca4e7d"
 
 qs@~6.4.0:
   version "6.4.0"
