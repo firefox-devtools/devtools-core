@@ -41,12 +41,12 @@ describe("ObjectInspector - properties", () => {
     expect(onFocus.mock.calls.length).toBe(1);
   });
 
-  it("does not call the onFocus when given focus but disabledFocus is true", () => {
+  it("does not call the onFocus when given focus but focusable is false", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onFocus = jest.fn();
 
     const oi = mount(ObjectInspector(generateDefaults({
-      disabledFocus: true,
+      focusable: true,
       roots: [{
         path: "root",
         contents: {
