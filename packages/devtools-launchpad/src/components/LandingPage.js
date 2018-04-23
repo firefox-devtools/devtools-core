@@ -72,8 +72,8 @@ class LandingPage extends Component {
   }
 
   componentDidUpdate() {
-    if (this.refs.filterInput) {
-      this.refs.filterInput.focus();
+    if (this.filterInput) {
+      this.filterInput.focus();
     }
   }
 
@@ -192,7 +192,9 @@ class LandingPage extends Component {
     return dom.header(
       {},
       dom.input({
-        ref: "filterInput",
+        ref: node => {
+          this.filterInput = node;
+        },
         placeholder: "Filter tabs",
         value: filterString,
         autoFocus: true,
