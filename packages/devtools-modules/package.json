@@ -1,6 +1,6 @@
 {
   "name": "devtools-modules",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "description": "DevTools Modules from M-C",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "",
   "license": "MPL-2.0",
   "dependencies": {
-    "jest": "^19.0.2",
+    "jest": "^20.0.4",
     "punycode": "^2.1.0"
   },
   "files": ["src"],
