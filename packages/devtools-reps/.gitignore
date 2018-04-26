@@ -1,7 +1,0 @@
-.DS_Store
-node_modules
-assets/build
-configs/local.json
-/firefox
-npm-debug.log
-yarn-error.log
