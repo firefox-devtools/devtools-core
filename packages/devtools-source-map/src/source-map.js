@@ -11,6 +11,9 @@
 
 const { networkRequest } = require("devtools-utils");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
+SourceMapConsumer.initialize({
+  "lib/mappings.wasm": "https://unpkg.com/source-map@0.7.2/lib/mappings.wasm"
+})
 
 const assert = require("./utils/assert");
 const { fetchSourceMap } = require("./utils/fetchSourceMap");
