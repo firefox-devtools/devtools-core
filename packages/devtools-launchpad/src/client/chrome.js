@@ -6,7 +6,6 @@
 
 const CDP = require("chrome-remote-interface");
 const { getValue } = require("devtools-config");
-const { networkRequest } = require("devtools-utils");
 
 import type { Tab } from "./types";
 
@@ -31,6 +30,26 @@ function createTabs(tabs: ChromeTab[], { type, clientType } = {}) {
         clientType
       };
     });
+}
+
+// This helper is a simplified copy of devtools-utils/network-request
+function networkRequest(url: string) {
+  if (url.startsWith("data:application/json;")) {
+    const content = atob(url.slice(url.indexOf("base64") + 7));
+    return Promise.resolve({ content });
+  }
+
+  return Promise.race([
+    fetch(`/get?url=${url}`).then(res => {
+      if (res.status >= 200 && res.status < 300) {
+        return res.text().then(text => ({ content: text }));
+      }
+      return Promise.reject(new Error(`failed to request ${url}`));
+    }),
+    new Promise((resolve, reject) => {
+      setTimeout(() => reject(new Error("Connect timeout error")), 6000);
+    })
+  ]);
 }
 
 window.criRequest = function (options, callback) {
