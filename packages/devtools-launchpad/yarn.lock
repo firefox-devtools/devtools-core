@@ -2523,9 +2523,34 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
+devtools-config@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.16.tgz#e7251788422f42a16aa1372b6adbebfcb7a74994"
+
+devtools-connection@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.9.tgz#31121090c8594da7bcc5ee763a34002de932f317"
+
+devtools-contextmenu@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-0.0.8.tgz#13a211eca131ab573b0d320c65258ca3f6cfee27"
+  dependencies:
+    devtools-modules "^0.0.36"
+
+devtools-environment@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.4.tgz#d1c8f399cdaa89358bb0049c276d6e092c24d778"
+
 devtools-mc-assets@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.5.tgz#cfa501248c4e025c8cfb28ff0cabdea32f40eb8a"
+
+devtools-modules@^0.0.36:
+  version "0.0.36"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.36.tgz#ebc0f8dfbad80a2786154c99d49db83dc8e2eec0"
+  dependencies:
+    jest "^20.0.4"
+    punycode "^2.1.0"
 
 devtools-sprintf-js@^1.0.3:
   version "1.0.3"
@@ -5928,6 +5953,10 @@ punycode@1.3.2:
 punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
+
+punycode@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.0.tgz#5f863edc89b96db09074bad7947bf09056ca4e7d"
 
 q@^1.1.2:
   version "1.5.0"

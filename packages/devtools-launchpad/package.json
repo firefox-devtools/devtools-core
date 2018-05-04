@@ -1,9 +1,8 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.121",
+  "version": "0.0.122",
   "license": "MPL-2.0",
-  "description":
-    "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
+  "description": "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
   "repository": {
     "url": "git://github.com/devtools-html/devtools-core.git",
     "type": "git"
@@ -11,8 +10,7 @@
   "bugs": {
     "url": "https://github.com/devtools-html/devtools-core/issues"
   },
-  "homepage":
-    "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
+  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -52,9 +50,10 @@
     "co": "=4.6.0",
     "css-loader": "^0.26.1",
     "debug": "^3.1.0",
-    "devtools-config": "^0.0.15",
+    "devtools-config": "^0.0.16",
     "devtools-connection": "^0.0.9",
     "devtools-contextmenu": "^0.0.8",
+    "devtools-environment": "^0.0.4",
     "devtools-mc-assets": "^0.0.5",
     "devtools-modules": "^0.0.36",
     "devtools-sprintf-js": "^1.0.3",
@@ -80,7 +79,7 @@
     "ps-node": "^0.1.4",
     "raw-loader": "^0.5.1",
     "react": "^16.2.0",
-    "react-dom":"^16.2.0",
+    "react-dom": "^16.2.0",
     "react-dom-factories": "^1.0.2",
     "react-immutable-proptypes": "^2.1.0",
     "react-redux": "^5.0.6",
@@ -121,8 +120,14 @@
   ],
   "jest": {
     "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
-    "testPathIgnorePatterns": ["/node_modules/"],
-    "transformIgnorePatterns": ["node_modules/(?!devtools-)"]
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!devtools-)"
+    ]
   }
 }
