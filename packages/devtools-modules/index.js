@@ -10,6 +10,7 @@ const KeyShortcuts = require("./src/key-shortcuts");
 const { ZoomKeys } = require("./src/zoom-keys");
 const EventEmitter = require("./src/utils/event-emitter");
 const SourceUtils = require("./src/source-utils");
+const Telemetry = require("./src/utils/telemetry")
 const { getUnicodeHostname, getUnicodeUrlPath, getUnicodeUrl } =
   require("./src/unicode-url");
 
@@ -22,6 +23,7 @@ module.exports = {
   ZoomKeys,
   EventEmitter,
   SourceUtils,
+  Telemetry,
   getUnicodeHostname,
   getUnicodeUrlPath,
   getUnicodeUrl,
