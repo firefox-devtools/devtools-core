@@ -311,6 +311,24 @@ class Telemetry {
    *        }
    */
   recordEvent(category, method, object, value, extra) {}
+
+  /**
+   * Sends telemetry pings to indicate that a tool has been opened.
+   *
+   * @param {String} id
+   *        The ID of the tool opened.
+   * @param {Boolean} close
+   *        Should only be called by toolClosed().
+   */
+  toolOpened(id, close = false) {}
+
+  /**
+   * Sends telemetry pings to indicate that a tool has been closed.
+   *
+   * @param {String} id
+   *        The ID of the tool opened.
+   */
+  toolClosed(id) {}
 }
 
 module.exports = Telemetry;

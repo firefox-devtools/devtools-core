@@ -105,4 +105,16 @@ describe("telemetry shim", () => {
       });
     }).not.toThrow();
   });
+
+  it("toolOpened", () => {
+    expect(() => {
+      telemetry.toolOpened("foo");
+    }).not.toThrow();
+  });
+
+  it("toolClosed", () => {
+    expect(() => {
+      telemetry.toolClosed("foo");
+    }).not.toThrow();
+  });
 });
