@@ -317,10 +317,8 @@ class Telemetry {
    *
    * @param {String} id
    *        The ID of the tool opened.
-   * @param {Boolean} close
-   *        Should only be called by toolClosed().
    */
-  toolOpened(id, close = false) {}
+  toolOpened(id) {}
 
   /**
    * Sends telemetry pings to indicate that a tool has been closed.
