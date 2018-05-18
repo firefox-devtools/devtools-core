@@ -4,6 +4,7 @@
 |:----:|:---:|
 | [![devtools-launchpad-version]][devtools-launchpad-pkg] | [devtools-launchpad] |
 | [![devtools-config-version]][devtools-config-pkg] | [devtools-config] |
+| [![devtools-environment-version]][devtools-environment-pkg] | [devtools-environment] |
 | [![devtools-connection-version]][devtools-connection-pkg] | [devtools-connection] |
 | [![devtools-contextmenu-version]][devtools-contextmenu-pkg] | [devtools-contextmenu] |
 | [![devtools-modules-version]][devtools-modules-pkg] | [devtools-modules] |
@@ -40,6 +41,10 @@ the dependency in the launchpad.
 [devtools-config-version]:https://img.shields.io/npm/v/devtools-config.svg
 [devtools-config-pkg]:https://npmjs.org/package/devtools-config
 [devtools-config]:./packages/devtools-config/#readme
+
+[devtools-environment-version]:https://img.shields.io/npm/v/devtools-environment.svg
+[devtools-environment-pkg]:https://npmjs.org/package/devtools-environment
+[devtools-environment]:./packages/devtools-environment/#readme
 
 [devtools-modules-version]:https://img.shields.io/npm/v/devtools-modules.svg
 [devtools-modules-pkg]:https://npmjs.org/package/devtools-modules

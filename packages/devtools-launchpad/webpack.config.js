@@ -7,14 +7,9 @@ require("babel-register");
 const path = require("path");
 
 const webpack = require("webpack");
-
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const {
-  isDevelopment,
-  isFirefoxPanel,
-  getValue,
-  setConfig
-} = require("devtools-config");
+const {isDevelopment, isFirefoxPanel} = require("devtools-environment")
+const { getValue, setConfig } = require("devtools-config");
 const NODE_ENV = process.env.NODE_ENV || "development";
 const TARGET = process.env.TARGET || "local";
 

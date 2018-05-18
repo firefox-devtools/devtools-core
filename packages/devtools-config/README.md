@@ -5,13 +5,7 @@
 All default config values are in [`config/development.json`](./development.json), to override these values you need to [create a local config file](#create-a-local-config-file).
 
 * *logging*
-  * `client` Enables logging the Firefox protocol in the devtools console of the debugger
   * `firefoxProxy` Enables logging the Firefox protocol in the terminal running `npm start`
-  * `actions` Enables logging the redux actions
-* *features* debugger related features
-  * `tabs` Enables source view tabs in the editor (CodeMirror)
-  * `sourceMaps` Enables source map loading when available
-  * `watchExpressions` Enables accordion component for working with watch expressions
 * *chrome* Chrome browser related flags
   * `debug` Enables listening for remotely debuggable Chrome browsers
   * `port` web socket port specified when launching Chrome from the command line
