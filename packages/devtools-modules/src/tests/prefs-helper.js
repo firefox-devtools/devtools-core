@@ -1,5 +1,5 @@
 const { PrefsHelper } = require("../prefs");
-const Services = require("../Services");
+const Services = require(".devtools-services");
 const pref = Services.pref;
 
 describe("prefs helper", () => {
