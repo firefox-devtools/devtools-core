@@ -7,13 +7,6 @@ const fs = require("fs");
 const path = require("path");
 
 let config;
-
-const flag = require("./test-flag");
-
-function isBrowser() {
-  return typeof window == "object" && typeof module == "undefined";
-}
-
 /**
  * Gets a config value for a given key
  * e.g "chrome.webSocketPort"
@@ -24,44 +17,6 @@ function getValue(key) {
 
 function setValue(key, value) {
   return put(config, key, value);
-}
-
-function isEnabled(key) {
-  return config.features && typeof config.features[key] == "object"
-    ? config.features[key].enabled
-    : config.features[key];
-}
-
-function isDevelopment() {
-  if (isBrowser()) {
-    if (process.env.NODE_ENV === "production") {
-      return false;
-    }
-    const href = window.location ? window.location.href : "";
-    return href.match(/^file:/) || href.match(/localhost:/);
-  }
-
-  if (isFirefoxPanel()) {
-    // Default to production if compiling for the Firefox panel
-    return process.env.NODE_ENV === "development";
-  }
-  return process.env.NODE_ENV !== "production";
-}
-
-function isTesting() {
-  return flag.testing;
-}
-
-function isFirefoxPanel() {
-  return process.env.TARGET == "firefox-panel";
-}
-
-function isApplication() {
-  return process.env.TARGET == "application";
-}
-
-function isFirefox() {
-  return /firefox/i.test(navigator.userAgent);
 }
 
 function setConfig(value) {
@@ -80,14 +35,8 @@ function updateLocalConfig(relativePath) {
 }
 
 module.exports = {
-  isEnabled,
   getValue,
   setValue,
-  isDevelopment,
-  isTesting,
-  isFirefoxPanel,
-  isApplication,
-  isFirefox,
   getConfig,
   setConfig,
   updateLocalConfig,

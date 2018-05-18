@@ -7,9 +7,7 @@
   "dir": "ltr",
   "defaultURL": "https://devtools-html.github.io/debugger-examples/",
   "logging": {
-    "client": false,
-    "firefoxProxy": false,
-    "actions": false
+    "firefoxProxy": false
   },
   "development": {
     "serverPort": 8000,
