@@ -1,0 +1,9 @@
+{
+  "name": "devtools-services",
+  "version": "0.0.1",
+  "description": "Devtools Services Shim",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "MPL-2.0"
+}
