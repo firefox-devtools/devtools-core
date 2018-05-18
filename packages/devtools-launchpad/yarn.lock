@@ -2541,9 +2541,9 @@ devtools-environment@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.4.tgz#d1c8f399cdaa89358bb0049c276d6e092c24d778"
 
-devtools-mc-assets@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.5.tgz#cfa501248c4e025c8cfb28ff0cabdea32f40eb8a"
+devtools-mc-assets@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.6.tgz#51d935ddc6e929d386549d95ff96e3c2323372f7"
 
 devtools-modules@^0.0.36:
   version "0.0.36"
