@@ -8,6 +8,7 @@
 | [![devtools-connection-version]][devtools-connection-pkg] | [devtools-connection] |
 | [![devtools-contextmenu-version]][devtools-contextmenu-pkg] | [devtools-contextmenu] |
 | [![devtools-modules-version]][devtools-modules-pkg] | [devtools-modules] |
+| [![devtools-services-version]][devtools-services-pkg] | [devtools-services] |
 | [![devtools-source-editor-version]][devtools-source-editor-pkg] | [devtools-source-editor] |
 | [![devtools-splitter-version]][devtools-splitter-pkg] | [devtools-splitter] |
 
@@ -57,6 +58,10 @@ the dependency in the launchpad.
 [devtools-connection-version]:https://img.shields.io/npm/v/devtools-connection.svg
 [devtools-connection-pkg]:https://npmjs.org/package/devtools-connection
 [devtools-connection]:./packages/devtools-connection/#readme
+
+[devtools-services-version]:https://img.shields.io/npm/v/devtools-services.svg
+[devtools-services-pkg]:https://npmjs.org/package/devtools-services
+[devtools-services]:./packages/devtools-services/#readme
 
 [devtools-source-editor-version]:https://img.shields.io/npm/v/devtools-source-editor.svg
 [devtools-source-editor-pkg]:https://npmjs.org/package/devtools-source-editor
