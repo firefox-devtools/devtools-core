@@ -1,6 +1,6 @@
 {
   "name": "devtools-environment",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Devtools Environment Check",
   "main": "index.js",
   "scripts": {},
