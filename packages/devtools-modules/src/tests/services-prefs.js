@@ -1,4 +1,4 @@
-const Services = require(".devtools-services");
+const Services = require("devtools-services");
 const pref = Services.pref;
 
 describe("services prefs shim", () => {
