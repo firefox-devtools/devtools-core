@@ -9,7 +9,8 @@ const { Provider } = require("react-redux");
 
 const { defer } = require("./utils/defer");
 const { debugGlobal } = require("./utils/debug");
-const { setConfig, getValue, isDevelopment } = require("devtools-config");
+const { setConfig, getValue } = require("devtools-config");
+const { isDevelopment } = require("devtools-environment");
 const L10N = require("./utils/L10N");
 const { showMenu, buildMenu } = require("devtools-contextmenu");
 

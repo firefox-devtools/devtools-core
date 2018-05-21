@@ -24,7 +24,7 @@ const {
   getValue,
   setValue
 } = require("devtools-config");
-const isDevelopment = require("devtools-config").isDevelopment;
+const isDevelopment = require("devtools-environment").isDevelopment;
 const { handleLaunchRequest } = require("./server/launch");
 const NODE_VERSION = require("../package.json").engines.node;
 let root;

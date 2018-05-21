@@ -12,7 +12,7 @@ function isNode() {
   return process && process.release && process.release.name == 'node'
 }
 
-export function isDevelopment() {
+function isDevelopment() {
   if (!isNode() && isBrowser()) {
     const href = window.location ? window.location.href : "";
     return href.match(/^file:/) || href.match(/localhost:/);
@@ -21,14 +21,21 @@ export function isDevelopment() {
   return process.env.NODE_ENV != "production";
 }
 
-export function isTesting() {
+function isTesting() {
   return flag.testing;
 }
 
-export function isFirefoxPanel() {
+function isFirefoxPanel() {
   return !isDevelopment();
 }
 
-export function isFirefox() {
+function isFirefox() {
   return /firefox/i.test(navigator.userAgent);
+}
+
+module.exports = {
+  isDevelopment,
+  isTesting,
+  isFirefoxPanel,
+  isFirefox
 }
