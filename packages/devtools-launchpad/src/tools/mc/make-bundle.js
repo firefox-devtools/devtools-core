@@ -30,7 +30,8 @@ function makeBundle({
   outputPath,
   projectPath,
   watch = false,
-  updateAssets = false
+  updateAssets = false,
+  onFinish = () => {}
 }) {
   process.env.TARGET = "firefox-panel";
   process.env.OUTPUT_PATH = outputPath;
@@ -54,6 +55,7 @@ function makeBundle({
         console.log(`Done bundling`);
       }
 
+      onFinish(stats);
       resolve();
     };
 
