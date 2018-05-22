@@ -1,6 +1,6 @@
 {
   "name": "devtools-services",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Devtools Services Shim",
   "main": "index.js",
   "scripts": {},
