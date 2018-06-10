@@ -36,6 +36,16 @@ class Draggable extends Component {
 
   onMove(ev) {
     ev.preventDefault();
+    
+    //Checks to see if the target reporting the event is no longer and element
+    //which is the div.splitter. If it isn't then if the mouse left click has
+    //been released call the mouseUp event
+    if(typeof ev.explicitOriginalTarget.className === 'undefined'){
+      if(ev.which !== 1){
+        this.onUp(ev);
+      }
+    }
+
     // We pass the whole event because we don't know which properties
     // the callee needs.
     this.props.onMove(ev);
