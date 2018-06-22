@@ -1,6 +1,6 @@
 {
   "name": "devtools-connection",
-  "version": "0.0.9",
+  "version": "0.0.10-rc7",
   "description": "DevTools HTML Connection Logic",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,5 @@
   },
   "author": "Jason Laster",
   "license": "MPL-2.0",
-  "dependencies": {
-  }
+  "dependencies": {}
 }
