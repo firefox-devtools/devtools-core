@@ -1,6 +1,6 @@
 const React = require("react");
 const { default: InlineSVG } = require("svg-inline-react");
-const { isDevelopment } = require("devtools-config");
+const { isDevelopment } = require("devtools-environment");
 
 const svg = {
   rocket: require("./rocket.svg")
