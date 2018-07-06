@@ -38,7 +38,12 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         // If the tool defines an additional exclude regexp for Babel.
         excluded = excluded || !!request.match(options.babelExcludes);
       }
-      return excluded && !request.match(/node_modules(\/|\\)devtools-/);
+
+      // Some of the excluded items need to be re-included for processing.
+      const reincludePaths = ["devtools-", "react-aria-components"];
+      const reincludeRe = new RegExp(`node_modules(\/|\\)${reincludePaths.join("|")}`);
+
+      return excluded && !request.match(reincludeRe);
     },
     loader: `babel-loader?ignore=src/lib`
   });
