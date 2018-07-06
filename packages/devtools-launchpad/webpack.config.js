@@ -41,7 +41,7 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
 
       // Some of the excluded items need to be re-included for processing.
       const reincludePaths = ["devtools-", "react-aria-components"];
-      const reincludeRe = new RegExp(`node_modules(\/|\\)${reincludePaths.join("|")}`);
+      const reincludeRe = new RegExp(`node_modules(\\/|\\\\)${reincludePaths.join("|")}`);
 
       return excluded && !request.match(reincludeRe);
     },
