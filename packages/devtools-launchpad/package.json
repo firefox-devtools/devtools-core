@@ -1,6 +1,6 @@
 {
   "name": "devtools-launchpad",
-  "version": "0.0.126",
+  "version": "0.0.127",
   "license": "MPL-2.0",
   "description": "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
   "repository": {
@@ -12,8 +12,6 @@
   },
   "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
   "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
     "license-check": "devtools-license-check",
     "start": "node bin/dev-server",
     "test": "jest"
@@ -42,6 +40,7 @@
     "babel-plugin-webpack-alias": "^2.1.1",
     "babel-polyfill": "^6.7.4",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "babel-register": "^6.18.0",
     "body-parser": "^1.15.2",
     "check-node-version": "^1.1.2",
@@ -54,6 +53,7 @@
     "devtools-connection": "^0.0.9",
     "devtools-contextmenu": "^0.0.8",
     "devtools-environment": "^0.0.5",
+    "devtools-license-check": "^0.7.0",
     "devtools-mc-assets": "^0.0.6",
     "devtools-modules": "^0.0.37",
     "devtools-sprintf-js": "^1.0.3",
@@ -78,10 +78,9 @@
     "properties-parser": "^0.3.1",
     "ps-node": "^0.1.4",
     "raw-loader": "^0.5.1",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "react-dom-factories": "^1.0.2",
-    "react-immutable-proptypes": "^2.1.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "selenium-webdriver": "=3.3.0",
@@ -96,7 +95,6 @@
     "ws": "^1.0.1"
   },
   "devDependencies": {
-    "@storybook/react": "^3.2.13",
     "eslint": "^3.12.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flowtype": "^2.20.0",
@@ -104,8 +102,7 @@
     "eslint-plugin-react": "^6.7.1",
     "ipaddr": "^0.0.9",
     "jest": "^20.0.4",
-    "react-hot-loader": "^1.3.1",
-    "react-immutable-proptypes": "^2.1.0"
+    "react-hot-loader": "^1.3.1"
   },
   "files": [
     "assets",

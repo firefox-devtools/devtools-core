@@ -8,7 +8,6 @@ require("./LandingPage.css");
 const { Component } = React;
 const PropTypes = require("prop-types");
 const dom = require("react-dom-factories");
-const ImPropTypes = require("react-immutable-proptypes");
 const configMap = require("../constants").sidePanelItems;
 const Tabs = React.createFactory(require("./Tabs"));
 const Sidebar = React.createFactory(require("./Sidebar"));
@@ -38,7 +37,7 @@ function firstTimeMessage(title, urlPart) {
 class LandingPage extends Component {
   static get propTypes() {
     return {
-      tabs: ImPropTypes.map.isRequired,
+      tabs: PropTypes.object.isRequired,
       supportsFirefox: PropTypes.bool.isRequired,
       supportsChrome: PropTypes.bool.isRequired,
       title: PropTypes.string.isRequired,

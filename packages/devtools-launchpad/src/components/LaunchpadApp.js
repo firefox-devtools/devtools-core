@@ -5,7 +5,6 @@
 const React = require("react");
 const { Component } = React;
 const PropTypes = require("prop-types");
-const ImPropTypes = require("react-immutable-proptypes");
 const { connect } = require("react-redux");
 const { bindActionCreators } = require("redux");
 const { getTabs, getFilterString, getConfig } = require("../selectors");
@@ -15,7 +14,7 @@ const LandingPage = React.createFactory(require("./LandingPage"));
 class LaunchpadApp extends Component {
   static get propTypes() {
     return {
-      tabs: ImPropTypes.map.isRequired,
+      tabs: PropTypes.object.isRequired,
       filterString: PropTypes.string,
       actions: PropTypes.object,
       config: PropTypes.object

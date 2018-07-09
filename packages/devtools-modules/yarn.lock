@@ -488,6 +488,10 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
+devtools-services@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/devtools-services/-/devtools-services-0.0.1.tgz#9042600c11d1f4d45cc6ca299588a86fac1fbdd5"
+
 diff@^3.2.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
