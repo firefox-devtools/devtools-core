@@ -39,7 +39,6 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         excluded = excluded || !!request.match(options.babelExcludes);
       }
 
-
       let included = ["devtools-"]
       if (options.babelIncludes) {
         included = included.concat(options.babelIncludes);
