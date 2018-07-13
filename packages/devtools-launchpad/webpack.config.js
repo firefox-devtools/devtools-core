@@ -34,11 +34,18 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
       let excludedRe = new RegExp(`(${excludedPaths.join("|")})`);
       let excluded = !!request.match(excludedRe);
 
-      if (options && options.babelExcludes) {
+      if (options.babelExcludes) {
         // If the tool defines an additional exclude regexp for Babel.
         excluded = excluded || !!request.match(options.babelExcludes);
       }
-      return excluded && !request.match(/node_modules(\/|\\)devtools-/);
+
+      let included = ["devtools-"]
+      if (options.babelIncludes) {
+        included = included.concat(options.babelIncludes);
+      }
+
+      const reincludeRe = new RegExp(`node_modules(\\/|\\\\)${included.join("|")}`);
+      return excluded && !request.match(reincludeRe);
     },
     loader: `babel-loader?ignore=src/lib`
   });
