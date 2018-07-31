@@ -1,6 +1,6 @@
 {
   "name": "devtools-modules",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "description": "DevTools Modules from M-C",
   "main": "index.js",
   "scripts": {
@@ -10,17 +10,28 @@
   "author": "",
   "license": "MPL-2.0",
   "dependencies": {
-    "jest": "^20.0.4",
     "punycode": "^2.1.0",
     "devtools-services": "0.0.1"
   },
-  "files": ["src"],
+  "devDependencies": {
+    "jest": "^23.0.0"
+  },
+  "files": [
+    "src"
+  ],
   "jest": {
     "rootDir": "src",
-    "testMatch": ["**/tests/**/*.js"],
-    "testPathIgnorePatterns": ["<rootDir>/tests/helpers/local-storage-mock.js"],
+    "testMatch": [
+      "**/tests/**/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/tests/helpers/local-storage-mock.js"
+    ],
     "transformIgnorePatterns": [],
-    "setupFiles": ["<rootDir>/tests/helpers/local-storage-mock.js"],
-    "moduleNameMapper": {}
+    "setupFiles": [
+      "<rootDir>/tests/helpers/local-storage-mock.js"
+    ],
+    "moduleNameMapper": {},
+    "testURL": "http://localhost/"
   }
 }

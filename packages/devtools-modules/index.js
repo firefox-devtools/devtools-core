@@ -8,6 +8,7 @@ const { PrefsHelper } = require("./src/prefs");
 const KeyShortcuts = require("./src/key-shortcuts");
 const { ZoomKeys } = require("./src/zoom-keys");
 const EventEmitter = require("./src/utils/event-emitter");
+const asyncStorage = require("./src/async-storage");
 const SourceUtils = require("./src/source-utils");
 const Telemetry = require("./src/utils/telemetry")
 const { getUnicodeHostname, getUnicodeUrlPath, getUnicodeUrl } =
@@ -19,6 +20,7 @@ module.exports = {
   MenuItem,
   PrefsHelper,
   ZoomKeys,
+  asyncStorage,
   EventEmitter,
   SourceUtils,
   Telemetry,
