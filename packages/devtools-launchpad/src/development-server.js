@@ -3,6 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+ /* eslint-env node */
+
 require("babel-register");
 
 const path = require("path");
@@ -27,6 +29,7 @@ const {
 const isDevelopment = require("devtools-environment").isDevelopment;
 const { handleLaunchRequest } = require("./server/launch");
 const NODE_VERSION = require("../package.json").engines.node;
+const mime = require("mime-types");
 let root;
 
 function httpOrHttpsGet(url, onResponse) {
@@ -38,11 +41,12 @@ function httpOrHttpsGet(url, onResponse) {
       response.emit("statusCode", new Error(response.statusCode));
       return onResponse("{}");
     }
-    let body = "";
-    response.on("data", (d) => {
-      body += d;
+    const contentType = response.headers["content-type"];
+    let body = Buffer.alloc(0);
+    response.on("data", (data) => {
+      body = Buffer.concat([body, data]);
     });
-    response.on("end", () => onResponse(body));
+    response.on("end", () => onResponse({ body, contentType }));
 
     return undefined;
   });
@@ -80,13 +84,20 @@ function handleNetworkRequest(req, res) {
   const url = req.query.url;
   if (url.indexOf("file://") === 0) {
     const _path = url.replace("file://", "");
-    res.json(JSON.parse(fs.readFileSync(_path, "utf8")));
+    const mimeType = mime.lookup(_path);
+    if (mimeType) {
+      res.set("Content-Type", mimeType);
+    }
+    res.send(fs.readFileSync(_path));
   } else {
-    const httpReq = httpOrHttpsGet(req.query.url, body => {
+    const httpReq = httpOrHttpsGet(req.query.url, ({ body, contentType }) => {
+      if (contentType) {
+        res.set("Content-Type", contentType);
+      }
       try {
         res.send(body);
       } catch (e) {
-        res.status(500).send("Malformed json");
+        res.status(500).send(`Network error: ${e}`);
       }
     });
 
