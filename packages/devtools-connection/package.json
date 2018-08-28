@@ -1,6 +1,6 @@
 {
   "name": "devtools-connection",
-  "version": "0.0.9",
+  "version": "0.0.12",
   "description": "DevTools HTML Connection Logic",
   "main": "index.js",
   "scripts": {
