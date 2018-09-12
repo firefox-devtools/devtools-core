@@ -424,8 +424,8 @@ DebuggerClient.prototype = {
    * This function exists only to preserve DebuggerClient's interface;
    * new code should say 'client.mainRoot.listTabs()'.
    */
-  listTabs: function() {
-    return this.mainRoot.listTabs();
+  listTabs: function(aOnResponse) {
+    return this.mainRoot.listTabs(aOnResponse);
   },
 
   /*
@@ -1623,6 +1623,20 @@ AddonClient.prototype = {
   ),
 };
 
+
+async function getDeviceFront() {
+  return {
+    getDescription: function () {
+      return {
+        // Return anything that will not match Fennec v60
+        apptype: "apptype",
+        version: "version"
+      };
+    }
+  };
+}
+
+
 /**
  * A RootClient object represents a root actor on the server. Each
  * DebuggerClient keeps a RootClient instance representing the root actor
@@ -1653,6 +1667,10 @@ exports.RootClient = RootClient;
 
 RootClient.prototype = {
   constructor: RootClient,
+
+  getFront: function(name) {
+    return getDeviceFront();
+  },
 
   /**
    * List the open tabs.
@@ -2779,8 +2797,8 @@ ObjectClient.prototype = {
     },
     {
       before: function(packet) {
-        if (!["Map", "WeakMap", "Set", "WeakSet", "Storage"].includes(this._grip.class)) {
-          throw new Error("enumEntries is only valid for Map/Set/Storage-like grips.");
+        if (!["Map", "WeakMap", "Set", "WeakSet"].includes(this._grip.class)) {
+          throw new Error("enumEntries is only valid for Map/Set-like grips.");
         }
         return packet;
       },
