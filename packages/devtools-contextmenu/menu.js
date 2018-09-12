@@ -5,7 +5,7 @@
 const { Menu, MenuItem } = require("devtools-modules");
 
 function inToolbox() {
-  return window.parent.document.documentURI == "about:devtools-toolbox";
+  return !window || window.parent.document.documentURI == "about:devtools-toolbox";
 }
 
 if (!inToolbox()) {

@@ -5,7 +5,7 @@
 const EventEmitter = require("../utils/event-emitter");
 
 function inToolbox() {
-  return window.parent.document.documentURI == "about:devtools-toolbox";
+  return !window || window.parent.document.documentURI == "about:devtools-toolbox";
 }
 
 /**
