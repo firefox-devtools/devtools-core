@@ -9,14 +9,10 @@
 | [![devtools-contextmenu-version]][devtools-contextmenu-pkg] | [devtools-contextmenu] |
 | [![devtools-modules-version]][devtools-modules-pkg] | [devtools-modules] |
 | [![devtools-services-version]][devtools-services-pkg] | [devtools-services] |
-| [![devtools-source-editor-version]][devtools-source-editor-pkg] | [devtools-source-editor] |
 | [![devtools-splitter-version]][devtools-splitter-pkg] | [devtools-splitter] |
 
 ### Docs
 
-- [Installing Locally](./docs/local-development.md#installing-locally)
-  - [Linking](./docs/local-development.md#linking)
-  - [Local install](./docs/local-development.md#local-install)
 - [Versioning](./docs/versioning.md)
   - [Update a Package](./docs/versioning.md#update-a-package)
   - [Updating a Launchpad Dependency](./docs/versioning.md#updating-a-launchpad-dependency)
@@ -29,6 +25,21 @@ From the root folder:
 yarn test
 ```
 
+#### Local Packaging
+
+Local packaging lets you publish a package locally and try it out. One common use case is making changes to the launchpad, packaging them, and trying the out in the debugger.
+
+```bash
+cd devtools-core/packages/devtools-modules
+vim package.json # bump the version and add `-rc1` e.g `0.0.6-rc1`
+npm pack # note, every time you make a change you'll bump rc
+cd ../../../debugger.html
+yarn add file:../devtools-core/packages/devtools-modules/devtools-modules-v0.0.6-rc1.tgz
+```
+
+You'll often repeat this process locally a bunch, going from `rc1` to `rc23`. It is an effective way to test out changes.
+
+
 #### Syncing Assets
 
 We sync devtools assets like themes and widgets with [devtools-mc-assets][dma].
@@ -38,10 +49,6 @@ the dependency in the launchpad.
 [devtools-launchpad-version]:https://img.shields.io/npm/v/devtools-launchpad.svg
 [devtools-launchpad-pkg]:https://npmjs.org/package/devtools-launchpad
 [devtools-launchpad]:./packages/devtools-launchpad/#readme
-
-[devtools-config-version]:https://img.shields.io/npm/v/devtools-config.svg
-[devtools-config-pkg]:https://npmjs.org/package/devtools-config
-[devtools-config]:./packages/devtools-config/#readme
 
 [devtools-environment-version]:https://img.shields.io/npm/v/devtools-environment.svg
 [devtools-environment-pkg]:https://npmjs.org/package/devtools-environment
@@ -62,10 +69,6 @@ the dependency in the launchpad.
 [devtools-services-version]:https://img.shields.io/npm/v/devtools-services.svg
 [devtools-services-pkg]:https://npmjs.org/package/devtools-services
 [devtools-services]:./packages/devtools-services/#readme
-
-[devtools-source-editor-version]:https://img.shields.io/npm/v/devtools-source-editor.svg
-[devtools-source-editor-pkg]:https://npmjs.org/package/devtools-source-editor
-[devtools-source-editor]:./packages/devtools-source-editor/#readme
 
 [devtools-splitter-version]:https://img.shields.io/npm/v/devtools-splitter.svg
 [devtools-splitter-pkg]:https://npmjs.org/package/devtools-splitter
