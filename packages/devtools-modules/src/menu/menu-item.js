@@ -12,7 +12,6 @@
  *   - role String - Define the action of the menu item; when specified the
  *                   click property will be ignored
  *   - sublabel String
- *   - accelerator Accelerator
  *   - icon NativeImage
  *   - position String - This field allows fine-grained definition of the
  *                       specific location within a given menu.
@@ -35,6 +34,8 @@
  *      will be automatically converted to one using Menu.buildFromTemplate.
  *    Boolean visible
  *      If false, the menu item will be entirely hidden.
+ *    String accelerator
+ *      If specified, will be used as accelerator text for MenuItem
  */
 function MenuItem({
     accesskey = null,
@@ -46,6 +47,7 @@ function MenuItem({
     submenu = null,
     type = "normal",
     visible = true,
+    accelerator = "",
 } = { }) {
   this.accesskey = accesskey;
   this.checked = checked;
@@ -56,6 +58,7 @@ function MenuItem({
   this.submenu = submenu;
   this.type = type;
   this.visible = visible;
+  this.accelerator = accelerator;
 }
 
 module.exports = MenuItem;
