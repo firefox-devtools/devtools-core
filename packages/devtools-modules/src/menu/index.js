@@ -5,7 +5,12 @@
 const EventEmitter = require("../utils/event-emitter");
 
 function inToolbox() {
-  return !window || window.parent.document.documentURI == "about:devtools-toolbox";
+  try {
+    return window.parent.document.documentURI == "about:devtools-toolbox";
+  } catch (e) {
+    // If `window` is not available, it's very likely that we are in the toolbox.
+    return true;
+  }
 }
 
 /**
