@@ -133,7 +133,7 @@ function onRequest(err, result) {
 function startDevServer(devConfig, webpackConfig, rootDir) {
   setConfig(devConfig);
   root = rootDir;
-  checkNode(NODE_VERSION, (_, opts) => {
+  checkNode({ node: NODE_VERSION }, (_, opts) => {
     if (!opts.nodeSatisfied) {
       const version = opts.node.raw;
       console.log(`Sorry, Your version of node is ${version}.`);
