@@ -133,10 +133,12 @@ function onRequest(err, result) {
 function startDevServer(devConfig, webpackConfig, rootDir) {
   setConfig(devConfig);
   root = rootDir;
-  checkNode({ node: NODE_VERSION }, (_, opts) => {
-    if (!opts.nodeSatisfied) {
-      const version = opts.node.raw;
-      console.log(`Sorry, Your version of node is ${version}.`);
+  checkNode({ node: NODE_VERSION }, (_, result) => {
+    if (!result.isSatisfied) {
+      const currentVersion = result.versions.node.version
+        ? result.versions.node.version.version
+        : "UNKNOWN";
+      console.log(`Sorry, Your version of node is ${currentVersion}.`);
       console.log(`The minimum requirement is ${NODE_VERSION}`);
       process.exit();
     }
