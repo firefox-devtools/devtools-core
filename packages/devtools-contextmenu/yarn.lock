@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-devtools-modules@^0.0.38:
-  version "0.0.38"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.38.tgz#15183b6c42fd35dee2e22f88b0654b5e7c9d8cd8"
+devtools-modules@^0.0.40:
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-0.0.40.tgz#72a5c19d82afbe539ec547b0418dfdbc5804177f"
   dependencies:
     devtools-services "0.0.1"
     punycode "^2.1.0"
