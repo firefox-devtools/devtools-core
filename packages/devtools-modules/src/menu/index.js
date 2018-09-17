@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+const { formatKeyShortcut } = require("../utils/text");
 const EventEmitter = require("../utils/event-emitter");
 
 function inToolbox() {
@@ -138,6 +139,9 @@ Menu.prototype._createMenuItems = function(parent) {
       if (item.id) {
         menu.id = item.id;
       }
+      if (item.accelerator) {
+        menuitem.setAttribute("acceltext", formatKeyShortcut(item.accelerator));
+      }
       parent.appendChild(menu);
     } else if (item.type === "separator") {
       let menusep = doc.createElement("menuseparator");
@@ -170,7 +174,9 @@ Menu.prototype._createMenuItems = function(parent) {
       if (item.id) {
         menuitem.id = item.id;
       }
-
+      if (item.accelerator) {
+        menuitem.setAttribute("acceltext", formatKeyShortcut(item.accelerator));
+      }
       parent.appendChild(menuitem);
     }
   });
