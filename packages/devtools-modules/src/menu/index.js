@@ -65,6 +65,10 @@ Menu.prototype.insert = function (pos, menuItem) {
 Menu.prototype.popup = function (screenX, screenY, toolbox) {
   let doc = toolbox.doc;
   let popupset = doc.querySelector("popupset");
+  if (!popupset) {
+    popupset = doc.createXULElement("popupset");
+    doc.documentElement.appendChild(popupset);
+  }
   // See bug 1285229, on Windows, opening the same popup multiple times in a
   // row ends up duplicating the popup. The newly inserted popup doesn't
   // dismiss the old one. So remove any previously displayed popup before
