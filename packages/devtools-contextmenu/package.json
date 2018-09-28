@@ -1,6 +1,6 @@
 {
   "name": "devtools-contextmenu",
-  "version": "0.0.11",
+  "version": "1.0.1",
   "description": "DevTools Contextmenu",
   "main": "menu.js",
   "scripts": {
@@ -9,6 +9,6 @@
   "author": "Jason Laster",
   "license": "MPL-2.0",
   "dependencies": {
-    "devtools-modules": "^0.0.40"
+    "devtools-modules": "~1.0"
   }
 }
