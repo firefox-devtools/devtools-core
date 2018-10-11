@@ -12,6 +12,7 @@
 .*node_modules/postcss-*
 .*node_modules/radium.*
 .*node_modules/react-style-proptype.*
+.*node_modules/chalk*
 .*flow-coverage-report/.*
 .*custom_format_broken.json
 
