@@ -2479,6 +2479,30 @@ ThreadClient.prototype = {
     this.client._eventsEnabled && this.emit(aPacket.type, aPacket);
   },
 
+  /**
+   * Requests to set XHR breakpoint
+   * @param string path
+   *        pause when url contains `path`
+   * @param string method
+   *        pause when method of request is `method`
+   */
+  setXHRBreakpoint: DebuggerClient.requester({
+    type: "setXHRBreakpoint",
+    path: args(0),
+    method: args(1)
+  }),
+
+  /**
+   * Request to remove XHR breakpoint
+   * @param string path
+   * @param string method
+   */
+  removeXHRBreakpoint: DebuggerClient.requester({
+    type: "removeXHRBreakpoint",
+    path: args(0),
+    method: args(1)
+  }),
+
   getLastPausePacket: function() {
     return this._lastPausePacket;
   },
