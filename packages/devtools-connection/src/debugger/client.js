@@ -2490,6 +2490,8 @@ ThreadClient.prototype = {
     type: "setXHRBreakpoint",
     path: args(0),
     method: args(1)
+  }, {
+
   }),
 
   /**
@@ -2501,6 +2503,8 @@ ThreadClient.prototype = {
     type: "removeXHRBreakpoint",
     path: args(0),
     method: args(1)
+  }, {
+
   }),
 
   getLastPausePacket: function() {
