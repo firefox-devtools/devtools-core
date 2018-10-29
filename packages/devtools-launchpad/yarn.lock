@@ -2608,7 +2608,7 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-geckodriver@^1.12.2:
+geckodriver@=1.12.2:
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/geckodriver/-/geckodriver-1.12.2.tgz#003c2f031bb3e13af9615b5ac95c87a33061fd1b"
   dependencies:
@@ -5596,7 +5596,7 @@ schema-utils@^0.4.0:
     ajv "^6.1.0"
     ajv-keywords "^3.1.0"
 
-selenium-webdriver@3.6.0:
+selenium-webdriver@=3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-3.6.0.tgz#2ba87a1662c020b8988c981ae62cb2a01298eafc"
   dependencies:
