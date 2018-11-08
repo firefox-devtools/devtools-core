@@ -2881,6 +2881,17 @@ ObjectClient.prototype = {
   ),
 
   /**
+   * Request the value of the object's specified property.
+   *
+   * @param name string The name of the requested property.
+   * @param onResponse function Called with the request's response.
+   */
+  getPropertyValue: DebuggerClient.requester({
+    type: "propertyValue",
+    name: args(0),
+  }),
+
+  /**
    * Request the prototype of the object.
    *
    * @param aOnResponse function Called with the request's response.
@@ -2893,6 +2904,19 @@ ObjectClient.prototype = {
       telemetry: "PROTOTYPE",
     },
   ),
+
+  /**
+   * Evaluate a callable object with context and arguments.
+   *
+   * @param context any The value to use as the function context.
+   * @param arguments Array<any> An array of values to use as the function's arguments.
+   * @param onResponse function Called with the request's response.
+   */
+  apply: DebuggerClient.requester({
+    type: "apply",
+    context: args(0),
+    arguments: args(1),
+  }),
 
   /**
    * Request the display string of the object.
