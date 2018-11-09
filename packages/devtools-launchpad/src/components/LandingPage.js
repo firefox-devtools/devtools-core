@@ -133,7 +133,7 @@ class LandingPage extends Component {
       dom.div(
         { className: "under-construction-message" },
         dom.p({}, underConstructionMessage),
-        dom.img({ src: "/assets/under_construction.png" }),
+        dom.img({ src: "/pad-assets/under_construction.png" }),
         dom.a(
           {
             className: "github-link",
