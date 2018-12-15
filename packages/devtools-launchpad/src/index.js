@@ -16,6 +16,11 @@ const { showMenu, buildMenu } = require("devtools-contextmenu");
 
 setConfig(DebuggerConfig);
 
+// List of theme class names to ignore when replacing a theme.
+// Certain nodes may contain multiple "theme-" classes and some of them we must
+// preserve.
+const IGNORE_THEME_CLASS_NAMES = ["theme-body"];
+
 // Set various flags before requiring app code.
 if (getValue("logging.client")) {
   // DevToolsUtils.dumpn.wantLogging = true;
@@ -31,17 +36,35 @@ if (process.env.TARGET !== "firefox-panel") {
   require("devtools-mc-assets/assets/devtools/client/themes/dark-theme.css");
 }
 
+function setThemeClassName(targetNode, newThemeClassName) {
+  // If one of the arguments is missing - bail out.
+  if (!targetNode || !newThemeClassName) {
+    return;
+  }
+
+  const {classList} = targetNode;
+
+  // Attempt to find the first theme class, assuming there's only one and
+  // ignoring class names from IGNORE_THEME_CLASS_NAMES array.
+  const activeThemeClassName = [...classList].find(cls =>
+      cls.startsWith("theme-")
+      && !IGNORE_THEME_CLASS_NAMES.includes(cls));
+
+  if (activeThemeClassName) {
+    classList.replace(activeThemeClassName, newThemeClassName);
+  } else {
+    classList.add(newThemeClassName);
+  }
+}
+
 function updateTheme(className) {
   if (process.env.TARGET !== "firefox-panel") {
-    const theme = getValue("theme");
     const root = document.body.parentNode;
     const appRoot = document.querySelector(".launchpad-root");
+    const newThemeClassName = `theme-${getValue("theme")}`;
 
-    root.className = "";
-    appRoot.className = className;
-
-    root.classList.add(`theme-${theme}`);
-    appRoot.classList.add(`theme-${theme}`);
+    setThemeClassName(root, newThemeClassName);
+    setThemeClassName(appRoot, newThemeClassName);
   }
 }
 
