@@ -3305,6 +3305,7 @@ SourceClient.prototype = {
   blackBox: DebuggerClient.requester(
     {
       type: "blackbox",
+      range: args(0)
     },
     {
       telemetry: "BLACKBOX",
@@ -3329,6 +3330,7 @@ SourceClient.prototype = {
   unblackBox: DebuggerClient.requester(
     {
       type: "unblackbox",
+      range: args(0)
     },
     {
       telemetry: "UNBLACKBOX",
