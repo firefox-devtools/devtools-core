@@ -3321,6 +3321,16 @@ SourceClient.prototype = {
     },
   ),
 
+  getBreakpointPositions: DebuggerClient.requester({
+    type: "getBreakpointPositions",
+    query: args(0)
+  }),
+
+  getBreakpointPositionsCompressed: DebuggerClient.requester({
+    type: "getBreakpointPositionsCompressed",
+    query: args(0)
+  }),
+
   /**
    * Un-black box this SourceClient's source.
    *
