@@ -1840,7 +1840,7 @@ devtools-config@^0.0.16:
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.16.tgz#e7251788422f42a16aa1372b6adbebfcb7a74994"
 
-devtools-connection@~1:
+devtools-connection@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-1.0.2.tgz#32d87f186d0904c17f560b61d259a6f92e83654b"
 
