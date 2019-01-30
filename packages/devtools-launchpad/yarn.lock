@@ -1860,9 +1860,9 @@ devtools-license-check@^0.7.0:
   dependencies:
     license-checker "^9.0.3"
 
-devtools-mc-assets@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.6.tgz#51d935ddc6e929d386549d95ff96e3c2323372f7"
+devtools-mc-assets@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.7.tgz#d02a12ab66c46a3f535ef90f64cfac9a5dd1bfa4"
 
 devtools-modules@~1:
   version "1.1.0"
