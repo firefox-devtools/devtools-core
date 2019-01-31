@@ -245,7 +245,7 @@ WebConsoleClient.prototype = {
    *        that can reference the currently selected node in the Inspector, like
    *        $0.
    */
-  evaluateJS: function WCC_evaluateJS(aString, aOnResponse, aOptions = {})
+  evaluateJS: function WCC_evaluateJS(aString, aOptions = {})
   {
     let packet = {
       to: this._actor,
@@ -257,19 +257,18 @@ WebConsoleClient.prototype = {
       selectedNodeActor: aOptions.selectedNodeActor,
       selectedObjectActor: aOptions.selectedObjectActor,
     };
-    this._client.request(packet, aOnResponse);
+    return this._client.request(packet);
   },
 
   /**
    * Evaluate a JavaScript expression asynchronously.
    * See evaluateJS for parameter and response information.
    */
-  evaluateJSAsync: function(aString, aOnResponse, aOptions = {})
+  evaluateJSAsync: function(aString, aOptions = {})
   {
     // Pre-37 servers don't support async evaluation.
     if (!this.traits.evaluateJSAsync) {
-      this.evaluateJS(aString, aOnResponse, aOptions);
-      return;
+      return this.evaluateJS(aString, aOptions);
     }
 
     let packet = {
@@ -283,7 +282,7 @@ WebConsoleClient.prototype = {
       selectedObjectActor: aOptions.selectedObjectActor,
     };
 
-    this._client.request(packet, response => {
+    return this._client.request(packet, response => {
       // Null check this in case the client has been detached while waiting
       // for a response.
       if (this.pendingEvaluationResults) {
