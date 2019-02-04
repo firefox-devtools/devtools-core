@@ -3634,7 +3634,7 @@ BreakpointClient.prototype = {
   // Send a setOptions request to newer servers.
   setOptionsRequester: DebuggerClient.requester({
     type: "setOptions",
-    options: arg(0),
+    options: args(0),
   }, {
     before(packet) {
       this.options = packet.options;
