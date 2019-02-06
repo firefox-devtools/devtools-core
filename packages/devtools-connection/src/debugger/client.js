@@ -3498,12 +3498,12 @@ SourceClient.prototype = {
    *
    * @param object aLocation
    *        The location and condition of the breakpoint in
-   *        the form of { line[, column, condition] }.
+   *        the form of { line[, column, options] }.
    * @param function aOnResponse
    *        Called with the thread's response.
    */
   setBreakpoint: function(
-    { line, column, condition, noSliding },
+    { line, column, options, noSliding },
     onResponse = noop,
   ) {
     // A helper function that sets the breakpoint.
@@ -3517,16 +3517,22 @@ SourceClient.prototype = {
       let packet = {
         to: this.actor,
         type: "setBreakpoint",
-        location: location,
-        condition: condition,
-        noSliding: noSliding,
+        location,
+        options,
+        noSliding,
       };
 
-      // Backwards compatibility: send the breakpoint request to the
-      // thread if the server doesn't support Debugger.Source actors.
-      if (!root.traits.debuggerSourceActors) {
-        packet.to = this._activeThread.actor;
-        packet.location.url = this.url;
+      // Older servers only support conditions, not a more general options
+      // object. Transform the packet to support the older format.
+      if (options && !this._client.mainRoot.traits.nativeLogpoints) {
+        delete packet.options;
+        if (options.logValue) {
+          // Emulate log points by setting a condition with a call to console.log,
+          // which always returns false so the server will never pause.
+          packet.condition = `console.log(${options.logValue})`;
+        } else {
+          packet.condition = options.condition;
+        }
       }
 
       return this._client.request(packet).then(response => {
@@ -3539,7 +3545,7 @@ SourceClient.prototype = {
             this,
             response.actor,
             location,
-            root.traits.conditionalBreakpoints ? condition : undefined,
+            options,
           );
         }
         onResponse(response, bpClient);
@@ -3584,15 +3590,15 @@ SourceClient.prototype = {
  * @param aLocation object
  *        The location of the breakpoint. This is an object with two properties:
  *        url and line.
- * @param aCondition string
- *        The conditional expression of the breakpoint
+ * @param options object
+ *        Any options associated with the breakpoint
  */
 function BreakpointClient(
   aClient,
   aSourceClient,
   aActor,
   aLocation,
-  aCondition,
+  aOptions,
 ) {
   this._client = aClient;
   this._actor = aActor;
@@ -3601,11 +3607,7 @@ function BreakpointClient(
   this.location.url = aSourceClient.url;
   this.source = aSourceClient;
   this.request = this._client.request;
-
-  // The condition property should only exist if it's a truthy value
-  if (aCondition) {
-    this.condition = aCondition;
-  }
+  this.options = aOptions;
 }
 
 BreakpointClient.prototype = {
@@ -3629,76 +3631,46 @@ BreakpointClient.prototype = {
     },
   ),
 
-  /**
-   * Determines if this breakpoint has a condition
-   */
-  hasCondition: function() {
-    let root = this._client.mainRoot;
-    // XXX bug 990137: We will remove support for client-side handling of
-    // conditional breakpoints
-    if (root.traits.conditionalBreakpoints) {
-      return "condition" in this;
-    }
-    return "conditionalExpression" in this;
-  },
+  // Send a setOptions request to newer servers.
+  setOptionsRequester: DebuggerClient.requester({
+    type: "setOptions",
+    options: args(0),
+  }, {
+    before(packet) {
+      this.options = packet.options;
+      return packet;
+    },
+  }),
 
   /**
-   * Get the condition of this breakpoint. Currently we have to
-   * support locally emulated conditional breakpoints until the
-   * debugger servers are updated (see bug 990137). We used a
-   * different property when moving it server-side to ensure that we
-   * are testing the right code.
+   * Set any options for this breakpoint.
    */
-  getCondition: function() {
-    let root = this._client.mainRoot;
-    if (root.traits.conditionalBreakpoints) {
-      return this.condition;
-    }
-    return this.conditionalExpression;
-  },
+  setOptions: function(options) {
+    if (this._client.mainRoot.traits.nativeLogpoints) {
+      this.setOptionsRequester(options);
+    } else {
+      // Older servers need to reinstall breakpoints when the condition changes.
+      const deferred = promise.defer();
 
-  /**
-   * Set the condition of this breakpoint
-   */
-  setCondition: function(gThreadClient, aCondition, noSliding) {
-    let root = this._client.mainRoot;
-    let deferred = promise.defer();
-
-    if (root.traits.conditionalBreakpoints) {
-      let info = {
+      const info = {
         line: this.location.line,
         column: this.location.column,
-        condition: aCondition,
-        noSliding,
+        options,
       };
 
-      // Remove the current breakpoint and add a new one with the
-      // condition.
-      this.remove(aResponse => {
-        if (aResponse && aResponse.error) {
-          deferred.reject(aResponse);
+      // Remove the current breakpoint and add a new one with the specified
+      // information.
+      this.remove(response => {
+        if (response && response.error) {
+          deferred.reject(response);
           return;
         }
 
-        this.source.setBreakpoint(info, (aResponse, aNewBreakpoint) => {
-          if (aResponse && aResponse.error) {
-            deferred.reject(aResponse);
-          } else {
-            deferred.resolve(aNewBreakpoint);
-          }
-        });
+        deferred.resolve(this.source.setBreakpoint(info).then(([, newBreakpoint]) => {
+          return newBreakpoint;
+        }));
       });
-    } else {
-      // The property shouldn't even exist if the condition is blank
-      if (aCondition === "") {
-        delete this.conditionalExpression;
-      } else {
-        this.conditionalExpression = aCondition;
-      }
-      deferred.resolve(this);
     }
-
-    return deferred.promise;
   },
 };
 
