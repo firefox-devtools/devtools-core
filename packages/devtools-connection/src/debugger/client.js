@@ -3647,7 +3647,7 @@ BreakpointClient.prototype = {
    */
   setOptions: function(options) {
     if (this._client.mainRoot.traits.nativeLogpoints) {
-      this.setOptionsRequester(options);
+      return this.setOptionsRequester(options);
     } else {
       // Older servers need to reinstall breakpoints when the condition changes.
       const deferred = promise.defer();

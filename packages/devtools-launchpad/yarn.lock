@@ -1840,9 +1840,9 @@ devtools-config@^0.0.16:
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.16.tgz#e7251788422f42a16aa1372b6adbebfcb7a74994"
 
-devtools-connection@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-1.0.4.tgz#06921176dd16238e69eae0e8b53b2e392505c57a"
+devtools-connection@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-1.0.5.tgz#143e529e758160a52b97af4894bda833b1a8cee9"
 
 devtools-contextmenu@~1.0.3:
   version "1.0.3"
