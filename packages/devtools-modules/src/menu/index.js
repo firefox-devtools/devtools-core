@@ -2,8 +2,38 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-const { formatKeyShortcut } = require("../utils/text");
+import Services from "devtools-services";
+
+const { appinfo } = Services;
+
+const isMacOS = appinfo.OS === "Darwin";
+
 const EventEmitter = require("../utils/event-emitter");
+
+/**
+ * Formats key for use in tooltips
+ * For macOS we use the following unicode
+ *
+ * cmd ⌘ = \u2318
+ * shift ⇧ – \u21E7
+ * option (alt) ⌥ \u2325
+ *
+ * For Win/Lin this replaces CommandOrControl or CmdOrCtrl with Ctrl
+ *
+ * @static
+ */
+function formatKeyShortcut(shortcut) {
+    if (isMacOS) {
+        return shortcut
+            .replace(/Shift\+/g, "\u21E7")
+            .replace(/Command\+|Cmd\+/g, "\u2318")
+            .replace(/CommandOrControl\+|CmdOrCtrl\+/g, "\u2318")
+            .replace(/Alt\+/g, "\u2325");
+    }
+    return shortcut
+        .replace(/CommandOrControl\+|CmdOrCtrl\+/g, `${L10N.getStr("ctrl")}+`)
+        .replace(/Shift\+/g, "Shift+");
+}
 
 function inToolbox() {
   try {
