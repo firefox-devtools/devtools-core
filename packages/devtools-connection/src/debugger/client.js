@@ -2479,6 +2479,17 @@ ThreadClient.prototype = {
     this.client._eventsEnabled && this.emit(aPacket.type, aPacket);
   },
 
+  setBreakpoint: DebuggerClient.requester({
+    type: "setBreakpoint",
+    location: args(0),
+    options: args(1)
+  }),
+
+  removeBreakpoint: DebuggerClient.requester({
+    type: "removeBreakpoint",
+    location: args(0),
+  }),
+
   /**
    * Requests to set XHR breakpoint
    * @param string path
@@ -3491,190 +3502,8 @@ SourceClient.prototype = {
       aCallback(response);
       return response;
     });
-  },
-
-  /**
-   * Request to set a breakpoint in the specified location.
-   *
-   * @param object aLocation
-   *        The location and condition of the breakpoint in
-   *        the form of { line[, column, options] }.
-   * @param function aOnResponse
-   *        Called with the thread's response.
-   */
-  setBreakpoint: function(
-    { line, column, options, noSliding },
-    onResponse = noop,
-  ) {
-    // A helper function that sets the breakpoint.
-    let doSetBreakpoint = aCallback => {
-      let root = this._client.mainRoot;
-      let location = {
-        line: line,
-        column: column,
-      };
-
-      let packet = {
-        to: this.actor,
-        type: "setBreakpoint",
-        location,
-        options,
-        noSliding,
-      };
-
-      // Older servers only support conditions, not a more general options
-      // object. Transform the packet to support the older format.
-      if (options && !this._client.mainRoot.traits.nativeLogpoints) {
-        delete packet.options;
-        if (options.logValue) {
-          // Emulate log points by setting a condition with a call to console.log,
-          // which always returns false so the server will never pause.
-          packet.condition = `console.log(${options.logValue})`;
-        } else {
-          packet.condition = options.condition;
-        }
-      }
-
-      return this._client.request(packet).then(response => {
-        // Ignoring errors, since the user may be setting a breakpoint in a
-        // dead script that will reappear on a page reload.
-        let bpClient;
-        if (response.actor) {
-          bpClient = new BreakpointClient(
-            this._client,
-            this,
-            response.actor,
-            location,
-            options,
-          );
-        }
-        onResponse(response, bpClient);
-        if (aCallback) {
-          aCallback();
-        }
-        return [response, bpClient];
-      });
-    };
-
-    // If the debuggee is paused, just set the breakpoint.
-    if (this._activeThread.paused) {
-      return doSetBreakpoint();
-    }
-    // Otherwise, force a pause in order to set the breakpoint.
-    return this._activeThread.interrupt().then(aResponse => {
-      if (aResponse.error) {
-        // Can't set the breakpoint if pausing failed.
-        onResponse(aResponse);
-        return aResponse;
-      }
-
-      const { type, why } = aResponse;
-      const cleanUp = type == "paused" && why.type == "interrupted"
-        ? () => this._activeThread.resume()
-        : noop;
-
-      return doSetBreakpoint(cleanUp);
-    });
-  },
+  }
 };
-
-/**
- * Breakpoint clients are used to remove breakpoints that are no longer used.
- *
- * @param aClient DebuggerClient
- *        The debugger client parent.
- * @param aSourceClient SourceClient
- *        The source where this breakpoint exists
- * @param aActor string
- *        The actor ID for this breakpoint.
- * @param aLocation object
- *        The location of the breakpoint. This is an object with two properties:
- *        url and line.
- * @param options object
- *        Any options associated with the breakpoint
- */
-function BreakpointClient(
-  aClient,
-  aSourceClient,
-  aActor,
-  aLocation,
-  aOptions,
-) {
-  this._client = aClient;
-  this._actor = aActor;
-  this.location = aLocation;
-  this.location.actor = aSourceClient.actor;
-  this.location.url = aSourceClient.url;
-  this.source = aSourceClient;
-  this.request = this._client.request;
-  this.options = aOptions;
-}
-
-BreakpointClient.prototype = {
-  _actor: null,
-  get actor() {
-    return this._actor;
-  },
-  get _transport() {
-    return this._client._transport;
-  },
-
-  /**
-   * Remove the breakpoint from the server.
-   */
-  remove: DebuggerClient.requester(
-    {
-      type: "delete",
-    },
-    {
-      telemetry: "DELETE",
-    },
-  ),
-
-  // Send a setOptions request to newer servers.
-  setOptionsRequester: DebuggerClient.requester({
-    type: "setOptions",
-    options: args(0),
-  }, {
-    before(packet) {
-      this.options = packet.options;
-      return packet;
-    },
-  }),
-
-  /**
-   * Set any options for this breakpoint.
-   */
-  setOptions: function(options) {
-    if (this._client.mainRoot.traits.nativeLogpoints) {
-      return this.setOptionsRequester(options);
-    } else {
-      // Older servers need to reinstall breakpoints when the condition changes.
-      const deferred = promise.defer();
-
-      const info = {
-        line: this.location.line,
-        column: this.location.column,
-        options,
-      };
-
-      // Remove the current breakpoint and add a new one with the specified
-      // information.
-      this.remove(response => {
-        if (response && response.error) {
-          deferred.reject(response);
-          return;
-        }
-
-        deferred.resolve(this.source.setBreakpoint(info).then(([, newBreakpoint]) => {
-          return newBreakpoint;
-        }));
-      });
-    }
-  },
-};
-
-eventSource(BreakpointClient.prototype);
 
 /**
  * Environment clients are used to manipulate the lexical environment actors.
