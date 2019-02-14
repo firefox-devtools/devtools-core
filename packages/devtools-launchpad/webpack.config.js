@@ -189,7 +189,7 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
   }
 
   // NOTE: This is only needed to fix a bug with chrome devtools' debugger and
-  // destructuring params https://github.com/devtools-html/debugger.html/issues/67
+  // destructuring params https://github.com/firefox-devtools/debugger.html/issues/67
   if (getValue("transformParameters")) {
     webpackConfig.module.rules.forEach(spec => {
       if (spec.isJavaScriptLoader) {

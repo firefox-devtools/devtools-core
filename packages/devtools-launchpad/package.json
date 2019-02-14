@@ -4,13 +4,13 @@
   "license": "MPL-2.0",
   "description": "The Launchpad makes it easy to build a developer tool for Firefox, Chrome, and Node.",
   "repository": {
-    "url": "git://github.com/devtools-html/devtools-core.git",
+    "url": "git://github.com/firefox-devtools/devtools-core.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/devtools-html/devtools-core/issues"
+    "url": "https://github.com/firefox-devtools/devtools-core/issues"
   },
-  "homepage": "https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad#readme",
+  "homepage": "https://github.com/firefox-devtools/devtools-core/tree/master/packages/devtools-launchpad#readme",
   "scripts": {
     "license-check": "devtools-license-check",
     "start": "node bin/dev-server",

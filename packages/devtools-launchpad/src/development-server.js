@@ -207,7 +207,7 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
     app.use(webpackHotMiddleware(compiler));
   } else {
     console.log(
-      "Hot Reloading - https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#hot-reloading"
+      "Hot Reloading - https://github.com/firefox-devtools/debugger.html/blob/master/docs/local-development.md#hot-reloading"
     );
   }
 
