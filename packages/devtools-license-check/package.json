@@ -2,7 +2,7 @@
   "name": "devtools-license-check",
   "version": "0.7.0",
   "description": "Verify licenses for inclusion in Mozilla DevTools",
-  "repository": "github:devtools-html/devtools-core",
+  "repository": "github:firefox-devtools/devtools-core",
   "scripts": {
     "test": "# No tests available"
   },

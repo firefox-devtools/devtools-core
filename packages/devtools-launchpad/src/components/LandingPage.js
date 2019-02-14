@@ -13,7 +13,7 @@ const Tabs = React.createFactory(require("./Tabs"));
 const Sidebar = React.createFactory(require("./Sidebar"));
 const Settings = React.createFactory(require("./Settings"));
 
-const githubUrl = "https://github.com/devtools-html/debugger.html/blob/master";
+const githubUrl = "https://github.com/firefox-devtools/debugger.html/blob/master";
 
 function getTabsByClientType(tabs, clientType) {
   return tabs.valueSeq().filter(tab => tab.get("clientType") == clientType);
