@@ -3,12 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-require("./Sidebar.css");
 const { Component } = React;
 const dom = require("react-dom-factories");
 const PropTypes = require("prop-types");
-const classnames = require("classnames");
+const panelItems = require("../constants").sidePanelItems;
 const Svg = require("../../assets/Svg.js");
+require("./Sidebar.css");
 
 class Sidebar extends Component {
   static get propTypes() {
@@ -29,46 +29,45 @@ class Sidebar extends Component {
 
   renderTitle(title) {
     return dom.div(
-      { className: "title-wrapper" },
+      { className: "sidebar-title" },
       dom.h1({}, title),
       dom.div(
-        { className: "launchpad-container" },
+        { className: "sidebar-subtitle" },
         Svg({ name: "rocket" }),
-        dom.h2({ className: "launchpad-container-title" }, "Launchpad")
+        dom.h2({}, "Launchpad")
       )
     );
   }
 
   renderItem(title) {
+    const selected = title == this.props.selectedPane;
     return dom.li(
-      {
-        className: classnames({
-          selected: title == this.props.selectedPane
-        }),
-        key: title,
-        tabIndex: 0,
-        role: "button",
-        onClick: () => this.props.onSideBarItemClick(title),
-        onKeyDown: e => {
-          if (e.keyCode === 13) {
+      { key: title },
+      dom.a(
+        {
+          "aria-current": selected ? "page" : undefined,
+          href: "#" + title,
+          onClick: () => {
             this.props.onSideBarItemClick(title);
           }
-        }
-      },
-      dom.a({}, title)
+        },
+        title
+      )
     );
   }
 
   render() {
-    let connections = [];
+    let items = [];
 
     if (this.props.supportsFirefox) {
-      connections.push("Firefox");
+      items.push(panelItems.Firefox.name);
     }
 
     if (this.props.supportsChrome) {
-      connections.push("Chrome", "Node");
+      items.push(panelItems.Chrome.name, panelItems.Node.name);
     }
+
+    items.push(panelItems.Settings.name);
 
     return dom.aside(
       {
@@ -76,9 +75,10 @@ class Sidebar extends Component {
       },
       this.renderTitle(this.props.title),
       dom.ul(
-        {},
-        connections.map(title => this.renderItem(title)),
-        this.renderItem("Settings")
+        {
+          className: "sidebar-links"
+        },
+        items.map(this.renderItem)
       )
     );
   }

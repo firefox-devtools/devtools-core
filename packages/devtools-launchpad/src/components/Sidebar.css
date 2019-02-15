@@ -3,88 +3,93 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 .landing-page .sidebar {
-  --sidebar-width: 200px;
   display: flex;
   background-color: var(--theme-tab-toolbar-background);
-  width: var(--sidebar-width);
+  width: var(--sidebar-width, 200px);
   flex-direction: column;
   border-right: 1px solid var(--theme-splitter-color);
 }
 
-.landing-page .sidebar h1 {
+@media (max-width: 500px) {
+  .landing-page .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--theme-splitter-color);
+  }
+}
+
+.landing-page .sidebar-title {
+  padding: 24px var(--base-spacing);
+}
+
+.landing-page .sidebar-title h1 {
   color: var(--theme-body-color);
   font-size: var(--title-font-size);
   margin: 0;
   line-height: var(--primary-line-height);
   font-weight: bold;
-  padding: var(--base-spacing) var(--base-spacing);
 }
 
-.landing-page .sidebar ul {
+.landing-page .sidebar-subtitle {
+  display: flex;
+  align-items: center;
+  margin-top: calc(0.66 * var(--base-spacing));
+}
+
+.landing-page .sidebar-subtitle svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-inline-end: 8px;
+  fill: currentColor;
+}
+
+.landing-page .sidebar-subtitle h2 {
+  margin: 0;
+  font-weight: normal;
+  font-size: var(--ui-element-font-size);
+  line-height: 1;
+}
+
+.landing-page .sidebar-links {
   list-style: none;
-  padding: 0;
+  margin: 0;
+  padding: 0 0 var(--base-spacing);
   line-height: var(--primary-line-height);
   font-size: var(--ui-element-font-size);
 }
 
-.landing-page .sidebar li {
+.landing-page .sidebar-links a {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border: none;
   padding: calc(var(--base-spacing) / 4) var(--base-spacing);
-}
-
-.landing-page .sidebar li a {
   color: var(--theme-body-color);
-}
-
-.landing-page .sidebar li.selected {
-  background: var(--theme-highlight-bluegrey);
-  color: var(--theme-selection-color);
-  transition: var(--base-transition);
-}
-
-.landing-page .sidebar li.selected a {
-  color: inherit;
-}
-
-.landing-page .sidebar li:hover,
-.landing-page .sidebar li:focus {
-  background: var(--theme-selection-background);
-  color: var(--theme-selection-color);
+  transition: color 200ms var(--animation-curve), background-color 200ms var(--animation-curve);
+  text-align: start;
   cursor: pointer;
+  text-decoration: none;
+  outline: none;
 }
 
-.landing-page .sidebar li:hover a,
-.landing-page .sidebar li:focus a {
-  color: inherit;
+.landing-page .sidebar-links a:hover,
+.landing-page .sidebar-links a:focus {
+  background-color: var(--theme-toolbar-background-hover);
 }
 
-.landing-page .sidebar li:last-child {
-  border-top: 2px solid var(--theme-splitter-color);
-  margin: 2px;
+.landing-page .sidebar-links a:focus-visible {
+  outline: solid 2px var(--theme-selection-background);
+  outline-offset: -2px;
 }
 
-.landing-page .sidebar .title-wrapper .launchpad-container {
-  padding-left: var(--base-spacing);
+.landing-page .sidebar-links a[aria-current="page"] {
+  color: var(--theme-selection-color);
+  background-color: var(--theme-selection-background);
 }
 
-.landing-page
-  .sidebar
-  .title-wrapper
-  .launchpad-container
-  .launchpad-container-icon {
-  display: inline-block;
-}
-
-.landing-page .sidebar .title-wrapper .launchpad-container .rocket svg {
-  width: 18px;
-  height: 18px;
-}
-
-.landing-page
-  .sidebar
-  .title-wrapper
-  .launchpad-container
-  .launchpad-container-title {
-  display: inline;
-  padding-left: 3px;
-  font-weight: normal;
+.landing-page .sidebar-links li:last-child:not(:only-child)::before {
+  content: "";
+  display: block;
+  margin: 8px var(--base-spacing);
+  border-top: 1px solid var(--theme-splitter-color);
 }
