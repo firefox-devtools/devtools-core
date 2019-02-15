@@ -135,7 +135,7 @@ class Settings extends Component {
     const { config } = this.props;
 
     return dom.div(
-      { className: "tab-group" },
+      { className: "launchpad-tabs" },
       dom.h3({}, "Configurations"),
       this.renderConfig(config),
       config.features ?

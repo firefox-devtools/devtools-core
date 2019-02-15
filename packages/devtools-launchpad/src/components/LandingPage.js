@@ -11,6 +11,7 @@ const Tabs = React.createFactory(require("./Tabs"));
 const Sidebar = React.createFactory(require("./Sidebar"));
 const Settings = React.createFactory(require("./Settings"));
 require("./LandingPage.css");
+require("./LaunchpadPanel.css");
 
 function getTabsByClientType(tabs, clientType) {
   return tabs.valueSeq().filter(tab => tab.get("clientType") == clientType);
@@ -30,13 +31,13 @@ function firstTimeMessage(title, urlPart) {
   }
   return dom.div(
     { className: "footer-note" },
-    `First time connecting to ${title}? Checkout out the `,
+    `First time connecting to ${title}? `,
     dom.a(
       {
         href: `${docsUrls.gettingSetup}${urlPart}`,
         target: "_blank"
       },
-      "docs"
+      "Check out the docs"
     ),
     "."
   );
@@ -263,7 +264,7 @@ class LandingPage extends Component {
         onSideBarItemClick
       }),
       dom.main(
-        { className: "panel" },
+        { className: "launchpad-panel" },
         this.renderPanel(),
         firstTimeMessage(name, docsUrlPart)
       )

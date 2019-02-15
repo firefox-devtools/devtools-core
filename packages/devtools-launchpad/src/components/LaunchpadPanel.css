@@ -1,0 +1,93 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.launchpad-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.launchpad-panel a {
+  color: var(--theme-highlight-bluegrey);
+  text-decoration: none;
+}
+
+.launchpad-panel header {
+  display: flex;
+  align-items: baseline;
+  margin: calc(1.5 * var(--base-spacing)) 0;
+}
+
+.launchpad-panel header input[type="search"] {
+  flex: 1;
+  background-color: var(--theme-tab-toolbar-background);
+  color: var(--theme-comment);
+  font-size: var(--ui-element-font-size);
+  border: 1px solid var(--theme-splitter-color);
+  padding: calc(var(--base-spacing) / 2);
+  margin: 0 var(--base-spacing);
+  transition: var(--base-transition);
+}
+
+.launchpad-panel .hero {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.launchpad-panel header h1 {
+  color: var(--theme-body-color);
+  font-size: var(--title-font-size);
+  margin: 0;
+  line-height: var(--primary-line-height);
+  font-weight: normal;
+  padding: 0 calc(2 * var(--base-spacing));
+}
+
+.launchpad-panel h3 {
+  padding: 0 calc(2 * var(--base-spacing));
+}
+
+.launchpad-panel header input::placeholder {
+  color: var(--theme-body-color-inactive);
+}
+
+.launchpad-panel header input:focus {
+  border: 1px solid var(--theme-selection-background);
+}
+
+.launchpad-panel .center-message {
+  font-size: var(--ui-element-font-size);
+  line-height: var(--secondary-line-height);
+  padding: calc(var(--base-spacing) / 2);
+}
+
+.launchpad-panel .footer-note {
+  padding: var(--base-spacing);
+  text-align: center;
+  font-size: var(--small-font-size);
+  color: var(--theme-comment);
+}
+
+.launchpad-panel .launch-action-container {
+  padding: var(--base-spacing);
+  text-align: center;
+}
+
+.launchpad-panel .under-construction {
+  display: flex;
+  width: 417px;
+  color: var(--theme-comment);
+  font-size: var(--ui-element-font-size);
+  line-height: 1.4;
+  margin: var(--base-spacing) auto;
+  max-width: 350px;
+}
+
+.launchpad-panel .under-construction .github-link {
+  display: block;
+}

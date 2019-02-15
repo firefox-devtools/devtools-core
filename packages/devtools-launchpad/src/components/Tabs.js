@@ -46,7 +46,7 @@ class Tabs extends Component {
     }
 
     return dom.div(
-      { className: "tab-group" },
+      { className: "launchpad-tabs" },
       dom.ul(
         { className: "tab-list" },
         targets.valueSeq().map(
