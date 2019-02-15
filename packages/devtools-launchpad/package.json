@@ -71,7 +71,6 @@
     "mustache": "^2.2.1",
     "node-static": "^0.7.7",
     "postcss": "^6.0.6",
-    "postcss-bidirection": "^2.4.0",
     "postcss-class-namespace": "^0.1.0",
     "postcss-loader": "^2.0.6",
     "postcss-url-mapper": "^1.2.0",
