@@ -49,8 +49,8 @@ function binaryArgs() {
   }
 }
 
-function firefoxBinary() {
-  let binary = new firefox.Binary();
+function firefoxBinary(opt_exeOrChannel) {
+  let binary = new firefox.Binary(opt_exeOrChannel);
 
   binary.addArguments(binaryArgs());
 
@@ -83,8 +83,11 @@ function start(_url, _options = {}) {
   let options = new firefox.Options();
 
   options.setProfile(firefoxProfile());
-  options.setBinary(firefoxBinary());
-
+  options.setBinary(firefoxBinary(
+    "/Applications/Firefox\ Nightly.app/Contents/MacOS/firefox-bin",
+    "Firefox Nightly\\firefox.exe"
+  ));
+  
   const driver = new webdriver.Builder()
     .forBrowser("firefox")
     .setFirefoxOptions(options)
