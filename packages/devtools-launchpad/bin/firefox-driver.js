@@ -85,9 +85,9 @@ function start(_url, _options = {}) {
   options.setProfile(firefoxProfile());
   options.setBinary(firefoxBinary(
     "/Applications/Firefox\ Nightly.app/Contents/MacOS/firefox-bin",
-    "Firefox Nightly\\firefox.exe"
+    "Firefox\ Nightly\\firefox.exe"
   ));
-  
+
   const driver = new webdriver.Builder()
     .forBrowser("firefox")
     .setFirefoxOptions(options)
