@@ -100,7 +100,7 @@ class LandingPage extends Component {
     const { name, isUnderConstruction } = sidePanelItems[selectedPane];
     let displayName;
     if (name === "Firefox") {
-      displayName = "Firefox Nightly"
+      displayName = "Firefox Nightly";
     }
 
     const isConnected =
