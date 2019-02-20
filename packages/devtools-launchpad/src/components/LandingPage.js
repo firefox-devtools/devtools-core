@@ -3,32 +3,41 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const React = require("react");
-
-require("./LandingPage.css");
 const { Component } = React;
 const PropTypes = require("prop-types");
 const dom = require("react-dom-factories");
-const configMap = require("../constants").sidePanelItems;
+const { docsUrls, sidePanelItems } = require("../constants");
 const Tabs = React.createFactory(require("./Tabs"));
 const Sidebar = React.createFactory(require("./Sidebar"));
 const Settings = React.createFactory(require("./Settings"));
-
-const githubUrl = "https://github.com/firefox-devtools/debugger.html/blob/master";
+require("./LandingPage.css");
+require("./LaunchpadPanel.css");
 
 function getTabsByClientType(tabs, clientType) {
   return tabs.valueSeq().filter(tab => tab.get("clientType") == clientType);
 }
 
+function getPaneFromUrl() {
+  const panel = sidePanelItems[location.hash.slice(1)];
+  if (panel && panel.name) {
+    return panel.name;
+  }
+  return sidePanelItems.Firefox.name;
+}
+
 function firstTimeMessage(title, urlPart) {
+  if (title === "Settings") {
+    return null;
+  }
   return dom.div(
     { className: "footer-note" },
-    `First time connecting to ${title}? Checkout out the `,
+    `First time connecting to ${title}? `,
     dom.a(
       {
-        href: `${githubUrl}/docs/getting-setup.md#starting-${urlPart}`,
+        href: `${docsUrls.gettingSetup}${urlPart}`,
         target: "_blank"
       },
-      "docs"
+      "Check out the docs"
     ),
     "."
   );
@@ -53,7 +62,7 @@ class LandingPage extends Component {
     super(props);
 
     this.state = {
-      selectedPane: configMap.Firefox.name,
+      selectedPane: getPaneFromUrl(),
       firefoxConnected: false,
       chromeConnected: false
     };
@@ -88,13 +97,13 @@ class LandingPage extends Component {
 
   renderLaunchOptions() {
     const { selectedPane } = this.state;
-    const { name, isUnderConstruction } = configMap[selectedPane];
+    const { name, isUnderConstruction } = sidePanelItems[selectedPane];
 
     const isConnected =
-      name === configMap.Firefox.name
+      name === sidePanelItems.Firefox.name
         ? this.state.firefoxConnected
         : this.state.chromeConnected;
-    const isNodeSelected = name === configMap.Node.name;
+    const isNodeSelected = name === sidePanelItems.Node.name;
 
     if (isNodeSelected) {
       return dom.div(
@@ -137,7 +146,8 @@ class LandingPage extends Component {
         dom.a(
           {
             className: "github-link",
-            target: "_blank"
+            target: "_blank",
+            href: docsUrls.github
           },
           "Help us make it happen"
         )
@@ -154,7 +164,7 @@ class LandingPage extends Component {
       method: "post"
     })
       .then(resp => {
-        if (browser === configMap.Firefox.name) {
+        if (browser === sidePanelItems.Firefox.name) {
           this.setState({ firefoxConnected: true });
         } else {
           this.setState({ chromeConnected: true });
@@ -174,7 +184,7 @@ class LandingPage extends Component {
 
     return dom.div(
       {},
-      dom.header({}, dom.h1({}, configMap.Settings.name)),
+      dom.header({}, dom.h1({}, sidePanelItems.Settings.name)),
       Settings({ config, setValue })
     );
   }
@@ -184,7 +194,7 @@ class LandingPage extends Component {
 
     const { tabs, filterString = "" } = this.props;
 
-    const { clientType, paramName } = configMap[selectedPane];
+    const { clientType, paramName } = sidePanelItems[selectedPane];
 
     const targets = getTabsByClientType(tabs, clientType);
 
@@ -212,13 +222,13 @@ class LandingPage extends Component {
     const { onTabClick, tabs } = this.props;
     const { selectedPane } = this.state;
 
-    const { name, clientType, paramName } = configMap[selectedPane];
+    const { name, clientType, paramName } = sidePanelItems[selectedPane];
 
     const clientTargets = getTabsByClientType(tabs, clientType);
     const tabsDetected = clientTargets && clientTargets.count() > 0;
     const targets = clientTargets.filter(t => !t.get("filteredOut"));
 
-    const isSettingsPaneSelected = name === configMap.Settings.name;
+    const isSettingsPaneSelected = name === sidePanelItems.Settings.name;
 
     if (isSettingsPaneSelected) {
       return this.renderSettings();
@@ -240,7 +250,7 @@ class LandingPage extends Component {
     const { selectedPane } = this.state;
     const { onSideBarItemClick } = this;
 
-    const { name, docsUrlPart } = configMap[selectedPane];
+    const { name, docsUrlPart } = sidePanelItems[selectedPane];
 
     return dom.div(
       {
@@ -254,7 +264,7 @@ class LandingPage extends Component {
         onSideBarItemClick
       }),
       dom.main(
-        { className: "panel" },
+        { className: "launchpad-panel" },
         this.renderPanel(),
         firstTimeMessage(name, docsUrlPart)
       )

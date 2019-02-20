@@ -8,28 +8,33 @@ const sidePanelItems = {
     name: "Firefox",
     clientType: "firefox",
     paramName: "firefox-tab",
-    docsUrlPart: "firefox"
+    docsUrlPart: "#starting-firefox"
   },
   Chrome: {
     name: "Chrome",
     clientType: "chrome",
     paramName: "chrome-tab",
-    docsUrlPart: "chrome",
+    docsUrlPart: "#starting-chrome",
     isUnderConstruction: true
   },
   Node: {
     name: "Node",
     clientType: "node",
     paramName: "node-tab",
-    docsUrlPart: "node",
+    docsUrlPart: "#starting-node",
     isUnderConstruction: true
   },
   Settings: {
     name: "Settings",
     clientType: "settings",
     paramName: "settings-tab",
-    docsUrlPart: "settings"
+    docsUrlPart: ""
   }
+};
+
+const docsUrls = {
+  github: "https://github.com/firefox-devtools/debugger.html/",
+  gettingSetup: "https://github.com/firefox-devtools/debugger.html/blob/master/docs/getting-setup.md"
 };
 
 module.exports = {
@@ -39,5 +44,6 @@ module.exports = {
   FILTER_TABS: "FILTER_TABS",
   SET_VALUE: "SET_VALUE",
   SET_CONFIG: "SET_CONFIG",
-  sidePanelItems
+  sidePanelItems,
+  docsUrls
 };
