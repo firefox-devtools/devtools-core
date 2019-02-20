@@ -44,7 +44,7 @@ class Sidebar extends Component {
 
     let displayTitle;
     if (title === "Firefox") {
-      displayTitle = "Firefox Nightly"
+      displayTitle = "Firefox Nightly";
     }
 
     return dom.li(
