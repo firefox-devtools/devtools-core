@@ -41,6 +41,12 @@ class Sidebar extends Component {
 
   renderItem(title) {
     const selected = title == this.props.selectedPane;
+
+    let displayTitle;
+    if (title === "Firefox") {
+      displayTitle = "Firefox Nightly"
+    }
+
     return dom.li(
       { key: title },
       dom.a(
@@ -51,7 +57,7 @@ class Sidebar extends Component {
             this.props.onSideBarItemClick(title);
           }
         },
-        title
+        displayTitle || title
       )
     );
   }

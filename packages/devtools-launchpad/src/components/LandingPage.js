@@ -98,6 +98,10 @@ class LandingPage extends Component {
   renderLaunchOptions() {
     const { selectedPane } = this.state;
     const { name, isUnderConstruction } = sidePanelItems[selectedPane];
+    let displayName;
+    if (name === "Firefox") {
+      displayName = "Firefox Nightly"
+    }
 
     const isConnected =
       name === sidePanelItems.Firefox.name
@@ -115,7 +119,7 @@ class LandingPage extends Component {
 
     const connectedStateText = isNodeSelected
       ? null
-      : `Please open a tab in ${name}`;
+      : `Please open a tab in ${displayName || name}`;
 
     return isConnected
       ? connectedStateText
@@ -123,11 +127,16 @@ class LandingPage extends Component {
   }
 
   renderLaunchButton(browserName, isUnderConstruction) {
+    let browserDisplayName;
+    if (browserName === "Firefox") {
+      browserDisplayName = "Firefox Nightly";
+    }
+
     return dom.div(
       { className: "launch-action-container" },
       dom.button(
         { onClick: () => this.launchBrowser(browserName) },
-        `Launch ${browserName}`
+        `Launch ${browserDisplayName || browserName}`
       ),
       isUnderConstruction ? this.renderExperimentalMessage(browserName) : null
     );
