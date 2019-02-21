@@ -49,8 +49,8 @@ function binaryArgs() {
   }
 }
 
-function firefoxBinary(opt_exeOrChannel) {
-  let binary = new firefox.Binary(opt_exeOrChannel);
+function firefoxBinary() {
+  let binary = new firefox.Binary();
 
   binary.addArguments(binaryArgs());
 
