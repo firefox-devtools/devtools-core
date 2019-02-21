@@ -82,11 +82,14 @@ function start(_url, _options = {}) {
 
   let options = new firefox.Options();
 
+  let nightlyChannel = new firefox.Channel(
+    "/Applications/Firefox Nightly.app/Contents/MacOS/firefox-bin",
+    "Firefox Nightly\\firefox.exe"
+  )
+
   options.setProfile(firefoxProfile());
-  options.setBinary(firefoxBinary(
-    "/Applications/Firefox\ Nightly.app/Contents/MacOS/firefox-bin",
-    "Firefox\ Nightly\\firefox.exe"
-  ));
+  options.setBinary(nightlyChannel);
+  options.args_ = binaryArgs();
 
   const driver = new webdriver.Builder()
     .forBrowser("firefox")
