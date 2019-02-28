@@ -21,8 +21,9 @@ module.exports = (webpackConfig, envConfig, options) => {
   }
 
   webpackConfig.devtool = false;
-  webpackConfig.recordsPath = path.join(rootDir, "assets/module-manifest.json");
-
+  const recordsPath =  options.recordsPath || "assets/module-manifest.json"
+  webpackConfig.recordsPath = path.join(rootDir, recordsPath);
+  
   function externalsTest(context, request, callback) {
     let mod = request;
 
