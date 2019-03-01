@@ -2504,6 +2504,28 @@ ThreadClient.prototype = {
   }, {}),
 
   /**
+   * Request to get the set of available event breakpoints.
+   */
+  getAvailableEventBreakpoints: DebuggerClient.requester({
+    type: "getAvailableEventBreakpoints",
+  }),
+
+  /**
+   * Request to get the IDs of the active event breakpoints.
+   */
+  getActiveEventBreakpoints: DebuggerClient.requester({
+    type: "getActiveEventBreakpoints",
+  }),
+
+  /**
+   * Request to set the IDs of the active event breakpoints.
+   */
+  setActiveEventBreakpoints: DebuggerClient.requester({
+    type: "setActiveEventBreakpoints",
+    ids: args(0),
+  }),
+
+  /**
    * Request to remove XHR breakpoint
    * @param string path
    * @param string method
