@@ -195,9 +195,11 @@ function startDevServer(devConfig, webpackConfig, rootDir) {
   app.listen(serverPort, "0.0.0.0", onRequest);
 
   const compiler = webpack(webpackConfig);
+  const firstConfig =
+    Array.isArray(webpackConfig) ? webpackConfig[0] : webpackConfig;
   app.use(
     webpackDevMiddleware(compiler, {
-      publicPath: webpackConfig.output.publicPath,
+      publicPath: firstConfig.output.publicPath,
       noInfo: false,
       stats: "errors-only"
     })
