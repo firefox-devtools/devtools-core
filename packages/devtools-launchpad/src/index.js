@@ -42,13 +42,13 @@ function setThemeClassName(targetNode, newThemeClassName) {
     return;
   }
 
-  const {classList} = targetNode;
+  const { classList } = targetNode;
 
   // Attempt to find the first theme class, assuming there's only one and
   // ignoring class names from IGNORE_THEME_CLASS_NAMES array.
-  const activeThemeClassName = [...classList].find(cls =>
-      cls.startsWith("theme-")
-      && !IGNORE_THEME_CLASS_NAMES.includes(cls));
+  const activeThemeClassName = [...classList].find(
+    cls => cls.startsWith("theme-") && !IGNORE_THEME_CLASS_NAMES.includes(cls)
+  );
 
   if (activeThemeClassName) {
     classList.replace(activeThemeClassName, newThemeClassName);
@@ -57,29 +57,26 @@ function setThemeClassName(targetNode, newThemeClassName) {
   }
 }
 
-function updateTheme(className) {
+function updateTheme() {
   if (process.env.TARGET !== "firefox-panel") {
-    const root = document.body.parentNode;
-    const appRoot = document.querySelector(".launchpad-root");
-    const newThemeClassName = `theme-${getValue("theme")}`;
-
-    setThemeClassName(root, newThemeClassName);
-    setThemeClassName(appRoot, newThemeClassName);
+    setThemeClassName(document.documentElement, `theme-${getValue("theme")}`);
   }
 }
 
-function updatePlatform(className) {
+function updatePlatform() {
   if (process.env.TARGET !== "firefox-panel") {
-    const root = document.body.parentNode;
-    const appRoot = document.querySelector(".launchpad-root");
-
-    const agent = navigator.userAgent.toLowerCase();
-    const win = agent.indexOf("windows") > -1 ? "win" : "linux";
-    const platform = agent.indexOf("mac os") > -1 ? "mac" : win;
-
-    root.classList.add("html");
-    appRoot.setAttribute("platform", platform);
+    document.documentElement.setAttribute("platform", getPlatform());
   }
+}
+
+function getPlatform() {
+  const agent = navigator.userAgent.toLowerCase();
+  if (agent.includes("windows")) {
+    return "win";
+  } else if (agent.includes("mac os")) {
+    return "mac";
+  }
+  return "linux";
 }
 
 function updateDir() {
@@ -139,7 +136,7 @@ function renderRoot(_React, _ReactDOM, component, _store, props) {
 
   if (isDevelopment()) {
     updateConfig();
-    updateTheme(className);
+    updateTheme();
     updatePlatform();
   }
 
