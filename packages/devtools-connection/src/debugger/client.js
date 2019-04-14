@@ -2257,6 +2257,22 @@ ThreadClient.prototype = {
     },
   ),
 
+  /**
+   * Toggle pausing via breakpoints in the server.
+   *
+   * @param skip boolean
+   *        Whether the server should skip pausing via breakpoints
+   */
+  skipBreakpoints: DebuggerClient.requester({
+    type: "skipBreakpoints",
+    skip: args(0),
+  }),
+  
+  /**
+   * Request the frame environment.
+   *
+   * @param frameId string
+   */
   getEnvironment: function(frameId) {
     return this.request({ to: frameId, type: "getEnvironment" });
   },
