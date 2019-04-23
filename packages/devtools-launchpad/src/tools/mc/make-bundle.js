@@ -49,7 +49,7 @@ function makeBundle({
         reject(stats.toJson("verbose"));
       }
 
-      if (updateAssets) {
+      if (false) {
         saveStats(stats, projectPath);
       } else {
         console.log(`Done bundling`);
