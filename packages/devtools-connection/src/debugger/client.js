@@ -2267,7 +2267,7 @@ ThreadClient.prototype = {
     type: "skipBreakpoints",
     skip: args(0),
   }),
-  
+
   /**
    * Request the frame environment.
    *
@@ -3375,11 +3375,6 @@ SourceClient.prototype = {
     query: args(0)
   }),
 
-  getBreakpointPositionsCompressed: DebuggerClient.requester({
-    type: "getBreakpointPositionsCompressed",
-    query: args(0)
-  }),
-
   /**
    * Un-black box this SourceClient's source.
    *
@@ -3405,40 +3400,27 @@ SourceClient.prototype = {
     },
   ),
 
-  /**
-   * Get Executable Lines from a source
-   *
-   * @param aCallback Function
-   *        The callback function called when we receive the response from the server.
-   */
-  getExecutableLines: function(cb = noop) {
-    let packet = {
+  getBreakableLines: function() {
+    return this._client.request({
       to: this._form.actor,
-      type: "getExecutableLines",
-    };
-
-    return this._client.request(packet).then(res => {
-      cb(res.lines);
-      return res.lines;
-    });
+      type: "getBreakableLines"
+    }).then(r => r.lines);
   },
 
   getBreakpointPositions: function(query) {
-    const packet = {
+    return this._client.request({
       to: this._form.actor,
       type: "getBreakpointPositions",
       query,
-    };
-    return this._client.request(packet);
+    }).then(r => r.positions);
   },
 
   getBreakpointPositionsCompressed: function(query) {
-    const packet = {
+    return this._client.request({
       to: this._form.actor,
       type: "getBreakpointPositionsCompressed",
       query,
-    };
-    return this._client.request(packet);
+    }).then(r => r.positions);
   },
 
   /**
