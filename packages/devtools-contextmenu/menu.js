@@ -92,12 +92,12 @@ function showMenu(evt, items) {
     });
 
   if (inToolbox()) {
-    menu.popup(evt.screenX, evt.screenY, { doc: window.parent.document });
+    menu.popup(evt.screenX, evt.screenY, window.parent.document);
     return;
   }
 
   menu.on("open", (_, popup) => onShown(menu, popup));
-  menu.popup(evt.clientX, evt.clientY, { doc: document });
+  menu.popup(evt.clientX, evt.clientY, document);
 }
 
 function createSubMenu(subItems) {
