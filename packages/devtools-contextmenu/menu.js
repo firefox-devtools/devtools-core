@@ -6,7 +6,7 @@ const { Menu, MenuItem } = require("devtools-modules");
 
 function inToolbox() {
   try {
-    return window.parent.document.documentURI == "about:devtools-toolbox";
+    return window.parent.document.documentURI.startsWith("about:devtools-toolbox");
   } catch (e) {
     // If `window` is not available, it's very likely that we are in the toolbox.
     return true;
