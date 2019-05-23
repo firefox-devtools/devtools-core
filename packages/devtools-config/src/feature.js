@@ -34,10 +34,21 @@ function updateLocalConfig(relativePath) {
   return output;
 }
 
+function isDevelopment() {
+  const isDev = getValue("development");
+  return typeof isDev === "undefined" || isDev;
+}
+
+function isEnabled(key) {
+  return !!getValue(["features", key]);
+}
+
 module.exports = {
   getValue,
   setValue,
   getConfig,
   setConfig,
   updateLocalConfig,
+  isDevelopment,
+  isEnabled,
 };
