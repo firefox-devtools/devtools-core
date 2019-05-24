@@ -8,14 +8,14 @@ const path = require("path");
 
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const {isDevelopment, isFirefoxPanel} = require("devtools-environment")
+const {isDevelopment, isFirefoxPanel} = require("devtools-environment");
 const { getValue, setConfig } = require("devtools-config");
 const NODE_ENV = process.env.NODE_ENV || "development";
 const TARGET = process.env.TARGET || "local";
 
 module.exports = (webpackConfig, envConfig, options = {}) => {
   setConfig(envConfig);
-
+  webpackConfig.mode = isDevelopment() ? "development" : "production";
   webpackConfig.context = path.resolve(__dirname, "src");
   webpackConfig.devtool = "source-map";
 
@@ -39,7 +39,7 @@ module.exports = (webpackConfig, envConfig, options = {}) => {
         excluded = excluded || !!request.match(options.babelExcludes);
       }
 
-      let included = ["devtools-"]
+      let included = ["devtools-"];
       if (options.babelIncludes) {
         included = included.concat(options.babelIncludes);
       }
