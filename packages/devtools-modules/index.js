@@ -11,6 +11,7 @@ const SourceUtils = require("./src/source-utils");
 const Telemetry = require("./src/utils/telemetry")
 const { getUnicodeHostname, getUnicodeUrlPath, getUnicodeUrl } =
   require("./src/unicode-url");
+const PluralForm = require("./src/plural-form");
 
 module.exports = {
   KeyShortcuts,
@@ -23,4 +24,5 @@ module.exports = {
   getUnicodeHostname,
   getUnicodeUrlPath,
   getUnicodeUrl,
+  PluralForm
 };
