@@ -7169,7 +7169,7 @@ webpack-env-loader-plugin@^1.0.0:
     yaml "^0.3.0"
     yamljs "^0.2.6"
 
-webpack-hot-middleware@^2..25.0:
+webpack-hot-middleware@^2.25.0:
   version "2.25.0"
   resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.25.0.tgz#4528a0a63ec37f8f8ef565cf9e534d57d09fe706"
   integrity sha512-xs5dPOrGPCzuRXNi8F6rwhawWvQQkeli5Ro48PRuQh8pYPCPmNnltP9itiUPT4xI8oW+y0m59lyyeQk54s5VgA==
