@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const Menu = require("devtools-modules/src/menu");
-const MenuItem = require("devtools-modules/src/menu-item");
+const MenuItem = require("devtools-modules/src/menu/menu-item");
 
 function inToolbox() {
   try {
