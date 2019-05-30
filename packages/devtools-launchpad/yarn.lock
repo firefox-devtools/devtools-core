@@ -2104,10 +2104,16 @@ devtools-connection@^1.0.7:
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-1.0.7.tgz#16f23256f842dce339038cdc273c49c473ef83e0"
   integrity sha512-SrBHnM4nVhTrSfI4WnqcmppDOwB5iQvoEjqVNpwv63puGdKGtcdfWqv4+4gqfRYKHrdGB8tJfWJV2n+EyXb1Xw==
 
+<<<<<<< HEAD
 devtools-contextmenu@~1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-1.0.7.tgz#dd56353a706c3be4cd06d49d6da6dc5219254c90"
   integrity sha512-Wn8P0+zxKVcnS1shZHmTD/9ss40GsLDmGf1BxNKz7p7vWOfof8yNcOzFN8Q5V7M2SWCa1YpRAolGFCsm2L6XPQ==
+=======
+devtools-contextmenu@~1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-1.0.7.tgz#dd56353a706c3be4cd06d49d6da6dc5219254c90"
+>>>>>>> master
   dependencies:
     devtools-modules "~1.1.3"
 
