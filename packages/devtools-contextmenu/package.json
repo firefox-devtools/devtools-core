@@ -1,6 +1,6 @@
 {
   "name": "devtools-contextmenu",
-  "version": "1.0.8",
+  "version": "1.0.7",
   "description": "DevTools Contextmenu",
   "main": "menu.js",
   "scripts": {
