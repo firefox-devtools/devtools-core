@@ -1844,11 +1844,11 @@ devtools-connection@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-1.0.7.tgz#16f23256f842dce339038cdc273c49c473ef83e0"
 
-devtools-contextmenu@~1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-1.0.7.tgz#dd56353a706c3be4cd06d49d6da6dc5219254c90"
+devtools-contextmenu@~1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-1.0.9.tgz#8e84202c17c20a4c121bad514f8a7882a61b3ad6"
   dependencies:
-    devtools-modules "~1.1.3"
+    devtools-modules "~1.1.5"
 
 devtools-environment@^0.0.5:
   version "0.0.5"
@@ -1864,9 +1864,9 @@ devtools-mc-assets@^0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.7.tgz#d02a12ab66c46a3f535ef90f64cfac9a5dd1bfa4"
 
-devtools-modules@~1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-1.1.3.tgz#4fbeee232263794bd3dd5b314c1a0ae28d76ea6f"
+devtools-modules@~1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-1.1.5.tgz#55e71233692b4095f0277a00e6bfe3ff374d37f1"
   dependencies:
     devtools-services "0.0.1"
     punycode "^2.1.0"
