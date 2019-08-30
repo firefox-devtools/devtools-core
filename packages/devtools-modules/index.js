@@ -13,6 +13,7 @@ const Telemetry = require("./src/utils/telemetry");
 const { getUnicodeHostname, getUnicodeUrlPath, getUnicodeUrl } =
   require("./src/unicode-url");
 const PluralForm = require("./src/plural-form");
+const saveAs = require("./src/saveAs")
 
 module.exports = {
   KeyShortcuts,
@@ -27,4 +28,5 @@ module.exports = {
   getUnicodeUrlPath,
   getUnicodeUrl,
   PluralForm
+  saveAs
 };
