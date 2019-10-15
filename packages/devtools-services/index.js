@@ -498,6 +498,33 @@ PrefBranch.prototype = {
   },
 };
 
+class ObserverService {
+  constructor() {
+    this._observers = new Map();
+  }
+
+  addObserver(observer, topic) {
+    const topicObservers = this._observers.get(topic) || [];
+    this._observers.set(topic, topicObservers.concat(observer));
+  }
+
+  removeObserver(observer, topic) {
+    let topicObservers = this._observers.get(topic) || [];
+    topicObservers = topicObservers.filter(obs => obs != observer);
+    if (topicObservers.length === 0) {
+      this._observers.delete(topic);
+    } else {
+      this._observers.set(topic, topicObservers.concat(observer));
+    }
+  }
+
+  notifyObservers(topic, data) {
+    for (const observer of  this._observers.get(topic) || []) {
+      observer(data);
+    }
+  }
+}
+
 window.telemetry = {}
 window.telemetry.histograms = {}
 window.telemetry.scalars = {}
@@ -523,6 +550,12 @@ const Services = {
     }
     return this._prefs;
   },
+
+  
+  /**
+   * An implementation of nsIObserverService.
+   */
+  obs: new ObserverService(),
 
   /**
    * An implementation of Services.appinfo that holds just the
