@@ -134,14 +134,6 @@ function getSourceNames(source) {
     }
   }
 
- // If Scratchpad URI, like "Scratchpad/1"; no modifications,
- // and short/long are the same.
-  if (isScratchpadScheme(sourceStr)) {
-    let result = { short: sourceStr, long: sourceStr };
-    gSourceNamesStore.set(source, result);
-    return result;
-  }
-
   const parsedUrl = parseURL(sourceStr);
 
   if (!parsedUrl) {
@@ -189,23 +181,6 @@ function getSourceNames(source) {
 function isColonSlashSlash(location, i = 0) {
   return location.charCodeAt(++i) === CHAR_CODE_COLON &&
         location.charCodeAt(++i) === CHAR_CODE_SLASH &&
-        location.charCodeAt(++i) === CHAR_CODE_SLASH;
-}
-
-/**
-* Checks for a Scratchpad URI, like "Scratchpad/1"
-*/
-function isScratchpadScheme(location, i = 0) {
-  return location.charCodeAt(i) === CHAR_CODE_CAP_S &&
-        location.charCodeAt(++i) === CHAR_CODE_C &&
-        location.charCodeAt(++i) === CHAR_CODE_R &&
-        location.charCodeAt(++i) === CHAR_CODE_A &&
-        location.charCodeAt(++i) === CHAR_CODE_T &&
-        location.charCodeAt(++i) === CHAR_CODE_C &&
-        location.charCodeAt(++i) === CHAR_CODE_H &&
-        location.charCodeAt(++i) === CHAR_CODE_P &&
-        location.charCodeAt(++i) === CHAR_CODE_A &&
-        location.charCodeAt(++i) === CHAR_CODE_D &&
         location.charCodeAt(++i) === CHAR_CODE_SLASH;
 }
 
@@ -356,7 +331,6 @@ function getSourceMappedFile(source) {
 module.exports = {
   parseURL,
   getSourceNames,
-  isScratchpadScheme,
   isChromeScheme,
   isContentScheme,
   isWASM,
