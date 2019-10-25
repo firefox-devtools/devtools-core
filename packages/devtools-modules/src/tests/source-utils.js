@@ -8,7 +8,6 @@ const {
   isChromeScheme,
   isContentScheme,
   isDataScheme,
-  isScratchpadScheme,
   isWASM,
   parseURL,
 } = require("../source-utils");
@@ -77,12 +76,6 @@ describe("source-utils", () => {
     for (let url of CONTENT_URLS) {
       expect(isDataScheme(url)).toBe(false);
     }
-  });
-
-  it("isScratchpadTheme", () => {
-    expect(isScratchpadScheme("Scratchpad/1")).toBe(true);
-    expect(isScratchpadScheme("Scratchpad/20")).toBe(true);
-    expect(isScratchpadScheme("http://www.mozilla.org")).toBe(false);
   });
 
   it("getSourceMappedFile", () => {
