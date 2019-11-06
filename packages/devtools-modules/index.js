@@ -27,6 +27,6 @@ module.exports = {
   getUnicodeHostname,
   getUnicodeUrlPath,
   getUnicodeUrl,
-  PluralForm
+  PluralForm,
   saveAs
 };
