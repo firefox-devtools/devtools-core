@@ -1844,11 +1844,12 @@ devtools-connection@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-1.0.7.tgz#16f23256f842dce339038cdc273c49c473ef83e0"
 
-devtools-contextmenu@~1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-1.0.9.tgz#8e84202c17c20a4c121bad514f8a7882a61b3ad6"
+devtools-contextmenu@~1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-1.0.14.tgz#6c70a1a5c7140b95b8081011b6694b0ca0e3bd96"
+  integrity sha512-4Nt3m0amSAPqBfocecuUHsNI7KXF+cr+X7hhuNDH1SzKLNX94G2V5Km5J0l9XwQsP0k9vE1glY+U3YbAOUEJBw==
   dependencies:
-    devtools-modules "~1.1.5"
+    devtools-modules "~1.1.9"
 
 devtools-environment@^0.0.5:
   version "0.0.5"
@@ -1860,13 +1861,15 @@ devtools-license-check@^0.7.0:
   dependencies:
     license-checker "^9.0.3"
 
-devtools-mc-assets@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.7.tgz#d02a12ab66c46a3f535ef90f64cfac9a5dd1bfa4"
+devtools-mc-assets@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.8.tgz#47fc23240a916ed2c7d7bc6cc859882d49527e84"
+  integrity sha512-+nvHMtga7sji1nCL+RaGyqZTfrmJtsdcsQIkI3VQuxvnRMcih59XcxzTrlEn9tQtQFLL0rNk5oqqbPfrKrCstA==
 
-devtools-modules@~1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-1.1.5.tgz#55e71233692b4095f0277a00e6bfe3ff374d37f1"
+devtools-modules@~1.1.6, devtools-modules@~1.1.9:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-1.1.9.tgz#b095ff634229ae7f27fc1883757dbb5ca8b830db"
+  integrity sha512-Gpwene1bA1vuLi4lu/1jqXZDjLijFCR/O08JXMcxls30dabctaav7XiU3mrg/bro/LrJoPxFro0OM1M7DRY0Vg==
   dependencies:
     devtools-services "0.0.1"
     punycode "^2.1.0"
