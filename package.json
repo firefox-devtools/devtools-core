@@ -14,13 +14,13 @@
     "test": "lerna run test"
   },
   "repository": {
-    "url": "git+https://github.com/jasonLaster/devtools-core.git",
+    "url": "git+https://github.com/firefox-devtools/devtools-core.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/jasonLaster/devtools-core/issues"
+    "url": "https://github.com/firefox-devtools/devtools-core/issues"
   },
-  "homepage": "https://github.com/jasonLaster/devtools-core#readme",
+  "homepage": "https://github.com/firefox-devtools/devtools-core#readme",
   "dependencies": {
     "babel-cli": "^6.7.5",
     "babel-core": "^6.17.0",
