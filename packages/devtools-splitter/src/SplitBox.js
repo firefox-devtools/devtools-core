@@ -248,13 +248,15 @@ class SplitBox extends Component {
             startPanel,
           )
         : null,
-      Draggable({
-        className: "splitter",
-        style: splitterStyle,
-        onStart: this.onStartMove,
-        onStop: this.onStopMove,
-        onMove: this.onMove,
-      }),
+      !startPanelCollapsed && !endPanelCollapsed
+        ? Draggable({
+          className: "splitter",
+          style: splitterStyle,
+          onStart: this.onStartMove,
+          onStop: this.onStopMove,
+          onMove: this.onMove,
+        })
+        : null,
       !endPanelCollapsed
         ? dom.div(
           {
