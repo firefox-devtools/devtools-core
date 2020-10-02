@@ -95,7 +95,7 @@
     "ws": "^1.0.1"
   },
   "devDependencies": {
-    "eslint": "^3.12.0",
+    "eslint": "^4.18.2",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-flowtype": "^2.20.0",
     "eslint-plugin-mozilla": "0.4.3",
