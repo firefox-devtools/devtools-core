@@ -1,3 +1,7 @@
+This repository is now archived. It was used to develop shared modules used in various Firefox DevTools panels. Firefox DevTools are now fully maintained in Mozilla's central repository, so there is no reason to keep this repository. 
+
+Thanks to everyone who contributed over the years!
+
 ### DevTools Core
 
 |Package|README|
@@ -28,47 +32,3 @@ From the root folder:
 ```js
 yarn test
 ```
-
-#### Syncing Assets
-
-We sync devtools assets like themes and widgets with [devtools-mc-assets][dma].
-Updating the assets, involves publishing a new version of the package and updating
-the dependency in the launchpad.
-
-[devtools-launchpad-version]:https://img.shields.io/npm/v/devtools-launchpad.svg
-[devtools-launchpad-pkg]:https://npmjs.org/package/devtools-launchpad
-[devtools-launchpad]:./packages/devtools-launchpad/#readme
-
-[devtools-config-version]:https://img.shields.io/npm/v/devtools-config.svg
-[devtools-config-pkg]:https://npmjs.org/package/devtools-config
-[devtools-config]:./packages/devtools-config/#readme
-
-[devtools-environment-version]:https://img.shields.io/npm/v/devtools-environment.svg
-[devtools-environment-pkg]:https://npmjs.org/package/devtools-environment
-[devtools-environment]:./packages/devtools-environment/#readme
-
-[devtools-modules-version]:https://img.shields.io/npm/v/devtools-modules.svg
-[devtools-modules-pkg]:https://npmjs.org/package/devtools-modules
-[devtools-modules]:./packages/devtools-modules/#readme
-
-[devtools-contextmenu-version]:https://img.shields.io/npm/v/devtools-contextmenu.svg
-[devtools-contextmenu-pkg]:https://npmjs.org/package/devtools-contextmenu
-[devtools-contextmenu]:./packages/devtools-contextmenu/#readme
-
-[devtools-connection-version]:https://img.shields.io/npm/v/devtools-connection.svg
-[devtools-connection-pkg]:https://npmjs.org/package/devtools-connection
-[devtools-connection]:./packages/devtools-connection/#readme
-
-[devtools-services-version]:https://img.shields.io/npm/v/devtools-services.svg
-[devtools-services-pkg]:https://npmjs.org/package/devtools-services
-[devtools-services]:./packages/devtools-services/#readme
-
-[devtools-source-editor-version]:https://img.shields.io/npm/v/devtools-source-editor.svg
-[devtools-source-editor-pkg]:https://npmjs.org/package/devtools-source-editor
-[devtools-source-editor]:./packages/devtools-source-editor/#readme
-
-[devtools-splitter-version]:https://img.shields.io/npm/v/devtools-splitter.svg
-[devtools-splitter-pkg]:https://npmjs.org/package/devtools-splitter
-[devtools-splitter]:./packages/devtools-splitter/#readme
-
-[dma]: https://github.com/jasonLaster/devtools-mc-assets
